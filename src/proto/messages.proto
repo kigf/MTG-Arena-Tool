@@ -249,10 +249,10 @@ enum AbilityType {
 	AbilityType_HexproofFromG = 195;
 	AbilityType_Adventure = 196;
 	AbilityType_SacrificeFood = 197;
-	AbilityType_Placeholder15 = 198;
-	AbilityType_Placeholder16 = 199;
+	AbilityType_SacrificeGold = 198;
+	AbilityType_Escape = 199;
 	AbilityType_Fight = 200;
-	AbilityType_Placeholder1 = 201;
+	AbilityType_UntapOptional = 201;
 	AbilityType_Placeholder2 = 202;
 	AbilityType_Placeholder3 = 203;
 	AbilityType_Placeholder4 = 204;
@@ -296,8 +296,9 @@ message Action {
 	repeated TargetSelection targets = 19;
 	repeated ManaPaymentCondition manaPaymentConditions = 20;
 	AutoTapSolution autoTapSolution = 21;
-	repeated uint32 costSelectionIds = 22;
+	repeated uint32 costSelectionIds = 22 [packed=false];
 	repeated Counter costCounters = 23;
+	uint32 maxActivations = 24;
 }
 
 message ActionCostReq {
@@ -367,6 +368,7 @@ message AnnotationInfo {
 	repeated KeyValuePairInfo details = 6;
 	bool allowRedaction = 7;
 	repeated uint32 ignoreForSeatIds = 8;
+	bool redactAffected = 9;
 }
 
 enum AnnotationType {
@@ -449,6 +451,7 @@ enum AnnotationType {
 	AnnotationType_ModifiedName = 76;
 	AnnotationType_ReplacementEffectApplied = 77;
 	AnnotationType_ReferencedObjects = 78;
+	AnnotationType_ChoosingAttachments = 79;
 }
 
 enum Answer {
@@ -554,6 +557,7 @@ message AuthenticateRequest {
 	bytes clientAuthToken = 2;
 	string playerName = 3;
 	string playFabSessionTicket = 4;
+	int32 inactivityTimeoutMs = 5;
 	ClientInfo clientInfo = 10;
 }
 
@@ -758,6 +762,7 @@ enum CardMechanicType {
 	CardMechanicType_Placeholder3 = 51;
 	CardMechanicType_Placeholder4 = 52;
 	CardMechanicType_Placeholder5 = 53;
+	CardMechanicType_GraveyardExile = 54;
 }
 
 message CardSkinTuple {
@@ -1156,8 +1161,8 @@ message Counter {
 }
 
 message CounterPair {
-	int32 instanceId = 1;
-	int32 counterType = 2;
+	uint32 instanceId = 1;
+	CounterType counterType = 2;
 }
 
 enum CounterType {
@@ -1293,11 +1298,21 @@ enum CounterType {
 	CounterType_Egg = 130;
 	CounterType_Hit = 131;
 	CounterType_Knowledge = 132;
-	CounterType_PlaceholderCounterType1 = 133;
-	CounterType_PlaceholderCounterType2 = 134;
+	CounterType_Task = 133;
+	CounterType_Coin = 134;
 	CounterType_PlaceholderCounterType3 = 135;
 	CounterType_PlaceholderCounterType4 = 136;
 	CounterType_PlaceholderCounterType5 = 137;
+	CounterType_PlaceholderCounterType6 = 138;
+	CounterType_PlaceholderCounterType7 = 139;
+	CounterType_PlaceholderCounterType8 = 140;
+	CounterType_PlaceholderCounterType9 = 141;
+	CounterType_PlaceholderCounterType10 = 142;
+	CounterType_PlaceholderCounterType11 = 143;
+	CounterType_PlaceholderCounterType12 = 144;
+	CounterType_PlaceholderCounterType13 = 145;
+	CounterType_PlaceholderCounterType14 = 146;
+	CounterType_PlaceholderCounterType15 = 147;
 }
 
 message CreateMatchGameRoomRequest {
@@ -1371,6 +1386,7 @@ message DeckMessage {
 	repeated uint32 deckCards = 1;
 	repeated uint32 sideboardCards = 2;
 	repeated uint32 commanderCards = 3;
+	uint32 deckMessageFieldFour = 4;
 }
 
 message DeclareAttackersReq {
@@ -1541,6 +1557,7 @@ enum FailureReason {
 	FailureReason_InvalidAlternativeAttack = 51;
 	FailureReason_MissingAttackers = 52;
 	FailureReason_UnexpectedAttackers = 53;
+	FailureReason_InvalidParity = 54;
 }
 
 message FinalMatchResult {
@@ -1631,7 +1648,6 @@ enum GREMessageType {
 	GREMessageType_IllegalRequest = 12;
 	GREMessageType_ModalReq = 14;
 	GREMessageType_MulliganReq = 15;
-	GREMessageType_OptionReq = 16;
 	GREMessageType_OrderReq = 17;
 	GREMessageType_PromptReq = 18;
 	GREMessageType_RevealHandReq = 21;
@@ -1867,11 +1883,11 @@ message GameObjectInfo {
 	uint32 damage = 23;
 	AttackInfo attackInfo = 24;
 	BlockInfo blockInfo = 25;
-	repeated uint32 viewers = 26;
+	repeated uint32 viewers = 26 [packed=false];
 	UInt32Value loyalty = 27;
 	uint32 objectSourceGrpId = 28;
 	uint32 name = 29;
-	repeated uint32 abilities = 30;
+	repeated uint32 abilities = 30 [packed=false];
 	uint32 parentId = 31;
 	uint32 overlayGrpId = 32;
 	bool isFacedown = 33;
@@ -1962,6 +1978,11 @@ enum GameVariant {
 	GameVariant_TeamVsTeam = 6;
 	GameVariant_TwoHeadedGiant = 7;
 	GameVariant_Brawl = 8;
+	GameVariant_Placeholder1 = 9;
+	GameVariant_Placeholder2 = 10;
+	GameVariant_Placeholder3 = 11;
+	GameVariant_Placeholder4 = 12;
+	GameVariant_Placeholder5 = 13;
 }
 
 message GatherReq {
@@ -2366,6 +2387,7 @@ message ManaInfo {
 	uint32 srcInstanceId = 3;
 	repeated Spec specs = 4;
 	uint32 abilityGrpId = 5;
+	repeated uint32 linkedSelections = 6;
 }
 
 message ManaPaymentCondition {
@@ -2376,7 +2398,6 @@ message ManaPaymentCondition {
 
 message ManaPaymentOption {
 	repeated ManaInfo mana = 2;
-	uint32 maxActivations = 3;
 	uint32 optionIndex = 4;
 	bool haveReplacementsBeenApplied = 5;
 	bool haveTriggersBeenApplied = 6;
@@ -2678,6 +2699,11 @@ enum MechanicType {
 	MechanicType_Main2Creature = 13;
 	MechanicType_DirectDamageCreature_Sorcery = 14;
 	MechanicType_DirectDamageCreature_Instant = 15;
+	MechanicType_Placeholder1 = 16;
+	MechanicType_Placeholder2 = 17;
+	MechanicType_Placeholder3 = 18;
+	MechanicType_Placeholder4 = 19;
+	MechanicType_Placeholder5 = 20;
 }
 
 message ModalOption {
@@ -2965,6 +2991,7 @@ message PlayerConfig {
 	repeated uint32 jazzMusicians = 10;
 	repeated CardSkinTuple skins = 11;
 	ShuffleRestriction shuffleRestriction = 12;
+	uint32 playerConfigFieldThirteen = 13;
 }
 
 message PlayerDieRoll {
@@ -3101,7 +3128,7 @@ enum ReferenceType {
 
 message ReplacementEffect {
 	uint32 objectInstance = 1;
-	uint32 abilityInstance = 2;
+	uint32 uniqueAbilityId = 2;
 	uint32 abilityGrpId = 4;
 	uint32 affectedObject = 5;
 	uint32 replacementEffectId = 6;
@@ -3261,7 +3288,7 @@ message SelectNReq {
 	bool choicesAreRepeatable = 13;
 	repeated uint32 unfilteredIds = 14;
 	uint32 sourceId = 15;
-	repeated uint32 hotIds = 16;
+	repeated uint32 hotIds = 16 [packed=false];
 	SelectionValidationType validationType = 17;
 }
 
@@ -3286,6 +3313,7 @@ message SelectReplacementResp {
 message SelectTargetsReq {
 	repeated TargetSelection targets = 1;
 	uint32 sourceId = 2;
+	uint32 abilityGrpId = 3;
 }
 
 message SelectTargetsResp {
@@ -3460,6 +3488,7 @@ enum StaticList {
 	StaticList_CounterTypes = 11;
 	StaticList_Keywords = 12;
 	StaticList_CardNames = 13;
+	StaticList_Parities = 14;
 }
 
 enum Step {
@@ -3868,16 +3897,22 @@ enum SubType {
 	SubType_Oko = 367;
 	SubType_Warlock = 368;
 	SubType_Adventure = 369;
-	SubType_PlaceholderSubType1 = 370;
-	SubType_PlaceholderSubType2 = 371;
-	SubType_PlaceholderSubType3 = 372;
-	SubType_PlaceholderSubType4 = 373;
-	SubType_PlaceholderSubType5 = 374;
-	SubType_PlaceholderSubType6 = 375;
+	SubType_Demigod = 370;
+	SubType_Gold = 371;
+	SubType_Tentacle = 372;
+	SubType_Azra = 373;
+	SubType_Pangolin = 374;
+	SubType_Calix = 375;
 	SubType_PlaceholderSubType7 = 376;
 	SubType_PlaceholderSubType8 = 377;
 	SubType_PlaceholderSubType9 = 378;
-	SubType_PlaceholderSubType10 = 379;
+	SubType_PlaceholderSubType1 = 379;
+	SubType_PlaceholderSubType2 = 380;
+	SubType_PlaceholderSubType3 = 381;
+	SubType_PlaceholderSubType4 = 382;
+	SubType_PlaceholderSubType5 = 383;
+	SubType_PlaceholderSubType6 = 384;
+	SubType_PlaceholderSubType10 = 385;
 }
 
 enum SubZoneType {
@@ -3992,6 +4027,7 @@ message TestConfig {
 	uint32 candidateShuffleCount = 22;
 	uint32 bestCandidateShuffleCount = 23;
 	AutoRespondPermission autoRespondPermission = 24;
+	bool disableDeferredActionCostPayment = 25;
 }
 
 message TimeoutConfig {
