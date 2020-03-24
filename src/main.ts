@@ -635,6 +635,7 @@ function createOverlayWindow(): BrowserWindow {
     skipTaskbar: true,
     focusable: false,
     title: "Overlay",
+    show: process.platform == "linux" ? false : true,
     webPreferences: {
       nodeIntegration: true
     }
