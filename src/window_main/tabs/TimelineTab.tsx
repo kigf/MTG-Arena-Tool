@@ -8,9 +8,6 @@ import React, {
 } from "react";
 import format from "date-fns/format";
 import { get_rank_index as getRankIndex } from "../../shared/util";
-function sortByTimestamp(a: any, b: any): number {
-  return a.timestamp - b.timestamp;
-}
 import playerData from "../../shared/PlayerData";
 import { SeasonalRankData } from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
@@ -18,11 +15,15 @@ import Deck from "../../shared/deck";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 
+function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
+  return a.timestamp - b.timestamp;
+}
+
 /**
  * Get the ranks conversion to a Y coordinate
- * @param rank Rank name
- * @param tier Level
- * @param steps
+ * @param rank Rank name (string)
+ * @param tier Level (number)
+ * @param steps (number)
  */
 function getRankY(rank: string, tier: number, steps: number): number {
   let value = 0;
@@ -84,10 +85,12 @@ function getSeasonData(
 }
 
 interface TimelinePartProps extends SeasonalRankData {
+  index: number;
   width: number;
   height: number;
   hover: string;
   setHover: React.Dispatch<SetStateAction<string>>;
+  setPartHover: React.Dispatch<SetStateAction<number>>;
   lastMatchId: string;
 }
 
@@ -96,11 +99,24 @@ interface TimelinePartProps extends SeasonalRankData {
  * @param props
  */
 function TimeLinePart(props: TimelinePartProps): JSX.Element {
-  const { width, height, hover, setHover, lastMatchId } = props;
+  const {
+    index,
+    width,
+    height,
+    hover,
+    setHover,
+    setPartHover,
+    lastMatchId
+  } = props;
 
   const deckId = playerData.matchExists(lastMatchId)
     ? playerData.match(lastMatchId)?.playerDeck.id
     : "";
+
+  const mouseIn = useCallback(() => {
+    setHover(deckId || "");
+    setPartHover(index);
+  }, [deckId, index, setPartHover, setHover]);
 
   const newPointHeight = props.newRankNumeric
     ? height - props.newRankNumeric * 2
@@ -120,9 +136,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
     <div
       style={style}
       className={"timeline-line" + (hover == deckId ? " hover" : "")}
-      onMouseEnter={(): void => {
-        setHover(deckId || "");
-      }}
+      onMouseEnter={mouseIn}
     >
       <svg width={width} height={height} version="1.1">
         {RANK_HEIGHTS.map((h: number) => {
@@ -189,6 +203,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
 export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
   const [hoverDeckId, setHoverDeckId] = useState("");
+  const [hoverPart, setHoverPart] = useState(-1);
   const [dimensions, setDimensions] = useState({
     height: 300,
     width: window.innerWidth - 108
@@ -226,6 +241,8 @@ export default function TimelineTab(): JSX.Element {
   const drawingSeason = playerData.rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
 
+  const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1);
+
   return (
     <div className="ux_item">
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -258,13 +275,38 @@ export default function TimelineTab(): JSX.Element {
                 <TimeLinePart
                   height={dimensions.height}
                   width={dimensions.width / data.length}
+                  index={index}
                   key={index}
                   hover={hoverDeckId}
                   setHover={setHoverDeckId}
+                  setPartHover={setHoverPart}
                   {...value}
                 />
               );
             })}
+          </div>
+        </div>
+        <div style={{ display: "flex" }}>
+          <div className="timeline-box-labels" />
+          <div className="timeline-bottom-box">
+            {hoverPart > -1 ? (
+              <>
+                <div
+                  className="timeline-pos"
+                  style={{ marginLeft: hoverPartX + "px" }}
+                />
+                <div
+                  style={{
+                    whiteSpace: "nowrap",
+                    marginLeft: hoverPartX + "px"
+                  }}
+                >
+                  {format(new Date(data[hoverPart].timestamp), "EEE do, HH:mm")}
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div style={{ margin: "0 28px" }}>

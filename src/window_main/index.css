@@ -4043,12 +4043,32 @@ a:hover {
 .timeline-box {
     display: flex;
     width: calc(100% - 100px);
-    margin: 28px 28px 28px 0;
+    margin: 28px 28px 8px 0;
     border: 1px solid #ffffff40;
     background-color: #0000006e;
 }
 
+.timeline-bottom-box {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 64px);
+    margin: 0 0 8px 0;
+    color: var(--color-light);
+    font-size: 14px;
+    font-family: var(--sub-font-name);
+}
+
+.timeline-pos {
+    background-image: url(../images/icon_sort.png);
+    width: 13px;
+    height: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .timeline-box-labels {
+    min-width: 64px;
     width: 64px;
     margin: 28px 4px;
     display: flex;
