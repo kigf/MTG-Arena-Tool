@@ -1,35 +1,11 @@
-import React, { useEffect, SetStateAction } from "react";
-import { queryElements as $$ } from "../shared/dom-fns";
-import playerData from "../shared/player-data";
-import mountReactComponent from "./mountReactComponent";
+import React, { useEffect, SetStateAction, useRef, useCallback } from "react";
 import format from "date-fns/format";
-import { get_rank_index as getRankIndex } from "../shared/util";
+import { get_rank_index as getRankIndex } from "../../shared/util";
 function sortByTimestamp(a: any, b: any): number {
   return a.timestamp - b.timestamp;
 }
-import { hideLoadingBars } from "./renderer-util";
-
-interface SeasonalRankData {
-  eventId: string;
-  id: string;
-  lastMatchId: string;
-  newClass: string;
-  newLevel: number;
-  newStep: number;
-  oldClass: string;
-  oldLevel: number;
-  oldStep: number;
-  owner: string;
-  player: string;
-  playerId: string;
-  rankUpdateType: string;
-  seasonOrdinal: number;
-  timestamp: number;
-  wasLossProtected: boolean;
-  oldRankNumeric?: number;
-  newRankNumeric?: number;
-  date?: Date;
-}
+import playerData from "../../shared/PlayerData";
+import { SeasonalRankData } from "../../types/Season";
 
 /**
  * Get the ranks conversion to a Y coordinate
@@ -69,7 +45,7 @@ function getRankY(rank: string, tier: number, steps: number): number {
  * @param seasonOrdinal Season number/id (optional)
  */
 function getSeasonData(
-  type = "constructed",
+  type: "constructed" | "limited" = "constructed",
   seasonOrdinal?: number
 ): SeasonalRankData[] {
   if (!seasonOrdinal) seasonOrdinal = playerData.rank[type].seasonOrdinal;
@@ -110,7 +86,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
   const { width, height, hover, setHover, lastMatchId } = props;
 
   const deckId = playerData.matchExists(lastMatchId)
-    ? playerData.match(lastMatchId).playerDeck.id
+    ? playerData.match(lastMatchId)?.playerDeck.id
     : "";
 
   const newPointHeight = props.newRankNumeric
@@ -124,7 +100,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
 
   const style = {
     // Get a color that is the modulus of the hex ID
-    fill: `hsl(${parseInt(deckId, 16) % 360}, 64%, 63%)`
+    fill: `hsl(${parseInt(deckId || "", 16) % 360}, 64%, 63%)`
   };
 
   return (
@@ -132,7 +108,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
       style={style}
       className={"timeline-line" + (hover == deckId ? " hover" : "")}
       onMouseEnter={(): void => {
-        setHover(deckId);
+        setHover(deckId || "");
       }}
     >
       <svg width={width} height={height} version="1.1">
@@ -186,7 +162,8 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
  * Main component for the Timeline tab
  * @param props
  */
-function TimelineTab(): JSX.Element {
+export default function TimelineTab(): JSX.Element {
+  const boxRef = useRef<HTMLDivElement>(null);
   const [hoverDeckId, setHoverDeckId] = React.useState("");
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
@@ -198,12 +175,14 @@ function TimelineTab(): JSX.Element {
   // Notice we can see old seasons too adding the seasonOrdinal
   const data: SeasonalRankData[] = getSeasonData(seasonType);
 
-  const handleResize = function(): void {
-    setDimensions({
-      height: $$(".timeline-box")[0].offsetHeight,
-      width: $$(".timeline-box")[0].offsetWidth
-    });
-  };
+  const handleResize = useCallback((): void => {
+    if (boxRef && boxRef.current) {
+      setDimensions({
+        height: boxRef.current.offsetHeight,
+        width: boxRef.current.offsetWidth
+      });
+    }
+  }, [boxRef]);
 
   useEffect(() => {
     // We might want to add a delay here to avoid re-rendering too many times per second while resizing
@@ -211,40 +190,35 @@ function TimelineTab(): JSX.Element {
     return (): void => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleResize]);
 
   const drawingSeason = playerData.rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
 
   return (
-    <>
-      <div className="timeline-title">
-        Season {drawingSeason} -{" "}
-        {format(drawingSeasonDate as Date, "MMMM yyyy")}
+    <div className="ux_item">
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <div className="timeline-title">
+          Season {drawingSeason} -{" "}
+          {format(drawingSeasonDate as Date, "MMMM yyyy")}
+        </div>
+        <div className="timeline-box" ref={boxRef}>
+          {data.map((value: SeasonalRankData, index: number) => {
+            //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
+            //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
+            return (
+              <TimeLinePart
+                height={dimensions.height}
+                width={dimensions.width / data.length}
+                key={index}
+                hover={hoverDeckId}
+                setHover={setHoverDeckId}
+                {...value}
+              />
+            );
+          })}
+        </div>
       </div>
-      <div className="timeline-box">
-        {data.map((value: SeasonalRankData, index: number) => {
-          //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
-          //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
-          return (
-            <TimeLinePart
-              height={dimensions.height}
-              width={dimensions.width / data.length}
-              key={index}
-              hover={hoverDeckId}
-              setHover={setHoverDeckId}
-              {...value}
-            />
-          );
-        })}
-      </div>
-    </>
+    </div>
   );
-}
-
-export function openTimelineTab(): boolean {
-  const mainDiv = $$("#ux_0")[0];
-  hideLoadingBars();
-  mountReactComponent(<TimelineTab />, mainDiv);
-  return true;
 }

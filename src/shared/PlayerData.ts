@@ -8,6 +8,7 @@ import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import { InternalMatch } from "../types/match";
 import { InternalRank, InternalRankUpdate } from "../types/rank";
+import { SeasonalRankData } from "../types/Season";
 import {
   BLACK,
   BLUE,
@@ -553,8 +554,8 @@ class PlayerData implements Record<string, any> {
   // utilities file. here its easier to handle the data.
   addSeasonalRank(
     rank: InternalRankUpdate,
-    seasonOrdinal: any,
-    type = "constructed"
+    seasonOrdinal: number,
+    type: "constructed" | "limited" = "constructed"
   ): any {
     if (!seasonOrdinal && rank.seasonOrdinal) {
       seasonOrdinal = rank.seasonOrdinal;
@@ -576,12 +577,12 @@ class PlayerData implements Record<string, any> {
     return this.seasonal_rank;
   }
 
-  getSeasonalRankData(seasonOrdinal, type) {
+  getSeasonalRankData(seasonOrdinal: number, type: "constructed" | "limited") {
     let tag = seasonOrdinal + "_" + type.toLowerCase();
     return this.seasonal_rank[tag] ? this.seasonal_rank[tag] : [];
   }
 
-  getSeasonal(id) {
+  getSeasonal(id: string): SeasonalRankData {
     return this.seasonal[id];
   }
 
