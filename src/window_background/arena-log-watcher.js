@@ -3,7 +3,7 @@ import { promisify } from "util";
 import { StringDecoder } from "string_decoder";
 import queue from "queue";
 import ArenaLogDecoder from "./arena-log-decoder/arena-log-decoder";
-import playerData from "../shared/player-data";
+import playerData from "../shared/PlayerData";
 import {
   onLabelClientToMatchServiceMessageTypeClientToGREMessage,
   onLabelEventMatchCreated,
@@ -415,7 +415,6 @@ function finishLoading() {
 
     ipc_send("set_settings", JSON.stringify(playerData.settings));
     ipc_send("initialize");
-    ipc_send("player_data_refresh");
 
     ipc_send("popup", {
       text: "Initialized successfully!",

@@ -2,7 +2,7 @@ import qs from "qs";
 import http, { RequestOptions } from "https";
 import { IncomingMessage } from "http";
 
-import playerData from "../shared/player-data";
+import playerData from "../shared/PlayerData";
 import globals from "./globals";
 import { ipc_send as ipcSend, setData } from "./backgroundUtil";
 
@@ -109,7 +109,12 @@ export function getRequestOptions(task: HttpTask): RequestOptions {
 
 export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   // list of requests that must always be sent, regardless of privacy settings
-  const nonPrivacyMethods = ["auth", "delete_data", "get_database"];
+  const nonPrivacyMethods = [
+    "auth",
+    "delete_data",
+    "get_database",
+    "get_database_version"
+  ];
   if (
     (!playerData.settings.send_data || playerData.offline) &&
     !nonPrivacyMethods.includes(task.method)
@@ -117,8 +122,10 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     if (!playerData.offline) {
       setData({ offline: true });
     }
-    const text = `Settings dont allow sending data! > (${task.method})`;
-    callback(new Error(text), task);
+    const text = `WARNING >> currently offline or settings prohibit sharing > (${task.method})`;
+    ipcLog(text);
+    callback(undefined, task, undefined, undefined);
+    return;
   }
   const _headers: any = { ...task };
   _headers.token = playerData.settings.token;
@@ -127,6 +134,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     ipcLog(
       "SEND >> " + task.method + ", " + _headers.reqId + ", " + _headers.token
     );
+    console.log("SEND", _headers);
   }
   // console.log("POST", _headers);
   const postData = qs.stringify(_headers);
@@ -148,6 +156,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
         try {
           if (globals.debugNet && task.method !== "notifications") {
             ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
+            console.log("RECV", results);
           }
           const parsedResult = JSON.parse(results);
           // TODO remove this hack for get_database_version

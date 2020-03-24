@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   CARD_RARITIES,
@@ -14,9 +14,9 @@ import {
   getRankColorClass,
   openScryfallCard
 } from "./util";
-import { addCardHover } from "./cardHover";
-import { DbCardData, Rarity } from "./types/Metadata";
-import _ from "lodash";
+import { DbCardData, Rarity } from "../types/Metadata";
+import useHoverCard from "../window_main/hooks/useHoverCard";
+import pd from "./PlayerData";
 
 export interface CardTileProps {
   card: DbCardData;
@@ -26,9 +26,7 @@ export interface CardTileProps {
   isHighlighted: boolean;
   isSideboard: boolean;
   quantity: { quantity: string; odds: number } | number | string; // TODO clean this up?
-  setHoverCardCallback?: (card?: DbCardData) => void;
   showWildcards: boolean;
-  style: number;
 }
 
 function isNumber(n: number | string): boolean {
@@ -141,38 +139,28 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
     isHighlighted,
     isSideboard,
     quantity,
-    setHoverCardCallback,
     showWildcards
   } = props;
 
   const [isMouseHovering, setMouseHovering] = useState(false);
+  const [hoverIn, hoverOut] = useHoverCard(card.id);
+
   const handleMouseEnter = useCallback((): void => {
     setMouseHovering(true);
-    setHoverCardCallback && setHoverCardCallback(card);
-  }, [setHoverCardCallback]);
+    hoverIn();
+  }, [hoverIn]);
   const handleMouseLeave = useCallback((): void => {
     setMouseHovering(false);
-    setHoverCardCallback && setHoverCardCallback();
-  }, [setHoverCardCallback]);
+    hoverOut();
+  }, [hoverOut]);
+
   const handleMouseClick = useCallback((): void => {
     let _card = card;
     if (card.dfc === FACE_SPLIT_FULL) {
       _card = dfcCard || card;
     }
     openScryfallCard(_card);
-  }, [card]);
-
-  const containerEl = useRef(null);
-  useEffect(() => {
-    if (setHoverCardCallback) {
-      return; // React handles hover
-    }
-    // Legacy code support
-    const containerDiv = containerEl.current;
-    if (containerDiv) {
-      addCardHover(containerDiv, card);
-    }
-  }, [card, setHoverCardCallback]);
+  }, [card, dfcCard]);
 
   const [ww, ll, quantityElement] = getArenaQuantityDisplay(quantity);
 
@@ -182,11 +170,8 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
       data-grp-id={card.id}
       data-id={indent}
       data-quantity={quantity}
-      ref={containerEl}
       style={{
-        backgroundColor: isHighlighted
-          ? "rgba(250, 229, 210, 0.66)"
-          : "rgba(0, 0, 0, 0.75)"
+        backgroundColor: isHighlighted ? "rgba(250, 229, 210, 0.66)" : ""
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -284,7 +269,7 @@ function MissingCardSprite(props: MissingCardsProps): JSX.Element {
   const xoff = CARD_RARITIES.indexOf(cardRarity) * -24;
   const yoff = missing * -24;
 
-  var className = "not_owned_sprite";
+  let className = "not_owned_sprite";
   if (listStyle === "flat") {
     className += "_flat";
   }
@@ -310,37 +295,27 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
     isHighlighted,
     isSideboard,
     quantity,
-    setHoverCardCallback,
     showWildcards
   } = props;
   const [isMouseHovering, setMouseHovering] = useState(false);
+  const [hoverIn, hoverOut] = useHoverCard(card.id);
+
   const handleMouseEnter = useCallback((): void => {
     setMouseHovering(true);
-    setHoverCardCallback && setHoverCardCallback(card);
-  }, [setHoverCardCallback]);
+    hoverIn();
+  }, [hoverIn]);
   const handleMouseLeave = useCallback((): void => {
     setMouseHovering(false);
-    setHoverCardCallback && setHoverCardCallback();
-  }, [setHoverCardCallback]);
+    hoverOut();
+  }, [hoverOut]);
+
   const handleMouseClick = useCallback((): void => {
     let _card = card;
     if (card.dfc === FACE_SPLIT_FULL) {
       _card = dfcCard || card;
     }
     openScryfallCard(_card);
-  }, [card]);
-
-  const containerEl = useRef(null);
-  useEffect(() => {
-    if (setHoverCardCallback) {
-      return; // React handles hover
-    }
-    // Legacy code support
-    const containerDiv = containerEl.current;
-    if (containerDiv) {
-      addCardHover(containerDiv, card);
-    }
-  }, [card, setHoverCardCallback]);
+  }, [card, dfcCard]);
 
   const cardTileStyle = { backgroundImage: "", borderImage: "" };
   try {
@@ -382,7 +357,6 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
       data-grp-id={card.id}
       data-id={indent}
       data-quantity={quantity}
-      ref={containerEl}
       style={tileStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -411,7 +385,7 @@ export default function CardTile(props: CardTileProps): JSX.Element {
   if (!card || quantity === 0) {
     return <></>;
   }
-  if (props.style === CARD_TILE_FLAT) {
+  if (parseInt(pd.settings.card_tile_style + "") === CARD_TILE_FLAT) {
     return FlatCardTile(props);
   }
   return ArenaCardTile(props);

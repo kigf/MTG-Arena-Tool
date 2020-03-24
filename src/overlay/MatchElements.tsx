@@ -1,27 +1,24 @@
 import React from "react";
-
 import {
   MANA,
-  OVERLAY_LOG,
   OVERLAY_FULL,
   OVERLAY_LEFT,
-  OVERLAY_ODDS,
+  OVERLAY_LOG,
   OVERLAY_MIXED,
+  OVERLAY_ODDS,
   OVERLAY_SEEN
 } from "../shared/constants";
-
-import { LogData, OverlaySettingsData } from "./overlayUtil";
+import { MatchData } from "../types/currentMatch";
+import { InternalActionLog } from "../types/log";
+import { OverlaySettingsData } from "../types/settings";
 import ActionLog from "./ActionLog";
 import Clock from "./Clock";
 import DeckList from "./DeckList";
-import { DbCardData } from "../shared/types/Metadata";
-import { MatchData } from "../window_background/types/currentMatch";
 
 export interface MatchElementsProps {
-  actionLog: LogData[];
+  actionLog: InternalActionLog[];
   index: number;
   match: MatchData;
-  setHoverCardCallback: (card?: DbCardData) => void;
   setOddsCallback: (sampleSize: number) => void;
   settings: OverlaySettingsData;
   tileStyle: number;
@@ -37,7 +34,6 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
     actionLog,
     index,
     match,
-    setHoverCardCallback,
     setOddsCallback,
     settings,
     tileStyle,
@@ -104,19 +100,13 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
           ))}
         </div>
       )}
-      {settings.mode === OVERLAY_LOG && (
-        <ActionLog
-          actionLog={actionLog}
-          setHoverCardCallback={setHoverCardCallback}
-        />
-      )}
+      {settings.mode === OVERLAY_LOG && <ActionLog actionLog={actionLog} />}
       {!!visibleDeck && (
         <DeckList
           deck={visibleDeck}
           subTitle={subTitle}
           settings={settings}
           tileStyle={tileStyle}
-          setHoverCardCallback={setHoverCardCallback}
           setOddsCallback={setOddsCallback}
         />
       )}

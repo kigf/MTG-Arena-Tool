@@ -37,7 +37,11 @@
   --color-mid-66: rgba(145, 121, 97, 0.66);
   --color-mid-75: rgba(145, 121, 97, 0.75);
 
+  --color-back-100: rgba(51, 40, 30, 1);
   --color-back: rgba(51, 40, 30, 0.75);
+  --color-back-50: rgba(51, 40, 30, 0.5);
+  --color-back-40: rgba(51, 40, 30, 0.4);
+  --color-back-20: rgba(51, 40, 30, 0.2);
 }
 
 html {
@@ -58,8 +62,10 @@ body {
 }
 
 input#flat.color_picker {
+    width: 64px;
+    height: 32px;
     border: 1px solid rgba(140, 140, 140, 0.8);
-    border-radius: 4px;
+    border-radius: 3px;
     text-align: center;
     font-family: var(--sub-font-name);
 }
@@ -68,6 +74,7 @@ label {
     font-family: var(--main-font-name);
     color: var(--color-light);
     margin: auto 0;
+    white-space: nowrap;
 }
 
 
@@ -142,18 +149,17 @@ label {
 
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #33281E;
-    border-radius: 10px;
-    margin-top: 8px;
+    border-radius: 8px;
+    margin-top: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #917961;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -166,7 +172,6 @@ label {
 }
 
 .tiny_scroll::-webkit-scrollbar-track {
-    background: #33281E;
     border-radius: 2px;
     margin-left: 2px;
 }
@@ -180,6 +185,24 @@ label {
     background: #ffe9d3;
 }
 
+.med_scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.med_scroll::-webkit-scrollbar-track {
+    background: #33281E;
+    border-radius: 6px;
+    margin-left: 6px;
+}
+
+.med_scroll::-webkit-scrollbar-thumb {
+    background: #c3a485;
+    border-radius: 6px;
+}
+
+.med_scroll::-webkit-scrollbar-thumb:hover {
+    background: #ffe9d3;
+}
 
 .loading_bar {
     background-color: var(--color-g);
@@ -189,20 +212,20 @@ label {
     animation-name: color;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    z-index: 50;
+    z-index: 950;
 }
 
 .loading_bar_main {
     background-color: var(--color-g);
     overflow: hidden;
+    position: absolute;
+    top: 35px;
     width: calc(100% - 4px);
     height: 4px;
-    position: absolute;
-    top: 99px;
     animation-name: color;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    z-index: 50;
+    z-index: 950;
 }
 
 .ux_loading {
@@ -406,6 +429,8 @@ label {
     background-blend-mode: darken;
     background-size: cover;
     background-position: center;
+    left: 2px;
+    top: 2px;
     opacity: 1;
     z-index: 5;
     height: calc(100% - 4px);
@@ -417,16 +442,17 @@ label {
     position: relative;
     opacity: 1;
     display: flex;
+    height: calc(100% - 97px);
+    z-index: 5;
+}
+
+.wrapper_main {
+    position: relative;
+    opacity: 1;
+    display: flex;
     height: -webkit-fill-available;
     z-index: 5;
 }
-/*
-.overlay_wrapper {
-    padding: 2px;
-    position: relative;
-    height: calc(100% - 4px);
-}
-*/
 
 .absolute {
     left: 0;
@@ -438,7 +464,7 @@ label {
 .outer_wrapper {
     padding: 2px;
     overflow: hidden;
-    height: calc(100% - 4px);
+    height: calc(100vh - 4px);
     width: calc(100% - 4px);
     display: flex;
     flex-direction: column;
@@ -628,7 +654,7 @@ label {
     background-size: contain;
     width: 20px;
     height: 20px;
-    margin: 0 2px auto 2px;
+    margin: auto 2px auto 2px;
     background-repeat: no-repeat;
     filter: drop-shadow(-1px 1px black);
 }
@@ -637,11 +663,11 @@ label {
     z-index: 15;
     pointer-events: none;
     background-size: contain;
-    box-shadow: -1px 1px black;
-    border-radius: 100%;
     width: 16px;
     height: 16px;
     margin: auto 2px auto 2px;
+    background-repeat: no-repeat;
+    filter: drop-shadow(-1px 1px black);
 }
 
 .mana_16 {
@@ -928,50 +954,54 @@ span {
 }
 
 
-.autocomplete {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    height: 20px;
-    /*min-width: 100px;*/
-    margin: auto 0;
+.card-hover-main {
+    right: 32px;
+    z-index: 20;
+    pointer-events: none;
+    position: fixed;
+    background-size: contain;
+    border-radius: 0.8em;
+    align-self: flex-end;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
+    -webkit-transition: all .15s ease-in;
+    transition: all 0.15s ease-in-out;
+}
+  
+.card-hover-dfc {
+    z-index: 20;
+    pointer-events: none;
+    position: fixed;
+    background-size: contain;
+    border-radius: 0.8em;
+    align-self: flex-end;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
+    -webkit-transition: all .15s ease-in;
+    transition: all 0.15s ease-in-out;
 }
 
-.autocomplete-items {
-    position: absolute;
-    max-height: 384px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    top: 100%;
-    right: 0;
-    left: 12px;
-    z-index: 999;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    background-color: hsla(29, 22%, 30%, 1);
-    border: 1px solid var(--color-light-50);
-    border-top: 0px;
+.ownership-stars-container {
+    background-color: var(--color-back-100);
+    width: calc(100% - 32px);
+    margin: -38px auto 0 auto;
+    height: 38px;
+    align-items: center;
+    display: flex;
+    border-radius: 5px 5px 0 0;
 }
 
-.autocomplete-items div {
-    white-space: nowrap;
-    height: 20px;
-    cursor: pointer;
-    background-color: #fff; 
-    border-bottom: 1px solid #d4d4d4; 
+.actionlog-div {
+    font-family: var(--main-font-name);
+    width: calc(50% - 48px);
+    max-width: 700px;
+    margin: auto;
 }
-.autocomplete-items div:hover {
-    /*when hovering an item:*/
-    background-color: #e9e9e9; 
-}
-.autocomplete-active {
-    /*when navigating through the items using the arrow keys:*/
-    background-color: DodgerBlue !important; 
-    color: #ffffff; 
+
+.actionlog-div .actionlog {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .actionlog {
+    color: white;
     text-shadow: 2px 2px 2px rgb(0, 0, 0);
     white-space: nowrap;
     overflow: hidden;
@@ -982,51 +1012,56 @@ span {
     font-size: 14px;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
 }
-
+  
+.log_p0 {
+    color: rgba(200, 255, 200, 1);
+}
+  
 .log_p1 {
     color: rgba(255, 200, 200, 1);
 }
-
+  
 .log_p2 {
     color: rgba(200, 200, 255, 1);
 }
-
+  
 .log_p-1 {
     color: rgba(255, 255, 255, 0.9);
     font-weight: bold;
 }
-
+  
 .log_p-2 {
     margin-top: 16px;
     color: rgba(255, 255, 255, 0.9);
     font-weight: bold;
 }
-
+  
 .actionlog_time {
     margin-left: 8px;
     color: rgba(255, 255, 255, 0.8);
 }
-
+  
 .actionlog_text {
+    display: flex;
     margin-left: 8px;
 }
-
-.action_log_container {
-    margin: 16px auto 48px auto;
-    max-width: 600px;
+  
+.log-text {
+    margin-right: 3px;
 }
-
-.action_log_container .actionlog {
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-log-card {
+  
+.log-card {
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
     text-decoration: underline;
+    margin-right: 3px;
 }
-log-ability {
+  
+.log-ability {
     text-decoration: underline !important;
     cursor: pointer;
+    margin-right: 3px;
 }
+  
+  

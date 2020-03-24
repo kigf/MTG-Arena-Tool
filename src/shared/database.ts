@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable no-console */
 import path from "path";
 import { app, remote, ipcRenderer as ipc } from "electron";
 import fs from "fs";
@@ -8,9 +10,11 @@ import {
   DbCardData,
   CardSet,
   RewardsDate
-} from "./types/Metadata";
-import { Season, Rank, RankClassInfo } from "./types/Season";
-import { ArenaV3Deck } from "./types/Deck";
+} from "../types/Metadata";
+import { ArenaV3Deck } from "../types/Deck";
+import { SeasonAndRankDetail, Rank, RankInfo } from "../types/event";
+import { STANDARD_CUTOFF_DATE } from "./constants";
+import format from "date-fns/format";
 
 const cachePath: string | null =
   app || (remote && remote.app)
@@ -46,20 +50,17 @@ class Database {
   private static instance: Database;
   rewards_daily_ends: Date;
   rewards_weekly_ends: Date;
-  activeEvents: string[];
   preconDecks: { [id: string]: ArenaV3Deck };
   public metadata: Metadata | undefined;
-  season: Season | undefined;
+  season: SeasonAndRankDetail | undefined;
 
   private constructor() {
-    this.handleSetActiveEvents = this.handleSetActiveEvents.bind(this);
     this.handleSetDb = this.handleSetDb.bind(this);
     this.handleSetRewardResets = this.handleSetRewardResets.bind(this);
     this.handleSetSeason = this.handleSetSeason.bind(this);
     this.handleSetPreconDecks = this.handleSetPreconDecks.bind(this);
 
     if (ipc) {
-      ipc.on("set_active_events", this.handleSetActiveEvents);
       ipc.on("set_db", this.handleSetDb);
       ipc.on("set_reward_resets", this.handleSetRewardResets);
       ipc.on("set_season", this.handleSetSeason);
@@ -68,7 +69,6 @@ class Database {
 
     this.rewards_daily_ends = new Date();
     this.rewards_weekly_ends = new Date();
-    this.activeEvents = [];
     this.preconDecks = {};
 
     let dbUri = `${__dirname}/../resources/database.json`;
@@ -88,7 +88,7 @@ class Database {
     this.handleSetDb(null, defaultDb);
   }
 
-  static getInstance() {
+  static getInstance(): Database {
     if (!Database.instance) {
       Database.instance = new Database();
     }
@@ -96,25 +96,20 @@ class Database {
     return Database.instance;
   }
 
-  handleSetActiveEvents(_event: Event, arg: string) {
-    if (!arg) return;
-    try {
-      this.activeEvents = JSON.parse(arg);
-    } catch (e) {
-      console.log("Error parsing JSON:", arg);
-      return false;
-    }
-  }
-
-  handleSetDb(_event: Event | null, arg: string) {
+  handleSetDb(_event: Event | null, arg: string): void {
     try {
       this.metadata = JSON.parse(arg) as Metadata;
+      for (const event of this.playBrawlEvents) {
+        this.metadata.events[event] = "Play Brawl";
+        this.metadata.events_format[event] = "Brawl";
+        this.metadata.single_match_events.push(event);
+      }
     } catch (e) {
       console.log("Error parsing metadata", e);
     }
   }
 
-  updateCache(data: string) {
+  updateCache(data: string): void {
     try {
       if (cachePath) {
         fs.writeFileSync(cachePath, data);
@@ -124,12 +119,12 @@ class Database {
     }
   }
 
-  handleSetRewardResets(_event: Event, rewardsDate: RewardsDate) {
+  handleSetRewardResets(_event: Event, rewardsDate: RewardsDate): void {
     this.rewards_daily_ends = new Date(rewardsDate.daily);
     this.rewards_weekly_ends = new Date(rewardsDate.weekly);
   }
 
-  handleSetSeason(_event: Event, season: Season) {
+  handleSetSeason(_event: Event, season: SeasonAndRankDetail): void {
     try {
       this.season = season;
     } catch (e) {
@@ -137,7 +132,7 @@ class Database {
     }
   }
 
-  handleSetPreconDecks(_event: Event, arg: ArenaV3Deck[]) {
+  handleSetPreconDecks(_event: Event, arg: ArenaV3Deck[]): void {
     if (!arg || !arg.length) return;
     try {
       this.preconDecks = {};
@@ -145,7 +140,6 @@ class Database {
       // console.log(this.preconDecks);
     } catch (e) {
       console.log("Error parsing JSON:", arg);
-      return false;
     }
   }
 
@@ -153,8 +147,8 @@ class Database {
     return this.metadata ? this.metadata.abilities : {};
   }
 
-  get archetypes(): { [id: number]: Archetype } {
-    return this.metadata ? this.metadata.archetypes : {};
+  get archetypes(): Archetype[] {
+    return this.metadata ? this.metadata.archetypes : [];
   }
 
   get cards(): { [id: number]: DbCardData } {
@@ -201,6 +195,18 @@ class Database {
     return this.metadata ? this.metadata.single_match_events : [];
   }
 
+  get playBrawlEvents(): string[] {
+    const prefix = "Play_Brawl_";
+    const endDate = new Date();
+    const currentDate = new Date("2019-11-06T16:00:00Z"); // first Wednesday brawl
+    const events = [];
+    while (currentDate < endDate) {
+      events.push(prefix + format(currentDate, "yyyyMMdd"));
+      currentDate.setDate(currentDate.getDate() + 7); // repeat every Wednesday
+    }
+    return events;
+  }
+
   get season_starts(): Date {
     if (!this.season || !this.season.currentSeason) return new Date();
     return new Date(this.season.currentSeason.seasonStartTime);
@@ -239,7 +245,15 @@ class Database {
     return setCodes;
   }
 
-  get version() {
+  get standardSetCodes(): string[] {
+    return this.sortedSetCodes.filter(
+      code =>
+        this.sets[code].collation !== -1 &&
+        new Date(this.sets[code].release) > new Date(STANDARD_CUTOFF_DATE)
+    );
+  }
+
+  get version(): number {
     return this.metadata ? this.metadata.version : 0;
   }
 
@@ -252,12 +266,25 @@ class Database {
       return undefined;
     }
 
-    let numId = typeof id === "number" ? id : parseInt(id);
+    const numId = typeof id === "number" ? id : parseInt(id);
     return this.metadata.cards[numId] || undefined;
   }
 
-  event(id: string) {
-    return this.events[id] || false;
+  ability(id?: number | string): string | undefined {
+    if (id === undefined) {
+      return undefined;
+    }
+
+    if (!this.metadata?.abilities) {
+      return undefined;
+    }
+
+    const abid = typeof id === "number" ? id : parseInt(id);
+    return this.metadata.abilities[abid] || undefined;
+  }
+
+  event(id: string): string | undefined {
+    return this.events[id];
   }
 
   //possibly unused?
@@ -269,9 +296,9 @@ class Database {
   //   return false;
   // }
 
-  getRankSteps(rank: Rank, tier: number, isLimited: boolean) {
+  getRankSteps(rank: Rank, tier: number, isLimited: boolean): number {
     if (!this.season) return 0;
-    let rankInfo: RankClassInfo[];
+    let rankInfo: RankInfo[];
     if (isLimited) {
       if (!this.season.limitedRankInfo) return 0;
       rankInfo = this.season.limitedRankInfo;
@@ -287,8 +314,8 @@ class Database {
     return 0;
   }
 
-  cardFromArt(artId: number | string) {
-    let numArtId = typeof artId === "number" ? artId : parseInt(artId);
+  cardFromArt(artId: number | string): DbCardData | boolean {
+    const numArtId = typeof artId === "number" ? artId : parseInt(artId);
     const matches = this.cardList.filter(card => card.artid === numArtId);
     return matches.length ? matches[0] : false;
   }

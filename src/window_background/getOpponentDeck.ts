@@ -1,11 +1,11 @@
 import globals from "./globals";
 import db from "../shared/database";
 import Deck from "../shared/deck";
-import { SerializedDeck } from "../shared/types/Deck";
-import { DbCardData } from "../shared/types/Metadata";
+import { InternalDeck } from "../types/Deck";
+import { DbCardData, Archetype } from "../types/Metadata";
 
 function calculateDeviation(values: number[]): number {
-  return Math.sqrt(values.reduce((a, b) => a + b) / values.length - 1);
+  return Math.sqrt(values.reduce((a, b) => a + b) / (values.length - 1));
 }
 
 function getBestArchetype(deck: Deck): string {
@@ -26,20 +26,22 @@ function getBestArchetype(deck: Deck): string {
   const highest = lowestDeviation; //err..
 
   // Test for each archetype
-  Object.entries(db.archetypes).forEach(([key, arch]) => {
+  //console.log("highest", highest);
+  db.archetypes.forEach((arch: Archetype) => {
     //console.log(arch.name);
     mainDeviations = [];
     deck
       .getMainboard()
       .get()
       .forEach(card => {
+        const cardData = db.card(card.id);
+        if (!cardData) return;
         //let q = card.quantity;
-        const name = (db.card(card.id) as DbCardData).name;
+        const name = cardData.name;
         const archMain = arch.average.mainDeck;
-
         const deviation = 1 - (archMain[name] ? 1 : 0); // archMain[name] ? archMain[name] : 0 // for full data
         mainDeviations.push(deviation * deviation);
-        //console.log(name, deviation, q, archMain[name]);
+        //console.log(name, deviation, archMain[name]);
       });
     const finalDeviation = calculateDeviation(mainDeviations);
 
@@ -47,7 +49,7 @@ function getBestArchetype(deck: Deck): string {
       lowestDeviation = finalDeviation;
       bestMatch = arch.name;
     }
-    //console.log(">>", averageDeviation, Math.sqrt(averageDeviation));
+    //console.log(">>", finalDeviation, lowestDeviation, bestMatch);
   });
 
   if (lowestDeviation > highest * 0.5) {
@@ -57,7 +59,7 @@ function getBestArchetype(deck: Deck): string {
   return bestMatch;
 }
 
-function getOpponentDeck(): SerializedDeck {
+function getOpponentDeck(): InternalDeck {
   const _deck = new Deck({}, globals.currentMatch.oppCardsUsed, []);
   _deck.getMainboard().removeDuplicates(true);
   _deck.colors;

@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import format from "date-fns/format";
-import { FACE_SPLIT_FULL, FACE_ADVENTURE_MAIN } from "../shared/constants";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FACE_ADVENTURE_MAIN, FACE_SPLIT_FULL } from "../shared/constants";
 import db from "../shared/database";
 import { openScryfallCard } from "../shared/util";
-
-import { LogData } from "./overlayUtil";
-import { DbCardData } from "../shared/types/Metadata";
+import { InternalActionLog } from "../types/log";
+import { DbCardData } from "../types/Metadata";
+import useHoverCard from "../window_main/hooks/useHoverCard";
 
 interface LogEntryProps {
   initialTime: Date;
-  log: LogData;
-  setHoverCardCallback: (card?: DbCardData) => void;
+  log: InternalActionLog;
 }
 
 function LogEntry(props: LogEntryProps): JSX.Element {
-  const { initialTime, log, setHoverCardCallback } = props;
+  const { initialTime, log } = props;
   const [isMouseHovering, setMouseHovering] = useState(false);
+  const [hoverIn, hoverOut] = useHoverCard(log.grpId);
   const fullCard = db.card(log.grpId);
   let dfcCard: DbCardData | undefined;
   if (fullCard?.dfcId !== undefined) {
@@ -23,12 +23,12 @@ function LogEntry(props: LogEntryProps): JSX.Element {
   }
   const handleMouseEnter = useCallback((): void => {
     setMouseHovering(true);
-    fullCard && setHoverCardCallback(fullCard);
-  }, [fullCard, setHoverCardCallback]);
+    hoverIn();
+  }, [hoverIn]);
   const handleMouseLeave = useCallback((): void => {
     setMouseHovering(false);
-    setHoverCardCallback();
-  }, [setHoverCardCallback]);
+    hoverOut();
+  }, [hoverOut]);
   const handleMouseClick = useCallback((): void => {
     let _card = fullCard;
     if (
@@ -37,18 +37,15 @@ function LogEntry(props: LogEntryProps): JSX.Element {
     ) {
       _card = dfcCard || fullCard;
     }
-    openScryfallCard(_card);
+    if (_card) {
+      openScryfallCard(_card);
+    }
   }, [fullCard, dfcCard]);
   const displayLog = { ...log };
+  displayLog.str = log.str.replace(/<log-card/gi, '<log-card class="click-on"');
   displayLog.str = log.str.replace(
-    "<log-card",
-    '<log-card class="click-on"',
-    "gi"
-  );
-  displayLog.str = log.str.replace(
-    "<log-ability",
-    '<log-ability class="click-on"',
-    "gi"
+    /<log-ability/gi,
+    '<log-ability class="click-on"'
   );
   const date = new Date(log.time);
   const secondsPast = Math.round(
@@ -77,28 +74,29 @@ function LogEntry(props: LogEntryProps): JSX.Element {
   );
 }
 
-export default function ActionLog(props: {
-  actionLog: LogData[];
-  setHoverCardCallback: (card?: DbCardData) => void;
+export default function ActionLog({
+  actionLog
+}: {
+  actionLog: InternalActionLog[];
 }): JSX.Element {
-  const { actionLog, setHoverCardCallback } = props;
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const container = containerRef.current as any;
-    const doscroll =
-      Math.round(
-        container.scrollHeight - container.offsetHeight - container.scrollTop
-      ) < 32;
-    if (doscroll) {
-      container.scrollTop = container.scrollHeight;
+    const container = containerRef.current;
+    if (container) {
+      const doscroll =
+        Math.round(
+          container.scrollHeight - container.offsetHeight - container.scrollTop
+        ) < 32;
+      if (doscroll) {
+        container.scrollTop = container.scrollHeight;
+      }
     }
   });
   const initialTime = actionLog[0] ? new Date(actionLog[0].time) : new Date();
-  const logProps = { initialTime, setHoverCardCallback };
   return (
     <div className="overlay_decklist click-on" ref={containerRef}>
-      {actionLog.map((log: LogData, index: number) => (
-        <LogEntry log={log} key={"log_" + index} {...logProps} />
+      {actionLog.map((log, index) => (
+        <LogEntry log={log} key={"log_" + index} initialTime={initialTime} />
       ))}
     </div>
   );

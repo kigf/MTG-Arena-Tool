@@ -3,6 +3,7 @@ import Datastore from "nedb";
 import util from "util";
 import { USER_DATA_DIR, showBusy, hideBusyIfDone } from "./databaseUtil";
 import { LocalDatabase, DatabaseNotInitializedError } from "./LocalDatabase";
+import sanitize from "sanitize-filename";
 
 // manually maintained list of non-document (non-object) fields
 // we need this to migrate to nedb since it can only store documents
@@ -62,11 +63,13 @@ export class NeDbDatabase implements LocalDatabase {
   }
 
   init(dbName: string, arenaName?: string) {
-    this.dbName = arenaName ? arenaName : dbName;
+    this.dbName = sanitize(arenaName ? arenaName : dbName);
     this.datastore = new Datastore({
-      filename: path.join(USER_DATA_DIR, this.dbName + ".db"),
-      autoload: true
+      filename: path.join(USER_DATA_DIR, this.dbName + ".db")
     });
+    // ensure session begins with most compact possible db
+    this.datastore.persistence.compactDatafile();
+    this.datastore.loadDatabase();
     // async wrappers of datastore methods
     // https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_promisify_original
     this._find = util.promisify(

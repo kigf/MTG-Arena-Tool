@@ -1,33 +1,24 @@
 import React, { useRef } from "react";
-
 import {
-  ARENA_MODE_MATCH,
   ARENA_MODE_DRAFT,
   ARENA_MODE_IDLE,
+  ARENA_MODE_MATCH,
   COLORS_ALL,
   OVERLAY_DRAFT_MODES
 } from "../shared/constants";
-
-import {
-  getEditModeClass,
-  useEditModeOnRef,
-  DraftData,
-  DraftState,
-  LogData,
-  SettingsData
-} from "./overlayUtil";
-
-import { MatchData } from "../window_background/types/currentMatch";
-
+import { MatchData } from "../types/currentMatch";
+import { DraftData, DraftState } from "../types/draft";
+import { InternalActionLog } from "../types/log";
+import { SettingsData } from "../types/settings";
 import DraftElements from "./DraftElements";
 import MatchElements from "./MatchElements";
-import { DbCardData } from "../shared/types/Metadata";
+import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 
 const DEFAULT_BACKGROUND = "../images/Bedevil-Art.jpg";
 
 export interface OverlayWindowletProps {
   arenaState: number;
-  actionLog: LogData[];
+  actionLog: InternalActionLog[];
   draft?: DraftData;
   draftState: DraftState;
   editMode: boolean;
@@ -38,12 +29,11 @@ export interface OverlayWindowletProps {
   match?: MatchData;
   settings: SettingsData;
   setDraftStateCallback: (state: DraftState) => void;
-  setHoverCardCallback: (card?: DbCardData) => void;
   setOddsCallback: (sampleSize: number) => void;
   turnPriority: number;
 }
 
-function isOverlayDraftMode(mode: number) {
+function isOverlayDraftMode(mode: number): boolean {
   return OVERLAY_DRAFT_MODES.some(draftMode => draftMode === mode);
 }
 
@@ -68,7 +58,6 @@ export default function OverlayWindowlet(
     index,
     match,
     setDraftStateCallback,
-    setHoverCardCallback,
     setOddsCallback,
     settings,
     turnPriority
@@ -105,7 +94,6 @@ export default function OverlayWindowlet(
   const commonProps = {
     index,
     settings: overlaySettings,
-    setHoverCardCallback,
     tileStyle
   };
   if (draft && isOverlayDraftMode(overlaySettings.mode)) {
@@ -147,12 +135,15 @@ export default function OverlayWindowlet(
 
   const backgroundColor = settings.overlay_back_color;
 
-  const bgStyle: any = {
+  const bgStyle: React.CSSProperties = {
+    left: "0px",
+    right: "0px",
     opacity: overlaySettings.alpha_back.toString()
   };
 
   // This needs its own setting, like a checkbox or something
-  const solidBg: boolean = backgroundColor !== "rgba(0,0,0,0)";
+  const solidBg: boolean =
+    backgroundColor !== "rgba(0,0,0,0)" && backgroundColor !== "transparent";
   if (!solidBg) {
     bgStyle.backgroundImage = backgroundImage;
   } else {

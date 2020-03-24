@@ -1,31 +1,33 @@
-import {
-  formatNumber,
-  formatPercent,
-  toggleArchived
-} from "../../renderer-util";
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-use-before-define */
+import React from "react";
+
 import db from "../../../shared/database";
-import {
-  getCollationSet,
-  getPrettyContext,
-  vaultPercentFormat
-} from "../../economyUtils";
-import pd from "../../../shared/player-data";
+import pd from "../../../shared/PlayerData";
 import {
   collectionSortRarity,
   getCardImage,
   openScryfallCard,
   getCardArtCrop
 } from "../../../shared/util";
-
-import { addCardHover } from "../../../shared/cardHover";
-
-import React, { useState } from "react";
-import EconomyValueRecord, { EconomyIcon } from "./EconomyValueRecord";
-import ReactDOM from "react-dom";
 import LocalTime from "../../../shared/time-components/LocalTime";
-import { DbCardData } from "../../../shared/types/Metadata";
+import { DbCardData } from "../../../types/Metadata";
 
-function EconomyRowDate(date: Date) {
+import {
+  formatNumber,
+  formatPercent,
+  toggleArchived
+} from "../../rendererUtil";
+import {
+  getCollationSet,
+  getPrettyContext,
+  vaultPercentFormat,
+  getReadableCode
+} from "./economyUtils";
+
+import EconomyValueRecord, { EconomyIcon } from "./EconomyValueRecord";
+import useHoverCard from "../../hooks/useHoverCard";
+
+function EconomyRowDate(date: Date): JSX.Element {
   return (
     <LocalTime
       datetime={date.toISOString()}
@@ -41,7 +43,7 @@ interface BoosterDeltaProps {
   booster: { collationId: number; count: number };
 }
 
-function BoosterDelta(props: BoosterDeltaProps) {
+function BoosterDelta(props: BoosterDeltaProps): JSX.Element {
   const { booster } = props;
   const set = getCollationSet(booster.collationId);
   const imagePath =
@@ -52,7 +54,7 @@ function BoosterDelta(props: BoosterDeltaProps) {
     <EconomyValueRecord
       iconClassName={"set_logo_med"}
       iconUrl={imagePath}
-      title={set}
+      title={set + " Boosters"}
       deltaContent={"x" + Math.abs(booster.count)}
     />
   );
@@ -130,7 +132,9 @@ interface WildcardEconomyValueRecordProps {
   smallLabel?: boolean;
 }
 
-function WildcardEconomyValueRecord(props: WildcardEconomyValueRecordProps) {
+function WildcardEconomyValueRecord(
+  props: WildcardEconomyValueRecordProps
+): JSX.Element {
   const { count, title, className, smallLabel } = props;
   return (
     <EconomyValueRecord
@@ -156,7 +160,7 @@ interface AllWildcardsEconomyValueRecordProps {
 
 function AllWildcardsEconomyValueRecord(
   props: AllWildcardsEconomyValueRecordProps
-) {
+): JSX.Element {
   const { delta, isSmall } = props;
   return (
     <>
@@ -202,7 +206,7 @@ interface FlexBottomProps {
   thingsToCheck: PossibleModifiedEconomyStats;
 }
 
-function FlexBottom(props: FlexBottomProps) {
+function FlexBottom(props: FlexBottomProps): JSX.Element {
   const { fullContext, change, thingsToCheck } = props;
   const { checkGemsPaid, checkGoldPaid } = thingsToCheck;
   return (
@@ -259,9 +263,8 @@ interface InventoryCardListProps {
 
 function CardPoolAddedEconomyValueRecord(
   props: CardPoolAddedEconomyValueRecordProps
-) {
+): JSX.Element {
   const { addedCardIds, aetherizedCardIds } = props;
-
   return (
     <>
       <InventoryCardList cardsList={addedCardIds} isAetherized={false} />
@@ -270,20 +273,29 @@ function CardPoolAddedEconomyValueRecord(
   );
 }
 
-function InventoryCardList(props: InventoryCardListProps) {
+function InventoryCardList(props: InventoryCardListProps): JSX.Element {
   const { cardsList, isAetherized } = props;
   const uniqueCardList = countDupesArray(cardsList);
-
+  const cardCounts = Object.entries(uniqueCardList);
+  cardCounts.sort((a: [string, number], b: [string, number]): number =>
+    collectionSortRarity(parseInt(a[0]), parseInt(b[0]))
+  );
   return (
     <>
-      {Object.entries(uniqueCardList).map((entry: [string, number]) => (
-        <InventoryCard
-          key={entry[0]}
-          card={db.card(entry[0])}
-          quantity={entry[1]}
-          isAetherized={isAetherized}
-        />
-      ))}
+      {cardCounts.map(([grpId, quantity]: [string, number]) => {
+        const card = db.card(grpId);
+        if (!card || quantity === 0) {
+          return <></>;
+        }
+        return (
+          <InventoryCard
+            key={grpId}
+            card={card}
+            quantity={quantity}
+            isAetherized={isAetherized}
+          />
+        );
+      })}
     </>
   );
 }
@@ -295,12 +307,11 @@ interface FlexRightProps {
   economyId: string;
 }
 
-function FlexRight(props: FlexRightProps) {
+function FlexRight(props: FlexRightProps): JSX.Element {
   const { fullContext, change, thingsToCheck, economyId } = props;
   const {
     checkAetherized,
     checkBoosterAdded,
-    checkCardsAdded,
     checkGemsEarnt,
     checkGoldEarnt,
     checkSkinsAdded,
@@ -321,15 +332,7 @@ function FlexRight(props: FlexRightProps) {
     );
 
   const checkCards =
-    checkCardsAdded &&
-    change.delta.cardsAdded &&
-    change.delta.cardsAdded.length > 0;
-
-  if (checkCards) {
-    // presort here
-    change.delta.cardsAdded.sort(collectionSortRarity);
-  }
-
+    change.delta.cardsAdded && change.delta.cardsAdded.length > 0;
   const checkAether =
     checkAetherized &&
     change.aetherizedCards &&
@@ -337,7 +340,7 @@ function FlexRight(props: FlexRightProps) {
   const aetherCards: string[] = checkAether
     ? change.aetherizedCards.reduce(
         (aggregator: string[], obj: { grpId: string }) => {
-          var grpId = obj.grpId;
+          const grpId = obj.grpId;
           if (change.delta.cardsAdded) {
             if (change.delta.cardsAdded.indexOf(grpId) == -1) {
               aggregator.push(grpId);
@@ -358,6 +361,7 @@ function FlexRight(props: FlexRightProps) {
         db.cardFromArt(obj.artId)
       )
     : undefined;
+  const vanityCodes: string[] | undefined = change.delta.vanityItemsAdded;
 
   const xpGainedNumber = change.xpGained && parseInt(change.xpGained);
   return (
@@ -400,6 +404,22 @@ function FlexRight(props: FlexRightProps) {
           deltaContent={formatNumber(xpGainedNumber)}
         />
       )}
+      {Math.abs(change.delta.draftTokensDelta) > 0 && (
+        <EconomyValueRecord
+          iconClassName={"economy_ticket_med"}
+          title={"Traditional Draft Entry Tokens"}
+          smallLabel
+          deltaContent={formatNumber(change.delta.draftTokensDelta)}
+        />
+      )}
+      {Math.abs(change.delta.sealedTokensDelta) > 0 && (
+        <EconomyValueRecord
+          iconClassName={"economy_ticket_med"}
+          title={"Sealed Entry Tokens"}
+          smallLabel
+          deltaContent={formatNumber(change.delta.sealedTokensDelta)}
+        />
+      )}
       {checkBoosterAdded &&
         change.delta.boosterDelta &&
         change.delta.boosterDelta.map((booster: any) => (
@@ -423,6 +443,16 @@ function FlexRight(props: FlexRightProps) {
             url={`url("${getCardArtCrop(card)}")`}
           />
         ))}
+      {vanityCodes &&
+        vanityCodes.map(code => (
+          <EconomyValueRecord
+            key={economyId + "_" + code}
+            iconClassName={"economy_vanity"}
+            title={code}
+            smallLabel
+            deltaContent={getReadableCode(code)}
+          />
+        ))}
     </div>
   );
 }
@@ -433,30 +463,23 @@ interface InventoryCardProps {
   quantity?: number;
 }
 
-function InventoryCard(props: InventoryCardProps) {
+function InventoryCard(props: InventoryCardProps): JSX.Element {
   const { card, isAetherized, quantity } = props;
-  const inventoryCardRef = React.useRef<HTMLDivElement>(null);
-  const onCardClick = React.useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const lookupCard = db.card(card?.dfcId) ?? card;
-      openScryfallCard(lookupCard);
-    },
-    [card]
-  );
+  const onCardClick = React.useCallback(() => {
+    const lookupCard = db.card(card?.dfcId) ?? card;
+    openScryfallCard(lookupCard);
+  }, [card]);
   // inventoryCard.style.width = "39px";
 
-  React.useEffect(() => {
-    if (inventoryCardRef) {
-      addCardHover(inventoryCardRef.current as HTMLElement, card);
-    }
-  });
+  const [hoverIn, hoverOut] = useHoverCard(card?.id || 0);
 
   const tooltip = isAetherized
     ? computeAetherizedTooltip(card, quantity)
     : card?.name ?? "";
   return (
     <div
-      ref={inventoryCardRef}
+      onMouseEnter={hoverIn}
+      onMouseLeave={hoverOut}
       className={"inventory_card small"}
       onClick={onCardClick}
     >
@@ -477,7 +500,7 @@ function InventoryCard(props: InventoryCardProps) {
   );
 }
 
-function computeAetherizedTooltip(card: any, quantity?: number) {
+function computeAetherizedTooltip(card: any, quantity?: number): string {
   let tooltip = card.name;
   const multiplier = quantity ? quantity : 1;
   switch (card.rarity) {
@@ -508,7 +531,7 @@ interface FlexTopProps {
   change: any;
 }
 
-function FlexTop(props: FlexTopProps) {
+function FlexTop(props: FlexTopProps): JSX.Element {
   const { change, fullContext } = props;
   // flexTop.style.lineHeight = "32px";
   return (
@@ -527,7 +550,7 @@ interface DeleteButtonProps {
   hideRowCallback: () => void;
 }
 
-function DeleteButton(props: DeleteButtonProps) {
+function DeleteButton(props: DeleteButtonProps): JSX.Element {
   const { change, economyId, hideRowCallback } = props;
   const archiveClass = change.archived
     ? "list_item_unarchive"
@@ -543,13 +566,14 @@ function DeleteButton(props: DeleteButtonProps) {
       }
       toggleArchived(economyId);
     },
-    []
+    [change, economyId, hideRowCallback]
   );
 
   return (
     <div
       className={"flex_item " + economyId + "_del " + archiveClass}
       onClick={archiveCallback}
+      title={title}
     />
   );
 }
@@ -559,7 +583,7 @@ interface ChangeRowProps {
   change: any;
 }
 
-function ChangeRow(props: ChangeRowProps) {
+export function ChangeRow(props: ChangeRowProps): JSX.Element {
   const { economyId, change } = props;
   const fullContext = getPrettyContext(change.originalContext);
   const thingsToCheck = getThingsToCheck(fullContext, change);
@@ -603,14 +627,4 @@ function ChangeRow(props: ChangeRowProps) {
       />
     </div>
   );
-}
-
-export function createChangeRow(change: any, economyId: string) {
-  const container = document.createElement("div");
-  ReactDOM.render(
-    <ChangeRow change={change} economyId={economyId} />,
-    container
-  );
-
-  return container;
 }

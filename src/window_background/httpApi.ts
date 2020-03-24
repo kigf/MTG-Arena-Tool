@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/camelcase */
 import electron from "electron";
 import async from "async";
 
 import { makeId } from "../shared/util";
-import playerData from "../shared/player-data";
+import playerData from "../shared/PlayerData";
 import db from "../shared/database";
 import { appDb, playerDb } from "../shared/db/LocalDatabase";
 
@@ -17,7 +19,6 @@ import {
   makeSimpleResponseHandler
 } from "./httpWorker";
 import globals from "./globals";
-import { SerializedDeck } from "../shared/types/Deck";
 
 let httpQueue: async.AsyncQueue<HttpTask>;
 
@@ -143,7 +144,7 @@ function handleNotificationsResponse(
   // Like, check if arena is open at all, if we are in a tourney, if we
   // just submitted some data that requires notification pull, etc
   // Based on that adjust the timeout for the next pull.
-  setTimeout(httpNotificationsPull, 10000);
+  //setTimeout(httpNotificationsPull, 10000);
 
   if (error) {
     handleError(error);
@@ -195,15 +196,16 @@ function handleAuthResponse(
   results?: string,
   parsedResult?: any
 ): void {
-  if (error) {
+  if (error || !parsedResult) {
     syncSettings({ token: "" }, false);
     appDb.upsert("", "email", "");
     appDb.upsert("", "token", "");
     ipcSend("auth", {});
     ipcSend("toggle_login", true);
+    ipcSend("login_failed", true);
     ipcSend("clear_pwd", 1);
     ipcPop({
-      text: error.message,
+      text: error?.message,
       time: 3000,
       progress: -1
     });
@@ -255,9 +257,8 @@ function handleAuthResponse(
     } else {
       ipcLog("No need to fetch remote player items.");
     }
-    httpNotificationsPull();
+    //httpNotificationsPull();
   });
-  ipcSend("set_discord_tag", parsedResult.discord_tag);
 }
 
 export function httpSubmitCourse(course: any): void {
@@ -296,7 +297,7 @@ export function httpGetExplore(query: any): void {
       filter_sort: query.filterSort,
       filter_sortdir: query.filterSortDir,
       filter_mana: query.filteredMana,
-      filter_ranks: query.filteredranks,
+      filter_ranks: query.filteredRanks,
       filter_skip: query.filterSkip,
       collection: JSON.stringify(playerData.cards.cards)
     },
@@ -479,9 +480,6 @@ function handleGetDatabaseResponse(
     db.handleSetDb(null, results);
     db.updateCache(results);
     ipcSend("set_db", results);
-    // autologin users may beat the metadata request
-    // manually trigger a UI refresh just in case
-    ipcSend("player_data_refresh");
   }
 }
 
@@ -501,17 +499,29 @@ export function httpGetDatabaseVersion(lang: string): void {
         parsedResult.lang.toLowerCase() !== db.metadata.language.toLowerCase()
       ) {
         // compare language
+        ipcSend("popup", {
+          text: `Downloading latest Database (v${parsedResult.latest})`,
+          time: 5000
+        });
         ipcLog(
           `Downloading database (had lang ${db.metadata.language}, needed ${parsedResult.lang})`
         );
         httpGetDatabase(lang);
       } else if (parsedResult.latest > db.version) {
         // Compare parsedResult.version with stored version
+        ipcSend("popup", {
+          text: `Downloading latest Database (v${parsedResult.latest})`,
+          time: 5000
+        });
         ipcLog(
           `Downloading latest database (had v${db.version}, found v${parsedResult.latest})`
         );
         httpGetDatabase(lang);
       } else {
+        ipcSend("popup", {
+          text: `Database up to date (v${db.version})`,
+          time: 5000
+        });
         ipcLog(`Database up to date (${db.version}), skipping download.`);
       }
     })
@@ -587,96 +597,6 @@ export function httpHomeGet(set: string): void {
   );
 }
 
-export function httpTournamentGet(tid: string): void {
-  const _id = makeId(6);
-  httpQueue.unshift(
-    {
-      reqId: _id,
-      method: "tou_get",
-      method_path: "/api/tournament_get.php",
-      id: tid
-    },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      ipcSend("tou_set", parsedResult.result);
-    })
-  );
-}
-
-export function httpTournamentJoin(
-  tid: string,
-  deckId: string,
-  pass: string
-): void {
-  const _id = makeId(6);
-  const deck = JSON.stringify(playerData.deck(deckId));
-  httpQueue.unshift(
-    {
-      reqId: _id,
-      method: "tou_join",
-      method_path: "/api/tournament_join.php",
-      id: tid,
-      deck: deck,
-      pass: pass
-    },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      httpTournamentGet(parsedResult.id);
-    })
-  );
-}
-
-export function httpTournamentDrop(tid: string): void {
-  const _id = makeId(6);
-  httpQueue.unshift(
-    {
-      reqId: _id,
-      method: "tou_drop",
-      method_path: "/api/tournament_drop.php",
-      id: tid
-    },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      httpTournamentGet(parsedResult.id);
-    })
-  );
-}
-
-export function httpTournamentCheck(
-  deck: SerializedDeck,
-  opp: string,
-  setCheck: boolean,
-  playFirst = "",
-  bo3 = ""
-): void {
-  const _id = makeId(6);
-  httpQueue.unshift(
-    {
-      reqId: _id,
-      method: "tou_check",
-      method_path: "/api/check_match.php",
-      deck: JSON.stringify(deck),
-      opp: opp,
-      setcheck: setCheck + "",
-      bo3: bo3,
-      play_first: playFirst
-    },
-    handleTournamentCheckResponse
-  );
-}
-
-function handleTournamentCheckResponse(
-  error?: Error | null,
-  task?: HttpTask,
-  results?: string,
-  parsedResult?: any
-): void {
-  // TODO ask Manwe about this
-  if (error && parsedResult && parsedResult.state) {
-    new Notification("MTG Arena Tool", {
-      body: parsedResult.state
-    });
-  }
-  //ipc_send("tou_set_game", parsedResult.result);
-}
-
 export function httpSetMythicRank(opp: string, rank: string): void {
   const _id = makeId(6);
   httpQueue.push(
@@ -736,25 +656,6 @@ export function httpSyncRequest(data: SyncRequestData): void {
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       syncUserData(parsedResult.data);
-    })
-  );
-}
-
-export function httpDiscordUnlink(): void {
-  const _id = makeId(6);
-  httpQueue.unshift(
-    {
-      reqId: _id,
-      method: "discord_unlink",
-      method_path: "/api/discord_unlink.php"
-    },
-    makeSimpleResponseHandler(() => {
-      ipcPop({
-        text: "Unlink Ok",
-        time: 1000,
-        progress: -1
-      });
-      ipcSend("set_discord_tag", "");
     })
   );
 }

@@ -1,6 +1,9 @@
+/*
+  Not used / deprecated?
+*/
 import Aggregator from "./aggregator";
 import React from "react";
-import { getTagColor } from "./renderer-util";
+import { getTagColor } from "./rendererUtil";
 import { getReadableFormat } from "../shared/util";
 
 export interface TagOptionProps {
@@ -14,7 +17,6 @@ export default function TagOption(props: TagOptionProps) {
   if (tag === Aggregator.DEFAULT_TAG) return tag;
   if (tag === Aggregator.DEFAULT_ARCH) return tag;
   const color = getTagColor(tag);
-  const margins = "margin: 5px; margin-right: 30px;";
   const style: React.CSSProperties = {
     whiteSpace: "nowrap",
     backgroundColor: color,

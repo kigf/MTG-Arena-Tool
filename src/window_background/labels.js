@@ -12,7 +12,7 @@ import { playerDb } from "../shared/db/LocalDatabase";
 import CardsList from "../shared/cardsList";
 import { get_deck_colors, objectClone } from "../shared/util";
 import * as greToClientInterpreter from "./greToClientInterpreter";
-import playerData from "../shared/player-data";
+import playerData from "../shared/PlayerData";
 import sha1 from "js-sha1";
 import globals from "./globals";
 import getNameBySeat from "./getNameBySeat";
@@ -26,6 +26,7 @@ import {
 import actionLog from "./actionLog";
 import addCustomDeck from "./addCustomDeck";
 import { createDraft, createMatch, completeMatch } from "./data";
+import { getDeckChanges } from "./getDeckChanges";
 
 let logLanguage = "English";
 
@@ -160,7 +161,6 @@ function processMatch(json, matchBeginTime) {
   if (match.eventId == "DirectGame" && globals.currentDeck) {
     const str = globals.currentDeck.getSave();
     const httpApi = require("./httpApi");
-    httpApi.httpTournamentCheck(str, match.opponent.name, true);
   }
 
   return match;
@@ -264,7 +264,7 @@ function convertV3ToV2(v3List) {
   return ret;
 }
 
-function convertDeckFromV3(deck) {
+export function convertDeckFromV3(deck) {
   if (deck.CourseDeck) {
     if (deck.CourseDeck.mainDeck)
       deck.CourseDeck.mainDeck = convertV3ToV2(deck.CourseDeck.mainDeck);
@@ -297,6 +297,14 @@ export function onLabelOutLogInfo(entry) {
 
   if (json.params.messageName == "Client.Connected") {
     logLanguage = json.params.payloadObject.settings.language.language;
+    /*
+    const parsedData = {};
+    parsedData.arenaId = json.params.payloadObject.playerId;
+    parsedData.name = json.params.payloadObject.screenName;
+    parsedData.arenaVersion = json.params.payloadObject.clientVersion;
+    setData(parsedData, false);
+    loadPlayerConfig(json.params.payloadObject.playerId);
+    */
   }
   if (skipMatch) return;
   if (json.params.messageName == "DuelScene.GameStop") {
@@ -346,75 +354,24 @@ export function onLabelOutLogInfo(entry) {
       game.handsDrawn = payload.mulliganedHands.map(hand =>
         hand.map(card => card.grpId)
       );
-      game.handsDrawn.push(
-        game.shuffledOrder.slice(0, 7 - game.handsDrawn.length)
-      );
+      game.handsDrawn.push(game.shuffledOrder.slice(0, 7));
 
       if (globals.gameNumberCompleted > 1) {
         const originalDeck = globals.currentMatch.player.originalDeck.clone();
         const newDeck = globals.currentMatch.player.deck.clone();
-
-        const sideboardChanges = {
-          added: [],
-          removed: []
-        };
-
-        const mainDiff = {};
-        newDeck.mainboard.get().forEach(card => {
-          mainDiff[card.id] = (mainDiff[card.id] || 0) + card.quantity;
-        });
-        originalDeck.mainboard.get().forEach(card => {
-          if (mainDiff[card.id]) {
-            mainDiff[card.id] -= card.quantity;
-          }
-        });
-
-        Object.keys(mainDiff).forEach(id => {
-          for (let i = 0; i < mainDiff[id]; i++) {
-            sideboardChanges.added.push(id);
-          }
-          //console.log(mainDiff[id] + " - " + db.card(id).name);
-        });
-
-        const sideDiff = {};
-        newDeck.sideboard.get().forEach(card => {
-          sideDiff[card.id] = (sideDiff[card.id] || 0) + card.quantity;
-        });
-        originalDeck.sideboard.get().forEach(card => {
-          if (sideDiff[card.id]) {
-            sideDiff[card.id] -= card.quantity;
-          }
-        });
-
-        Object.keys(sideDiff).forEach(id => {
-          for (let i = 0; i < sideDiff[id]; i++) {
-            sideboardChanges.removed.push(id);
-          }
-          //console.log(sideDiff[id] + " - " + db.card(id).name);
-        });
-
-        /*
-        globals.matchGameStats.forEach((stats, i) => {
-          if (i !== 0) {
-            let prevChanges = stats.sideboardChanges;
-            prevChanges.added.forEach(
-              id => (deckDiff[id] = (deckDiff[id] || 0) - 1)
-            );
-            prevChanges.removed.forEach(
-              id => (deckDiff[id] = (deckDiff[id] || 0) + 1)
-            );
-          }
-        });
-        */
-
+        const sideboardChanges = getDeckChanges(
+          newDeck,
+          originalDeck,
+          globals.matchGameStats
+        );
         game.sideboardChanges = sideboardChanges;
-        game.deck = newDeck.clone().getSave();
+        game.deck = newDeck.clone().getSave(true);
       }
 
       game.handLands = game.handsDrawn.map(
         hand => hand.filter(card => db.card(card).type.includes("Land")).length
       );
-      const handSize = 8 - game.handsDrawn.length;
+      const handSize = 7;
       let deckSize = 0;
       let landsInDeck = 0;
       const multiCardPositions = { "2": {}, "3": {}, "4": {} };
@@ -511,21 +468,25 @@ export function onLabelClientToMatchServiceMessageTypeClientToGREMessage(
   if (typeof payload == "string") {
     const msgType = entry.label.split("_")[1];
     payload = decodePayload(payload, msgType);
-    //console.log("Client To GRE: ", payload);
   }
+  // The sideboarding log message has changed format multiple times, sometimes
+  // going back to an earlier format. normaliseFields, together with the
+  // conditional decodePayload call, allows the same code to handle each known
+  // format in case Arena changes it again.
+  payload = normaliseFields(payload);
 
   if (payload.submitdeckresp) {
+    //console.log("Client To GRE: ", payload);
     // Get sideboard changes
     const deckResp = payload.submitdeckresp.deck;
 
-    const tempMain = new CardsList([]);
-    deckResp.deckcardsList.map(id => tempMain.add(id));
-    const tempSide = new CardsList([]);
-    deckResp.sideboardcardsList.map(id => tempSide.add(id));
+    const currentDeck = globals.currentMatch.player.deck.getSave();
 
-    const newDeck = globals.currentMatch.player.deck.clone();
-    newDeck.mainboard = tempMain;
-    newDeck.sideboard = tempSide;
+    globals.currentMatch.player.deck = new Deck(
+      currentDeck,
+      deckResp.deckcards,
+      deckResp.sideboardcards
+    );
   }
 }
 
@@ -1138,15 +1099,6 @@ export function onLabelOutDirectGameChallenge(entry) {
   let deck = json.params.deck;
   deck = JSON.parse(deck);
   select_deck(convertDeckFromV3(deck));
-
-  const httpApi = require("./httpApi");
-  httpApi.httpTournamentCheck(
-    globals.currentDeck.getSave(),
-    json.params.opponentDisplayName,
-    false,
-    json.params.playFirst,
-    json.params.bo3
-  );
 }
 
 export function onLabelOutEventAIPractice(entry) {

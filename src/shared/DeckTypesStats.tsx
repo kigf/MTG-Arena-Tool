@@ -3,7 +3,7 @@ import * as React from "react";
 import { CARD_TYPES, CARD_TYPE_CODES } from "./constants";
 import db from "./database";
 import Deck from "../shared/deck";
-import { CardObject } from "../shared/types/Deck";
+import { CardObject } from "../types/Deck";
 
 function getDeckTypesAmount(deck: Deck): { [key: string]: number } {
   const types = { art: 0, cre: 0, enc: 0, ins: 0, lan: 0, pla: 0, sor: 0 };
@@ -14,21 +14,18 @@ function getDeckTypesAmount(deck: Deck): { [key: string]: number } {
     .get()
     .forEach(function(card: CardObject | any) {
       // TODO remove group lands hack
-      // develop merge conflict 23/11/19
-      //if (card.id && card.id.id && card.id.id == 100) {
-      //  types.lan += card.quantity;
-      if (card.id.id && card.id.id == 100) {
+      if (card?.id?.id === 100) {
         return;
       }
       const c = db.card(card.id);
       if (c) {
         if (c.type.includes("Land", 0)) types.lan += card.quantity;
-        else if (c.type.includes("Creature", 0)) types.cre += card.quantity;
-        else if (c.type.includes("Artifact", 0)) types.art += card.quantity;
-        else if (c.type.includes("Enchantment", 0)) types.enc += card.quantity;
-        else if (c.type.includes("Instant", 0)) types.ins += card.quantity;
-        else if (c.type.includes("Sorcery", 0)) types.sor += card.quantity;
-        else if (c.type.includes("Planeswalker", 0)) types.pla += card.quantity;
+        if (c.type.includes("Creature", 0)) types.cre += card.quantity;
+        if (c.type.includes("Artifact", 0)) types.art += card.quantity;
+        if (c.type.includes("Enchantment", 0)) types.enc += card.quantity;
+        if (c.type.includes("Instant", 0)) types.ins += card.quantity;
+        if (c.type.includes("Sorcery", 0)) types.sor += card.quantity;
+        if (c.type.includes("Planeswalker", 0)) types.pla += card.quantity;
       }
     });
 

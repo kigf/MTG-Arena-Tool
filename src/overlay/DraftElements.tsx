@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-
 import {
   MANA,
   OVERLAY_DRAFT,
@@ -7,10 +6,9 @@ import {
   PACK_SIZES
 } from "../shared/constants";
 import Deck from "../shared/deck";
-
-import { DraftData, DraftState, OverlaySettingsData } from "./overlayUtil";
+import { DraftData, DraftState } from "../types/draft";
+import { OverlaySettingsData } from "../types/settings";
 import DeckList from "./DeckList";
-import { DbCardData } from "../shared/types/Metadata";
 
 const packSizeMap: { [key: string]: number } = PACK_SIZES;
 
@@ -20,7 +18,6 @@ export interface DraftElementsProps {
   index: number;
   settings: OverlaySettingsData;
   setDraftStateCallback: (state: DraftState) => void;
-  setHoverCardCallback: (card?: DbCardData) => void;
   tileStyle: number;
 }
 
@@ -34,7 +31,6 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
     draftState,
     index,
     setDraftStateCallback,
-    setHoverCardCallback,
     settings,
     tileStyle
   } = props;
@@ -52,7 +48,7 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
       packN = draft.packNumber;
     }
     setDraftStateCallback({ packN, pickN });
-  }, [draftState, draft]);
+  }, [draftState, draft, packSize, setDraftStateCallback]);
 
   const handleDraftNext = useCallback((): void => {
     let { packN, pickN } = draftState;
@@ -73,7 +69,7 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
       pickN = draft.pickNumber;
     }
     setDraftStateCallback({ packN, pickN });
-  }, [draftState, draft]);
+  }, [draftState, draft, packSize, setDraftStateCallback]);
 
   const { packN, pickN } = draftState;
   const isCurrent = packN === draft.packNumber && pickN === draft.pickNumber;
@@ -139,7 +135,6 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
           deck={visibleDeck}
           subTitle={subTitle}
           highlightCardId={pick}
-          setHoverCardCallback={setHoverCardCallback}
           settings={settings}
           tileStyle={tileStyle}
         />

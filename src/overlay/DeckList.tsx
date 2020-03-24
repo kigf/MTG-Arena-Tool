@@ -1,31 +1,28 @@
 import React from "react";
-
+import CardTile from "../shared/CardTile";
+import Colors from "../shared/colors";
 import {
   DRAFT_RANKS,
+  OVERLAY_DRAFT,
   OVERLAY_FULL,
   OVERLAY_LEFT,
-  OVERLAY_ODDS,
   OVERLAY_MIXED,
-  OVERLAY_DRAFT
+  OVERLAY_ODDS
 } from "../shared/constants";
 import db from "../shared/database";
+import Deck from "../shared/deck";
+import DeckManaCurve from "../shared/DeckManaCurve";
+import DeckTypesStats from "../shared/DeckTypesStats";
+import OwnershipStars from "../shared/OwnershipStars";
 import {
   compare_cards as compareCards,
   get_card_type_sort as getCardTypeSort,
   objectClone
 } from "../shared/util";
-import CardTile from "../shared/CardTile";
-import Colors from "../shared/colors";
-import Deck from "../shared/deck";
-import DeckManaCurve from "../shared/DeckManaCurve";
-import DeckTypesStats from "../shared/DeckTypesStats";
-import OwnershipStars from "../shared/OwnershipStars";
-
-import { CardObject } from "../shared/types/Deck";
-import { OverlaySettingsData } from "./overlayUtil";
+import { Chances } from "../types/Chances";
+import { CardObject } from "../types/Deck";
+import { OverlaySettingsData } from "../types/settings";
 import SampleSizePanel from "./SampleSizePanel";
-import { DbCardData } from "../shared/types/Metadata";
-import { Chances } from "../window_background/types/decks";
 
 const landsCard = {
   id: 100,
@@ -102,7 +99,6 @@ export interface DeckListProps {
   settings: OverlaySettingsData;
   tileStyle: number;
   cardOdds?: Chances;
-  setHoverCardCallback: (card?: DbCardData) => void;
   setOddsCallback?: (sampleSize: number) => void;
 }
 
@@ -114,7 +110,6 @@ export default function DeckList(props: DeckListProps): JSX.Element {
     tileStyle,
     highlightCardId,
     cardOdds,
-    setHoverCardCallback,
     setOddsCallback
   } = props;
   if (!deck) return <></>;
@@ -212,7 +207,6 @@ export default function DeckList(props: DeckListProps): JSX.Element {
     let dfcCard = card?.dfcId ? db.card(card.dfcId) : undefined;
     mainCardTiles.push(
       <CardTile
-        style={tileStyle}
         card={fullCard}
         dfcCard={dfcCard}
         key={"maincardtile_" + card.id}
@@ -220,7 +214,6 @@ export default function DeckList(props: DeckListProps): JSX.Element {
         isSideboard={false}
         quantity={quantity}
         showWildcards={false}
-        setHoverCardCallback={setHoverCardCallback}
         deck={deck}
         isHighlighted={card.id === highlightCardId}
       />
@@ -247,7 +240,6 @@ export default function DeckList(props: DeckListProps): JSX.Element {
       }
       sideboardCardTiles.push(
         <CardTile
-          style={tileStyle}
           card={fullCard}
           dfcCard={dfcCard}
           key={"sideboardcardtile_" + index + "_" + card.id}
@@ -255,7 +247,6 @@ export default function DeckList(props: DeckListProps): JSX.Element {
           isSideboard={true}
           quantity={quantity}
           showWildcards={false}
-          setHoverCardCallback={setHoverCardCallback}
           deck={deck}
           isHighlighted={false}
         />

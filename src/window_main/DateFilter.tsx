@@ -1,59 +1,76 @@
 import React from "react";
-import { ReactSelect, ReactSelectProps } from "../shared/ReactSelect";
+import {
+  DATE_ALL_TIME,
+  DATE_LAST_30,
+  DATE_LAST_DAY,
+  DATE_SEASON
+} from "../shared/constants";
+import ReactSelect from "../shared/ReactSelect";
+import { ipcSend, showDatepicker } from "./rendererUtil";
 
-export interface DateFilterProps extends ReactSelectProps {
+export interface DateFilterProps {
   prefixId: string;
-  showArchivedFilter?: boolean;
-  showArchivedValue?: boolean;
-  onArchiveClick?: (newValue: boolean) => void;
+  callback: (option: string) => void;
   className?: string;
+  current?: string | Date;
 }
 
-export default function DateFilter(props: DateFilterProps) {
-  const [showArchived, setShowArchived] = React.useState(
-    props.showArchivedValue
-  );
-  const {
-    onArchiveClick,
-    prefixId,
-    showArchivedFilter,
-    ...selectProps
-  } = props;
+const dateOptions = [
+  DATE_ALL_TIME,
+  DATE_SEASON,
+  DATE_LAST_30,
+  DATE_LAST_DAY,
+  "Custom"
+];
 
-  const onClickArchiveCheckbox = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.currentTarget.checked;
-      if (newValue != showArchived) {
-        setShowArchived(newValue);
-        onArchiveClick && onArchiveClick(newValue);
+function customDateFormatter(filter: Date | string): string {
+  if (typeof filter === "string") {
+    return filter;
+  }
+  return `Since ${filter.toDateString()}`;
+}
+
+export default function DateFilter({
+  callback,
+  className,
+  current,
+  prefixId
+}: DateFilterProps): JSX.Element {
+  const dateSelectCallback = React.useCallback(
+    (filter: string): void => {
+      if (filter === "Custom") {
+        const lastWeek = new Date();
+        lastWeek.setDate(new Date().getDate() - 7);
+        showDatepicker(lastWeek, (date: Date) => {
+          const filter = date.toISOString();
+          callback(filter);
+          ipcSend("save_user_settings", { last_date_filter: filter });
+        });
+      } else {
+        callback(filter);
+        ipcSend("save_user_settings", {
+          last_date_filter: filter,
+          skipRefresh: true
+        });
       }
     },
-    [props.onArchiveClick, showArchived]
+    [callback]
   );
-
+  current = current ?? DATE_LAST_30;
+  const options = [...dateOptions];
+  if (!dateOptions.includes(String(current))) {
+    current = customDateFormatter(current);
+    options.unshift(current);
+  }
   return (
-    <div className={props.className + " dateCont"}>
-      <div
-        className={
-          "select_container filter_panel_select_margin " +
-          prefixId +
-          "_query_date"
-        }
-      >
-        <ReactSelect {...selectProps} />
-      </div>
-      {showArchivedFilter && (
-        <label className={"archive_label check_container hover_label"}>
-          {"archived"}
-          <input
-            type={"checkbox"}
-            id={prefixId + "_query_archived"}
-            checked={showArchived}
-            onChange={onClickArchiveCheckbox}
-          ></input>
-          <span className={"checkmark"} />
-        </label>
-      )}
+    <div className={className + " dateCont"}>
+      <ReactSelect
+        className={"filter_panel_select_margin " + prefixId + "_query_date"}
+        current={String(current)}
+        options={options}
+        callback={dateSelectCallback}
+        optionFormatter={customDateFormatter}
+      />
     </div>
   );
 }
