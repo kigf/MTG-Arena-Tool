@@ -341,7 +341,7 @@ class PlayerData implements Record<string, any> {
   public arenaId = "";
   public rank: InternalRank = defaultCfg.rank;
   public economy = defaultCfg.economy;
-  public seasonal: Record<string, InternalRankUpdate> = {};
+  public seasonal: Record<string, SeasonalRankData> = {};
   public seasonal_rank: Record<string, any> = {};
   public courses_index: string[] = [];
   public deck_changes_index: string[] = [];
@@ -553,7 +553,7 @@ class PlayerData implements Record<string, any> {
   // I was not sure weter it was correct to include this here or in the
   // utilities file. here its easier to handle the data.
   addSeasonalRank(
-    rank: InternalRankUpdate,
+    rank: SeasonalRankData,
     seasonOrdinal: number,
     type: "constructed" | "limited" = "constructed"
   ): any {
@@ -577,8 +577,8 @@ class PlayerData implements Record<string, any> {
     return this.seasonal_rank;
   }
 
-  getSeasonalRankData(seasonOrdinal: number, type: "constructed" | "limited") {
-    let tag = seasonOrdinal + "_" + type.toLowerCase();
+  getSeasonalRankData(seasonOrdinal: number, type: string) {
+    const tag = seasonOrdinal + "_" + type.toLowerCase();
     return this.seasonal_rank[tag] ? this.seasonal_rank[tag] : [];
   }
 

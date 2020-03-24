@@ -1,4 +1,11 @@
-import React, { useEffect, SetStateAction, useRef, useCallback } from "react";
+import React, {
+  useEffect,
+  SetStateAction,
+  useRef,
+  useCallback,
+  useState,
+  useMemo
+} from "react";
 import format from "date-fns/format";
 import { get_rank_index as getRankIndex } from "../../shared/util";
 function sortByTimestamp(a: any, b: any): number {
@@ -6,6 +13,10 @@ function sortByTimestamp(a: any, b: any): number {
 }
 import playerData from "../../shared/PlayerData";
 import { SeasonalRankData } from "../../types/Season";
+import DeckList from "../components/misc/DeckList";
+import Deck from "../../shared/deck";
+import ReactSelect from "../../shared/ReactSelect";
+import ManaCost from "../components/misc/ManaCost";
 
 /**
  * Get the ranks conversion to a Y coordinate
@@ -39,13 +50,15 @@ function getRankY(rank: string, tier: number, steps: number): number {
   return value + 6 * (4 - tier) + steps;
 }
 
+const RANK_HEIGHTS = [0, 24, 48, 72, 96, 120];
+
 /**
  * Get the data for this season and add fields to the data for timeline processing
  * @param type season type ("constructed" or "limited")
  * @param seasonOrdinal Season number/id (optional)
  */
 function getSeasonData(
-  type: "constructed" | "limited" = "constructed",
+  type = "constructed",
   seasonOrdinal?: number
 ): SeasonalRankData[] {
   if (!seasonOrdinal) seasonOrdinal = playerData.rank[type].seasonOrdinal;
@@ -91,10 +104,10 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
 
   const newPointHeight = props.newRankNumeric
     ? height - props.newRankNumeric * 2
-    : 0;
+    : height;
   const oldwPointHeight = props.oldRankNumeric
     ? height - props.oldRankNumeric * 2
-    : 0;
+    : height;
   const rectPoints = `0 ${oldwPointHeight} ${width} ${newPointHeight} ${width} ${height} 0 ${height}`;
   const linePoints = `0 ${oldwPointHeight} ${width} ${newPointHeight}`;
 
@@ -112,6 +125,17 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
       }}
     >
       <svg width={width} height={height} version="1.1">
+        {RANK_HEIGHTS.map((h: number) => {
+          const hpos = height - h * 2;
+          return (
+            <polyline
+              key={"poly-" + h}
+              points={`0 ${hpos} ${width} ${hpos}`}
+              stroke="var(--color-light)"
+              strokeWidth="0.25"
+            />
+          );
+        })}
         <polygon points={rectPoints} strokeWidth="0" />
         <polyline points={linePoints} strokeWidth="1" />
       </svg>
@@ -164,16 +188,17 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
  */
 export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
-  const [hoverDeckId, setHoverDeckId] = React.useState("");
-  const [dimensions, setDimensions] = React.useState({
+  const [hoverDeckId, setHoverDeckId] = useState("");
+  const [dimensions, setDimensions] = useState({
     height: 300,
-    width: window.innerWidth
+    width: window.innerWidth - 108
   });
+  const [seasonType, setSeasonType] = useState("constructed");
 
-  // This should be a select
-  const seasonType = "constructed";
   // Notice we can see old seasons too adding the seasonOrdinal
-  const data: SeasonalRankData[] = getSeasonData(seasonType);
+  const data: SeasonalRankData[] = useMemo(() => getSeasonData(seasonType), [
+    seasonType
+  ]);
 
   const handleResize = useCallback((): void => {
     if (boxRef && boxRef.current) {
@@ -192,6 +217,12 @@ export default function TimelineTab(): JSX.Element {
     };
   }, [handleResize]);
 
+  useEffect(() => {
+    setTimeout(handleResize, 1);
+  }, [handleResize]);
+
+  const decklist = useMemo(() => playerData.deck(hoverDeckId), [hoverDeckId]);
+
   const drawingSeason = playerData.rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
 
@@ -199,24 +230,57 @@ export default function TimelineTab(): JSX.Element {
     <div className="ux_item">
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <div className="timeline-title">
-          Season {drawingSeason} -{" "}
-          {format(drawingSeasonDate as Date, "MMMM yyyy")}
+          <div>
+            Season {drawingSeason} -{" "}
+            {format(drawingSeasonDate as Date, "MMMM yyyy")}
+          </div>
+          <ReactSelect
+            options={["constructed", "limited"]}
+            current={seasonType}
+            callback={setSeasonType}
+          />
         </div>
-        <div className="timeline-box" ref={boxRef}>
-          {data.map((value: SeasonalRankData, index: number) => {
-            //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
-            //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
-            return (
-              <TimeLinePart
-                height={dimensions.height}
-                width={dimensions.width / data.length}
-                key={index}
-                hover={hoverDeckId}
-                setHover={setHoverDeckId}
-                {...value}
-              />
-            );
-          })}
+        <div style={{ display: "flex" }}>
+          <div className="timeline-box-labels">
+            <div className="timeline-label">#1</div>
+            <div className="timeline-label">Mythic</div>
+            <div className="timeline-label">Diamond</div>
+            <div className="timeline-label">Platinum</div>
+            <div className="timeline-label">Gold</div>
+            <div className="timeline-label">Silver</div>
+            <div className="timeline-label">Bronze</div>
+          </div>
+          <div className="timeline-box" ref={boxRef}>
+            {data.map((value: SeasonalRankData, index: number) => {
+              //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
+              //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
+              return (
+                <TimeLinePart
+                  height={dimensions.height}
+                  width={dimensions.width / data.length}
+                  key={index}
+                  hover={hoverDeckId}
+                  setHover={setHoverDeckId}
+                  {...value}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <div style={{ margin: "0 28px" }}>
+          <div style={{ maxWidth: "450px" }}>
+            {decklist ? (
+              <div className="card_lists_list">
+                <div className="decklist-name">{decklist.name}</div>
+                <div className="decklist-colors">
+                  <ManaCost class="mana_s20" colors={decklist.colors || []} />
+                </div>
+                <DeckList deck={new Deck(decklist)} />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
     </div>

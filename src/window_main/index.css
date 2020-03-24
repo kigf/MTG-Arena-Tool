@@ -4042,17 +4042,49 @@ a:hover {
 
 .timeline-box {
     display: flex;
-    margin: 30px;
+    width: calc(100% - 100px);
+    margin: 28px 28px 28px 0;
     border: 1px solid #ffffff40;
     background-color: #0000006e;
 }
 
+.timeline-box-labels {
+    width: 64px;
+    margin: 28px 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.timeline-label {
+    color: var(--color-light);
+    font-size: 14px;
+    text-align: right;
+    font-family: var(--main-font-name-it);
+}
+
 .timeline-title {
+    display: flex;
+    justify-content: space-evenly;
     font-family: var(--main-font-name);
     font-size: 16px;
     color: var(--color-light);
-    margin: 16px 32px 0 32px;
+    margin: 16px 28px 0 28px;
 }
+
+.decklist-name {
+    font-size: 17px;
+    color: var(--color-light);
+    text-align: center;
+    font-family: var(--main-font-name);
+}
+
+.decklist-colors {
+    display: flex;
+    margin: 7px 0 0 0;
+    justify-content: center;
+}
+
 .sort_asc {
     background-image: url(../images/icon_sort.png);
     background-size: cover;
