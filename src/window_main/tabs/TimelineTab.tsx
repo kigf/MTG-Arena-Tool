@@ -44,6 +44,7 @@ function getRankY(rank: string, tier: number, steps: number): number {
       value = 4 * 6 * 4;
       break;
     case "Mythic":
+      // Mythic + 30 = #1 in graph
       value = 4 * 6 * 5;
       break;
   }
@@ -215,6 +216,11 @@ export default function TimelineTab(): JSX.Element {
     seasonType
   ]);
 
+  const handleSetSeasonType = useCallback((type: string): void => {
+    setSeasonType(type);
+    setHoverPart(-1);
+  }, []);
+
   const handleResize = useCallback((): void => {
     if (boxRef && boxRef.current) {
       setDimensions({
@@ -243,6 +249,8 @@ export default function TimelineTab(): JSX.Element {
 
   const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1);
 
+  const match = playerData.match(data[hoverPart]?.lastMatchId);
+
   return (
     <div className="ux_item">
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -254,7 +262,7 @@ export default function TimelineTab(): JSX.Element {
           <ReactSelect
             options={["constructed", "limited"]}
             current={seasonType}
-            callback={setSeasonType}
+            callback={handleSetSeasonType}
           />
         </div>
         <div style={{ display: "flex" }}>
@@ -309,20 +317,36 @@ export default function TimelineTab(): JSX.Element {
             )}
           </div>
         </div>
-        <div style={{ margin: "0 28px" }}>
-          <div style={{ maxWidth: "450px" }}>
+        <div
+          style={{
+            margin: "0 28px",
+            display: "flex",
+            justifyContent: "space-between"
+          }}
+        >
+          <div
+            className="card_lists_list"
+            style={{ margin: "0", width: "50%" }}
+          >
             {decklist ? (
-              <div className="card_lists_list">
+              <>
                 <div className="decklist-name">{decklist.name}</div>
                 <div className="decklist-colors">
                   <ManaCost class="mana_s20" colors={decklist.colors || []} />
                 </div>
                 <DeckList deck={new Deck(decklist)} />
-              </div>
+              </>
             ) : (
               <></>
             )}
           </div>
+          {match ? (
+            <div>
+              <div>vs {match.opponent.name}</div>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

@@ -450,6 +450,10 @@ time, local-time, relative-time {
     background: url(../images/tab_collection.png);
 }
 
+.icon_7 {
+    background: url(../images/tab_timeline.png);
+}
+
 .top_nav_info {
     flex-grow: 1;
     display: flex;
