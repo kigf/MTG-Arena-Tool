@@ -166,7 +166,7 @@ export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
   const [hoverDeckId, setHoverDeckId] = React.useState("");
   const [dimensions, setDimensions] = React.useState({
-    height: window.innerHeight,
+    height: 300,
     width: window.innerWidth
   });
 
