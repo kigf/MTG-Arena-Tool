@@ -392,6 +392,24 @@ time, local-time, relative-time {
     background-position: 0px 0px;
 }
 
+.rank-bullets {
+    height: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rank-bullet-light {
+    background-image: url(../images/rank_bullet_light.png);
+    width: 8px;
+    height: 8px;
+}
+
+.rank-bullet-dark {
+    background-image: url(../images/rank_bullet_dark.png);
+    width: 8px;
+    height: 8px;
+}
+
 .top_nav {
     position: relative;
     align-items: stretch;
@@ -4034,7 +4052,7 @@ a:hover {
 }
 
 .timeline-rank {
-    position: absolute;
+    position: relative;
     align-items: center;
     justify-content: center;
     align-self: center;
@@ -4047,6 +4065,7 @@ a:hover {
 .timeline-box {
     display: flex;
     width: calc(100% - 100px);
+    overflow: hidden;
     margin: 28px 28px 8px 0;
     border: 1px solid #ffffff40;
     background-color: #0000006e;

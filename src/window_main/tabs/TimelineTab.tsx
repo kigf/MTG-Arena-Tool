@@ -14,6 +14,8 @@ import DeckList from "../components/misc/DeckList";
 import Deck from "../../shared/deck";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
+import ResultDetails from "../components/misc/ResultDetails";
+import RankIcon from "../components/misc/RankIcon";
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;
@@ -209,7 +211,9 @@ export default function TimelineTab(): JSX.Element {
     height: 300,
     width: window.innerWidth - 108
   });
-  const [seasonType, setSeasonType] = useState("constructed");
+  const [seasonType, setSeasonType] = useState<"constructed" | "limited">(
+    "constructed"
+  );
 
   // Notice we can see old seasons too adding the seasonOrdinal
   const data: SeasonalRankData[] = useMemo(() => getSeasonData(seasonType), [
@@ -217,7 +221,7 @@ export default function TimelineTab(): JSX.Element {
   ]);
 
   const handleSetSeasonType = useCallback((type: string): void => {
-    setSeasonType(type);
+    setSeasonType(type as "constructed" | "limited");
     setHoverPart(-1);
   }, []);
 
@@ -239,7 +243,7 @@ export default function TimelineTab(): JSX.Element {
   }, [handleResize]);
 
   useEffect(() => {
-    setTimeout(handleResize, 1);
+    setTimeout(handleResize, 10);
   }, [handleResize]);
 
   const decklist = useMemo(() => playerData.deck(hoverDeckId), [hoverDeckId]);
@@ -250,6 +254,9 @@ export default function TimelineTab(): JSX.Element {
   const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1);
 
   const match = playerData.match(data[hoverPart]?.lastMatchId);
+  const hData = data[hoverPart];
+
+  const won = match ? match.player.win > match.opponent.win : false;
 
   return (
     <div className="ux_item">
@@ -320,8 +327,7 @@ export default function TimelineTab(): JSX.Element {
         <div
           style={{
             margin: "0 28px",
-            display: "flex",
-            justifyContent: "space-between"
+            display: "flex"
           }}
         >
           <div
@@ -340,13 +346,65 @@ export default function TimelineTab(): JSX.Element {
               <></>
             )}
           </div>
-          {match ? (
-            <div>
-              <div>vs {match.opponent.name}</div>
-            </div>
-          ) : (
-            <></>
-          )}
+          <div
+            style={{
+              margin: "0 auto",
+              color: "var(--color-light)"
+            }}
+          >
+            {match ? (
+              <div
+                style={{
+                  color: "var(--color-light)",
+                  margin: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center"
+                }}
+              >
+                <div>vs. {match.opponent.name}</div>
+                <RankIcon
+                  format={seasonType}
+                  rank={match.opponent.rank}
+                  tier={match.opponent.tier}
+                  leaderboardPlace={match.opponent.leaderboardPlace || 0}
+                  percentile={match.opponent.percentile || 0}
+                />
+                <div
+                  style={{
+                    lineHeight: "32px",
+                    fontFamily: "var(--main-font-name-it}",
+                    fontSize: "18px"
+                  }}
+                  className={won ? "green" : "red"}
+                >
+                  {won ? "Win" : "Loss"}
+                </div>
+                <ResultDetails match={match} />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <RankIcon
+                    format={seasonType}
+                    rank={hData.oldClass}
+                    tier={hData.oldLevel}
+                    step={hData.oldStep}
+                    leaderboardPlace={0}
+                    percentile={0}
+                  />
+                  <div>{" > "}</div>
+                  <RankIcon
+                    format={seasonType}
+                    rank={hData.newClass}
+                    tier={hData.newLevel}
+                    step={hData.newStep}
+                    leaderboardPlace={0}
+                    percentile={0}
+                  />
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
     </div>
