@@ -206,7 +206,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
 export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
   const [hoverDeckId, setHoverDeckId] = useState("");
-  const [hoverPart, setHoverPart] = useState(-1);
+  const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
     height: 300,
     width: window.innerWidth - 108
@@ -390,7 +390,7 @@ export default function TimelineTab(): JSX.Element {
                     leaderboardPlace={0}
                     percentile={0}
                   />
-                  <div>{" > "}</div>
+                  <div className="rank-to-right" />
                   <RankIcon
                     format={seasonType}
                     rank={hData.newClass}

@@ -410,6 +410,14 @@ time, local-time, relative-time {
     height: 8px;
 }
 
+.rank-to-right {
+    background-image: url(../images/to_right.png);
+    width: 24px;
+    height: 24px;
+    background-position: center;
+    opacity: 0.8;
+}
+
 .top_nav {
     position: relative;
     align-items: stretch;
