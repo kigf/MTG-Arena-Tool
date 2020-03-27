@@ -3,7 +3,7 @@ import playerData from "../../shared/PlayerData";
 import globals from "../globals";
 import { setData } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
-import { RankUpdate, InternalRankUpdate } from "../../types/rank";
+import { RankUpdate } from "../../types/rank";
 
 interface Entry extends LogEntry {
   json: () => RankUpdate;
@@ -13,8 +13,10 @@ export default function RankUpdated(entry: Entry): void {
   const json = entry.json();
   if (!json) return;
 
-  const newJson: InternalRankUpdate = {
+  const newJson = {
     ...json,
+    owner: playerData.userName,
+    player: playerData.name,
     id: entry.hash,
     date: globals.logTime.toISOString(),
     timestamp: globals.logTime.getTime(),
@@ -36,7 +38,7 @@ export default function RankUpdated(entry: Entry): void {
   const seasonalRank = playerData.addSeasonalRank(
     newJson,
     newJson.seasonOrdinal,
-    updateType
+    updateType as "constructed" | "limited"
   );
 
   const httpApi = require("../httpApi");

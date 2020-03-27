@@ -28,6 +28,8 @@ export default function MythicRatingUpdated(entry: Entry): void {
   if (!json) return;
   const newJson = {
     ...json,
+    owner: playerData.userName,
+    player: playerData.name,
     date: json.timestamp,
     timestamp: parseWotcTimeFallback(json.timestamp).getTime(),
     lastMatchId: globals.currentMatch.matchId,
