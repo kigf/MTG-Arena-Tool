@@ -4,7 +4,7 @@ import { IncomingMessage } from "http";
 
 import playerData from "../shared/PlayerData";
 import globals from "./globals";
-import { ipc_send as ipcSend, setData } from "./backgroundUtil";
+import { ipcSend, setData } from "./backgroundUtil";
 
 const serverAddress = "mtgatool.com";
 

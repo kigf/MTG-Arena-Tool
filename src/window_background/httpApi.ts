@@ -8,7 +8,7 @@ import playerData from "../shared/PlayerData";
 import db from "../shared/database";
 import { appDb, playerDb } from "../shared/db/LocalDatabase";
 
-import { ipc_send as ipcSend, setData } from "./backgroundUtil";
+import { ipcSend, setData } from "./backgroundUtil";
 import { loadPlayerConfig, syncSettings } from "./loadPlayerConfig";
 import {
   asyncWorker,
@@ -215,7 +215,7 @@ function handleAuthResponse(
   syncSettings({ token: parsedResult.token }, false);
 
   ipcSend("auth", parsedResult);
-  //ipc_send("auth", parsedResult.arenaids);
+  //ipcSend("auth", parsedResult.arenaids);
   if (playerData.settings.remember_me) {
     appDb.upsert("", "token", parsedResult.token);
     appDb.upsert("", "email", playerData.userName);

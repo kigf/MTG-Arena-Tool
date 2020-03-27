@@ -1,16 +1,17 @@
 import { shell } from "electron";
 import _ from "lodash";
 import { IPC_BACKGROUND, IPC_OVERLAY } from "../shared/constants";
+import { ipcSend, setData } from "./backgroundUtil";
+import globals from "./globals";
+
 import { playerDb, playerDbLegacy } from "../shared/db/LocalDatabase";
 import playerData from "../shared/PlayerData";
-import { isV2CardsList } from "../types/Deck";
+import { isV2CardsList, ArenaV3Deck } from "../types/Deck";
 import arenaLogWatcher from "./arena-log-watcher";
-import { ipc_send as ipcSend, setData } from "./backgroundUtil";
-import globals from "./globals";
-import { convertDeckFromV3 } from "./labels";
+import convertDeckFromV3 from "./convertDeckFromV3";
 
-const ipcLog = message => ipcSend("ipc_log", message);
-const ipcPop = args => ipcSend("popup", args);
+const ipcLog = (message: string): void => ipcSend("ipc_log", message);
+const ipcPop = (args: any): void => ipcSend("popup", args);
 
 // Merges settings and updates singletons across processes
 // (essentially fancy setData for settings field only)
@@ -18,73 +19,19 @@ const ipcPop = args => ipcSend("popup", args);
 export function syncSettings(
   dirtySettings = {},
   refresh = globals.debugLog || !globals.firstPass
-) {
+): void {
   const settings = { ...playerData.settings, ...dirtySettings };
   setData({ settings }, refresh);
   if (refresh) ipcSend("set_settings", JSON.stringify(settings));
 }
 
-async function fixBadPlayerData() {
-  // 2020-01-17 discovered with @Thaoden that some old draft decks might be v3
-  // probably caused by a bad label handler that was temporarily on stable
-  const decks = { ...playerData.decks };
-  for (const deck of playerData.deckList) {
-    if (!isV2CardsList(deck.mainDeck)) {
-      ipcLog("Converting v3 deck: " + deck.id);
-      const fixedDeck = convertDeckFromV3(deck);
-      decks[deck.id] = fixedDeck;
-      await playerDb.upsert("decks", deck.id, fixedDeck);
-    }
-  }
-  setData({ decks }, false);
-}
-
-// Loads this player's configuration file
-export async function loadPlayerConfig(playerId) {
-  ipcLog("Load player ID: " + playerId);
-  ipcPop({ text: "Loading player history...", time: 0, progress: 2 });
-  playerDb.init(playerId, playerData.name);
-  playerDbLegacy.init(playerId, playerData.name);
-  setData({ playerDbPath: playerDb.filePath }, false);
-  ipcLog("Player database: " + playerDb.filePath);
-
-  await migrateIfNecessary();
-
-  ipcLog("Finding all documents in player database...");
-  const savedData = await playerDb.findAll();
-  const __playerData = _.defaultsDeep(savedData, playerData);
-  const { settings } = __playerData;
-  setData(__playerData, true);
-  await fixBadPlayerData();
-  ipcSend("renderer_set_bounds", __playerData.windowBounds);
-  syncSettings(settings, true);
-
-  // populate draft overlays with last draft if possible
-  if (playerData.draftList.length) {
-    const lastDraft = playerData.draftList[playerData.draftList.length - 1];
-    ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
-  }
-
-  ipcLog("...found all documents in player database.");
-  ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });
-
-  // Only if watcher is not initialized
-  // Could happen when using multi accounts
-  if (globals.watchingLog == false) {
-    globals.watchingLog = true;
-    ipcLog("Starting Arena Log Watcher: " + settings.logUri);
-    globals.stopWatchingLog = arenaLogWatcher.startWatchingLog(settings.logUri);
-    ipcLog("Calling back to http-api...");
-  }
-}
-
-function ipcUpgradeProgress(progress) {
+function ipcUpgradeProgress(progress: number): void {
   const percent = Math.round(100 * progress);
   const text = `Upgrading player database... ${percent}% (happens once, could take minutes)`;
   ipcPop({ text, time: 0, progress });
 }
 
-async function migrateIfNecessary() {
+async function migrateIfNecessary(): Promise<void> {
   ipcLog("Checking if database requires upgrade...");
   try {
     const legacyData = await playerDbLegacy.find("", "cards");
@@ -124,7 +71,65 @@ async function migrateIfNecessary() {
   }
 }
 
-export function backportNeDbToElectronStore() {
+async function fixBadPlayerData(): Promise<void> {
+  // 2020-01-17 discovered with @Thaoden that some old draft decks might be v3
+  // probably caused by a bad label handler that was temporarily on stable
+  const decks = { ...playerData.decks };
+  for (const deck of playerData.deckList) {
+    if (!isV2CardsList(deck.mainDeck)) {
+      ipcLog("Converting v3 deck: " + deck.id);
+      const fixedDeck = convertDeckFromV3((deck as unknown) as ArenaV3Deck);
+      decks[deck.id] = fixedDeck;
+      await playerDb.upsert("decks", deck.id, fixedDeck);
+    }
+  }
+
+  // 2020-01-27 @Manwe discovered that some old decks are saved as Deck objects
+  // TODO permanently convert them similar to approach used above
+
+  setData({ decks }, false);
+}
+
+// Loads this player's configuration file
+export async function loadPlayerConfig(playerId: string): Promise<void> {
+  ipcLog("Load player ID: " + playerId);
+  ipcPop({ text: "Loading player history...", time: 0, progress: 2 });
+  playerDb.init(playerId, playerData.name);
+  playerDbLegacy.init(playerId, playerData.name);
+  setData({ playerDbPath: playerDb.filePath }, false);
+  ipcLog("Player database: " + playerDb.filePath);
+
+  await migrateIfNecessary();
+
+  ipcLog("Finding all documents in player database...");
+  const savedData = await playerDb.findAll();
+  const __playerData = _.defaultsDeep(savedData, playerData);
+  const { settings } = __playerData;
+  setData(__playerData, true);
+  await fixBadPlayerData();
+  ipcSend("renderer_set_bounds", __playerData.windowBounds);
+  syncSettings(settings, true);
+
+  // populate draft overlays with last draft if possible
+  if (playerData.draftList.length) {
+    const lastDraft = playerData.draftList[playerData.draftList.length - 1];
+    ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
+  }
+
+  ipcLog("...found all documents in player database.");
+  ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });
+
+  // Only if watcher is not initialized
+  // Could happen when using multi accounts
+  if (globals.watchingLog == false) {
+    globals.watchingLog = true;
+    ipcLog("Starting Arena Log Watcher: " + settings.logUri);
+    globals.stopWatchingLog = arenaLogWatcher.startWatchingLog(settings.logUri);
+    ipcLog("Calling back to http-api...");
+  }
+}
+
+export function backportNeDbToElectronStore(): void {
   ipcLog("Backporting player database...");
   playerDbLegacy.upsertAll(playerData.data).then(num => {
     ipcLog(`...backported ${num} records from nedb to electron-store`);

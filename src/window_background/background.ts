@@ -1,34 +1,37 @@
-import _ from "lodash";
-import { app, remote, ipcRenderer as ipc } from "electron";
-import path from "path";
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { app, ipcRenderer as ipc, remote } from "electron";
 import fs from "fs";
-import sha1 from "js-sha1";
-import * as httpApi from "./httpApi";
-import { appDb, playerDb } from "../shared/db/LocalDatabase";
+import _ from "lodash";
+import path from "path";
+import { HIDDEN_PW } from "../shared/constants";
 import { rememberDefaults } from "../shared/db/databaseUtil";
+import { appDb, playerDb } from "../shared/db/LocalDatabase";
 import playerData from "../shared/PlayerData";
 import { getReadableFormat } from "../shared/util";
-import { HIDDEN_PW, MAIN_DECKS } from "../shared/constants";
-import { ipc_send, setData, unleakString } from "./backgroundUtil";
-import { createDeck } from "./data";
-import * as mtgaLog from "./mtgaLog";
-import globals from "./globals";
+import { InternalDeck } from "../types/Deck";
 import addCustomDeck from "./addCustomDeck";
-import forceDeckUpdate from "./forceDeckUpdate";
 import arenaLogWatcher from "./arena-log-watcher";
+import { ipcSend, setData, unleakString } from "./backgroundUtil";
+import { createDeck } from "./data";
+import forceDeckUpdate from "./forceDeckUpdate";
+import globals from "./globals";
+import * as httpApi from "./httpApi";
 import {
   backportNeDbToElectronStore,
   loadPlayerConfig,
   syncSettings
 } from "./loadPlayerConfig";
-import update_deck from "./updateDeck";
+import * as mtgaLog from "./mtgaLog";
+import updateDeck from "./updateDeck";
 
 if (!remote.app.isPackaged) {
   const { openNewGitHubIssue, debugInfo } = require("electron-util");
   const unhandled = require("electron-unhandled");
   unhandled({
     showDialog: true,
-    reportButton: error => {
+    reportButton: (error: any) => {
       openNewGitHubIssue({
         user: "Manuel-777",
         repo: "MTG-Arena-Tool",
@@ -50,12 +53,14 @@ if (!fs.existsSync(globals.actionLogDir)) {
   fs.mkdirSync(globals.actionLogDir);
 }
 
-globals.toolVersion = (app || remote.app)
-  .getVersion()
-  .split(".")
-  .reduce((acc, cur) => +acc * 256 + +cur);
+globals.toolVersion = parseInt(
+  (app || remote.app)
+    .getVersion()
+    .split(".")
+    .reduce((acc, cur) => +acc * 256 + +cur + "")
+);
 
-let logLoopInterval = null;
+let logLoopInterval: number | undefined = undefined;
 const debugArenaID = undefined;
 
 //
@@ -86,7 +91,7 @@ ipc.on("save_app_settings_norefresh", function(event, arg) {
   });
 });
 
-function fixBadSettingsData() {
+function fixBadSettingsData(): void {
   appDb.find("", "settings").then(appSettings => {
     // First introduced in 2.8.4 (2019-07-25)
     // Some people's date formats are set to "undefined"
@@ -140,7 +145,7 @@ ipc.on("start_background", async function() {
     rememberDefaults.settings
   );
   syncSettings(settings, false);
-  ipc_send("initial_settings", settings);
+  ipcSend("initial_settings", settings);
 
   // start initial log parse
   logLoopInterval = window.setInterval(attemptLogLoop, 250);
@@ -148,18 +153,18 @@ ipc.on("start_background", async function() {
   // start http
   httpApi.initHttpQueue();
   httpApi.httpGetDatabaseVersion(settings.metadata_lang);
-  ipc_send("ipc_log", `Downloading metadata ${settings.metadata_lang}`);
+  ipcSend("ipc_log", `Downloading metadata ${settings.metadata_lang}`);
 });
 
-function offlineLogin() {
-  ipc_send("auth", { ok: true, user: -1 });
+function offlineLogin(): void {
+  ipcSend("auth", { ok: true, user: -1 });
   loadPlayerConfig(playerData.arenaId);
   setData({ userName: "", offline: true });
 }
 
 //
 ipc.on("login", function(event, arg) {
-  ipc_send("begin_login", {});
+  ipcSend("begin_login", {});
   if (arg.password == HIDDEN_PW) {
     httpApi.httpAuth(arg.username, arg.password);
   } else if (arg.username === "" && arg.password === "") {
@@ -256,8 +261,9 @@ ipc.on("import_custom_deck", function(event, arg) {
 //
 ipc.on("toggle_deck_archived", function(event, arg) {
   const id = arg;
-  if (!playerData.deckExists(id)) return;
-  const deckData = { ...playerData.deck(id) };
+  const deck = playerData.deck(id);
+  if (!deck) return;
+  const deckData: InternalDeck = { ...deck };
   deckData.archived = !deckData.archived;
   const decks = { ...playerData.decks, [id]: deckData };
 
@@ -268,7 +274,7 @@ ipc.on("toggle_deck_archived", function(event, arg) {
 //
 ipc.on("toggle_archived", function(event, arg) {
   const id = arg;
-  const item = playerData[id];
+  const item = (playerData as Record<string, any>)[id];
   if (!item) return;
   const data = { ...item };
   data.archived = !data.archived;
@@ -279,7 +285,7 @@ ipc.on("toggle_archived", function(event, arg) {
 
 ipc.on("request_explore", function(event, arg) {
   if (playerData.userName === "") {
-    ipc_send("offline", 1);
+    ipcSend("offline", 1);
   } else {
     httpApi.httpGetExplore(arg);
   }
@@ -291,7 +297,7 @@ ipc.on("request_course", function(event, arg) {
 
 ipc.on("request_home", (event, set) => {
   if (playerData.userName === "") {
-    ipc_send("offline", 1);
+    ipcSend("offline", 1);
   } else {
     httpApi.httpHomeGet(set);
   }
@@ -362,9 +368,9 @@ ipc.on("add_matches_tag", (event, arg) => {
 });
 
 ipc.on("set_odds_samplesize", function(event, state) {
-  globals.odds_sample_size = state;
+  globals.oddsSampleSize = state;
   forceDeckUpdate(false);
-  update_deck(true);
+  updateDeck(true);
 });
 
 // Set a new log URI
@@ -384,43 +390,44 @@ ipc.on("set_log", function(event, arg) {
 // Set variables to default first
 let prevLogSize = 0;
 
-function sendSettings() {
-  let tags_colors = playerData.tags_colors;
-  let settingsData = { tags_colors };
+function sendSettings(): void {
+  const tags_colors = playerData.tags_colors;
+  const settingsData = { tags_colors };
   httpApi.httpSetSettings(settingsData);
 }
 
 // Old parser
-async function attemptLogLoop() {
+async function attemptLogLoop(): Promise<void> {
   try {
     await logLoop();
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   }
 }
 
 // Basic logic for reading the log file
-async function logLoop() {
+async function logLoop(): Promise<void> {
   const logUri = playerData.settings.logUri;
   //console.log("logLoop() start");
-  //ipc_send("ipc_log", "logLoop() start");
+  //ipcSend("ipc_log", "logLoop() start");
   if (fs.existsSync(logUri)) {
     if (fs.lstatSync(logUri).isDirectory()) {
-      ipc_send("no_log", logUri);
-      ipc_send("popup", {
+      ipcSend("no_log", logUri);
+      ipcSend("popup", {
         text: "No log file found. Please include the file name too.",
         time: 1000
       });
       return;
     }
   } else {
-    ipc_send("no_log", logUri);
-    ipc_send("popup", { text: "No log file found.", time: 1000 });
+    ipcSend("no_log", logUri);
+    ipcSend("popup", { text: "No log file found.", time: 1000 });
     return;
   }
 
   if (!globals.firstPass) {
-    ipc_send("log_read", 1);
+    ipcSend("log_read", 1);
   }
   /*
   if (globals.debugLog) {
@@ -451,17 +458,17 @@ async function logLoop() {
   // Process only the user data for initial loading (prior to log in)
   // Same logic as processLog() but without the processLogData() function
   const rawString = logSegment;
-  var splitString = rawString.split("[UnityCrossThread");
-  const parsedData = {};
+  const splitString = rawString.split("[UnityCrossThread");
+  const parsedData: Record<string, string> = {};
 
   let detailedLogs = true;
   splitString.forEach(value => {
-    //ipc_send("ipc_log", "Async: ("+index+")");
+    //ipcSend("ipc_log", "Async: ("+index+")");
 
     // Check if logs are disabled
     let strCheck = "DETAILED LOGS: DISABLED";
     if (value.includes(strCheck)) {
-      ipc_send("popup", {
+      ipcSend("popup", {
         text: `Detailed logs disabled.
 1) Open Arena (the game by WotC)
 2) Go to the settings screen in Arena
@@ -476,9 +483,8 @@ async function logLoop() {
     // Get player Id
     strCheck = '\\"playerId\\": \\"';
     if (value.includes(strCheck) && parsedData.arenaId == undefined) {
-      parsedData.arenaId = debugArenaID
-        ? debugArenaID
-        : unleakString(dataChop(value, strCheck, '\\"'));
+      parsedData.arenaId =
+        debugArenaID ?? unleakString(dataChop(value, strCheck, '\\"'));
     }
 
     // Get User name
@@ -494,29 +500,29 @@ async function logLoop() {
     }
     /*
     if (globals.firstPass) {
-      ipc_send("popup", {"text": "Reading: "+Math.round(100/splitString.length*index)+"%", "time": 1000});
+      ipcSend("popup", {"text": "Reading: "+Math.round(100/splitString.length*index)+"%", "time": 1000});
     }
     */
   });
 
   if (!detailedLogs) return;
 
-  for (let key in parsedData) {
-    ipc_send("ipc_log", `Initial log parse: ${key}=${parsedData[key]}`);
+  for (const key in parsedData) {
+    ipcSend("ipc_log", `Initial log parse: ${key}=${parsedData[key]}`);
   }
   setData(parsedData, false);
 
   prevLogSize = size;
 
   if (!playerData.arenaId || !playerData.name) {
-    ipc_send("popup", {
+    ipcSend("popup", {
       text: "output_log.txt contains no player data",
       time: 0
     });
     return;
   }
 
-  ipc_send("popup", {
+  ipcSend("popup", {
     text: "Found Arena log for " + playerData.name,
     time: 0
   });
@@ -532,23 +538,23 @@ async function logLoop() {
     }
   }
 
-  ipc_send("prefill_auth_form", {
+  ipcSend("prefill_auth_form", {
     username,
     password,
     remember_me
   });
 
   if (auto_login) {
-    ipc_send("toggle_login", false);
+    ipcSend("toggle_login", false);
     if (remember_me && username && token) {
-      ipc_send("popup", {
+      ipcSend("popup", {
         text: "Logging in automatically...",
         time: 0,
         progress: 2
       });
       httpApi.httpAuth(username, HIDDEN_PW);
     } else {
-      ipc_send("popup", {
+      ipcSend("popup", {
         text: "Launching offline mode automatically...",
         time: 0,
         progress: 2
@@ -559,9 +565,9 @@ async function logLoop() {
 }
 
 // Cuts the string "data" between first ocurrences of the two selected words "startStr" and "endStr";
-function dataChop(data, startStr, endStr) {
-  var start = data.indexOf(startStr) + startStr.length;
-  var end = data.length;
+function dataChop(data: string, startStr: string, endStr: string): string {
+  let start = data.indexOf(startStr) + startStr.length;
+  let end = data.length;
   data = data.substring(start, end);
 
   if (endStr != "") {

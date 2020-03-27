@@ -6,6 +6,26 @@ import {
   matchDataDefault,
   MatchGameStats
 } from "../types/currentMatch";
+import { InternalDraft } from "../types/draft";
+
+export const InternalDraftDefault: InternalDraft = {
+  PlayerId: null,
+  InternalEventName: "",
+  eventId: "",
+  id: "",
+  draftId: "",
+  set: "",
+  owner: "",
+  player: "",
+  pickedCards: [],
+  packNumber: 0,
+  pickNumber: 0,
+  currentPack: [],
+  CardPool: [],
+  CourseDeck: null,
+  date: "",
+  type: "draft"
+};
 
 // Hey! If you're here, you might be thinking of adding stuff to this file.
 // Don't. This is a shadowy place. You must never go here.
@@ -13,6 +33,8 @@ import {
 // and put them into stores or better structures than a giant export list.
 
 let actionLogDir = "";
+
+let currentDraft = InternalDraftDefault;
 
 let currentDeck = new Deck();
 
@@ -44,7 +66,7 @@ let matchGameStats: MatchGameStats[] = [];
 
 let originalDeck: Deck = new Deck();
 
-let odds_sample_size = 1;
+let oddsSampleSize = 1;
 
 let toolVersion = 0;
 
@@ -58,6 +80,7 @@ let currentMatch: MatchData = matchDataDefault;
 
 export default {
   actionLogDir,
+  currentDraft,
   currentDeck,
   currentMatch,
   debugLog,
@@ -73,7 +96,7 @@ export default {
   logTime,
   matchCompletedOnGameNumber,
   matchGameStats,
-  odds_sample_size,
+  oddsSampleSize,
   cardTypesByZone,
   originalDeck,
   stopWatchingLog,

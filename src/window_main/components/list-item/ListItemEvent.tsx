@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { TableViewRowProps } from "../tables/types";
 import { EventTableData } from "../events/types";
 import ManaCost from "../misc/ManaCost";
@@ -23,6 +23,7 @@ import { compareDesc } from "date-fns";
 import { useDispatch } from "react-redux";
 import { rendererSlice } from "../../../shared/redux/reducers";
 import { InternalMatch } from "../../../types/match";
+import { InternalDraft } from "../../../types/draft";
 import uxMove from "../../uxMove";
 
 function DraftRares({ event }: { event: EventTableData }): JSX.Element {
@@ -30,17 +31,18 @@ function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   let draftRares: JSX.Element[] = [];
   if (pd.draftExists(draftId)) {
     const draft = pd.draft(draftId);
-    draftRares = [
-      ...draft.pickedCards
-        .map((cardId: number) => db.card(cardId))
+    if (draft) {
+      const pool = [...draft.CardPool];
+      draftRares = pool
+        .map((cardId: string | number) => db.card(cardId))
         .filter(
-          (card: DbCardData) =>
-            (card && card.rarity == "rare") || card.rarity == "mythic"
+          (card: DbCardData | undefined) =>
+            card && (card.rarity == "rare" || card.rarity == "mythic")
         )
-        .map((card: DbCardData, index: number) => {
-          return <RoundCard key={index} card={card}></RoundCard>;
-        })
-    ];
+        .map((card: DbCardData | undefined, index: number) => {
+          return card ? <RoundCard key={index} card={card}></RoundCard> : <></>;
+        });
+    }
   }
   return (
     <div
@@ -170,6 +172,8 @@ function EventSubRows({
     [dispatcher]
   );
 
+  // This will be set on first render, no need to update state again
+  const initialDraft = useRef<InternalDraft | undefined>(undefined);
   const matchRows: InternalMatch[] = React.useMemo(() => {
     if (!expanded) {
       return [];
@@ -181,31 +185,31 @@ function EventSubRows({
       if (!a || !b) return 0;
       return compareDesc(new Date(a.date), new Date(b.date));
     });
-    if (pd.draftExists(draftId)) {
-      matchRows.unshift(pd.draft(draftId));
-    }
+
+    initialDraft.current = pd.draft(draftId);
     return matchRows;
-  }, [draftId, event.stats.matchIds, expanded]);
+  }, [draftId, event.stats.matchIds, expanded, initialDraft]);
 
   const style = expanded ? { height: matchRows.length * 64 + "px" } : {};
 
   return (
     <div style={style} className="list_event_expand">
+      {initialDraft.current ? (
+        <ListItemDraft
+          key={initialDraft.current.id}
+          draft={initialDraft.current}
+          openDraftCallback={openDraft}
+        />
+      ) : null}
       {matchRows.map(match => {
         return match.type == "match" ? (
           <ListItemMatch
             key={match.id}
             tags={match.tags}
-            match={match}
+            match={match as InternalMatch}
             openMatchCallback={openMatch}
           />
-        ) : (
-          <ListItemDraft
-            key={match.id}
-            draft={match}
-            openDraftCallback={openDraft}
-          />
-        );
+        ) : null;
       })}
     </div>
   );

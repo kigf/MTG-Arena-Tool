@@ -212,6 +212,11 @@ export const matchDataDefault: MatchData = {
   }
 };
 
+export interface DeckChanges {
+  added: number[];
+  removed: number[];
+}
+
 export interface MatchGameStats {
   time: number;
   winner: number;
@@ -230,9 +235,6 @@ export interface MatchGameStats {
   librarySize: number;
   landsInLibrary: number;
   libraryLands: number[];
-  sideboardChanges: {
-    added: string[];
-    removed: string[];
-  };
+  sideboardChanges: DeckChanges;
   deck: InternalDeck;
 }

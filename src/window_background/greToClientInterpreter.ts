@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { IPC_OVERLAY } from "../shared/constants";
 import { objectClone } from "../shared/util";
-import { ipc_send } from "./backgroundUtil";
+import { ipcSend } from "./backgroundUtil";
 import Deck from "../shared/deck";
 import globals from "./globals";
 import actionLog from "./actionLog";
 import db from "../shared/database";
 import forceDeckUpdate from "./forceDeckUpdate";
 import getNameBySeat from "./getNameBySeat";
-import update_deck from "./updateDeck";
+import updateDeck from "./updateDeck";
 import {
   GreMessage,
   AnnotationType,
@@ -571,7 +571,7 @@ function getOppUsedCards(): number[] {
   return cardsUsed;
 }
 
-function onlyUnique(value: any, index: number, self: any): boolean {
+function onlyUnique(value: string, index: number, self: string[]): boolean {
   return self.indexOf(value) === index;
 }
 
@@ -710,7 +710,7 @@ GREMessages.GREMessageType_ConnectResp = function(msg: GreMessage): void {
     msg.connectResp?.deckMessage.deckCards &&
     globals.currentMatch.player.originalDeck == null
   ) {
-    const deck = new Deck({}, msg.connectResp.deckMessage.deckCards);
+    const deck = new Deck(undefined, msg.connectResp.deckMessage.deckCards);
     globals.currentMatch.player.originalDeck = deck;
     globals.currentMatch.player.deck = deck.clone();
     globals.currentMatch.playerCardsLeft = deck.clone();
@@ -816,7 +816,7 @@ function checkTurnDiff(turnInfo: TurnInfo): void {
   }
 
   if (!globals.firstPass) {
-    ipc_send(
+    ipcSend(
       "set_turn",
       {
         playerSeat: globals.currentMatch.player.seat,
@@ -909,7 +909,7 @@ GREMessages.GREMessageType_GameStateMessage = function(msg: GreMessage): void {
 
   globals.currentMatch.playerCardsLeft = globals.currentMatch.player.deck.clone();
   forceDeckUpdate();
-  update_deck(false);
+  updateDeck(false);
 };
 
 GREMessages.GREMessageType_DieRollResultsResp = function(msg): void {

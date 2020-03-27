@@ -312,7 +312,7 @@ export function get_deck_colors(deck: InternalDeck): number[] {
   return colorIndices;
 }
 
-export function get_wc_missing(
+export function getWildcardsMissing(
   deck: Deck,
   grpid: number,
   isSideboard?: boolean
@@ -369,8 +369,8 @@ export function get_wc_missing(
 }
 
 export function getCardsMissingCount(deck: Deck, grpid: number): number {
-  const mainMissing = get_wc_missing(deck, grpid, false);
-  const sideboardMissing = get_wc_missing(deck, grpid, true);
+  const mainMissing = getWildcardsMissing(deck, grpid, false);
+  const sideboardMissing = getWildcardsMissing(deck, grpid, true);
   return mainMissing + sideboardMissing;
 }
 

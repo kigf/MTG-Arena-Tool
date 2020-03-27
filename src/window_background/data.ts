@@ -9,58 +9,10 @@ import { MatchData, matchDataDefault } from "../types/currentMatch";
 import { InternalMatch } from "../types/match";
 import getOpponentDeck from "./getOpponentDeck";
 import globals from "./globals";
+import { EntryJson as MatchCreatedEvent } from "./onLabel/EventMatchCreated";
 
 // Generate objects using default templates.
 // Nothing in here should call IPC functions
-
-export interface MatchCreatedEvent {
-  controllerFabricUri: string;
-  matchEndpointHost: string;
-  matchEndpointPort: number;
-  opponentScreenName: string;
-  opponentIsWotc: boolean;
-  matchId: string;
-  opponentRankingClass: string;
-  opponentRankingTier: number;
-  opponentMythicPercentile: number;
-  opponentMythicLeaderboardPlace: number;
-  eventId: string;
-  opponentAvatarSelection: string;
-  opponentCardBackSelection: string;
-  opponentPetSelection: { name: string; variant: string };
-  avatarSelection: string;
-  cardbackSelection: string;
-  petSelection: { name: string; variant: string };
-  battlefield: string;
-  opponentCommanderGrpIds: number[];
-  commanderGrpIds: number[];
-}
-
-// Draft Creation
-
-const currentDraftDefault = {
-  eventId: "",
-  draftId: "",
-  set: "",
-  owner: "",
-  pickedCards: [],
-  packNumber: 0,
-  pickNumber: 0,
-  currentPack: [],
-  date: undefined
-};
-
-export function createDraft(id: string) {
-  const data = {
-    ..._.cloneDeep(currentDraftDefault),
-    id,
-    draftId: id,
-    owner: playerData.name
-  };
-  return data;
-}
-
-// Match Creation
 export function createMatch(
   json: MatchCreatedEvent,
   matchBeginTime: Date

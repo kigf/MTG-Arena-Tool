@@ -1,17 +1,17 @@
 import globals from "./globals";
 import { IPC_OVERLAY } from "../shared/constants";
-import { ipc_send } from "./backgroundUtil";
+import { ipcSend } from "./backgroundUtil";
 import forceDeckUpdate from "./forceDeckUpdate";
 import getOpponentDeck from "./getOpponentDeck";
 import { objectClone } from "../shared/util";
 
-var lastDeckUpdate = new Date();
+const lastDeckUpdate = new Date();
 
-function update_deck(force) {
-  var nd = new Date();
+function updateDeck(force: boolean): void {
+  const nd = new Date();
   if (
     (globals.debugLog || force || !globals.firstPass) &&
-    nd - lastDeckUpdate > 1000
+    nd.getTime() - lastDeckUpdate.getTime() > 1000
   ) {
     forceDeckUpdate();
 
@@ -30,8 +30,8 @@ function update_deck(force) {
     delete currentMatchCopy.processedAnnotations;
     delete currentMatchCopy.zones;
     currentMatchCopy = JSON.stringify(currentMatchCopy);
-    ipc_send("set_match", currentMatchCopy, IPC_OVERLAY);
+    ipcSend("set_match", currentMatchCopy, IPC_OVERLAY);
   }
 }
 
-export default update_deck;
+export default updateDeck;

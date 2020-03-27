@@ -60,7 +60,7 @@ function getBestArchetype(deck: Deck): string {
 }
 
 function getOpponentDeck(): InternalDeck {
-  const _deck = new Deck({}, globals.currentMatch.oppCardsUsed, []);
+  const _deck = new Deck(undefined, globals.currentMatch.oppCardsUsed, []);
   _deck.getMainboard().removeDuplicates(true);
   _deck.colors;
 

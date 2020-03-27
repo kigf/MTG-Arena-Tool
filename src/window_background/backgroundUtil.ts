@@ -9,8 +9,12 @@ import { IPC_BACKGROUND, IPC_MAIN, IPC_OVERLAY } from "../shared/constants";
 import playerData from "../shared/PlayerData";
 import globals from "./globals";
 
+import { create, all, MathJsStatic } from "mathjs";
+const config = { precision: 2000 };
+const math: MathJsStatic = create(all, config) as MathJsStatic;
+
 // Begin of IPC messages recievers
-export function ipc_send(method: string, arg?: any, to = IPC_MAIN): void {
+export function ipcSend(method: string, arg?: any, to = IPC_MAIN): void {
   if (method == "ipc_log") {
     //
   }
@@ -103,10 +107,23 @@ export function parseWotcTimeFallback(dateStr: string): Date {
   }
 }
 
+export function parseLogTimestamp(numb: string | number): Date {
+  const normalEpoch: any = math.divide(
+    math.subtract(
+      math.bignumber(parseInt(numb + "")),
+      math.bignumber(621355968000000000)
+    ),
+    math.bignumber(10 * 1000)
+  );
+
+  const date = new Date(math.floor(math.number(normalEpoch) as any));
+  return date;
+}
+
 export function updateLoading(entry: any): void {
   if (globals.firstPass) {
     const completion = entry.position / entry.size;
-    ipc_send("popup", {
+    ipcSend("popup", {
       text: `Reading log: ${Math.round(100 * completion)}%`,
       time: 0,
       progress: completion
@@ -161,8 +178,10 @@ export function setData(
   const cleanData = _.omit(data, dataBlacklist);
 
   playerData.handleSetData(null, JSON.stringify(cleanData));
-  ipc_send("set_player_data", JSON.stringify(cleanData), IPC_MAIN);
+  ipcSend("set_player_data", JSON.stringify(cleanData), IPC_MAIN);
 
   const overlayData = _.pick(cleanData, overlayWhitelist);
-  ipc_send("set_player_data", JSON.stringify(overlayData), IPC_OVERLAY);
+  // This was left out in develop ?
+  // if (refresh) ipcSend("player_data_refresh");
+  ipcSend("set_player_data", JSON.stringify(overlayData), IPC_OVERLAY);
 }

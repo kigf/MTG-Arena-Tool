@@ -1,10 +1,6 @@
 import Deck from "../shared/deck";
 import { CardObject } from "../types/Deck";
-
-interface DeckChanges {
-  added: number[];
-  removed: number[];
-}
+import { DeckChanges } from "../types/currentMatch";
 
 export function getDeckChanges(
   newDeck: Deck,

@@ -31,16 +31,20 @@ export interface InternalEvent {
   custom: boolean;
   date: string;
   InternalEventName: string;
-  ModuleInstanceData: {
-    WinLossGate?: WinLossGate;
-    WinNoGate?: WinNoGate;
-  };
+  ModuleInstanceData: ModuleInstanceData;
   type: "Event";
 }
 
 export interface ModuleInstanceData {
   HasPaidEntry?: string;
   DeckSelected?: boolean;
+  DraftInfo?: {
+    DraftId: string;
+  };
+  DraftComplete?: boolean;
+  HasGranted?: boolean;
+  WinLossGate?: WinLossGate;
+  WinNoGate?: WinNoGate;
 }
 
 export interface PlayerCourse {
@@ -50,8 +54,8 @@ export interface PlayerCourse {
   ModuleInstanceData: ModuleInstanceData;
   CurrentEventState: string;
   CurrentModule: string;
-  CardPool: number[] | null;
-  CourseDeck: ArenaV3Deck;
+  CardPool: null | number[];
+  CourseDeck: null | ArenaV3Deck;
   PreviousOpponents: string[];
 }
 

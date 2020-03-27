@@ -17,9 +17,10 @@ import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
 import { toggleArchived } from "../../rendererUtil";
 import { getReadableEvent } from "../../../shared/util";
+import { InternalDraft } from "../../../types/draft";
 
 interface ListItemDraftProps {
-  draft: any;
+  draft: InternalDraft;
   openDraftCallback: (id: string) => void;
 }
 
@@ -67,15 +68,21 @@ export default function ListItemDraft({
         style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
         className="list_item_center"
       >
-        {draft.pickedCards
-          .map((cardId: number) => db.card(cardId))
-          .filter(
-            (card: DbCardData) =>
-              (card && card.rarity == "rare") || card.rarity == "mythic"
-          )
-          .map((card: DbCardData, index: number) => {
-            return <RoundCard key={index} card={card}></RoundCard>;
-          })}
+        {draft.CardPool
+          ? [...draft.CardPool]
+              .map((cardId: number | string) => db.card(cardId))
+              .filter(
+                (card: DbCardData | undefined) =>
+                  card && (card.rarity == "rare" || card.rarity == "mythic")
+              )
+              .map((card: DbCardData | undefined, index: number) => {
+                return card ? (
+                  <RoundCard key={index} card={card}></RoundCard>
+                ) : (
+                  <></>
+                );
+              })
+          : []}
       </div>
 
       <Column class="list_event_phase">

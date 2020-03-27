@@ -4,6 +4,7 @@ import parseISO from "date-fns/parseISO";
 import { ipcRenderer as ipc, remote } from "electron";
 import _ from "lodash";
 import { InternalDeck } from "../types/Deck";
+import { InternalDraft } from "../types/draft";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import { InternalMatch } from "../types/match";
@@ -520,7 +521,7 @@ class PlayerData implements Record<string, any> {
       .filter(change => change && change.deckId === id);
   }
 
-  draft(id?: string): any {
+  draft(id?: string): InternalDraft | undefined {
     if (!id || !this.draftExists(id)) return undefined;
     const data = this as Record<string, any>;
     const draftData = data[id];

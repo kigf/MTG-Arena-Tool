@@ -9,7 +9,7 @@ import {
 } from "./constants";
 import Deck from "./deck";
 import {
-  get_wc_missing as getWildcardsMissing,
+  getWildcardsMissing,
   getCardArtCrop,
   getRankColorClass,
   openScryfallCard
