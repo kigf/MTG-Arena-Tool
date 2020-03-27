@@ -30,7 +30,7 @@ export default function MythicRatingUpdated(entry: Entry): void {
     ...json,
     owner: playerData.userName,
     player: playerData.name,
-    date: json.timestamp,
+    //date: json.timestamp,
     timestamp: parseWotcTimeFallback(json.timestamp).getTime(),
     lastMatchId: globals.currentMatch.matchId,
     eventId: globals.currentMatch.eventId
@@ -53,7 +53,7 @@ export default function MythicRatingUpdated(entry: Entry): void {
   const seasonalRank = playerData.addSeasonalRank(
     newJson,
     rank.constructed.seasonOrdinal,
-    type
+    type as "constructed" | "limited"
   );
 
   setData({ rank, seasonalRank });

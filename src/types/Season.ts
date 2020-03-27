@@ -21,7 +21,7 @@ export interface SeasonalRankData {
   wasLossProtected: boolean;
   oldRankNumeric?: number;
   newRankNumeric?: number;
-  date?: string;
+  date?: Date;
 }
 // Deprecating in favor of event.ts
 /*
