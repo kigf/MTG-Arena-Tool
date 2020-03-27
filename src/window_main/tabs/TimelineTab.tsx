@@ -158,7 +158,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
       </svg>
       {props.oldClass !== props.newClass ? (
         <TimelineRankBullet
-          left={width - 24}
+          width={width}
           height={props.newRankNumeric ? props.newRankNumeric * 2 + 48 : 0}
           rankClass={props.newClass}
           rankLevel={props.newLevel}
@@ -171,7 +171,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
 }
 
 interface RankBulletProps {
-  left: number;
+  width: number;
   height: number;
   rankClass: string;
   rankLevel: number;
@@ -182,11 +182,14 @@ interface RankBulletProps {
  * @param props
  */
 function TimelineRankBullet(props: RankBulletProps): JSX.Element {
-  const { left, height, rankClass, rankLevel } = props;
+  const { width, height, rankClass, rankLevel } = props;
 
   const divStyle = {
     backgroundPosition: getRankIndex(rankClass, rankLevel) * -48 + "px 0px",
-    margin: `-${height}px 0 0px ${left}px`
+    //marginLeft: "-11px",
+    top: `${300 - height}px`,
+    left: `${(width - 48) / 2}px`,
+    zIndex: -10
   };
 
   const divTitle = rankClass + " " + rankLevel;
@@ -243,7 +246,7 @@ export default function TimelineTab(): JSX.Element {
   }, [handleResize]);
 
   useEffect(() => {
-    setTimeout(handleResize, 10);
+    setTimeout(handleResize, 100);
   }, [handleResize]);
 
   const decklist = useMemo(() => playerData.deck(hoverDeckId), [hoverDeckId]);
@@ -251,7 +254,7 @@ export default function TimelineTab(): JSX.Element {
   const drawingSeason = playerData.rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
 
-  const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1);
+  const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1) - 4;
 
   const match = playerData.match(data[hoverPart]?.lastMatchId);
   const hData = data[hoverPart];
