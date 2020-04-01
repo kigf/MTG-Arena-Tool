@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import format from "date-fns/format";
 import { get_rank_index as getRankIndex } from "../../shared/util";
-import playerData from "../../shared/PlayerData";
 import { SeasonalRankData } from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
 import Deck from "../../shared/deck";
@@ -16,6 +15,15 @@ import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 import ResultDetails from "../components/misc/ResultDetails";
 import RankIcon from "../components/misc/RankIcon";
+import store, { AppState } from "../../shared-redux/stores/rendererStore";
+import {
+  getSeasonal,
+  seasonalExists,
+  matchExists,
+  getMatch,
+  getDeck
+} from "../../shared-store";
+import { useSelector } from "react-redux";
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;
@@ -65,12 +73,13 @@ function getSeasonData(
   type = "constructed",
   seasonOrdinal?: number
 ): SeasonalRankData[] {
-  if (!seasonOrdinal) seasonOrdinal = playerData.rank[type].seasonOrdinal;
+  const rank = store.getState().playerdata.rank;
+  const seasonal = store.getState().seasonal.seasonal;
+  if (!seasonOrdinal)
+    seasonOrdinal = rank[type as "constructed" | "limited"].seasonOrdinal;
 
-  let seasonalData: string[] = playerData.getSeasonalRankData(
-    seasonOrdinal,
-    type
-  );
+  let seasonalData: string[] = seasonal[`${type}_${seasonOrdinal}`];
+
   seasonalData = seasonalData.filter((v, i) => seasonalData.indexOf(v) === i);
 
   function morphData(data: SeasonalRankData): SeasonalRankData {
@@ -82,7 +91,8 @@ function getSeasonData(
   }
 
   return seasonalData
-    .map((id: string) => playerData.getSeasonal(id))
+    .filter((id: string) => seasonalExists(id))
+    .map((id: string) => getSeasonal(id) as SeasonalRankData)
     .map((data: SeasonalRankData) => morphData(data))
     .sort(sortByTimestamp);
 }
@@ -112,8 +122,8 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
     lastMatchId
   } = props;
 
-  const deckId = playerData.matchExists(lastMatchId)
-    ? playerData.match(lastMatchId)?.playerDeck.id
+  const deckId = matchExists(lastMatchId)
+    ? getMatch(lastMatchId)?.playerDeck.id
     : "";
 
   const mouseIn = useCallback(() => {
@@ -208,6 +218,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
  */
 export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
+  const rank = useSelector((state: AppState) => state.playerdata.rank);
   const [hoverDeckId, setHoverDeckId] = useState("");
   const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
@@ -249,14 +260,14 @@ export default function TimelineTab(): JSX.Element {
     setTimeout(handleResize, 100);
   }, [handleResize]);
 
-  const decklist = useMemo(() => playerData.deck(hoverDeckId), [hoverDeckId]);
+  const decklist = useMemo(() => getDeck(hoverDeckId), [hoverDeckId]);
 
-  const drawingSeason = playerData.rank[seasonType].seasonOrdinal;
+  const drawingSeason = rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
 
   const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1) - 4;
 
-  const match = playerData.match(data[hoverPart]?.lastMatchId);
+  const match = getMatch(data[hoverPart]?.lastMatchId);
   const hData = data[hoverPart];
 
   const won = match ? match.player.win > match.opponent.win : false;

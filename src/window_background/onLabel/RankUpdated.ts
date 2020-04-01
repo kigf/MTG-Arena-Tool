@@ -1,7 +1,8 @@
 import { playerDb } from "../../shared/db/LocalDatabase";
 import globals from "../globals";
 import LogEntry from "../../types/logDecoder";
-import { RankUpdate, InternalRankUpdate } from "../../types/rank";
+import { RankUpdate } from "../../types/rank";
+import { SeasonalRankData } from "../../types/Season";
 import { IPC_RENDERER } from "../../shared/constants";
 import { reduxAction } from "../../shared-redux/sharedRedux";
 
@@ -13,19 +14,20 @@ export default function RankUpdated(entry: Entry): void {
   const json = entry.json();
   if (!json) return;
 
-  const newJson = {
+  const playerData = globals.store.getState().playerdata;
+  const owner = globals.store.getState().appsettings.email;
+  const rank = JSON.parse(JSON.stringify(playerData.rank));
+
+  const newJson: SeasonalRankData = {
     ...json,
-    owner: playerData.userName,
-    player: playerData.name,
+    owner,
+    player: playerData.playerName,
     id: entry.hash,
     //date: globals.logTime.toISOString(),
     timestamp: globals.logTime.getTime(),
     lastMatchId: globals.currentMatch.matchId,
     eventId: globals.currentMatch.eventId
   };
-
-  const playerData = globals.store.getState().playerdata;
-  const rank = JSON.parse(JSON.stringify(playerData.rank));
 
   // newJson.wasLossProtected
   // newJson.seasonOrdinal
