@@ -1,10 +1,9 @@
 import { shell } from "electron";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CARD_RARITIES } from "../../../shared/constants";
-import pd from "../../../shared/PlayerData";
+import { useSelector, useDispatch } from "react-redux";
+import { CARD_RARITIES, IPC_NONE } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import { AppState, collectionSlice } from "../../../shared/redux/reducers";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
 import { formatNumber } from "../../rendererUtil";
 import { BoosterSymbol } from "../misc/BoosterSymbol";
 import { CalendarSymbol } from "../misc/CalendarSymbol";
@@ -20,6 +19,7 @@ import {
 import CompletionProgressBar, {
   SetCompletionBar
 } from "./CompletionProgressBar";
+import { reduxAction } from "../../../shared-redux/sharedRedux";
 
 const getRarityKey = (
   rarity: string
@@ -48,13 +48,9 @@ export function CollectionStatsPanel({
     futureBoosters
   } = useSelector((state: AppState) => state.collection);
   const dispatch = useDispatch();
-  const {
-    setCountMode,
-    setRareDraftFactor,
-    setMythicDraftFactor,
-    setBoosterWinFactor,
-    setFutureBoosters
-  } = collectionSlice.actions;
+  const playerEconomy = useSelector(
+    (state: AppState) => state.playerdata.economy
+  );
   if (!stats) {
     return <></>;
   }
@@ -88,13 +84,13 @@ export function CollectionStatsPanel({
         }}
       >
         <div className={"economy_wc wc_common"}></div>
-        <div>{formatNumber(pd.economy.wcCommon)}</div>
+        <div>{formatNumber(playerEconomy.wcCommon)}</div>
         <div className={"economy_wc wc_uncommon"}></div>
-        <div>{formatNumber(pd.economy.wcUncommon)}</div>
+        <div>{formatNumber(playerEconomy.wcUncommon)}</div>
         <div className={"economy_wc wc_rare"}></div>
-        <div>{formatNumber(pd.economy.wcRare)}</div>
+        <div>{formatNumber(playerEconomy.wcRare)}</div>
         <div className={"economy_wc wc_mythic"}></div>
-        <div>{formatNumber(pd.economy.wcMythic)}</div>
+        <div>{formatNumber(playerEconomy.wcMythic)}</div>
       </div>
       <div className={"flex_item"}>
         <div className={"main_stats"}>
@@ -110,7 +106,7 @@ export function CollectionStatsPanel({
             options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
             current={countMode}
             callback={(mode: string): void => {
-              dispatch(setCountMode(mode));
+              reduxAction(dispatch, "SET_COUNT_MODE", mode, IPC_NONE);
             }}
           />
           <SetCompletionBar
@@ -159,7 +155,12 @@ export function CollectionStatsPanel({
                 title={"rare picks per draft"}
                 contStyle={inputStyle}
                 callback={(value: string): void => {
-                  dispatch(setRareDraftFactor(parseFloat(value)));
+                  reduxAction(
+                    dispatch,
+                    "SET_RARE_DRAFT_FACTOR",
+                    parseFloat(value),
+                    IPC_NONE
+                  );
                 }}
               />
               <Input
@@ -173,7 +174,12 @@ export function CollectionStatsPanel({
                 title={"mythic picks per draft"}
                 contStyle={inputStyle}
                 callback={(value: string): void => {
-                  dispatch(setMythicDraftFactor(parseFloat(value)));
+                  reduxAction(
+                    dispatch,
+                    "SET_MYTHIC_DRAFT_FACTOR",
+                    parseFloat(value),
+                    IPC_NONE
+                  );
                 }}
               />
               <Input
@@ -187,7 +193,12 @@ export function CollectionStatsPanel({
                 title={"prize boosters awarded per draft"}
                 contStyle={inputStyle}
                 callback={(value: string): void => {
-                  dispatch(setBoosterWinFactor(parseFloat(value)));
+                  reduxAction(
+                    dispatch,
+                    "SET_BOOSTER_WIN_FACTOR",
+                    parseFloat(value),
+                    IPC_NONE
+                  );
                 }}
               />
               <Input
@@ -201,7 +212,12 @@ export function CollectionStatsPanel({
                 title={"expected additional boosters, e.g. seasonal rewards"}
                 contStyle={inputStyle}
                 callback={(value: string): void => {
-                  dispatch(setFutureBoosters(parseFloat(value)));
+                  reduxAction(
+                    dispatch,
+                    "SET_FUTURE_BOOSTERS",
+                    parseFloat(value),
+                    IPC_NONE
+                  );
                 }}
               />
               <div

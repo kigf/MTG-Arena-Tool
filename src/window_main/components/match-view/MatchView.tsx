@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import fs from "fs";
 import path from "path";
 import { InternalMatch, InternalPlayer } from "../../../types/match";
-import pd from "../../../shared/PlayerData";
 import ShareButton from "../misc/ShareButton";
 import ManaCost from "../misc/ManaCost";
 import Deck from "../../../shared/deck";
@@ -15,8 +14,10 @@ import CardList from "../misc/CardList";
 import CardsList from "../../../shared/cardsList";
 import ActionLog from "./ActionLog";
 import uxMove from "../../uxMove";
-import { rendererSlice } from "../../../shared/redux/reducers";
 import { useDispatch } from "react-redux";
+import { reduxAction } from "../../../shared-redux/sharedRedux";
+import { IPC_NONE } from "../../../shared/constants";
+import { getMatch } from "../../../shared-store";
 
 interface MatchViewProps {
   match: InternalMatch;
@@ -42,8 +43,7 @@ export function MatchView(props: MatchViewProps): JSX.Element {
   }
 
   const goBack = (): void => {
-    const { setBackgroundGrpId } = rendererSlice.actions;
-    dispatcher(setBackgroundGrpId(0));
+    reduxAction(dispatcher, "SET_BACK_GRPID", 0, IPC_NONE);
     uxMove(0);
   };
 
@@ -254,7 +254,7 @@ function GameStats(props: GameStatsProps): JSX.Element {
 }
 
 export default function openMatchSub(matchId: string): JSX.Element {
-  const match = pd.match(matchId);
+  const match = getMatch(matchId);
   if (!match) return <div>{matchId}</div>;
   return <MatchView match={match} />;
 }

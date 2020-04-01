@@ -6,14 +6,10 @@ import { CardObject, InternalDeck, v2cardsList } from "../types/Deck";
 import { InternalPlayer } from "../types/match";
 import { DbCardData } from "../types/Metadata";
 import { InternalRankData } from "../types/rank";
-import {
-  CardCounts,
-  MissingWildcards
-} from "../window_main/components/decks/types";
+
 import {
   BLACK,
   BLUE,
-  CARD_RARITIES,
   FACE_DFC_FRONT,
   FORMATS,
   GREEN,
@@ -21,14 +17,11 @@ import {
   WHITE
 } from "./constants";
 import db from "./database";
-import Deck from "./deck";
-import pd from "./PlayerData";
-
 const NO_IMG_URL = "../images/notfound.png";
 
 export function getCardImage(
-  card?: DbCardData | number,
-  quality: string = pd.settings.cards_quality
+  card: DbCardData | number | undefined,
+  quality: string
 ): string {
   if (card === undefined) {
     return NO_IMG_URL;
@@ -114,10 +107,6 @@ export function get_rank_index_16(_rank: string): number {
   if (_rank == "Diamond") ii = 5;
   if (_rank == "Mythic") ii = 6;
   return ii;
-}
-
-export function getRecentDeckName(deckId: string): string {
-  return pd.deck(deckId)?.name ?? deckId;
 }
 
 export function getReadableEvent(arg: string): string {
@@ -310,138 +299,6 @@ export function get_deck_colors(deck: InternalDeck): number[] {
 
   deck.colors = colorIndices;
   return colorIndices;
-}
-
-export function getWildcardsMissing(
-  deck: Deck,
-  grpid: number,
-  isSideboard?: boolean
-): number {
-  let mainQuantity = 0;
-  const mainMatches = deck
-    .getMainboard()
-    .get()
-    .filter(card => card.id == grpid);
-  if (mainMatches.length) {
-    mainQuantity = mainMatches[0].quantity;
-  }
-
-  let sideboardQuantity = 0;
-  const sideboardMatches = deck
-    .getSideboard()
-    .get()
-    .filter(card => card.id == grpid);
-  if (sideboardMatches.length) {
-    sideboardQuantity = sideboardMatches[0].quantity;
-  }
-
-  let needed = mainQuantity;
-  if (isSideboard) {
-    needed = sideboardQuantity;
-  }
-  // cap at 4 copies to handle petitioners, rat colony, etc
-  needed = Math.min(4, needed);
-
-  const card = db.card(grpid);
-  let arr = [];
-  if (!card?.reprints) arr = [grpid];
-  else arr.push(grpid);
-
-  let have = 0;
-  arr.forEach(id => {
-    const n = pd.cards.cards[id];
-    if (n !== undefined) {
-      have += n;
-    }
-  });
-
-  let copiesLeft = have;
-  if (isSideboard) {
-    copiesLeft = Math.max(0, copiesLeft - mainQuantity);
-
-    const infiniteCards = [67306, 69172]; // petitioners, rat colony, etc
-    if (have >= 4 && infiniteCards.indexOf(grpid) >= 0) {
-      copiesLeft = 4;
-    }
-  }
-
-  return Math.max(0, needed - copiesLeft);
-}
-
-export function getCardsMissingCount(deck: Deck, grpid: number): number {
-  const mainMissing = getWildcardsMissing(deck, grpid, false);
-  const sideboardMissing = getWildcardsMissing(deck, grpid, true);
-  return mainMissing + sideboardMissing;
-}
-
-export function get_deck_missing(deck: Deck): MissingWildcards {
-  const missing = { rare: 0, common: 0, uncommon: 0, mythic: 0 };
-  const alreadySeenIds = new Set(); // prevents double counting cards across main/sideboard
-  const entireDeck = [
-    ...deck.getMainboard().get(),
-    ...deck.getSideboard().get()
-  ];
-
-  entireDeck.forEach(card => {
-    const grpid = card.id;
-    // process each card at most once
-    if (alreadySeenIds.has(grpid)) {
-      return;
-    }
-    const rarity = db.card(grpid)?.rarity;
-    if (rarity && rarity !== "land") {
-      missing[rarity] += getCardsMissingCount(deck, grpid);
-      alreadySeenIds.add(grpid); // remember this card
-    }
-  });
-
-  return missing;
-}
-
-export function getMissingCardCounts(deck: Deck): CardCounts {
-  const missingCards: CardCounts = {};
-  const allCardIds = new Set(
-    [...deck.getMainboard().get(), ...deck.getSideboard().get()].map(
-      card => card.id
-    )
-  );
-  allCardIds.forEach(grpid => {
-    const missing = getCardsMissingCount(deck, grpid);
-    if (missing > 0) {
-      missingCards[grpid] = missing;
-    }
-  });
-  return missingCards;
-}
-
-export function getBoosterCountEstimate(
-  neededWildcards: MissingWildcards
-): number {
-  let boosterCost = 0;
-  const boosterEstimates = {
-    common: 3.36,
-    uncommon: 2.6,
-    rare: 5.72,
-    mythic: 13.24
-  };
-
-  const ownedWildcards = {
-    common: pd.economy.wcCommon,
-    uncommon: pd.economy.wcUncommon,
-    rare: pd.economy.wcRare,
-    mythic: pd.economy.wcMythic
-  };
-
-  CARD_RARITIES.map(rarity => {
-    if (rarity !== "land") {
-      const needed = neededWildcards[rarity] || 0;
-      const owned = ownedWildcards[rarity] || 0;
-      const missing = Math.max(0, needed - owned);
-      boosterCost = Math.max(boosterCost, boosterEstimates[rarity] * missing);
-    }
-  });
-
-  return Math.round(boosterCost);
 }
 
 export function get_deck_export(deck: InternalDeck): string {
@@ -666,4 +523,39 @@ export function formatRank(
 
 export function roundWinrate(x: number): number {
   return Math.round(x * 100) / 100;
+}
+
+export function prettierDeckData(deckData: InternalDeck): InternalDeck {
+  // many precon descriptions are total garbage
+  // manually update them with generic descriptions
+  const prettyDescriptions: Record<string, string> = {
+    "Decks/Precon/Precon_EPP_BG_Desc": "Golgari Swarm",
+    "Decks/Precon/Precon_EPP_BR_Desc": "Cult of Rakdos",
+    "Decks/Precon/Precon_EPP_GU_Desc": "Simic Combine",
+    "Decks/Precon/Precon_EPP_GW_Desc": "Selesnya Conclave",
+    "Decks/Precon/Precon_EPP_RG_Desc": "Gruul Clans",
+    "Decks/Precon/Precon_EPP_RW_Desc": "Boros Legion",
+    "Decks/Precon/Precon_EPP_UB_Desc": "House Dimir",
+    "Decks/Precon/Precon_EPP_UR_Desc": "Izzet League",
+    "Decks/Precon/Precon_EPP_WB_Desc": "Orzhov Syndicate",
+    "Decks/Precon/Precon_EPP_WU_Desc": "Azorius Senate",
+    "Decks/Precon/Precon_July_B": "Out for Blood",
+    "Decks/Precon/Precon_July_U": "Azure Skies",
+    "Decks/Precon/Precon_July_G": "Forest's Might",
+    "Decks/Precon/Precon_July_R": "Dome Destruction",
+    "Decks/Precon/Precon_July_W": "Angelic Army",
+    "Decks/Precon/Precon_Brawl_Alela": "Alela, Artful Provocateur",
+    "Decks/Precon/Precon_Brawl_Chulane": "Chulane, Teller of Tales",
+    "Decks/Precon/Precon_Brawl_Korvold": "Korvold, Fae-Cursed King",
+    "Decks/Precon/Precon_Brawl_SyrGwyn": "Syr Gwyn, Hero of Ashvale"
+  };
+  if (deckData.description in prettyDescriptions) {
+    deckData.description = prettyDescriptions[deckData.description];
+  }
+  if (deckData.name.includes("?=?Loc")) {
+    // precon deck names are garbage address locators
+    // mask them with description instead
+    deckData.name = deckData.description || "Preconstructed Deck";
+  }
+  return deckData;
 }

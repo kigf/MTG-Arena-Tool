@@ -8,15 +8,12 @@ import {
   FACE_ADVENTURE_MAIN
 } from "./constants";
 import Deck from "./deck";
-import {
-  getWildcardsMissing,
-  getCardArtCrop,
-  getRankColorClass,
-  openScryfallCard
-} from "./util";
+import { getCardArtCrop, getRankColorClass, openScryfallCard } from "./util";
 import { DbCardData, Rarity } from "../types/Metadata";
 import useHoverCard from "../window_main/hooks/useHoverCard";
-import pd from "./PlayerData";
+import { useSelector } from "react-redux";
+import { AppState } from "../shared-redux/stores/rendererStore";
+import { getWildcardsMissing } from "../window_main/rendererUtil";
 
 export interface CardTileProps {
   card: DbCardData;
@@ -382,10 +379,13 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
 
 export default function CardTile(props: CardTileProps): JSX.Element {
   const { card, quantity } = props;
+  const style = useSelector(
+    (state: AppState) => state.settings.card_tile_style
+  );
   if (!card || quantity === 0) {
     return <></>;
   }
-  if (parseInt(pd.settings.card_tile_style + "") === CARD_TILE_FLAT) {
+  if (parseInt(style + "") === CARD_TILE_FLAT) {
     return FlatCardTile(props);
   }
   return ArenaCardTile(props);

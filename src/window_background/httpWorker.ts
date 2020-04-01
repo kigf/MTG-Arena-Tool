@@ -2,9 +2,10 @@ import qs from "qs";
 import http, { RequestOptions } from "https";
 import { IncomingMessage } from "http";
 
-import playerData from "../shared/PlayerData";
 import globals from "./globals";
-import { ipcSend, setData } from "./backgroundUtil";
+import { ipcSend } from "./backgroundUtil";
+import { reduxAction } from "../shared-redux/sharedRedux";
+import { IPC_RENDERER } from "../shared/constants";
 
 const serverAddress = "mtgatool.com";
 
@@ -115,12 +116,11 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     "get_database",
     "get_database_version"
   ];
-  if (
-    (!playerData.settings.send_data || playerData.offline) &&
-    !nonPrivacyMethods.includes(task.method)
-  ) {
-    if (!playerData.offline) {
-      setData({ offline: true });
+  const sendData = globals.store.getState().settings.send_data;
+  const offline = globals.store.getState().renderer.offline;
+  if ((!sendData || offline) && !nonPrivacyMethods.includes(task.method)) {
+    if (!offline) {
+      reduxAction(globals.store.dispatch, "SET_OFFLINE", true, IPC_RENDERER);
     }
     const text = `WARNING >> currently offline or settings prohibit sharing > (${task.method})`;
     ipcLog(text);
@@ -128,7 +128,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     return;
   }
   const _headers: any = { ...task };
-  _headers.token = playerData.settings.token;
+  _headers.token = globals.store.getState().appsettings.token;
   const options = getRequestOptions(task);
   if (globals.debugNet && task.method !== "notifications") {
     ipcLog(

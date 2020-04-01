@@ -3,7 +3,6 @@ import { TableViewRowProps } from "../tables/types";
 import { EventTableData } from "../events/types";
 import ManaCost from "../misc/ManaCost";
 import db from "../../../shared/database";
-import pd from "../../../shared/PlayerData";
 
 import {
   ListItem,
@@ -15,22 +14,28 @@ import {
 } from "./ListItem";
 import ListItemMatch from "./ListItemMatch";
 import ListItemDraft from "./ListItemDraft";
-import { DEFAULT_TILE, SUB_MATCH, SUB_DRAFT } from "../../../shared/constants";
+import {
+  DEFAULT_TILE,
+  SUB_MATCH,
+  SUB_DRAFT,
+  IPC_NONE
+} from "../../../shared/constants";
 import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
 import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
 import { compareDesc } from "date-fns";
 import { useDispatch } from "react-redux";
-import { rendererSlice } from "../../../shared/redux/reducers";
 import { InternalMatch } from "../../../types/match";
 import { InternalDraft } from "../../../types/draft";
 import uxMove from "../../uxMove";
+import { reduxAction } from "../../../shared-redux/sharedRedux";
+import { getMatch, draftExists, getDraft } from "../../../shared-store";
 
 function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   const draftId = event.id + "-draft";
   let draftRares: JSX.Element[] = [];
-  if (pd.draftExists(draftId)) {
-    const draft = pd.draft(draftId);
+  if (draftExists(draftId)) {
+    const draft = getDraft(draftId);
     if (draft) {
       const pool = [...draft.CardPool];
       draftRares = pool
@@ -146,13 +151,20 @@ function EventSubRows({
   const openMatch = React.useCallback(
     (match: InternalMatch): void => {
       uxMove(-100);
-      const { setBackgroundGrpId, setSubNav } = rendererSlice.actions;
-      dispatcher(setBackgroundGrpId(match.playerDeck.deckTileId));
-      dispatcher(
-        setSubNav({
+      reduxAction(
+        dispatcher,
+        "SET_BACK_GRPID",
+        match.playerDeck.deckTileId,
+        IPC_NONE
+      );
+      reduxAction(
+        dispatcher,
+        "SET_SUBNAV",
+        {
           type: SUB_MATCH,
           id: match.id
-        })
+        },
+        IPC_NONE
       );
     },
     [dispatcher]
@@ -161,12 +173,14 @@ function EventSubRows({
   const openDraft = React.useCallback(
     (id: string | number): void => {
       uxMove(-100);
-      const { setSubNav } = rendererSlice.actions;
-      dispatcher(
-        setSubNav({
+      reduxAction(
+        dispatcher,
+        "SET_SUBNAV",
+        {
           type: SUB_DRAFT,
           id: id
-        })
+        },
+        IPC_NONE
       );
     },
     [dispatcher]
@@ -179,14 +193,14 @@ function EventSubRows({
       return [];
     }
     const matchRows = event.stats.matchIds
-      .map(pd.match)
+      .map(id => getMatch(id))
       .filter(match => match !== undefined) as InternalMatch[];
     matchRows.sort((a, b) => {
       if (!a || !b) return 0;
       return compareDesc(new Date(a.date), new Date(b.date));
     });
 
-    initialDraft.current = pd.draft(draftId);
+    initialDraft.current = getDraft(draftId);
     return matchRows;
   }, [draftId, event.stats.matchIds, expanded, initialDraft]);
 

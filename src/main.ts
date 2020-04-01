@@ -12,6 +12,7 @@ import electron, {
   SaveDialogReturnValue,
   Tray
 } from "electron";
+import _ from "lodash";
 import { autoUpdater } from "electron-updater";
 import fs from "fs";
 import path from "path";
@@ -23,7 +24,10 @@ import {
   OVERLAY_DRAFT_MODES
 } from "./shared/constants";
 import { appDb } from "./shared/db/LocalDatabase";
-import { MergedSettings, OverlaySettingsData } from "./types/settings";
+import { SettingsData, OverlaySettingsData } from "./types/settings";
+import { IPC_BACKGROUND, IPC_RENDERER, IPC_OVERLAY } from "./shared/constants";
+import { initializeMainReduxIPC } from "./shared-redux/sharedRedux";
+import store from "./shared-redux/stores/mainStore";
 
 app.setAppUserModelId("com.github.manuel777.mtgatool");
 
@@ -37,10 +41,6 @@ let updaterWindow: BrowserWindow | undefined = undefined;
 let background: BrowserWindow | undefined = undefined;
 let overlay: BrowserWindow | undefined = undefined;
 let mainTimeout: NodeJS.Timeout | undefined = undefined;
-let settings: Partial<MergedSettings> = {
-  close_to_tray: false,
-  launch_to_tray: false
-};
 let tray = null;
 
 const ipc = electron.ipcMain;
@@ -50,6 +50,8 @@ let backLoaded = false;
 let overlayLoaded = false;
 let arenaState = ARENA_MODE_IDLE;
 let editMode = false;
+
+let oldSettings = {};
 
 const singleLock = app.requestSingleInstanceLock();
 
@@ -91,7 +93,7 @@ function startUpdater(): void {
   if (!app.isPackaged) return;
   appDb.init("application");
   appDb.find("", "settings").then(doc => {
-    const allowBeta = doc.beta_channel || false;
+    const allowBeta = doc.betaChannel || false;
     updaterWindow = createUpdaterWindow();
 
     updaterWindow.webContents.on("did-finish-load", function() {
@@ -146,6 +148,14 @@ function startApp(): void {
 
   const startBackgroundWhenReady = (): void => {
     if (mainLoaded && backLoaded && overlayLoaded) {
+      if (mainWindow && background && overlay) {
+        initializeMainReduxIPC(store, background, mainWindow, overlay);
+        store.subscribe(() => {
+          if (!_.isEqual(oldSettings, store.getState().settings)) {
+            setSettings(store.getState().settings);
+          }
+        });
+      }
       background?.webContents.send("start_background");
     }
   };
@@ -196,12 +206,8 @@ function startApp(): void {
         console.log("IPC ERROR: ", arg);
         break;
 
-      case "initial_settings":
+      case "initialize_main":
         initialize(arg);
-        break;
-
-      case "set_settings":
-        setSettings(arg);
         break;
 
       case "set_db":
@@ -247,7 +253,7 @@ function startApp(): void {
         break;
 
       case "renderer_window_close":
-        if (settings.close_to_tray) {
+        if (store.getState().settings.close_to_tray) {
           hideWindow();
         } else {
           quit();
@@ -326,18 +332,17 @@ function startApp(): void {
         break;
 
       default:
-        if (to == 0) background?.webContents.send(method, arg);
-        if (to == 1) mainWindow?.webContents.send(method, arg);
-        if (to === 2) overlay?.webContents.send(method, arg);
+        if (to == IPC_BACKGROUND) background?.webContents.send(method, arg);
+        if (to == IPC_RENDERER) mainWindow?.webContents.send(method, arg);
+        if (to === IPC_OVERLAY) overlay?.webContents.send(method, arg);
         break;
     }
   });
 }
 
-function initialize(settingsArg: MergedSettings): void {
+function initialize(launchToTray: boolean): void {
   console.log("MAIN:  Initializing");
-  settings = settingsArg;
-  if (!settings.launch_to_tray) showWindow();
+  if (!launchToTray) showWindow();
 }
 
 function openDevTools(): void {
@@ -367,7 +372,7 @@ function openOverlayDevTools(): void {
 
 function setArenaState(state: number): void {
   arenaState = state;
-  if (state === ARENA_MODE_MATCH && settings.close_on_match) {
+  if (state === ARENA_MODE_MATCH && store.getState().settings.close_on_match) {
     mainWindow?.hide();
   }
   overlay?.webContents.send("set_arena_state", state);
@@ -380,50 +385,38 @@ function toggleEditMode(): void {
   updateOverlayVisibility();
 }
 
-function setSettings(settingsArg: any): void {
-  try {
-    settings = JSON.parse(settingsArg);
-  } catch (e) {
-    console.log("MAIN: Error parsing settings");
-    console.log(e);
-    return;
-  }
+function setSettings(settings: SettingsData): void {
+  oldSettings = JSON.parse(JSON.stringify(settings));
   console.log("MAIN:  Updating settings");
-  const settingsData = settings as MergedSettings;
 
   // update keyboard shortcuts
   globalShortcut.unregisterAll();
   if (settings.enable_keyboard_shortcuts) {
-    globalShortcut.register(settingsData.shortcut_devtools_main, openDevTools);
+    globalShortcut.register(settings.shortcut_devtools_main, openDevTools);
     globalShortcut.register(
-      settingsData.shortcut_devtools_overlay,
+      settings.shortcut_devtools_overlay,
       openOverlayDevTools
     );
-    globalShortcut.register(settingsData.shortcut_editmode, () => {
+    globalShortcut.register(settings.shortcut_editmode, () => {
       toggleEditMode();
     });
-    settings.overlays?.forEach((_settings, index) => {
+    settings.overlays?.forEach((_settings: any, index: number) => {
       const short = "shortcut_overlay_" + (index + 1);
-      globalShortcut.register(
-        (settings as Record<string, string>)[short],
-        () => {
-          overlay?.webContents.send("close", { action: -1, index: index });
-        }
-      );
+      globalShortcut.register((settings as any)[short], () => {
+        overlay?.webContents.send("close", { action: -1, index: index });
+      });
     });
   }
 
   app.setLoginItemSettings({
     openAtLogin: settings.startup
   });
-  mainWindow?.webContents.send("settings_updated");
 
   // Send settings update
-  overlay?.setAlwaysOnTop(settingsData.overlay_ontop, "pop-up-menu");
-  if (settingsData.overlay_ontop && overlay && !overlay.isAlwaysOnTop()) {
+  overlay?.setAlwaysOnTop(settings.overlay_ontop, "pop-up-menu");
+  if (settings.overlay_ontop && overlay && !overlay.isAlwaysOnTop()) {
     overlay.moveTop();
   }
-  overlay?.webContents.send("set_settings", settingsArg);
 
   updateOverlayVisibility();
 }
@@ -431,7 +424,9 @@ function setSettings(settingsArg: any): void {
 let overlayHideTimeout: NodeJS.Timeout | undefined = undefined;
 
 function updateOverlayVisibility(): void {
-  const shouldDisplayOverlay = settings.overlays?.some(getOverlayVisible);
+  const shouldDisplayOverlay = store
+    .getState()
+    .settings.overlays?.some(getOverlayVisible);
   const isOverlayVisible = isEntireOverlayVisible();
 
   //console.log("shouldDisplayOverlay: ", shouldDisplayOverlay, "isOverlayVisible: ", isOverlayVisible);

@@ -1,19 +1,27 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../../shared/redux/reducers";
+import store, { AppState } from "../../../shared-redux/stores/rendererStore";
 import { shell } from "electron";
 import Checkbox from "../misc/Checkbox";
 import { ipcSend } from "../../rendererUtil";
-import { HIDDEN_PW } from "../../../shared/constants";
-import { loginSlice } from "../../../shared/redux/reducers";
+import {
+  HIDDEN_PW,
+  IPC_NONE,
+  IPC_BACKGROUND,
+  IPC_ALL,
+  IPC_RENDERER
+} from "../../../shared/constants";
+import { reduxAction } from "../../../shared-redux/sharedRedux";
 const sha1 = require("js-sha1");
 
 function clickRememberMe(value: boolean): void {
-  const rSettings = {
-    remember_me: value
-  };
-  ipcSend("save_app_settings", rSettings);
+  reduxAction(
+    store.dispatch,
+    "SET_APP_SETTINGS",
+    { rememberMe: value },
+    IPC_BACKGROUND
+  );
 }
 
 interface AuthProps {
@@ -25,7 +33,6 @@ export default function Auth(props: AuthProps): JSX.Element {
   const [authForm, setAuthForm] = React.useState(props.authForm);
   const canLogin = useSelector((state: AppState) => state.login.canLogin);
   const dispatcher = useDispatch();
-  const { setCanLogin } = loginSlice.actions;
 
   const handleEmailChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -51,13 +58,19 @@ export default function Auth(props: AuthProps): JSX.Element {
     } else {
       setErrorMessage("");
       const pwd = authForm.pass == HIDDEN_PW ? HIDDEN_PW : sha1(authForm.pass);
-      dispatcher(setCanLogin(false));
+      reduxAction(dispatcher, "SET_CAN_LOGIN", false, IPC_NONE);
+      reduxAction(
+        dispatcher,
+        "SET_APP_SETTINGS",
+        { email: authForm.email },
+        IPC_ALL ^ IPC_RENDERER
+      );
       ipcSend("login", {
         username: authForm.email,
         password: pwd
       });
     }
-  }, [dispatcher, authForm.email, authForm.pass, setCanLogin]);
+  }, [dispatcher, authForm.email, authForm.pass]);
 
   return (
     <div className="form-container">

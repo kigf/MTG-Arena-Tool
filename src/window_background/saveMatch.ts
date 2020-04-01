@@ -1,8 +1,10 @@
 import { completeMatch } from "./data";
 import globals from "./globals";
-import playerData from "../shared/PlayerData";
 import { playerDb } from "../shared/db/LocalDatabase";
-import { ipcSend, setData } from "./backgroundUtil";
+import { ipcSend } from "./backgroundUtil";
+import { reduxAction } from "../shared-redux/sharedRedux";
+import { IPC_RENDERER } from "../shared/constants";
+import { getMatch } from "../shared-store";
 
 export default function saveMatch(id: string, matchEndTime: number): void {
   //console.log(globals.currentMatch.matchId, id);
@@ -13,7 +15,8 @@ export default function saveMatch(id: string, matchEndTime: number): void {
   ) {
     return;
   }
-  const existingMatch = playerData.match(id) || {};
+
+  const existingMatch = getMatch(id) || {};
   const match = completeMatch(
     existingMatch,
     globals.currentMatch,
@@ -24,14 +27,11 @@ export default function saveMatch(id: string, matchEndTime: number): void {
   }
 
   // console.log("Save match:", match);
-  if (!playerData.matches_index.includes(id)) {
-    const matchesIndex = [...playerData.matches_index, id];
-    playerDb.upsert("", "matches_index", matchesIndex);
-    setData({ matches_index: matchesIndex }, false);
+  if (!globals.store.getState().matches.matchesIndex.includes(id)) {
+    reduxAction(globals.store.dispatch, "SET_MATCH", match, IPC_RENDERER);
   }
 
   playerDb.upsert("", id, match);
-  setData({ [id]: match });
   if (globals.matchCompletedOnGameNumber === globals.gameNumberCompleted) {
     const httpApi = require("./httpApi");
     httpApi.httpSetMatch(match);

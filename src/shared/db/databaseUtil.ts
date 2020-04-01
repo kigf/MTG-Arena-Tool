@@ -1,17 +1,18 @@
 import { app, remote, ipcRenderer as ipc } from "electron";
-import { IPC_MAIN, IPC_BACKGROUND } from "../constants";
+import { IPC_RENDERER, IPC_BACKGROUND } from "../constants";
 
 export const rememberDefaults = {
-  email: "",
-  token: "",
   settings: {
+    email: "",
+    token: "",
     toolVersion: 0,
-    auto_login: false,
-    launch_to_tray: false,
-    remember_me: true,
-    beta_channel: false,
-    metadata_lang: "en",
-    log_locale_format: ""
+    autoLogin: false,
+    launchToTray: false,
+    rememberMe: true,
+    betaChannel: false,
+    metadataLang: "en",
+    logLocaleFormat: "",
+    logUri: ""
   }
 };
 export const settingsDefaults = {
@@ -25,7 +26,7 @@ export function ipcSend(
   method: string,
   from = IPC_BACKGROUND,
   arg: any,
-  to = IPC_MAIN
+  to = IPC_RENDERER
 ): void {
   // This is crude but works..
   if (process && process.type === "renderer") {

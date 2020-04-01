@@ -3,20 +3,32 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { useSelector } from "react-redux";
 import { TableState } from "react-table";
-import pd from "../../shared/PlayerData";
-import { AppState } from "../../shared/redux/reducers";
+import store, { AppState } from "../../shared-redux/stores/rendererStore";
 import { InternalEconomyTransaction } from "../../types/inventory";
 import EconomyTable from "../components/economy/EconomyTable";
 import { getPrettyContext } from "../components/economy/economyUtils";
 import { TransactionData } from "../components/economy/types";
-import { ipcSend, toggleArchived } from "../rendererUtil";
+import { toggleArchived } from "../rendererUtil";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
+import { transactionsList } from "../../shared-store";
 
 function saveTableState(economyTableState: TableState<TransactionData>): void {
-  ipcSend("save_user_settings", { economyTableState, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { economyTableState },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function saveTableMode(economyTableMode: string): void {
-  ipcSend("save_user_settings", { economyTableMode, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { economyTableMode },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 const sumBoosterCount = (boosters: { count: number }[]): number =>
@@ -28,7 +40,7 @@ const sumBoosterCount = (boosters: { count: number }[]): number =>
 
 function getTxnData(archivedCache: Record<string, boolean>): TransactionData[] {
   const today = new Date();
-  return pd.transactionList.map(
+  return transactionsList().map(
     (txn: InternalEconomyTransaction): TransactionData => {
       const ts = new Date(txn.date ?? NaN);
       const archived = archivedCache[txn.id] ?? txn.archived ?? false;
@@ -37,7 +49,7 @@ function getTxnData(archivedCache: Record<string, boolean>): TransactionData[] {
       const oldTrackLevel = txn.trackDiff?.oldLevel ?? 0;
       const currentOrbCount = txn.orbCountDiff?.currentOrbCount ?? 0;
       const oldOrbCount = txn.orbCountDiff?.oldOrbCount ?? 0;
-      const originalContext = txn.originalContext ?? "";
+      const originalContext = txn.originalContext || txn.context || "";
       const artSkinsAdded = txn.delta?.artSkinsAdded ?? [];
       const boosterDelta = txn.delta?.boosterDelta ?? [];
       const cardsAdded = txn.delta?.cardsAdded ?? [];
@@ -84,14 +96,15 @@ function getTxnData(archivedCache: Record<string, boolean>): TransactionData[] {
 }
 
 export default function EconomyTab(): JSX.Element {
-  const { economyTableMode, economyTableState } = pd.settings;
-  const { archivedCache, playerDataTimestamp } = useSelector(
-    (state: AppState) => state.renderer
+  const { economyTableMode, economyTableState } = store.getState().settings;
+  const archivedCache = useSelector(
+    (state: AppState) => state.renderer.archivedCache
   );
+  const txnList = useSelector((state: AppState) => state.economy.economyIndex);
   const data = React.useMemo(() => {
-    playerDataTimestamp; // just here to force the memo dependency
+    txnList;
     return getTxnData(archivedCache);
-  }, [archivedCache, playerDataTimestamp]);
+  }, [archivedCache, txnList]);
   return (
     <div className="ux_item">
       <EconomyTable

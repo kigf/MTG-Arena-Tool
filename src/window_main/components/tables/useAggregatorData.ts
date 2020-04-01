@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import pd from "../../../shared/PlayerData";
-import { AppState } from "../../../shared/redux/reducers";
+import store, { AppState } from "../../../shared-redux/stores/rendererStore";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import { TableData } from "../tables/types";
 
@@ -9,7 +8,7 @@ export function getDefaultAggFilters(
   showArchived: boolean,
   aggFiltersArg?: AggregatorFilters
 ): AggregatorFilters {
-  const { last_date_filter: dateFilter } = pd.settings;
+  const { last_date_filter: dateFilter } = store.getState().settings;
   return {
     ...Aggregator.getDefaultFilters(),
     date: dateFilter,
@@ -22,7 +21,8 @@ export function getDefaultAggFilters(
 export function useAggregatorData<D extends TableData>({
   aggFiltersArg,
   getData,
-  showArchived
+  showArchived,
+  forceMemo
 }: {
   aggFiltersArg?: AggregatorFilters;
   getData: (
@@ -30,6 +30,7 @@ export function useAggregatorData<D extends TableData>({
     archivedCache: Record<string, boolean>
   ) => D[];
   showArchived: boolean;
+  forceMemo?: any;
 }): {
   aggFilters: AggregatorFilters;
   data: D[];
@@ -41,14 +42,14 @@ export function useAggregatorData<D extends TableData>({
     const defaultAggFilters = getDefaultAggFilters(showArchived, aggFiltersArg);
     setAggFilters(defaultAggFilters);
   }, [aggFiltersArg, showArchived]);
-  const { archivedCache, playerDataTimestamp } = useSelector(
-    (state: AppState) => state.renderer
+  const archivedCache = useSelector(
+    (state: AppState) => state.renderer.archivedCache
   );
   const data = React.useMemo(() => {
-    playerDataTimestamp; // just here to force the memo dependency
+    forceMemo;
     const aggregator = new Aggregator(aggFilters);
     return getData(aggregator, archivedCache);
-  }, [aggFilters, archivedCache, getData, playerDataTimestamp]);
+  }, [aggFilters, archivedCache, getData, forceMemo]);
   return {
     aggFilters,
     data,

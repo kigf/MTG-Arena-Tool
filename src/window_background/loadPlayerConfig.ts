@@ -1,118 +1,220 @@
-import { shell } from "electron";
-import _ from "lodash";
-import { IPC_BACKGROUND, IPC_OVERLAY } from "../shared/constants";
+import {
+  IPC_BACKGROUND,
+  IPC_OVERLAY,
+  IPC_RENDERER,
+  IPC_ALL
+} from "../shared/constants";
 import { ipcSend, setData } from "./backgroundUtil";
 import globals from "./globals";
 
 import { playerDb, playerDbLegacy } from "../shared/db/LocalDatabase";
-import playerData from "../shared/PlayerData";
-import { isV2CardsList, ArenaV3Deck } from "../types/Deck";
+import { isV2CardsList, ArenaV3Deck, DeckChange } from "../types/Deck";
 import arenaLogWatcher from "./arena-log-watcher";
 import convertDeckFromV3 from "./convertDeckFromV3";
+import { reduxAction } from "../shared-redux/sharedRedux";
+import { InternalMatch } from "../types/match";
+import store from "../shared-redux/stores/backgroundStore";
+import { InternalEvent } from "../types/event";
+import { InternalEconomyTransaction } from "../types/inventory";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
-const ipcPop = (args: any): void => ipcSend("popup", args);
+const ipcPop = (args: {
+  text: string;
+  time: number;
+  progress?: number;
+}): void => ipcSend("popup", args);
 
 // Merges settings and updates singletons across processes
 // (essentially fancy setData for settings field only)
-// To persist changes, see "save_user_settings" or "save_app_settings"
 export function syncSettings(
   dirtySettings = {},
   refresh = globals.debugLog || !globals.firstPass
 ): void {
-  const settings = { ...playerData.settings, ...dirtySettings };
-  setData({ settings }, refresh);
-  if (refresh) ipcSend("set_settings", JSON.stringify(settings));
-}
-
-function ipcUpgradeProgress(progress: number): void {
-  const percent = Math.round(100 * progress);
-  const text = `Upgrading player database... ${percent}% (happens once, could take minutes)`;
-  ipcPop({ text, time: 0, progress });
-}
-
-async function migrateIfNecessary(): Promise<void> {
-  ipcLog("Checking if database requires upgrade...");
-  try {
-    const legacyData = await playerDbLegacy.find("", "cards");
-    if (!legacyData) {
-      ipcLog("...no legacy JSON data, skipping migration.");
-      return;
-    }
-    ipcLog(`...found legacy JSON data, cards_time:${legacyData.cards_time}`);
-    const data = await playerDb.find("", "cards");
-    if (data) {
-      ipcLog(`...found NeDb data, cards_time:${data.cards_time}`);
-      ipcLog("...skipping migration.");
-      return;
-    }
-    ipcLog("Upgrading player database...");
-    ipcSend("save_app_settings", {}, IPC_BACKGROUND); // ensure app db migrates
-    const savedData = await playerDbLegacy.findAll();
-    const __playerData = _.defaultsDeep(savedData, playerData);
-    const { settings } = __playerData;
-    // ensure blended user settings migrate
-    setData(__playerData, false);
-    syncSettings(settings, false);
-    ipcSend("save_user_settings", { skipRefresh: true }, IPC_BACKGROUND);
-    const dataToMigrate = playerData.data;
-    const totalDocs = Object.values(dataToMigrate).length;
-    ipcUpgradeProgress(0);
-    const num = await playerDb.upsertAll(dataToMigrate, (err, num) => {
-      if (err) {
-        console.error(err);
-      } else if (num) {
-        ipcUpgradeProgress(num / totalDocs);
-      }
-    });
-    ipcLog(`...migrated ${num} records from electron-store to nedb`);
-  } catch (err) {
-    console.error(err);
+  const settings = { ...store.getState().settings, ...dirtySettings };
+  if (refresh) {
+    reduxAction(
+      globals.store.dispatch,
+      "SET_SETTINGS",
+      settings,
+      IPC_ALL ^ IPC_BACKGROUND
+    );
   }
 }
 
-async function fixBadPlayerData(): Promise<void> {
+function fixBadPlayerData(savedData: any): any {
   // 2020-01-17 discovered with @Thaoden that some old draft decks might be v3
   // probably caused by a bad label handler that was temporarily on stable
-  const decks = { ...playerData.decks };
-  for (const deck of playerData.deckList) {
+  // 2020-01-27 @Manwe discovered that some old decks are saved as Deck objects
+  // TODO permanently convert them similar to approach used above
+  const decks = { ...savedData.decks };
+  Object.keys(decks).map((k: string) => {
+    const deck = decks[k];
     if (!isV2CardsList(deck.mainDeck)) {
       ipcLog("Converting v3 deck: " + deck.id);
       const fixedDeck = convertDeckFromV3((deck as unknown) as ArenaV3Deck);
-      decks[deck.id] = fixedDeck;
-      await playerDb.upsert("decks", deck.id, fixedDeck);
+      // 2020-02-29 discovered by user Soil'n'Rock that empty decks were considered
+      // as "Deck" by the isV2CardsList() function, thus de-archiving them.
+      decks[deck.id] = { ...fixedDeck, archived: deck.archived };
     }
-  }
-
-  // 2020-01-27 @Manwe discovered that some old decks are saved as Deck objects
-  // TODO permanently convert them similar to approach used above
-
-  setData({ decks }, false);
+  });
+  savedData.decks = decks;
+  return savedData;
 }
 
 // Loads this player's configuration file
-export async function loadPlayerConfig(playerId: string): Promise<void> {
+export async function loadPlayerConfig(): Promise<void> {
+  const { playerId, playerName } = globals.store.getState().playerdata;
   ipcLog("Load player ID: " + playerId);
   ipcPop({ text: "Loading player history...", time: 0, progress: 2 });
-  playerDb.init(playerId, playerData.name);
-  playerDbLegacy.init(playerId, playerData.name);
-  setData({ playerDbPath: playerDb.filePath }, false);
+  playerDb.init(playerId, playerName);
+  playerDbLegacy.init(playerId, playerName);
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_PLAYERDB",
+    playerDb.filePath,
+    IPC_RENDERER
+  );
   ipcLog("Player database: " + playerDb.filePath);
 
-  await migrateIfNecessary();
-
   ipcLog("Finding all documents in player database...");
-  const savedData = await playerDb.findAll();
-  const __playerData = _.defaultsDeep(savedData, playerData);
-  const { settings } = __playerData;
-  setData(__playerData, true);
-  await fixBadPlayerData();
-  ipcSend("renderer_set_bounds", __playerData.windowBounds);
+  let savedData = await playerDb.findAll();
+  savedData = fixBadPlayerData(savedData);
+  const { settings } = savedData;
+
+  // Get Rank data
+  reduxAction(globals.store.dispatch, "SET_RANK", savedData.rank, IPC_RENDERER);
+
+  // Get Matches data
+  const matchesList: InternalMatch[] = savedData.matches_index
+    .filter((id: string) => savedData[id])
+    .map((id: string) => {
+      savedData[id].date = new Date(savedData[id].date).toString();
+      return savedData[id];
+    });
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_MATCHES",
+    matchesList,
+    IPC_RENDERER
+  );
+
+  // Get Events data
+  const eventsList: InternalEvent[] = savedData.courses_index
+    .filter((id: string) => savedData[id])
+    .map((id: string) => {
+      savedData[id].date = new Date(savedData[id].date).getTime();
+      return savedData[id];
+    });
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_EVENTS",
+    eventsList,
+    IPC_RENDERER
+  );
+
+  // Get Decks data
+  const decks = { ...savedData.decks };
+  const decksList = Object.keys(decks).map((k: string) => decks[k]);
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_DECKS",
+    decksList,
+    IPC_RENDERER
+  );
+
+  // Get Deck Changes data
+  const changesList: DeckChange[] = savedData.deck_changes_index
+    .filter((id: string) => savedData[id])
+    .map((id: string) => savedData[id]);
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_DECK_CHANGES",
+    changesList,
+    IPC_RENDERER
+  );
+
+  // Get Economy data
+  const economyList: InternalEconomyTransaction[] = savedData.economy_index
+    .filter((id: string) => savedData[id])
+    .map((id: string) => {
+      savedData[id].date = new Date(savedData[id].date).toString();
+      return savedData[id];
+    });
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_ECONOMY",
+    economyList,
+    IPC_RENDERER
+  );
+
+  // Get Drafts data
+  const draftsList: InternalEconomyTransaction[] = savedData.draft_index
+    .filter((id: string) => savedData[id])
+    .map((id: string) => savedData[id]);
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_DRAFT",
+    draftsList,
+    IPC_RENDERER
+  );
+
+  // Get Seasonal data
+  const newSeasonal = { ...savedData.seasonal };
+  Object.keys(newSeasonal).forEach((id: string) => {
+    const update = newSeasonal[id] as any;
+    // Ugh.. some timestamps are stored as Date
+    if (update.timestamp instanceof Date) {
+      update.timestamp = update.timestamp.getTime();
+      newSeasonal[id] = update;
+    }
+  });
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_SEASONAL",
+    newSeasonal,
+    IPC_RENDERER
+  );
+
+  // Get cards data
+  reduxAction(
+    globals.store.dispatch,
+    "ADD_CARDS_FROM_STORE",
+    savedData.cards,
+    IPC_RENDERER
+  );
+
+  // Get tags colors data
+  reduxAction(
+    globals.store.dispatch,
+    "SET_TAG_COLORS",
+    savedData.tags_colors,
+    IPC_RENDERER
+  );
+
+  // Get deck tags data
+  reduxAction(
+    globals.store.dispatch,
+    "SET_DECK_TAGS",
+    savedData.deck_tags,
+    IPC_RENDERER
+  );
+
+  // Other
+  setData(savedData, true);
+  ipcSend("renderer_set_bounds", savedData.windowBounds);
   syncSettings(settings, true);
 
   // populate draft overlays with last draft if possible
-  if (playerData.draftList.length) {
-    const lastDraft = playerData.draftList[playerData.draftList.length - 1];
+  if (draftsList.length) {
+    const lastDraft = draftsList[draftsList.length - 1];
     ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
   }
 
@@ -123,21 +225,9 @@ export async function loadPlayerConfig(playerId: string): Promise<void> {
   // Could happen when using multi accounts
   if (globals.watchingLog == false) {
     globals.watchingLog = true;
-    ipcLog("Starting Arena Log Watcher: " + settings.logUri);
-    globals.stopWatchingLog = arenaLogWatcher.startWatchingLog(settings.logUri);
+    const logUri = globals.store.getState().appsettings.logUri;
+    ipcLog("Starting Arena Log Watcher: " + logUri);
+    globals.stopWatchingLog = arenaLogWatcher.startWatchingLog(logUri);
     ipcLog("Calling back to http-api...");
   }
-}
-
-export function backportNeDbToElectronStore(): void {
-  ipcLog("Backporting player database...");
-  playerDbLegacy.upsertAll(playerData.data).then(num => {
-    ipcLog(`...backported ${num} records from nedb to electron-store`);
-    ipcPop({
-      text: "Successfully backported all player data to JSON.",
-      time: 3000,
-      progress: -1
-    });
-    shell.showItemInFolder(playerDbLegacy.filePath);
-  });
 }

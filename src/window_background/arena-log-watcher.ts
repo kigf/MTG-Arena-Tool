@@ -8,25 +8,26 @@ import ArenaLogDecoder from "./arena-log-decoder/arena-log-decoder";
 
 import LogEntry from "../types/logDecoder";
 import * as Labels from "./onLabel";
-import playerData from "../shared/PlayerData";
 
 import {
   ipcSend,
-  getDateFormat,
   parseWotcTimeFallback,
-  setData,
   updateLoading
 } from "./backgroundUtil";
 import {
   ARENA_MODE_MATCH,
   ARENA_MODE_DRAFT,
-  ARENA_MODE_IDLE
+  ARENA_MODE_IDLE,
+  LOGIN_OK,
+  IPC_RENDERER
 } from "../shared/constants";
 import updateDeck from "./updateDeck";
 import globals from "./globals";
+import { reduxAction } from "../shared-redux/sharedRedux";
 
 const debugLogSpeed = 0.001;
 let logReadEnd = null;
+let lastProgressPop = 0;
 
 const fsAsync = {
   close: promisify(fs.close),
@@ -71,7 +72,7 @@ export function start({
       position = 0;
     }
     while (position < size) {
-      if (!playerData.settings.skip_firstpass) {
+      if (!globals.store.getState().settings.skip_firstpass) {
         const buffer = await readChunk(
           path,
           position,
@@ -175,12 +176,19 @@ function onLogEntryFound(entry: any): void {
       // sleep
     }
   }
+  const playerData = globals.store.getState().playerdata;
   if (entry.playerId && entry.playerId !== playerData.arenaId) {
     return;
   } else {
     //console.log("Entry:", entry.label, entry, entry.json());
-    updateLoading(entry);
-    if (!(globals.firstPass && playerData.settings.skip_firstpass)) {
+    const end = Date.now();
+    if (end > lastProgressPop + 1000) {
+      lastProgressPop = end;
+      updateLoading(entry);
+    }
+    if (
+      !(globals.firstPass && globals.store.getState().settings.skip_firstpass)
+    ) {
       try {
         entrySwitch(entry);
         let timestamp = entry.timestamp;
@@ -192,10 +200,8 @@ function onLogEntryFound(entry: any): void {
         }
         if (timestamp) {
           globals.logTime = parseWotcTimeFallback(timestamp);
-          setData({
-            last_log_timestamp: timestamp,
-            last_log_format: getDateFormat(timestamp)
-          });
+          //reduxAction(globals.store.dispatch, "SET_LOG_TIMESTAMP", timestamp, IPC_RENDERER);
+          //reduxAction(globals.store.dispatch, "SET_LOG_FORMAT", getDateFormat(timestamp), IPC_RENDERER);
         }
       } catch (err) {
         console.log(entry.label, entry.position, entry.json());
@@ -408,8 +414,14 @@ function finishLoading(): void {
       ipcSend("set_arena_state", ARENA_MODE_IDLE);
     }
 
-    ipcSend("set_settings", JSON.stringify(playerData.settings));
-    ipcSend("initialize");
+    // replaces ipc "initialize"
+    reduxAction(globals.store.dispatch, "SET_LOADING", false, IPC_RENDERER);
+    reduxAction(
+      globals.store.dispatch,
+      "SET_LOGIN_STATE",
+      LOGIN_OK,
+      IPC_RENDERER
+    );
 
     ipcSend("popup", {
       text: "Initialized successfully!",

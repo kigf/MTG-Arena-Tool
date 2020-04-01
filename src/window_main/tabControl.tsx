@@ -12,11 +12,12 @@ import {
   MAIN_LIMITED,
   MAIN_MATCHES,
   MAIN_SETTINGS,
+  MAIN_TIMELINE,
   SUB_DECK,
   SUB_DRAFT,
   SUB_MATCH,
-  IPC_MAIN,
-  MAIN_TIMELINE
+  IPC_RENDERER,
+  IPC_ALL
 } from "../shared/constants";
 import Aggregator from "./aggregator";
 import openDeckSub from "./components/deck-view/DeckVIew";
@@ -34,19 +35,26 @@ import TimelineTab from "./tabs/TimelineTab";
 import OfflineSplash from "./components/main/OfflineSplash";
 import { ipcSend } from "./rendererUtil";
 import SettingsTab from "./tabs/settings";
+import store from "../shared-redux/stores/rendererStore";
+import { reduxAction } from "../shared-redux/sharedRedux";
 
 export function getOpenNav(tab: number, offline: boolean): JSX.Element {
   if (offline == true && (tab == MAIN_HOME || tab == MAIN_EXPLORE)) {
     return <OfflineSplash />;
   }
   const newSettings: Record<string, any> = {
-    last_open_tab: tab,
-    skipRefresh: true
+    last_open_tab: tab
   };
   if ([MAIN_CONSTRUCTED, MAIN_LIMITED].includes(tab)) {
     newSettings.last_date_filter = DATE_SEASON;
   }
-  ipcSend("save_user_settings", newSettings);
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    newSettings,
+    IPC_ALL ^ IPC_RENDERER
+  );
+
   switch (tab) {
     case MAIN_DECKS:
       return <DecksTab />;
@@ -109,9 +117,9 @@ export function getOpenSub(
 }
 
 export function forceOpenAbout(): void {
-  ipcSend("force_open_about", undefined, IPC_MAIN);
+  ipcSend("force_open_about", undefined, IPC_RENDERER);
 }
 
 export function forceOpenSettings(section = -1): void {
-  ipcSend("force_open_settings", section, IPC_MAIN);
+  ipcSend("force_open_settings", section, IPC_RENDERER);
 }

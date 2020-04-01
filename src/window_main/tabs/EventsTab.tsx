@@ -2,7 +2,6 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { TableState } from "react-table";
 import db from "../../shared/database";
-import pd from "../../shared/PlayerData";
 import { getReadableEvent } from "../../shared/util";
 import { EventInstanceData, InternalEvent } from "../../types/event";
 import Aggregator, { AggregatorFilters } from "../aggregator";
@@ -11,25 +10,40 @@ import { EventStats, EventTableData } from "../components/events/types";
 import { isHidingArchived } from "../components/tables/filters";
 import { useAggregatorData } from "../components/tables/useAggregatorData";
 import { ipcSend, toggleArchived } from "../rendererUtil";
+import { getMatch, matchExists, eventsList } from "../../shared-store";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import store from "../../shared-redux/stores/rendererStore";
+import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 
 function editTag(tag: string, color: string): void {
   ipcSend("edit_tag", { tag, color });
 }
 
 function saveTableState(eventsTableState: TableState<EventTableData>): void {
-  ipcSend("save_user_settings", { eventsTableState, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { eventsTableState },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function saveTableMode(eventsTableMode: string): void {
-  ipcSend("save_user_settings", { eventsTableMode, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { eventsTableMode },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function getValidMatchId(rawMatchId?: string): string | undefined {
-  if (pd.matchExists(rawMatchId)) {
+  if (matchExists(rawMatchId || "")) {
     return rawMatchId;
   }
-  const newStyleMatchId = `${rawMatchId}-${pd.arenaId}`;
-  if (pd.matchExists(newStyleMatchId)) {
+  const playerData = store.getState().playerdata;
+  const newStyleMatchId = `${rawMatchId}-${playerData.arenaId}`;
+  if (matchExists(newStyleMatchId)) {
     return newStyleMatchId;
   }
   // We couldn't find a matching index
@@ -74,7 +88,7 @@ function getEventStats(event: InternalEvent): EventStats {
     stats.isMissingMatchData = true;
   }
   stats.matchIds.forEach(matchId => {
-    const match = pd.match(matchId);
+    const match = getMatch(matchId);
     if (!match) {
       stats.isMissingMatchData = true;
       return;
@@ -107,7 +121,7 @@ function getEventsData(
   aggregator: Aggregator,
   archivedCache: Record<string, boolean>
 ): EventTableData[] {
-  return pd.eventList
+  return eventsList()
     .filter((event: InternalEvent) => {
       // legacy filter logic
       if (event === undefined || event.CourseDeck === undefined) {
@@ -150,7 +164,7 @@ export default function EventsTab({
 }: {
   aggFiltersArg?: AggregatorFilters;
 }): JSX.Element {
-  const { eventsTableMode, eventsTableState } = pd.settings;
+  const { eventsTableMode, eventsTableState } = store.getState().settings;
   const showArchived = !isHidingArchived(eventsTableState);
   const { aggFilters, data, setAggFilters } = useAggregatorData({
     aggFiltersArg,

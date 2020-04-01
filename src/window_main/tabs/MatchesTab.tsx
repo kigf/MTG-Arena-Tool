@@ -1,11 +1,14 @@
 import isValid from "date-fns/isValid";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TableState } from "react-table";
-import { SUB_MATCH } from "../../shared/constants";
+import {
+  SUB_MATCH,
+  IPC_NONE,
+  IPC_ALL,
+  IPC_RENDERER
+} from "../../shared/constants";
 import db from "../../shared/database";
-import pd from "../../shared/PlayerData";
-import { rendererSlice } from "../../shared/redux/reducers";
 import { getReadableEvent } from "../../shared/util";
 import { InternalMatch } from "../../types/match";
 import Aggregator, { AggregatorFilters } from "../aggregator";
@@ -16,12 +19,15 @@ import { TagCounts } from "../components/tables/types";
 import { useAggregatorData } from "../components/tables/useAggregatorData";
 import { ipcSend, toggleArchived } from "../rendererUtil";
 import uxMove from "../uxMove";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import { matchesList, getMatch } from "../../shared-store";
+import store, { AppState } from "../../shared-redux/stores/rendererStore";
 
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;
 const tagPrompt = "Set archetype";
 
 function addTag(matchid: string, tag: string): void {
-  const match = pd.match(matchid);
+  const match = getMatch(matchid);
   if (!match || [tagPrompt, NO_ARCH].includes(tag)) return;
   if (match.tags?.includes(tag)) return;
   ipcSend("add_matches_tag", { matchid, tag });
@@ -32,24 +38,34 @@ function editTag(tag: string, color: string): void {
 }
 
 function deleteTag(matchid: string, tag: string): void {
-  const match = pd.match(matchid);
+  const match = getMatch(matchid);
   if (!match || !match.tags?.includes(tag)) return;
   ipcSend("delete_matches_tag", { matchid, tag });
 }
 
 function saveTableState(matchesTableState: TableState<MatchTableData>): void {
-  ipcSend("save_user_settings", { matchesTableState, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { matchesTableState },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function saveTableMode(matchesTableMode: string): void {
-  ipcSend("save_user_settings", { matchesTableMode, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { matchesTableMode },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function getMatchesData(
   aggregator: Aggregator,
   archivedCache: Record<string, boolean>
 ): MatchTableData[] {
-  return pd.matchList
+  return matchesList()
     .filter((match: InternalMatch) => {
       // legacy filter logic
       if (match == undefined) {
@@ -132,27 +148,40 @@ export default function MatchesTab({
   aggFiltersArg?: AggregatorFilters;
 }): JSX.Element {
   const dispatcher = useDispatch();
-  const { matchesTableMode, matchesTableState } = pd.settings;
+  const matchesList = useSelector(
+    (state: AppState) => state.matches.matchesIndex
+  );
+  const { matchesTableMode, matchesTableState } = store.getState().settings;
   const showArchived = !isHidingArchived(matchesTableState);
   const { aggFilters, data, setAggFilters } = useAggregatorData({
     aggFiltersArg,
     getData: getMatchesData,
-    showArchived
+    showArchived,
+    forceMemo: matchesList
   });
+
   const openMatchDetails = React.useCallback(
     (match: InternalMatch): void => {
       uxMove(-100);
-      const { setBackgroundGrpId, setSubNav } = rendererSlice.actions;
-      dispatcher(setBackgroundGrpId(match.playerDeck.deckTileId));
-      dispatcher(
-        setSubNav({
+      reduxAction(
+        dispatcher,
+        "SET_BACK_GRPID",
+        match.playerDeck.deckTileId,
+        IPC_NONE
+      );
+      reduxAction(
+        dispatcher,
+        "SET_SUBNAV",
+        {
           type: SUB_MATCH,
           id: match.id
-        })
+        },
+        IPC_NONE
       );
     },
     [dispatcher]
   );
+
   const [events, tags] = React.useMemo(getTotalAggData, []);
   return (
     <div className="ux_item">

@@ -4,9 +4,8 @@ import electron from "electron";
 import async from "async";
 
 import { makeId } from "../shared/util";
-import playerData from "../shared/PlayerData";
 import db from "../shared/database";
-import { appDb, playerDb } from "../shared/db/LocalDatabase";
+import { playerDb } from "../shared/db/LocalDatabase";
 
 import { ipcSend, setData } from "./backgroundUtil";
 import { loadPlayerConfig, syncSettings } from "./loadPlayerConfig";
@@ -19,6 +18,15 @@ import {
   makeSimpleResponseHandler
 } from "./httpWorker";
 import globals from "./globals";
+import globalStore, {
+  matchExists,
+  eventExists,
+  transactionExists,
+  draftExists
+} from "../shared-store";
+import { IPC_RENDERER, IPC_ALL } from "../shared/constants";
+import { reduxAction } from "../shared-redux/sharedRedux";
+import { InternalRankUpdate } from "../types/rank";
 
 let httpQueue: async.AsyncQueue<HttpTask>;
 
@@ -38,88 +46,121 @@ export function isIdle(): boolean {
 function syncUserData(data: any): void {
   // console.log(data);
   // Sync Events
-  const courses_index = [...playerData.courses_index];
-  data.courses
-    .filter((doc: any) => !playerData.eventExists(doc._id))
-    .forEach((doc: any) => {
+  const courses_index = [...globals.store.getState().events.eventsIndex];
+  const coursesList = data.courses
+    .filter((doc: any) => !eventExists(doc._id))
+    .map((doc: any) => {
       const id = doc._id;
       doc.id = id;
       delete doc._id;
-      courses_index.push(id);
       playerDb.upsert("", id, doc);
-      setData({ [id]: doc }, false);
+      courses_index.push(id);
+      return doc;
     });
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_EVENTS",
+    coursesList,
+    IPC_RENDERER
+  );
   playerDb.upsert("", "courses_index", courses_index);
 
-  // Sync Matches
-  const matches_index = [...playerData.matches_index];
-  data.matches
-    .filter((doc: any) => !playerData.matchExists(doc._id))
-    .forEach((doc: any) => {
+  // Sync Matches (updated)
+  const matches_index = [...globals.store.getState().matches.matchesIndex];
+  const matchesList = data.matches
+    .filter((doc: any) => !matchExists(doc._id))
+    .map((doc: any) => {
       const id = doc._id;
       doc.id = id;
       delete doc._id;
-      matches_index.push(id);
       playerDb.upsert("", id, doc);
-      setData({ [id]: doc }, false);
+      matches_index.push(id);
+      return doc;
     });
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_MATCHES",
+    matchesList,
+    IPC_RENDERER
+  );
   playerDb.upsert("", "matches_index", matches_index);
 
   // Sync Economy
-  const economy_index = [...playerData.economy_index];
-  data.economy
-    .filter((doc: any) => !playerData.transactionExists(doc._id))
-    .forEach((doc: any) => {
+  const economy_index = [...globals.store.getState().economy.economyIndex];
+  const transactionsList = data.economy
+    .filter((doc: any) => !transactionExists(doc._id))
+    .map((doc: any) => {
       const id = doc._id;
       doc.id = id;
       delete doc._id;
-      economy_index.push(id);
       playerDb.upsert("", id, doc);
-      setData({ [id]: doc }, false);
+      economy_index.push(id);
+      return doc;
     });
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_ECONOMY",
+    transactionsList,
+    IPC_RENDERER
+  );
   playerDb.upsert("", "economy_index", economy_index);
 
   // Sync Drafts
-  const draft_index = [...playerData.draft_index];
-  data.drafts
-    .filter((doc: any) => !playerData.draftExists(doc._id))
-    .forEach((doc: any) => {
+  const draft_index = [...globals.store.getState().drafts.draftsIndex];
+  const draftsList = data.drafts
+    .filter((doc: any) => !draftExists(doc._id))
+    .map((doc: any) => {
       const id = doc._id;
       doc.id = id;
       delete doc._id;
-      draft_index.push(id);
       playerDb.upsert("", id, doc);
-      setData({ [id]: doc }, false);
+      draft_index.push(id);
+      return doc;
     });
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_DRAFTS",
+    draftsList,
+    IPC_RENDERER
+  );
   playerDb.upsert("", "draft_index", draft_index);
 
   // Sync seasonal
-  data.seasonal.forEach((doc: any) => {
+  const seasonalAdd = data.seasonal.map((doc: any) => {
     const id = doc._id;
     doc.id = id;
     delete doc._id;
-
-    const seasonal_rank = playerData.addSeasonalRank(
-      doc,
-      doc.seasonOrdinal,
-      doc.rankUpdateType
-    );
-    setData({ seasonal_rank });
-
-    const seasonal = { ...playerData.seasonal, [id]: doc };
-    setData({ seasonal });
-
     playerDb.upsert("seasonal", id, doc);
-    playerDb.upsert("", "seasonal_rank", seasonal_rank);
+    return doc;
   });
+  const newSeasonalRank: Record<string, string[]> = {
+    ...globals.store.getState().seasonal.seasonal
+  };
+  seasonalAdd.map((update: InternalRankUpdate) => {
+    const season = `${update.rankUpdateType.toLowerCase()}_${
+      update.seasonOrdinal
+    }`;
+    newSeasonalRank[season] = [...(newSeasonalRank[season] || []), update.id];
+  });
+  playerDb.upsert("", "seasonal_rank", newSeasonalRank);
+
+  reduxAction(
+    globals.store.dispatch,
+    "SET_MANY_SEASONAL",
+    seasonalAdd,
+    IPC_RENDERER
+  );
 
   if (data.settings.tags_colors) {
     const newTags = data.settings.tags_colors;
-    setData({ tags_colors: { ...newTags } });
+    reduxAction(
+      globals.store.dispatch,
+      "SET_TAG_COLORS",
+      newTags,
+      IPC_RENDERER
+    );
     playerDb.upsert("", "tags_colors", newTags);
   }
-
-  setData({ courses_index, draft_index, economy_index, matches_index });
 }
 
 export function httpNotificationsPull(): void {
@@ -173,7 +214,7 @@ function handleNotificationsResponse(
 
 export function httpAuth(userName: string, pass: string): void {
   const _id = makeId(6);
-  setData({ userName }, false);
+  const playerData = globals.store.getState().playerdata;
   httpQueue.push(
     {
       reqId: _id,
@@ -182,7 +223,7 @@ export function httpAuth(userName: string, pass: string): void {
       email: userName,
       password: pass,
       playerid: playerData.arenaId,
-      playername: encodeURIComponent(playerData.name),
+      playername: encodeURIComponent(playerData.playerName),
       mtgaversion: playerData.arenaVersion,
       version: electron.remote.app.getVersion()
     },
@@ -197,9 +238,15 @@ function handleAuthResponse(
   parsedResult?: any
 ): void {
   if (error || !parsedResult) {
-    syncSettings({ token: "" }, false);
-    appDb.upsert("", "email", "");
-    appDb.upsert("", "token", "");
+    reduxAction(
+      globals.store.dispatch,
+      "SET_APP_SETTINGS",
+      {
+        token: "",
+        email: ""
+      },
+      IPC_ALL
+    );
     ipcSend("auth", {});
     ipcSend("toggle_login", true);
     ipcSend("login_failed", true);
@@ -216,9 +263,17 @@ function handleAuthResponse(
 
   ipcSend("auth", parsedResult);
   //ipcSend("auth", parsedResult.arenaids);
-  if (playerData.settings.remember_me) {
-    appDb.upsert("", "token", parsedResult.token);
-    appDb.upsert("", "email", playerData.userName);
+  const appSettings = globals.store.getState().appsettings;
+  if (appSettings.rememberMe) {
+    reduxAction(
+      globals.store.dispatch,
+      "SET_APP_SETTINGS",
+      {
+        token: parsedResult.token,
+        email: appSettings.email
+      },
+      IPC_ALL
+    );
   }
   const data: any = {};
   data.patreon = parsedResult.patreon;
@@ -239,15 +294,17 @@ function handleAuthResponse(
     serverData.seasonal = parsedResult.seasonal;
   }
   setData(data, false);
-  loadPlayerConfig(playerData.arenaId).then(() => {
+  loadPlayerConfig().then(() => {
     ipcLog("...called back to http-api.");
     ipcLog("Checking for sync requests...");
     const requestSync = {
-      courses: serverData.courses.filter(id => !(id in playerData)),
-      matches: serverData.matches.filter(id => !(id in playerData)),
-      drafts: serverData.drafts.filter(id => !(id in playerData)),
-      economy: serverData.economy.filter(id => !(id in playerData)),
-      seasonal: serverData.seasonal.filter(id => !(id in playerData.seasonal))
+      courses: serverData.courses.filter(id => !(id in globalStore.events)),
+      matches: serverData.matches.filter(id => !(id in globalStore.matches)),
+      drafts: serverData.drafts.filter(id => !(id in globalStore.drafts)),
+      economy: serverData.economy.filter(
+        id => !(id in globalStore.transactions)
+      ),
+      seasonal: serverData.seasonal.filter(id => !(id in globalStore.seasonal))
     };
 
     if (requestSync) {
@@ -263,10 +320,13 @@ function handleAuthResponse(
 
 export function httpSubmitCourse(course: any): void {
   const _id = makeId(6);
-  if (playerData.settings.anon_explore == true) {
+  const anon = globals.store.getState().settings.anon_explore;
+  if (anon == true) {
     course.PlayerId = "000000000000000";
     course.PlayerName = "Anonymous";
   }
+
+  const playerData = globals.store.getState().playerdata;
   course.playerRank = playerData.rank.limited.rank;
   course = JSON.stringify(course);
   httpQueue.push(
@@ -282,6 +342,7 @@ export function httpSubmitCourse(course: any): void {
 
 export function httpGetExplore(query: any): void {
   const _id = makeId(6);
+  const playerData = globals.store.getState().playerdata;
   httpQueue.unshift(
     {
       reqId: _id,
@@ -367,7 +428,8 @@ function handleSetDataResponse(
 
 export function httpSetMatch(match: any): void {
   const _id = makeId(6);
-  if (playerData.settings.anon_explore == true) {
+  const anon = globals.store.getState().settings.anon_explore;
+  if (anon == true) {
     match.player.userid = "000000000000000";
     match.player.name = "Anonymous";
   }
@@ -492,7 +554,7 @@ export function httpGetDatabaseVersion(lang: string): void {
       method_path: "/database/latest/" + lang
     },
     makeSimpleResponseHandler((parsedResult: any) => {
-      const lang = playerData.settings.metadata_lang;
+      const lang = globals.store.getState().appsettings.metadataLang;
       if (
         db.metadata &&
         db.metadata.language &&

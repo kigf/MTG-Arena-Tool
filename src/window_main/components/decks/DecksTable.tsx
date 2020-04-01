@@ -1,7 +1,6 @@
 import React from "react";
 import { Column, Row } from "react-table";
 import { DECKS_ART_MODE, DECKS_TABLE_MODE } from "../../../shared/constants";
-import pd from "../../../shared/PlayerData";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import { ListItemDeck } from "../list-item/ListItemDeck";
 import MatchResultsStatsPanel from "../misc/MatchResultsStatsPanel";
@@ -41,6 +40,8 @@ import DecksArtViewRow from "./DecksArtViewRow";
 import DecksTableControls from "./DecksTableControls";
 import { deckSearchFilterFn } from "./filters";
 import { DecksData, DecksTableControlsProps, DecksTableProps } from "./types";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
 
 const columns: Column<DecksData>[] = [
   { accessor: "id" },
@@ -316,7 +317,9 @@ export default function DecksTable({
   };
 
   const isTableMode = tableMode === DECKS_TABLE_MODE;
-  const { right_panel_width: panelWidth } = pd.settings;
+  const panelWidth = useSelector(
+    (state: AppState) => state.settings.right_panel_width
+  );
   const sidePanelWidth = panelWidth + "px";
   return (
     <>

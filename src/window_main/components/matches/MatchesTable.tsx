@@ -1,7 +1,6 @@
 import React from "react";
 import { Column, Row } from "react-table";
 import { DATE_SEASON, MATCHES_TABLE_MODE } from "../../../shared/constants";
-import pd from "../../../shared/PlayerData";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import ListItemMatch from "../list-item/ListItemMatch";
 import MatchResultsStatsPanel from "../misc/MatchResultsStatsPanel";
@@ -45,6 +44,8 @@ import {
   MatchesTableProps,
   MatchTableData
 } from "./types";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
 
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
 
@@ -389,7 +390,9 @@ export default function MatchesTable({
     ...tableControlsProps
   };
   const isTableMode = tableMode === MATCHES_TABLE_MODE;
-  const { right_panel_width: panelWidth } = pd.settings;
+  const panelWidth = useSelector(
+    (state: AppState) => state.settings.right_panel_width
+  );
   const sidePanelWidth = panelWidth + "px";
   return (
     <>

@@ -2,8 +2,9 @@ import React, { useState, useCallback, useEffect } from "react";
 import ReactSelect from "../../../shared/ReactSelect";
 import { ipcSend } from "../../rendererUtil";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../../shared/redux/reducers";
-import { rendererSlice } from "../../../shared/redux/reducers";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
+import { reduxAction } from "../../../shared-redux/sharedRedux";
+import { IPC_NONE } from "../../../shared/constants";
 
 function shareTypeId(type: string): number {
   switch (type) {
@@ -47,8 +48,7 @@ export default function Share(props: ShareProps): JSX.Element {
 
   const selectExpire = useCallback(
     (option: string): void => {
-      const { setLoading } = rendererSlice.actions;
-      dispatcher(setLoading(true));
+      reduxAction(dispatcher, "SET_LOADING", true, IPC_NONE);
       switch (type) {
         case "draft":
           ipcSend("request_draft_link", {

@@ -5,8 +5,7 @@ import { ipcRenderer as ipc } from "electron";
 import _ from "lodash";
 import parse from "date-fns/parse";
 import isValid from "date-fns/isValid";
-import { IPC_BACKGROUND, IPC_MAIN, IPC_OVERLAY } from "../shared/constants";
-import playerData from "../shared/PlayerData";
+import { IPC_BACKGROUND, IPC_RENDERER } from "../shared/constants";
 import globals from "./globals";
 
 import { create, all, MathJsStatic } from "mathjs";
@@ -14,7 +13,7 @@ const config = { precision: 2000 };
 const math: MathJsStatic = create(all, config) as MathJsStatic;
 
 // Begin of IPC messages recievers
-export function ipcSend(method: string, arg?: any, to = IPC_MAIN): void {
+export function ipcSend(method: string, arg?: any, to = IPC_RENDERER): void {
   if (method == "ipc_log") {
     //
   }
@@ -47,9 +46,10 @@ function isValidDate(date: Date): boolean {
 }
 
 export function getDateFormat(dateStr: string): string | undefined {
-  if (playerData.settings.log_locale_format) {
+  const localeFormat = globals.store.getState().appsettings.logLocaleFormat;
+  if (localeFormat) {
     // return the players setting
-    return playerData.settings.log_locale_format;
+    return localeFormat;
   } else {
     // return the first date format which parses
     // the string returning a valid date
@@ -149,39 +149,11 @@ export function unleakString(s: string): string {
   return (" " + s).substr(1);
 }
 
-const dataBlacklist = [
-  "transactionList",
-  "draftList",
-  "eventList",
-  "matchList"
-];
-
-const overlayWhitelist = [
-  "name",
-  "userName",
-  "arenaId",
-  "arenaVersion",
-  "patreon",
-  "patreon_tier",
-  "rank",
-  "cards",
-  "cardsNew",
-  "settings"
-];
-
-// convenience fn to update player data singletons in all processes
-// (update is destructive, be sure to use spread syntax if necessary)
 export function setData(
   data: any,
   refresh = globals.debugLog || !globals.firstPass
 ): void {
-  const cleanData = _.omit(data, dataBlacklist);
-
-  playerData.handleSetData(null, JSON.stringify(cleanData));
-  ipcSend("set_player_data", JSON.stringify(cleanData), IPC_MAIN);
-
-  const overlayData = _.pick(cleanData, overlayWhitelist);
-  // This was left out in develop ?
-  // if (refresh) ipcSend("player_data_refresh");
-  ipcSend("set_player_data", JSON.stringify(overlayData), IPC_OVERLAY);
+  // Unused now, and should be removed.
+  // Any uses of it currently mean something needs
+  // to be updated to the new redux ways.
 }

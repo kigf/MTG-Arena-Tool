@@ -1,24 +1,16 @@
-import { CardObject, InternalDeck, v2cardsList } from "../../types/Deck";
+import { CardObject, InternalDeck, DeckChange } from "../../types/Deck";
 import convertDeckFromV3 from "../convertDeckFromV3";
 import db from "../../shared/database";
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
-import playerData from "../../shared/PlayerData";
-import { setData } from "../backgroundUtil";
 import { ArenaV3Deck } from "../../types/Deck";
+import { getDeck, deckChangeExists } from "../../shared-store";
+import { IPC_RENDERER } from "../../shared/constants";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import globals from "../globals";
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck;
-}
-
-interface Changes {
-  id: string;
-  deckId: string;
-  date: Date;
-  changesMain: CardObject[];
-  changesSide: CardObject[];
-  previousMain: v2cardsList;
-  previousSide: v2cardsList;
 }
 
 interface TempCardObject extends CardObject {
@@ -31,10 +23,10 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
   if (!json) return;
 
   const entryDeck = convertDeckFromV3(json);
-  const _deck = playerData.deck(json.id) as InternalDeck;
+  const _deck = getDeck(json.id) as InternalDeck;
 
   const changeId = entry.hash;
-  const deltaDeck: Changes = {
+  const deltaDeck: DeckChange = {
     id: changeId,
     deckId: _deck.id || "",
     date: new Date(json.lastUpdated),
@@ -99,25 +91,25 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
   });
 
   const foundNewDeckChange =
-    !playerData.deckChangeExists(changeId) &&
+    !deckChangeExists(changeId) &&
     (deltaDeck.changesMain.length || deltaDeck.changesSide.length);
 
   if (foundNewDeckChange) {
-    playerDb.upsert("deck_changes", changeId, deltaDeck);
-    const deckChanges = { ...playerData.deck_changes, [changeId]: deltaDeck };
-    const deckChangesIndex = [...playerData.deck_changes_index];
+    const deckChangesIndex = globals.store.getState().deckChanges
+      .deckChangesIndex;
     if (!deckChangesIndex.includes(changeId)) {
       deckChangesIndex.push(changeId);
     }
     playerDb.upsert("", "deck_changes_index", deckChangesIndex);
-    setData({
-      deck_changes: deckChanges,
-      deck_changes_index: deckChangesIndex
-    });
+    playerDb.upsert("deck_changes", changeId, deltaDeck);
+    reduxAction(
+      globals.store.dispatch,
+      "SET_DECK_CHANGE",
+      deltaDeck,
+      IPC_RENDERER
+    );
   }
 
-  const deckData = { ..._deck, ...entryDeck };
-  const decks = { ...playerData.decks, [entryDeck.id ?? ""]: deckData };
-  playerDb.upsert("decks", entryDeck.id ?? "", deckData);
-  setData({ decks });
+  const deckData = { ..._deck, ...entryDeck, id: entryDeck.id ?? "" };
+  reduxAction(globals.store.dispatch, "SET_DECK", deckData, IPC_RENDERER);
 }

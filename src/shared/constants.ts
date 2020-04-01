@@ -1,6 +1,16 @@
-export const IPC_BACKGROUND = 0;
+// Should allow binary ops
+export const IPC_NONE = 0;
 export const IPC_MAIN = 1;
-export const IPC_OVERLAY = 2;
+export const IPC_BACKGROUND = 2;
+export const IPC_RENDERER = 4;
+export const IPC_OVERLAY = 8;
+export const IPC_ALL = IPC_BACKGROUND | IPC_RENDERER | IPC_MAIN | IPC_OVERLAY;
+
+// Login states
+export const LOGIN_AUTH = 1;
+export const LOGIN_WAITING = 2;
+export const LOGIN_OK = 3;
+export const LOGIN_FAILED = 4;
 
 // Colour indices
 export const WHITE = 1;

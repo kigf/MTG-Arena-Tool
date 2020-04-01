@@ -1,23 +1,25 @@
 import { ipcRenderer as ipc, webFrame } from "electron";
 import { Howl, Howler } from "howler";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import striptags from "striptags";
 import {
   ARENA_MODE_IDLE,
   IPC_BACKGROUND,
+  IPC_RENDERER,
+  IPC_OVERLAY,
   IPC_MAIN,
-  IPC_OVERLAY
+  IPC_ALL
 } from "../shared/constants";
 import Deck from "../shared/deck";
-import { hoverSlice, settingsSlice, AppState } from "../shared/redux/reducers";
+import store, { AppState } from "../shared-redux/stores/overlayStore";
 import { MatchData } from "../types/currentMatch";
 import { DraftData } from "../types/draft";
 import { InternalActionLog } from "../types/log";
 import { OverlaySettingsData } from "../types/settings";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
-
+import { reduxAction } from "../shared-redux/sharedRedux";
 const sound = new Howl({ src: ["../sounds/blip.mp3"] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);
@@ -69,7 +71,6 @@ export default function OverlayController(): JSX.Element {
   const [turnPriority, setTurnPriority] = useState(1);
   const settings = useSelector((state: AppState) => state.settings);
   const [lastBeep, setLastBeep] = useState(Date.now());
-  const dispatcher = useDispatch();
 
   const {
     overlay_scale: overlayScale,
@@ -134,11 +135,12 @@ export default function OverlayController(): JSX.Element {
         }) ||
         overlayHover;
 
-      ipcSend("save_user_settings", {
-        overlays: newOverlays,
-        overlayHover: newOverlayHover,
-        skipRefresh: true
-      });
+      reduxAction(
+        store.dispatch,
+        "SET_SETTINGS",
+        { overlays: newOverlays, overlayHover: newOverlayHover },
+        IPC_ALL ^ IPC_OVERLAY
+      );
     }
     setEditMode(_editMode);
   };
@@ -177,7 +179,13 @@ export default function OverlayController(): JSX.Element {
       ...overlays[index], // old overlay
       show // new setting
     };
-    ipcSend("save_user_settings", { overlays: newOverlays });
+
+    reduxAction(
+      store.dispatch,
+      "SET_SETTINGS",
+      { overlays: newOverlays },
+      IPC_ALL ^ IPC_OVERLAY
+    );
   };
 
   const handleSetDraftCards = useCallback(
@@ -186,20 +194,6 @@ export default function OverlayController(): JSX.Element {
       setDraftState({ packN: draft.packNumber, pickN: draft.pickNumber });
     },
     []
-  );
-
-  const handleSettingsUpdated = useCallback(
-    (event: unknown, arg: string): void => {
-      try {
-        const json = JSON.parse(arg);
-        console.log(json);
-        dispatcher(hoverSlice.actions.setHoverSize(json.cardsSizeHoverCard));
-        dispatcher(settingsSlice.actions.setSettings(json));
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    [dispatcher]
   );
 
   const handleSetMatch = useCallback((event: unknown, arg: string): void => {
@@ -233,7 +227,6 @@ export default function OverlayController(): JSX.Element {
     ipc.on("set_arena_state", handleSetArenaState);
     ipc.on("set_draft_cards", handleSetDraftCards);
     ipc.on("set_match", handleSetMatch);
-    ipc.on("set_settings", handleSettingsUpdated);
     ipc.on("set_turn", handleSetTurn);
 
     return (): void => {
@@ -244,7 +237,6 @@ export default function OverlayController(): JSX.Element {
       ipc.removeListener("set_arena_state", handleSetArenaState);
       ipc.removeListener("set_draft_cards", handleSetDraftCards);
       ipc.removeListener("set_match", handleSetMatch);
-      ipc.removeListener("set_settings", handleSettingsUpdated);
       ipc.removeListener("set_turn", handleSetTurn);
     };
   });
@@ -280,7 +272,11 @@ export default function OverlayController(): JSX.Element {
           const overlayProps = {
             handleClickSettings: (): void => {
               ipcSend("renderer_show");
-              ipcSend("force_open_overlay_settings", index, IPC_MAIN);
+              ipcSend(
+                "force_open_overlay_settings",
+                index,
+                IPC_RENDERER | IPC_MAIN
+              );
             },
             handleClickClose: (): void => {
               handleClose(null, { action: -1, index });

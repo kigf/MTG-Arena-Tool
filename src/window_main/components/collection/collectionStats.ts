@@ -1,8 +1,9 @@
 import Colors from "../../../shared/colors";
 import db from "../../../shared/database";
-import pd from "../../../shared/PlayerData";
-import { getMissingCardCounts } from "../../../shared/util";
 import Deck from "../../../shared/deck";
+import { decksList } from "../../../shared-store";
+import store from "../../../shared-redux/stores/rendererStore";
+import { getMissingCardCounts } from "../../rendererUtil";
 
 export const ALL_CARDS = "All cards";
 export const SINGLETONS = "Singletons (at least one)";
@@ -111,8 +112,9 @@ export interface CollectionStats {
 export function getCollectionStats(
   cardIds: (string | number)[]
 ): CollectionStats {
+  const playerEconomy = store.getState().playerdata.economy;
   const wantedCards: { [key: string]: number } = {};
-  pd.deckList
+  decksList()
     .filter(deck => deck && !deck.archived)
     .forEach(deck => {
       const missing = getMissingCardCounts(new Deck(deck));
@@ -124,9 +126,10 @@ export function getCollectionStats(
   const stats: { [key: string]: SetStats } = {
     complete: new SetStats("complete")
   };
+  const cards = store.getState().playerdata.cards;
   Object.keys(db.sets).forEach(setName => {
     const setStats = new SetStats(setName);
-    setStats.boosters = pd.economy.boosters
+    setStats.boosters = playerEconomy.boosters
       .filter(
         ({ collationId }: { collationId: number }) =>
           db.sets[setName]?.collation === collationId
@@ -157,8 +160,8 @@ export function getCollectionStats(
     stats.complete[card.rarity].total += 4;
     stats.complete[card.rarity].unique += 1;
     // add cards we own
-    if (pd.cards.cards[card.id] !== undefined) {
-      const owned = pd.cards.cards[card.id];
+    if (cards.cards[card.id] !== undefined) {
+      const owned = cards.cards[card.id];
       obj.owned = owned;
       stats[card.set][card.rarity].owned += owned;
       stats[card.set][card.rarity].uniqueOwned += 1;

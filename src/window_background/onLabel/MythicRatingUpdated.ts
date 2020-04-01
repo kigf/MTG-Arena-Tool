@@ -1,12 +1,13 @@
 import db from "../../shared/database";
 import { playerDb } from "../../shared/db/LocalDatabase";
 
-import playerData from "../../shared/PlayerData";
 import globals from "../globals";
-import { parseWotcTimeFallback, setData } from "../backgroundUtil";
+import { parseWotcTimeFallback } from "../backgroundUtil";
 
 import LogEntry from "../../types/logDecoder";
 import { InternalRank, RankUpdate } from "../../types/rank";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import { IPC_RENDERER } from "../../shared/constants";
 
 interface Entry extends LogEntry {
   json: () => RankUpdate;
@@ -45,18 +46,24 @@ export default function MythicRatingUpdated(entry: Entry): void {
     type = "limited";
   }
 
+  const playerData = globals.store.getState().playerdata;
   const rank: InternalRank = { ...playerData.rank };
 
   rank.constructed.percentile = newJson.newMythicPercentile;
   rank.constructed.leaderboardPlace = newJson.newMythicLeaderboardPlacement;
 
-  const seasonalRank = playerData.addSeasonalRank(
-    newJson,
-    rank.constructed.seasonOrdinal,
-    type as "constructed" | "limited"
-  );
+  // Rank update / seasonal
+  reduxAction(globals.store.dispatch, "SET_SEASONAL", newJson, IPC_RENDERER);
+  const newSeasonalRank: Record<string, string[]> = {
+    ...globals.store.getState().seasonal.seasonal
+  };
+  const season = `${newJson.rankUpdateType.toLowerCase()}_${
+    newJson.seasonOrdinal
+  }`;
+  newSeasonalRank[season] = [...(newSeasonalRank[season] || []), newJson.id];
+  playerDb.upsert("", "seasonal_rank", newSeasonalRank);
 
-  setData({ rank, seasonalRank });
+  // New rank data
+  reduxAction(globals.store.dispatch, "SET_RANK", rank, IPC_RENDERER);
   playerDb.upsert("", "rank", rank);
-  playerDb.upsert("", "seasonal_rank", seasonalRank);
 }

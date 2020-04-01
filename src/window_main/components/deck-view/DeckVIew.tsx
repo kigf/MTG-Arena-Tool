@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { InternalDeck, CardObject } from "../../../types/Deck";
-import pd from "../../../shared/PlayerData";
 import ManaCost from "../misc/ManaCost";
-import { MANA_COLORS } from "../../../shared/constants";
+import { MANA_COLORS, IPC_NONE } from "../../../shared/constants";
 import DeckList from "../misc/DeckList";
 import DeckTypesStats from "../../../shared/DeckTypesStats";
 import DeckManaCurve from "../../../shared/DeckManaCurve";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
-import { useDispatch } from "react-redux";
-import { hoverSlice, rendererSlice } from "../../../shared/redux/reducers";
+import { useDispatch, useSelector } from "react-redux";
 import db from "../../../shared/database";
 import ShareButton from "../misc/ShareButton";
 import CraftingCost from "./CraftingCost";
 import { getCardImage } from "../../../shared/util";
 import uxMove from "../../uxMove";
+import { reduxAction } from "../../../shared-redux/sharedRedux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
+import { getDeck } from "../../../shared-store";
 const ReactSvgPieChart = require("react-svg-piechart");
 
 const VIEW_VISUAL = 0;
@@ -130,8 +131,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
   const dispatcher = useDispatch();
 
   const goBack = (): void => {
-    const { setBackgroundGrpId } = rendererSlice.actions;
-    dispatcher(setBackgroundGrpId(0));
+    reduxAction(dispatcher, "SET_BACK_GRPID", 0, IPC_NONE);
     uxMove(0);
   };
 
@@ -146,12 +146,14 @@ export function DeckView(props: DeckViewProps): JSX.Element {
   const arenaExport = (): void => {
     const list = deck.getExportArena();
     ipcSend("set_clipboard", list);
-    const { setPopup } = rendererSlice.actions;
-    dispatcher(
-      setPopup({
+    reduxAction(
+      dispatcher,
+      "SET_POPUP",
+      {
         text: "Copied to clipboard",
         time: 2000
-      })
+      },
+      IPC_NONE
     );
   };
 
@@ -260,12 +262,20 @@ function cmcSort(a: CardObject, b: CardObject): number {
 
 function VisualDeckView(props: VisualDeckViewProps): JSX.Element {
   const { deck, setRegularView } = props;
-  const sz = pd.cardsSize;
+  const sz =
+    100 + useSelector((state: AppState) => state.settings.cards_size) * 15;
+  const cardQuality = useSelector(
+    (state: AppState) => state.settings.cards_quality
+  );
   const dispatcher = useDispatch();
-  const { setHoverIn, setHoverOut } = hoverSlice.actions;
 
   const hoverCard = (id: number, hover: boolean): void => {
-    dispatcher(hover ? setHoverIn({ grpId: id }) : setHoverOut());
+    reduxAction(
+      dispatcher,
+      hover ? "SET_HOVER_IN" : "SET_HOVER_OUT",
+      { grpId: id },
+      IPC_NONE
+    );
   };
 
   // attempt at sorting visually..
@@ -330,7 +340,7 @@ function VisualDeckView(props: VisualDeckViewProps): JSX.Element {
                         hoverCard(grpId, false);
                       }}
                       style={{ width: sz + "px" }}
-                      src={getCardImage(cardObj)}
+                      src={getCardImage(cardObj, cardQuality)}
                       className="deck_visual_card_img"
                     ></img>
                   </div>
@@ -383,7 +393,7 @@ function VisualDeckView(props: VisualDeckViewProps): JSX.Element {
                         hoverCard(grpId, false);
                       }}
                       style={{ width: sz + "px" }}
-                      src={getCardImage(cardObj)}
+                      src={getCardImage(cardObj, cardQuality)}
                       className="deck_visual_card_img"
                     ></img>
                   </div>
@@ -401,7 +411,7 @@ export default function openDeckSub(
   deckId: string,
   deck: InternalDeck | null = null
 ): JSX.Element {
-  const decklist = deck ?? pd.deck(deckId);
+  const decklist = deck ?? getDeck(deckId);
   if (!decklist) return <div>{deckId}</div>;
   return <DeckView deck={decklist} />;
 }

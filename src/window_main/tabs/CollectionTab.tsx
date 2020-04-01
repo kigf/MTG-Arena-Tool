@@ -1,23 +1,20 @@
 import { remote } from "electron";
 import React from "react";
-import { useSelector } from "react-redux";
 import { TableState } from "react-table";
 import Colors from "../../shared/colors";
-import { DRAFT_RANKS } from "../../shared/constants";
+import { DRAFT_RANKS, IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 import db from "../../shared/database";
-import Deck from "../../shared/deck";
-import pd from "../../shared/PlayerData";
-import { AppState } from "../../shared/redux/reducers";
-import {
-  getMissingCardCounts,
-  openScryfallCard,
-  replaceAll
-} from "../../shared/util";
 import { DbCardData } from "../../types/Metadata";
+import { openScryfallCard, replaceAll } from "../../shared/util";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
+
+import { ipcSend, getMissingCardCounts } from "../rendererUtil";
 import { CardCounts } from "../components/decks/types";
-import { ipcSend } from "../rendererUtil";
+import Deck from "../../shared/deck";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import store from "../../shared-redux/stores/rendererStore";
+import { decksList } from "../../shared-store";
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
@@ -46,7 +43,8 @@ function addCardMenu(div: HTMLElement, card: DbCardData): void {
 }
 
 function getExportString(cardIds: string[]): string {
-  const { export_format: exportFormat } = pd.settings;
+  const { export_format: exportFormat } = store.getState().settings;
+  const cards = store.getState().playerdata.cards;
   // TODO teach export how to handle all the new optional columns?
   let exportString = "";
   cardIds.forEach(key => {
@@ -54,7 +52,7 @@ function getExportString(cardIds: string[]): string {
     const card = db.card(key);
     if (card) {
       const name = replaceAll(card.name, "///", "//");
-      const count = pd.cards.cards[key] === 9999 ? 1 : pd.cards.cards[key] ?? 0;
+      const count = cards.cards[key] === 9999 ? 1 : cards.cards[key] ?? 0;
       const code = db.sets[card.set]?.code ?? "???";
       add = add
         .replace("$Name", '"' + name + '"')
@@ -77,16 +75,28 @@ function exportCards(cardIds: string[]): void {
 }
 
 function saveTableState(collectionTableState: TableState<CardsData>): void {
-  ipcSend("save_user_settings", { collectionTableState, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { collectionTableState },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function saveTableMode(collectionTableMode: string): void {
-  ipcSend("save_user_settings", { collectionTableMode, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { collectionTableMode },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function getCollectionData(): CardsData[] {
   const wantedCards: CardCounts = {};
-  pd.deckList
+  const cards = store.getState().playerdata.cards;
+  const cardsNew = store.getState().playerdata.cardsNew;
+  decksList()
     .filter(deck => deck && !deck.archived)
     .forEach(deck => {
       const missing = getMissingCardCounts(new Deck(deck));
@@ -98,8 +108,8 @@ function getCollectionData(): CardsData[] {
     .filter(card => card.collectible)
     .map(
       (card): CardsData => {
-        const owned = pd.cards.cards[card.id] ?? 0;
-        const acquired = pd.cardsNew[card.id] ?? 0;
+        const owned = cards.cards[card.id] ?? 0;
+        const acquired = cardsNew[card.id] ?? 0;
         const wanted = wantedCards[card.id] ?? 0;
         const colorsObj = new Colors();
         colorsObj.addFromCost(card.cost);
@@ -120,14 +130,11 @@ function getCollectionData(): CardsData[] {
 }
 
 export default function CollectionTab(): JSX.Element {
-  const { collectionTableMode, collectionTableState } = pd.settings;
-  const { playerDataTimestamp } = useSelector(
-    (state: AppState) => state.renderer
-  );
-  const data = React.useMemo(() => {
-    playerDataTimestamp; // just here to force the memo dependency
-    return getCollectionData();
-  }, [playerDataTimestamp]);
+  const {
+    collectionTableMode,
+    collectionTableState
+  } = store.getState().settings;
+  const data = React.useMemo(() => getCollectionData(), []);
   return (
     <div className="ux_item">
       <CollectionTable

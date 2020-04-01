@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
 import { useSelector } from "react-redux";
-import { ipcSend } from "../rendererUtil";
 
 import {
   SETTINGS_BEHAVIOUR,
@@ -11,10 +10,12 @@ import {
   SETTINGS_SHORTCUTS,
   SETTINGS_PRIVACY,
   SETTINGS_ABOUT,
-  SETTINGS_LOGIN
+  SETTINGS_LOGIN,
+  IPC_ALL,
+  IPC_RENDERER
 } from "../../shared/constants";
 
-import { AppState } from "../../shared/redux/reducers";
+import store, { AppState } from "../../shared-redux/stores/rendererStore";
 import SectionBehaviour from "../components/settings/SectionBehaviour";
 import SectionData from "../components/settings/SectionData";
 import SectionOverlay from "../components/settings/sectionOverlay";
@@ -23,6 +24,7 @@ import SectionShortcuts from "../components/settings/SectionShortcuts";
 import SectionPrivacy from "../components/settings/SectionPrivacy";
 import SectionAbout from "../components/settings/SectionAbout";
 import SectionLogin from "../components/settings/SectionLogin";
+import { reduxAction } from "../../shared-redux/sharedRedux";
 
 interface SettingsNavProps {
   component: () => JSX.Element;
@@ -72,10 +74,12 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
   };
 
   React.useEffect(() => {
-    ipcSend("save_user_settings", {
-      last_settings_section: currentTab,
-      skipRefresh: true
-    });
+    reduxAction(
+      store.dispatch,
+      "SET_SETTINGS",
+      { last_settings_section: currentTab },
+      IPC_ALL ^ IPC_RENDERER
+    );
   }, [currentTab]);
 
   const tabs: SettingsNavProps[] = [];

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-use-before-define */
 import React from "react";
 import db from "../../../shared/database";
-import pd from "../../../shared/PlayerData";
 import LocalTime from "../../../shared/time-components/LocalTime";
 import {
   collectionSortRarity,
@@ -19,11 +18,12 @@ import {
 import { ArchiveButton } from "../list-item/ListItem";
 import {
   getCollationSet,
-  getPrettyContext,
   getReadableCode,
   vaultPercentFormat
 } from "./economyUtils";
 import EconomyValueRecord, { EconomyIcon } from "./EconomyValueRecord";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (
@@ -160,7 +160,6 @@ function AllWildcardsEconomyValueRecord(
   props: AllWildcardsEconomyValueRecordProps
 ): JSX.Element {
   const { delta, isSmall } = props;
-  console.log(delta);
   return (
     <>
       {delta && delta.wcCommonDelta ? (
@@ -315,6 +314,9 @@ interface FlexRightProps {
 }
 
 function FlexRight(props: FlexRightProps): JSX.Element {
+  const { trackName } = useSelector(
+    (state: AppState) => state.playerdata.economy
+  );
   const { fullContext, change, thingsToCheck, economyId } = props;
   const {
     checkAetherized,
@@ -404,7 +406,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       {lvlDelta ? (
         <EconomyValueRecord
           iconClassName={"economy_mastery_med"}
-          title={`Mastery Level (${pd.economy.trackName})`}
+          title={`Mastery Level (${trackName})`}
           deltaContent={"+" + formatNumber(lvlDelta)}
         />
       ) : (
@@ -509,7 +511,9 @@ function InventoryCard(props: InventoryCardProps): JSX.Element {
     const lookupCard = db.card(card?.dfcId) ?? card;
     openScryfallCard(lookupCard);
   }, [card]);
-  // inventoryCard.style.width = "39px";
+  const cardQuality = useSelector(
+    (state: AppState) => state.settings.cards_quality
+  );
 
   const [hoverIn, hoverOut] = useHoverCard(card?.id || 0);
 
@@ -528,7 +532,7 @@ function InventoryCard(props: InventoryCardProps): JSX.Element {
           "inventory_card_img 39px" +
           (isAetherized ? " inventory_card_aetherized" : "")
         }
-        src={getCardImage(card)}
+        src={getCardImage(card, cardQuality)}
         title={tooltip}
       />
       {quantity && quantity > 1 && (
@@ -591,7 +595,7 @@ interface ChangeRowProps {
 
 export function ChangeRow(props: ChangeRowProps): JSX.Element {
   const { economyId, change } = props;
-  const fullContext = getPrettyContext(change.originalContext);
+  const fullContext = change.fullContext;
   const thingsToCheck = getThingsToCheck(fullContext, change);
 
   const [hover, setHover] = React.useState(false);

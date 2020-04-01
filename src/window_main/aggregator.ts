@@ -12,11 +12,12 @@ import {
   DATE_SEASON
 } from "../shared/constants";
 import db from "../shared/database";
-import pd from "../shared/PlayerData";
 import { normalApproximationInterval } from "../shared/statsFns";
-import { getReadableEvent, getRecentDeckName } from "../shared/util";
+import { getReadableEvent } from "../shared/util";
 import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
+import { matchesList, getDeck, getDeckName } from "../shared-store";
+import store from "../shared-redux/stores/rendererStore";
 
 export const dateMaxValid = (a: any, b: any): any => {
   const aValid = isValid(a);
@@ -97,7 +98,7 @@ export default class Aggregator {
       matchIds: undefined,
       eventId: Aggregator.DEFAULT_EVENT,
       deckId: Aggregator.DEFAULT_DECK,
-      date: pd.settings.last_date_filter,
+      date: store.getState().settings.last_date_filter,
       showArchived: false
     };
   }
@@ -265,8 +266,10 @@ export default class Aggregator {
     this.constructedStats = {};
     this.limitedStats = {};
 
-    this._matches = pd.matchList.filter(this.filterMatch);
-    this._matches.forEach(this._processMatch);
+    // this._matches
+    matchesList()
+      .filter(this.filterMatch)
+      .map(this._processMatch);
 
     [
       this.stats,
@@ -290,7 +293,7 @@ export default class Aggregator {
     this.archs = [Aggregator.DEFAULT_ARCH, Aggregator.NO_ARCH, ...archList];
 
     for (const deckId in this.deckMap) {
-      const deck = pd.deck(deckId) ?? this.deckMap[deckId];
+      const deck = getDeck(deckId) ?? this.deckMap[deckId];
       if (deck) {
         this._decks.push(deck);
       }
@@ -342,7 +345,7 @@ export default class Aggregator {
         new Date(match.date),
         this.deckLastPlayed[id]
       );
-      const currentDeck = pd.deck(match.playerDeck.id);
+      const currentDeck = getDeck(match.playerDeck.id);
       if (currentDeck) {
         if (!(id in this.deckStats)) {
           this.deckStats[id] = Aggregator.getDefaultStats();
@@ -427,8 +430,8 @@ export default class Aggregator {
       return 1;
     }
 
-    const aName = getRecentDeckName(a.id);
-    const bName = getRecentDeckName(b.id);
+    const aName = getDeckName(a.id);
+    const bName = getDeckName(b.id);
     return aName.localeCompare(bName);
   }
 

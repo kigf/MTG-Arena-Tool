@@ -2,15 +2,15 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { TableState } from "react-table";
-import { SUB_DECK } from "../../shared/constants";
-import Deck from "../../shared/deck";
-import pd from "../../shared/PlayerData";
-import { rendererSlice } from "../../shared/redux/reducers";
 import {
-  getBoosterCountEstimate,
-  getReadableFormat,
-  get_deck_missing as getDeckMissing
-} from "../../shared/util";
+  SUB_DECK,
+  IPC_NONE,
+  IPC_ALL,
+  IPC_RENDERER,
+  IPC_BACKGROUND
+} from "../../shared/constants";
+import Deck from "../../shared/deck";
+import { getReadableFormat } from "../../shared/util";
 import { InternalDeck } from "../../types/Deck";
 import Aggregator, {
   AggregatorFilters,
@@ -21,16 +21,28 @@ import DecksTable from "../components/decks/DecksTable";
 import { DecksData } from "../components/decks/types";
 import { isHidingArchived } from "../components/tables/filters";
 import { useAggregatorData } from "../components/tables/useAggregatorData";
-import { ipcSend } from "../rendererUtil";
+import {
+  ipcSend,
+  getBoosterCountEstimate,
+  get_deck_missing as getDeckMissing
+} from "../rendererUtil";
 import uxMove from "../uxMove";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import store from "../../shared-redux/stores/rendererStore";
+import { getDeck, decksList } from "../../shared-store";
 
 function addTag(deckid: string, tag: string): void {
-  const deck = pd.deck(deckid);
+  const deck = getDeck(deckid);
   if (!deck || !tag) return;
   if (getReadableFormat(deck.format) === tag) return;
   if (tag === "Add") return;
   if (deck.tags && deck.tags.includes(tag)) return;
-  ipcSend("add_tag", { deckid, tag });
+  reduxAction(
+    store.dispatch,
+    "ADD_DECK_TAG",
+    { tag: tag, deck: deckid },
+    IPC_BACKGROUND
+  );
 }
 
 function editTag(tag: string, color: string): void {
@@ -38,10 +50,15 @@ function editTag(tag: string, color: string): void {
 }
 
 function deleteTag(deckid: string, tag: string): void {
-  const deck = pd.deck(deckid);
+  const deck = getDeck(deckid);
   if (!deck || !tag) return;
   if (!deck.tags || !deck.tags.includes(tag)) return;
-  ipcSend("delete_tag", { deckid, tag });
+  reduxAction(
+    store.dispatch,
+    "REMOVE_DECK_TAG",
+    { tag: tag, deck: deckid },
+    IPC_BACKGROUND
+  );
 }
 
 function toggleDeckArchived(id: string | number): void {
@@ -49,18 +66,28 @@ function toggleDeckArchived(id: string | number): void {
 }
 
 function saveTableState(decksTableState: TableState<DecksData>): void {
-  ipcSend("save_user_settings", { decksTableState, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { decksTableState },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function saveTableMode(decksTableMode: string): void {
-  ipcSend("save_user_settings", { decksTableMode, skipRefresh: true });
+  reduxAction(
+    store.dispatch,
+    "SET_SETTINGS",
+    { decksTableMode },
+    IPC_ALL ^ IPC_RENDERER
+  );
 }
 
 function getDecksData(
   aggregator: Aggregator,
   archivedCache: Record<string, boolean>
 ): DecksData[] {
-  return pd.deckList.map(
+  return decksList().map(
     (deck: InternalDeck): DecksData => {
       const id = deck.id ?? "";
       const name = (deck.name ?? "").replace("?=?Loc/Decks/Precon/", "");
@@ -82,6 +109,10 @@ function getDecksData(
       const lastTouched = dateMaxValid(lastUpdated, lastPlayed);
       return {
         ...deck,
+        tags: [
+          ...(store.getState().playerdata.deckTags[deck.id] || []),
+          ...deck.tags
+        ],
         archived,
         name,
         format: getReadableFormat(deck.format),
@@ -114,7 +145,7 @@ export default function DecksTab({
   aggFiltersArg?: AggregatorFilters;
 }): JSX.Element {
   const dispatcher = useDispatch();
-  const { decksTableMode, decksTableState } = pd.settings;
+  const { decksTableMode, decksTableState } = store.getState().settings;
   const showArchived = !isHidingArchived(decksTableState);
   const { aggFilters, data, setAggFilters } = useAggregatorData({
     aggFiltersArg,
@@ -124,13 +155,15 @@ export default function DecksTab({
   const openDeckCallback = React.useCallback(
     (deck: InternalDeck): void => {
       uxMove(-100);
-      const { setBackgroundGrpId, setSubNav } = rendererSlice.actions;
-      dispatcher(setBackgroundGrpId(deck.deckTileId));
-      dispatcher(
-        setSubNav({
+      reduxAction(dispatcher, "SET_BACK_GRPID", deck.deckTileId, IPC_NONE);
+      reduxAction(
+        dispatcher,
+        "SET_SUBNAV",
+        {
           type: SUB_DECK,
           id: deck.id
-        })
+        },
+        IPC_NONE
       );
     },
     [dispatcher]

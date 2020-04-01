@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
 import { Column, Filters, FilterValue, IdType, Row } from "react-table";
 import {
   COLLECTION_CARD_MODE,
@@ -9,8 +8,6 @@ import {
   DRAFT_RANKS
 } from "../../../shared/constants";
 import db from "../../../shared/database";
-import pd from "../../../shared/PlayerData";
-import { AppState } from "../../../shared/redux/reducers";
 import ResizableDragger from "../misc/ResizableDragger";
 import { ColorsCell, MetricCell, ShortTextCell } from "../tables/cells";
 import {
@@ -49,6 +46,8 @@ import {
   CollectionTableControlsProps,
   CollectionTableProps
 } from "./types";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
 
 function isBoosterMathValid(filters: Filters<CardsData>): boolean {
   let hasCorrectBoosterFilter = false;
@@ -377,7 +376,9 @@ export default function CollectionTable({
         })}
       </div>
     );
-  const { right_panel_width: panelWidth } = pd.settings;
+  const panelWidth = useSelector(
+    (state: AppState) => state.settings.right_panel_width
+  );
   const sidePanelWidth = panelWidth + "px";
   const clickCompletionCallback = React.useCallback((): void => {
     setTableMode(COLLECTION_SETS_MODE);

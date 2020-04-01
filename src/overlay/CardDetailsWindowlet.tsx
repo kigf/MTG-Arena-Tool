@@ -7,7 +7,7 @@ import DraftRatings from "../shared/DraftRatings";
 import { getCardImage } from "../shared/util";
 import { Chances } from "../types/Chances";
 import { SettingsData } from "../types/settings";
-import { AppState } from "../shared/redux/reducers";
+import { AppState } from "../shared-redux/stores/rendererStore";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 
 function GroupedLandsDetails(props: { odds: Chances }): JSX.Element {
@@ -63,7 +63,13 @@ export default function CardDetailsWindowlet(
   } = props;
   const grpId = useSelector((state: AppState) => state.hover.grpId);
   const opacity = useSelector((state: AppState) => state.hover.opacity);
-  const cardsSizeHoverCard = useSelector((state: AppState) => state.hover.size);
+  const cardsSizeHoverCard = useSelector(
+    (state: AppState) => state.settings.cards_size_hover_card
+  );
+  const cardQuality = useSelector(
+    (state: AppState) => state.settings.cards_quality
+  );
+  const size = 100 + cardsSizeHoverCard * 15;
   const card = db.card(grpId);
 
   // TODO remove group lands hack
@@ -72,10 +78,10 @@ export default function CardDetailsWindowlet(
   const imgProps = {
     alt: card?.name ?? "",
     className: "main_hover",
-    src: getCardImage(card),
+    src: getCardImage(card, cardQuality),
     style: {
-      width: cardsSizeHoverCard + "px",
-      height: cardsSizeHoverCard / SCALAR + "px",
+      width: size + "px",
+      height: size / SCALAR + "px",
       opacity
     }
   };
@@ -91,10 +97,10 @@ export default function CardDetailsWindowlet(
         opacity: editMode ? "1" : undefined,
         left: overlayHover
           ? `${overlayHover.x}px`
-          : `${window.innerWidth / 2 - cardsSizeHoverCard / 2}px`,
+          : `${window.innerWidth / 2 - size / 2}px`,
         top: overlayHover
           ? `${overlayHover.y}px`
-          : `${window.innerHeight - cardsSizeHoverCard / SCALAR - 50}px`
+          : `${window.innerHeight - size / SCALAR - 50}px`
       }}
     >
       {editMode ? (

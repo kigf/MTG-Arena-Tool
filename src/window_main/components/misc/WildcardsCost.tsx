@@ -1,13 +1,14 @@
 import React from "react";
-import pd from "../../../shared/PlayerData";
-import {
-  get_deck_missing as getDeckMissing,
-  getBoosterCountEstimate
-} from "../../../shared/util";
 import { CARD_RARITIES } from "../../../shared/constants";
 import _ from "lodash";
 import { MissingWildcards } from "../decks/types";
 import Deck from "../../../shared/deck";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
+import {
+  getBoosterCountEstimate,
+  get_deck_missing as getDeckMissing
+} from "../../rendererUtil";
 
 const getRarityKey = (
   rarity: string
@@ -16,9 +17,11 @@ const getRarityKey = (
     return rarity as any;
   return undefined;
 };
-
 export default function WildcardsCost(props: { deck: Deck }): JSX.Element {
   const { deck } = props;
+  const playerEconomy = useSelector(
+    (state: AppState) => state.playerdata.economy
+  );
   const missingWildcards = getDeckMissing(deck);
   const totalMissing =
     missingWildcards.common +
@@ -27,10 +30,10 @@ export default function WildcardsCost(props: { deck: Deck }): JSX.Element {
     missingWildcards.mythic;
   const drawCost = totalMissing > 0;
   const ownedWildcards: MissingWildcards = {
-    common: pd.economy.wcCommon,
-    uncommon: pd.economy.wcUncommon,
-    rare: pd.economy.wcRare,
-    mythic: pd.economy.wcMythic
+    common: playerEconomy.wcCommon,
+    uncommon: playerEconomy.wcUncommon,
+    rare: playerEconomy.wcRare,
+    mythic: playerEconomy.wcMythic
   };
 
   return (

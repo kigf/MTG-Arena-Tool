@@ -2,7 +2,6 @@ import _ from "lodash";
 import React from "react";
 import { Column, Row } from "react-table";
 import { EVENTS_TABLE_MODE } from "../../../shared/constants";
-import pd from "../../../shared/PlayerData";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import { toggleArchived } from "../../rendererUtil";
 import { ListItemEvent } from "../list-item/ListItemEvent";
@@ -39,6 +38,8 @@ import {
   EventsTableProps,
   EventTableData
 } from "./types";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared-redux/stores/rendererStore";
 
 const columns: Column<EventTableData>[] = [
   { accessor: "id" },
@@ -230,7 +231,9 @@ export default function EventsTable({
     ...tableControlsProps
   };
   const isTableMode = tableMode === EVENTS_TABLE_MODE;
-  const { right_panel_width: panelWidth } = pd.settings;
+  const panelWidth = useSelector(
+    (state: AppState) => state.settings.right_panel_width
+  );
   const sidePanelWidth = panelWidth + "px";
   return (
     <>
