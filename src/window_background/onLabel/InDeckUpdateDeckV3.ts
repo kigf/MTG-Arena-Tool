@@ -23,21 +23,21 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
   if (!json) return;
 
   const entryDeck = convertDeckFromV3(json);
-  const _deck = getDeck(json.id) as InternalDeck;
+  const _deck = getDeck(json.id);
 
   const changeId = entry.hash;
   const deltaDeck: DeckChange = {
     id: changeId,
-    deckId: _deck.id || "",
+    deckId: _deck?.id || "",
     date: new Date(json.lastUpdated),
     changesMain: [],
     changesSide: [],
-    previousMain: _deck.mainDeck,
-    previousSide: _deck.sideboard
+    previousMain: _deck?.mainDeck || [],
+    previousSide: _deck?.sideboard || []
   };
 
   // Check Mainboard
-  _deck.mainDeck.forEach((card: CardObject) => {
+  _deck?.mainDeck.forEach((card: CardObject) => {
     const cardObj = db.card(card.id);
     if (cardObj !== undefined) {
       let diff = 0 - card.quantity;
@@ -64,7 +64,7 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
   });
 
   // Check sideboard
-  _deck.sideboard.forEach((card: CardObject) => {
+  _deck?.sideboard.forEach((card: CardObject) => {
     const cardObj = db.card(card.id);
     if (cardObj !== undefined) {
       let diff = 0 - card.quantity;

@@ -56,7 +56,7 @@ actions["SET_EXPLORE_FILTERS_SKIP"] =
   exploreSlice.actions.setExploreFiltersSkip;
 actions["SET_MATCH"] = matchesSlice.actions.setMatch;
 actions["SET_MANY_MATCHES"] = matchesSlice.actions.setManyMatches;
-actions["SET_EVENTS"] = eventsSlice.actions.setEvent;
+actions["SET_EVENT"] = eventsSlice.actions.setEvent;
 actions["SET_MANY_EVENTS"] = eventsSlice.actions.setManyEvents;
 actions["SET_PLAYERDB"] = playerDataSlice.actions.setPlayerDb;
 actions["SET_APPDB"] = playerDataSlice.actions.setAppDb;
