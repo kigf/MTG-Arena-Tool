@@ -22,7 +22,11 @@ import {
   matchExists,
   getMatch
 } from "../../shared-store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import Button from "../components/misc/Button";
+import uxMove from "../uxMove";
+import { reduxAction } from "../../shared-redux/sharedRedux";
+import { SUB_MATCH, IPC_NONE } from "../../shared/constants";
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;
@@ -221,6 +225,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
 export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
   const rank = useSelector((state: AppState) => state.playerdata.rank);
+  const dispatcher = useDispatch();
   const [hoverMatchId, setHoverMatchId] = useState("");
   const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
@@ -269,6 +274,27 @@ export default function TimelineTab(): JSX.Element {
 
   const hoverMatch = useMemo(() => getMatch(hoverMatchId), [hoverMatchId]);
   const hoverDecklist = hoverMatch ? hoverMatch.playerDeck : undefined;
+
+  const openCurrentMatch = useCallback(() => {
+    if (hoverMatch) {
+      uxMove(-100);
+      reduxAction(
+        dispatcher,
+        "SET_BACK_GRPID",
+        hoverMatch.playerDeck.deckTileId,
+        IPC_NONE
+      );
+      reduxAction(
+        dispatcher,
+        "SET_SUBNAV",
+        {
+          type: SUB_MATCH,
+          id: hoverMatch.id
+        },
+        IPC_NONE
+      );
+    }
+  }, [dispatcher, hoverMatch]);
 
   const drawingSeason = rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
@@ -399,7 +425,12 @@ export default function TimelineTab(): JSX.Element {
                   alignItems: "center"
                 }}
               >
-                <div>vs. {match.opponent.name}</div>
+                <Button
+                  text="Open match details"
+                  onClick={openCurrentMatch}
+                ></Button>
+
+                <div>vs. {match.opponent.name.slice(0, -6)}</div>
                 <RankIcon
                   format={seasonType}
                   rank={match.opponent.rank}
