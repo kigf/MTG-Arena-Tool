@@ -27,6 +27,8 @@ import Button from "../components/misc/Button";
 import uxMove from "../uxMove";
 import { reduxAction } from "../../shared-redux/sharedRedux";
 import { SUB_MATCH, IPC_NONE } from "../../shared/constants";
+import { addMonths } from "date-fns";
+import { PagingButton } from "../components/misc/PagingButton";
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;
@@ -235,6 +237,9 @@ export default function TimelineTab(): JSX.Element {
   const [seasonType, setSeasonType] = useState<"constructed" | "limited">(
     "constructed"
   );
+  const [drawingSeason, setDrawingSeason] = useState(
+    rank[seasonType].seasonOrdinal
+  );
   const seasonSelect = useSelector(
     (state: AppState) => state.seasonal.seasonal
   );
@@ -242,8 +247,8 @@ export default function TimelineTab(): JSX.Element {
   // Notice we can see old seasons too adding the seasonOrdinal
   const data: SeasonalRankData[] = useMemo(() => {
     seasonSelect;
-    return getSeasonData(seasonType);
-  }, [seasonType, seasonSelect]);
+    return getSeasonData(seasonType, drawingSeason);
+  }, [seasonType, seasonSelect, drawingSeason]);
 
   const handleSetSeasonType = useCallback((type: string): void => {
     setSeasonType(type as "constructed" | "limited");
@@ -275,6 +280,14 @@ export default function TimelineTab(): JSX.Element {
   const hoverMatch = useMemo(() => getMatch(hoverMatchId), [hoverMatchId]);
   const hoverDecklist = hoverMatch ? hoverMatch.playerDeck : undefined;
 
+  const setPrevSeason = useCallback(() => {
+    setDrawingSeason(drawingSeason - 1);
+  }, [setDrawingSeason, drawingSeason]);
+
+  const setNextSeason = useCallback(() => {
+    setDrawingSeason(drawingSeason + 1);
+  }, [setDrawingSeason, drawingSeason]);
+
   const openCurrentMatch = useCallback(() => {
     if (hoverMatch) {
       uxMove(-100);
@@ -296,8 +309,8 @@ export default function TimelineTab(): JSX.Element {
     }
   }, [dispatcher, hoverMatch]);
 
-  const drawingSeason = rank[seasonType].seasonOrdinal;
-  const drawingSeasonDate = new Date();
+  const seasonZero = new Date(1546300800000);
+  const drawingSeasonDate = addMonths(seasonZero, drawingSeason);
 
   const hoverPartX = (dimensions.width / data.length) * (hoverPart + 1) - 4;
 
@@ -310,10 +323,27 @@ export default function TimelineTab(): JSX.Element {
     <div className="ux_item">
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <div className="timeline-title">
+          <PagingButton
+            key={0}
+            onClick={setPrevSeason}
+            disabled={drawingSeason <= 1}
+            selected={false}
+          >
+            {"<"}
+          </PagingButton>
           <div>
             Season {drawingSeason} -{" "}
             {format(drawingSeasonDate as Date, "MMMM yyyy")}
           </div>
+          <PagingButton
+            key={0}
+            onClick={setNextSeason}
+            disabled={drawingSeason >= rank.constructed.seasonOrdinal}
+            selected={false}
+          >
+            {">"}
+          </PagingButton>
+
           <ReactSelect
             options={["constructed", "limited"]}
             current={seasonType}
