@@ -5,39 +5,39 @@ import globals from "../globals";
 import { parseWotcTimeFallback } from "../backgroundUtil";
 
 import LogEntry from "../../types/logDecoder";
-import { RankUpdate } from "../../types/rank";
+import { MythicRatingUpdate } from "../../types/rank";
 import { reduxAction } from "../../shared-redux/sharedRedux";
 import { IPC_RENDERER } from "../../shared/constants";
 import { seasonalList } from "../../shared-store";
+import { SeasonalRankData } from "../../types/Season";
 
 interface Entry extends LogEntry {
-  json: () => RankUpdate;
+  json: () => MythicRatingUpdate;
 }
 
 export default function MythicRatingUpdated(entry: Entry): void {
   const json = entry.json();
-  // This is exclusive to constructed?
-  // Not sure what the limited event is called.
-
-  // Example data:
-  // (-1) Incoming MythicRating.Updated {
-  //   "oldMythicPercentile": 100.0,
-  //   "newMythicPercentile": 100.0,
-  //   "newMythicLeaderboardPlacement": 77,
-  //   "context": "PostMatchResult"
-  // }
 
   const playerData = globals.store.getState().playerdata;
   const owner = globals.store.getState().appsettings.email;
   const rank = JSON.parse(JSON.stringify(playerData.rank));
 
   if (!json) return;
-  const newJson = {
-    ...json,
+  const newJson: SeasonalRankData = {
+    oldClass: "Mythic",
+    newClass: "Mythic",
+    oldLevel: json.oldMythicPercentile,
+    newLevel: json.newMythicPercentile,
+    oldStep: json.newMythicLeaderboardPlacement,
+    newStep: json.newMythicLeaderboardPlacement,
+    wasLossProtected: false,
     owner,
+    playerId: playerData.playerId,
     player: playerData.playerName,
-    //date: json.timestamp,
-    timestamp: parseWotcTimeFallback(json.timestamp).getTime(),
+    rankUpdateType: "constructed",// Ugh, no type on the mythic rank update!
+    seasonOrdinal: 1,
+    id: entry.hash,
+    timestamp: parseWotcTimeFallback(entry.timestamp).getTime(),
     lastMatchId: globals.currentMatch.matchId,
     eventId: globals.currentMatch.eventId
   };
@@ -51,8 +51,8 @@ export default function MythicRatingUpdated(entry: Entry): void {
     type = "limited";
   }
 
-  rank.constructed.percentile = newJson.newMythicPercentile;
-  rank.constructed.leaderboardPlace = newJson.newMythicLeaderboardPlacement;
+  rank[type].percentile = json.newMythicPercentile;
+  rank[type].leaderboardPlace = json.newMythicLeaderboardPlacement;
 
   // Rank update / seasonal
   const newSeasonal = [...seasonalList(), newJson];

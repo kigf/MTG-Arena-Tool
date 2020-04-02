@@ -23,6 +23,7 @@ export interface SeasonalRankData {
   newRankNumeric?: number;
   date?: Date;
 }
+
 // Deprecating in favor of event.ts
 /*
 export interface Season {

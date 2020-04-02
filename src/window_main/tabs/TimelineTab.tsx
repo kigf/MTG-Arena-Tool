@@ -20,8 +20,7 @@ import {
   getSeasonal,
   seasonalExists,
   matchExists,
-  getMatch,
-  getDeck
+  getMatch
 } from "../../shared-store";
 import { useSelector } from "react-redux";
 
@@ -53,11 +52,13 @@ function getRankY(rank: string, tier: number, steps: number): number {
     case "Diamond":
       value = 4 * 6 * 4;
       break;
-    case "Mythic":
-      // Mythic + 30 = #1 in graph
+    case "Master":
       value = 4 * 6 * 5;
       break;
-  }
+    case "Mythic":
+      value = 4 * 6 * 6;
+      break;
+    }
 
   return value + 6 * (4 - tier) + steps;
 }
@@ -128,9 +129,9 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
     : "";
 
   const mouseIn = useCallback(() => {
-    setHover(deckId || "");
+    setHover(lastMatchId || "");
     setPartHover(index);
-  }, [deckId, index, setPartHover, setHover]);
+  }, [lastMatchId, index, setPartHover, setHover]);
 
   const newPointHeight = props.newRankNumeric
     ? height - props.newRankNumeric * 2
@@ -220,7 +221,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
 export default function TimelineTab(): JSX.Element {
   const boxRef = useRef<HTMLDivElement>(null);
   const rank = useSelector((state: AppState) => state.playerdata.rank);
-  const [hoverDeckId, setHoverDeckId] = useState("");
+  const [hoverMatchId, setHoverMatchId] = useState("");
   const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
     height: 300,
@@ -261,7 +262,8 @@ export default function TimelineTab(): JSX.Element {
     setTimeout(handleResize, 100);
   }, [handleResize]);
 
-  const decklist = useMemo(() => getDeck(hoverDeckId), [hoverDeckId]);
+  const hoverMatch = useMemo(() => getMatch(hoverMatchId), [hoverMatchId]);
+  const hoverDecklist = hoverMatch ? hoverMatch.playerDeck : undefined;
 
   const drawingSeason = rank[seasonType].seasonOrdinal;
   const drawingSeasonDate = new Date();
@@ -307,8 +309,8 @@ export default function TimelineTab(): JSX.Element {
                   width={dimensions.width / data.length}
                   index={index}
                   key={index}
-                  hover={hoverDeckId}
-                  setHover={setHoverDeckId}
+                  hover={hoverMatchId}
+                  setHover={setHoverMatchId}
                   setPartHover={setHoverPart}
                   {...value}
                 />
@@ -354,13 +356,16 @@ export default function TimelineTab(): JSX.Element {
             className="card_lists_list"
             style={{ margin: "0", width: "50%" }}
           >
-            {decklist ? (
+            {hoverMatch && hoverDecklist ? (
               <>
-                <div className="decklist-name">{decklist.name}</div>
+                <div className="decklist-name">{hoverDecklist.name}</div>
                 <div className="decklist-colors">
-                  <ManaCost class="mana_s20" colors={decklist.colors || []} />
+                  <ManaCost
+                    class="mana_s20"
+                    colors={hoverDecklist.colors || []}
+                  />
                 </div>
-                <DeckList deck={new Deck(decklist)} />
+                <DeckList deck={new Deck(hoverDecklist)} />
               </>
             ) : (
               <></>
