@@ -10,6 +10,7 @@ import { reduxAction } from "../../shared-redux/sharedRedux";
 import { IPC_RENDERER } from "../../shared/constants";
 import { seasonalList } from "../../shared-store";
 import { SeasonalRankData } from "../../types/Season";
+import { matchIsLimited } from "../data";
 
 interface Entry extends LogEntry {
   json: () => MythicRatingUpdate;
@@ -34,7 +35,9 @@ export default function MythicRatingUpdated(entry: Entry): void {
     owner,
     playerId: playerData.playerId,
     player: playerData.playerName,
-    rankUpdateType: "constructed", // Ugh, no type on the mythic rank update!
+    rankUpdateType: matchIsLimited(globals.currentMatch)
+      ? "limited"
+      : "constructed", // Ugh, no type on the mythic rank update!
     seasonOrdinal: 1,
     id: entry.hash,
     timestamp: parseWotcTimeFallback(entry.timestamp).getTime(),
