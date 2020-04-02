@@ -82,16 +82,18 @@ export async function loadPlayerConfig(): Promise<void> {
   savedData = fixBadPlayerData(savedData);
   const { settings } = savedData;
 
-  if (settings) {
-    // Get Rank data
+  // Get Rank data
+  if (savedData.rank) {
     reduxAction(
       globals.store.dispatch,
       "SET_RANK",
       savedData.rank,
       IPC_RENDERER
     );
+  }
 
-    // Get Matches data
+  // Get Matches data
+  if (savedData.matches_index) {
     const matchesList: InternalMatch[] = savedData.matches_index
       .filter((id: string) => savedData[id])
       .map((id: string) => {
@@ -105,8 +107,10 @@ export async function loadPlayerConfig(): Promise<void> {
       matchesList,
       IPC_RENDERER
     );
+  }
 
-    // Get Events data
+  // Get Events data
+  if (savedData.courses_index) {
     const eventsList: InternalEvent[] = savedData.courses_index
       .filter((id: string) => savedData[id])
       .map((id: string) => {
@@ -120,8 +124,10 @@ export async function loadPlayerConfig(): Promise<void> {
       eventsList,
       IPC_RENDERER
     );
+  }
 
-    // Get Decks data
+  // Get Decks data
+  if (savedData.decks) {
     const decks = { ...savedData.decks };
     const decksList = Object.keys(decks).map((k: string) => decks[k]);
 
@@ -143,8 +149,10 @@ export async function loadPlayerConfig(): Promise<void> {
       changesList,
       IPC_RENDERER
     );
+  }
 
-    // Get Economy data
+  // Get Economy data
+  if (savedData.economy_index) {
     const economyList: InternalEconomyTransaction[] = savedData.economy_index
       .filter((id: string) => savedData[id])
       .map((id: string) => {
@@ -158,8 +166,10 @@ export async function loadPlayerConfig(): Promise<void> {
       economyList,
       IPC_RENDERER
     );
+  }
 
-    // Get Drafts data
+  // Get Drafts data
+  if (savedData.draft_index) {
     const draftsList: InternalEconomyTransaction[] = savedData.draft_index
       .filter((id: string) => savedData[id])
       .map((id: string) => savedData[id]);
@@ -170,8 +180,10 @@ export async function loadPlayerConfig(): Promise<void> {
       draftsList,
       IPC_RENDERER
     );
+  }
 
-    // Get Seasonal data
+  // Get Seasonal data
+  if (savedData.seasonal) {
     const newSeasonal = { ...savedData.seasonal };
     Object.keys(newSeasonal).forEach((id: string) => {
       const update = newSeasonal[id] as any;
@@ -188,41 +200,50 @@ export async function loadPlayerConfig(): Promise<void> {
       newSeasonal,
       IPC_RENDERER
     );
+  }
 
-    // Get cards data
+  // Get cards data
+  if (savedData.cards) {
     reduxAction(
       globals.store.dispatch,
       "ADD_CARDS_FROM_STORE",
       savedData.cards,
       IPC_RENDERER
     );
+  }
 
-    // Get tags colors data
+  // Get tags colors data
+  if (savedData.tags_colors) {
     reduxAction(
       globals.store.dispatch,
       "SET_TAG_COLORS",
       savedData.tags_colors,
       IPC_RENDERER
     );
+  }
 
-    // Get deck tags data
+  // Get deck tags data
+  if (savedData.deck_tags) {
     reduxAction(
       globals.store.dispatch,
       "SET_DECK_TAGS",
       savedData.deck_tags,
       IPC_RENDERER
     );
+  }
 
-    // Other
-    setData(savedData, true);
-    ipcSend("renderer_set_bounds", savedData.windowBounds);
-    syncSettings(settings, true);
+  // Other
+  ipcSend("renderer_set_bounds", savedData.windowBounds);
+  syncSettings(settings, true);
 
-    // populate draft overlays with last draft if possible
-    if (draftsList.length) {
-      const lastDraft = draftsList[draftsList.length - 1];
-      ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
-    }
+  // populate draft overlays with last draft if possible
+  if (savedData.draft_index && savedData.draft_index.length) {
+    const draftsList: InternalEconomyTransaction[] = savedData.draft_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => savedData[id]);
+
+    const lastDraft = draftsList[draftsList.length - 1];
+    ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
 
     ipcLog("...found all documents in player database.");
     ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });
