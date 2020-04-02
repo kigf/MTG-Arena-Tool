@@ -4051,7 +4051,7 @@ a:hover {
 .timeline-line {
     z-index: 1;
     position: relative;
-    height: 300px;
+    height: 336px;
     stroke:var(--color-light);
     opacity: 1;
 }

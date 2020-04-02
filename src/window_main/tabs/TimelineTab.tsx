@@ -63,7 +63,7 @@ function getRankY(rank: string, tier: number, steps: number): number {
   return value + 6 * (4 - tier) + steps;
 }
 
-const RANK_HEIGHTS = [0, 24, 48, 72, 96, 120];
+const RANK_HEIGHTS = [0, 24, 48, 72, 96, 120, 144, 168];
 
 /**
  * Get the data for this season and add fields to the data for timeline processing
@@ -199,7 +199,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
   const divStyle = {
     backgroundPosition: getRankIndex(rankClass, rankLevel) * -48 + "px 0px",
     //marginLeft: "-11px",
-    top: `${300 - height}px`,
+    top: `${336 - height}px`,
     left: `${(width - 48) / 2}px`,
     zIndex: -10
   };
@@ -225,16 +225,20 @@ export default function TimelineTab(): JSX.Element {
   const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
     height: 300,
-    width: window.innerWidth - 108
+    width: window.innerWidth - 110
   });
   const [seasonType, setSeasonType] = useState<"constructed" | "limited">(
     "constructed"
   );
+  const seasonSelect = useSelector(
+    (state: AppState) => state.seasonal.seasonal
+  );
 
   // Notice we can see old seasons too adding the seasonOrdinal
-  const data: SeasonalRankData[] = useMemo(() => getSeasonData(seasonType), [
-    seasonType
-  ]);
+  const data: SeasonalRankData[] = useMemo(() => {
+    seasonSelect;
+    return getSeasonData(seasonType);
+  }, [seasonType, seasonSelect]);
 
   const handleSetSeasonType = useCallback((type: string): void => {
     setSeasonType(type as "constructed" | "limited");
@@ -292,6 +296,7 @@ export default function TimelineTab(): JSX.Element {
         <div style={{ display: "flex" }}>
           <div className="timeline-box-labels">
             <div className="timeline-label">#1</div>
+            <div className="timeline-label">#1200</div>
             <div className="timeline-label">Mythic</div>
             <div className="timeline-label">Diamond</div>
             <div className="timeline-label">Platinum</div>
