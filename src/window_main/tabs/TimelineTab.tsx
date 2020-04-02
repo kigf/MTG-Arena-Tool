@@ -242,6 +242,7 @@ export default function TimelineTab(): JSX.Element {
 
   const handleSetSeasonType = useCallback((type: string): void => {
     setSeasonType(type as "constructed" | "limited");
+    setHoverMatchId("");
     setHoverPart(-1);
   }, []);
 
@@ -305,22 +306,28 @@ export default function TimelineTab(): JSX.Element {
             <div className="timeline-label">Bronze</div>
           </div>
           <div className="timeline-box" ref={boxRef}>
-            {data.map((value: SeasonalRankData, index: number) => {
-              //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
-              //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
-              return (
-                <TimeLinePart
-                  height={dimensions.height}
-                  width={dimensions.width / data.length}
-                  index={index}
-                  key={index}
-                  hover={hoverMatchId}
-                  setHover={setHoverMatchId}
-                  setPartHover={setHoverPart}
-                  {...value}
-                />
-              );
-            })}
+            {data.length > 0 ? (
+              data.map((value: SeasonalRankData, index: number) => {
+                //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
+                //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
+                return (
+                  <TimeLinePart
+                    height={dimensions.height}
+                    width={dimensions.width / data.length}
+                    index={index}
+                    key={index}
+                    hover={hoverMatchId}
+                    setHover={setHoverMatchId}
+                    setPartHover={setHoverPart}
+                    {...value}
+                  />
+                );
+              })
+            ) : (
+              <div className="timeline-warning">
+                No data for this ranked season.
+              </div>
+            )}
           </div>
         </div>
         <div style={{ display: "flex" }}>

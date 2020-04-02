@@ -4061,6 +4061,17 @@ a:hover {
     background-color: var(--color-light-20);
 }
 
+.timeline-warning {
+    height: 336px;
+    width: 100%;
+    color: var(--color-r);
+    font-family: var(--main-font-name-it);
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+    top: 50%;
+}
+
 .timeline-rank {
     position: absolute;
     align-items: center;
