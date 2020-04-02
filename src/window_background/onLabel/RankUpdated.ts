@@ -5,6 +5,7 @@ import { RankUpdate } from "../../types/rank";
 import { SeasonalRankData } from "../../types/Season";
 import { IPC_RENDERER } from "../../shared/constants";
 import { reduxAction } from "../../shared-redux/sharedRedux";
+import { seasonalList } from "../../shared-store";
 
 interface Entry extends LogEntry {
   json: () => RankUpdate;
@@ -41,15 +42,9 @@ export default function RankUpdated(entry: Entry): void {
   rank[updateType].seasonOrdinal = newJson.seasonOrdinal;
 
   // Rank update / seasonal
+  const newSeasonal = [...seasonalList(), newJson];
   reduxAction(globals.store.dispatch, "SET_SEASONAL", newJson, IPC_RENDERER);
-  const newSeasonalRank: Record<string, string[]> = {
-    ...globals.store.getState().seasonal.seasonal
-  };
-  const season = `${newJson.rankUpdateType.toLowerCase()}_${
-    newJson.seasonOrdinal
-  }`;
-  newSeasonalRank[season] = [...(newSeasonalRank[season] || []), newJson.id];
-  playerDb.upsert("", "seasonal_rank", newSeasonalRank);
+  playerDb.upsert("", "seasonal_rank", newSeasonal);
 
   const httpApi = require("../httpApi");
   httpApi.httpSetSeasonal(newJson);

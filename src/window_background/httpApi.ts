@@ -22,7 +22,8 @@ import globalStore, {
   matchExists,
   eventExists,
   transactionExists,
-  draftExists
+  draftExists,
+  seasonalList
 } from "../shared-store";
 import { IPC_RENDERER, IPC_ALL } from "../shared/constants";
 import { reduxAction } from "../shared-redux/sharedRedux";
@@ -127,25 +128,17 @@ function syncUserData(data: any): void {
   playerDb.upsert("", "draft_index", draft_index);
 
   // Sync seasonal
-  const newSeasonalRank: Record<string, string[]> = {
-    ...globals.store.getState().seasonal.seasonal
-  };
+  const newSeasonal = [...seasonalList()];
   const seasonalAdd = data.seasonal.map((doc: any) => {
     const id = doc._id;
     doc.id = id;
     delete doc._id;
+    newSeasonal.push(doc);
     playerDb.upsert("seasonal", id, doc);
     return doc;
   });
 
-  seasonalAdd.map((update: SeasonalRankData) => {
-    const season = `${update.rankUpdateType.toLowerCase()}_${
-      update.seasonOrdinal
-    }`;
-    newSeasonalRank[season] = [...(newSeasonalRank[season] || []), update.id];
-  });
-  console.log("seasonal: ", newSeasonalRank, seasonalAdd);
-  playerDb.upsert("", "seasonal", newSeasonalRank);
+  playerDb.upsert("", "seasonal", newSeasonal);
 
   reduxAction(
     globals.store.dispatch,

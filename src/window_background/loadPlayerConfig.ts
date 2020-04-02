@@ -137,7 +137,9 @@ export async function loadPlayerConfig(): Promise<void> {
       decksList,
       IPC_RENDERER
     );
+  }
 
+  if (savedData.deck_changes_index) {
     // Get Deck Changes data
     const changesList: DeckChange[] = savedData.deck_changes_index
       .filter((id: string) => savedData[id])
@@ -185,29 +187,33 @@ export async function loadPlayerConfig(): Promise<void> {
   // Get Seasonal data
   if (savedData.seasonal) {
     const newSeasonal = { ...savedData.seasonal };
-    Object.keys(newSeasonal).forEach((id: string) => {
-      const update = newSeasonal[id] as any;
+    const seasonalAdd = Object.keys(newSeasonal).map((id: string) => {
+      const update = savedData.seasonal[id] as any;
       // Ugh.. some timestamps are stored as Date
       if (update.timestamp instanceof Date) {
         update.timestamp = update.timestamp.getTime();
-        newSeasonal[id] = update;
       }
+      return update;
     });
-    console.log(newSeasonal);
+    console.log(newSeasonal, seasonalAdd);
     reduxAction(
       globals.store.dispatch,
       "SET_MANY_SEASONAL",
-      newSeasonal,
+      seasonalAdd,
       IPC_RENDERER
     );
   }
 
   // Get cards data
   if (savedData.cards) {
+    const newCards = savedData.cards;
+    if (newCards.cards_time instanceof Date) {
+      newCards.cards_time = newCards.cards_time.getTime();
+    }
     reduxAction(
       globals.store.dispatch,
       "ADD_CARDS_FROM_STORE",
-      savedData.cards,
+      newCards,
       IPC_RENDERER
     );
   }

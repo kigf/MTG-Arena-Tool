@@ -5,9 +5,10 @@ import globals from "../globals";
 import { parseWotcTimeFallback } from "../backgroundUtil";
 
 import LogEntry from "../../types/logDecoder";
-import { InternalRank, RankUpdate } from "../../types/rank";
+import { RankUpdate } from "../../types/rank";
 import { reduxAction } from "../../shared-redux/sharedRedux";
 import { IPC_RENDERER } from "../../shared/constants";
+import { seasonalList } from "../../shared-store";
 
 interface Entry extends LogEntry {
   json: () => RankUpdate;
@@ -54,15 +55,9 @@ export default function MythicRatingUpdated(entry: Entry): void {
   rank.constructed.leaderboardPlace = newJson.newMythicLeaderboardPlacement;
 
   // Rank update / seasonal
+  const newSeasonal = [...seasonalList(), newJson];
   reduxAction(globals.store.dispatch, "SET_SEASONAL", newJson, IPC_RENDERER);
-  const newSeasonalRank: Record<string, string[]> = {
-    ...globals.store.getState().seasonal.seasonal
-  };
-  const season = `${newJson.rankUpdateType.toLowerCase()}_${
-    newJson.seasonOrdinal
-  }`;
-  newSeasonalRank[season] = [...(newSeasonalRank[season] || []), newJson.id];
-  playerDb.upsert("", "seasonal_rank", newSeasonalRank);
+  playerDb.upsert("", "seasonal", newSeasonal);
 
   // New rank data
   reduxAction(globals.store.dispatch, "SET_RANK", rank, IPC_RENDERER);
