@@ -4049,6 +4049,7 @@ a:hover {
 }
 
 .timeline-line {
+    z-index: 1;
     position: relative;
     height: 300px;
     stroke:var(--color-light);

@@ -34,7 +34,7 @@ export default function MythicRatingUpdated(entry: Entry): void {
     owner,
     playerId: playerData.playerId,
     player: playerData.playerName,
-    rankUpdateType: "constructed",// Ugh, no type on the mythic rank update!
+    rankUpdateType: "constructed", // Ugh, no type on the mythic rank update!
     seasonOrdinal: 1,
     id: entry.hash,
     timestamp: parseWotcTimeFallback(entry.timestamp).getTime(),

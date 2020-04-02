@@ -58,7 +58,7 @@ function getRankY(rank: string, tier: number, steps: number): number {
     case "Mythic":
       value = 4 * 6 * 6;
       break;
-    }
+  }
 
   return value + 6 * (4 - tier) + steps;
 }
@@ -335,8 +335,8 @@ export default function TimelineTab(): JSX.Element {
                 >
                   {data[hoverPart]
                     ? format(
-                        new Date(data[hoverPart].timestamp),
-                        "EEE do, HH:mm"
+                        new Date(data[hoverPart].timestamp * 1000),
+                        "EEEE do, HH:mm"
                       )
                     : ""}
                 </div>
