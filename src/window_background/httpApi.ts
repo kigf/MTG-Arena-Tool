@@ -44,7 +44,7 @@ export function isIdle(): boolean {
 }
 
 function syncUserData(data: any): void {
-  // console.log(data);
+  //console.log("syncUserData: ", data);
   // Sync Events
   const courses_index = [...globals.store.getState().events.eventsIndex];
   const coursesList = data.courses
@@ -117,15 +117,19 @@ function syncUserData(data: any): void {
       draft_index.push(id);
       return doc;
     });
+
   reduxAction(
     globals.store.dispatch,
-    "SET_MANY_DRAFTS",
+    "SET_MANY_DRAFT",
     draftsList,
     IPC_RENDERER
   );
   playerDb.upsert("", "draft_index", draft_index);
 
   // Sync seasonal
+  const newSeasonalRank: Record<string, string[]> = {
+    ...globals.store.getState().seasonal.seasonal
+  };
   const seasonalAdd = data.seasonal.map((doc: any) => {
     const id = doc._id;
     doc.id = id;
@@ -133,16 +137,15 @@ function syncUserData(data: any): void {
     playerDb.upsert("seasonal", id, doc);
     return doc;
   });
-  const newSeasonalRank: Record<string, string[]> = {
-    ...globals.store.getState().seasonal.seasonal
-  };
+
   seasonalAdd.map((update: SeasonalRankData) => {
     const season = `${update.rankUpdateType.toLowerCase()}_${
       update.seasonOrdinal
     }`;
     newSeasonalRank[season] = [...(newSeasonalRank[season] || []), update.id];
   });
-  playerDb.upsert("", "seasonal_rank", newSeasonalRank);
+  console.log("seasonal: ", newSeasonalRank, seasonalAdd);
+  playerDb.upsert("", "seasonal", newSeasonalRank);
 
   reduxAction(
     globals.store.dispatch,

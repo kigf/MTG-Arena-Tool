@@ -78,9 +78,10 @@ function getSeasonData(
   if (!seasonOrdinal)
     seasonOrdinal = rank[type as "constructed" | "limited"].seasonOrdinal;
 
-  let seasonalData: string[] = seasonal[`${type}_${seasonOrdinal}`];
+  let seasonalData: string[] | undefined = seasonal[`${type}_${seasonOrdinal}`];
+  if (!seasonalData) return [];
 
-  seasonalData = seasonalData.filter((v, i) => seasonalData.indexOf(v) === i);
+  seasonalData = seasonalData.filter((v, i) => seasonalData?.indexOf(v) === i);
 
   function morphData(data: SeasonalRankData): SeasonalRankData {
     data.oldRankNumeric = getRankY(data.oldClass, data.oldLevel, data.oldStep);
@@ -330,7 +331,12 @@ export default function TimelineTab(): JSX.Element {
                     marginLeft: hoverPartX + "px"
                   }}
                 >
-                  {format(new Date(data[hoverPart].timestamp), "EEE do, HH:mm")}
+                  {data[hoverPart]
+                    ? format(
+                        new Date(data[hoverPart].timestamp),
+                        "EEE do, HH:mm"
+                      )
+                    : ""}
                 </div>
               </>
             ) : (

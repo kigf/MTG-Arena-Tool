@@ -82,144 +82,151 @@ export async function loadPlayerConfig(): Promise<void> {
   savedData = fixBadPlayerData(savedData);
   const { settings } = savedData;
 
-  // Get Rank data
-  reduxAction(globals.store.dispatch, "SET_RANK", savedData.rank, IPC_RENDERER);
+  if (settings) {
+    // Get Rank data
+    reduxAction(
+      globals.store.dispatch,
+      "SET_RANK",
+      savedData.rank,
+      IPC_RENDERER
+    );
 
-  // Get Matches data
-  const matchesList: InternalMatch[] = savedData.matches_index
-    .filter((id: string) => savedData[id])
-    .map((id: string) => {
-      savedData[id].date = new Date(savedData[id].date).toString();
-      return savedData[id];
+    // Get Matches data
+    const matchesList: InternalMatch[] = savedData.matches_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => {
+        savedData[id].date = new Date(savedData[id].date).toString();
+        return savedData[id];
+      });
+
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_MATCHES",
+      matchesList,
+      IPC_RENDERER
+    );
+
+    // Get Events data
+    const eventsList: InternalEvent[] = savedData.courses_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => {
+        savedData[id].date = new Date(savedData[id].date).getTime();
+        return savedData[id];
+      });
+
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_EVENTS",
+      eventsList,
+      IPC_RENDERER
+    );
+
+    // Get Decks data
+    const decks = { ...savedData.decks };
+    const decksList = Object.keys(decks).map((k: string) => decks[k]);
+
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_DECKS",
+      decksList,
+      IPC_RENDERER
+    );
+
+    // Get Deck Changes data
+    const changesList: DeckChange[] = savedData.deck_changes_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => savedData[id]);
+
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_DECK_CHANGES",
+      changesList,
+      IPC_RENDERER
+    );
+
+    // Get Economy data
+    const economyList: InternalEconomyTransaction[] = savedData.economy_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => {
+        savedData[id].date = new Date(savedData[id].date).toString();
+        return savedData[id];
+      });
+
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_ECONOMY",
+      economyList,
+      IPC_RENDERER
+    );
+
+    // Get Drafts data
+    const draftsList: InternalEconomyTransaction[] = savedData.draft_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => savedData[id]);
+
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_DRAFT",
+      draftsList,
+      IPC_RENDERER
+    );
+
+    // Get Seasonal data
+    const newSeasonal = { ...savedData.seasonal };
+    Object.keys(newSeasonal).forEach((id: string) => {
+      const update = newSeasonal[id] as any;
+      // Ugh.. some timestamps are stored as Date
+      if (update.timestamp instanceof Date) {
+        update.timestamp = update.timestamp.getTime();
+        newSeasonal[id] = update;
+      }
     });
+    console.log(newSeasonal);
+    reduxAction(
+      globals.store.dispatch,
+      "SET_MANY_SEASONAL",
+      newSeasonal,
+      IPC_RENDERER
+    );
 
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_MATCHES",
-    matchesList,
-    IPC_RENDERER
-  );
+    // Get cards data
+    reduxAction(
+      globals.store.dispatch,
+      "ADD_CARDS_FROM_STORE",
+      savedData.cards,
+      IPC_RENDERER
+    );
 
-  // Get Events data
-  const eventsList: InternalEvent[] = savedData.courses_index
-    .filter((id: string) => savedData[id])
-    .map((id: string) => {
-      savedData[id].date = new Date(savedData[id].date).getTime();
-      return savedData[id];
-    });
+    // Get tags colors data
+    reduxAction(
+      globals.store.dispatch,
+      "SET_TAG_COLORS",
+      savedData.tags_colors,
+      IPC_RENDERER
+    );
 
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_EVENTS",
-    eventsList,
-    IPC_RENDERER
-  );
+    // Get deck tags data
+    reduxAction(
+      globals.store.dispatch,
+      "SET_DECK_TAGS",
+      savedData.deck_tags,
+      IPC_RENDERER
+    );
 
-  // Get Decks data
-  const decks = { ...savedData.decks };
-  const decksList = Object.keys(decks).map((k: string) => decks[k]);
+    // Other
+    setData(savedData, true);
+    ipcSend("renderer_set_bounds", savedData.windowBounds);
+    syncSettings(settings, true);
 
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_DECKS",
-    decksList,
-    IPC_RENDERER
-  );
-
-  // Get Deck Changes data
-  const changesList: DeckChange[] = savedData.deck_changes_index
-    .filter((id: string) => savedData[id])
-    .map((id: string) => savedData[id]);
-
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_DECK_CHANGES",
-    changesList,
-    IPC_RENDERER
-  );
-
-  // Get Economy data
-  const economyList: InternalEconomyTransaction[] = savedData.economy_index
-    .filter((id: string) => savedData[id])
-    .map((id: string) => {
-      savedData[id].date = new Date(savedData[id].date).toString();
-      return savedData[id];
-    });
-
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_ECONOMY",
-    economyList,
-    IPC_RENDERER
-  );
-
-  // Get Drafts data
-  const draftsList: InternalEconomyTransaction[] = savedData.draft_index
-    .filter((id: string) => savedData[id])
-    .map((id: string) => savedData[id]);
-
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_DRAFT",
-    draftsList,
-    IPC_RENDERER
-  );
-
-  // Get Seasonal data
-  const newSeasonal = { ...savedData.seasonal };
-  Object.keys(newSeasonal).forEach((id: string) => {
-    const update = newSeasonal[id] as any;
-    // Ugh.. some timestamps are stored as Date
-    if (update.timestamp instanceof Date) {
-      update.timestamp = update.timestamp.getTime();
-      newSeasonal[id] = update;
+    // populate draft overlays with last draft if possible
+    if (draftsList.length) {
+      const lastDraft = draftsList[draftsList.length - 1];
+      ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
     }
-  });
 
-  reduxAction(
-    globals.store.dispatch,
-    "SET_MANY_SEASONAL",
-    newSeasonal,
-    IPC_RENDERER
-  );
-
-  // Get cards data
-  reduxAction(
-    globals.store.dispatch,
-    "ADD_CARDS_FROM_STORE",
-    savedData.cards,
-    IPC_RENDERER
-  );
-
-  // Get tags colors data
-  reduxAction(
-    globals.store.dispatch,
-    "SET_TAG_COLORS",
-    savedData.tags_colors,
-    IPC_RENDERER
-  );
-
-  // Get deck tags data
-  reduxAction(
-    globals.store.dispatch,
-    "SET_DECK_TAGS",
-    savedData.deck_tags,
-    IPC_RENDERER
-  );
-
-  // Other
-  setData(savedData, true);
-  ipcSend("renderer_set_bounds", savedData.windowBounds);
-  syncSettings(settings, true);
-
-  // populate draft overlays with last draft if possible
-  if (draftsList.length) {
-    const lastDraft = draftsList[draftsList.length - 1];
-    ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
+    ipcLog("...found all documents in player database.");
+    ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });
   }
-
-  ipcLog("...found all documents in player database.");
-  ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });
 
   // Only if watcher is not initialized
   // Could happen when using multi accounts

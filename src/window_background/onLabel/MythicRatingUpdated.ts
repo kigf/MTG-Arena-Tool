@@ -26,11 +26,15 @@ export default function MythicRatingUpdated(entry: Entry): void {
   //   "context": "PostMatchResult"
   // }
 
+  const playerData = globals.store.getState().playerdata;
+  const owner = globals.store.getState().appsettings.email;
+  const rank = JSON.parse(JSON.stringify(playerData.rank));
+
   if (!json) return;
   const newJson = {
     ...json,
-    owner: playerData.userName,
-    player: playerData.name,
+    owner,
+    player: playerData.playerName,
     //date: json.timestamp,
     timestamp: parseWotcTimeFallback(json.timestamp).getTime(),
     lastMatchId: globals.currentMatch.matchId,
@@ -45,9 +49,6 @@ export default function MythicRatingUpdated(entry: Entry): void {
   } else if (db.limited_ranked_events.includes(newJson.eventId)) {
     type = "limited";
   }
-
-  const playerData = globals.store.getState().playerdata;
-  const rank: InternalRank = { ...playerData.rank };
 
   rank.constructed.percentile = newJson.newMythicPercentile;
   rank.constructed.leaderboardPlace = newJson.newMythicLeaderboardPlacement;
