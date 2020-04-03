@@ -1,3 +1,9 @@
+export interface MythicRatingUpdate {
+  oldMythicPercentile: number;
+  newMythicPercentile: number;
+  newMythicLeaderboardPlacement: number;
+}
+
 export interface RankBase {
   id: string;
   playerId: string;

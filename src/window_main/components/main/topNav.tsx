@@ -10,6 +10,7 @@ import {
   MAIN_HOME,
   MAIN_DECKS,
   MAIN_MATCHES,
+  MAIN_TIMELINE,
   MAIN_EVENTS,
   MAIN_EXPLORE,
   MAIN_ECONOMY,
@@ -164,8 +165,9 @@ export function TopNav(): JSX.Element {
   };
 
   const homeTab = { ...defaultTab, id: MAIN_HOME, title: "" };
-  const myDecksTab = { ...defaultTab, id: MAIN_DECKS, title: "DECKS" };
-  const matchesTab = { ...defaultTab, id: MAIN_MATCHES, title: "MATCHES" };
+  const myDecksTab = { ...defaultTab, id: MAIN_DECKS, title: "MY DECKS" };
+  const historyTab = { ...defaultTab, id: MAIN_MATCHES, title: "HISTORY" };
+  const timelineTab = { ...defaultTab, id: MAIN_TIMELINE, title: "TIMELINE" };
   const eventsTab = { ...defaultTab, id: MAIN_EVENTS, title: "EVENTS" };
   const exploreTab = { ...defaultTab, id: MAIN_EXPLORE, title: "EXPLORE" };
   const economyTab = { ...defaultTab, id: MAIN_ECONOMY, title: "ECONOMY" };
@@ -209,7 +211,8 @@ export function TopNav(): JSX.Element {
       <div ref={topNavIconsRef} className="top_nav_icons">
         <TopNavItem {...homeTab} />
         <TopNavItem {...myDecksTab} />
-        <TopNavItem {...matchesTab} />
+        <TopNavItem {...historyTab} />
+        <TopNavItem {...timelineTab} />
         <TopNavItem {...eventsTab} />
         <TopNavItem {...exploreTab} />
         <TopNavItem {...economyTab} />

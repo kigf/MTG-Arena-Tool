@@ -12,6 +12,7 @@ import {
   MAIN_LIMITED,
   MAIN_MATCHES,
   MAIN_SETTINGS,
+  MAIN_TIMELINE,
   SUB_DECK,
   SUB_DRAFT,
   SUB_MATCH,
@@ -30,6 +31,7 @@ import EventsTab from "./tabs/EventsTab";
 import ExploreTab from "./tabs/ExploreTab";
 import HomeTab from "./tabs/HomeTab";
 import MatchesTab from "./tabs/MatchesTab";
+import TimelineTab from "./tabs/TimelineTab";
 import OfflineSplash from "./components/main/OfflineSplash";
 import { ipcSend } from "./rendererUtil";
 import SettingsTab from "./tabs/settings";
@@ -80,6 +82,8 @@ export function getOpenNav(tab: number, offline: boolean): JSX.Element {
       return (
         <EventsTab aggFiltersArg={{ eventId: Aggregator.ALL_EVENT_TRACKS }} />
       );
+    case MAIN_TIMELINE:
+      return <TimelineTab />;
     case MAIN_EXPLORE:
       return <ExploreTab />;
     case MAIN_ECONOMY:

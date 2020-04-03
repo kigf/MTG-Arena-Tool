@@ -22,11 +22,12 @@ import globalStore, {
   matchExists,
   eventExists,
   transactionExists,
-  draftExists
+  draftExists,
+  seasonalList
 } from "../shared-store";
 import { IPC_RENDERER, IPC_ALL } from "../shared/constants";
 import { reduxAction } from "../shared-redux/sharedRedux";
-import { InternalRankUpdate } from "../types/rank";
+import { SeasonalRankData } from "../types/Season";
 
 let httpQueue: async.AsyncQueue<HttpTask>;
 
@@ -44,7 +45,7 @@ export function isIdle(): boolean {
 }
 
 function syncUserData(data: any): void {
-  // console.log(data);
+  //console.log("syncUserData: ", data);
   // Sync Events
   const courses_index = [...globals.store.getState().events.eventsIndex];
   const coursesList = data.courses
@@ -117,32 +118,27 @@ function syncUserData(data: any): void {
       draft_index.push(id);
       return doc;
     });
+
   reduxAction(
     globals.store.dispatch,
-    "SET_MANY_DRAFTS",
+    "SET_MANY_DRAFT",
     draftsList,
     IPC_RENDERER
   );
   playerDb.upsert("", "draft_index", draft_index);
 
   // Sync seasonal
+  const newSeasonal = [...seasonalList()];
   const seasonalAdd = data.seasonal.map((doc: any) => {
     const id = doc._id;
     doc.id = id;
     delete doc._id;
+    newSeasonal.push(doc);
     playerDb.upsert("seasonal", id, doc);
     return doc;
   });
-  const newSeasonalRank: Record<string, string[]> = {
-    ...globals.store.getState().seasonal.seasonal
-  };
-  seasonalAdd.map((update: InternalRankUpdate) => {
-    const season = `${update.rankUpdateType.toLowerCase()}_${
-      update.seasonOrdinal
-    }`;
-    newSeasonalRank[season] = [...(newSeasonalRank[season] || []), update.id];
-  });
-  playerDb.upsert("", "seasonal_rank", newSeasonalRank);
+
+  playerDb.upsert("", "seasonal", newSeasonal);
 
   reduxAction(
     globals.store.dispatch,

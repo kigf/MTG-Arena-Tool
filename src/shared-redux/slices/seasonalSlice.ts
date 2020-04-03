@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { InternalRankUpdate } from "../../types/rank";
+import { SeasonalRankData } from "../../types/Season";
 import globalStore from "../../shared-store";
 
 const seasonalSlice = createSlice({
@@ -9,7 +9,7 @@ const seasonalSlice = createSlice({
   },
   reducers: {
     setSeasonal: (state, action): void => {
-      const update = action.payload as InternalRankUpdate;
+      const update = action.payload as SeasonalRankData;
       // Add to global store
       globalStore.seasonal[update.id] = update;
       const season = `${update.rankUpdateType.toLowerCase()}_${
@@ -21,7 +21,7 @@ const seasonalSlice = createSlice({
     setManySeasonal: (state, action): void => {
       const newSeasonal = { ...state.seasonal };
       Object.keys(action.payload).forEach((id: string) => {
-        const update = action.payload[id] as InternalRankUpdate;
+        const update = action.payload[id] as SeasonalRankData;
         // Add to global store
         globalStore.seasonal[update.id] = update;
         const season = `${update.rankUpdateType.toLowerCase()}_${

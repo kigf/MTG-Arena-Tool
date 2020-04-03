@@ -70,7 +70,7 @@ function matchResults(matchData: MatchData): number[] {
 }
 
 // Guess if an event is a limited or constructed event.
-function matchIsLimited(match: MatchData): boolean {
+export function matchIsLimited(match: MatchData): boolean {
   // old data uses InternalEventName
   const eventId = match.eventId || match.InternalEventName;
 

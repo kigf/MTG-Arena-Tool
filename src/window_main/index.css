@@ -392,6 +392,32 @@ time, local-time, relative-time {
     background-position: 0px 0px;
 }
 
+.rank-bullets {
+    height: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rank-bullet-light {
+    background-image: url(../images/rank_bullet_light.png);
+    width: 8px;
+    height: 8px;
+}
+
+.rank-bullet-dark {
+    background-image: url(../images/rank_bullet_dark.png);
+    width: 8px;
+    height: 8px;
+}
+
+.rank-to-right {
+    background-image: url(../images/to_right.png);
+    width: 24px;
+    height: 24px;
+    background-position: center;
+    opacity: 0.8;
+}
+
 .top_nav {
     position: relative;
     align-items: stretch;
@@ -448,6 +474,10 @@ time, local-time, relative-time {
 
 .icon_5 {
     background: url(../images/tab_collection.png);
+}
+
+.icon_7 {
+    background: url(../images/tab_timeline.png);
 }
 
 .top_nav_info {
@@ -4016,6 +4046,107 @@ a:hover {
 
 .inventory_card_quantity {
     color: var(--color-light);
+}
+
+.timeline-line {
+    z-index: 1;
+    position: relative;
+    height: 336px;
+    stroke:var(--color-light);
+    opacity: 1;
+}
+
+.timeline-line.hover {
+    opacity: 0.9;
+    background-color: var(--color-light-20);
+}
+
+.timeline-warning {
+    height: 336px;
+    width: 100%;
+    color: var(--color-r);
+    font-family: var(--main-font-name-it);
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+    top: 50%;
+}
+
+.timeline-rank {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 48px;
+    height: 48px;
+    background-position: 0px 0px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.timeline-box {
+    display: flex;
+    width: calc(100% - 100px);
+    overflow: hidden;
+    margin: 28px 28px 8px 0;
+    border: 1px solid #ffffff40;
+    background-color: #0000006e;
+}
+
+.timeline-bottom-box {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 64px);
+    margin: 0 0 8px 0;
+    color: var(--color-light);
+    font-size: 14px;
+    font-family: var(--sub-font-name);
+}
+
+.timeline-pos {
+    background-image: url(../images/icon_sort.png);
+    width: 13px;
+    height: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.timeline-box-labels {
+    min-width: 64px;
+    width: 64px;
+    margin: 28px 4px 8px 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.timeline-label {
+    color: var(--color-light);
+    font-size: 14px;
+    text-align: right;
+    font-family: var(--main-font-name-it);
+}
+
+.timeline-title {
+    display: flex;
+    justify-content: space-evenly;
+    font-family: var(--main-font-name);
+    font-size: 16px;
+    color: var(--color-light);
+    margin: 16px 28px 0 28px;
+}
+
+.decklist-name {
+    font-size: 17px;
+    color: var(--color-light);
+    text-align: center;
+    font-family: var(--main-font-name);
+}
+
+.decklist-colors {
+    display: flex;
+    margin: 7px 0 0 0;
+    justify-content: center;
 }
 
 .sort_asc {
