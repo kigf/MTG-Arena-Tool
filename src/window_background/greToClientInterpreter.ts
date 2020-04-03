@@ -686,7 +686,7 @@ export async function GREMessage(
   message: GreMessage,
   time: Date
 ): Promise<void> {
-  //globals.currentMatch.GREtoClient[message.msgId] = message;
+  globals.currentMatch.GREtoClient[message.msgId] = message;
   globals.logTime = time;
 
   const fn = GREMessages[message.type];
