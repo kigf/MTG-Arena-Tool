@@ -110,7 +110,7 @@ interface TimelinePartProps extends SeasonalRankData {
   width: number;
   height: number;
   hover: string;
-  setHover: React.Dispatch<SetStateAction<string>>;
+  setHover: (match: string, deck: string) => void;
   setPartHover: React.Dispatch<SetStateAction<number>>;
   lastMatchId: string;
 }
@@ -135,9 +135,9 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
     : "";
 
   const mouseIn = useCallback(() => {
-    setHover(lastMatchId || "");
+    setHover(lastMatchId || "", deckId || "");
     setPartHover(index);
-  }, [lastMatchId, index, setPartHover, setHover]);
+  }, [lastMatchId, deckId, index, setPartHover, setHover]);
 
   const newPointHeight = props.newRankNumeric
     ? height - props.newRankNumeric * 2
@@ -229,6 +229,7 @@ export default function TimelineTab(): JSX.Element {
   const rank = useSelector((state: AppState) => state.playerdata.rank);
   const dispatcher = useDispatch();
   const [hoverMatchId, setHoverMatchId] = useState("");
+  const [hoverDeckId, setHoverDeckId] = useState("");
   const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
     height: 300,
@@ -253,7 +254,13 @@ export default function TimelineTab(): JSX.Element {
   const handleSetSeasonType = useCallback((type: string): void => {
     setSeasonType(type as "constructed" | "limited");
     setHoverMatchId("");
+    setHoverDeckId("");
     setHoverPart(-1);
+  }, []);
+
+  const setHover = useCallback((match: string, deck: string) => {
+    setHoverMatchId(match);
+    setHoverDeckId(deck);
   }, []);
 
   const handleResize = useCallback((): void => {
@@ -324,7 +331,6 @@ export default function TimelineTab(): JSX.Element {
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <div className="timeline-title">
           <PagingButton
-            key={0}
             onClick={setPrevSeason}
             disabled={drawingSeason <= 1}
             selected={false}
@@ -336,7 +342,6 @@ export default function TimelineTab(): JSX.Element {
             {format(drawingSeasonDate as Date, "MMMM yyyy")}
           </div>
           <PagingButton
-            key={0}
             onClick={setNextSeason}
             disabled={drawingSeason >= rank.constructed.seasonOrdinal}
             selected={false}
@@ -372,8 +377,8 @@ export default function TimelineTab(): JSX.Element {
                     width={dimensions.width / data.length}
                     index={index}
                     key={index}
-                    hover={hoverMatchId}
-                    setHover={setHoverMatchId}
+                    hover={hoverDeckId}
+                    setHover={setHover}
                     setPartHover={setHoverPart}
                     {...value}
                   />
