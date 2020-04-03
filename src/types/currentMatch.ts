@@ -168,8 +168,8 @@ export const matchDataDefault: MatchData = {
   turnInfo: {
     activePlayer: 0,
     decisionPlayer: 0,
-    phase: 0,
-    step: 0,
+    phase: "",
+    step: "",
     turnNumber: 0,
     priorityPlayer: 0,
     stormCount: 0,

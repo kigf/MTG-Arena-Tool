@@ -521,6 +521,19 @@ label {
     color: var(--color-light-40);
 }
 
+.button-static {
+    -webkit-app-region: no-drag;
+    cursor:pointer;
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+    background-size: contain;
+    -webkit-transition: all .2s ease-in-out;
+}
+
+.button-static:hover {
+    opacity: 1;
+}
 
 .button {
     border-radius: 50%;

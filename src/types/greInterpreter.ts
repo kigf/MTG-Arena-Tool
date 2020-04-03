@@ -213,8 +213,8 @@ export interface PlayerData {
 export interface TurnInfo {
   activePlayer: number;
   decisionPlayer: number;
-  phase: number;
-  step: number;
+  phase: string;
+  step: string;
   turnNumber: number;
   priorityPlayer: number;
   stormCount: number;

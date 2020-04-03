@@ -18,6 +18,11 @@ export const actionLogDir = path.join(
   "actionlogs"
 );
 
+export const replaysDir = path.join(
+  (app || remote.app).getPath("userData"),
+  "replays"
+);
+
 export function ipcSend(
   method: string,
   arg?: unknown,
