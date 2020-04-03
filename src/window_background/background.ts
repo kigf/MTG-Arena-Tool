@@ -77,6 +77,14 @@ globals.store.subscribe(() => {
   oldState = newState;
 });
 
+globals.replaysDir = path.join(
+  (app || remote.app).getPath("userData"),
+  "replays"
+);
+if (!fs.existsSync(globals.replaysDir)) {
+  fs.mkdirSync(globals.replaysDir);
+}
+
 globals.actionLogDir = path.join(
   (app || remote.app).getPath("userData"),
   "actionlogs"

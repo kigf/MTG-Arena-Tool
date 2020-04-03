@@ -32,6 +32,8 @@ export const InternalDraftDefault: InternalDraft = {
 // Don't. This is a shadowy place. You must never go here.
 // Hopefully we'll be able to get rid of all of the ones that can change,
 // and put them into stores or better structures than a giant export list.
+let replaysDir = "";
+
 let actionLogDir = "";
 
 let currentDraft = InternalDraftDefault;
@@ -80,6 +82,7 @@ let currentMatch: MatchData = matchDataDefault;
 
 export default {
   store,
+  replaysDir,
   actionLogDir,
   currentDraft,
   currentDeck,

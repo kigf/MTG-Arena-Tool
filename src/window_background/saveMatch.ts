@@ -5,6 +5,8 @@ import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared-redux/sharedRedux";
 import { IPC_RENDERER } from "../shared/constants";
 import { getMatch } from "../shared-store";
+import path from "path";
+import fs from "fs";
 
 export default function saveMatch(id: string, matchEndTime: number): void {
   //console.log(globals.currentMatch.matchId, id);
@@ -29,6 +31,17 @@ export default function saveMatch(id: string, matchEndTime: number): void {
   // console.log("Save match:", match);
   if (!globals.store.getState().matches.matchesIndex.includes(id)) {
     reduxAction(globals.store.dispatch, "SET_MATCH", match, IPC_RENDERER);
+  }
+
+  try {
+    const replayData = JSON.stringify(globals.currentMatch.GREtoClient);
+    fs.writeFileSync(
+      path.join(globals.replaysDir, globals.currentMatch.matchId + ".json"),
+      replayData,
+      "utf-8"
+    );
+  } catch (e) {
+    console.error(e);
   }
 
   playerDb.upsert("", id, match);
