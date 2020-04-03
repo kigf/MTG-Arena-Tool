@@ -26,13 +26,9 @@ export default function GreToClient(entry: Entry): void {
   globals.logTime = parseLogTimestamp(json.timestamp);
 
   const message = json.greToClientEvent.greToClientMessages;
-  message.forEach(function(msg) {
-    greToClientInterpreter.GREMessage(msg, globals.logTime);
-    /*
-    const msgId = msg.msgId;
-    globals.currentMatch.GREtoClient[msgId] = msg;
-    globals.currentMatch.latestMessage = msgId;
-    greToClientInterpreter.GREMessageByID(msgId, globals.logTime);
-    */
-  });
+  Promise.all(
+    message.map((msg: GreMessage) => {
+      greToClientInterpreter.GREMessage(msg, globals.logTime);
+    })
+  );
 }

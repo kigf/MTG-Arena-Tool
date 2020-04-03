@@ -682,7 +682,10 @@ export function GREMessageByID(msgId: number, time: Date): void {
   );
 }
 
-export function GREMessage(message: GreMessage, time: Date): void {
+export async function GREMessage(
+  message: GreMessage,
+  time: Date
+): Promise<void> {
   //globals.currentMatch.GREtoClient[message.msgId] = message;
   globals.logTime = time;
 
@@ -696,6 +699,7 @@ export function GREMessage(message: GreMessage, time: Date): void {
   globals.currentMatch.oppCardsUsed = globals.currentMatch.opponent.cards.concat(
     getOppUsedCards()
   );
+  Promise.resolve(true);
 }
 
 // Some game state messages are sent as queued
