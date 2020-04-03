@@ -14,6 +14,22 @@ import {
 } from "../../../window_background/greToClientInterpreter";
 import { getCardArtCrop } from "../../../shared/util";
 import useHoverCard from "../../hooks/useHoverCard";
+import ReactSelect from "../../../shared/ReactSelect";
+
+const speedNumbers: Record<string, number> = {
+  "0.5x": 2000,
+  "1x": 1000,
+  "2x": 500,
+  "4x": 250,
+  Unlimited: 1
+};
+
+function getSpeedTitle(sp: number): string {
+  return (
+    Object.keys(speedNumbers).filter((k: string) => speedNumbers[k] == sp)[0] ||
+    "1x"
+  );
+}
 
 interface ReplayProps {
   matchData: InternalMatch;
@@ -28,6 +44,7 @@ export default function Replay(props: ReplayProps): JSX.Element {
   const [GREPos, setGREPos] = useState({ current: 0, prev: 0 });
   const [currentMatch, setCurrentMatch] = useState(globals.currentMatch);
   const [autoplay, setAutoplay] = useState(false);
+  const [speed, setSpeed] = useState(1000);
 
   const sliderChange = useCallback(
     (pos: number): void => {
@@ -39,7 +56,7 @@ export default function Replay(props: ReplayProps): JSX.Element {
   // Step only one
   const advanceOne = useCallback(() => {
     if (GREPos.current < GREMessages.length) {
-      setGREPos({ prev: GREPos.prev, current: GREPos.current + 1 });
+      setGREPos({ prev: GREPos.current, current: GREPos.current + 1 });
     } else {
       setAutoplay(false);
     }
@@ -54,13 +71,19 @@ export default function Replay(props: ReplayProps): JSX.Element {
     if (autoplay) {
       const timerID = setInterval(
         () => advanceOne(),
-        (props.matchData.duration * 1000) / GREMessages.length
+        (props.matchData.duration * speed) / GREMessages.length
       );
       return (): void => {
         clearInterval(timerID);
       };
     }
-  }, [autoplay, advanceOne, props.matchData.duration, GREMessages.length]);
+  }, [
+    autoplay,
+    speed,
+    advanceOne,
+    props.matchData.duration,
+    GREMessages.length
+  ]);
 
   // Calculate slider turn labels
   const sliderPos: SliderPosition[] = useMemo(() => {
@@ -82,31 +105,49 @@ export default function Replay(props: ReplayProps): JSX.Element {
 
   // Read GRE messages
   useEffect(() => {
-    if (GREPos.current == GREPos.prev + 1) {
-      GREMessage(GREMessages[GREPos.current], new Date());
-    } else if (GREPos.current > GREPos.prev) {
-      for (let i = GREPos.prev + 1; i < GREPos.current + 1; i++) {
-        GREMessage(GREMessages[i], new Date());
-      }
-    } else if (GREPos.current < GREPos.prev) {
-      for (let i = 0; i < GREPos.current + 1; i++) {
-        GREMessage(GREMessages[i], new Date());
+    async function asyncGRE(
+      GREPos: { current: number; prev: number },
+      GREMessages: any
+    ): Promise<void> {
+      //console.log("asyncGRE from " + GREPos.prev + " to " + GREPos.current);
+      if (GREPos.current == GREPos.prev + 1) {
+        await GREMessage(GREMessages[GREPos.current], new Date());
+      } else if (GREPos.current > GREPos.prev) {
+        for (let i = GREPos.prev + 1; i < GREPos.current + 1; i++) {
+          //console.log("asyncGRE: " + i);
+          await GREMessage(GREMessages[i], new Date());
+        }
+      } else if (GREPos.current < GREPos.prev) {
+        for (let i = 0; i < GREPos.current + 1; i++) {
+          //console.log("asyncGRE: " + i);
+          await GREMessage(GREMessages[i], new Date());
+        }
       }
     }
-    setCurrentMatch(globals.currentMatch);
+    asyncGRE(GREPos, GREMessages);
   }, [GREPos, GREMessages]);
 
   return (
     <div style={{ margin: "16px", height: "100%" }}>
-      <BoardDrawer currentMatch={currentMatch} />
-      <div
-        className={"button-static"}
-        onClick={toggleAutoplay}
-        style={{
-          backgroundImage: `url("../images/${autoplay ? "pause" : "play"}.png")`
-        }}
-      ></div>
-      <div>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div
+          className={"button-static"}
+          onClick={toggleAutoplay}
+          style={{
+            backgroundImage: `url("../images/${
+              autoplay ? "pause" : "play"
+            }.png")`
+          }}
+        />
+        <ReactSelect
+          current={getSpeedTitle(speed)}
+          options={Object.keys(speedNumbers)}
+          callback={(option: string): void => {
+            setSpeed(speedNumbers[option] || 1000);
+          }}
+        />
+      </div>
+      <div style={{ height: "56px", marginTop: "16px" }}>
         <Slider
           positions={sliderPos}
           value={GREPos.current}
@@ -114,6 +155,7 @@ export default function Replay(props: ReplayProps): JSX.Element {
           max={GREMessages.length}
         />
       </div>
+      <BoardDrawer currentMatch={currentMatch} />
     </div>
   );
 }
