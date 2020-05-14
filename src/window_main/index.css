@@ -4363,7 +4363,7 @@ a:hover {
 }
 
 .form-icon {
-    background-image: url(../../icons/icon-256.png);
+    background-image: url(../electron_main/icons/icon-256.png);
     background-color: var(--color-light);
     border-radius: 7em;
     background-size: contain;

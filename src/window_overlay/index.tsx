@@ -2,7 +2,7 @@ import { remote } from "electron";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import OverlayController from "../overlay/OverlayController";
+import OverlayController from "./OverlayController";
 import TransparencyFix from "./electron-transparency-mouse-fix";
 
 import store from "../shared-redux/stores/overlayStore";

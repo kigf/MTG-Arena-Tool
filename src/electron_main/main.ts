@@ -23,12 +23,12 @@ import {
   ARENA_MODE_MATCH,
   OVERLAY_DRAFT_MODES,
   IPC_ALL
-} from "./shared/constants";
-import { appDb } from "./shared/db/LocalDatabase";
-import { SettingsData, OverlaySettingsData } from "./types/settings";
-import { IPC_BACKGROUND, IPC_RENDERER, IPC_OVERLAY } from "./shared/constants";
-import { initializeMainReduxIPC } from "./shared-redux/sharedRedux";
-import store from "./shared-redux/stores/mainStore";
+} from "../shared/constants";
+import { appDb } from "../shared/db/LocalDatabase";
+import { SettingsData, OverlaySettingsData } from "../types/settings";
+import { IPC_BACKGROUND, IPC_RENDERER, IPC_OVERLAY } from "../shared/constants";
+import { initializeMainReduxIPC } from "../shared-redux/sharedRedux";
+import store from "../shared-redux/stores/mainStore";
 
 app.setAppUserModelId("com.github.manuel777.mtgatool");
 
@@ -608,12 +608,12 @@ function createUpdaterWindow(): BrowserWindow {
     width: 320,
     height: 240,
     title: "Updater",
-    icon: "icons/icon.png",
+    icon: "src/electron_main/icons/icon.png",
     webPreferences: {
       nodeIntegration: true
     }
   });
-  win.loadURL(`file://${__dirname}/window_updater/index.html`);
+  win.loadURL(`file://${__dirname}/../window_updater/index.html`);
 
   return win;
 }
@@ -627,12 +627,12 @@ function createBackgroundWindow(): BrowserWindow {
     width: 640,
     height: 480,
     title: "Background",
-    icon: "icons/icon.png",
+    icon: "src/electron_main/icons/icon.png",
     webPreferences: {
       nodeIntegration: true
     }
   });
-  win.loadURL(`file://${__dirname}/window_background/index.html`);
+  win.loadURL(`file://${__dirname}/../window_background/index.html`);
   win.on("closed", onBackClosed);
 
   return win;
@@ -656,7 +656,7 @@ function createOverlayWindow(): BrowserWindow {
       nodeIntegration: true
     }
   });
-  overlay.loadURL(`file://${__dirname}/overlay/index.html`);
+  overlay.loadURL(`file://${__dirname}/../window_overlay/index.html`);
 
   if (process.platform !== "linux") {
     // https://electronjs.org/docs/api/browser-window#winsetignoremouseeventsignore-options
@@ -675,20 +675,20 @@ function createMainWindow(): BrowserWindow {
     width: 800,
     height: 600,
     title: "MTG Arena Tool",
-    icon: "icons/icon.png",
+    icon: "src/electron_main/icons/icon.png",
     webPreferences: {
       nodeIntegration: true
     }
   });
-  win.loadURL(`file://${__dirname}/window_main/index.html`);
+  win.loadURL(`file://${__dirname}/../window_main/index.html`);
   win.on("closed", onMainClosed);
 
-  let iconPath = path.join(__dirname, "../icons/icon-tray.png");
+  let iconPath = path.join(__dirname, "./icons/icon-tray.png");
   if (process.platform == "linux") {
-    iconPath = path.join(__dirname, "../icons/icon-tray@8x.png");
+    iconPath = path.join(__dirname, "./icons/icon-tray@8x.png");
   }
   if (process.platform == "win32") {
-    iconPath = path.join(__dirname, "../icons/icon-256.png");
+    iconPath = path.join(__dirname, "./icons/icon-256.png");
   }
 
   tray = new Tray(iconPath);
