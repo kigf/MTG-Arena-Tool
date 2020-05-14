@@ -1,8 +1,8 @@
 import { remote } from "electron";
+import { hot } from "react-hot-loader/root";
 import anime from "animejs";
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   LOGIN_WAITING,
   LOGIN_OK,
@@ -58,10 +58,6 @@ export function App(): JSX.Element {
   React.useEffect(() => {
     ipcListeners(dispatch);
   }, [dispatch]);
-
-  React.useEffect(() => {
-    console.log("loginState: " + loginState);
-  }, [loginState]);
 
   const closeNoLog = React.useCallback(
     (log: string) => {
@@ -130,11 +126,4 @@ export function App(): JSX.Element {
   );
 }
 
-export default function RenderApp(): void {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById("appcontainer")
-  );
-}
+export default hot(App);
