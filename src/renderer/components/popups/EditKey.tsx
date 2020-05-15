@@ -1,6 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Button from "../misc/Button";
 
+import mainCss from "../../index.css";
+import css from "./popups.css";
+
 interface EditKeyProps {
   closeCallback?: (log: string) => void;
 }
@@ -52,7 +55,7 @@ export default function EditKey(props: EditKeyProps): JSX.Element {
 
   return (
     <div
-      className="popup-background"
+      className={css.popupBackground}
       style={{
         opacity: open * 2,
         backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
@@ -60,7 +63,7 @@ export default function EditKey(props: EditKeyProps): JSX.Element {
       onClick={handleClose}
     >
       <div
-        className="popup-div"
+        className={css.popupDiv}
         style={{
           height: `${open * 160}px`,
           width: `${open * 400}px`,
@@ -70,10 +73,10 @@ export default function EditKey(props: EditKeyProps): JSX.Element {
           e.stopPropagation();
         }}
       >
-        <div style={{ marginBottom: "26px" }} className="message_sub">
+        <div style={{ marginBottom: "26px" }} className={mainCss.messageSub}>
           Press any key combination
         </div>
-        <div style={{ marginBottom: "26px" }} className="message_sub">
+        <div style={{ marginBottom: "26px" }} className={mainCss.messageSub}>
           {keyDesc || "-"}
         </div>
         <Button text="Ok" onClick={handleClose} />

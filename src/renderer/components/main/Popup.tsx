@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector } from "react-redux";
 
+import css from "./main.css";
+
 export default function Popup(): JSX.Element {
   const [opacity, setOpacity] = React.useState(0);
   const time = useSelector((state: AppState) => state.renderer.popup.time);
@@ -24,7 +26,7 @@ export default function Popup(): JSX.Element {
   }, [time, duration]);
 
   return (
-    <div style={{ opacity: opacity }} className="popup">
+    <div style={{ opacity: opacity }} className={css.popup}>
       {text}
     </div>
   );

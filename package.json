@@ -1,5 +1,5 @@
 {
-  "name": "MTG-Arena-Tool",
+  "name": "mtgatool-app",
   "description": "A MTG Arena deck tracker and statistics manager.",
   "author": "Manuel Etchegaray <manuel.etchegaray7@gmail.com>",
   "contributors": [
@@ -31,8 +31,15 @@
   "bugs": "https://github.com/Manuel-777/MTG-Arena-Tool/issues",
   "version": "5.0.0",
   "scripts": {
-    "start": "npm-run-all build run-electron",
-    "build": "webpack --config webpack.config.js",
+    "start": "npm-run-all clean:dist build:dev run-electron",
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js",
+    "dist": "npm-run-all build:prod && electron-builder dist --x64",
+    "clean": "npm run clean:lib || npm run clean:dist || npm run clean:modules",
+    "clean:modules": "rimraf node_modules",
+    "clean:lib": "rimraf lib",
+    "clean:dist": "rimraf dist",
+    "postinstall": "rimraf node_modules/@types/react-native",
     "version": "node -p \"require('./package.json').version\"",
     "test:jest": "jest src/",
     "run-electron": "electron ."
@@ -140,6 +147,7 @@
     "ts-loader": "^7.0.4",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-merge": "^4.2.2"
   }
 }

@@ -2,6 +2,9 @@ import React from "react";
 import { ipcSend } from "../../rendererUtil";
 import { forceOpenSettings } from "../../tabControl";
 
+import sharedCss from "../../../shared/shared.css";
+import mainCss from "../../index.css";
+
 interface TopBarProps {
   artist: string;
   offline: boolean;
@@ -21,20 +24,20 @@ function clickClose(): void {
 
 export default function TopBar(props: TopBarProps): JSX.Element {
   return (
-    <div className="top">
-      <div className="flex_item">
-        <div className="top_logo"></div>
-        <div className="top_artist">{props.artist}</div>
+    <div className={sharedCss.top}>
+      <div className={sharedCss.flexItem}>
+        <div className={sharedCss.topLogo}></div>
+        <div className={sharedCss.top_artist}>{props.artist}</div>
       </div>
-      <div className="flex_item">
+      <div className={sharedCss.flexItem}>
         {props.offline ? (
-          <div className="unlink" title="You are not logged-in."></div>
+          <div className={mainCss.unlink} title="You are not logged-in."></div>
         ) : (
           <></>
         )}
-        <div onClick={clickMinimize} className="button minimize"></div>
-        <div onClick={clickSettings} className="button settings"></div>
-        <div onClick={clickClose} className="button close"></div>
+        <div onClick={clickMinimize} className={sharedCss.minimize+" "+sharedCss.button}></div>
+        <div onClick={clickSettings} className={sharedCss.settings+" "+sharedCss.button}></div>
+        <div onClick={clickClose} className={sharedCss.close+" "+sharedCss.button}></div>
       </div>
     </div>
   );

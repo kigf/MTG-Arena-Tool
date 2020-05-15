@@ -8,7 +8,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import DEFAULT_BACKGROUND from "../../../assets/images/Bedevil-Art.jpg";
 
-import css from "./background-image.css";
+import sharedCss from "../../../shared/shared.css";
 
 export default function BackgroundImage(): JSX.Element {
   const dispatcher = useDispatch();
@@ -74,8 +74,8 @@ export default function BackgroundImage(): JSX.Element {
   const style = { backgroundImage: image, backgroundColor };
 
   return (
-    <div className={css.main_wrapper} style={style}>
-      {backgroundShade ? <div className="wrapper_after" /> : <></>}
+    <div className={sharedCss.mainWrapper} style={style}>
+      {backgroundShade ? <div className={sharedCss.wrapperAfter} /> : <></>}
     </div>
   );
 }
