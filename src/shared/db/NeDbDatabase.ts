@@ -122,7 +122,7 @@ export class NeDbDatabase implements LocalDatabase {
     const allData = Object.entries(data);
     allData.reverse();
     let successCount = 0;
-    let errorCount = 0;
+    //let errorCount = 0;
     for (const [key, value] of allData) {
       try {
         successCount += await this.upsert("", key, value);
@@ -130,7 +130,7 @@ export class NeDbDatabase implements LocalDatabase {
           intermediateCallback(null, successCount);
         }
       } catch (err) {
-        errorCount += 1;
+        //errorCount += 1;
         console.error(
           "Local DB: ERROR ${errorCount} during Saving all data!",
           err

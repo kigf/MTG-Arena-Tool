@@ -23,7 +23,7 @@ import {
 } from "./constants";
 import db from "./database";
 import Deck from "./deck";
-const NO_IMG_URL = "../images/notfound.png";
+const NO_IMG_URL = "../assets/images/notfound.png";
 
 export function getCardImage(
   card: DbCardData | number | undefined,

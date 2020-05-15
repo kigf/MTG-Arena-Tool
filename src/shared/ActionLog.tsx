@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import db from "./database";
-import useHoverCard from "../window_main/hooks/useHoverCard";
+import useHoverCard from "../renderer/hooks/useHoverCard";
 
 interface ActionLogProps {
   logStr: string;
@@ -30,6 +30,7 @@ export default function ActionLog(props: ActionLogProps): JSX.Element {
       /<log-(card|ability) id="(?<id>.*?)">.*?<\/log-(card|ability)>/,
       "g"
     );
+
     const groups = [...str.matchAll(regex)];
     const list = str.replace(regex, "\n").split("\n");
 

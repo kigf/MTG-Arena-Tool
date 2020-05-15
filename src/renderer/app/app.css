@@ -1,0 +1,67 @@
+.outer_wrapper {
+  padding: 2px;
+  overflow: hidden;
+  height: calc(100vh - 4px);
+  width: calc(100% - 4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  -webkit-backface-visibility: hidden;
+}
+
+.wrapper {
+  position: relative;
+  opacity: 1;
+  display: flex;
+  height: calc(100% - 97px);
+  z-index: 5;
+}
+
+.wrapper_main {
+  position: relative;
+  opacity: 1;
+  display: flex;
+  height: -webkit-fill-available;
+  z-index: 5;
+}
+
+.overflow_ux_main {
+  width: calc(100%);
+  height: calc(100vh - 101px);
+  height: 100%;
+  overflow: hidden;
+}
+
+.moving_ux {
+  position: relative;
+  display: flex;
+  width: calc(300%);
+  height: 100%;
+}
+
+.ux_item {
+  width: calc(100%);
+  display: flex;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+  align-items: stretch;
+}
+
+.version_number {
+  width: 80px;
+  text-align: center;
+  font-family: var(--main-font-name);
+  color: var(--color-light-75);
+  line-height: 24px;
+  font-size: 14px;
+  height: 24px;
+  position: absolute;
+  left: calc(100% - 82px);
+  top: calc(100% - 26px);
+  background-color: var(--color-back);
+  z-index: 100;
+  border-radius: 4px 0 0 0;
+  cursor: pointer;
+  text-decoration: underline;
+}

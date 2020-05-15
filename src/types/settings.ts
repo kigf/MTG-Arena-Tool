@@ -1,9 +1,9 @@
 import { TableState } from "react-table";
-import { CardsData } from "../window_main/components/collection/types";
-import { DecksData } from "../window_main/components/decks/types";
-import { TransactionData } from "../window_main/components/economy/types";
-import { EventTableData } from "../window_main/components/events/types";
-import { MatchTableData } from "../window_main/components/matches/types";
+import { CardsData } from "../renderer/components/collection/types";
+import { DecksData } from "../renderer/components/decks/types";
+import { TransactionData } from "../renderer/components/economy/types";
+import { EventTableData } from "../renderer/components/events/types";
+import { MatchTableData } from "../renderer/components/matches/types";
 
 export interface OverlaySettingsData {
   alpha: number;

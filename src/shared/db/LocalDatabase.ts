@@ -1,6 +1,4 @@
-import { ElectronStoreDatabase } from "./ElectronStoreDatabase";
 import { NeDbDatabase } from "./NeDbDatabase";
-import { MigrationDatabase } from "./MigrationDatabase";
 
 export class DatabaseNotInitializedError extends Error {
   constructor() {
@@ -38,9 +36,5 @@ export interface LocalDatabase {
   remove(table: string, key: string): Promise<number>;
 }
 
-export const appDb: LocalDatabase = new MigrationDatabase(
-  new ElectronStoreDatabase(),
-  new NeDbDatabase()
-);
+export const appDb: LocalDatabase = new NeDbDatabase();
 export const playerDb: LocalDatabase = new NeDbDatabase();
-export const playerDbLegacy: LocalDatabase = new ElectronStoreDatabase();

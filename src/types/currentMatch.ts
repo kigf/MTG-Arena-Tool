@@ -12,7 +12,7 @@ import {
   AnnotationInfo,
   TurnInfo,
   GameInfo
-} from "../proto/GreTypes";
+} from "../assets/proto/GreTypes";
 import { InternalDeck } from "./Deck";
 
 export interface MatchPlayer {

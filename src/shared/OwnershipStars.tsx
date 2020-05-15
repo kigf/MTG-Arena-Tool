@@ -4,7 +4,7 @@ import { cardHasType } from "./cardTypes";
 import { DbCardData } from "../types/Metadata";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { AppState } from "../shared-redux/stores/rendererStore";
+import { AppState } from "../shared/redux/stores/rendererStore";
 
 function OwnershipInfinity(props: OwnershipProps): JSX.Element {
   const { owned, acquired, wanted } = props;

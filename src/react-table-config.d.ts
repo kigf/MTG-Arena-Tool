@@ -48,6 +48,8 @@ declare module "react-table" {
     percentFormatOptions?: any;
     divideBy100?: boolean;
     needsTileLabel?: boolean;
+    disableFilters?: boolean;
+    disableSortBy?: boolean;
   }
 
   export interface ColumnInstance<D extends object = {}>
@@ -55,7 +57,16 @@ declare module "react-table" {
       UseFiltersColumnProps<D>,
       UseGroupByColumnProps<D>,
       UseSortByColumnProps<D>,
-      UseTableColumnProps<D> {}
+      UseTableColumnProps<D> {
+        gridWidth?: string;
+        mayToggle?: boolean;
+        defaultVisible?: boolean;
+        percentFormatOptions?: any;
+        divideBy100?: boolean;
+        needsTileLabel?: boolean;
+        disableFilters?: boolean;
+        disableSortBy?: boolean;
+      }
 
   export interface Cell<D extends object = {}>
     extends UseTableCellProps<D>,

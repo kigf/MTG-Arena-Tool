@@ -10,10 +10,10 @@ import {
 import Deck from "./deck";
 import { getCardArtCrop, getRankColorClass, openScryfallCard } from "./util";
 import { DbCardData, Rarity } from "../types/Metadata";
-import useHoverCard from "../window_main/hooks/useHoverCard";
+import useHoverCard from "../renderer/hooks/useHoverCard";
 import { useSelector } from "react-redux";
-import { AppState } from "../shared-redux/stores/rendererStore";
-import { getWildcardsMissing } from "../window_main/rendererUtil";
+import { AppState } from "../shared/redux/stores/rendererStore";
+import { getWildcardsMissing } from "../renderer/rendererUtil";
 
 export interface CardTileProps {
   card: DbCardData;

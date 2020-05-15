@@ -84,7 +84,7 @@ export default function DeckManaCurve(props: { deck: Deck }): JSX.Element {
       </div>
       <div className="mana_curve_numbers">
         {!!manaCounts &&
-          manaCounts.map((cost, i) => {
+          manaCounts.map((_cost, i) => {
             return (
               <div
                 className="mana_curve_column_number"

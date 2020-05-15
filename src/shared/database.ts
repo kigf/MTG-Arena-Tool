@@ -16,10 +16,14 @@ import { SeasonAndRankDetail, Rank, RankInfo } from "../types/event";
 import { STANDARD_CUTOFF_DATE } from "./constants";
 import format from "date-fns/format";
 
+import defaultDatabase from "../assets/resources/database.json";
+
+/*
 const cachePath: string | null =
   app || (remote && remote.app)
     ? path.join((app || remote.app).getPath("userData"), "database.json")
     : null;
+*/
 
 /*
  This is cool for debugging the metadata files, so we can
@@ -46,7 +50,7 @@ class Database {
   rewards_daily_ends: Date;
   rewards_weekly_ends: Date;
   preconDecks: { [id: string]: ArenaV3Deck };
-  public metadata: Metadata | undefined;
+  public metadata: Metadata;
   season: SeasonAndRankDetail | undefined;
   public scryfallData: any;
 
@@ -67,11 +71,13 @@ class Database {
     this.rewards_weekly_ends = new Date();
     this.preconDecks = {};
 
-    let dbUri = `${__dirname}/../resources/database.json`;
+    this.metadata = defaultDatabase;
+    /*
     if (cachePath && fs.existsSync(cachePath)) {
-      dbUri = cachePath;
+      const dbString = fs.readFileSync(cachePath, "utf8");
+      this.handleSetDb(null, dbString);
     }
-    const defaultDb = fs.readFileSync(dbUri, "utf8");
+    */
     /*
     try {
       const data = fs.readFileSync(scryfallDataPath, "utf8");
@@ -79,9 +85,7 @@ class Database {
     } catch (e) {
       console.log("Error parsing scryfall data", e);
     }
-*/
-
-    this.handleSetDb(null, defaultDb);
+    */
   }
 
   static getInstance(): Database {
@@ -93,6 +97,7 @@ class Database {
   }
 
   handleSetDb(_event: IpcRendererEvent | null, arg: string): void {
+    /*
     try {
       this.metadata = JSON.parse(arg) as Metadata;
       for (const event of this.playBrawlEvents) {
@@ -103,9 +108,11 @@ class Database {
     } catch (e) {
       console.log("Error parsing metadata", e);
     }
+    */
   }
 
   updateCache(data: string): void {
+    /*
     try {
       if (cachePath) {
         console.log("Saved metadata to " + cachePath);
@@ -114,6 +121,7 @@ class Database {
     } catch (e) {
       console.log("Error saving metadata", e);
     }
+    */
   }
 
   handleSetRewardResets(

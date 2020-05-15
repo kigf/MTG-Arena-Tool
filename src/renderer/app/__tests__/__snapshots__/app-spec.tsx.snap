@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component renders properly 1`] = `
+Array [
+  <div
+    className="main_wrapper main_bg_image"
+    style={
+      Object {
+        "backgroundColor": "rgba(0,0,0,0.3)",
+        "backgroundImage": "../assets/images/Bedevil-Art.jpg",
+      }
+    }
+  >
+    <div
+      className="wrapper_after"
+    />
+  </div>,
+  <div
+    className="outer_wrapper"
+  >
+    <div
+      className="top"
+    >
+      <div
+        className="flex_item"
+      >
+        <div
+          className="top_logo"
+        />
+        <div
+          className="top_artist"
+        >
+          Bedevil by Seb McKinnon
+        </div>
+      </div>
+      <div
+        className="flex_item"
+      >
+        <div
+          className="button minimize"
+          onClick={[Function]}
+        />
+        <div
+          className="button settings"
+          onClick={[Function]}
+        />
+        <div
+          className="button close"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="popup"
+      style={
+        Object {
+          "opacity": 0,
+        }
+      }
+    >
+      
+    </div>
+    <div
+      className="card-hover-dfc"
+      style={
+        Object {
+          "backgroundImage": "url()",
+          "height": "348.1481481495923px",
+          "opacity": 0,
+          "right": "298px",
+          "top": "calc(100% - 380.1481481495923px)",
+          "width": "250px",
+        }
+      }
+    />
+    <div
+      className="card-hover-main"
+      style={
+        Object {
+          "backgroundImage": "url()",
+          "height": "348.1481481495923px",
+          "opacity": 0,
+          "top": "calc(100% - 380.1481481495923px)",
+          "width": "250px",
+        }
+      }
+    />
+    <div
+      className="form-container"
+    >
+      <div
+        className="form-authenticate"
+      >
+        <div
+          className="form-icon"
+        />
+        <div
+          id="loginform"
+        >
+          <label
+            className="form-label"
+          >
+            Email
+          </label>
+          <div
+            className="form-input-container"
+          >
+            <input
+              autoComplete="off"
+              id="signin_email"
+              onChange={[Function]}
+              type="email"
+              value=""
+            />
+          </div>
+          <label
+            className="form-label"
+          >
+            Password
+          </label>
+          <div
+            className="form-input-container"
+          >
+            <input
+              autoComplete="off"
+              id="signin_pass"
+              onChange={[Function]}
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            style={
+              Object {
+                "color": "var(--color-mid-75)",
+                "cursor": "pointer",
+                "marginBottom": "16px",
+              }
+            }
+          >
+            <a
+              className="forgot_link"
+              onClick={[Function]}
+            >
+              Forgot your password?
+            </a>
+          </div>
+          <button
+            className="form-button"
+            disabled={false}
+            id="submit"
+            onClick={[Function]}
+            type="submit"
+          >
+            Login
+          </button>
+          <div
+            className="form-error"
+          >
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-options"
+      >
+        <label
+          className="check_container hover_label"
+          onClick={[Function]}
+          style={
+            Object {
+              "margin": "auto auto 12px auto",
+              "width": "max-content",
+            }
+          }
+        >
+          Remember me?
+          <input
+            checked={false}
+            disabled={true}
+            type="checkbox"
+          />
+          <span
+            className="checkmark"
+          />
+        </label>
+        <div
+          className="message_small"
+        >
+          Dont have an account?
+           
+          <a
+            className="signup_link"
+            onClick={[Function]}
+          >
+            Sign up!
+          </a>
+        </div>
+        <div
+          className="message_small"
+        >
+          You can also
+           
+          <a
+            className="offline_link"
+            onClick={[Function]}
+          >
+            continue offline
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="version_number"
+    onClick={[Function]}
+  >
+    v
+    1.0.0
+  </div>,
+]
+`;
