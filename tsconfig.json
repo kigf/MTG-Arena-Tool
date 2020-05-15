@@ -23,6 +23,7 @@
   "lib": ["dom", "es2020.string"],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "lib"
   ]
 }

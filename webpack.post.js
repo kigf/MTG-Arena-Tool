@@ -11,7 +11,7 @@ module.exports = function post(common_config) {
       },
       output: {
         filename: "main.js",
-        path: path.join(__dirname, "dist"),
+        path: path.join(__dirname, "lib"),
       },
     }),
     Object.assign({}, common_config, {
@@ -21,7 +21,7 @@ module.exports = function post(common_config) {
       },
       output: {
         filename: "index.js",
-        path: path.join(__dirname, "dist/renderer"),
+        path: path.join(__dirname, "lib/renderer"),
       },
       plugins: [
         new MiniCssExtractPlugin({
@@ -40,7 +40,7 @@ module.exports = function post(common_config) {
       },
       output: {
         filename: "index.js",
-        path: path.join(__dirname, "dist/background"),
+        path: path.join(__dirname, "lib/background"),
       },
       plugins: [
         new HtmlWebpackPlugin({
@@ -55,7 +55,7 @@ module.exports = function post(common_config) {
       },
       output: {
         filename: "index.js",
-        path: path.join(__dirname, "dist/overlay"),
+        path: path.join(__dirname, "lib/overlay"),
       },
       plugins: [
         new MiniCssExtractPlugin({
@@ -74,7 +74,7 @@ module.exports = function post(common_config) {
       },
       output: {
         filename: "index.js",
-        path: path.join(__dirname, "dist/updater"),
+        path: path.join(__dirname, "lib/updater"),
       },
       plugins: [
         new HtmlWebpackPlugin({

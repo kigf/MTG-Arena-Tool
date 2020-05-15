@@ -31,11 +31,11 @@
   "bugs": "https://github.com/Manuel-777/MTG-Arena-Tool/issues",
   "version": "5.0.0",
   "scripts": {
-    "start": "npm-run-all clean:dist build:dev run-electron",
+    "start": "npm-run-all clean:lib build:dev run-electron",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "dist": "npm-run-all build:prod build:final",
-    "build:final": "electron-builder dist --x64",
+    "build:final": "electron-builder lib --x64",
     "clean": "npm run clean:lib || npm run clean:dist || npm run clean:modules",
     "clean:modules": "rimraf node_modules",
     "clean:lib": "rimraf lib",
@@ -68,7 +68,7 @@
       "artifactName": "${productName}-${version}.${ext}"
     }
   },
-  "main": "dist/main.js",
+  "main": "lib/main.js",
   "dependencies": {
     "@github/time-elements": "^3.1.0",
     "@reduxjs/toolkit": "^1.3.6",
