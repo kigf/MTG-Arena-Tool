@@ -14,6 +14,8 @@ import {
   SetStats
 } from "./collectionStats";
 
+import css from "../../index.css";
+
 export function SetCompletionStats({
   setStats,
   boosterMath,
@@ -133,8 +135,8 @@ export function SetCompletionStats({
     margin: "auto 2px",
     verticalAlign: "middle"
   };
-  const newSymbol = <OwnershipSymbol color={"orange"} style={symbolStyle} />;
-  const wantedSymbol = <OwnershipSymbol color={"blue"} style={symbolStyle} />;
+  const newSymbol = <OwnershipSymbol className={css.inventoryCardQuantityOrange} style={symbolStyle} />;
+  const wantedSymbol = <OwnershipSymbol className={css.inventoryCardQuantityOrange} style={symbolStyle} />;
   return (
     <div className={"stats_set_completion"}>
       <div className={"stats_set_completion_row"}>

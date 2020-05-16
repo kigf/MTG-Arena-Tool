@@ -31,6 +31,7 @@
   "bugs": "https://github.com/Manuel-777/MTG-Arena-Tool/issues",
   "version": "5.0.0",
   "scripts": {
+    "start:renderer": "webpack --config webpack.dev.renderer.js && npm run run-electron",
     "start": "npm-run-all clean:lib build:dev run-electron",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",

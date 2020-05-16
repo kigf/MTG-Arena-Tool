@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const merge = require("webpack-merge");
 const path = require("path");
 
@@ -11,7 +11,7 @@ let common_config = {
   module: {
     rules: [
       {
-        test: /\.(css|scss)$/,
+        test: /\.(s[ac]|c)ss$/i,
         use: [
           {
             loader: "@teamsupercell/typings-for-css-modules-loader",
@@ -23,7 +23,12 @@ let common_config = {
           {
             loader: "css-loader",
             options: {
-              modules: true,
+              modules: {
+                localIdentName:
+                  process.env.NODE_ENV == "production"
+                    ? "[hash:base64:10]"
+                    : "[path][name]_[local]--[hash:base64:5]",
+              },
               localsConvention: "camelCase",
             },
           },

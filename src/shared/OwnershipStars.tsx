@@ -2,9 +2,10 @@ import * as React from "react";
 
 import { cardHasType } from "./cardTypes";
 import { DbCardData } from "../types/Metadata";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/rendererStore";
+
+import css from "../renderer/index.css";
 
 function OwnershipInfinity(props: OwnershipProps): JSX.Element {
   const { owned, acquired, wanted } = props;
@@ -12,11 +13,11 @@ function OwnershipInfinity(props: OwnershipProps): JSX.Element {
   if (acquired) {
     title += ` (∞ recent)`;
   }
-  let color = "gray";
-  if (wanted > 0) color = "blue";
-  if (owned > 0) color = "green";
-  if (acquired > 0) color = "orange";
-  return <div className={`inventory_card_infinity_${color}`} title={title} />;
+  let color = css.inventoryCardInfinityGray;
+  if (wanted > 0) color = css.inventoryCardInfinityBlue;
+  if (owned > 0) color = css.inventoryCardInfinityGreen;
+  if (acquired > 0) color = css.inventoryCardInfinityOrange;
+  return <div className={color} title={title} />;
 }
 
 interface OwnershipProps {
@@ -25,9 +26,14 @@ interface OwnershipProps {
   wanted: number;
 }
 
-export const OwnershipSymbol = styled("div").attrs(props => ({
-  className: `inventory_card_quantity_${props.color} ${props.className ?? ""}`
-}))``;
+export const OwnershipSymbol = (
+  props: {
+    style?: React.CSSProperties,
+    className?: string,
+    title?: string
+  }) => {
+  return <div className={props.className || ""} style={props.style}  title={props.title} />;
+}
 
 interface OwnershipStarProps extends OwnershipProps {
   copyIndex: number;
@@ -36,17 +42,17 @@ interface OwnershipStarProps extends OwnershipProps {
 
 function OwnershipStar(props: OwnershipStarProps): JSX.Element {
   const { owned, acquired, wanted, copyIndex, title } = props;
-  let color = "gray"; // default unowned
+  let color = css.inventoryCardQuantityGray; // default unowned
   if (copyIndex < owned) {
-    color = "green"; // owned copy
+    color = css.inventoryCardQuantityGreen; // owned copy
   }
   if (copyIndex >= owned - acquired && copyIndex < owned) {
-    color = "orange"; // owned and newly acquired copy
+    color = css.inventoryCardQuantityOrange; // owned and newly acquired copy
   }
   if (copyIndex >= owned && copyIndex < owned + wanted) {
-    color = "blue"; // not owned and wanted copy
+    color = css.inventoryCardQuantityBlue; // not owned and wanted copy
   }
-  return <OwnershipSymbol color={color} title={title} />;
+  return <OwnershipSymbol className={color} title={title} />;
 }
 
 function MultiCardOwnership(props: OwnershipProps): JSX.Element {

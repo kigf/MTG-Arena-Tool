@@ -5,8 +5,10 @@ import db from "../../../shared/database";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { FACE_DFC_FRONT, FACE_DFC_BACK } from "../../../shared/constants";
 import OwnershipStars from "../../../shared/OwnershipStars";
-const NotFound = "../assets/images/notfound.png";
-const NoCard = "../assets/images/nocard.png";
+
+import NotFound from "../../../assets/images/notfound.png";
+import NoCard from "../../../assets/images/nocard.png";
+import sharedCss from "../../../shared/shared.css";
 
 function getFrontUrl(hoverGrpId: number, quality: string): string {
   const cardObj = db.card(hoverGrpId);
@@ -25,7 +27,8 @@ function getBackUrl(hoverGrpId: number, quality: string): string {
   if (
     cardObj &&
     (cardObj.dfc == FACE_DFC_BACK || cardObj.dfc == FACE_DFC_FRONT) &&
-    cardObj.dfcId
+    cardObj.dfcId &&
+    cardObj.dfcId !== true
   ) {
     cardObj = db.card(cardObj.dfcId);
     try {
@@ -115,10 +118,10 @@ export default function CardHover(): JSX.Element {
 
   return (
     <>
-      <div style={styleDfc} className="card-hover-dfc" />
-      <div style={styleFront} className="card-hover-main">
+      <div style={styleDfc} className={sharedCss.cardHoverDfc}/>
+      <div style={styleFront} className={sharedCss.cardHoverMain}>
         {card ? (
-          <div className="ownership-stars-container">
+          <div className={sharedCss.ownershipStarsContainer}>
             <OwnershipStars card={card} wanted={wanted} />
           </div>
         ) : (

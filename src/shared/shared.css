@@ -205,69 +205,10 @@ label {
   background: #ffe9d3;
 }
 
-.loading_bar {
-  background-color: var(--color-g);
-  overflow: hidden;
-  width: 100%;
-  height: 4px;
-  animation-name: color;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  z-index: 950;
-}
-
-.loading_bar_main {
-  background-color: var(--color-g);
-  overflow: hidden;
-  position: absolute;
-  top: 35px;
-  width: calc(100% - 4px);
-  height: 4px;
-  animation-name: color;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  z-index: 950;
-}
 
 .ux_loading {
   position: absolute !important;
   width: 50% !important;
-}
-
-.loading_color {
-  position: relative;
-  width: 200%;
-  height: 100%;
-  animation-name: grow;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-}
-
-.loading_w {
-  background-color: var(--color-w);
-  animation-delay: 0s;
-  top: 0px;
-}
-.loading_u {
-  background-color: var(--color-u);
-  animation-delay: 0.4s;
-  top: -100%;
-}
-.loading_b {
-  background-color: var(--color-b);
-  animation-delay: 0.8s;
-  top: -200%;
-}
-.loading_r {
-  background-color: var(--color-r);
-  animation-delay: 1.2s;
-  top: -300%;
-}
-.loading_g {
-  background-color: var(--color-g);
-  animation-delay: 1.6s;
-  top: -400%;
 }
 
 .signup_link,
