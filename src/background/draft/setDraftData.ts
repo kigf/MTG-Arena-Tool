@@ -9,7 +9,7 @@ export default function setDraftData(
   data: InternalDraft,
   persist = false
 ): void {
-  console.log("Set draft data:", data);
+  //console.log("Set draft data:", data);
   globals.currentDraft = data;
 
   if (persist && data.id) {

@@ -29,6 +29,6 @@ export default function onLabelOutDraftMakePick(entry: Entry): void {
     }
   };
 
-  console.log("LABEL:  Make pick > ", json, data);
+  //console.log("LABEL:  Make pick > ", json, data);
   setDraftData(data);
 }

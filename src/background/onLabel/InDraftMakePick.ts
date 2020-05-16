@@ -9,7 +9,7 @@ interface Entry extends LogEntry {
 
 export default function onLabelInDraftMakePick(entry: Entry): void {
   const json = entry.json();
-  console.log("LABEL:  Make pick < ", json);
+  //console.log("LABEL:  Make pick < ", json);
   if (!json) return;
 
   const data = {
