@@ -104,8 +104,6 @@ declare namespace SharedCssModule {
     hoverLabel: string;
     hover_card_quantity: string;
     hover_label: string;
-    launchLoginLink: string;
-    launch_login_link: string;
     loader: string;
     loaderDfc: string;
     loader_dfc: string;
@@ -247,8 +245,6 @@ declare namespace SharedCssModule {
     overlay_wrapper: string;
     "ownership-stars-container": string;
     ownershipStarsContainer: string;
-    privacyLink: string;
-    privacy_link: string;
     red: string;
     redBright: string;
     redBrightBg: string;
@@ -256,8 +252,6 @@ declare namespace SharedCssModule {
     red_bright_bg: string;
     selectable: string;
     settings: string;
-    signupLink: string;
-    signup_link: string;
     tileB: string;
     tileBg: string;
     tileBr: string;
@@ -295,9 +289,7 @@ declare namespace SharedCssModule {
     tinyScroll: string;
     tiny_scroll: string;
     top: string;
-    topArtist: string;
     topLogo: string;
-    top_artist: string;
     top_logo: string;
     uxLoading: string;
     ux_loading: string;

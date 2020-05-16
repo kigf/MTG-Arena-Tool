@@ -44,7 +44,7 @@ module.exports = function post(common_config) {
       },
       plugins: [
         new HtmlWebpackPlugin({
-          template: "src/assets/template-nocss.html",
+          template: "src/assets/template.html",
         }),
       ],
     }),
@@ -78,7 +78,7 @@ module.exports = function post(common_config) {
       },
       plugins: [
         new HtmlWebpackPlugin({
-          template: "src/assets/template-nocss.html",
+          template: "src/assets/template.html",
         }),
       ],
     }),

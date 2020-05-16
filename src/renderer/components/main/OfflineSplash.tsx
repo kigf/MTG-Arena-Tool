@@ -6,26 +6,33 @@ import { forceOpenSettings } from "../../tabControl";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import store from "../../../shared/redux/stores/rendererStore";
 
+import authCss from "./auth.css";
+import mainCss from "./main.css";
+import sharedCss from "../../../shared/shared.css";
+
+const subWhite16 = sharedCss.white + " " + mainCss.messageSub16;
+const bigRed = sharedCss.red + " " + mainCss.messageBig;
+
 export default function OfflineSplash(): JSX.Element {
   return (
-    <div className="message_center_offline" style={{ display: "flex" }}>
-      <div className="message_unlink"></div>
-      <div className="message_big red">Oops, you are offline!</div>
-      <div className="message_sub_16 white">To access online features:</div>
-      <div className="message_sub_16 white">
+    <div className={mainCss.messageCenter} style={{ display: "flex" }}>
+      <div className={mainCss.messageUnlink}></div>
+      <div className={bigRed}>Oops, you are offline!</div>
+      <div className={subWhite16}>To access online features:</div>
+      <div className={subWhite16}>
         If you are logged in, you may need to{" "}
         <a
-          className="privacy_link"
+          className={authCss.privacyLink}
           onClick={(): void => forceOpenSettings(SETTINGS_PRIVACY)}
         >
           enable online sharing
         </a>{" "}
         and restart.
       </div>
-      <div className="message_sub_16 white">
+      <div className={subWhite16}>
         If you are in offline mode, you can{" "}
         <a
-          className="launch_login_link"
+          className={authCss.launchLoginLink}
           onClick={(): void => {
             const clearAppSettings = {
               rememberMe: false,
@@ -48,10 +55,10 @@ export default function OfflineSplash(): JSX.Element {
         </a>
         .
       </div>
-      <div className="message_sub_16 white">
+      <div className={subWhite16}>
         If you need an account, you can{" "}
         <a
-          className="signup_link"
+          className={authCss.signupLink}
           onClick={(): Promise<void> =>
             shell.openExternal("https://mtgatool.com/signup/")
           }

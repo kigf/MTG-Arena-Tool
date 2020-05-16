@@ -140,12 +140,12 @@ export default function Auth(props: AuthProps): JSX.Element {
             onClick={(): void => {
               shell.openExternal("https://mtgatool.com/signup/");
             }}
-            className={css.signup_link}
+            className={css.signupLink}
           >
             Sign up!
           </a>
         </div>
-        <div className={css.message_small}>
+        <div className={css.messageSmall}>
           You can also{" "}
           {canLogin ? (
             <a

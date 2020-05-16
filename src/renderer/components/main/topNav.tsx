@@ -1,11 +1,5 @@
 import _ from "lodash";
-import React, { useState, useCallback } from "react";
-
-import {
-  get_rank_index as getRankIndex,
-  formatRank
-} from "../../../shared/util";
-
+import React, {useState, useCallback} from "react";
 import {
   MAIN_HOME,
   MAIN_DECKS,
@@ -23,14 +17,34 @@ import {
   SYNC_FETCH,
   SYNC_PUSH,
   SYNC_IDLE,
-  SYNC_OK
+  SYNC_OK,
 } from "../../../shared/constants";
-import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
+import {useDispatch, useSelector} from "react-redux";
+import {get_rank_index as getRankIndex, formatRank} from "../../../shared/util";
+import {AppState} from "../../../shared/redux/stores/rendererStore";
 import useWindowSize from "../../hooks/useWindowSize";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
+import {reduxAction} from "../../../shared/redux/sharedRedux";
 import PatreonInfo from "../popups/PatreonInfo";
-import { ipcSend } from "../../rendererUtil";
+import {ipcSend} from "../../rendererUtil";
+
+import topNavCss from "./topNav.css";
+
+import syncOk from "../../../assets/images/sync_ok.png";
+import syncError from "../../../assets/images/sync_error.png";
+import syncForce from "../../../assets/images/sync_force.png";
+import syncPull from "../../../assets/images/sync_pull.png";
+import syncPush from "../../../assets/images/sync_push.png";
+import syncPatreon from "../../../assets/images/sync_patreon.png";
+
+const topNavClasses: string[] = [];
+topNavClasses[MAIN_HOME] = topNavCss.iconHome;
+topNavClasses[MAIN_DECKS] = topNavCss.iconMyDecks;
+topNavClasses[MAIN_MATCHES] = topNavCss.iconHistory;
+topNavClasses[MAIN_TIMELINE] = topNavCss.iconTimeline;
+topNavClasses[MAIN_EVENTS] = topNavCss.iconEvents;
+topNavClasses[MAIN_EXPLORE] = topNavCss.iconExplore;
+topNavClasses[MAIN_ECONOMY] = topNavCss.iconEconomy;
+topNavClasses[MAIN_COLLECTION] = topNavCss.iconCollection;
 
 interface TopNavItemProps {
   dispatcher: any;
@@ -41,7 +55,7 @@ interface TopNavItemProps {
 }
 
 function TopNavItem(props: TopNavItemProps): JSX.Element {
-  const { currentTab, compact, dispatcher, id, title } = props;
+  const {currentTab, compact, dispatcher, id, title} = props;
 
   const clickTab = React.useCallback(
     (tabId: number) => (): void => {
@@ -55,32 +69,34 @@ function TopNavItem(props: TopNavItemProps): JSX.Element {
   return compact ? (
     <div
       className={
-        (currentTab === id ? "item_selected" : "") +
-        " top_nav_item_no_label top_nav_item it" +
-        id
+        (currentTab === id ? topNavCss.itemSelected : "") +
+        " " +
+        topNavCss.itemNoLabel +
+        " " +
+        topNavCss.item
       }
       onClick={clickTab(id)}
     >
       <div
-        className={"top_nav_icon icon_" + id}
+        className={topNavCss.icon + " " + topNavClasses[id]}
         title={_.camelCase(title)}
       ></div>
     </div>
   ) : (
     <div
       className={
-        (currentTab === id ? "item_selected" : "") +
-        " top_nav_item it" +
-        id +
-        (title == "" ? " top_nav_item_no_label" : "")
+        (currentTab === id ? topNavCss.itemSelected : "") +
+        " " +
+        topNavCss.item +
+        (title == "" ? " " + topNavCss.itemNoLabel : "")
       }
       onClick={clickTab(id)}
     >
       {title !== "" ? (
-        <span className={"top_nav_item_text"}>{title}</span>
+        <span className={topNavCss.itemText}>{title}</span>
       ) : (
         <div
-          className={"top_nav_icon icon_" + id}
+          className={topNavCss.icon + " " + topNavClasses[id]}
           title={_.camelCase(title)}
         ></div>
       )}
@@ -97,11 +113,11 @@ interface TopRankProps {
 }
 
 function TopRankIcon(props: TopRankProps): JSX.Element {
-  const { currentTab, dispatcher, id, rank, rankClass } = props;
+  const {currentTab, dispatcher, id, rank, rankClass} = props;
 
   const selected = currentTab === id;
   const clickTab = React.useCallback(
-    tabId => (): void => {
+    (tabId) => (): void => {
       reduxAction(dispatcher, "SET_TOPNAV", tabId, IPC_NONE);
       reduxAction(dispatcher, "SET_BACK_GRPID", 0, IPC_NONE);
       reduxAction(dispatcher, "SET_NAV_INDEX", 0, IPC_NONE);
@@ -112,10 +128,10 @@ function TopRankIcon(props: TopRankProps): JSX.Element {
   if (rank == null) {
     // No rank badge, default to beginner and remove interactions
     const rankStyle = {
-      backgroundPosition: "0px 0px"
+      backgroundPosition: "0px 0px",
     };
     return (
-      <div className="top_nav_item">
+      <div className={topNavCss.item}>
         <div style={rankStyle} className={rankClass}></div>
       </div>
     );
@@ -123,12 +139,14 @@ function TopRankIcon(props: TopRankProps): JSX.Element {
 
   const propTitle = formatRank(rank);
   const rankStyle = {
-    backgroundPosition: getRankIndex(rank.rank, rank.tier) * -48 + "px 0px"
+    backgroundPosition: getRankIndex(rank.rank, rank.tier) * -48 + "px 0px",
   };
 
   return (
     <div
-      className={(selected ? "item_selected" : "") + " top_nav_item"}
+      className={
+        (selected ? topNavCss.itemSelected : "") + " " + topNavCss.item
+      }
       onClick={clickTab(id)}
     >
       <div style={rankStyle} title={propTitle} className={rankClass}></div>
@@ -148,13 +166,13 @@ function PatreonBadge(): JSX.Element {
   if (patreonTier === 4) title = "Patreon Vintage Tier";
 
   const style = {
-    backgroundPosition: -40 * patreonTier + "px 0px"
+    backgroundPosition: -40 * patreonTier + "px 0px",
   };
 
-  return <div title={title} style={style} className="top_patreon"></div>;
+  return <div title={title} style={style} className={topNavCss.patreon}></div>;
 }
 
-function SyncBadge({ patreon }: { patreon: boolean }): JSX.Element {
+function SyncBadge({patreon}: {patreon: boolean}): JSX.Element {
   const [patreonInfo, setPatreonInfo] = useState(false);
   const offline = useSelector((state: AppState) => state.renderer.offline);
   const syncState = useSelector((state: AppState) => state.renderer.syncState);
@@ -168,34 +186,34 @@ function SyncBadge({ patreon }: { patreon: boolean }): JSX.Element {
     toPush.seasonal.length;
 
   let title = "All done";
-  let image = "sync_ok";
+  let image = syncOk;
   if (syncState === SYNC_ERR) {
     title = "Something went wrong. Click to try again.";
-    image = "sync_error";
+    image = syncError;
   }
   if (syncState === SYNC_IDLE) {
     title = "Click to check";
-    image = "sync_force";
+    image = syncForce;
   }
   if (syncState === SYNC_CHECK) {
     title = "Checking";
-    image = "sync_force";
+    image = syncForce;
   }
   if (syncState === SYNC_FETCH) {
     title = "Fetching data";
-    image = "sync_pull";
+    image = syncPull;
   }
   if (syncState === SYNC_PUSH) {
     title = "Pushing data";
-    image = "sync_push";
+    image = syncPush;
   }
   if (!patreon) {
     title = "";
-    image = "sync_patreon";
+    image = syncPatreon;
   }
   if (offline) {
     title = "You are offline";
-    image = "sync_error";
+    image = syncError;
   } else {
     if (
       sum > 0 &&
@@ -234,8 +252,8 @@ function SyncBadge({ patreon }: { patreon: boolean }): JSX.Element {
       <div
         title={title}
         onClick={doClick}
-        style={{ backgroundImage: `url(../assets/images/${image}.png)` }}
-        className="top_sync"
+        style={{backgroundImage: `url(${image})`}}
+        className={topNavCss.sync}
       ></div>
       {patreonInfo ? <PatreonInfo closeCallback={closePatreonDialog} /> : <></>}
     </>
@@ -256,20 +274,20 @@ export function TopNav(): JSX.Element {
   const defaultTab = {
     dispatcher: dispatcher,
     compact: compact,
-    currentTab: currentTab
+    currentTab: currentTab,
   };
 
-  const homeTab = { ...defaultTab, id: MAIN_HOME, title: "" };
-  const myDecksTab = { ...defaultTab, id: MAIN_DECKS, title: "MY DECKS" };
-  const historyTab = { ...defaultTab, id: MAIN_MATCHES, title: "HISTORY" };
-  const timelineTab = { ...defaultTab, id: MAIN_TIMELINE, title: "TIMELINE" };
-  const eventsTab = { ...defaultTab, id: MAIN_EVENTS, title: "EVENTS" };
-  const exploreTab = { ...defaultTab, id: MAIN_EXPLORE, title: "EXPLORE" };
-  const economyTab = { ...defaultTab, id: MAIN_ECONOMY, title: "ECONOMY" };
+  const homeTab = {...defaultTab, id: MAIN_HOME, title: ""};
+  const myDecksTab = {...defaultTab, id: MAIN_DECKS, title: "MY DECKS"};
+  const historyTab = {...defaultTab, id: MAIN_MATCHES, title: "HISTORY"};
+  const timelineTab = {...defaultTab, id: MAIN_TIMELINE, title: "TIMELINE"};
+  const eventsTab = {...defaultTab, id: MAIN_EVENTS, title: "EVENTS"};
+  const exploreTab = {...defaultTab, id: MAIN_EXPLORE, title: "EXPLORE"};
+  const economyTab = {...defaultTab, id: MAIN_ECONOMY, title: "ECONOMY"};
   const collectionTab = {
     ...defaultTab,
     id: MAIN_COLLECTION,
-    title: "COLLECTION"
+    title: "COLLECTION",
   };
 
   const contructedNav = {
@@ -277,7 +295,7 @@ export function TopNav(): JSX.Element {
     currentTab: currentTab,
     id: MAIN_CONSTRUCTED,
     rank: playerData.rank ? playerData.rank.constructed : null,
-    rankClass: "top_constructed_rank"
+    rankClass: topNavCss.topConstructedRank,
   };
 
   const limitedNav = {
@@ -285,7 +303,7 @@ export function TopNav(): JSX.Element {
     currentTab: currentTab,
     id: MAIN_LIMITED,
     rank: playerData.rank ? playerData.rank.limited : null,
-    rankClass: "top_limited_rank"
+    rankClass: topNavCss.topLimitedRank,
   };
 
   React.useEffect(() => {
@@ -302,8 +320,8 @@ export function TopNav(): JSX.Element {
   const userNumerical = playerData.playerName.slice(-6);
 
   return (
-    <div className="top_nav">
-      <div ref={topNavIconsRef} className="top_nav_icons">
+    <div className={topNavCss.container}>
+      <div ref={topNavIconsRef} className={topNavCss.icons}>
         <TopNavItem {...homeTab} />
         <TopNavItem {...myDecksTab} />
         <TopNavItem {...historyTab} />
@@ -313,16 +331,16 @@ export function TopNav(): JSX.Element {
         <TopNavItem {...economyTab} />
         <TopNavItem {...collectionTab} />
       </div>
-      <div className="top_nav_info">
-        <div className="top_userdata_container">
+      <div className={topNavCss.info}>
+        <div className={topNavCss.userdataContainer}>
           <TopRankIcon {...contructedNav} />
           <TopRankIcon {...limitedNav} />
           {patreon ? <PatreonBadge /> : null}
           <SyncBadge patreon={patreon} />
-          <div className="top_username" title={"Arena username"}>
+          <div className={topNavCss.topUsername} title={"Arena username"}>
             {userName}
           </div>
-          <div className="top_username_id" title={"Arena user ID"}>
+          <div className={topNavCss.topUsernameId} title={"Arena user ID"}>
             {userNumerical}
           </div>
         </div>

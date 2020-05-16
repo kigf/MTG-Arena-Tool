@@ -2,8 +2,8 @@ import React from "react";
 import { ipcSend } from "../../rendererUtil";
 import { forceOpenSettings } from "../../tabControl";
 
+import mainCss from "./main.css";
 import sharedCss from "../../../shared/shared.css";
-import mainCss from "../../index.css";
 
 interface TopBarProps {
   artist: string;
@@ -27,7 +27,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
     <div className={sharedCss.top}>
       <div className={sharedCss.flexItem}>
         <div className={sharedCss.topLogo}></div>
-        <div className={sharedCss.top_artist}>{props.artist}</div>
+        <div className={mainCss.topArtist}>{props.artist}</div>
       </div>
       <div className={sharedCss.flexItem}>
         {props.offline ? (

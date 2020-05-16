@@ -105,13 +105,13 @@ export function App(): JSX.Element {
         <ErrorBoundary>
           {loginState == LOGIN_OK ? (
             <div className={css.wrapper}>
-              <div className={css.wrapper_main}>
-                <div className={css.moving_ux}>
+              <div className={css.overflowUxMain}>
+                <div className={css.movingUx}>
                   {getOpenNav(topNav, offline)}
-                  <div className={css.ux_item}>
+                  <div className={css.uxItem}>
                     {getOpenSub(subNavType, subNavId, subNavData)}
                   </div>
-                  <div className={css.ux_item}></div>
+                  <div className={css.uxItem}></div>
                 </div>
               </div>
             </div>

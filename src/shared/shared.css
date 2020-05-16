@@ -211,13 +211,6 @@ label {
   width: 50% !important;
 }
 
-.signup_link,
-.privacy_link,
-.launch_login_link {
-  color: rgb(220, 195, 150);
-  cursor: pointer;
-}
-
 @keyframes grow {
   from {
     transform: scale(0, 1) translate(0, 0);
@@ -477,11 +470,6 @@ label {
   opacity: 0.33;
 }
 
-.top_artist {
-  line-height: 32px;
-  font-family: var(--main-font-name-it);
-  color: var(--color-light-40);
-}
 
 .button {
   border-radius: 50%;

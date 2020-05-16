@@ -199,16 +199,6 @@ time, local-time, relative-time {
     background-size: contain;
 }
 
-.unlink {
-    -webkit-app-region: no-drag;
-    background: url(../assets/images/unlink.png) no-repeat center;
-    width: 24px;
-    height: 24px;
-    align-self: center;
-    position: relative;
-    margin-right: 16px;
-}
-
 .notification {
     -webkit-app-region: no-drag;
     display: none;
@@ -305,108 +295,9 @@ time, local-time, relative-time {
     box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.6);
 }
 
-.top_username {
-    color: var(--color-light);
-    font-size: 20px;
-    margin-left: 8px;
-    align-self: center;
-    font-family: "belerenbold";
-    cursor: default;
-}
-
-.top_username_id {
-    color: var(--color-light-40);
-    font-size: 20px;
-    margin-right: 32px;
-    align-self: center;
-    font-family: "belerenbold";
-    cursor: default;
-}
-
-.top_constructed_rank, .constructed_rank {
-    background: url(../assets/images/ranks_constructed_48.png);
-}
-
-.top_limited_rank, .limited_rank {
-    background: url(../assets/images/ranks_limited_48.png);
-}
-
-.top_constructed_rank, .top_limited_rank {
-    /* Align leaderboard indicator to center and add text border*/
-    display: flex;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    -webkit-app-region: no-drag;
-    align-self: center;
-    width: 48px;
-    height: 48px;
-    background-position: 0px 0px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.top_userdata_container {
-    display: flex;
-    margin-left: auto;
-}
 
 .it10, .it11 {
     width: 60px;
-}
-
-.icon_7 {
-    -webkit-app-region: no-drag;
-    align-self: center;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    background-position: 0px 0px;
-    background: url(../assets/images/ranks_constructed_48.png);
-}
-
-.icon_8 {
-    -webkit-app-region: no-drag;
-    align-self: center;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    background-position: 0px 0px;
-    background: url(../assets/images/ranks_limited_48.png);
-}
-
-.top_patreon {
-    -webkit-app-region: no-drag;
-    align-self: center;
-    margin-left: 8px;
-    width: 40px;
-    height: 40px;
-    background: url(../assets/images/patreon_badges.png);
-    background-position: 0px 0px;
-    background-size: cover;
-}
-
-.top_sync {
-    -webkit-app-region: no-drag;
-    align-self: center;
-    cursor: pointer;
-    margin-left: 8px;
-    width: 40px;
-    height: 40px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
-    opacity: 0.9;
-    -webkit-transition: all 0.15s ease-in-out;
-}
-
-.top_sync:hover {
-    opacity: 1;
 }
 
 .rank {
@@ -445,170 +336,8 @@ time, local-time, relative-time {
     opacity: 0.8;
 }
 
-.top_nav {
-    position: relative;
-    align-items: stretch;
-    width: 100%;
-    height: 64px;
-    display: flex;
-    z-index: 10;
-    background-color: var(--color-mid-20);
-    box-shadow: 0px 6px 20px 6px rgba(0, 0, 0, 0.2);
-    border-bottom: solid 1px var(--color-light-50);
-    -webkit-transition: all .5s ease-in-out;
-}
-
-.top_nav_icons {
-    flex-grow: 2;
-    display: flex;
-    align-items: stretch;
-}
-
-.top_nav_icon {
-    opacity: 1;
-    position: absolute;
-    left: calc(50% - 16px);
-    top: 16px;
-    margin: auto 0;
-    width: 32px;
-    height: 32px;
-    -webkit-transition: all .5s ease-in-out;
-}
-
-.top_nav_icon:hover {
-    opacity: 1;
-}
-
-.icon_0 {
-    background: url(../assets/images/tab_my_decks.png);
-}
-
-.icon_1 {
-    background: url(../assets/images/tab_history.png);
-}
-
-.icon_2 {
-    background: url(../assets/images/tab_events.png);
-}
-
-.icon_3 {
-    background: url(../assets/images/tab_explore.png);
-}
-
-.icon_4 {
-    background: url(../assets/images/tab_economy.png);
-}
-
-.icon_5 {
-    background: url(../assets/images/tab_collection.png);
-}
-
-.icon_7 {
-    background: url(../assets/images/tab_timeline.png);
-}
-
-.top_nav_info {
-    flex-grow: 1;
-    display: flex;
-    flex-basis: auto;
-}
-
-span.top_nav_item_text {
-    text-align: center;
-    font-family: "belerenbold";
-    font-size: 16px;
-    line-height: 64px;
-    white-space: nowrap;
-    text-align: center;
-    overflow: hidden;
-    display: inline-block;
-    -webkit-transition: all .5s ease-in-out;
-}
-
-.top_nav_item_no_label {
-    max-width: 60px !important;
-    min-width: 60px !important;
-}
-
-.top_nav_item {
-    max-width: 100px;
-    min-width: 48px;
-    /*height: 64px;*/
-    cursor: pointer;
-    font-family: "belerenbold";
-    font-size: 16px;
-    line-height: 64px;
-    white-space: nowrap;
-    text-align: center;
-    color: var(--color-light);
-    background-position-y: 64px;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-image: url(../assets/images/nav_hover.png);
-    -webkit-transition: all .2s ease-in-out;
-    border-bottom: solid 1px rgba(210, 231, 250, 0);
-    opacity: 0.5;
-    overflow: hidden;
-    flex-grow: 2;
-    width: auto;
-    position: relative;
-    display: inline-grid;
-}
-
-.icon_7, .icon_8 {
-    opacity: 1;
-}
-
-.top_nav_item:hover {
-    background-position-y: 4px;
-    opacity: 1;
-}
-
-.icon_-1 {
-    width: 32px;
-    height: 32px;
-    opacity: 1;
-    background-repeat: no-repeat;
-    background-image: url(../assets/images/tab_home.png);
-}
-
 .sidebar_separator {
     height: 16px;
-}
-
-.item_selected {
-    background-position-y: 4px;
-    opacity: 1;
-    border-bottom: solid 1px rgba(210, 231, 250, 1);
-}
-
-.overflow_ux {
-    width: calc(100%);
-    height: 100%;
-    overflow: hidden;
-}
-
-.overflow_ux_main {
-    width: calc(100%);
-    height: calc(100vh - 101px);
-    height: 100%;
-    overflow: hidden;
-}
-
-.ux_item {
-    width: calc(100%);
-    display: flex;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: visible;
-    align-items: stretch;
-}
-
-.moving_ux {
-    position: relative;
-    display: flex;
-    width: calc(300%);
-    height: 100%;
 }
 
 .deck_tile {
@@ -919,40 +648,8 @@ a:hover {
     text-decoration: underline;
 }
 
-.message_unlink {
-    background-image: url(../assets/images/unlink_big.png);
-    margin-bottom: 32px;
-    align-self: center;
-    width: 128px;
-    height: 128px;
-}
-
-.message_center, .message_center_offline {
-    top: -48px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.message_big {
-    font-size: 32px;
-    font-family:  var(--main-font-name);
-    text-align: center;
-}
-
 .message_sub {
     font-size: 20px;
-    opacity: 0.9;
-    font-family:  var(--main-font-name-it);
-    text-align: center;
-    margin-bottom: 6px;
-}
-
-.message_sub_16 {
-    font-size: 16px;
     opacity: 0.9;
     font-family:  var(--main-font-name-it);
     text-align: center;
