@@ -70,6 +70,24 @@
 }
 
 
+.patreon_link_thin {
+  background-image: url(../../../assets/images/button_patreon.png);
+  cursor: pointer;
+  width: 190px;
+  height: 42px;
+  border-radius: 2px;
+  margin: auto;
+  background-size: contain;
+  background-position: center;
+  position: relative;
+  top: 0px;
+  -webkit-transition: all .25s ease-in;
+}
+
+.patreon_link_thin:hover {
+  top: -2px;
+}
+
 .error-info-top {
   background-color: var(--color-r);
   border-radius: 3px 3px 0 0;
@@ -98,3 +116,4 @@
   height: calc(100% - 112px);
   overflow: scroll;
 }
+

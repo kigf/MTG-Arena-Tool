@@ -62,3 +62,51 @@
   animation-iteration-count: infinite;
   z-index: 950;
 }
+
+@keyframes grow {
+  from {
+    transform: scale(0, 1) translate(0, 0);
+    z-index: 100;
+  }
+  to {
+    transform: scale(1, 1) translate(0, 0);
+    z-index: 50;
+  }
+}
+
+@keyframes color {
+  0% {
+    background-color: var(--color-w);
+  }
+  19% {
+    background-color: var(--color-w);
+  }
+
+  20% {
+    background-color: var(--color-u);
+  }
+  39% {
+    background-color: var(--color-u);
+  }
+
+  40% {
+    background-color: var(--color-b);
+  }
+  59% {
+    background-color: var(--color-b);
+  }
+
+  60% {
+    background-color: var(--color-r);
+  }
+  79% {
+    background-color: var(--color-r);
+  }
+
+  80% {
+    background-color: var(--color-g);
+  }
+  99% {
+    background-color: var(--color-g);
+  }
+}

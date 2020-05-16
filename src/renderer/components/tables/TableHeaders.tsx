@@ -42,11 +42,11 @@ export default function TableHeaders<D extends TableData>({
               }
               style={{marginRight: "4px", width: "16px"}}
             />
-            <div className={"flex_item"}>{column.render("Header")}</div>
+            <div className={indexCss.flexItem}>{column.render("Header")}</div>
             {column.canFilter && (
               <div
                 style={{marginRight: 0}}
-                className={"button settings"}
+                className={sharedCss.button + " " + sharedCss.settings}
                 onClick={(e): void => {
                   e.stopPropagation();
                   setFiltersVisible({
@@ -63,7 +63,7 @@ export default function TableHeaders<D extends TableData>({
             {column.filterValue && (
               <div
                 style={{marginRight: 0}}
-                className={"button close"}
+                className={sharedCss.button + " " + sharedCss.close}
                 onClick={(e): void => {
                   e.stopPropagation();
                   setFilter(column.id, undefined);

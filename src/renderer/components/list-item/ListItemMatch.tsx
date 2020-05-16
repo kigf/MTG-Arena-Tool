@@ -1,20 +1,22 @@
 import _ from "lodash";
 import React from "react";
-import { DEFAULT_TILE } from "../../../shared/constants";
-import { getReadableEvent, toMMSS } from "../../../shared/util";
-import { ListItemMatchProps } from "../matches/types";
+import {DEFAULT_TILE} from "../../../shared/constants";
+import {getReadableEvent, toMMSS} from "../../../shared/util";
+import {ListItemMatchProps} from "../matches/types";
 import ManaCost from "../misc/ManaCost";
 import RankSmall from "../misc/RankSmall";
 import ResultDetails from "../misc/ResultDetails";
-import { NewTag, TagBubble } from "../misc/TagBubble";
+import {NewTag, TagBubble} from "../misc/TagBubble";
 import {
   ArchiveButton,
   Column,
   FlexBottom,
   FlexTop,
   HoverTile,
-  ListItem
+  ListItem,
 } from "./ListItem";
+import css from "./ListItem.css";
+import sharedCss from "../../../shared/shared.css";
 
 export default function ListItemMatch({
   match,
@@ -23,7 +25,7 @@ export default function ListItemMatch({
   addTagCallback,
   editTagCallback,
   deleteTagCallback,
-  tags
+  tags,
 }: ListItemMatchProps): JSX.Element {
   const [tagState, setTagState] = React.useState<Array<string>>(
     match.tags ?? []
@@ -73,36 +75,42 @@ export default function ListItemMatch({
         grpId={match.playerDeck.deckTileId || DEFAULT_TILE}
       />
 
-      <Column class="list_item_left">
+      <Column class={css.listItemLeft}>
         <FlexTop>
-          <div className="list_deck_name">{match.playerDeck.name || ""}</div>
-          <div className="list_deck_name_it">
+          <div className={css.listDeckName}>{match.playerDeck.name || ""}</div>
+          <div className={css.listDeckNameIt}>
             {getReadableEvent(match.eventId)}
           </div>
         </FlexTop>
         <FlexBottom>
-          <ManaCost class="mana_s20" colors={match.playerDeck.colors || []} />
+          <ManaCost
+            class={sharedCss.manaS20}
+            colors={match.playerDeck.colors || []}
+          />
         </FlexBottom>
       </Column>
 
-      <Column style={{ flexGrow: 1 }} class="list_item_right">
+      <Column style={{flexGrow: 1}} class={css.listItemRight}>
         <FlexTop>
-          <div className="list_match_title">
+          <div className={css.listMatchTitle}>
             {"vs " + match.opponent.name.slice(0, -6)}
           </div>
           <RankSmall rank={match.opponent}></RankSmall>
         </FlexTop>
-        <FlexBottom style={{ alignItems: "center" }}>
-          <div className="list_match_time">
+        <FlexBottom style={{alignItems: "center"}}>
+          <div className={css.listMatchTime}>
             <relative-time datetime={dateTime.toISOString()}>
               {match.date?.toString() ?? ""}
             </relative-time>{" "}
             {toMMSS(match.duration) + " long"}
           </div>
 
-          <ManaCost class="mana_s20" colors={match.oppDeck.colors || []} />
+          <ManaCost
+            class={sharedCss.manaS20}
+            colors={match.oppDeck.colors || []}
+          />
           {addTagCallback && editTagCallback ? (
-            <div style={{ marginLeft: "8px" }}>
+            <div style={{marginLeft: "8px"}}>
               {tagState.length > 0 ? (
                 tagState.map((tag: any) => {
                   return (
@@ -132,9 +140,13 @@ export default function ListItemMatch({
 
       <ResultDetails match={match} />
 
-      <Column class="list_match_result">
+      <Column class={css.listMatchResult}>
         <div
-          className={match.player.win > match.opponent.win ? "green" : "red"}
+          className={
+            match.player.win > match.opponent.win
+              ? sharedCss.green
+              : sharedCss.red
+          }
         >
           {match.player.win}:{match.opponent.win}
         </div>

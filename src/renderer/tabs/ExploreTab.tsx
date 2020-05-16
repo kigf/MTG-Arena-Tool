@@ -1,16 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { COLORS_LONG, RANKS, SUB_DECK, IPC_NONE } from "../../shared/constants";
+import React, {useCallback, useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {COLORS_LONG, RANKS, SUB_DECK, IPC_NONE} from "../../shared/constants";
 import db from "../../shared/database";
 import ReactSelect from "../../shared/ReactSelect";
-import { AppState } from "../../shared/redux/stores/rendererStore";
-import { ListItemExplore } from "../components/list-item/ListItemExplore";
+import {AppState} from "../../shared/redux/stores/rendererStore";
+import {ListItemExplore} from "../components/list-item/ListItemExplore";
 import Button from "../components/misc/Button";
 import Checkbox from "../components/misc/Checkbox";
 import Input from "../components/misc/Input";
-import { ipcSend } from "../rendererUtil";
-import { reduxAction } from "../../shared/redux/sharedRedux";
-import { ExploreQuery } from "../../shared/redux/slices/exploreSlice";
+import {ipcSend} from "../rendererUtil";
+import {reduxAction} from "../../shared/redux/sharedRedux";
+import {ExploreQuery} from "../../shared/redux/slices/exploreSlice";
+
+import indexCss from "../index.css";
 
 export default function ExploreTab(): JSX.Element {
   const dispatcher = useDispatch();
@@ -36,7 +38,7 @@ export default function ExploreTab(): JSX.Element {
   const newQuery = useCallback(() => {
     const newFilters = {
       ...queryFilters,
-      filterSkip: 0
+      filterSkip: 0,
     };
     queryExplore(newFilters);
     setQueries(queries + 1);
@@ -53,7 +55,7 @@ export default function ExploreTab(): JSX.Element {
         sideboard: row.sideboard,
         deckTileId: row.tile,
         name: row.name,
-        id: row._id
+        id: row._id,
       };
       reduxAction(dispatcher, "SET_BACK_GRPID", row.tile, IPC_NONE);
       reduxAction(
@@ -62,7 +64,7 @@ export default function ExploreTab(): JSX.Element {
         {
           type: SUB_DECK,
           id: row._id + "_",
-          data: deck
+          data: deck,
         },
         IPC_NONE
       );
@@ -90,8 +92,8 @@ export default function ExploreTab(): JSX.Element {
   return (
     <div ref={containerRef} onScroll={onScroll} className="ux_item">
       <div
-        style={{ width: "100%", flexDirection: "column" }}
-        className="flex_item"
+        style={{width: "100%", flexDirection: "column"}}
+        className={indexCss.flexItem}
       >
         <ExploreFilters doSearch={newQuery} />
         <div className="explore_list">
@@ -106,7 +108,7 @@ export default function ExploreTab(): JSX.Element {
               );
             })
           ) : !loading ? (
-            <div style={{ marginTop: "32px" }} className="message_sub red">
+            <div style={{marginTop: "32px"}} className="message_sub red">
               {queries == 0
                 ? "Click Search to begin."
                 : "Query returned no data."}
@@ -115,7 +117,7 @@ export default function ExploreTab(): JSX.Element {
             <></>
           )}
           {loading ? (
-            <div style={{ margin: "16px" }} className="message_sub white">
+            <div style={{margin: "16px"}} className="message_sub white">
               Loading...
             </div>
           ) : (
@@ -136,7 +138,7 @@ interface ExploreFiltersProps {
 }
 
 function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
-  const { doSearch } = props;
+  const {doSearch} = props;
   const filters = useSelector((state: AppState) => state.explore.filters);
   const activeEvents = useSelector(
     (state: AppState) => state.explore.activeEvents
@@ -159,7 +161,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
     (value: number[]): void => {
       updateFilters({
         ...filters,
-        filteredMana: value
+        filteredMana: value,
       });
     },
     [filters, updateFilters]
@@ -169,7 +171,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
     (value: string[]): void => {
       updateFilters({
         ...filters,
-        filteredRanks: value
+        filteredRanks: value,
       });
     },
     [filters, updateFilters]
@@ -183,7 +185,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         sep = false;
         newFilters = db.eventIds
           .concat(activeEvents)
-          .filter(item => item && !db.single_match_events.includes(item));
+          .filter((item) => item && !db.single_match_events.includes(item));
 
         newFilters = [...new Set(newFilters)];
       } else if (prevFilters.filterType === "Ranked Draft") {
@@ -191,7 +193,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
       } else if (prevFilters.filterType === "Ranked Constructed") {
         newFilters = [...db.standard_ranked_events];
       }
-      newFilters.sort(function(a, b) {
+      newFilters.sort(function (a, b) {
         if (a < b) return -1;
         if (a > b) return 1;
         return 0;
@@ -221,7 +223,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
       while (ret.startsWith("%%")) {
         ret = getFilterEvents({
           ...filters,
-          filterType: filter
+          filterType: filter,
         })[i];
         i++;
       }
@@ -248,7 +250,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
             updateFilters({
               ...filters,
               filterType: filter,
-              filterEvent: getFirstEvent(filter)
+              filterEvent: getFirstEvent(filter),
             })
           }
         />
@@ -258,28 +260,28 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           current={filters.filterEvent}
           optionFormatter={getEventPrettyName}
           callback={(filter: string): void =>
-            updateFilters({ ...filters, filterEvent: filter })
+            updateFilters({...filters, filterEvent: filter})
           }
         />
-        <label style={{ marginLeft: "16px" }}>Sort:</label>
+        <label style={{marginLeft: "16px"}}>Sort:</label>
         <ReactSelect
-          style={{ width: "130px" }}
+          style={{width: "130px"}}
           options={sortFilters}
           current={filters.filterSort}
           callback={(filter: string): void =>
-            updateFilters({ ...filters, filterSort: filter })
+            updateFilters({...filters, filterSort: filter})
           }
         />
         <ReactSelect
           options={sortDirection}
-          style={{ width: "130px" }}
+          style={{width: "130px"}}
           current={
             filters.filterSortDir == -1 ? sortDirection[0] : sortDirection[1]
           }
           callback={(filter: string): void =>
             updateFilters({
               ...filters,
-              filterSortDir: filter == sortDirection[0] ? -1 : 1
+              filterSortDir: filter == sortDirection[0] ? -1 : 1,
             })
           }
         />
@@ -291,7 +293,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           callback={(value: boolean): void =>
             updateFilters({
               ...filters,
-              onlyOwned: value
+              onlyOwned: value,
             })
           }
         />
@@ -305,7 +307,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           callback={(value: string): void =>
             updateFilters({
               ...filters,
-              filterWCC: value
+              filterWCC: value,
             })
           }
         />
@@ -319,7 +321,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           callback={(value: string): void =>
             updateFilters({
               ...filters,
-              filterWCU: value
+              filterWCU: value,
             })
           }
         />
@@ -333,7 +335,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           callback={(value: string): void =>
             updateFilters({
               ...filters,
-              filterWCR: value
+              filterWCR: value,
             })
           }
         />
@@ -347,7 +349,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           callback={(value: string): void =>
             updateFilters({
               ...filters,
-              filterWCM: value
+              filterWCM: value,
             })
           }
         />
@@ -356,8 +358,8 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         <ManaFilter callback={setManaFilter} filter={filters.filteredMana} />
         <RanksFilter callback={setRanksFilter} filter={filters.filteredRanks} />
         <Button
-          className={"button_simple"}
-          style={{ margin: "0px" }}
+          className={indexCss.buttonSimple}
+          style={{margin: "0px"}}
           text="Search"
           onClick={doSearch}
         />
@@ -372,10 +374,10 @@ interface ManaFilterProps {
 }
 
 function ManaFilter(props: ManaFilterProps): JSX.Element {
-  const { filter, callback } = props;
+  const {filter, callback} = props;
   const [filters, setFilters] = useState(filter);
 
-  const filterSize = { height: "20px", width: "30px" };
+  const filterSize = {height: "20px", width: "30px"};
 
   const setFilter = (filter: number): void => {
     const n = filters.indexOf(filter);
@@ -422,7 +424,7 @@ interface RanksFilterProps {
 }
 
 function RanksFilter(props: RanksFilterProps): JSX.Element {
-  const { filter, callback } = props;
+  const {filter, callback} = props;
   const [filters, setFilters] = useState(filter);
 
   const setFilter = (filter: string): void => {
@@ -450,7 +452,7 @@ function RanksFilter(props: RanksFilterProps): JSX.Element {
             onClick={(): void => setFilter(rank)}
             style={{
               backgroundPosition: (index + 1) * -16 + "px 0px",
-              backgroundImage: "url(../assets/images/ranks_16.png)"
+              backgroundImage: "url(../assets/images/ranks_16.png)",
             }}
             className={
               "rank_filter " + (filters.includes(rank) ? "" : "rank_filter_on")

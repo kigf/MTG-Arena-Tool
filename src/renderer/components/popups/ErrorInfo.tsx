@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 
+import css from "./popups.css";
+
 interface DialogProps {
   error: any;
   errorInfo: any;
@@ -31,7 +33,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
 
   return (
     <div
-      className="popup-background"
+      className={css.popupBackground}
       style={{
         opacity: open * 2,
         backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
@@ -39,7 +41,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
       onClick={handleClose}
     >
       <div
-        className="popup-div-nopadding"
+        className={css.popupDivNopadding}
         style={{
           height: `${open * 400}px`,
           width: `${open * 640}px`,
@@ -49,10 +51,10 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
           e.stopPropagation();
         }}
       >
-        <div className="error-info-top"></div>
-        <div className="error-info-bottom">
-          <div className="error-info-title">An error ocurred</div>
-          <div className="error-info-text">
+        <div className={css.errorInfoTop} />
+        <div className={css.errorInfoBottom}>
+          <div className={css.errorInfoTitle}>An error ocurred</div>
+          <div className={css.errorInfoText}>
             <div>{error && error.toString()}</div>
             <details style={{ whiteSpace: "pre-wrap" }}>
               <div>{errorInfo.componentStack}</div>

@@ -5,6 +5,9 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import { useSpring, animated } from "react-spring";
 
+import css from "./ListItem.css";
+import indexCss from "../../index.css";
+
 interface ListItemProps extends JSX.ElementChildrenAttribute {
   click: VoidFunction;
   mouseEnter: VoidFunction;
@@ -18,7 +21,7 @@ export function ListItem(props: ListItemProps): JSX.Element {
       onClick={click}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
-      className="list_item_container"
+      className={css.listItemContainer}
     >
       {props.children}
     </div>
@@ -41,7 +44,7 @@ export function HoverTile(props: HoverTileProps): JSX.Element {
 
   return (
     <animated.div
-      className="list_item_image"
+      className={css.listItemImage}
       style={{ ...spring, backgroundImage: `url(${getCardArtCrop(grpId)})` }}
     />
   );
@@ -73,7 +76,7 @@ interface FlexProps extends JSX.ElementChildrenAttribute {
 export function FlexTop(props: FlexProps): JSX.Element {
   const style = props.style || {};
   return (
-    <div style={style} className="flex_top">
+    <div style={style} className={indexCss.flexTop}>
       {props.innerClass ? (
         <div title={props.title} className={props.innerClass}>
           {props.children}
@@ -126,7 +129,7 @@ export function ArchiveButton(props: ArchiveButtonProps): JSX.Element {
   return (
     <div
       onClick={onClick}
-      className={isArchived ? "list_item_unarchive" : "list_item_archive"}
+      className={isArchived ? css.listItemUnarchive : css.listItemArchive}
       title={isArchived ? "restore" : "archive (will not delete data)"}
       style={archiveButtonStyle(props.hover)}
     ></div>

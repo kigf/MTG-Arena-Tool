@@ -79,7 +79,7 @@ export function App(): JSX.Element {
   useEffect(() => {
     setTimeout(() => {
       anime({
-        targets: css.moving_ux,
+        targets: css.movingUx,
         left: navIndex * -100 + "%",
         easing: EASING_DEFAULT,
         duration: 350

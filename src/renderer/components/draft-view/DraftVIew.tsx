@@ -17,6 +17,8 @@ import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { getDraft } from "../../../shared/store";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
+import indexCss from "../../index.css";
+
 interface PickPack {
   pack: number;
   pick: number;
@@ -168,7 +170,7 @@ export function DraftView(props: DraftViewProps): JSX.Element {
         <div className="deck_name">{draft.set + " Draft"}</div>
       </div>
       <div
-        className="flex_item"
+        className={indexCss.flexItem}
         style={{ flexDirection: "column", margin: "0 32px" }}
       >
         <div className="draft-title">

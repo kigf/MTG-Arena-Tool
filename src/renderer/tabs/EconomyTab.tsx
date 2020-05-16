@@ -13,6 +13,8 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 import { transactionsList } from "../../shared/store";
 
+import appCss from "../app/app.css";
+
 function saveTableState(economyTableState: TableState<TransactionData>): void {
   reduxAction(
     store.dispatch,
@@ -106,7 +108,7 @@ export default function EconomyTab(): JSX.Element {
     return getTxnData(archivedCache);
   }, [archivedCache, txnList]);
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <EconomyTable
         archiveCallback={toggleArchived}
         cachedState={economyTableState}

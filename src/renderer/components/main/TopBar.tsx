@@ -3,6 +3,7 @@ import { ipcSend } from "../../rendererUtil";
 import { forceOpenSettings } from "../../tabControl";
 
 import mainCss from "./main.css";
+import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
 
 interface TopBarProps {
@@ -25,11 +26,11 @@ function clickClose(): void {
 export default function TopBar(props: TopBarProps): JSX.Element {
   return (
     <div className={sharedCss.top}>
-      <div className={sharedCss.flexItem}>
+      <div className={indexCss.flexItem}>
         <div className={sharedCss.topLogo}></div>
         <div className={mainCss.topArtist}>{props.artist}</div>
       </div>
-      <div className={sharedCss.flexItem}>
+      <div className={indexCss.flexItem}>
         {props.offline ? (
           <div className={mainCss.unlink} title="You are not logged-in."></div>
         ) : (

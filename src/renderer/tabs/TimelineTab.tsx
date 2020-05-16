@@ -29,6 +29,8 @@ import { SUB_MATCH, IPC_NONE } from "../../shared/constants";
 import { addMonths } from "date-fns";
 import { PagingButton } from "../components/misc/PagingButton";
 
+import appCss from "../app/app.css";
+
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;
 }
@@ -343,7 +345,7 @@ export default function TimelineTab(): JSX.Element {
   const won = match ? match.player.win > match.opponent.win : false;
 
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <div className="timeline-title">
           <PagingButton

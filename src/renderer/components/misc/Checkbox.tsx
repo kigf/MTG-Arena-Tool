@@ -1,5 +1,6 @@
 import React from "react";
 import css from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
 
 interface CheckboxProps {
   text: string | JSX.Element;
@@ -34,7 +35,7 @@ export default function Checkbox(props: CheckboxProps): JSX.Element {
     <label
       style={disabled ? disabledLabelStyle : { ...style }}
       onClick={click}
-      className={css.checkContainer + (disabled ? "" : " " + css.hoverLabel)}
+      className={css.checkContainer + (disabled ? "" : " " + sharedCss.hoverLabel)}
     >
       {props.text}
       <input type="checkbox" checked={currentValue} disabled />

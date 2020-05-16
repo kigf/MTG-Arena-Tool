@@ -8,6 +8,8 @@ import Button from "../misc/Button";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 
+import indexCss from "../../index.css";
+
 export default function SectionAbout(): JSX.Element {
   const updateState = useSelector(
     (state: AppState) => state.renderer.updateState
@@ -54,7 +56,7 @@ export default function SectionAbout(): JSX.Element {
       >
         Release Notes
       </div>
-      <div style={{ margin: "40px auto 0px auto" }} className="flex_item">
+      <div style={{ margin: "40px auto 0px auto" }} className={indexCss.flexItem}>
         <div
           className="discord_link"
           onClick={(): void => {

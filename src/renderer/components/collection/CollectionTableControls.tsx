@@ -15,6 +15,8 @@ import PagingControls from "../tables/PagingControls";
 import { defaultRarity } from "./filters";
 import { CollectionTableControlsProps } from "./types";
 
+import indexCss from "../../index.css";
+
 const boostersFilters = (): FilterValue[] => [
   { id: "booster", value: { true: true, false: false } }
 ];
@@ -138,7 +140,7 @@ export default function CollectionTableControls(
         </SmallTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
-          className="button_simple"
+          className={indexCss.buttonSimple}
           style={{ margin: "0 0 5px 12px" }}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles

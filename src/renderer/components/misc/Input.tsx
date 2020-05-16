@@ -1,4 +1,5 @@
 import React from "react";
+import indexCss from "../../index.css";
 
 interface InputProps {
   containerClassName?: string;
@@ -54,7 +55,7 @@ function InputBase(
     return (
       <div
         style={contStyle || {}}
-        className={containerClassName || "input_container"}
+        className={containerClassName || indexCss.inputContainer}
       >
         <input
           ref={ref}
@@ -73,7 +74,7 @@ function InputBase(
   return (
     <>
       {label ? (
-        <label className="but_container_label" title={title}>
+        <label className={indexCss.butContainerLabel} title={title}>
           {label}
           {inputInner()}
         </label>

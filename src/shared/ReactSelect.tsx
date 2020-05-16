@@ -1,4 +1,6 @@
 import React from "react";
+import indexCss from "../renderer/index.css";
+import css from "../renderer/select.scss";
 
 export interface ReactSelectProps {
   optionFormatter?: (option: string) => string | JSX.Element;
@@ -15,7 +17,7 @@ export default function ReactSelect({
   callback,
   options,
   className,
-  style
+  style,
 }: ReactSelectProps): JSX.Element {
   const formatterFunc =
     typeof optionFormatter === "function"
@@ -31,7 +33,7 @@ export default function ReactSelect({
   }, [optionsOpen]);
 
   const onClickOption = React.useCallback(
-    event => {
+    (event) => {
       setCurrentOption(event.currentTarget.value);
       setOptionsOpen(false);
       callback && callback(event.currentTarget.value);
@@ -39,11 +41,12 @@ export default function ReactSelect({
     [callback]
   );
 
-  const buttonClassNames =
-    "button_reset select_button" + (optionsOpen ? " active" : "");
+  const buttonClassNames = `${indexCss.buttonReset} ${css.selectButton} ${
+    optionsOpen ? indexCss.active : ""
+  }`;
 
   return (
-    <div className={"select_container " + className} style={style}>
+    <div className={`${css.selectContainer} ${className}`} style={style}>
       <button
         key={currentOption}
         className={buttonClassNames}
@@ -52,15 +55,15 @@ export default function ReactSelect({
         {formatterFunc(currentOption)}
       </button>
       {optionsOpen && (
-        <div className={"select_options_container"}>
-          {options.map(option => {
+        <div className={css.selectOptionsContainer}>
+          {options.map((option) => {
             return typeof option == "string" && option.startsWith("%%") ? (
-              <div className="select_title" key={option}>
+              <div className={css.selectTitle} key={option}>
                 {option.replace("%%", "")}
               </div>
             ) : (
               <button
-                className={"button_reset select_option"}
+                className={`${indexCss.buttonReset} ${css.selectOption}`}
                 key={option}
                 value={option}
                 disabled={option == currentOption}

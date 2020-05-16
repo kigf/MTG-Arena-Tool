@@ -6,6 +6,9 @@ import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 
+import css from "./popups.css";
+import indexCss from "../../index.css";
+
 function shareTypeId(type: string): number {
   switch (type) {
     case "One day":
@@ -97,7 +100,7 @@ export default function Share(props: ShareProps): JSX.Element {
 
   return (
     <div
-      className="popup-background"
+      className={css.popupBackground}
       style={{
         opacity: open * 2,
         backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
@@ -105,32 +108,32 @@ export default function Share(props: ShareProps): JSX.Element {
       onClick={handleClose}
     >
       <div
-        className="popup-div"
+        className={css.popupDiv}
         style={{ height: `${open * 200}px`, width: `${open * 400}px` }}
         onClick={(e): void => {
           e.stopPropagation();
         }}
       >
-        <div style={{ marginBottom: "26px" }} className="message_sub">
+        <div style={{ marginBottom: "26px" }} className={indexCss.messageSub}>
           Create new link
         </div>
-        <div style={{ margin: "4px 0" }} className="form-label">
+        <div style={{ margin: "4px 0" }} className={css.formLabel}>
           Expires after:
         </div>
         <ReactSelect
           style={{ width: "-webkit-fill-available", margin: "0 0 16px 0" }}
-          className={"light"}
+          className={indexCss.light}
           options={expireOptions}
           current={"Select..."}
           callback={selectExpire}
         />
-        <label className="form-label">URL:</label>
+        <label className={css.formLabel}>URL:</label>
         <div style={{ display: "flex" }}>
-          <div className="form-input-container">
+          <div className={css.formInputContainer}>
             <input type="text" autoComplete="off" value={stateUrl} />
           </div>
           <div
-            className="copy_button"
+            className={indexCss.copyButton}
             style={{ margin: "auto 8px", filter: "brightness(0.3)" }}
             onClick={doCopy}
           />

@@ -1,11 +1,13 @@
 import React from "react";
 
-import { RANKS } from "../../../shared/constants";
+import {RANKS} from "../../../shared/constants";
 import ManaCost from "../misc/ManaCost";
-import { formatPercent, getWinrateClass } from "../../rendererUtil";
-import { ListItem, Column, HoverTile, FlexTop, FlexBottom } from "./ListItem";
+import {formatPercent, getWinrateClass} from "../../rendererUtil";
+import {ListItem, Column, HoverTile, FlexTop, FlexBottom} from "./ListItem";
 import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import RankSmall from "../misc/RankSmall";
+import css from "./ListItem.css";
+import sharedCss from "../../../shared/shared.css";
 
 export interface ExploreDeck {
   _id: string;
@@ -42,7 +44,7 @@ interface ListItemExploreProps {
 }
 
 export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
-  const { row, openCallback } = props;
+  const {row, openCallback} = props;
   const [hover, setHover] = React.useState(false);
 
   const onRowClick = (): void => {
@@ -63,13 +65,13 @@ export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
       mouseLeave={mouseLeave}
     >
       <HoverTile hover={hover} grpId={row.tile || 0} />
-      <Column class="list_item_left">
+      <Column class={css.listItemLeft}>
         <FlexTop>
-          <div className="list_deck_name">{row.name || ""}</div>
+          <div className={css.listDeckName}>{row.name || ""}</div>
           <div
-            className="list_deck_name_it"
+            className={css.listDeckNameIt}
             style={{
-              textDecoration: row.player.length > 1 ? "underline dotted" : ""
+              textDecoration: row.player.length > 1 ? "underline dotted" : "",
             }}
             title={row.player.length > 1 ? row.player.join(", ") : ""}
           >
@@ -79,26 +81,26 @@ export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
           </div>
         </FlexTop>
         <FlexBottom>
-          <ManaCost class="mana_s20" colors={row.colors || []} />
+          <ManaCost class={sharedCss.manaS20} colors={row.colors || []} />
         </FlexBottom>
       </Column>
 
       <Column
-        style={{ maxWidth: "50%", alignSelf: "flex-end", marginLeft: "auto" }}
-        class="list_item_center"
+        style={{maxWidth: "50%", alignSelf: "flex-end", marginLeft: "auto"}}
+        class={css.listItemCenter}
       >
         <WildcardsCostPreset wildcards={row.wildcards} showComplete={true} />
       </Column>
-      <Column class="list_item_right">
-        <FlexTop innerClass="list_deck_winrate">
+      <Column class={css.listItemRight}>
+        <FlexTop innerClass={css.listDeckWinrate}>
           {row.mw}:{row.ml} (
-          <span className={getWinrateClass(row.mwrate) + "_bright"}>
+          <span className={getWinrateClass(row.mwrate, true)}>
             {formatPercent(row.mwrate)}
           </span>
           )
         </FlexTop>
-        <FlexBottom style={{ justifyContent: "flex-end", marginRight: "18px" }}>
-          {RANKS.map(r => {
+        <FlexBottom style={{justifyContent: "flex-end", marginRight: "18px"}}>
+          {RANKS.map((r) => {
             if (row.rank.includes(r)) {
               return <RankSmall key={row._id + "-r-" + r} rankTier={r} />;
             }

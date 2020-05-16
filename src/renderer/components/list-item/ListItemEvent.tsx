@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
-import { TableViewRowProps } from "../tables/types";
-import { EventTableData } from "../events/types";
+import React, {useRef} from "react";
+import {TableViewRowProps} from "../tables/types";
+import {EventTableData} from "../events/types";
 import ManaCost from "../misc/ManaCost";
 import db from "../../../shared/database";
 
@@ -10,7 +10,7 @@ import {
   HoverTile,
   FlexTop,
   FlexBottom,
-  ArchiveButton
+  ArchiveButton,
 } from "./ListItem";
 import ListItemMatch from "./ListItemMatch";
 import ListItemDraft from "./ListItemDraft";
@@ -18,19 +18,21 @@ import {
   DEFAULT_TILE,
   SUB_MATCH,
   SUB_DRAFT,
-  IPC_NONE
+  IPC_NONE,
 } from "../../../shared/constants";
-import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
-import { DbCardData } from "../../../types/Metadata";
+import {getEventWinLossClass, toggleArchived} from "../../rendererUtil";
+import {DbCardData} from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
-import { compareDesc } from "date-fns";
-import { useDispatch } from "react-redux";
-import { InternalMatch } from "../../../types/match";
-import { InternalDraft } from "../../../types/draft";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { getMatch, draftExists, getDraft } from "../../../shared/store";
+import {compareDesc} from "date-fns";
+import {useDispatch} from "react-redux";
+import {InternalMatch} from "../../../types/match";
+import {InternalDraft} from "../../../types/draft";
+import {reduxAction} from "../../../shared/redux/sharedRedux";
+import {getMatch, draftExists, getDraft} from "../../../shared/store";
+import css from "./ListItem.css";
+import sharedCss from "../../../shared/shared.css";
 
-function DraftRares({ event }: { event: EventTableData }): JSX.Element {
+function DraftRares({event}: {event: EventTableData}): JSX.Element {
   const draftId = event.id + "-draft";
   let draftRares: JSX.Element[] = [];
   if (draftExists(draftId)) {
@@ -50,8 +52,8 @@ function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   }
   return (
     <div
-      style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-      className="list_item_center"
+      style={{flexGrow: 1, display: "flex", justifyContent: "center"}}
+      className={css.listItemCenter}
     >
       {draftRares}
     </div>
@@ -60,7 +62,7 @@ function DraftRares({ event }: { event: EventTableData }): JSX.Element {
 
 function EventMainRow({
   event,
-  onRowClick
+  onRowClick,
 }: {
   event: EventTableData;
   onRowClick: () => void;
@@ -90,37 +92,37 @@ function EventMainRow({
         hover={hover}
         grpId={event.CourseDeck.deckTileId ?? DEFAULT_TILE}
       />
-      <Column class="list_item_left">
-        <FlexTop innerClass="list_deck_name">{eventName}</FlexTop>
+      <Column class={css.listItemLeft}>
+        <FlexTop innerClass={css.listDeckName}>{eventName}</FlexTop>
         <FlexBottom>
-          <ManaCost class="mana_s20" colors={eventColors} />
+          <ManaCost class={sharedCss.manaS20} colors={eventColors} />
         </FlexBottom>
       </Column>
 
       <DraftRares event={event} />
 
-      <Column class="list_item_right">
+      <Column class={css.listItemRight}>
         <FlexTop
           innerClass={
             event.eventState == "Completed"
-              ? "list_event_phase"
-              : "list_event_phase_red"
+              ? css.listEventPhase
+              : css.listEventPhaseRed
           }
         >
           {event.eventState}
         </FlexTop>
-        <FlexBottom innerClass="list_match_time">
+        <FlexBottom innerClass={css.listMatchTime}>
           <relative-time datetime={new Date(event.date).toISOString()}>
             {event.date.toString()}
           </relative-time>
         </FlexBottom>
       </Column>
 
-      <Column class="list_match_result">
+      <Column class={css.listMatchResult}>
         <div
           className={getEventWinLossClass({
             CurrentWins: event.wins,
-            CurrentLosses: event.losses
+            CurrentLosses: event.losses,
           })}
         >
           {event.wins}:{event.losses}
@@ -139,7 +141,7 @@ function EventMainRow({
 
 function EventSubRows({
   event,
-  expanded
+  expanded,
 }: {
   event: EventTableData;
   expanded: boolean;
@@ -160,7 +162,7 @@ function EventSubRows({
         "SET_SUBNAV",
         {
           type: SUB_MATCH,
-          id: match.id
+          id: match.id,
         },
         IPC_NONE
       );
@@ -175,7 +177,7 @@ function EventSubRows({
         "SET_SUBNAV",
         {
           type: SUB_DRAFT,
-          id: id
+          id: id,
         },
         IPC_NONE
       );
@@ -190,8 +192,8 @@ function EventSubRows({
       return [];
     }
     const matchRows = event.stats.matchIds
-      .map(id => getMatch(id))
-      .filter(match => match !== undefined) as InternalMatch[];
+      .map((id) => getMatch(id))
+      .filter((match) => match !== undefined) as InternalMatch[];
     matchRows.sort((a, b) => {
       if (!a || !b) return 0;
       return compareDesc(new Date(a.date), new Date(b.date));
@@ -201,10 +203,10 @@ function EventSubRows({
     return matchRows;
   }, [draftId, event.stats.matchIds, expanded, initialDraft]);
 
-  const style = expanded ? { height: matchRows.length * 64 + "px" } : {};
+  const style = expanded ? {height: matchRows.length * 64 + "px"} : {};
 
   return (
-    <div style={style} className="list_event_expand">
+    <div style={style} className={css.listEventExpand}>
       {initialDraft.current ? (
         <ListItemDraft
           key={initialDraft.current.id}
@@ -212,7 +214,7 @@ function EventSubRows({
           openDraftCallback={openDraft}
         />
       ) : null}
-      {matchRows.map(match => {
+      {matchRows.map((match) => {
         return match.type == "match" ? (
           <ListItemMatch
             key={match.id}
@@ -227,15 +229,15 @@ function EventSubRows({
 }
 
 export function ListItemEvent({
-  row
+  row,
 }: TableViewRowProps<EventTableData>): JSX.Element {
   const event = row.original;
   const [expanded, setExpanded] = React.useState(false);
   const onRowClick = React.useCallback((): void => {
     setExpanded(!expanded);
   }, [expanded]);
-  const mainRowProps = { event, onRowClick };
-  const subRowsProps = { event, expanded };
+  const mainRowProps = {event, onRowClick};
+  const subRowsProps = {event, expanded};
   return (
     <>
       <EventMainRow {...mainRowProps} />

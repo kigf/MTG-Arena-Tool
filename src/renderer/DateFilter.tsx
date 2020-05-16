@@ -12,6 +12,8 @@ import { reduxAction } from "../shared/redux/sharedRedux";
 import { useDispatch } from "react-redux";
 import useDatePicker from "./hooks/useDatePicker";
 
+import indexCss from "./index.css";
+
 export interface DateFilterProps {
   prefixId: string;
   callback: (option: string) => void;
@@ -87,15 +89,15 @@ export default function DateFilter({
     options.unshift(current);
   }
   return (
-    <div className={className + " dateCont"}>
+    <>
       {pickerElement}
       <ReactSelect
-        className={"filter_panel_select_margin " + prefixId}
+        className={`${className} ${indexCss.filter_panel_select_margin}`}
         current={String(current)}
         options={options}
         callback={dateSelectCallback}
         optionFormatter={customDateFormatter}
       />
-    </div>
+    </>
   );
 }

@@ -19,6 +19,8 @@ import {
   HoverTile,
   ListItem
 } from "./ListItem";
+import css from "./ListItem.css";
+import sharedCss from "../../../shared/shared.css";
 
 export function ListItemDeck({
   row,
@@ -114,15 +116,15 @@ export function ListItemDeck({
       mouseLeave={mouseLeave}
     >
       <HoverTile hover={hover} grpId={deck.deckTileId || 0} />
-      <Column class="list_item_left">
-        <FlexTop innerClass="list_deck_name">{deck.name || ""}</FlexTop>
+      <Column class={css.listItemLeft}>
+        <FlexTop innerClass={css.listDeckName}>{deck.name || ""}</FlexTop>
         <FlexBottom>
-          <ManaCost class="mana_s20" colors={deck.colors || []} />
+          <ManaCost class={sharedCss.manaS20} colors={deck.colors || []} />
         </FlexBottom>
       </Column>
 
-      <Column class="list_item_center">
-        <FlexTop innerClass="deck_tags_container">
+      <Column class={css.listItemCenter}>
+        <FlexTop innerClass={css.deckTagsContainer}>
           <TagBubble {...formatProps} />
           {tagState.map((tag: string) => {
             const tagProps = {
@@ -135,7 +137,7 @@ export function ListItemDeck({
           })}
           <NewTag {...newTagProps} />
         </FlexTop>
-        <FlexBottom innerClass="list_deck_last">
+        <FlexBottom innerClass={css.listDeckLast}>
           updated/played:{" "}
           <i style={deckLastTouchedStyle}>
             <relative-time datetime={lastTouch.toISOString()}>
@@ -144,24 +146,24 @@ export function ListItemDeck({
           </i>
         </FlexBottom>
       </Column>
-      <Column class="list_item_right">
+      <Column class={css.listItemRight}>
         {deck.total > 0 ? (
           <>
-            <FlexTop title={winrateTooltip} innerClass="list_deck_winrate">
+            <FlexTop title={winrateTooltip} innerClass={css.listDeckWinrate}>
               {deck.wins}:{deck.losses} (
-              <span className={getWinrateClass(deck.winrate) + "_bright"}>
+              <span className={getWinrateClass(deck.winrate, true)}>
                 {formatPercent(deck.winrate)}
               </span>{" "}
               <i style={{ opacity: 0.6 }}>&plusmn; {winrateInterval}</i>)
             </FlexTop>
             <FlexBottom
               title={winrateEditTooltip}
-              innerClass="list_deck_winrate"
+              innerClass={css.listDeckWinrate}
             >
               Since last edit:{" "}
               {deck.lastEditTotal > 0 ? (
                 <span
-                  className={getWinrateClass(deck.lastEditWinrate) + "_bright"}
+                  className={getWinrateClass(deck.lastEditWinrate, true)}
                 >
                   {formatPercent(deck.lastEditWinrate)}
                 </span>

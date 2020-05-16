@@ -16,6 +16,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import sha1 from "js-sha1";
 
 import css from "./auth.css";
+import formsCss from "../../forms.css";
 
 function clickRememberMe(value: boolean): void {
   reduxAction(
@@ -75,12 +76,12 @@ export default function Auth(props: AuthProps): JSX.Element {
   }, [dispatcher, authForm.email, authForm.pass]);
 
   return (
-    <div className={css.formContainer}>
-      <div className={css.formAuthenticate}>
-        <div className={css.formIcon} />
+    <div className={formsCss.formContainer}>
+      <div className={formsCss.formAuthenticate}>
+        <div className={formsCss.formIcon} />
         <div id="loginform">
-          <label className={css.formLabel}>Email</label>
-          <div className={css.formInputContainer}>
+          <label className={formsCss.formLabel}>Email</label>
+          <div className={formsCss.formInputContainer}>
             <input
               onChange={handleEmailChange}
               type="email"
@@ -89,8 +90,8 @@ export default function Auth(props: AuthProps): JSX.Element {
               value={authForm.email}
             />
           </div>
-          <label className={css.formLabel}>Password</label>
-          <div className={css.formInputContainer}>
+          <label className={formsCss.formLabel}>Password</label>
+          <div className={formsCss.formInputContainer}>
             <input
               onChange={handlePassChange}
               type="password"
@@ -116,7 +117,7 @@ export default function Auth(props: AuthProps): JSX.Element {
             </a>
           </div>
           <button
-            className={css.formButton}
+            className={formsCss.formButton}
             type="submit"
             id="submit"
             onClick={onSubmit}
@@ -124,17 +125,17 @@ export default function Auth(props: AuthProps): JSX.Element {
           >
             Login
           </button>
-          <div className={css.formError}>{errorMessage}</div>
+          <div className={formsCss.formError}>{errorMessage}</div>
         </div>
       </div>
-      <div className={css.formOptions}>
+      <div className={formsCss.formOptions}>
         <Checkbox
           style={{ width: "max-content", margin: "auto auto 12px auto" }}
           text="Remember me?"
           value={authForm.rememberme}
           callback={clickRememberMe}
         />
-        <div className={css.message_small}>
+        <div className={css.messageSmall}>
           Dont have an account?{" "}
           <a
             onClick={(): void => {

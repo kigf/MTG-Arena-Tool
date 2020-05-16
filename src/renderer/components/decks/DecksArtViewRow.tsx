@@ -94,7 +94,7 @@ export default function DecksArtViewRow({
           {deck.total > 0 ? (
             <>
               {deck.wins}:{deck.losses} (
-              <span className={getWinrateClass(deck.winrate) + "_bright"}>
+              <span className={getWinrateClass(deck.winrate, true)}>
                 {formatPercent(deck.winrate)}
               </span>{" "}
               <i style={{ opacity: 0.6 }}>&plusmn; {winrateInterval}</i>)
@@ -147,7 +147,7 @@ export function ArchiveArtViewButton(props: ArchiveButtonProps): JSX.Element {
     <div
       onClick={onClick}
       className={
-        isArchived ? "decks-table-deck-unarchive" : "decks-table-deck-archive"
+        isArchived ? deckTableCss.decksTableDeckUnarchive : deckTableCss.decksTableDeckArchive
       }
       title={isArchived ? "restore" : "archive (will not delete data)"}
     />

@@ -5,6 +5,11 @@ import Button from "../misc/Button";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 
+import css from "./popups.css";
+import sharedCss from "../../../shared/shared.css";
+import indexCss from "../../index.css";
+import formsCss from "../../forms.css";
+
 interface OutputLogInputProps {
   closeCallback?: (log: string) => void;
 }
@@ -61,23 +66,23 @@ export default function OutputLogInput(
 
   return (
     <div
-      className="popup-background"
+      className={css.popupBackground}
       style={{ opacity: open, backgroundColor: `rgba(0, 0, 0, ${0.5 * open})` }}
       onClick={handleClose}
     >
       <div
-        className="popup-div"
+        className={css.popupDiv}
         style={{ height: `${open * 160}px` }}
         onClick={(e): void => {
           e.stopPropagation();
         }}
       >
-        <div style={{ marginBottom: "26px" }} className="message_sub red">
+        <div style={{ marginBottom: "26px" }} className={indexCss.messageSub + " " + sharedCss.red}>
           Could not find a log
         </div>
-        <label className="form-label">Output log location:</label>
+        <label className={formsCss.formLabel}>Output log location:</label>
         <div style={{ display: "flex" }}>
-          <div className="form-input-container">
+          <div className={formsCss.formInputContainer}>
             <input
               onChange={onInputChange}
               type="text"
@@ -86,7 +91,7 @@ export default function OutputLogInput(
             />
           </div>
           <div
-            className="open_button"
+            className={indexCss.openButton}
             style={{ margin: "auto 8px", filter: "brightness(0.3)" }}
             onClick={openPathDialog}
           />

@@ -26,6 +26,8 @@ import SectionAbout from "../components/settings/SectionAbout";
 import SectionLogin from "../components/settings/SectionLogin";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 
+import appCss from "../app/app.css";
+
 interface SettingsNavProps {
   component: () => JSX.Element;
   id: number;
@@ -134,7 +136,7 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
 
   const CurrentSettings = tabs[currentTab].component;
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <div className="wrapper_column sidebar_column_r">
         <SettingsNav {...tabs[SETTINGS_BEHAVIOUR]} />
         <SettingsNav {...tabs[SETTINGS_ARENA_DATA]} />

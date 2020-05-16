@@ -24,6 +24,10 @@ import { animated } from "react-spring";
 import useResizePanel from "../../hooks/useResizePanel";
 import CardsWinratesView from "./CardsWinrateView";
 
+import sharedCss from "../../../shared/shared.css";
+import tablesCss from "../tables/tables.css";
+import indexCss from "../../index.css";
+
 const ReactSvgPieChart = require("react-svg-piechart");
 
 const VIEW_VISUAL = 0;
@@ -227,20 +231,20 @@ export function DeckView(props: DeckViewProps): JSX.Element {
 
   return (
     <>
-      <div className="wrapper_column">
+      <div className={indexCss.wrapperColumn}>
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <div className="decklist_top">
-            <div className="button back" onClick={goBack}></div>
-            <div className="deck_name">{deck.getName()}</div>
+          <div className={indexCss.decklistTop}>
+            <div className={sharedCss.button + " " + sharedCss.back} onClick={goBack}></div>
+            <div className={indexCss.deckName}>{deck.getName()}</div>
             <ShareButton type="deck" data={deck.getSave()} />
-            <div className="deck_top_colors">
+            <div className={indexCss.deckTopColors}>
               <ManaCost colors={deck.getColors().get()} />
             </div>
           </div>
           <div
-            className="flex_item"
+            className={indexCss.flexItem}
             style={deckView !== VIEW_REGULAR ? { flexDirection: "column" } : {}}
           >
             {deckView == VIEW_VISUAL && (
@@ -260,43 +264,43 @@ export function DeckView(props: DeckViewProps): JSX.Element {
             )}
             {deckView == VIEW_REGULAR && (
               <>
-                <div className="decklist">
+                <div className={indexCss.decklist}>
                   <DeckList deck={deck} showWildcards={true} />
                 </div>
-                <div className="stats">
+                <div className={indexCss.stats}>
                   <Button
-                    className="button_simple exportDeck"
+                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
                     text="Deck Changes"
                     onClick={deckChangesView}
                   />
                   <Button
-                    className="button_simple exportDeck"
+                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
                     text="Card Winrates"
                     onClick={deckWinratesView}
                   />
                   <Button
-                    className="button_simple exportDeck"
+                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
                     text="Visual View"
                     onClick={visualView}
                   />
                   <Button
-                    className="button_simple exportDeck"
+                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
                     text="Export to Arena"
                     onClick={arenaExport}
                   />
                   <Button
-                    className="button_simple exportDeck"
+                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
                     text="Export to .txt"
                     onClick={txtExport}
                   />
                   <DeckTypesStats deck={deck} />
                   <DeckManaCurve deck={deck} />
-                  <div className="pie_container_outer">
-                    <div className="pie_container">
+                  <div className={sharedCss.pieContainerOuter}>
+                    <div className={sharedCss.pieContainer}>
                       <span>Mana Symbols</span>
                       <ReactSvgPieChart strokeWidth={0} data={colorsPie} />
                     </div>
-                    <div className="pie_container">
+                    <div className={sharedCss.pieContainer}>
                       <span>Mana Sources</span>
                       <ReactSvgPieChart strokeWidth={0} data={landsPie} />
                     </div>
@@ -308,9 +312,9 @@ export function DeckView(props: DeckViewProps): JSX.Element {
           </div>
         </div>
       </div>
-      <animated.div {...bind()} className={"sidebar-dragger"}></animated.div>
+      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
       <animated.div
-        className={"sidebar-main"}
+        className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}
       >
         <MatchResultsStatsPanel

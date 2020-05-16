@@ -119,10 +119,6 @@ declare namespace IndexCssModule {
     overlay_separator: string;
     overlay_text: string;
     pie: string;
-    pieContainer: string;
-    pieContainerOuter: string;
-    pie_container: string;
-    pie_container_outer: string;
     pnamePriority: string;
     pname_priority: string;
     rankValueBar: string;
@@ -155,8 +151,6 @@ declare namespace IndexCssModule {
     type_sor: string;
     typesContainer: string;
     types_container: string;
-    wildcardsCost: string;
-    wildcards_cost: string;
   }
 }
 

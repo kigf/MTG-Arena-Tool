@@ -61,7 +61,7 @@
 
 .decks_top {
   display: flex;
-  min-height: 64px;
+  /*min-height: 64px;*/
   margin: 0 16px;
   justify-content: space-between;
 }

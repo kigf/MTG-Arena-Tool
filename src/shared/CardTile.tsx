@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-
 import {
   CARD_RARITIES,
   CARD_TILE_FLAT,
@@ -182,10 +181,10 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
           marginTop: isMouseHovering ? 0 : "3px"
         }}
       >
-        <div className="flex_item">
+        <div style={{display: "flex"}}>
           <div className="card_tile_name">{card.name || "Unknown"}</div>
         </div>
-        <div className="flex_item" style={{ lineHeight: "26px" }}>
+        <div style={{ display: "flex", lineHeight: "26px" }}>
           <CostSymbols card={card} dfcCard={dfcCard} />
         </div>
       </div>

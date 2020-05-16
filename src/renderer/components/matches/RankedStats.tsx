@@ -1,10 +1,11 @@
 import React from "react";
-import { DATE_SEASON, RANKS } from "../../../shared/constants";
-import Aggregator, { AggregatorFilters } from "../../aggregator";
-import { formatPercent } from "../../rendererUtil";
+import {DATE_SEASON, RANKS} from "../../../shared/constants";
+import Aggregator, {AggregatorFilters} from "../../aggregator";
+import {formatPercent} from "../../rendererUtil";
 import store from "../../../shared/redux/stores/rendererStore";
 
-const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
+import indexCss from "../../index.css";
+const {RANKED_CONST, RANKED_DRAFT} = Aggregator;
 
 function getNextRank(currentRank: string): undefined | string {
   const rankIndex = (RANKS as any).indexOf(currentRank);
@@ -16,9 +17,7 @@ function getNextRank(currentRank: string): undefined | string {
 
 function getStepsUntilNextRank(mode: boolean, winrate: number): string {
   const playerRank = store.getState().playerdata.rank;
-  const { rank, step, tier } = mode
-    ? playerRank.limited
-    : playerRank.constructed;
+  const {rank, step, tier} = mode ? playerRank.limited : playerRank.constructed;
 
   // TODO extract rank tier/level props into constants
   let st = 1;
@@ -59,21 +58,21 @@ function getStepsUntilNextRank(mode: boolean, winrate: number): string {
 export default function RankedStats({
   aggregator,
   isLimited,
-  setAggFiltersCallback
+  setAggFiltersCallback,
 }: {
   aggregator: Aggregator;
   isLimited: boolean;
   setAggFiltersCallback: (filters: AggregatorFilters) => void;
 }): JSX.Element {
   if (!aggregator.stats?.total) return <></>;
-  const { winrate } = aggregator.stats;
+  const {winrate} = aggregator.stats;
   const playerData = store.getState().playerdata;
   const seasonName = !isLimited ? "constructed" : "limited";
   const switchSeasonName = isLimited ? "constructed" : "limited";
   const switchSeasonFilters: AggregatorFilters = {
     ...Aggregator.getDefaultFilters(),
     date: DATE_SEASON,
-    eventId: isLimited ? RANKED_CONST : RANKED_DRAFT
+    eventId: isLimited ? RANKED_CONST : RANKED_DRAFT,
   };
   const currentRank = isLimited
     ? playerData.rank.limited.rank
@@ -82,8 +81,10 @@ export default function RankedStats({
   return (
     <>
       <div
-        className={"button_simple button_thin season_toggle"}
-        style={{ margin: "8px auto" }}
+        className={
+          indexCss.buttonSimple + " " + indexCss.button_thin + " season_toggle"
+        }
+        style={{margin: "8px auto"}}
         onClick={(): void => setAggFiltersCallback(switchSeasonFilters)}
       >
         Show {switchSeasonName}

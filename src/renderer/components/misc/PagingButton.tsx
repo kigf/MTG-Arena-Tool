@@ -1,15 +1,15 @@
 import styled from "styled-components";
+import indexCss from "../../index.css";
 
 interface PagingButtonProps {
   selected?: boolean;
 }
 
 export const PagingButtonBase = styled.button.attrs<PagingButtonProps>(
-  props => ({
-    className:
-      (props.className ?? "") +
-      (props.disabled ? " paging_button_disabled" : " paging_button") +
-      (props.selected ? " paging_active" : "")
+  (props) => ({
+    className: `${props.className ?? ""} ${
+      props.disabled ? indexCss.pagingButtonDisabled : indexCss.pagingButton
+    } ${props.selected ? indexCss.pagingActive : ""}`,
   })
 )`
   width: initial;

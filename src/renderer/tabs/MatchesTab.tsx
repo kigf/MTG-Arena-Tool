@@ -22,6 +22,8 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import { matchesList, getMatch } from "../../shared/store";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 
+import appCss from "../app/app.css";
+
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;
 const tagPrompt = "Set archetype";
 
@@ -182,7 +184,7 @@ export default function MatchesTab({
 
   const [events, tags] = React.useMemo(getTotalAggData, []);
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <MatchesTable
         data={data}
         aggFilters={aggFilters}

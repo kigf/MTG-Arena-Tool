@@ -326,7 +326,7 @@ export default function DecksTable({
   return (
     <>
       <div className={indexCss.wrapperColumn}>
-        <div className={indexCss.reactTableWrap}>
+        <div className={tablesCss.reactTableWrap}>
           <DecksTableControls {...decksTableControlsProps} />
           <div
             className={sharedCss.medScroll}
@@ -343,7 +343,7 @@ export default function DecksTable({
             <div
               className={
                 tableMode === DECKS_ART_MODE
-                  ? "decks-table-wrapper"
+                  ? css.decksTableWrapper
                   : isTableMode
                   ? tablesCss.reactTableBody
                   : tablesCss.reactTableBodyNoAdjust

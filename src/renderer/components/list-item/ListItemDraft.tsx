@@ -1,23 +1,23 @@
 import React from "react";
-
 import {
   ListItem,
   Column,
   HoverTile,
   FlexTop,
   FlexBottom,
-  ArchiveButton
+  ArchiveButton,
 } from "./ListItem";
 
 import ShareButton from "../misc/ShareButton";
 import db from "../../../shared/database";
 
-import { DEFAULT_TILE } from "../../../shared/constants";
-import { DbCardData } from "../../../types/Metadata";
+import {DEFAULT_TILE} from "../../../shared/constants";
+import {DbCardData} from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
-import { toggleArchived } from "../../rendererUtil";
-import { getReadableEvent } from "../../../shared/util";
-import { InternalDraft } from "../../../types/draft";
+import {toggleArchived} from "../../rendererUtil";
+import {getReadableEvent} from "../../../shared/util";
+import {InternalDraft} from "../../../types/draft";
+import css from "./ListItem.css";
 
 interface ListItemDraftProps {
   draft: InternalDraft;
@@ -26,7 +26,7 @@ interface ListItemDraftProps {
 
 export default function ListItemDraft({
   draft,
-  openDraftCallback
+  openDraftCallback,
 }: ListItemDraftProps): JSX.Element {
   const parentId = draft.id || "";
 
@@ -53,20 +53,20 @@ export default function ListItemDraft({
         grpId={db.sets[draft.set]?.tile || DEFAULT_TILE}
       />
 
-      <Column class="list_item_left">
+      <Column class={css.listItemLeft}>
         <FlexTop>
-          <div className="list_deck_name">{draft.set + " Draft" || ""}</div>
+          <div className={css.listDeckName}>{draft.set + " Draft" || ""}</div>
         </FlexTop>
         <FlexBottom>
-          <div className="list_deck_name_it">
+          <div className={css.listDeckNameIt}>
             {getReadableEvent(draft.InternalEventName)}
           </div>
         </FlexBottom>
       </Column>
 
       <div
-        style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-        className="list_item_center"
+        style={{flexGrow: 1, display: "flex", justifyContent: "center"}}
+        className={css.listItemCenter}
       >
         {draft.CardPool
           ? [...draft.CardPool]
@@ -85,10 +85,10 @@ export default function ListItemDraft({
           : []}
       </div>
 
-      <Column class="list_event_phase">
+      <Column class={css.listEventPhase}>
         <FlexTop>See Replay</FlexTop>
         <FlexBottom>
-          <div className="list_match_time">
+          <div className={css.listMatchTime}>
             {draft.date ? (
               <relative-time datetime={new Date(draft.date || 0).toISOString()}>
                 {draft.date?.toString() ?? ""}
@@ -100,7 +100,7 @@ export default function ListItemDraft({
         </FlexBottom>
       </Column>
 
-      <Column style={{ display: "flex" }}>
+      <Column style={{display: "flex"}}>
         <ShareButton type="draft" data={draft} />
       </Column>
 

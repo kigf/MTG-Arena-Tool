@@ -1,4 +1,5 @@
 import React from "react";
+import indexCss from "../../index.css";
 
 interface ButtonProps {
   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -12,7 +13,7 @@ export default function Button(props: ButtonProps): JSX.Element {
     <div
       style={props.style || {}}
       onClick={props.onClick}
-      className={props.className ?? "button_simple centered"}
+      className={props.className ?? indexCss.buttonSimple + " " + indexCss.centered}
     >
       {props.text}
     </div>

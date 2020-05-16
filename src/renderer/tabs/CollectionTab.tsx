@@ -22,6 +22,8 @@ import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import { decksList } from "../../shared/store";
 import { useSelector } from "react-redux";
 
+import appCss from "../app/app.css";
+
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 
@@ -147,7 +149,7 @@ export default function CollectionTab(): JSX.Element {
     return getCollectionData();
   }, [cardsNew]);
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <CollectionTable
         cachedState={collectionTableState}
         cachedTableMode={collectionTableMode}

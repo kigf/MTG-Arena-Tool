@@ -1,18 +1,22 @@
 import React from "react";
-import { FilterValue } from "react-table";
-import { MATCHES_TABLE_MODES } from "../../../shared/constants";
+import {FilterValue} from "react-table";
+import {MATCHES_TABLE_MODES} from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import { getReadableEvent } from "../../../shared/util";
+import {getReadableEvent} from "../../../shared/util";
 import DateFilter from "../../DateFilter";
-import { MediumTextButton } from "../misc/MediumTextButton";
-import { SmallTextButton } from "../misc/SmallTextButton";
+import {MediumTextButton} from "../misc/MediumTextButton";
+import {SmallTextButton} from "../misc/SmallTextButton";
 import ColumnToggles from "../tables/ColumnToggles";
-import { GlobalFilter } from "../tables/filters";
+import {GlobalFilter} from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
-import { MatchesTableControlsProps } from "./types";
+import {MatchesTableControlsProps} from "./types";
 
-const defaultFilters = (): { id: string; value: FilterValue }[] => [
-  { id: "archivedCol", value: "hideArchived" }
+import indexCss from "../../index.css";
+import tableCss from "../tables/tables.css";
+import deckTableCss from "../decks/deckTable.css";
+
+const defaultFilters = (): {id: string; value: FilterValue}[] => [
+  {id: "archivedCol", value: "hideArchived"},
 ];
 
 export default function MatchesTableControls(
@@ -34,7 +38,7 @@ export default function MatchesTableControls(
     toggleableColumns,
     toggleHideColumn,
     toggleSortBy,
-    togglesVisible
+    togglesVisible,
   } = props;
   return (
     <div
@@ -42,25 +46,25 @@ export default function MatchesTableControls(
         display: "flex",
         flexWrap: "wrap",
         color: "var(--color-light)",
-        paddingBottom: "8px"
+        paddingBottom: "8px",
       }}
     >
-      <div className="react_table_toggles">
+      <div className={tableCss.reactTableToggles}>
         <DateFilter
-          prefixId={"decks_top"}
+          prefixId={deckTableCss.decksTop}
           current={aggFilters.date}
           callback={(date): void =>
-            setAggFiltersCallback({ ...aggFilters, date })
+            setAggFiltersCallback({...aggFilters, date})
           }
         />
         <ReactSelect
           options={events}
           current={aggFilters.eventId ?? ""}
           callback={(eventId): void =>
-            setAggFiltersCallback({ ...aggFilters, eventId })
+            setAggFiltersCallback({...aggFilters, eventId})
           }
           optionFormatter={getReadableEvent}
-          style={{ marginBottom: "auto" }}
+          style={{marginBottom: "auto"}}
         />
         <SmallTextButton
           onClick={(): void => {
@@ -76,8 +80,8 @@ export default function MatchesTableControls(
         </SmallTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
-          className="button_simple"
-          style={{ margin: "0 0 5px 12px" }}
+          className={indexCss.buttonSimple}
+          style={{margin: "0 0 5px 12px"}}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>
@@ -102,7 +106,7 @@ export default function MatchesTableControls(
         />
         {globalFilter && (
           <div
-            style={{ marginRight: 0, minWidth: "24px" }}
+            style={{marginRight: 0, minWidth: "24px"}}
             className={"button close"}
             onClick={(e): void => {
               e.stopPropagation();

@@ -3,7 +3,7 @@
 */
 import React from "react";
 import { getDeckName, deckExists } from "../shared/store";
-import css from "./index.css";
+import indexCss from "./index.css";
 import sharedCss from "../shared/shared.css";
 
 const manaClasses: string[] = [];
@@ -50,7 +50,7 @@ export default function DeckOption(props: DeckOptionProps): JSX.Element {
               <i>(archived)</i>
             </small>
           )}
-          <div className={css.flexItem}>
+          <div className={indexCss.flexItem}>
             {deck.colors &&
               deck.colors.map(color => (
                 <div

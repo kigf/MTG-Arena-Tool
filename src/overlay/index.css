@@ -511,33 +511,6 @@ body {
 .type_pla { background-image: url(../assets/images/type_planeswalker.png); }
 .type_sor { background-image: url(../assets/images/type_sorcery.png); }
 
-.pie_container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 16px auto;
-    height: 160px;
-}
-
-.pie_container_outer {
-    width: 100%;
-    display: flex;
-    flex-direction: initial;
-    align-items: center;
-    margin: 16px auto;
-    height: 160px;
-}
-
-.pie_container span, .wildcards_cost span , .types_container span {
-    text-align: center;
-    display: block;
-    margin-bottom: 12px;
-    font-family:  var(--main-font-name);
-    font-size: 16px;
-    color: #FAE5D2;
-}
-
 .pie {
   width: 128px; height: 128px;
   border-radius: 50%;

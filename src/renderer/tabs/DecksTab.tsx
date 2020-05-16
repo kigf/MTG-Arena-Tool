@@ -30,7 +30,7 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
 import globalStore, { getDeck, decksList } from "../../shared/store";
 
-import css from "../index.css";
+import appCss from "../app/app.css";
 
 function addTag(deckid: string, tag: string): void {
   const deck = getDeck(deckid);
@@ -170,7 +170,7 @@ export default function DecksTab({
   );
   const events = React.useMemo(getTotalAggEvents, []);
   return (
-    <div className={css.uxItem}>
+    <div className={appCss.uxItem}>
       <DecksTable
         data={data}
         aggFilters={aggFilters}

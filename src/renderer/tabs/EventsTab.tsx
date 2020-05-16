@@ -15,6 +15,8 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
 import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 
+import appCss from "../app/app.css";
+
 function editTag(tag: string, color: string): void {
   ipcSend("edit_tag", { tag, color });
 }
@@ -173,7 +175,7 @@ export default function EventsTab({
   });
   const events = React.useMemo(getTotalAggEvents, []);
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <EventsTable
         data={data}
         aggFilters={aggFilters}

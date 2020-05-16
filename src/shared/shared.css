@@ -208,60 +208,6 @@ label {
   background: #ffe9d3;
 }
 
-
-.ux_loading {
-  position: absolute !important;
-  width: 50% !important;
-}
-
-@keyframes grow {
-  from {
-    transform: scale(0, 1) translate(0, 0);
-    z-index: 100;
-  }
-  to {
-    transform: scale(1, 1) translate(0, 0);
-    z-index: 50;
-  }
-}
-
-@keyframes color {
-  0% {
-    background-color: var(--color-w);
-  }
-  19% {
-    background-color: var(--color-w);
-  }
-
-  20% {
-    background-color: var(--color-u);
-  }
-  39% {
-    background-color: var(--color-u);
-  }
-
-  40% {
-    background-color: var(--color-b);
-  }
-  59% {
-    background-color: var(--color-b);
-  }
-
-  60% {
-    background-color: var(--color-r);
-  }
-  79% {
-    background-color: var(--color-r);
-  }
-
-  80% {
-    background-color: var(--color-g);
-  }
-  99% {
-    background-color: var(--color-g);
-  }
-}
-
 .black_bright {
   color: var(--color-b) !important;
 }
@@ -358,23 +304,9 @@ label {
   width: auto !important;
 }
 
-.flex_top {
-  height: 50%;
-  display: flex;
-}
-
-.flex_bottom {
-  height: 50%;
-  display: flex;
-}
-
 .hidden {
   display: none !important;
   opacity: 0;
-}
-
-.main_bg_image {
-  background: url(../assets/images/Bedevil-Art.jpg);
 }
 
 .main_wrapper {
@@ -468,7 +400,6 @@ label {
   background-image: url(../assets/images/logo_top.png);
   opacity: 0.33;
 }
-
 
 .button {
   border-radius: 50%;
@@ -1168,4 +1099,31 @@ span {
 .Selectable .DayPicker-Day--end {
   border-top-right-radius: 50% !important;
   border-bottom-right-radius: 50% !important;
+}
+
+.pie_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px auto;
+  height: 160px;
+}
+
+.pie_container_outer {
+  width: 100%;
+  display: flex;
+  flex-direction: initial;
+  align-items: center;
+  margin: 16px auto;
+  height: 160px;
+}
+
+.pie_container span, .wildcards_cost span , .types_container span {
+  text-align: center;
+  display: block;
+  margin-bottom: 12px;
+  font-family:  var(--main-font-name);
+  font-size: 16px;
+  color: #FAE5D2;
 }

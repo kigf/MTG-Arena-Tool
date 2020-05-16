@@ -1,6 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { shell } from "electron";
 
+import css from "./popups.css";
+import indexCss from "../../index.css";
+
 interface DialogProps {
   closeCallback?: () => void;
 }
@@ -30,7 +33,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
 
   return (
     <div
-      className="popup-background"
+      className={css.popupBackground}
       style={{
         opacity: open * 2,
         backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
@@ -38,7 +41,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
       onClick={handleClose}
     >
       <div
-        className="popup-div-nopadding"
+        className={css.popupDivNopadding}
         style={{
           height: `${open * 340}px`,
           width: `${open * 520}px`,
@@ -48,25 +51,25 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
           e.stopPropagation();
         }}
       >
-        <div className="patreon-info-pop-top">
-          <div style={{ color: "var(--color-light)" }} className="message_sub">
+        <div className={css.patreonInfoPopTop}>
+          <div style={{ color: "var(--color-light)" }} className={indexCss.messageSub}>
             You discovered a Patreon exclusive feature!
           </div>
         </div>
-        <div className="patreon-info-pop-bottom">
-          <div className="patreon-info-text">
+        <div className={css.patreonInfoPopBottom}>
+          <div className={css.patreonInfoText}>
             Synchronize your data across multiple devices
           </div>
-          <div className="patreon-info-text">Get priority Support</div>
-          <div className="patreon-info-text">
+          <div className={css.patreonInfoText}>Get priority Support</div>
+          <div className={css.patreonInfoText}>
             Help us develop new amazing features!
           </div>
-          <div className="patreon-desc-text">
+          <div className={css.patreonDescText}>
             See our patreon page to learn more about upcoming and planned
             features:
           </div>
           <div
-            className="patreon_link_thin"
+            className={css.patreonLinkThin}
             title="Open on browser"
             onClick={(): void => {
               shell.openExternal("https://www.patreon.com/mtgatool");

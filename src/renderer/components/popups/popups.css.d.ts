@@ -16,6 +16,8 @@ declare namespace PopupsCssModule {
     patreonInfoPopBottom: string;
     patreonInfoPopTop: string;
     patreonInfoText: string;
+    patreonLinkThin: string;
+    patreon_link_thin: string;
     "picker-background": string;
     "picker-div": string;
     pickerBackground: string;
