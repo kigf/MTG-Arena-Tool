@@ -88,10 +88,8 @@ declare namespace SharedCssModule {
     decklist_not_owned: string;
     flat: string;
     flexBottom: string;
-    flexItem: string;
     flexTop: string;
     flex_bottom: string;
-    flex_item: string;
     flex_top: string;
     green: string;
     greenBright: string;

@@ -186,6 +186,9 @@ label {
   background: #ffe9d3;
 }
 
+.med_scroll {
+}
+
 .med_scroll::-webkit-scrollbar {
   height: 6px;
 }
@@ -362,10 +365,6 @@ label {
 
 .flex_bottom {
   height: 50%;
-  display: flex;
-}
-
-.flex_item {
   display: flex;
 }
 

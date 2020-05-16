@@ -1,5 +1,9 @@
 import React from "react";
-import { TableData, TableHeadersProps } from "./types";
+import {TableData, TableHeadersProps} from "./types";
+
+import sharedCss from "../../../shared/shared.css";
+import indexCss from "../../index.css";
+import css from "./tables.css";
 
 export default function TableHeaders<D extends TableData>({
   filtersVisible,
@@ -8,12 +12,14 @@ export default function TableHeaders<D extends TableData>({
   setFilter,
   setFiltersVisible,
   style,
-  visibleHeaders
+  visibleHeaders,
 }: TableHeadersProps<D>): JSX.Element {
   return (
     <div
-      className="med_scroll react_table_head line_dark"
-      style={{ ...style, gridTemplateColumns }}
+      className={
+        sharedCss.medScroll + " " + indexCss.lineDark + " " + css.reactTableHead
+      }
+      style={{...style, gridTemplateColumns}}
       {...getTableProps()}
     >
       {visibleHeaders.map((column, ii) => (
@@ -21,31 +27,31 @@ export default function TableHeaders<D extends TableData>({
           {...column.getHeaderProps(column.getSortByToggleProps())}
           style={{
             gridArea: `1 / ${ii + 1} / 1 / ${ii + 2}`,
-            cursor: column.disableSortBy ? "default" : "pointer"
+            cursor: column.disableSortBy ? "default" : "pointer",
           }}
           key={column.id}
         >
-          <div className={"react_table_head_container"}>
+          <div className={css.reactTableHeadContainer}>
             <div
               className={
                 column.isSorted
                   ? column.isSortedDesc
-                    ? " sort_desc"
-                    : " sort_asc"
+                    ? " " + indexCss.sortDesc
+                    : " " + indexCss.sortAsc
                   : ""
               }
-              style={{ marginRight: "4px", width: "16px" }}
+              style={{marginRight: "4px", width: "16px"}}
             />
             <div className={"flex_item"}>{column.render("Header")}</div>
             {column.canFilter && (
               <div
-                style={{ marginRight: 0 }}
+                style={{marginRight: 0}}
                 className={"button settings"}
                 onClick={(e): void => {
                   e.stopPropagation();
                   setFiltersVisible({
                     ...filtersVisible,
-                    [column.id]: !filtersVisible[column.id]
+                    [column.id]: !filtersVisible[column.id],
                   });
                 }}
                 title={
@@ -56,7 +62,7 @@ export default function TableHeaders<D extends TableData>({
             )}
             {column.filterValue && (
               <div
-                style={{ marginRight: 0 }}
+                style={{marginRight: 0}}
                 className={"button close"}
                 onClick={(e): void => {
                   e.stopPropagation();
@@ -71,7 +77,7 @@ export default function TableHeaders<D extends TableData>({
               onClick={(e): void => e.stopPropagation()}
               style={{
                 display: "flex",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
               title={"filter column"}
             >

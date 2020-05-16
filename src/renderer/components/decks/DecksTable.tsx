@@ -42,6 +42,11 @@ import { DecksData, DecksTableControlsProps, DecksTableProps } from "./types";
 import { animated } from "react-spring";
 import useResizePanel from "../../hooks/useResizePanel";
 
+import css from "./deckTable.css";
+import tablesCss from "../tables/tables.css";
+import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
+
 const columns: Column<DecksData>[] = [
   { accessor: "id" },
   { id: "deckId", accessor: "id" },
@@ -320,11 +325,11 @@ export default function DecksTable({
 
   return (
     <>
-      <div className={"wrapper_column"}>
-        <div className="react_table_wrap">
+      <div className={indexCss.wrapperColumn}>
+        <div className={indexCss.reactTableWrap}>
           <DecksTableControls {...decksTableControlsProps} />
           <div
-            className="med_scroll"
+            className={sharedCss.medScroll}
             style={isTableMode ? { overflowX: "auto" } : undefined}
           >
             <TableHeaders
@@ -340,8 +345,8 @@ export default function DecksTable({
                 tableMode === DECKS_ART_MODE
                   ? "decks-table-wrapper"
                   : isTableMode
-                  ? "react_table_body"
-                  : "react_table_body_no_adjust"
+                  ? tablesCss.reactTableBody
+                  : tablesCss.reactTableBodyNoAdjust
               }
               {...getTableBodyProps()}
             >
@@ -380,13 +385,13 @@ export default function DecksTable({
           <PagingControls {...pagingProps} />
         </div>
       </div>
-      <animated.div {...bind()} className={"sidebar-dragger"}></animated.div>
+      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
       <animated.div
-        className={"sidebar-main"}
+        className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}
       >
         <MatchResultsStatsPanel
-          prefixId={"decks_top"}
+          prefixId={css.decksTop}
           aggregator={
             new Aggregator({ ...aggFilters, ...getDataAggFilters(rows) })
           }

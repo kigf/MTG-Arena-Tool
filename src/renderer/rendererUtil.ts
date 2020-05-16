@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define, @typescript-eslint/camelcase */
-import { app, ipcRenderer as ipc, remote } from "electron";
+import {app, ipcRenderer as ipc, remote} from "electron";
 import path from "path";
-import {
-  IPC_BACKGROUND,
-  IPC_RENDERER,
-  CARD_RARITIES
-} from "../shared/constants";
-import { WinLossGate } from "../types/event";
+import {IPC_BACKGROUND, IPC_RENDERER, CARD_RARITIES} from "../shared/constants";
+import {WinLossGate} from "../types/event";
 import store from "../shared/redux/stores/rendererStore";
-import { MissingWildcards, CardCounts } from "./components/decks/types";
+import {MissingWildcards, CardCounts} from "./components/decks/types";
 import Deck from "../shared/deck";
 import db from "../shared/database";
+
+import sharedCss from "../shared/shared.css";
 
 export const actionLogDir = path.join(
   (app || remote.app).getPath("userData"),
@@ -37,11 +35,11 @@ export function getTagColor(tag?: string): string {
 
 export function formatPercent(
   value: number,
-  config = { maximumSignificantDigits: 2 }
+  config = {maximumSignificantDigits: 2}
 ): string {
   return value.toLocaleString([], {
     style: "percent",
-    ...config
+    ...config,
   });
 }
 
@@ -53,26 +51,33 @@ export function formatWinrateInterval(lower: number, upper: number): string {
 export function formatNumber(value: number, config = {}): string {
   return value.toLocaleString([], {
     style: "decimal",
-    ...config
+    ...config,
   });
 }
 
-export function getWinrateClass(wr: number): string {
-  if (wr > 0.65) return "blue";
-  if (wr > 0.55) return "green";
-  if (wr < 0.45) return "orange";
-  if (wr < 0.35) return "red";
-  return "white";
+export function getWinrateClass(wr: number, bright = true): string {
+  if (wr > 0.65) return bright ? sharedCss.blueBright : sharedCss.blue;
+  if (wr > 0.55) return bright ? sharedCss.greenBright : sharedCss.green;
+  if (wr < 0.45) return bright ? sharedCss.orangeBright : sharedCss.orange;
+  if (wr < 0.35) return bright ? sharedCss.redBright : sharedCss.red;
+  return bright ? sharedCss.whiteBright : sharedCss.white;
 }
 
-export function getEventWinLossClass(wlGate: Partial<WinLossGate>): string {
-  if (wlGate === undefined) return "white";
-  if (wlGate.MaxWins === wlGate.CurrentWins) return "blue";
+export function getEventWinLossClass(
+  wlGate: Partial<WinLossGate>,
+  bright = true
+): string {
+  if (wlGate === undefined)
+    return bright ? sharedCss.whiteBright : sharedCss.white;
+  if (wlGate.MaxWins === wlGate.CurrentWins)
+    return bright ? sharedCss.blueBright : sharedCss.blue;
   if (wlGate.CurrentWins !== undefined && wlGate.CurrentLosses !== undefined) {
-    if (wlGate.CurrentWins > wlGate.CurrentLosses) return "green";
-    if (wlGate.CurrentWins * 2 > wlGate.CurrentLosses) return "orange";
+    if (wlGate.CurrentWins > wlGate.CurrentLosses)
+      return bright ? sharedCss.greenBright : sharedCss.green;
+    if (wlGate.CurrentWins * 2 > wlGate.CurrentLosses)
+      return bright ? sharedCss.orangeBright : sharedCss.orange;
   }
-  return "red";
+  return bright ? sharedCss.redBright : sharedCss.red;
 }
 
 interface Winrate {
@@ -98,10 +103,10 @@ export function compareColorWinrates(winA: Winrate, winB: Winrate): -1 | 0 | 1 {
   if (a.length < b.length) return -1;
   if (a.length > b.length) return 1;
 
-  const sa = a.reduce(function(_a: number, _b: number) {
+  const sa = a.reduce(function (_a: number, _b: number) {
     return _a + _b;
   }, 0);
-  const sb = b.reduce(function(_a: number, _b: number) {
+  const sb = b.reduce(function (_a: number, _b: number) {
     return _a + _b;
   }, 0);
   if (sa < sb) return -1;
@@ -118,7 +123,7 @@ export function getBoosterCountEstimate(
     common: 3.36,
     uncommon: 2.6,
     rare: 5.72,
-    mythic: 13.24
+    mythic: 13.24,
   };
 
   const playerEconomy = store.getState().playerdata.economy;
@@ -127,10 +132,10 @@ export function getBoosterCountEstimate(
     common: playerEconomy.wcCommon,
     uncommon: playerEconomy.wcUncommon,
     rare: playerEconomy.wcRare,
-    mythic: playerEconomy.wcMythic
+    mythic: playerEconomy.wcMythic,
   };
 
-  CARD_RARITIES.map(rarity => {
+  CARD_RARITIES.map((rarity) => {
     if (rarity !== "land") {
       const needed = neededWildcards[rarity] || 0;
       const owned = ownedWildcards[rarity] || 0;
@@ -152,7 +157,7 @@ export function getWildcardsMissing(
   const mainMatches = deck
     .getMainboard()
     .get()
-    .filter(card => card.id == grpid);
+    .filter((card) => card.id == grpid);
   if (mainMatches.length) {
     mainQuantity = mainMatches[0].quantity;
   }
@@ -161,7 +166,7 @@ export function getWildcardsMissing(
   const sideboardMatches = deck
     .getSideboard()
     .get()
-    .filter(card => card.id == grpid);
+    .filter((card) => card.id == grpid);
   if (sideboardMatches.length) {
     sideboardQuantity = sideboardMatches[0].quantity;
   }
@@ -179,7 +184,7 @@ export function getWildcardsMissing(
   else arr.push(grpid);
 
   let have = 0;
-  arr.forEach(id => {
+  arr.forEach((id) => {
     const n = cards.cards[id];
     if (n !== undefined) {
       have += n;
@@ -206,14 +211,14 @@ export function getCardsMissingCount(deck: Deck, grpid: number): number {
 }
 
 export function get_deck_missing(deck: Deck): MissingWildcards {
-  const missing = { rare: 0, common: 0, uncommon: 0, mythic: 0 };
+  const missing = {rare: 0, common: 0, uncommon: 0, mythic: 0};
   const alreadySeenIds = new Set(); // prevents double counting cards across main/sideboard
   const entireDeck = [
     ...deck.getMainboard().get(),
-    ...deck.getSideboard().get()
+    ...deck.getSideboard().get(),
   ];
 
-  entireDeck.forEach(card => {
+  entireDeck.forEach((card) => {
     const grpid = card.id;
     // process each card at most once
     if (alreadySeenIds.has(grpid)) {
@@ -233,10 +238,10 @@ export function getMissingCardCounts(deck: Deck): CardCounts {
   const missingCards: CardCounts = {};
   const allCardIds = new Set(
     [...deck.getMainboard().get(), ...deck.getSideboard().get()].map(
-      card => card.id
+      (card) => card.id
     )
   );
-  allCardIds.forEach(grpid => {
+  allCardIds.forEach((grpid) => {
     const missing = getCardsMissingCount(deck, grpid);
     if (missing > 0) {
       missingCards[grpid] = missing;

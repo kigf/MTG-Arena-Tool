@@ -6,7 +6,7 @@ import { DecksData } from "./types";
 
 export function deckSearchFilterFn(
   rows: Row<DecksData>[],
-  columnIds: string[],
+  _columnIds: string[],
   filterValue: FilterValue
 ): Row<DecksData>[] {
   const tokens = (filterValue + "")

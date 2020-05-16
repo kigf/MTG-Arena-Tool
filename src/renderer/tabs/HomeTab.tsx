@@ -7,9 +7,14 @@ import { AppState } from "../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../shared/constants";
 
+import appCss from "../app/app.css";
+import sharedCss from "../../shared/shared.css";
+import indexCss from "../index.css";
+import css from "./home.css";
+
 export interface WildcardsChange {
   grpId: number;
-  rarity: string;
+  rarity: "common" | "uncommon" | "rare" | "mythic";
   quantity: number;
   change: number;
 }
@@ -64,12 +69,12 @@ export default function HomeTab(): JSX.Element {
   }, [requested, usersActive, filteredSet]);
 
   return (
-    <div className="ux_item">
+    <div className={appCss.uxItem}>
       <div style={{ margin: "0 auto" }}>
-        <div className="list_fill"></div>
-        <div className="card_tile_separator">General</div>
+        <div className={css.listFill}></div>
+        <div className={sharedCss.cardTileSeparator}>General</div>
         <div
-          className="text_centered"
+          className={css.textCentered}
           tooltip-content="In the last 24 hours"
           tooltip-bottom=""
           style={{ textAlign: "center" }}
@@ -77,28 +82,28 @@ export default function HomeTab(): JSX.Element {
           Users active:{" " + usersActive}
         </div>
         <div
-          className="text_centered white daily_left"
+          className={css.textCentered + " " + sharedCss.white}
           style={{ textAlign: "center" }}
         >
           {dailyRewards}
         </div>
         <div
-          className="text_centered white weekly_left"
+          className={css.textCentered + " " + sharedCss.white}
           style={{ textAlign: "center" }}
         >
           {weeklyRewards}
         </div>
         {wildcards ? (
           <>
-            <div className="list_fill"></div>
+            <div className={css.listFill}></div>
             <div
-              className="card_tile_separator"
+              className={sharedCss.cardTileSeparator}
               tooltip-content="In the last 15 days."
               tooltip-bottom=""
             >
               Top Wildcards redeemed
             </div>
-            <div className="top_wildcards_sets_cont">
+            <div className={css.topWildcardsSetsCont}>
               {orderedSets.map((set: string) => {
                 const svgData = db.sets[set].svg;
                 const setClass =
@@ -134,8 +139,15 @@ interface TopWildcardsProps {
   wildcards: WildcardsChange[];
 }
 
+const wcIcons = {
+  common: indexCss.wcCommon,
+  uncommon: indexCss.wcUncommon,
+  rare: indexCss.wcRare,
+  mythic: indexCss.wcMythic
+}
+
 function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
-  const lineDark = "line_dark line_bottom_border";
+  const lineDark = indexCss.lineDark + " " + indexCss.lineBottomBorder;
   const dispatcher = useDispatch();
 
   const hoverCard = (id: number, hover: boolean): void => {
@@ -148,7 +160,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
   };
 
   return (
-    <div className="top_wildcards_cont">
+    <div className={css.topWildcardsCont}>
       <div className={lineDark} style={{ gridArea: `1 / 1 / auto / 3` }}>
         Top
       </div>
@@ -162,7 +174,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
       <div className={lineDark} style={{ gridArea: `1 / 6 / auto / 8` }}></div>
       {wildcards.map((wc: WildcardsChange, index: number) => {
         const card = db.card(wc.grpId);
-        const ld = index % 2 ? "line_dark" : "line_light";
+        const ld = index % 2 ? indexCss.lineDark : indexCss.lineLight;
 
         return card ? (
           <React.Fragment key={"wcc_" + index}>
@@ -181,7 +193,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
               style={{ gridArea: `${index + 2} / 2 / auto / auto` }}
             >
               <div
-                className="top_wildcards_set_icon"
+                className={css.topWildcardsSetIcon}
                 style={{
                   backgroundImage: `url(data:image/svg+xml;base64,${
                     db.sets[card.set].svg
@@ -192,7 +204,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
             </div>
 
             <div
-              className={"top_wildcards_wc_icon wc_" + wc.rarity + " " + ld}
+              className={css.topWildcardsWcIcon + wcIcons[wc.rarity] + " " + ld}
               style={{ gridArea: `${index + 2} / 3 / auto / auto` }}
             ></div>
 
@@ -227,8 +239,8 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
                 " " +
                 (wc.change !== 0
                   ? wc.change < 0
-                    ? "arrow_down"
-                    : "arrow_up"
+                    ? css.arrowDown
+                    : css.arrowUp
                   : "")
               }
               style={{

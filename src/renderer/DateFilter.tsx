@@ -90,7 +90,7 @@ export default function DateFilter({
     <div className={className + " dateCont"}>
       {pickerElement}
       <ReactSelect
-        className={"filter_panel_select_margin " + prefixId + "_query_date"}
+        className={"filter_panel_select_margin " + prefixId}
         current={String(current)}
         options={options}
         callback={dateSelectCallback}

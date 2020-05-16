@@ -14,6 +14,8 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import { useDispatch } from "react-redux";
 
+import deckTableCss from "./deckTable.css";
+
 export default function DecksArtViewRow({
   row,
   archiveCallback,
@@ -67,7 +69,7 @@ export default function DecksArtViewRow({
 
   return (
     <animated.div
-      className={"decks-table-deck-tile"}
+      className={deckTableCss.decksTableDeckTile}
       onClick={onRowClick}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
@@ -83,12 +85,12 @@ export default function DecksArtViewRow({
           isArchived={deck.archived || false}
         />
       )}
-      <div className="decks-table-deck-inner">
-        <div className="decks-table-deck-item">{deck.name}</div>
-        <div className="decks-table-deck-item">
+      <div className={deckTableCss.decksTableDeckInner}>
+        <div className={deckTableCss.decksTableDeckItem}>{deck.name}</div>
+        <div className={deckTableCss.decksTableDeckItem}>
           <ManaCost colors={deck.colors || []} />
         </div>
-        <div className="decks-table-deck-item">
+        <div className={deckTableCss.decksTableDeckItem}>
           {deck.total > 0 ? (
             <>
               {deck.wins}:{deck.losses} (
@@ -104,7 +106,7 @@ export default function DecksArtViewRow({
           )}
         </div>
         {totalMissing == 0 ? (
-          <div className="decks-table-deck-item">
+          <div className={deckTableCss.decksTableDeckItem}>
             <relative-time datetime={lastTouch.toISOString()}>
               {lastTouch.toString()}
             </relative-time>

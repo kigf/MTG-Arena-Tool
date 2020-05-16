@@ -1,0 +1,33 @@
+declare namespace TablesCssModule {
+  export interface ITablesCss {
+    innerDiv: string;
+    inner_div: string;
+    reactTableBody: string;
+    reactTableBodyNoAdjust: string;
+    reactTableBodyRow: string;
+    reactTableHead: string;
+    reactTableHeadContainer: string;
+    reactTableSearchCont: string;
+    reactTableToggles: string;
+    reactTableWrap: string;
+    react_table_body: string;
+    react_table_body_no_adjust: string;
+    react_table_body_row: string;
+    react_table_head: string;
+    react_table_head_container: string;
+    react_table_search_cont: string;
+    react_table_toggles: string;
+    react_table_wrap: string;
+    "sidebar-dragger": string;
+    "sidebar-main": string;
+    sidebarDragger: string;
+    sidebarMain: string;
+  }
+}
+
+declare const TablesCssModule: TablesCssModule.ITablesCss & {
+  /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
+  locals: TablesCssModule.ITablesCss;
+};
+
+export = TablesCssModule;

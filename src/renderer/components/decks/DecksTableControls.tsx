@@ -11,6 +11,10 @@ import { GlobalFilter } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import { DecksTableControlsProps } from "./types";
 
+import sharedCss from "../../../shared/shared.css";
+import tableCss from "../tables/tables.css";
+import deckTableCss from "./deckTable.css";
+
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" }
 ];
@@ -59,9 +63,9 @@ export default function DecksTableControls(
         paddingBottom: "8px"
       }}
     >
-      <div className="react_table_toggles">
+      <div className={tableCss.reactTableToggles}>
         <DateFilter
-          prefixId={"decks_top"}
+          prefixId={deckTableCss.decksTop}
           current={aggFilters.date}
           callback={(date): void =>
             setAggFiltersCallback({ ...aggFilters, date })
@@ -138,7 +142,7 @@ export default function DecksTableControls(
         toggleableColumns={toggleableColumns}
         togglesVisible={togglesVisible}
       />
-      <div className="react_table_search_cont">
+      <div className={tableCss.reactTableSearchCont}>
         <ReactSelect
           current={tableMode}
           options={DECKS_TABLE_MODES}
@@ -154,7 +158,7 @@ export default function DecksTableControls(
         {globalFilter && (
           <div
             style={{ marginRight: 0, minWidth: "24px" }}
-            className={"button close"}
+            className={sharedCss.button + " " + sharedCss.close}
             onClick={(e): void => {
               e.stopPropagation();
               setGlobalFilter(undefined);

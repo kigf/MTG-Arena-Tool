@@ -36,7 +36,7 @@ export function WinRateCell({ cell }: DecksTableCellProps): JSX.Element {
   }
   return (
     <MetricText title={tooltip}>
-      <span className={getWinrateClass(winrate) + "_bright"}>
+      <span className={getWinrateClass(winrate, true)}>
         {formatPercent(winrate)}
       </span>{" "}
       <i style={{ opacity: "0.6" }}>&plusmn; {intervalDisplay}</i>
@@ -53,7 +53,7 @@ export function LastEditWinRateCell({
     value = (
       <>
         {data.lastEditWins}:{data.lastEditLosses} (
-        <span className={getWinrateClass(cell.value) + "_bright"}>
+        <span className={getWinrateClass(cell.value, true)}>
           {formatPercent(cell.value)}
         </span>
         )

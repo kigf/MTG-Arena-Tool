@@ -1,0 +1,80 @@
+
+.react_table_wrap {
+  padding: 16px;
+}
+
+.react_table_toggles {
+  display: flex;
+  flex-wrap: wrap;
+  width: -webkit-fill-available;
+  justify-content: center;
+  align-items: center;
+}
+
+.react_table_search_cont {
+  display: flex;
+  margin: 4px auto;
+  width: -webkit-fill-available;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.react_table_head {
+  display: grid;
+  min-height: 64px;
+  color: var(--color-light);
+  border-bottom: 1px solid var(--color-light);
+  background-color: var(--color-mid-20);
+  margin: 0 auto;
+}
+
+.react_table_head_container {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;   
+}
+
+.react_table_body {
+  background-color: var(--color-mid-20);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.react_table_body_no_adjust {
+  background-color: var(--color-mid-20);
+}
+
+.react_table_body_row {
+  display: grid;
+  height: 32px;
+  color: var(--color-light);
+  -webkit-transition: all .1s ease-out;
+}
+
+.react_table_body_row:hover {
+  background-color: rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+
+.react_table_body_row .inner_div {
+  display: flex;
+  padding: 2px;
+  margin-left: 8px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+}
+
+.sidebar-main {
+  flex-direction: column;
+  display: flex;
+  overflow-x: hidden;
+  justify-content: space-between;
+  border-right: solid 1px var(--color-mid-40);
+}
+
+.sidebar-dragger {
+  cursor: e-resize;
+  min-width: 4px;
+  background-color: var(--color-b);
+}
