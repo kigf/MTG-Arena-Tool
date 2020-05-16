@@ -4,6 +4,7 @@ import { getTransaction, transactionExists } from "../shared/store";
 import globals from "./globals";
 import { IPC_RENDERER } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
+import { httpSetEconomy } from "./httpApi";
 
 export default function saveEconomyTransaction(
   transaction: InternalEconomyTransaction
@@ -21,6 +22,5 @@ export default function saveEconomyTransaction(
   }
   reduxAction(globals.store.dispatch, "SET_ECONOMY", txnData, IPC_RENDERER);
   playerDb.upsert("", id, txnData);
-  const httpApi = require("./httpApi");
-  httpApi.httpSetEconomy(txnData);
+  httpSetEconomy(txnData);
 }

@@ -2,6 +2,7 @@ import { ARENA_MODE_IDLE } from "../../shared/constants";
 import globals from "../globals";
 import { ipcSend } from "../backgroundUtil";
 import { InternalDraft } from "../../types/draft";
+import { httpSetDraft } from "../httpApi";
 
 export default function endDraft(data?: InternalDraft): void {
   globals.duringDraft = false;
@@ -11,7 +12,6 @@ export default function endDraft(data?: InternalDraft): void {
 
   if (!data) return;
 
-  const httpApi = require("../httpApi");
-  httpApi.httpSetDraft(data);
+  httpSetDraft(data);
   ipcSend("popup", { text: "Draft saved!", time: 3000 });
 }

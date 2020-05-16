@@ -275,8 +275,6 @@ declare namespace IndexCssModule {
     gitLink: string;
     git_link: string;
     hover: string;
-    hoverLabel: string;
-    hover_label: string;
     icon0: string;
     icon1: string;
     icon2: string;

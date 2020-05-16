@@ -13,6 +13,7 @@ import convertDeckFromV3 from "../convertDeckFromV3";
 import { getEvent } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { IPC_RENDERER } from "../../shared/constants";
+import { httpSubmitCourse } from "../httpApi";
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;
@@ -65,8 +66,7 @@ export default function InEventGetPlayerCourseV2(entry: Entry): void {
   if (v2Deck) {
     const deck = new Deck(v2Deck);
     addCustomDeck(newJson.CourseDeck);
-    const httpApi = require("../httpApi");
-    httpApi.httpSubmitCourse(newJson);
+    httpSubmitCourse(newJson);
     saveCourse(newJson);
     selectDeck(deck);
   }

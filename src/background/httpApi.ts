@@ -40,20 +40,18 @@ import {
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
 
-let httpQueue: async.AsyncQueue<HttpTask>;
-
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
-  httpQueue = async.queue(asyncWorker);
+  globals.httpQueue = async.queue(asyncWorker);
   if (globals.debugNet) {
-    httpQueue.drain(() => {
+    globals.httpQueue.drain(() => {
       ipcLog("httpQueue empty, asyncWorker now idle");
     });
   }
-  return httpQueue;
+  return globals.httpQueue;
 }
 
 export function isIdle(): boolean {
-  return httpQueue ? httpQueue.idle() : false;
+  return globals.httpQueue ? globals.httpQueue.idle() : false;
 }
 
 export function setSyncState(state: number): void {
@@ -200,7 +198,7 @@ function syncUserData(data: any): void {
 
 export function httpNotificationsPull(): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "notifications",
@@ -283,7 +281,7 @@ export function httpAuth(userName: string, pass: string): void {
   const _id = makeId(6);
   const playerData = globals.store.getState().playerdata;
   setSyncState(SYNC_CHECK);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "auth",
@@ -410,7 +408,7 @@ export function httpSubmitCourse(course: any): void {
   const playerData = globals.store.getState().playerdata;
   course.playerRank = playerData.rank.limited.rank;
   course = JSON.stringify(course);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "submit_course",
@@ -424,7 +422,7 @@ export function httpSubmitCourse(course: any): void {
 export function httpGetExplore(query: any): void {
   const _id = makeId(6);
   const playerData = globals.store.getState().playerdata;
-  httpQueue.unshift(
+  globals.httpQueue?.unshift(
     {
       reqId: _id,
       method: "get_explore",
@@ -451,7 +449,7 @@ export function httpGetExplore(query: any): void {
 
 export function httpGetTopLadderDecks(): void {
   const _id = makeId(6);
-  httpQueue.unshift(
+  globals.httpQueue?.unshift(
     {
       reqId: _id,
       method: "get_ladder_decks",
@@ -465,7 +463,7 @@ export function httpGetTopLadderDecks(): void {
 
 export function httpGetTopLadderTraditionalDecks(): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "get_ladder_traditional_decks",
@@ -479,7 +477,7 @@ export function httpGetTopLadderTraditionalDecks(): void {
 
 export function httpGetCourse(courseId: string): void {
   const _id = makeId(6);
-  httpQueue.unshift(
+  globals.httpQueue?.unshift(
     {
       reqId: _id,
       method: "get_course",
@@ -516,7 +514,7 @@ export function httpSetMatch(match: any): void {
     match.player.name = "Anonymous";
   }
   match = JSON.stringify(match);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "set_match",
@@ -530,7 +528,7 @@ export function httpSetMatch(match: any): void {
 export function httpSetDraft(draft: any): void {
   const _id = makeId(6);
   draft = JSON.stringify(draft);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "set_draft",
@@ -544,7 +542,7 @@ export function httpSetDraft(draft: any): void {
 export function httpSetEconomy(change: any): void {
   const _id = makeId(6);
   change = JSON.stringify(change);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "set_economy",
@@ -558,7 +556,7 @@ export function httpSetEconomy(change: any): void {
 export function httpSetSeasonal(change: any): void {
   const _id = makeId(6);
   change = JSON.stringify(change);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "set_seasonal",
@@ -572,7 +570,7 @@ export function httpSetSeasonal(change: any): void {
 export function httpSetSettings(settings: any): void {
   const _id = makeId(6);
   settings = JSON.stringify(settings);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "set_settings",
@@ -585,7 +583,7 @@ export function httpSetSettings(settings: any): void {
 
 export function httpDeleteData(): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "delete_data",
@@ -597,7 +595,7 @@ export function httpDeleteData(): void {
 
 export function httpGetDatabase(lang: string): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "get_database",
@@ -629,7 +627,7 @@ function handleGetDatabaseResponse(
 
 export function httpGetDatabaseVersion(lang: string): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "get_database_version",
@@ -678,7 +676,7 @@ export function httpDraftShareLink(
   draftData: any
 ): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "share_draft",
@@ -695,7 +693,7 @@ export function httpDraftShareLink(
 
 export function httpLogShareLink(lid: string, log: any, exp: any): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "share_log",
@@ -712,7 +710,7 @@ export function httpLogShareLink(lid: string, log: any, exp: any): void {
 
 export function httpDeckShareLink(deck: any, exp: any): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "share_deck",
@@ -728,7 +726,7 @@ export function httpDeckShareLink(deck: any, exp: any): void {
 
 export function httpHomeGet(set: string): void {
   const _id = makeId(6);
-  httpQueue.unshift(
+  globals.httpQueue?.unshift(
     {
       reqId: _id,
       method: "home_get",
@@ -743,7 +741,7 @@ export function httpHomeGet(set: string): void {
 
 export function httpSetMythicRank(opp: string, rank: string): void {
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "mythicrank",
@@ -768,7 +766,7 @@ export function httpSetDeckTag(
       quantity: 1
     };
   });
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "set_deck_tag",
@@ -792,7 +790,7 @@ export interface SyncRequestData {
 export function httpSyncRequest(data: SyncRequestData): void {
   setSyncState(SYNC_FETCH);
   const _id = makeId(6);
-  httpQueue.push(
+  globals.httpQueue?.push(
     {
       reqId: _id,
       method: "get_sync",

@@ -4,6 +4,7 @@ import LogEntry from "../../types/logDecoder";
 import actionLog from "../actionLog";
 import { ipcSend } from "../backgroundUtil";
 import { ARENA_MODE_MATCH } from "../../shared/constants";
+import * as httpApi from "../httpApi";
 
 import {
   setEventId,
@@ -45,10 +46,9 @@ export default function EventMatchCreated(entry: Entry): void {
   const matchBeginTime = globals.logTime || new Date();
 
   if (json.opponentRankingClass == "Mythic") {
-    const httpApi = require("../httpApi");
     httpApi.httpSetMythicRank(
       json.opponentScreenName,
-      json.opponentMythicLeaderboardPlace
+      json.opponentMythicLeaderboardPlace + ""
     );
   }
 

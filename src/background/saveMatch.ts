@@ -8,6 +8,7 @@ import globalStore, { getMatch } from "../shared/store";
 import { InternalMatch } from "../types/match";
 import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
+import { httpSetMatch } from "./httpApi";
 
 function matchResults(results: ResultSpec[]): number[] {
   let playerWins = 0;
@@ -110,8 +111,7 @@ export default function saveMatch(id: string, matchEndTime: number): void {
   ).length;
 
   if (globals.matchCompletedOnGameNumber === gameNumberCompleted) {
-    const httpApi = require("./httpApi");
-    httpApi.httpSetMatch(match);
+    httpSetMatch(match);
   }
   if (matches_index.indexOf(id) == -1) {
     matches_index.push(id);
