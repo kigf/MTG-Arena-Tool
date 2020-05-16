@@ -4,6 +4,7 @@ import useColorPicker from "../../hooks/useColorPicker";
 import { getTagColor } from "../../rendererUtil";
 import AutosuggestInput from "../tables/AutosuggestInput";
 import { TagCounts } from "../tables/types";
+import indexCss from "../../index.css";
 
 interface TagBubbleDivProps {
   backgroundColor: string;
@@ -86,7 +87,7 @@ export function TagBubble({
         {tag}
         {deleteTagCallback && !hideCloseButton && (
           <div
-            className={"deck_tag_close"}
+            className={indexCss.deck_tag_close}
             title={"delete tag"}
             onClick={(e): void => {
               e.stopPropagation();

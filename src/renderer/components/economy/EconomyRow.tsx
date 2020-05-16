@@ -6,24 +6,24 @@ import {
   collectionSortRarity,
   getCardArtCrop,
   getCardImage,
-  openScryfallCard
+  openScryfallCard,
 } from "../../../shared/util";
-import { DbCardData } from "../../../types/Metadata";
+import {DbCardData} from "../../../types/Metadata";
 import useHoverCard from "../../hooks/useHoverCard";
-import {
-  formatNumber,
-  formatPercent,
-  toggleArchived
-} from "../../rendererUtil";
-import { ArchiveButton } from "../list-item/ListItem";
+import {formatNumber, formatPercent, toggleArchived} from "../../rendererUtil";
+import {ArchiveButton} from "../list-item/ListItem";
 import {
   getCollationSet,
   getReadableCode,
-  vaultPercentFormat
+  vaultPercentFormat,
 } from "./economyUtils";
-import EconomyValueRecord, { EconomyIcon } from "./EconomyValueRecord";
-import { useSelector } from "react-redux";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
+import EconomyValueRecord, {EconomyIcon} from "./EconomyValueRecord";
+import {useSelector} from "react-redux";
+import {AppState} from "../../../shared/redux/stores/rendererStore";
+
+import notFound from "../../../assets/images/notFound.png";
+import indexCss from "../../index.css";
+import css from "./economy.css";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (
@@ -38,19 +38,19 @@ function EconomyRowDate(date: Date): JSX.Element {
 }
 
 interface BoosterDeltaProps {
-  booster: { collationId: number; count: number };
+  booster: {collationId: number; count: number};
 }
 
 function BoosterDelta(props: BoosterDeltaProps): JSX.Element {
-  const { booster } = props;
+  const {booster} = props;
   const set = getCollationSet(booster.collationId);
   const imagePath =
     db.sets[set] && db.sets[set].code
       ? `url(data:image/svg+xml;base64,${db.sets[set].svg})`
-      : "url(../assets/images/notfound.png)";
+      : `url(${notFound})`;
   return (
     <EconomyValueRecord
-      iconClassName={"set_logo_med"}
+      iconClassName={indexCss.set_logo_med}
       iconUrl={imagePath}
       title={set + " Boosters"}
       deltaContent={"x" + Math.abs(booster.count)}
@@ -80,23 +80,23 @@ function getThingsToCheck(
         checkGemsEarnt: true,
         checkCardsAdded: true,
         checkAetherized: true,
-        checkWildcardsAdded: true
+        checkWildcardsAdded: true,
       };
     case "Booster Redeem":
       return {
         checkGemsPaid: true,
         checkGoldPaid: true,
-        checkBoosterAdded: true
+        checkBoosterAdded: true,
       };
     case "Pay Event Entry":
       return {
         checkGemsPaid: true,
-        checkGoldPaid: true
+        checkGoldPaid: true,
       };
     case "Redeem Wildcard":
       return {
         checkCardsAdded: true,
-        checkAetherized: true
+        checkAetherized: true,
       };
     default:
       return fullContext.includes("Store") || fullContext.includes("Purchase")
@@ -109,7 +109,7 @@ function getThingsToCheck(
             checkCardsAdded: true,
             checkAetherized: true,
             checkWildcardsAdded: true,
-            checkSkinsAdded: true
+            checkSkinsAdded: true,
           }
         : {
             checkGemsEarnt: true,
@@ -118,7 +118,7 @@ function getThingsToCheck(
             checkCardsAdded: true,
             checkAetherized: true,
             checkWildcardsAdded: true,
-            checkSkinsAdded: true
+            checkSkinsAdded: true,
           };
   }
 }
@@ -133,10 +133,10 @@ interface WildcardEconomyValueRecordProps {
 function WildcardEconomyValueRecord(
   props: WildcardEconomyValueRecordProps
 ): JSX.Element {
-  const { count, title, className, smallLabel } = props;
+  const {count, title, className, smallLabel} = props;
   return (
     <EconomyValueRecord
-      iconClassName={"economy_wc " + className}
+      iconClassName={css.economy_wc + " " + className}
       title={title}
       smallLabel={smallLabel}
       deltaContent={"x" + Math.abs(count)}
@@ -159,14 +159,14 @@ interface AllWildcardsEconomyValueRecordProps {
 function AllWildcardsEconomyValueRecord(
   props: AllWildcardsEconomyValueRecordProps
 ): JSX.Element {
-  const { delta, isSmall } = props;
+  const {delta, isSmall} = props;
   return (
     <>
       {delta && delta.wcCommonDelta ? (
         <WildcardEconomyValueRecord
           count={delta.wcCommonDelta}
           title={"Common Wildcard"}
-          className={"wc_common"}
+          className={indexCss.wc_common}
           smallLabel={isSmall}
         />
       ) : (
@@ -176,7 +176,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcUncommonDelta}
           title={"Uncommon Wildcard"}
-          className={"wc_uncommon"}
+          className={indexCss.wc_uncommon}
           smallLabel={isSmall}
         />
       ) : (
@@ -186,7 +186,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcRareDelta}
           title={"Rare Wildcard"}
-          className={"wc_rare"}
+          className={indexCss.wc_rare}
           smallLabel={isSmall}
         />
       ) : (
@@ -196,7 +196,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcMythicDelta}
           title={"Mythic Wildcard"}
-          className={"wc_mythic"}
+          className={indexCss.wc_mythic}
           smallLabel={isSmall}
         />
       ) : (
@@ -213,22 +213,20 @@ interface FlexBottomProps {
 }
 
 function FlexBottom(props: FlexBottomProps): JSX.Element {
-  const { fullContext, change, thingsToCheck } = props;
-  const { checkGemsPaid, checkGoldPaid } = thingsToCheck;
+  const {fullContext, change, thingsToCheck} = props;
+  const {checkGemsPaid, checkGoldPaid} = thingsToCheck;
   return (
-    <div className={"flex_bottom"}>
+    <div className={indexCss.flex_bottom}>
       {fullContext === "Booster Open" ? (
         change.delta.boosterDelta.map((booster: any) => (
           <BoosterDelta booster={booster} key={booster.collationId} />
         ))
       ) : fullContext === "Redeem Wildcard" ? (
         <AllWildcardsEconomyValueRecord delta={change.delta} isSmall />
-      ) : (
-        undefined
-      )}
+      ) : undefined}
       {checkGemsPaid && !!change.delta.gemsDelta && (
         <EconomyValueRecord
-          iconClassName={"economy_gems"}
+          iconClassName={css.economy_gems}
           title={"Gems"}
           smallLabel
           deltaContent={formatNumber(Math.abs(change.delta.gemsDelta))}
@@ -236,7 +234,7 @@ function FlexBottom(props: FlexBottomProps): JSX.Element {
       )}
       {checkGoldPaid && !!change.delta.goldDelta && (
         <EconomyValueRecord
-          iconClassName={"economy_gold"}
+          iconClassName={css.economy_gold}
           title={"Gold"}
           smallLabel
           deltaContent={formatNumber(Math.abs(change.delta.goldDelta))}
@@ -256,7 +254,7 @@ function countDupesArray(array: string[] | undefined): Record<string, number> {
     return {};
   }
   const counted: Record<string, number> = {};
-  array.forEach(value => {
+  array.forEach((value) => {
     counted[value] = counted[value] ? counted[value] + 1 : 1;
   });
   return counted;
@@ -270,7 +268,7 @@ interface InventoryCardListProps {
 function CardPoolAddedEconomyValueRecord(
   props: CardPoolAddedEconomyValueRecordProps
 ): JSX.Element {
-  const { addedCardIds, aetherizedCardIds } = props;
+  const {addedCardIds, aetherizedCardIds} = props;
   return (
     <>
       <InventoryCardList cardsList={addedCardIds} isAetherized={false} />
@@ -280,7 +278,7 @@ function CardPoolAddedEconomyValueRecord(
 }
 
 function InventoryCardList(props: InventoryCardListProps): JSX.Element {
-  const { cardsList, isAetherized } = props;
+  const {cardsList, isAetherized} = props;
   const uniqueCardList = countDupesArray(cardsList);
   const cardCounts = Object.entries(uniqueCardList);
   cardCounts.sort((a: [string, number], b: [string, number]): number =>
@@ -314,17 +312,17 @@ interface FlexRightProps {
 }
 
 function FlexRight(props: FlexRightProps): JSX.Element {
-  const { trackName } = useSelector(
+  const {trackName} = useSelector(
     (state: AppState) => state.playerdata.economy
   );
-  const { fullContext, change, thingsToCheck, economyId } = props;
+  const {fullContext, change, thingsToCheck, economyId} = props;
   const {
     checkAetherized,
     checkBoosterAdded,
     checkGemsEarnt,
     checkGoldEarnt,
     checkSkinsAdded,
-    checkWildcardsAdded
+    checkWildcardsAdded,
   } = thingsToCheck;
 
   const lvlDelta =
@@ -352,7 +350,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
     change.aetherizedCards.length > 0;
   const aetherCards: string[] = checkAether
     ? change.aetherizedCards.reduce(
-        (aggregator: string[], obj: { grpId: string }) => {
+        (aggregator: string[], obj: {grpId: string}) => {
           const grpId = obj.grpId;
           if (change.delta.cardsAdded) {
             if (change.delta.cardsAdded.indexOf(grpId) == -1) {
@@ -372,7 +370,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
     checkSkinsAdded &&
     change.delta.artSkinsAdded !== undefined;
   const skinsToCards = checkSkins
-    ? change.delta.artSkinsAdded.map((obj: { artId: string }) =>
+    ? change.delta.artSkinsAdded.map((obj: {artId: string}) =>
         db.cardFromArt(obj.artId)
       )
     : undefined;
@@ -389,7 +387,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {checkGemsEarnt && change.delta && !!change.delta.gemsDelta ? (
         <EconomyValueRecord
-          iconClassName={"economy_gems"}
+          iconClassName={css.economy_gems}
           title={"Gems"}
           deltaContent={formatNumber(Math.abs(change.delta.gemsDelta))}
         />
@@ -398,7 +396,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {checkGoldEarnt && change.delta && !!change.delta.goldDelta ? (
         <EconomyValueRecord
-          iconClassName={"economy_gold marginLeft"}
+          iconClassName={css.economy_gold + " " + indexCss.marginLeft}
           title={"Gold"}
           deltaContent={formatNumber(Math.abs(change.delta.goldDelta))}
         />
@@ -407,7 +405,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {lvlDelta ? (
         <EconomyValueRecord
-          iconClassName={"economy_mastery_med"}
+          iconClassName={css.economy_mastery_med}
           title={`Mastery Level (${trackName})`}
           deltaContent={"+" + formatNumber(lvlDelta)}
         />
@@ -416,7 +414,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {orbDelta ? (
         <EconomyValueRecord
-          iconClassName={"economy_mastery_med"}
+          iconClassName={css.economy_mastery_med}
           title={"Orbs"}
           deltaContent={formatNumber(orbDelta)}
         />
@@ -425,7 +423,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {xpGainedNumber ? (
         <EconomyValueRecord
-          iconClassName={"economy_exp"}
+          iconClassName={css.economy_exp}
           title={"Experience"}
           deltaContent={formatNumber(xpGainedNumber)}
         />
@@ -434,7 +432,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {change.delta && Math.abs(change.delta.draftTokensDelta) > 0 ? (
         <EconomyValueRecord
-          iconClassName={"economy_ticket_med"}
+          iconClassName={css.economy_ticket_med}
           title={"Traditional Draft Entry Tokens"}
           smallLabel
           deltaContent={formatNumber(change.delta.draftTokensDelta)}
@@ -444,7 +442,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {change.delta && Math.abs(change.delta.sealedTokensDelta) > 0 ? (
         <EconomyValueRecord
-          iconClassName={"economy_ticket_med"}
+          iconClassName={css.economy_ticket_med}
           title={"Sealed Entry Tokens"}
           smallLabel
           deltaContent={formatNumber(change.delta.sealedTokensDelta)}
@@ -477,7 +475,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
           <EconomyIcon
             key={economyId + "_" + card.id}
             title={card.name + " Skin"}
-            className={"economy_skin_art"}
+            className={css.economy_skin_art}
             url={`url("${getCardArtCrop(card)}")`}
           />
         ))
@@ -485,10 +483,10 @@ function FlexRight(props: FlexRightProps): JSX.Element {
         <></>
       )}
       {vanityCodes ? (
-        vanityCodes.map(code => (
+        vanityCodes.map((code) => (
           <EconomyValueRecord
             key={economyId + "_" + code}
-            iconClassName={"economy_vanity"}
+            iconClassName={css.economy_vanity}
             title={code}
             smallLabel
             deltaContent={getReadableCode(code)}
@@ -508,9 +506,10 @@ interface InventoryCardProps {
 }
 
 function InventoryCard(props: InventoryCardProps): JSX.Element {
-  const { card, isAetherized, quantity } = props;
+  const {card, isAetherized, quantity} = props;
   const onCardClick = React.useCallback(() => {
-    const lookupCard = db.card(card?.dfcId) ?? card;
+    const lookupCard =
+      card && card.dfcId && card.dfcId !== true ? db.card(card.dfcId) : card;
     openScryfallCard(lookupCard);
   }, [card]);
   const cardQuality = useSelector(
@@ -526,20 +525,21 @@ function InventoryCard(props: InventoryCardProps): JSX.Element {
     <div
       onMouseEnter={hoverIn}
       onMouseLeave={hoverOut}
-      className={"inventory_card small"}
+      className={`${indexCss.inventory_card} ${indexCss.small}`}
       onClick={onCardClick}
     >
       <img
-        className={
-          "inventory_card_img 39px" +
-          (isAetherized ? " inventory_card_aetherized" : "")
-        }
+        className={`${indexCss.inventoryCardImg} ${
+          isAetherized ? indexCss.inventory_card_aetherized : ""
+        }`}
         src={getCardImage(card, cardQuality)}
         title={tooltip}
       />
       {quantity && quantity > 1 && (
-        <div className={"inventory_card_quantity_container"}>
-          <span className={"inventory_card_quantity"}>{"x" + quantity}</span>
+        <div className={indexCss.inventoryCardQuantityContainer}>
+          <span className={indexCss.inventoryCardQuantity}>
+            {"x" + quantity}
+          </span>
         </div>
       )}
     </div>
@@ -578,12 +578,12 @@ interface FlexTopProps {
 }
 
 function FlexTop(props: FlexTopProps): JSX.Element {
-  const { change, fullContext } = props;
+  const {change, fullContext} = props;
   // flexTop.style.lineHeight = "32px";
   return (
-    <div className={"flex_top economy_sub"}>
+    <div className={`${indexCss.flexTop} ${css.economy_sub}`}>
       <span title={change.originalContext}>{fullContext}</span>
-      <div className={"list_economy_time"}>
+      <div className={css.list_economy_time}>
         {EconomyRowDate(new Date(change.date))}
       </div>
     </div>
@@ -596,7 +596,7 @@ interface ChangeRowProps {
 }
 
 export function ChangeRow(props: ChangeRowProps): JSX.Element {
-  const { economyId, change } = props;
+  const {economyId, change} = props;
   const fullContext = change.fullContext;
   const thingsToCheck = getThingsToCheck(fullContext, change);
 
@@ -610,26 +610,26 @@ export function ChangeRow(props: ChangeRowProps): JSX.Element {
 
   const flexTopProps = {
     fullContext,
-    change
+    change,
   };
 
   const flexBottomProps = {
     ...flexTopProps,
-    thingsToCheck
+    thingsToCheck,
   };
 
   const flexRightProps = {
     ...flexBottomProps,
-    economyId
+    economyId,
   };
 
   return (
     <div
-      className={economyId + " list_economy"}
+      className={economyId + " " + css.list_economy}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div className={"flex_item flexLeft"}>
+      <div className={indexCss.flex_item + " " + indexCss.flexLeft}>
         <FlexTop {...flexTopProps} />
         <FlexBottom {...flexBottomProps} />
       </div>

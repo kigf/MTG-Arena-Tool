@@ -3,6 +3,8 @@ import db from "../../../shared/database";
 import { CollectionStats } from "./collectionStats";
 import CompletionHeatMap from "./CompletionHeatMap";
 
+import indexCss from "../../index.css";
+
 export default function ChartView({
   stats
 }: {
@@ -17,7 +19,7 @@ export default function ChartView({
     return hasData && isCollectible;
   });
   return (
-    <div className={"main_stats"}>
+    <div className={indexCss.main_stats}>
       {collectibleSets.map(set => (
         <CompletionHeatMap
           key={set}

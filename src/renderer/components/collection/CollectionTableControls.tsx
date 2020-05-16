@@ -16,6 +16,8 @@ import { defaultRarity } from "./filters";
 import { CollectionTableControlsProps } from "./types";
 
 import indexCss from "../../index.css";
+import tableCss from "../tables/tables.css";
+import deckTableCss from "../decks/deckTable.css";
 
 const boostersFilters = (): FilterValue[] => [
   { id: "booster", value: { true: true, false: false } }
@@ -150,7 +152,7 @@ export default function CollectionTableControls(
         toggleableColumns={toggleableColumns}
         togglesVisible={togglesVisible}
       />
-      <div className="react_table_search_cont">
+      <div className={tableCss.react_table_search_cont}>
         <ReactSelect
           key={tableMode}
           current={tableMode}

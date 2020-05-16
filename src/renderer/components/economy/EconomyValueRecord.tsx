@@ -1,5 +1,10 @@
 import React from "react";
 
+import tablesCss from "../tables/tables.css";
+import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
+import css from "./economy.css";
+
 interface EconomyValueRecordProps {
   deltaUpContent?: string;
   title: string;
@@ -31,15 +36,15 @@ export default function EconomyValueRecord(
         />
       )}
       {props.deltaUpContent && (
-        <div className={"economy_delta upConta"}>
+        <div className={`${css.economy_delta} upConta`}>
           <DeltaLabel content={props.deltaUpContent} />
-          <div className={"economy_up"} title={"increase"} />
+          <div className={css.economyUp} title={"increase"} />
         </div>
       )}
       {props.deltaDownContent && (
-        <div className={"economy_delta downConta"}>
+        <div className={`${css.economy_delta} downConta`}>
           <DeltaLabel content={props.deltaDownContent} />
-          <div className={"economy_down"} title={"decrease"} />
+          <div className={css.economyDown} title={"decrease"} />
         </div>
       )}
     </>
@@ -78,7 +83,7 @@ function DeltaLabel(props: {
   smallLabel?: boolean;
 }): JSX.Element {
   return (
-    <div className={"economy_sub" + (props.smallLabel ? " small" : "")}>
+    <div className={css.economy_sub + " " + (props.smallLabel ? css.small : "")}>
       {props.content}
     </div>
   );

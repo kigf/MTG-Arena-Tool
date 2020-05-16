@@ -1,16 +1,17 @@
 import React from "react";
-import { InternalMatch } from "../../../types/match";
+import {InternalMatch} from "../../../types/match";
+import indexCss from "../../index.css";
 
 interface ResultDetailsProps {
   match: InternalMatch;
 }
 
 export default function ResultDetails(props: ResultDetailsProps): JSX.Element {
-  const { match } = props;
+  const {match} = props;
 
   const colStyle: React.CSSProperties = {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   };
 
   let g1OnThePlay: boolean | -1 = -1;
@@ -71,50 +72,66 @@ export default function ResultDetails(props: ResultDetailsProps): JSX.Element {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", margin: "auto 4px" }}>
+    <div style={{display: "flex", flexDirection: "row", margin: "auto 4px"}}>
       <div title={g1Title} style={colStyle}>
-        <div className={g1OnThePlay ? "ontheplaytext" : "onthedrawtext"}>
+        <div
+          className={
+            g1OnThePlay ? indexCss.ontheplaytext : indexCss.onthedrawtext
+          }
+        >
           {g1OnThePlay ? "P" : "D"}
         </div>
         <div
           className={
             match.gameStats[0] && match.gameStats[0].win
-              ? "ontheplay"
-              : "onthedraw"
+              ? indexCss.ontheplay
+              : indexCss.onthedraw
           }
         />
       </div>
       <div title={g2Title} style={colStyle}>
         {match.gameStats[1] ? (
           <>
-            <div className={g2OnThePlay ? "ontheplaytext" : "onthedrawtext"}>
+            <div
+              className={
+                g2OnThePlay ? indexCss.ontheplaytext : indexCss.onthedrawtext
+              }
+            >
               {g2OnThePlay ? "P" : "D"}
             </div>
             <div
-              className={match.gameStats[1].win ? "ontheplay" : "onthedraw"}
+              className={
+                match.gameStats[1].win ? indexCss.ontheplay : indexCss.onthedraw
+              }
             />
           </>
         ) : (
           <>
-            <div className={"notplayedtext"}>{"-"}</div>
-            <div className={"notplayed"} />
+            <div className={indexCss.notplayedtext}>{"-"}</div>
+            <div className={indexCss.notplayed} />
           </>
         )}
       </div>
       <div title={g3Title} style={colStyle}>
         {match.gameStats[2] ? (
           <>
-            <div className={g3OnThePlay ? "ontheplaytext" : "onthedrawtext"}>
+            <div
+              className={
+                g3OnThePlay ? indexCss.ontheplaytext : indexCss.onthedrawtext
+              }
+            >
               {g3OnThePlay ? "P" : "D"}
             </div>
             <div
-              className={match.gameStats[2].win ? "ontheplay" : "onthedraw"}
+              className={
+                match.gameStats[2].win ? indexCss.ontheplay : indexCss.onthedraw
+              }
             />
           </>
         ) : (
           <>
-            <div className={"notplayedtext"}>{"-"}</div>
-            <div className={"notplayed"} />
+            <div className={indexCss.notplayedtext}>{"-"}</div>
+            <div className={indexCss.notplayed} />
           </>
         )}
       </div>

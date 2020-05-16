@@ -41,6 +41,7 @@ export interface DbCardData {
   isPrimary: boolean;
   side?: boolean;
   ceil?: number | null;
+  source?: number;
 }
 
 export type Rarity = typeof CARD_RARITIES[number];

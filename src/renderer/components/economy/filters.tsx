@@ -5,7 +5,7 @@ import { TransactionData } from "./types";
 
 export function txnSearchFilterFn(
   rows: Row<TransactionData>[],
-  columnIds: string[],
+  _columnIds: string[],
   filterValue: string
 ): Row<TransactionData>[] {
   const tokens = filterValue.split(" ").filter(token => token.length > 2);

@@ -49,6 +49,10 @@ import {
 import { animated } from "react-spring";
 import useResizePanel from "../../hooks/useResizePanel";
 
+import indexCss from "../../index.css";
+import tablesCss from "../tables/tables.css";
+import sharedCss from "../../../shared/shared.css";
+
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
 
 const columns: Column<MatchTableData>[] = [
@@ -321,7 +325,7 @@ function MatchesSidePanel({
   return (
     <>
       {isCurrentSeason && (isLimited || isConstructed) && (
-        <div className={"ranks_history"} style={{ padding: "0 12px" }}>
+        <div className={indexCss.ranksHistory} style={{ padding: "0 12px" }}>
           <div className={"ranks_stats"} style={{ paddingBottom: "16px" }}>
             <RankedStats
               aggregator={subAggregator}
@@ -332,7 +336,7 @@ function MatchesSidePanel({
         </div>
       )}
       <MatchResultsStatsPanel
-        prefixId={"matches_top"}
+        prefixId={indexCss.matchesTop}
         aggregator={subAggregator}
         showCharts
       />
@@ -397,11 +401,11 @@ export default function MatchesTable({
 
   return (
     <>
-      <div className={"wrapper_column"}>
-        <div className="react_table_wrap">
+      <div className={indexCss.wrapperColumn}>
+        <div className={tablesCss.reactTableWrap}>
           <MatchesTableControls {...matchesTableControlsProps} />
           <div
-            className="med_scroll"
+            className={sharedCss.medScroll}
             style={isTableMode ? { overflowX: "auto" } : undefined}
           >
             <TableHeaders
@@ -414,7 +418,7 @@ export default function MatchesTable({
             />
             <div
               className={
-                isTableMode ? "react_table_body" : "react_table_body_no_adjust"
+                isTableMode ? tablesCss.reactTableBody : tablesCss.reactTableBodyNoAdjust
               }
               {...getTableBodyProps()}
             >
@@ -449,9 +453,9 @@ export default function MatchesTable({
         </div>
       </div>
 
-      <animated.div {...bind()} className={"sidebar-dragger"}></animated.div>
+      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
       <animated.div
-        className={"sidebar-main"}
+        className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}
       >
         <MatchesSidePanel

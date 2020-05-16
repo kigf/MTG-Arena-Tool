@@ -1,5 +1,7 @@
 import React from "react";
 import { get_rank_index as getRankIndex } from "../../../shared/util";
+import indexCss from "../../index.css";
+import topNavCss from "../main/topNav.css";
 
 interface RankIconProps {
   style?: React.CSSProperties;
@@ -22,7 +24,7 @@ export default function RankIcon(props: RankIconProps): JSX.Element {
   };
 
   const rankClass =
-    !format || format == "constructed" ? "constructed_rank" : "limited_rank";
+    !format || format == "constructed" ? topNavCss.constructed_rank : topNavCss.limited_rank;
 
   const mythicRankTitle =
     rank +
@@ -37,12 +39,12 @@ export default function RankIcon(props: RankIconProps): JSX.Element {
         style={{ ...rankStyle, ...style }}
       ></div>
       {step !== undefined ? (
-        <div className="rank-bullets">
+        <div className={indexCss.rankBullets}>
           {[0, 0, 0, 0, 0, 0].fill(1, 0, step).map((v, i) => {
             return (
               <div
                 key={"rank-bullet-" + i}
-                className={"rank-bullet-" + (v ? "light" : "dark")}
+                className={v ? indexCss.rankBulletLight : indexCss.rankBulletDark}
               />
             );
           })}

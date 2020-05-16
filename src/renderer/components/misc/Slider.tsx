@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, {useState} from "react";
+import css from "./slider.css";
 
 export class SliderPosition {
   public text: string;
@@ -25,7 +26,7 @@ interface SliderProps {
 }
 
 export default function Slider(props: SliderProps): JSX.Element {
-  const { onChange, onInput } = props;
+  const {onChange, onInput} = props;
   const min = props.min || 0;
   const max = props.max || 10;
   const step = props.step || 1;
@@ -56,9 +57,9 @@ export default function Slider(props: SliderProps): JSX.Element {
   }, [props.value]);
 
   return (
-    <div style={props.containerStyle} className="slidecontainer">
+    <div style={props.containerStyle} className={css.slidecontainer}>
       <input
-        className="slider"
+        className={css.slider}
         type="range"
         value={value || 0}
         min={min}
@@ -67,16 +68,16 @@ export default function Slider(props: SliderProps): JSX.Element {
         onChange={handleOnChange}
         onInput={handleOnInput}
       ></input>
-      <div className="slider_marks_container_hor">
+      <div className={css.sliderMarksContainerHor}>
         {posArray.map((c: SliderPosition, i: number) => {
           return (
-            <div className="slider_mark_outer" key={c.text + "-" + i}>
+            <div className={css.sliderMarkOuter} key={c.text + "-" + i}>
               <div
-                className="slider_mark_hor"
-                style={{ backgroundColor: c.color, opacity: c.hide ? 0 : 1 }}
+                className={css.sliderMarkHor}
+                style={{backgroundColor: c.color, opacity: c.hide ? 0 : 1}}
               />
               {c.text !== "" && (
-                <div className="slider_mark_text">{c.text}</div>
+                <div className={css.sliderMarkText}>{c.text}</div>
               )}
             </div>
           );

@@ -90,7 +90,7 @@ export default function MatchesTableControls(
         toggleableColumns={toggleableColumns}
         togglesVisible={togglesVisible}
       />
-      <div className="react_table_search_cont">
+      <div className={tableCss.react_table_search_cont}>
         <ReactSelect
           key={tableMode}
           current={tableMode}

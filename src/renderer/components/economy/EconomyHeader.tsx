@@ -5,6 +5,9 @@ import React from "react";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector } from "react-redux";
 
+import indexCss from "../../index.css";
+import css from "./economy.css";
+
 export function EconomyHeader(): JSX.Element {
   const playerEconomy = useSelector(
     (state: AppState) => state.playerdata.economy
@@ -25,52 +28,52 @@ export function EconomyHeader(): JSX.Element {
     <>
       <EconomyValueRecord
         title={"Boosters"}
-        iconClassName={"economy_wc_med wc_booster economyIconMargin"}
+        iconClassName={`${css.economy_wc_med} ${indexCss.wc_booster} ${css.economyIconMargin}`}
         deltaContent={formatNumber(total)}
       />
       <EconomyValueRecord
         title={"Vault"}
-        iconClassName={"economy_vault economyIconMargin"}
+        iconClassName={`${css.economy_vault} ${css.economyIconMargin}`}
         deltaContent={vaultTotal}
       />
       <EconomyValueRecord
         title={"Common Wildcards"}
-        iconClassName={"economy_wc_med wc_common"}
+        iconClassName={`${css.economy_wc_med} ${indexCss.wcCommon}`}
         deltaContent={formatNumber(playerEconomy.wcCommon)}
       />
       <EconomyValueRecord
         title={"Uncommon Wildcards"}
-        iconClassName={"economy_wc_med wc_uncommon"}
+        iconClassName={`${css.economy_wc_med} ${indexCss.wcUncommon}`}
         deltaContent={formatNumber(playerEconomy.wcUncommon)}
       />
       <EconomyValueRecord
         title={"Rare Wildcards"}
-        iconClassName={"economy_wc_med wc_rare"}
+        iconClassName={`${css.economy_wc_med} ${indexCss.wcRare}`}
         deltaContent={formatNumber(playerEconomy.wcRare)}
       />
       <EconomyValueRecord
         title={"Mythic Wildcards"}
-        iconClassName={"economy_wc_med wc_mythic"}
+        iconClassName={`${css.economy_wc_med} ${indexCss.wcMythic}`}
         deltaContent={formatNumber(playerEconomy.wcMythic)}
       />
       <EconomyValueRecord
         title={"Gold"}
-        iconClassName={"economy_gold marginLeft"}
+        iconClassName={`${css.economy_gold} ${css.marginLeft}`}
         deltaContent={formatNumber(playerEconomy.gold)}
       />
       <EconomyValueRecord
         title={"Gems"}
-        iconClassName={"economy_gems economyIconMargin"}
+        iconClassName={`${css.economy_gems} ${css.economyIconMargin}`}
         deltaContent={formatNumber(playerEconomy.gems)}
       />
       <EconomyValueRecord
         title={`Mastery Level (${playerEconomy.trackName})`}
-        iconClassName={"economy_mastery_med"}
+        iconClassName={css.economy_mastery_med}
         deltaContent={formatNumber(masteryLevel)}
       />
       <EconomyValueRecord
         title={"Experience"}
-        iconClassName={"economy_exp economyIconMargin"}
+        iconClassName={`${css.economy_exp} ${css.economyIconMargin}`}
         deltaContent={formatNumber(playerEconomy.currentExp || 0)}
       />
     </>

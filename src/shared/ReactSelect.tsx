@@ -42,7 +42,7 @@ export default function ReactSelect({
   );
 
   const buttonClassNames = `${indexCss.buttonReset} ${css.selectButton} ${
-    optionsOpen ? indexCss.active : ""
+    optionsOpen ? css.active : ""
   }`;
 
   return (

@@ -4,6 +4,7 @@ const path = require("path");
 
 module.exports = function post(common_config) {
   return [
+    // MAIN
     Object.assign({}, common_config, {
       target: "electron-main",
       entry: {
@@ -14,6 +15,7 @@ module.exports = function post(common_config) {
         path: path.join(__dirname, "lib"),
       },
     }),
+    // RENDERER
     Object.assign({}, common_config, {
       target: "electron-renderer",
       entry: {
@@ -33,6 +35,7 @@ module.exports = function post(common_config) {
         }),
       ],
     }),
+    // BACKGROUND
     Object.assign({}, common_config, {
       target: "electron-renderer",
       entry: {
@@ -48,6 +51,7 @@ module.exports = function post(common_config) {
         }),
       ],
     }),
+    // OVERLAY
     Object.assign({}, common_config, {
       target: "electron-renderer",
       entry: {
@@ -67,6 +71,7 @@ module.exports = function post(common_config) {
         }),
       ],
     }),
+    // UPDATER
     Object.assign({}, common_config, {
       target: "electron-renderer",
       entry: {

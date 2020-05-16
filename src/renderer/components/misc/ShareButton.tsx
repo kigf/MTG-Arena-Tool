@@ -1,8 +1,9 @@
 import React from "react";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
-import { useSelector, useDispatch } from "react-redux";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
+import {AppState} from "../../../shared/redux/stores/rendererStore";
+import {useSelector, useDispatch} from "react-redux";
+import {reduxAction} from "../../../shared/redux/sharedRedux";
+import {IPC_NONE} from "../../../shared/constants";
+import indexCss from "../../index.css";
 
 interface ShareButtonProps {
   type: "draft" | "deck" | "actionlog";
@@ -11,7 +12,7 @@ interface ShareButtonProps {
 
 export default function ShareButton({
   type,
-  data
+  data,
 }: ShareButtonProps): JSX.Element {
   const offline = useSelector((state: AppState) => state.renderer.offline);
   const dispatcher = useDispatch();
@@ -26,7 +27,7 @@ export default function ShareButton({
         {
           data: draftData,
           id: data.id,
-          type
+          type,
         },
         IPC_NONE
       );
@@ -37,7 +38,7 @@ export default function ShareButton({
         "SET_SHARE_DIALOG",
         {
           data: deckString,
-          type
+          type,
         },
         IPC_NONE
       );
@@ -48,7 +49,7 @@ export default function ShareButton({
         {
           data: data.log,
           id: data.id,
-          type
+          type,
         },
         IPC_NONE
       );
@@ -56,11 +57,11 @@ export default function ShareButton({
   };
 
   return !offline ? (
-    <div onClick={click} className="list_log_share"></div>
+    <div onClick={click} className={indexCss.list_log_share}></div>
   ) : (
     <div
       title="You need to be logged in to share!"
-      className="list_log_cant_share"
+      className={indexCss.list_log_cant_share}
     ></div>
   );
 }

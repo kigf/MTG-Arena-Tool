@@ -61,13 +61,13 @@
   border: 1px solid var(--color-light);
 }
 
-.select_button:active, .select_button.active {
+.select_button.active {
   border-radius: 4px 4px 0px 0px;
   border-bottom: 0px;
   background-color: var(--color-mid-50);
 }
 
-.select_button:active:after, .select_button.active:after {
+.select_button.active:after {
   top: 5px;
   border-color: transparent transparent var(--color-light) transparent
 }

@@ -1,8 +1,15 @@
 import React from "react";
-import { CARD_RARITIES } from "../../../shared/constants";
+import {CARD_RARITIES} from "../../../shared/constants";
 import _ from "lodash";
-import { MissingWildcards } from "../decks/types";
-import { getBoosterCountEstimate } from "../../rendererUtil";
+import {MissingWildcards} from "../decks/types";
+import {getBoosterCountEstimate} from "../../rendererUtil";
+import indexCss from "../../index.css";
+
+const wcIcon: Record<string, string> = {};
+wcIcon["common"] = indexCss.wcCommon;
+wcIcon["uncommon"] = indexCss.wcUncommon;
+wcIcon["rare"] = indexCss.wcRare;
+wcIcon["mythic"] = indexCss.wcMythic;
 
 const getRarityKey = (
   rarity: string
@@ -25,14 +32,14 @@ interface WildcardsCostPresetProps {
 export default function WildcardsCostPreset(
   props: WildcardsCostPresetProps
 ): JSX.Element {
-  const { c, u, r, m } = props.wildcards;
+  const {c, u, r, m} = props.wildcards;
   const showComplete = props.showComplete || false;
 
   const missingWildcards: MissingWildcards = {
     common: c || 0,
     uncommon: u || 0,
     rare: r || 0,
-    mythic: m || 0
+    mythic: m || 0,
   };
 
   const totalMissing =
@@ -50,10 +57,10 @@ export default function WildcardsCostPreset(
       style={{
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
-      {CARD_RARITIES.filter(rarity => rarity !== "land").map(
+      {CARD_RARITIES.filter((rarity) => rarity !== "land").map(
         (cardRarity: string) => {
           const key = getRarityKey(cardRarity);
           if (key) {
@@ -62,7 +69,7 @@ export default function WildcardsCostPreset(
               return (
                 <div
                   key={cardRarity + "-" + missing}
-                  className={"wc_explore_cost wc_" + cardRarity}
+                  className={`${indexCss.wcExploreCost} ${wcIcon[cardRarity]}`}
                   title={_.capitalize(cardRarity) + " wildcards needed."}
                 >
                   {missing}
@@ -73,9 +80,12 @@ export default function WildcardsCostPreset(
         }
       )}
       {showComplete && boostersNeeded == 0 ? (
-        <div title="You can build this deck!" className="wc_complete" />
+        <div title="You can build this deck!" className={indexCss.wcComplete} />
       ) : drawCost ? (
-        <div title="Boosters needed (estimated)" className="bo_explore_cost">
+        <div
+          title="Boosters needed (estimated)"
+          className={indexCss.boExploreCost}
+        >
           {boostersNeeded}
         </div>
       ) : (

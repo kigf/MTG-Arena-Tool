@@ -39,6 +39,9 @@ import {
 } from "./types";
 import useResizePanel from "../../hooks/useResizePanel";
 import { animated } from "react-spring";
+import indexCss from "../../index.css";
+import tablesCss from "../tables/tables.css";
+import sharedCss from "../../../shared/shared.css";
 
 const columns: Column<EventTableData>[] = [
   { accessor: "id" },
@@ -235,11 +238,11 @@ export default function EventsTable({
 
   return (
     <>
-      <div className={"wrapper_column"}>
-        <div className="react_table_wrap">
+      <div className={indexCss.wrapperColumn}>
+        <div className={tablesCss.reactTableWrap}>
           <EventsTableControls {...eventsTableControlsProps} />
           <div
-            className="med_scroll"
+            className={sharedCss.medScroll}
             style={isTableMode ? { overflowX: "auto" } : undefined}
           >
             <TableHeaders
@@ -252,7 +255,7 @@ export default function EventsTable({
             />
             <div
               className={
-                isTableMode ? "react_table_body" : "react_table_body_no_adjust"
+                isTableMode ? tablesCss.reactTableBody : tablesCss.reactTableBodyNoAdjust
               }
               {...getTableBodyProps()}
             >
@@ -282,9 +285,9 @@ export default function EventsTable({
           <PagingControls {...pagingProps} />
         </div>
       </div>
-      <animated.div {...bind()} className={"sidebar-dragger"}></animated.div>
+      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
       <animated.div
-        className={"sidebar-main"}
+        className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}
       >
         <MatchResultsStatsPanel

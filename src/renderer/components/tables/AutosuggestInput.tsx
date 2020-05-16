@@ -3,6 +3,7 @@ import Autosuggest, { InputProps } from "react-autosuggest";
 import { TagCount } from "./types";
 
 import indexCss from "../../index.css";
+import selectCss from "../../select.scss";
 
 const getSuggestions = (value: string, options: TagCount[]): TagCount[] => {
   const inputValue = value.trim().toLowerCase();
@@ -18,7 +19,7 @@ const getSuggestionValue = (suggestion: TagCount): string => suggestion.tag;
 
 const SuggestionItem = (suggestion: TagCount): JSX.Element => (
   <button
-    className={indexCss.buttonReset + " " + indexCss.selectOption}
+    className={indexCss.buttonReset + " " + selectCss.selectOption}
     style={{ padding: 0, height: "20px" }}
   >
     {suggestion.tag} ({suggestion.q})

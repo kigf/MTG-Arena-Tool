@@ -11,6 +11,10 @@ import PagingControls from "../tables/PagingControls";
 import { EconomyHeader } from "./EconomyHeader";
 import { EconomyTableControlsProps } from "./types";
 
+import tablesCss from "../tables/tables.css";
+import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
+
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" }
 ];
@@ -44,7 +48,7 @@ export default function EconomyTableControls(
         paddingBottom: "8px"
       }}
     >
-      <div className="react_table_toggles">
+      <div className={tablesCss.reactTableToggles}>
         <EconomyHeader />
         <CheckboxContainer title={"In boosters only"}>
           <span>show transactions</span>
@@ -55,7 +59,7 @@ export default function EconomyTableControls(
               setExpanded(!isExpanded);
             }}
           />
-          <span className={"checkmark"} />
+          <span className={indexCss.checkmark} />
         </CheckboxContainer>
         <SmallTextButton
           onClick={(): void => {
@@ -81,7 +85,7 @@ export default function EconomyTableControls(
         toggleableColumns={toggleableColumns}
         togglesVisible={togglesVisible}
       />
-      <div className="react_table_search_cont">
+      <div className={tablesCss.reactTableSearchCont}>
         <ReactSelect
           current={tableMode}
           options={ECONOMY_TABLE_MODES}
@@ -97,7 +101,7 @@ export default function EconomyTableControls(
         {globalFilter && (
           <div
             style={{ marginRight: 0, minWidth: "24px" }}
-            className={"button close"}
+            className={sharedCss.button + " " + sharedCss.close}
             onClick={(e): void => {
               e.stopPropagation();
               setGlobalFilter(undefined);

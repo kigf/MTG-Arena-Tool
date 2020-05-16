@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import { get_rank_index_16 as getRankIndex16 } from "../../../shared/util";
-import { SymbolBase } from "./SymbolBase";
+import {get_rank_index_16 as getRankIndex16} from "../../../shared/util";
+import {SymbolBase} from "./SymbolBase";
+import indexCss from "../../index.css";
 
-const RankSymbolBase = styled(SymbolBase).attrs<RankSymbolProps>(props => ({
-  className: `${props.className ?? ""} rarity_filter ranks_16`,
+const RankSymbolBase = styled(SymbolBase).attrs<RankSymbolProps>((props) => ({
+  className: `${props.className ?? ""} ${indexCss.rarityFilter} ${
+    indexCss.ranks16
+  }`,
   title: props.rank,
   style: {
     ...props.style,
@@ -11,8 +14,8 @@ const RankSymbolBase = styled(SymbolBase).attrs<RankSymbolProps>(props => ({
     height: "16px",
     width: "16px",
     backgroundSize: "initial",
-    backgroundPosition: getRankIndex16(props.rank) * -16 + "px 0px"
-  }
+    backgroundPosition: getRankIndex16(props.rank) * -16 + "px 0px",
+  },
 }))``;
 interface RankSymbolProps {
   rank: string;

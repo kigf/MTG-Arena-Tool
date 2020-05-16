@@ -6,6 +6,8 @@ import { CollectionStats } from "./collectionStats";
 import { SetCompletionBar } from "./CompletionProgressBar";
 import { SetCompletionStats } from "./SetCompletionStats";
 
+import indexCss from "../../index.css";
+
 // threshold to separate "complete" collectible sets from "one-offs"
 // based on card count (e.g. "Ixalan" vs "Gatecrash")
 const STATS_CUTOFF = 100;
@@ -35,7 +37,7 @@ export function SetsView({
     return hasData && isCollectible;
   });
   return (
-    <div className={"main_stats"}>
+    <div className={indexCss.main_stats}>
       {collectibleSets.map((set, index) => (
         <div
           key={set}

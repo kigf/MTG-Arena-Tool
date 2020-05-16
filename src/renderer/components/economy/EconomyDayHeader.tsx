@@ -7,6 +7,9 @@ import { formatNumber, formatPercent } from "../../rendererUtil";
 import { vaultPercentFormat } from "./economyUtils";
 import EconomyValueRecord from "./EconomyValueRecord";
 
+import indexCss from "../../index.css";
+import css from "./economy.css";
+
 function localDayDateFormat(date: Date): JSX.Element {
   return (
     <LocalTime
@@ -59,19 +62,19 @@ export function EconomyDayHeader(props: EconomyDayHeaderProps): JSX.Element {
 
   return (
     <>
-      <div style={gridTitleStyle} className={"flex_item gridTitle"}>
+      <div style={gridTitleStyle} className={indexCss.flexItem +" gridTitle"}>
         {getDayString(daysAgo, timestamp)}
       </div>
       <EconomyValueRecord
         containerDiv
-        iconClassName={"economy_card"}
+        iconClassName={css.economyCard}
         className={"gridCards"}
         deltaUpContent={formatNumber(cardsAddedCount)}
         title={"Cards"}
       />
       <EconomyValueRecord
         containerDiv
-        iconClassName={"economy_vault"}
+        iconClassName={css.economyVault}
         className={"gridVault"}
         deltaUpContent={
           vaultProgressDelta >= 0
@@ -87,7 +90,7 @@ export function EconomyDayHeader(props: EconomyDayHeaderProps): JSX.Element {
       />
       <EconomyValueRecord
         containerDiv
-        iconClassName={"economy_gold marginLeft"}
+        iconClassName={css.economyGold + " " + css.marginLeft}
         className={"gridGold"}
         deltaUpContent={goldDelta >= 0 ? formatNumber(goldDelta) : undefined}
         deltaDownContent={goldDelta < 0 ? formatNumber(goldDelta) : undefined}
@@ -95,7 +98,7 @@ export function EconomyDayHeader(props: EconomyDayHeaderProps): JSX.Element {
       />
       <EconomyValueRecord
         containerDiv
-        iconClassName={"economy_gems"}
+        iconClassName={css.economyGems}
         className={"gridGems"}
         deltaUpContent={gemsDelta >= 0 ? formatNumber(gemsDelta) : undefined}
         deltaDownContent={gemsDelta < 0 ? formatNumber(gemsDelta) : undefined}
@@ -103,7 +106,7 @@ export function EconomyDayHeader(props: EconomyDayHeaderProps): JSX.Element {
       />
       <EconomyValueRecord
         containerDiv
-        iconClassName={"economy_exp"}
+        iconClassName={css.economyExp}
         className={"gridExp"}
         deltaUpContent={String(formatNumber(xpGainedNumber ?? 0))}
         title={"Experience"}

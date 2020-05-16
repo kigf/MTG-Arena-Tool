@@ -1,5 +1,6 @@
 import React from "react";
 import { get_rank_index_16, formatRank } from "../../../shared/util";
+import indexCss from "../../index.css";
 
 interface RankSmallProps {
   rank?: any | string;
@@ -23,7 +24,7 @@ export default function RankSmall(props: RankSmallProps): JSX.Element {
     <div
       style={getRankStyle()}
       title={rankTier ? rankTier : formatRank(rank)}
-      className="ranks_16"
+      className={indexCss.ranks16}
     ></div>
   );
 }

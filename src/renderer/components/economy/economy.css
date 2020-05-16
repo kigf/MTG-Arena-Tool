@@ -1,0 +1,200 @@
+
+
+.economy_day_stats {
+  font-family:  var(--main-font-name);
+    font-size: 16px;
+    margin: auto 16px auto auto;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.economy_metric {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.economy_delta {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 6px;
+    line-height: 64px;
+}
+
+.economy_up {
+    background-repeat: no-repeat;
+    margin: 4px;
+    width: 24px;
+    height: 24px;
+    background-image: url(../../../assets/images/up_green.png);
+    background-size: contain;
+}
+
+.economy_down {
+    background-repeat: no-repeat;
+    margin: 4px;
+    width: 24px;
+    height: 24px;
+    background-image: url(../../../assets/images/down_red.png);
+    background-size: contain;
+}
+
+.economy_title {
+    display: grid;
+    padding: 0px 16px;
+    grid-template-columns: auto 10% 15% 20% 20% 15%;
+    margin-left: 2px;
+    color: var(--color-light);
+    line-height: 64px;
+    font-family: 'belerenbold' !important;
+    font-size: 16px;
+    background-color: var(--color-mid-20);
+}
+
+.economy_sub {
+  margin-left: 2px;
+  font-family: var(--sub-font-name);
+  color: var(--color-light);
+  white-space: nowrap;
+  text-overflow: clip;
+  margin: auto 0;
+}
+
+.economy_sub.small {
+  line-height: 32px;
+}
+
+.economy_wc {
+  min-width: 24px;
+  height: 24px;
+  margin: 0 4px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.economy_ticket {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/ticket.png);
+  background-size: contain;
+}
+
+.economy_ticket_med {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/ticket.png);
+  background-size: contain;
+}
+
+.economy_gems {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/gem.png);
+  background-size: contain;
+}
+
+.economy_wc_med {
+  background-repeat: no-repeat;
+  margin: auto 8px;
+  margin-left: 18px;
+  width: 28px;
+  height: 35px;
+  background-size: contain;
+}
+
+.economy_gold {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/gold.png);
+  background-size: contain;
+}
+
+.economy_gold.marginLeft {
+  margin-left: 16px;
+}
+
+.economy_mastery_med {
+background-repeat: no-repeat;
+margin: auto 4px;
+margin-left: 16px;
+width: 28px;
+height: 28px;
+background-image: url(../../../assets/images/mastery.png);
+background-size: contain;
+}
+
+.economy_vault {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/vault.png);
+  background-size: contain;
+}
+
+.economy_card {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/card_icon.png);
+  background-position: center;
+  background-size: contain;
+}
+
+.economy_vanity {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/egg.png);
+  background-position: center;
+  background-size: contain;
+}
+
+.economy_orb {
+  background-repeat: no-repeat;
+  margin: auto 4px auto 16px;
+  width: 20px;
+  height: 20px;
+  background-image: url(../../../assets/images/orb.png);
+  background-size: contain;
+}
+
+.economy_exp {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  margin-left: 16px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/skin.png);
+  background-size: contain;
+}
+
+.economy_skin_art {
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 100%;
+}
+
+.economyIconMargin {
+  margin-left: 24px;
+}
+
+.economy_row_hidden {
+  height: 0px;
+  display: none;
+}

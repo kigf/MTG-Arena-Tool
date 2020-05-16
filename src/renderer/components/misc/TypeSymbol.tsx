@@ -1,19 +1,21 @@
 import styled from "styled-components";
 import { SymbolBase } from "./SymbolBase";
+import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
 
 function getTypeIconClass(type: string): string {
-  if (type.includes("Land", 0)) return "type_lan";
-  else if (type.includes("Creature", 0)) return "type_cre";
-  else if (type.includes("Artifact", 0)) return "type_art";
-  else if (type.includes("Enchantment", 0)) return "type_enc";
-  else if (type.includes("Instant", 0)) return "type_ins";
-  else if (type.includes("Sorcery", 0)) return "type_sor";
-  else if (type.includes("Planeswalker", 0)) return "type_pla";
+  if (type.includes("Land", 0)) return sharedCss.typeLan;
+  else if (type.includes("Creature", 0)) return sharedCss.typeCre;
+  else if (type.includes("Artifact", 0)) return sharedCss.typeArt;
+  else if (type.includes("Enchantment", 0)) return sharedCss.typeEnc;
+  else if (type.includes("Instant", 0)) return sharedCss.typeIns;
+  else if (type.includes("Sorcery", 0)) return sharedCss.typeSor;
+  else if (type.includes("Planeswalker", 0)) return sharedCss.typePla;
   else return "";
 }
 
 const TypeSymbolBase = styled(SymbolBase).attrs<TypeSymbolProps>(props => ({
-  className: `wc_explore_cost ${getTypeIconClass(
+  className: `${indexCss.wcExploreCost} ${getTypeIconClass(
     props.type
   )} ${props.className ?? ""}`
 }))``;

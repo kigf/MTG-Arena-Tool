@@ -1,4 +1,5 @@
 import React from "react";
+import css from "./toggle.css";
 
 interface SwitchProps {
   text: string | JSX.Element;
@@ -36,13 +37,13 @@ export default function Switch(props: SwitchProps): JSX.Element {
   }, [value]);
 
   return (
-    <label style={style} className={containerClassName ?? "switch-container"}>
-      <div style={disabledStyle} className="switch-label">
+    <label style={style} className={containerClassName ?? css.switchContainer}>
+      <div style={disabledStyle} className={css.switchLabel}>
         {text}
       </div>
-      <div className="switch">
+      <div className={css.switch}>
         <input type="checkbox" checked={currentValue} onChange={onChange} />
-        <span style={disabledStyle} className="switchslider" />
+        <span style={disabledStyle} className={css.switchslider} />
       </div>
     </label>
   );

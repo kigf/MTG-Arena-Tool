@@ -21,6 +21,8 @@ import CompletionProgressBar, {
 } from "./CompletionProgressBar";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
+import indexCss from "../../index.css";
+
 const getRarityKey = (
   rarity: string
 ): "rare" | "common" | "uncommon" | "mythic" | undefined => {
@@ -92,7 +94,7 @@ export function CollectionStatsPanel({
         <div className={"economy_wc wc_mythic"}></div>
         <div>{formatNumber(playerEconomy.wcMythic)}</div>
       </div>
-      <div className={"main_stats"}>
+      <div className={indexCss.main_stats}>
         <label>count:</label>
         <ReactSelect
           className={"stats_count_select"}

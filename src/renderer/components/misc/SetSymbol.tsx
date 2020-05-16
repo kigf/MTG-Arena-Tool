@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import db from "../../../shared/database";
-import { SymbolBase } from "./SymbolBase";
+import {SymbolBase} from "./SymbolBase";
+import indexCss from "../../index.css";
 
-const SetSymbolBase = styled(SymbolBase).attrs(props => ({
-  className: `set_filter ${props.className ?? ""}`
+const SetSymbolBase = styled(SymbolBase).attrs((props) => ({
+  className: `${indexCss.set_filter} ${props.className ?? ""}`,
 }))``;
 
 interface SetSymbolProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,7 +25,7 @@ export function SetSymbol({
     <SetSymbolBase
       style={{
         ...style,
-        backgroundImage: `url(data:image/svg+xml;base64,${setSvg})`
+        backgroundImage: `url(data:image/svg+xml;base64,${setSvg})`,
       }}
       {...otherProps}
     />

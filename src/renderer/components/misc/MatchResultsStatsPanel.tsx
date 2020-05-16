@@ -14,6 +14,10 @@ import {
   getWinrateClass
 } from "../../rendererUtil";
 
+import indexCss from "../../index.css";
+import topNavCss from "../main/topNav.css";
+import listItemCss from "../list-item/ListItem.css";
+
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
 
 function ColoredWinrate({ stats }: { stats: AggregatorStats }): JSX.Element {
@@ -218,13 +222,13 @@ export default function MatchResultsStatsPanel({
   colorsWinrates.sort(frequencySort);
   const freqColorStats = colorsWinrates.slice(0, barsToShow);
   return (
-    <div className={"main_stats"} ref={panelRef}>
+    <div className={indexCss.main_stats} ref={panelRef}>
       <div className={prefixId + "_winrate"}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className={"list_deck_winrate"} style={{ margin: "0 auto 0 0" }}>
+          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 auto 0 0" }}>
             Overall (matches):
           </div>
-          <div className={"list_deck_winrate"} style={{ margin: "0 0 0 auto" }}>
+          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 0 0 auto" }}>
             {`${stats.wins}:${stats.losses} `}(
             <ColoredWinrate stats={stats} />)
           </div>
@@ -246,7 +250,7 @@ export default function MatchResultsStatsPanel({
               >
                 <div
                   className={
-                    isLimited ? "top_limited_rank" : "top_constructed_rank"
+                    isLimited ? topNavCss.topLimitedRank : topNavCss.topConstructedRank
                   }
                   style={{
                     margin: "0 auto 0 0",
@@ -255,7 +259,7 @@ export default function MatchResultsStatsPanel({
                   title={rank}
                 ></div>
                 <div
-                  className={"list_deck_winrate"}
+                  className={listItemCss.listDeckWinrate}
                   style={{ margin: "0 0 0 auto" }}
                 >
                   {`${stats.wins}:${stats.losses} `}(
@@ -265,20 +269,20 @@ export default function MatchResultsStatsPanel({
             );
           })}
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className={"list_deck_winrate"} style={{ margin: "0 auto 0 0" }}>
+          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 auto 0 0" }}>
             Play/Draw (games):
           </div>
-          <div className={"list_deck_winrate"} style={{ margin: "0 0 0 auto" }}>
+          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 0 0 auto" }}>
             <ColoredWinrate stats={playStats} />/
             <ColoredWinrate stats={drawStats} />
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className={"list_match_time"} style={{ margin: "0 auto 0 0" }}>
+          <div className={listItemCss.listMatchTime} style={{ margin: "0 auto 0 0" }}>
             Duration:
           </div>
           <div
-            className={"list_match_time"}
+            className={listItemCss.listMatchTime}
             style={{ margin: "0 0 0 auto" }}
             title={toDDHHMMSS(stats.duration)}
           >
@@ -307,7 +311,7 @@ export default function MatchResultsStatsPanel({
             }
           >
             <div
-              className={"ranks_history_title"}
+              className={indexCss.ranks_history_title}
               style={{ marginTop: "24px" }}
             >
               Frequent Matchups
@@ -318,7 +322,7 @@ export default function MatchResultsStatsPanel({
               showTags={showTags}
             />
             <div
-              className={"ranks_history_title"}
+              className={indexCss.ranks_history_title}
               style={{ marginTop: "24px" }}
             >
               Wins vs Losses

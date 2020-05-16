@@ -1,14 +1,15 @@
 import React from "react";
-import { CARD_RARITIES } from "../../../shared/constants";
+import {CARD_RARITIES} from "../../../shared/constants";
 import _ from "lodash";
-import { MissingWildcards } from "../decks/types";
+import {MissingWildcards} from "../decks/types";
 import Deck from "../../../shared/deck";
-import { useSelector } from "react-redux";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
+import {useSelector} from "react-redux";
+import {AppState} from "../../../shared/redux/stores/rendererStore";
 import {
   getBoosterCountEstimate,
-  get_deck_missing as getDeckMissing
+  get_deck_missing as getDeckMissing,
 } from "../../rendererUtil";
+import indexCss from "../../index.css";
 
 const getRarityKey = (
   rarity: string
@@ -21,7 +22,7 @@ export default function WildcardsCost(props: {
   deck: Deck;
   shrink?: boolean;
 }): JSX.Element {
-  const { shrink, deck } = props;
+  const {shrink, deck} = props;
   const playerEconomy = useSelector(
     (state: AppState) => state.playerdata.economy
   );
@@ -36,18 +37,18 @@ export default function WildcardsCost(props: {
     common: playerEconomy.wcCommon,
     uncommon: playerEconomy.wcUncommon,
     rare: playerEconomy.wcRare,
-    mythic: playerEconomy.wcMythic
+    mythic: playerEconomy.wcMythic,
   };
 
   return (
     <div
       style={
         shrink
-          ? { display: "flex", fontSize: "14px" }
-          : { display: "flex", flexDirection: "row", marginRight: "16px" }
+          ? {display: "flex", fontSize: "14px"}
+          : {display: "flex", flexDirection: "row", marginRight: "16px"}
       }
     >
-      {CARD_RARITIES.filter(rarity => rarity !== "land").map(
+      {CARD_RARITIES.filter((rarity) => rarity !== "land").map(
         (cardRarity: string) => {
           const key = getRarityKey(cardRarity);
           if (key) {
@@ -58,7 +59,9 @@ export default function WildcardsCost(props: {
                 <div
                   key={cardRarity + "-" + owned + "-" + missing}
                   className={
-                    (shrink ? "wc_deckstab_cost" : "wc_explore_cost") +
+                    (shrink
+                      ? indexCss.wc_deckstab_cost
+                      : indexCss.wc_explore_cost) +
                     " wc_" +
                     cardRarity
                   }
@@ -74,7 +77,9 @@ export default function WildcardsCost(props: {
       {drawCost && (
         <div
           title="Boosters needed (estimated)"
-          className={shrink ? "bo_deckstab_cost" : "bo_explore_cost"}
+          className={
+            shrink ? indexCss.bo_deckstab_cost : indexCss.bo_explore_cost
+          }
         >
           {Math.round(getBoosterCountEstimate(missingWildcards))}
         </div>
