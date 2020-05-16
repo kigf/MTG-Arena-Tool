@@ -1,4 +1,5 @@
 import React from "react";
+import css from "../../index.css";
 
 interface CheckboxProps {
   text: string | JSX.Element;
@@ -33,11 +34,11 @@ export default function Checkbox(props: CheckboxProps): JSX.Element {
     <label
       style={disabled ? disabledLabelStyle : { ...style }}
       onClick={click}
-      className={"check_container" + (disabled ? "" : " hover_label")}
+      className={css.checkContainer + (disabled ? "" : " " + css.hoverLabel)}
     >
       {props.text}
       <input type="checkbox" checked={currentValue} disabled />
-      <span className="checkmark" />
+      <span className={css.checkmark} />
     </label>
   );
 }

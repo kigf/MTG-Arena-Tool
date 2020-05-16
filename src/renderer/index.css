@@ -4296,12 +4296,6 @@ a:hover {
     text-align: center;
 }
 
-.hover_label:hover {
-/*    background-color: rgba(0,0,0,0.4);*/
-    cursor: pointer;
-}
-
-
 .draft_title {
     margin: 16px auto;
     line-height: 20px;

@@ -2,6 +2,8 @@ import React from "react";
 import Autosuggest, { InputProps } from "react-autosuggest";
 import { TagCount } from "./types";
 
+import css from "../../index.css";
+
 const getSuggestions = (value: string, options: TagCount[]): TagCount[] => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
@@ -16,7 +18,7 @@ const getSuggestionValue = (suggestion: TagCount): string => suggestion.tag;
 
 const SuggestionItem = (suggestion: TagCount): JSX.Element => (
   <button
-    className={"button_reset select_option"}
+    className={css.buttonReset + " " + css.selectOption}
     style={{ padding: 0, height: "20px" }}
   >
     {suggestion.tag} ({suggestion.q})

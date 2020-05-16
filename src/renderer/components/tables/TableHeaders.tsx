@@ -19,7 +19,6 @@ export default function TableHeaders<D extends TableData>({
       {visibleHeaders.map((column, ii) => (
         <div
           {...column.getHeaderProps(column.getSortByToggleProps())}
-          className={"hover_label"}
           style={{
             gridArea: `1 / ${ii + 1} / 1 / ${ii + 2}`,
             cursor: column.disableSortBy ? "default" : "pointer"

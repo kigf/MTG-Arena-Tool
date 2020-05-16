@@ -3,6 +3,8 @@ import { ColumnInstance } from "react-table";
 import { CheckboxContainer } from "../misc/CheckboxContainer";
 import { TableData } from "./types";
 
+import css from "../../index.css";
+
 export default function ColumnToggles<D extends TableData>({
   toggleableColumns,
   togglesVisible
@@ -11,13 +13,13 @@ export default function ColumnToggles<D extends TableData>({
   togglesVisible: boolean;
 }): JSX.Element {
   return (
-    <div className="react_table_toggles">
+    <div className={css.reactTableToggles}>
       {togglesVisible &&
         toggleableColumns.map(column => (
           <CheckboxContainer key={column.id}>
             {column.render("Header")}
             <input type="checkbox" {...column.getToggleHiddenProps()} />
-            <span className={"checkmark"} />
+            <span className={css.checkmark} />
           </CheckboxContainer>
         ))}
     </div>

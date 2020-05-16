@@ -12,6 +12,8 @@ import { MetricText } from "../misc/MetricText";
 import { useMultiSelectFilter } from "./useMultiSelectFilter";
 import { MultiSelectFilterProps, TableData } from "./types";
 
+import css from "../../index.css";
+
 export function TextBoxFilter<D extends TableData>({
   column: { id, filterValue, preFilteredRows, setFilter }
 }: {
@@ -161,7 +163,7 @@ export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
       {trueSymbol ? (
         <div
           className={
-            "ontheplaytext" + (filterValue["true"] ? "" : " rarity_filter_on")
+            css.ontheplaytext + (filterValue["true"] ? "" : " " + css.rarityFilterOn)
           }
           style={symbolStyle}
           onClick={onClickMultiFilter("true")}
@@ -173,14 +175,14 @@ export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
         <BinarySymbol
           isOn={true}
           onClick={onClickMultiFilter("true")}
-          className={filterValue["true"] ? "" : " rarity_filter_on"}
+          className={filterValue["true"] ? "" : css.rarityFilterOn}
           title={trueLabel}
         />
       )}
       {falseSymbol ? (
         <div
           className={
-            "onthedrawtext" + (filterValue["false"] ? "" : " rarity_filter_on")
+            css.onthedrawtext + (filterValue["false"] ? "" : " " +css.rarityFilterOn)
           }
           style={symbolStyle}
           onClick={onClickMultiFilter("false")}
@@ -192,7 +194,7 @@ export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
         <BinarySymbol
           isOn={false}
           onClick={onClickMultiFilter("false")}
-          className={filterValue["false"] ? "" : " rarity_filter_on"}
+          className={filterValue["false"] ? "" : css.rarityFilterOn}
           title={falseLabel}
         />
       )}
@@ -304,7 +306,7 @@ export function ArchiveColumnFilter<D extends TableData>({
           setFilter(val ? undefined : "hideArchived");
         }}
       />
-      <span className={"checkmark"} />
+      <span className={css.checkmark} />
     </CheckboxContainer>
   );
 }

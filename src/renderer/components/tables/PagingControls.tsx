@@ -4,6 +4,8 @@ import { InputContainer } from "../misc/InputContainer";
 import { PagingButton } from "../misc/PagingButton";
 import { PagingControlsProps } from "./types";
 
+import css from "../../index.css";
+
 export default function PagingControls({
   canPreviousPage,
   canNextPage,
@@ -39,7 +41,7 @@ export default function PagingControls({
     const prompt = "Go to page";
     pageButtons = (
       <>
-        <span className={"paging_text"}>Page</span>
+        <span className={css.pagingText}>Page</span>
         <InputContainer
           title={prompt}
           style={{ width: "50px", margin: "0 4px" }}
@@ -62,7 +64,7 @@ export default function PagingControls({
             placeholder={String(pageIndex + 1)}
           />
         </InputContainer>
-        <span className={"paging_text"}>
+        <span className={css.pagingText}>
           <strong>of {pageOptions?.length}</strong>{" "}
         </span>
       </>
@@ -70,7 +72,7 @@ export default function PagingControls({
   }
 
   return (
-    <div className={"paging_container"}>
+    <div className={css.pagingContainer}>
       {!expandButtons && (
         <PagingButton
           onClick={(): void => gotoPage(0)}
