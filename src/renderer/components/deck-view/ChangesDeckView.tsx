@@ -8,6 +8,10 @@ import db from "../../../shared/database";
 import { useSprings, animated } from "react-spring";
 import { getDeckChangesList } from "../../../shared/store";
 
+import css from "./ChangesDeckView.css";
+import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
+
 function sortDeckChanges(ad: DeckChange, bd: DeckChange): number {
   const a = ad.date;
   const b = bd.date;
@@ -60,10 +64,10 @@ export default function ChangesDeckView(
     <>
       <Button text="Normal View" onClick={setRegularView} />
       <div style={{ display: "flex" }}>
-        <div className="decklist">
+        <div className={indexCss.decklist}>
           <DeckList deck={currentDeck} showWildcards={true} />
         </div>
-        <div style={{ padding: "47px 0" }} className="stats">
+        <div style={{ padding: "47px 0" }} className={indexCss.stats}>
           {changes.length > 0 ? (
             changes.map((ch, index) => {
               const bothChanges = [...ch.changesMain, ...ch.changesSide];
@@ -76,12 +80,12 @@ export default function ChangesDeckView(
               return (
                 <React.Fragment key={ch.id}>
                   <div
-                    className="deck-change"
+                    className={css.deckChange}
                     key={ch.id}
                     onClick={(): void => expand(index)}
                   >
                     <animated.div
-                      className="expand-arrow"
+                      className={css.expandArrow}
                       style={arrowSprings[index]}
                     ></animated.div>
                     <div style={{ marginRight: "auto" }}>
@@ -89,17 +93,17 @@ export default function ChangesDeckView(
                         {ch.date}
                       </relative-time>
                     </div>
-                    <div className="change-add" />
+                    <div className={css.changeAdd} />
                     {added}
-                    <div className="change-remove" />
+                    <div className={css.changeRemove} />
                     {removed}
                     <div style={{ marginRight: "8px" }} />
                   </div>
                   <animated.div
                     style={expandSprings[index]}
-                    className="deck-changes-expand"
+                    className={css.deckChangesExpand}
                   >
-                    <div className="card_tile_separator">Mainboard</div>
+                    <div className={sharedCss.cardTileSeparator}>Mainboard</div>
                     {ch.changesMain.map(card => {
                       const cardObj = db.card(card.id);
                       if (cardObj)
@@ -119,7 +123,7 @@ export default function ChangesDeckView(
                           />
                         );
                     })}
-                    <div className="card_tile_separator">Sideboard</div>
+                    <div className={sharedCss.cardTileSeparator}>Sideboard</div>
                     {ch.changesSide.map(card => {
                       const cardObj = db.card(card.id);
                       if (cardObj)
@@ -144,7 +148,7 @@ export default function ChangesDeckView(
               );
             })
           ) : (
-            <div className="change-warning">No changes recorded.</div>
+            <div className={css.changeWarning}>No changes recorded.</div>
           )}
         </div>
       </div>

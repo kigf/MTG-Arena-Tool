@@ -59,6 +59,7 @@ html {
 }
 
 body {
+  color: var(--color-light);
   margin: 0px;
   padding: 0px;
   height: 100%;

@@ -4,32 +4,35 @@ import React, {
   useRef,
   useCallback,
   useState,
-  useMemo
+  useMemo,
 } from "react";
 import format from "date-fns/format";
-import { get_rank_index as getRankIndex } from "../../shared/util";
-import { SeasonalRankData } from "../../types/Season";
+import {get_rank_index as getRankIndex} from "../../shared/util";
+import {SeasonalRankData} from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
 import Deck from "../../shared/deck";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 import ResultDetails from "../components/misc/ResultDetails";
 import RankIcon from "../components/misc/RankIcon";
-import store, { AppState } from "../../shared/redux/stores/rendererStore";
+import store, {AppState} from "../../shared/redux/stores/rendererStore";
 import {
   getSeasonal,
   seasonalExists,
   matchExists,
-  getMatch
+  getMatch,
 } from "../../shared/store";
-import { useSelector, useDispatch } from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import Button from "../components/misc/Button";
-import { reduxAction } from "../../shared/redux/sharedRedux";
-import { SUB_MATCH, IPC_NONE } from "../../shared/constants";
-import { addMonths } from "date-fns";
-import { PagingButton } from "../components/misc/PagingButton";
+import {reduxAction} from "../../shared/redux/sharedRedux";
+import {SUB_MATCH, IPC_NONE} from "../../shared/constants";
+import {addMonths} from "date-fns";
+import {PagingButton} from "../components/misc/PagingButton";
 
 import appCss from "../app/app.css";
+import topNavCss from "../components/main/topNav.css";
+import sharedCss from "../../shared/shared.css";
+import css from "./TimelineTab.css";
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;
@@ -146,7 +149,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
     hover,
     setHover,
     setPartHover,
-    lastMatchId
+    lastMatchId,
   } = props;
 
   const deckId = matchExists(lastMatchId)
@@ -169,13 +172,13 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
 
   const style = {
     // Get a color that is the modulus of the hex ID
-    fill: `hsl(${parseInt(deckId || "", 16) % 360}, 64%, 63%)`
+    fill: `hsl(${parseInt(deckId || "", 16) % 360}, 64%, 63%)`,
   };
 
   return (
     <div
       style={style}
-      className={"timeline-line" + (hover == deckId ? " hover" : "")}
+      className={`${css.timelineLine} ${hover == deckId ? css.hover : ""}`}
       onMouseEnter={mouseIn}
     >
       <svg width={width} height={height} version="1.1">
@@ -219,14 +222,14 @@ interface RankBulletProps {
  * @param props
  */
 function TimelineRankBullet(props: RankBulletProps): JSX.Element {
-  const { width, height, rankClass, rankLevel } = props;
+  const {width, height, rankClass, rankLevel} = props;
 
   const divStyle = {
     backgroundPosition: getRankIndex(rankClass, rankLevel) * -48 + "px 0px",
     //marginLeft: "-11px",
     top: `${336 - height}px`,
     left: `${(width - 48) / 2}px`,
-    zIndex: -10
+    zIndex: -10,
   };
 
   const divTitle = rankClass + " " + rankLevel;
@@ -234,7 +237,7 @@ function TimelineRankBullet(props: RankBulletProps): JSX.Element {
     <div
       style={divStyle}
       title={divTitle}
-      className="timeline-rank top_constructed_rank"
+      className={`${css.timelineRank} ${topNavCss.topConstructedRank}`}
     ></div>
   );
 }
@@ -252,7 +255,7 @@ export default function TimelineTab(): JSX.Element {
   const [hoverPart, setHoverPart] = useState(0);
   const [dimensions, setDimensions] = useState({
     height: 300,
-    width: window.innerWidth - 110
+    width: window.innerWidth - 110,
   });
   const [seasonType, setSeasonType] = useState<"constructed" | "limited">(
     "constructed"
@@ -286,7 +289,7 @@ export default function TimelineTab(): JSX.Element {
     if (boxRef && boxRef.current) {
       setDimensions({
         height: boxRef.current.offsetHeight,
-        width: boxRef.current.offsetWidth
+        width: boxRef.current.offsetWidth,
       });
     }
   }, [boxRef]);
@@ -327,7 +330,7 @@ export default function TimelineTab(): JSX.Element {
         "SET_SUBNAV",
         {
           type: SUB_MATCH,
-          id: hoverMatch.id
+          id: hoverMatch.id,
         },
         IPC_NONE
       );
@@ -346,8 +349,8 @@ export default function TimelineTab(): JSX.Element {
 
   return (
     <div className={appCss.uxItem}>
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <div className="timeline-title">
+      <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
+        <div className={css.timelineTitle}>
           <PagingButton
             onClick={setPrevSeason}
             disabled={drawingSeason <= 1}
@@ -373,18 +376,18 @@ export default function TimelineTab(): JSX.Element {
             callback={handleSetSeasonType}
           />
         </div>
-        <div style={{ display: "flex" }}>
-          <div className="timeline-box-labels">
-            <div className="timeline-label">#1</div>
-            <div className="timeline-label"></div>
-            <div className="timeline-label">Mythic</div>
-            <div className="timeline-label">Diamond</div>
-            <div className="timeline-label">Platinum</div>
-            <div className="timeline-label">Gold</div>
-            <div className="timeline-label">Silver</div>
-            <div className="timeline-label">Bronze</div>
+        <div style={{display: "flex"}}>
+          <div className={css.timelineBoxLabels}>
+            <div className={css.timelineLabel}>#1</div>
+            <div className={css.timelineLabel}></div>
+            <div className={css.timelineLabel}>Mythic</div>
+            <div className={css.timelineLabel}>Diamond</div>
+            <div className={css.timelineLabel}>Platinum</div>
+            <div className={css.timelineLabel}>Gold</div>
+            <div className={css.timelineLabel}>Silver</div>
+            <div className={css.timelineLabel}>Bronze</div>
           </div>
-          <div className="timeline-box" ref={boxRef}>
+          <div className={css.timelineBox} ref={boxRef}>
             {data.length > 0 ? (
               data.map((value: SeasonalRankData, index: number) => {
                 //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
@@ -403,26 +406,26 @@ export default function TimelineTab(): JSX.Element {
                 );
               })
             ) : (
-              <div className="timeline-warning">
+              <div className={css.timelineWarning}>
                 No data for this ranked season.
               </div>
             )}
           </div>
         </div>
-        <div style={{ display: "flex" }}>
-          <div className="timeline-box-labels" />
-          <div className="timeline-bottom-box">
+        <div style={{display: "flex"}}>
+          <div className={css.timelineBoxLabels} />
+          <div className={css.timelineBottomBox}>
             {hoverPart > -1 ? (
               <>
                 <div
-                  className="timeline-pos"
-                  style={{ marginLeft: hoverPartX + "px" }}
+                  className={css.timelinePos}
+                  style={{marginLeft: hoverPartX + "px"}}
                 />
                 <div
                   style={{
                     whiteSpace: "nowrap",
                     marginLeft:
-                      Math.min(dimensions.width - 120, hoverPartX) + "px"
+                      Math.min(dimensions.width - 120, hoverPartX) + "px",
                   }}
                 >
                   {data[hoverPart]
@@ -441,19 +444,16 @@ export default function TimelineTab(): JSX.Element {
         <div
           style={{
             margin: "0 28px",
-            display: "flex"
+            display: "flex",
           }}
         >
-          <div
-            className="card_lists_list"
-            style={{ margin: "0", width: "50%" }}
-          >
+          <div className="card_lists_list" style={{margin: "0", width: "50%"}}>
             {hoverMatch && hoverDecklist ? (
               <>
-                <div className="decklist-name">{hoverDecklist.name}</div>
-                <div className="decklist-colors">
+                <div className={css.decklistName}>{hoverDecklist.name}</div>
+                <div className={css.decklistColors}>
                   <ManaCost
-                    class="mana_s20"
+                    class={sharedCss.manaS20}
                     colors={hoverDecklist.colors || []}
                   />
                 </div>
@@ -466,7 +466,7 @@ export default function TimelineTab(): JSX.Element {
           <div
             style={{
               margin: "0 auto",
-              color: "var(--color-light)"
+              color: "var(--color-light)",
             }}
           >
             {match ? (
@@ -476,7 +476,7 @@ export default function TimelineTab(): JSX.Element {
                   margin: "auto",
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
                 <Button
@@ -496,14 +496,14 @@ export default function TimelineTab(): JSX.Element {
                   style={{
                     lineHeight: "32px",
                     fontFamily: "var(--main-font-name-it}",
-                    fontSize: "18px"
+                    fontSize: "18px",
                   }}
-                  className={won ? "green" : "red"}
+                  className={won ? sharedCss.green : sharedCss.red}
                 >
                   {won ? "Win" : "Loss"}
                 </div>
                 <ResultDetails match={match} />
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{display: "flex", alignItems: "center"}}>
                   <RankIcon
                     format={seasonType}
                     rank={hData.oldClass}
@@ -512,7 +512,7 @@ export default function TimelineTab(): JSX.Element {
                     leaderboardPlace={0}
                     percentile={0}
                   />
-                  <div className="rank-to-right" />
+                  <div className={css.rankToRight} />
                   <RankIcon
                     format={seasonType}
                     rank={hData.newClass}

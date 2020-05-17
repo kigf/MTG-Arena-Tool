@@ -1,18 +1,22 @@
-import React, { useCallback, useMemo } from "react";
+import React, {useCallback, useMemo} from "react";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
-import Aggregator, { AggregatorFilters } from "../../aggregator";
+import Aggregator, {AggregatorFilters} from "../../aggregator";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
-import { CardWinrateData } from "../../aggregator";
-import { getWinrateClass } from "../../rendererUtil";
-import { DbCardData } from "../../../types/Metadata";
-import { compare_cards, getDeckAfterChange } from "../../../shared/util";
-import { getDeckChangesList } from "../../../shared/store";
-import { DeckChange, CardObject } from "../../../types/Deck";
+import {CardWinrateData} from "../../aggregator";
+import {getWinrateClass} from "../../rendererUtil";
+import {DbCardData} from "../../../types/Metadata";
+import {compare_cards, getDeckAfterChange} from "../../../shared/util";
+import {getDeckChangesList} from "../../../shared/store";
+import {DeckChange, CardObject} from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";
-import { format } from "date-fns";
-import { useTable, useSortBy } from "react-table";
+import {format} from "date-fns";
+import {useTable, useSortBy} from "react-table";
+
+import sectionCss from "../settings/Sections.css";
+import indexCss from "../../index.css";
+import css from "./CardsWinrateView.css";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);
@@ -63,7 +67,7 @@ function cardWinrateLineData(
     sideOutWinrate,
     avgTurn,
     avgFirstTurn,
-    mulligans: wr.mulligans
+    mulligans: wr.mulligans,
   };
 }
 
@@ -80,12 +84,12 @@ function cardWinrateLine(line: LineData): JSX.Element {
     sideOutWinrate,
     avgTurn,
     avgFirstTurn,
-    mulligans
+    mulligans,
   } = line;
 
   return (
-    <div className="card-wr-line" key={cardObj.id + "-" + name}>
-      <div className="card-wr-line-card">
+    <div className={css.cardWrLine} key={cardObj.id + "-" + name}>
+      <div className={css.cardWrLineCard}>
         <CardTile
           indent="c"
           isHighlighted={false}
@@ -97,44 +101,46 @@ function cardWinrateLine(line: LineData): JSX.Element {
         />
       </div>
       <div
-        className={
-          getWinrateClass(winrate / 100) +
-          "_bright card-wr-item card-wr-line-wr"
-        }
+        className={`${getWinrateClass(winrate / 100, true)} ${css.cardWrItem} ${
+          css.cardWrLineWr
+        }`}
       >
         {winrate >= 0 ? winrate + "%" : "-"}
       </div>
       <div
-        className={
-          getWinrateClass(initHandWinrate / 100) +
-          "_bright card-wr-item card-wr-line-hand-wr"
-        }
+        className={`${getWinrateClass(initHandWinrate / 100, true)} ${
+          css.cardWrItem
+        } ${css.cardWrLineHandWr}`}
       >
         {initHandWinrate >= 0 ? initHandWinrate + "%" : "-"}
       </div>
-      <div className="card-wr-item card-wr-line-mulls">{mulligans}</div>
-      <div className="card-wr-item card-wr-line-sided-in">{sidedIn}</div>
-      <div className="card-wr-item card-wr-line-sided-out">{sidedOut}</div>
+      <div className={`${css.cardWrItem} ${css.cardWrLineMulls}`}>
+        {mulligans}
+      </div>
+      <div className={`${css.cardWrItem} ${css.cardWrLineSidedIn}`}>
+        {sidedIn}
+      </div>
+      <div className={`${css.cardWrItem} ${css.cardWrLineSidedOut}`}>
+        {sidedOut}
+      </div>
       <div
-        className={
-          getWinrateClass(sideInWinrate / 100) +
-          "_bright card-wr-item card-wr-line-sided-in-wr"
-        }
+        className={`${getWinrateClass(sideInWinrate / 100, true)} ${
+          css.cardWrItem
+        } ${css.cardWrLineSidedInWr}`}
       >
         {sideInWinrate >= 0 ? sideInWinrate + "%" : "-"}
       </div>
       <div
-        className={
-          getWinrateClass(sideOutWinrate / 100) +
-          "_bright card-wr-item card-wr-line-sided-out-wr"
-        }
+        className={`${getWinrateClass(sideOutWinrate / 100, true)} ${
+          css.cardWrItem
+        } ${css.cardWrLineSidedOutWr}`}
       >
         {sideOutWinrate >= 0 ? sideOutWinrate + "%" : "-"}
       </div>
-      <div className="card-wr-item card-wr-line-avg-turn">
+      <div className={`${css.cardWrItem} ${css.cardWrLineAvgTurn}`}>
         {avgTurn.toFixed(2)}
       </div>
-      <div className="card-wr-item card-wr-line-avg-first">
+      <div className={`${css.cardWrItem} ${css.cardWrLineAvgFirst}`}>
         {avgFirstTurn.toFixed(2)}
       </div>
     </div>
@@ -150,7 +156,7 @@ function sortDeckChanges(a: DeckChange, b: DeckChange): number {
 interface CardsWinratesViewProps {
   deck: Deck;
   aggregator: Aggregator;
-  setRegularView: { (): void };
+  setRegularView: {(): void};
   aggFilters: AggregatorFilters;
   setAggFilters: (filters: AggregatorFilters) => void;
 }
@@ -158,12 +164,12 @@ interface CardsWinratesViewProps {
 export default function CardsWinratesView(
   props: CardsWinratesViewProps
 ): JSX.Element {
-  const { aggregator, setRegularView, aggFilters, setAggFilters } = props;
-  let { deck } = props;
+  const {aggregator, setRegularView, aggFilters, setAggFilters} = props;
+  let {deck} = props;
   const deckChanges = getDeckChangesList(deck.id);
   if (aggFilters.deckVersion !== Aggregator.DEFAULT_DECK_VERSION) {
     const change = deckChanges.filter(
-      change => change.newDeckHash == aggFilters.deckVersion
+      (change) => change.newDeckHash == aggFilters.deckVersion
     )[0];
     if (change) {
       deck = getDeckAfterChange(change);
@@ -172,7 +178,7 @@ export default function CardsWinratesView(
   const deckVersions = Array.from(
     new Set([
       "All Versions",
-      ...deckChanges.sort(sortDeckChanges).map(change => change.newDeckHash)
+      ...deckChanges.sort(sortDeckChanges).map((change) => change.newDeckHash),
     ])
   );
 
@@ -189,7 +195,7 @@ export default function CardsWinratesView(
               format(
                 new Date(
                   deckChanges.filter(
-                    change => change.newDeckHash == deckVersions[index]
+                    (change) => change.newDeckHash == deckVersions[index]
                   )[0].date
                 ),
                 "dd/MM/yy"
@@ -205,7 +211,7 @@ export default function CardsWinratesView(
   const setDeckVersionFilter = useCallback(
     (version: string) => {
       // Set deck hash filter
-      setAggFilters({ ...aggFilters, deckVersion: version });
+      setAggFilters({...aggFilters, deckVersion: version});
     },
     [aggFilters, setAggFilters]
   );
@@ -213,12 +219,12 @@ export default function CardsWinratesView(
   const winrates = useMemo(() => aggregator.getCardsWinrates(), [aggregator]);
   const data = useMemo(
     () =>
-      Object.keys(winrates).map(grpid => {
+      Object.keys(winrates).map((grpid) => {
         const cardObj = db.card(grpid);
         return cardObj
           ? cardWinrateLineData(winrates, cardObj, 1, cardObj.name)
           : {
-              cardObj: null
+              cardObj: null,
             };
       }),
     [winrates]
@@ -231,61 +237,61 @@ export default function CardsWinratesView(
       {
         Header: "Mainboard",
         accessor: "name",
-        class: "card-wr-line-card"
+        class: css.cardWrLineCard,
       },
       {
         Header: "Cast WR",
         accessor: "winrate",
-        class: "card-wr-line-wr"
+        class: css.cardWrLineWr,
       },
       {
         Header: "First Hand WR",
         accessor: "initHandWinrate",
-        class: "card-wr-line-hand-wr"
+        class: css.cardWrLineHandWr,
       },
       {
         Header: "Mulliganed",
         accessor: "mulligans",
-        class: "card-wr-line-mulls"
+        class: css.cardWrLineMulls,
       },
       {
         Header: "Sided In",
         accessor: "sidedIn",
-        class: "card-wr-line-sided-in"
+        class: css.cardWrLineSidedIn,
       },
       {
         Header: "Sided Out",
         accessor: "sidedOut",
-        class: "card-wr-line-sided-out"
+        class: css.cardWrLineSidedOut,
       },
       {
         Header: "Sided In WR",
         accessor: "sideInWinrate",
-        class: "card-wr-line-sided-in-wr"
+        class: css.cardWrLineSidedInWr,
       },
       {
         Header: "Sided Out WR",
         accessor: "sideOutWinrate",
-        class: "card-wr-line-sided-out-wr"
+        class: css.cardWrLineSidedOutWr,
       },
       {
         Header: "Avg. turn",
         accessor: "avgTurn",
-        class: "card-wr-line-avg-turn"
+        class: css.cardWrLineAvgTurn,
       },
       {
         Header: "Avg. First Turn",
         accessor: "avgFirstTurn",
-        class: "card-wr-line-avg-first"
-      }
+        class: css.cardWrLineAvgFirst,
+      },
     ],
     []
   );
 
-  const { headerGroups, rows, prepareRow } = useTable(
+  const {headerGroups, rows, prepareRow} = useTable(
     {
       columns,
-      data
+      data,
     },
     useSortBy
   );
@@ -293,10 +299,10 @@ export default function CardsWinratesView(
   return (
     <>
       <Button text="Normal View" onClick={setRegularView} />
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{display: "flex", flexDirection: "column"}}>
         <div
-          className={css.centered_setting_container}
-          style={{ justifyContent: "center" }}
+          className={sectionCss.centered_setting_container}
+          style={{justifyContent: "center"}}
         >
           <label>Deck Version:</label>
           <ReactSelect
@@ -306,19 +312,19 @@ export default function CardsWinratesView(
             callback={setDeckVersionFilter}
           />
         </div>
-        <div className={"settings_note"} style={{ textAlign: "center" }}>
+        <div className={sectionCss.settingsNote} style={{textAlign: "center"}}>
           All winrates shown correspond to the times when the card in question
           was cast during a game, except for the &quot;Sided out WR&quot;
           column.
         </div>
-        <div className="card-wr-stats">
-          <div className="card-wr-line">
-            {headerGroups.map(headerGroup => {
+        <div className={css.cardWrStats}>
+          <div className={css.cardWrLine}>
+            {headerGroups.map((headerGroup: any) => {
               return headerGroup.headers.map((column: any) => {
                 return (
                   <div
                     key={"header-" + column.class}
-                    className={"card-wr-item " + column.class}
+                    className={css.cardWrItem + " " + column.class}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                   >
                     {column.Header}
@@ -326,8 +332,8 @@ export default function CardsWinratesView(
                       className={
                         column.isSorted
                           ? column.isSortedDesc
-                            ? "sort_desc"
-                            : "sort_asc"
+                            ? indexCss.sortDesc
+                            : indexCss.sortAsc
                           : ""
                       }
                     />
@@ -336,7 +342,7 @@ export default function CardsWinratesView(
               });
             })}
           </div>
-          {rows.map(row => {
+          {rows.map((row: any) => {
             prepareRow(row);
             {
               const q = deck
@@ -346,17 +352,17 @@ export default function CardsWinratesView(
                   (card: CardObject) => row.original.cardObj?.id == card.id
                 );
               if (q > 0 && row.original.cardObj !== null) {
-                return cardWinrateLine({ ...row.original, quantity: q });
+                return cardWinrateLine({...row.original, quantity: q});
               }
             }
           })}
-          <div className="card-wr-line">
-            {headerGroups.map(headerGroup => {
+          <div className={css.cardWrLine}>
+            {headerGroups.map((headerGroup: any) => {
               return headerGroup.headers.map((column: any) => {
                 return (
                   <div
                     key={"header-" + column.class}
-                    className={"card-wr-item " + column.class}
+                    className={css.cardWrItem + " " + column.class}
                   >
                     {column.Header == "Mainboard" ? "Sideboard" : ""}
                   </div>
@@ -364,7 +370,7 @@ export default function CardsWinratesView(
               });
             })}
           </div>
-          {rows.map(row => {
+          {rows.map((row: any) => {
             prepareRow(row);
             {
               const q = deck
@@ -374,7 +380,7 @@ export default function CardsWinratesView(
                   (card: CardObject) => row.original.cardObj?.id == card.id
                 );
               if (q > 0 && row.original.cardObj !== null) {
-                return cardWinrateLine({ ...row.original, quantity: q });
+                return cardWinrateLine({...row.original, quantity: q});
               }
             }
           })}

@@ -1,0 +1,52 @@
+
+.visual_sideboard {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 32px;
+  align-content: start;
+}
+
+.visual_mainboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+}
+
+.deck_visual_stats {
+  padding: 0 !important;
+  margin: 32px !important;
+  width: 0px !important;
+  flex-grow: 1;
+}
+
+.deck_visual_tile {
+  display: inline-table;
+  padding: 3px;
+  margin-bottom: 64px;
+}
+
+.deck_visual_card {
+  height: 22px;
+}
+
+.deck_visual_card_img {
+  cursor: pointer;
+  -webkit-border-radius: 4.75% / 3.5%;
+  -webkit-transition: all .25s cubic-bezier(0.2, 0.5, 0.35, 1);
+}
+
+.deck_visual_card_img:hover {
+  box-shadow: 0 5px 14px 2px rgba(0, 0, 0, 0.25);
+  margin: -24px 0 -2px 0px;
+}
+
+
+.deck_visual_tile_side {
+  display: grid;
+  padding: 3px;
+  margin-bottom: 128px;
+}
+
+.deck_visual_card_side {
+  height: 22px;
+}
