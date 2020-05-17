@@ -1,0 +1,281 @@
+
+.tile_w {
+  -webkit-border-image: url(../assets/images/w.png) 0 15 0 15 stretch;
+}
+.tile_u {
+  -webkit-border-image: url(../assets/images/u.png) 0 15 0 15 stretch;
+}
+.tile_b {
+  -webkit-border-image: url(../assets/images/b.png) 0 15 0 15 stretch;
+}
+.tile_r {
+  -webkit-border-image: url(../assets/images/r.png) 0 15 0 15 stretch;
+}
+.tile_g {
+  -webkit-border-image: url(../assets/images/g.png) 0 15 0 15 stretch;
+}
+.tile_c {
+  -webkit-border-image: url(../assets/images/c.png) 0 15 0 15 stretch;
+}
+.tile_multi {
+  -webkit-border-image: url(../assets/images/multi.png) 0 15 0 15 stretch;
+}
+
+.tile_wr {
+  -webkit-border-image: url(../assets/images/wr.png) 0 15 0 15 stretch;
+}
+.tile_wb {
+  -webkit-border-image: url(../assets/images/wb.png) 0 15 0 15 stretch;
+}
+.tile_wu {
+  -webkit-border-image: url(../assets/images/uw.png) 0 15 0 15 stretch;
+}
+.tile_ur {
+  -webkit-border-image: url(../assets/images/ur.png) 0 15 0 15 stretch;
+}
+.tile_ug {
+  -webkit-border-image: url(../assets/images/ug.png) 0 15 0 15 stretch;
+}
+.tile_ub {
+  -webkit-border-image: url(../assets/images/ub.png) 0 15 0 15 stretch;
+}
+.tile_rg {
+  -webkit-border-image: url(../assets/images/rg.png) 0 15 0 15 stretch;
+}
+.tile_wg {
+  -webkit-border-image: url(../assets/images/gw.png) 0 15 0 15 stretch;
+}
+.tile_br {
+  -webkit-border-image: url(../assets/images/br.png) 0 15 0 15 stretch;
+}
+.tile_bg {
+  -webkit-border-image: url(../assets/images/bg.png) 0 15 0 15 stretch;
+}
+
+.card_tile {
+  width: 100%;
+  min-width: calc(100% - 72px);
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-style: solid;
+  border-width: 0px 8px;
+  -webkit-transition: all 0.15s ease-in;
+  cursor: pointer;
+}
+
+.card_tile_glow {
+  width: 100%;
+  left: calc(0px - 100% + 56px);
+  min-width: calc(100% - 72px);
+  height: 24px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-style: solid;
+  border-width: 0px 8px;
+  position: relative;
+  opacity: 0;
+  -webkit-border-image: url(../assets/images/over.png) 0 15 0 15 stretch;
+  -webkit-transition: opacity 0.12s ease-in-out, margin-top 0.12s ease-in-out,
+    border-image 0.2s ease-out;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.card_tile_glow:hover {
+  opacity: 1;
+  margin-top: 0px;
+  -webkit-border-image: url(../assets/images/flash.png) 0 15 0 15 stretch;
+}
+
+.card_tile_quantity {
+  text-indent: -3px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  height: 24px;
+  min-width: 24px;
+  width: 24px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  text-align: center;
+  font-family: var(--main-font-name);
+  background: url(../assets/images/quantity.png);
+  background-size: cover;
+}
+
+.card_tile_odds {
+  text-indent: -2px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  height: 24px;
+  min-width: 32px;
+  width: 32px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  line-height: 12px;
+  text-align: center;
+  font-family: var(--main-font-name-bold);
+  background: url(../assets/images/odds.png);
+  background-size: cover;
+}
+
+.card_tile_not_owned {
+  min-width: 24px;
+  left: calc(0px - 100% + 42px);
+  position: relative;
+  background: url(../assets/images/not_owned.png) center no-repeat;
+}
+
+.card_tile_container_outer {
+  width: 100%;
+  display: flex;
+}
+
+.card_tile_container_flat {
+  display: flex;
+  height: 31px;
+  margin-bottom: 1px;
+  background-color: rgba(0, 0, 0, 0.75);
+  -webkit-transition: all 0.15s ease-in;
+  cursor: pointer;
+  width: 100%;
+  font-family: var(--main-font-name);
+}
+
+.card_tile_odds_flat {
+  font-size: 12px;
+  min-width: 32px;
+  color: white;
+  line-height: 31px;
+  text-align: center;
+}
+
+.card_tile_quantity_flat {
+  font-size: 14px;
+  min-width: 32px;
+  color: white;
+  line-height: 31px;
+  text-align: center;
+}
+
+.card_tile_odds_flat_half {
+  font-size: 12px;
+  min-width: 32px;
+  line-height: 14px;
+  color: white;
+  height: 50%;
+  text-align: center;
+}
+
+.card_tile_odds_flat_half_dark {
+  font-size: 12px;
+  min-width: 32px;
+  color: var(--color-light-66);
+  line-height: 14px;
+  height: 50%;
+  text-align: center;
+}
+
+.card_tile_crop_flat {
+  border-width: 2px;
+  border-style: none none none solid;
+  min-width: 32px;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.card_tile_name_flat {
+  font-size: 14px;
+  margin-left: 8px;
+  margin-right: 4px;
+  color: white;
+  text-align: left;
+  line-height: 31px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.cart_tile_mana_flat {
+  display: flex;
+  color: white;
+  align-items: center;
+  margin: 0 6px 0 auto;
+}
+
+.not_owned_sprite_empty {
+  margin-top: 4px;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.not_owned_sprite_flat {
+  margin-top: 4px;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  background-image: url(../assets/images/not_owned_sprite.png);
+}
+
+.not_owned_sprite {
+  margin-top: 2px;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  left: calc(0px - 100% + 42px);
+  position: relative;
+  background-image: url(../assets/images/not_owned_sprite.png);
+}
+
+.decklist_not_owned {
+  min-width: 24px;
+  margin-left: 8px;
+  background: url(../assets/images/not_owned.png) center no-repeat;
+}
+
+.card_tile_container {
+  width: 100%;
+  line-height: 18px;
+  color: black;
+  display: flex;
+}
+
+.card_tile_separator {
+  color: var(--color-light);
+  max-width: 800px;
+  margin: auto;
+  height: 32px;
+  vertical-align: middle;
+  line-height: 32px;
+  text-align: center;
+  font-family: "belerenbold";
+  align-self: center;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.card_tile_name {
+  padding-left: 2px;
+  overflow: hidden;
+  height: 16px;
+  font-size: 14px;
+  font-family: "belerenbold";
+  align-self: center;
+  justify-content: flex-start;
+  z-index: 15;
+  pointer-events: none;
+}

@@ -166,7 +166,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcCommonDelta}
           title={"Common Wildcard"}
-          className={indexCss.wc_common}
+          className={indexCss.wcCommon}
           smallLabel={isSmall}
         />
       ) : (
@@ -176,7 +176,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcUncommonDelta}
           title={"Uncommon Wildcard"}
-          className={indexCss.wc_uncommon}
+          className={indexCss.wcUncommon}
           smallLabel={isSmall}
         />
       ) : (
@@ -186,7 +186,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcRareDelta}
           title={"Rare Wildcard"}
-          className={indexCss.wc_rare}
+          className={indexCss.wcRare}
           smallLabel={isSmall}
         />
       ) : (
@@ -196,7 +196,7 @@ function AllWildcardsEconomyValueRecord(
         <WildcardEconomyValueRecord
           count={delta.wcMythicDelta}
           title={"Mythic Wildcard"}
-          className={indexCss.wc_mythic}
+          className={indexCss.wcMythic}
           smallLabel={isSmall}
         />
       ) : (

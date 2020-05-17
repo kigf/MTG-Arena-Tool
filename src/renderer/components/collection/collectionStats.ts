@@ -125,8 +125,8 @@ export function getCollectionStats(
       });
     });
 
-  const stats: { [key: string]: SetStats } = {
-    complete: new SetStats("complete")
+  const stats: any = {
+    "complete": new SetStats("complete")
   };
   const cards = store.getState().playerdata.cards;
   Object.keys(db.sets).forEach(setName => {

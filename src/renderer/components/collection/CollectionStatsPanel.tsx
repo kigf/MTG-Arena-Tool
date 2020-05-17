@@ -1,27 +1,26 @@
-import { shell } from "electron";
+import {shell} from "electron";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { CARD_RARITIES, IPC_NONE } from "../../../shared/constants";
+import {useSelector, useDispatch} from "react-redux";
+import {CARD_RARITIES, IPC_NONE} from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
-import { formatNumber } from "../../rendererUtil";
-import { BoosterSymbol } from "../misc/BoosterSymbol";
-import { CalendarSymbol } from "../misc/CalendarSymbol";
+import {AppState} from "../../../shared/redux/stores/rendererStore";
+import {formatNumber} from "../../rendererUtil";
+import {BoosterSymbol} from "../misc/BoosterSymbol";
+import {CalendarSymbol} from "../misc/CalendarSymbol";
 import Input from "../misc/Input";
-import { MediumTextButton } from "../misc/MediumTextButton";
-import { RaritySymbol } from "../misc/RaritySymbol";
+import {MediumTextButton} from "../misc/MediumTextButton";
+import {RaritySymbol} from "../misc/RaritySymbol";
 import {
   ALL_CARDS,
   CollectionStats,
   FULL_SETS,
-  SINGLETONS
+  SINGLETONS,
 } from "./collectionStats";
-import CompletionProgressBar, {
-  SetCompletionBar
-} from "./CompletionProgressBar";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
+import CompletionProgressBar, {SetCompletionBar} from "./CompletionProgressBar";
+import {reduxAction} from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
 
 const getRarityKey = (
   rarity: string
@@ -36,7 +35,7 @@ const getRarityKey = (
 export function CollectionStatsPanel({
   stats,
   boosterMath,
-  clickCompletionCallback
+  clickCompletionCallback,
 }: {
   stats?: CollectionStats;
   boosterMath: boolean;
@@ -47,7 +46,7 @@ export function CollectionStatsPanel({
     rareDraftFactor,
     mythicDraftFactor,
     boosterWinFactor,
-    futureBoosters
+    futureBoosters,
   } = useSelector((state: AppState) => state.collection);
   const dispatch = useDispatch();
   const playerEconomy = useSelector(
@@ -57,13 +56,13 @@ export function CollectionStatsPanel({
     return <></>;
   }
   const setStats = stats.complete;
-  const wanted: { [key: string]: number } = {};
-  const missing: { [key: string]: number } = {};
-  const filteredRarities = CARD_RARITIES.filter(rarity => {
+  const wanted: {[key: string]: number} = {};
+  const missing: {[key: string]: number} = {};
+  const filteredRarities = CARD_RARITIES.filter((rarity) => {
     const key = getRarityKey(rarity);
     return !!key && setStats[key].total > 0;
   });
-  filteredRarities.forEach(rarity => {
+  filteredRarities.forEach((rarity) => {
     const key = getRarityKey(rarity);
     if (key) {
       const countStats = setStats[key];
@@ -71,27 +70,27 @@ export function CollectionStatsPanel({
       missing[key] = countStats.total - countStats.owned;
     }
   });
-  const inputStyle = { width: "60px" };
+  const inputStyle = {width: "60px"};
 
   return (
     <>
       <div
-        className={"decklist_top"}
+        className={indexCss.decklistTop}
         style={{
           margin: "12px",
           padding: "0",
           color: "var(--color-light)",
           display: "flex",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
-        <div className={"economy_wc wc_common"}></div>
+        <div className={`${indexCss.economyWc} ${indexCss.wcCommon}`}></div>
         <div>{formatNumber(playerEconomy.wcCommon)}</div>
-        <div className={"economy_wc wc_uncommon"}></div>
+        <div className={`${indexCss.economyWc} ${indexCss.wcUncommon}`}></div>
         <div>{formatNumber(playerEconomy.wcUncommon)}</div>
-        <div className={"economy_wc wc_rare"}></div>
+        <div className={`${indexCss.economyWc} ${indexCss.wcRare}`}></div>
         <div>{formatNumber(playerEconomy.wcRare)}</div>
-        <div className={"economy_wc wc_mythic"}></div>
+        <div className={`${indexCss.economyWc} ${indexCss.wcMythic}`}></div>
         <div>{formatNumber(playerEconomy.wcMythic)}</div>
       </div>
       <div className={indexCss.main_stats}>
@@ -102,7 +101,7 @@ export function CollectionStatsPanel({
             margin: "12px auto auto 4px",
             textAlign: "left",
             width: "180px",
-            display: "inline-flex"
+            display: "inline-flex",
           }}
           options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
           current={countMode}
@@ -117,7 +116,7 @@ export function CollectionStatsPanel({
           setName={"Total Completion"}
           isSidebar
         />
-        {filteredRarities.map(rarityCode => {
+        {filteredRarities.map((rarityCode) => {
           const rarity = getRarityKey(rarityCode);
           if (rarity) {
             const countStats = setStats[rarity];
@@ -139,8 +138,8 @@ export function CollectionStatsPanel({
         {boosterMath ? (
           <>
             <div
-              className={"deck_name"}
-              style={{ width: "100%" }}
+              className={indexCss.deck_name}
+              style={{width: "100%"}}
               title={"set completion estimator"}
             >
               Completion* <CalendarSymbol />:
@@ -222,7 +221,7 @@ export function CollectionStatsPanel({
               }}
             />
             <div
-              className={"message_sub_15 white link"}
+              className={`${indexCss.message_sub_15} ${sharedCss.white} ${indexCss.link}`}
               onClick={(): void => {
                 shell.openExternal(
                   "https://www.mtggoldfish.com/articles/collecting-mtg-arena-part-1-of-2"

@@ -14,6 +14,27 @@ import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getWildcardsMissing } from "../renderer/rendererUtil";
 
+import indexCss from "../shared/shared.css";
+import css from "./CardTile.css";
+
+const tiles: Record<string, string> = {};
+tiles["w"] = css.tile_w;
+tiles["u"] = css.tile_u;
+tiles["b"] = css.tile_b;
+tiles["r"] = css.tile_r;
+tiles["g"] = css.tile_g;
+tiles["c"] = css.tile_c;
+tiles["wr"] = css.tile_wr;
+tiles["wb"] = css.tile_wb;
+tiles["wu"] = css.tile_wu;
+tiles["ur"] = css.tile_ur;
+tiles["ug"] = css.tile_ug;
+tiles["ub"] = css.tile_ub;
+tiles["rg"] = css.tile_rg;
+tiles["wg"] = css.tile_wg;
+tiles["br"] = css.tile_br;
+tiles["bg"] = css.tile_bg;
+
 export interface CardTileProps {
   card: DbCardData;
   deck?: Deck;
@@ -32,12 +53,12 @@ function isNumber(n: number | string): boolean {
 function frameClassName(card: DbCardData): string {
   const frame = card?.frame.concat().sort() ?? [];
   if (frame.length === 0) {
-    return "tile_c";
+    return css.tileC;;
   } else if (frame.length <= 2) {
     const colorString = frame.map((i: number) => COLORS_ALL[i - 1]).join("");
-    return "tile_" + colorString;
+    return tiles[colorString];
   } else {
-    return "tile_multi";
+    return css.tileMulti;
   }
 }
 
@@ -48,7 +69,7 @@ function getArenaQuantityDisplay(quantity: any): [number, number, JSX.Element] {
     ll = 48;
     const rankClass = getRankColorClass(quantity.quantity);
     quantityElement = (
-      <div className={"card_tile_odds " + rankClass}>
+      <div className={css.cardTileOdds + " " + rankClass}>
         <span>{quantity.quantity}</span>
       </div>
     );
@@ -57,7 +78,7 @@ function getArenaQuantityDisplay(quantity: any): [number, number, JSX.Element] {
     ll = 48;
     const rankClass = getRankColorClass(quantity);
     quantityElement = (
-      <div className={"card_tile_odds " + rankClass}>
+      <div className={css.cardTileOdds + " " + rankClass}>
         <span>{quantity}</span>
       </div>
     );
@@ -66,7 +87,7 @@ function getArenaQuantityDisplay(quantity: any): [number, number, JSX.Element] {
     ll = 17;
     quantityElement = (
       <div
-        className="card_tile_quantity"
+        className={css.cardTileQuantity}
         style={{
           color: "rgba(255, 255, 255, 0)",
           minWidth: "0px",
@@ -80,7 +101,7 @@ function getArenaQuantityDisplay(quantity: any): [number, number, JSX.Element] {
     ww = 64;
     ll = 49;
     quantityElement = (
-      <div className="card_tile_quantity">
+      <div className={css.cardTileQuantity}>
         <span>{quantity}</span>
       </div>
     );
