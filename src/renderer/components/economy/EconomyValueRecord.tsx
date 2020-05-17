@@ -1,8 +1,4 @@
 import React from "react";
-
-import tablesCss from "../tables/tables.css";
-import indexCss from "../../index.css";
-import sharedCss from "../../../shared/shared.css";
 import css from "./economy.css";
 
 interface EconomyValueRecordProps {
@@ -70,7 +66,7 @@ export default function EconomyValueRecord(
   }
 
   return props.containerDiv ? (
-    <div style={{ gridArea: gridArea }} className={"economy_metric"}>
+    <div style={{ gridArea: gridArea }} className={css.economy_metric}>
       {contents}
     </div>
   ) : (

@@ -5,6 +5,17 @@ import db from "./database";
 import Deck from "../shared/deck";
 import { CardObject } from "../types/Deck";
 
+import css from "./TypesStats.css";
+
+const typeIcons: Record<string, string> = {};
+typeIcons["art"] = css.type_art;
+typeIcons["cre"] = css.type_cre;
+typeIcons["enc"] = css.type_enc;
+typeIcons["ins"] = css.type_ins;
+typeIcons["lan"] = css.type_lan;
+typeIcons["pla"] = css.type_pla;
+typeIcons["sor"] = css.type_sor;
+
 function getDeckTypesAmount(deck: Deck): { [key: string]: number } {
   const types = { art: 0, cre: 0, enc: 0, ins: 0, lan: 0, pla: 0, sor: 0 };
   if (!deck.getMainboard().get()) return types;
@@ -36,12 +47,12 @@ export default function DeckTypesStats(props: { deck: Deck }): JSX.Element {
   const { deck } = props;
   const cardTypes = getDeckTypesAmount(deck);
   return (
-    <div className="types_container">
+    <div className={css.types_container}>
       {CARD_TYPE_CODES.map((cardTypeKey, index) => {
         return (
-          <div className="type_icon_cont" key={"type_icon_cont_" + index}>
+          <div className={css.type_icon_cont} key={"type_icon_cont_" + index}>
             <div
-              className={"type_icon type_" + cardTypeKey}
+              className={`${css.type_icon} ${typeIcons[cardTypeKey]}`}
               title={CARD_TYPES[index]}
             />
             <span>{cardTypes[cardTypeKey]}</span>

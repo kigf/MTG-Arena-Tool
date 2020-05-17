@@ -295,7 +295,7 @@ export default function CardsWinratesView(
       <Button text="Normal View" onClick={setRegularView} />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div
-          className="centered_setting_container"
+          className={css.centered_setting_container}
           style={{ justifyContent: "center" }}
         >
           <label>Deck Version:</label>
@@ -306,7 +306,7 @@ export default function CardsWinratesView(
             callback={setDeckVersionFilter}
           />
         </div>
-        <div className="settings_note" style={{ textAlign: "center" }}>
+        <div className={"settings_note"} style={{ textAlign: "center" }}>
           All winrates shown correspond to the times when the card in question
           was cast during a game, except for the &quot;Sided out WR&quot;
           column.

@@ -34,7 +34,7 @@ import MatchesTab from "./tabs/MatchesTab";
 import TimelineTab from "./tabs/TimelineTab";
 import OfflineSplash from "./components/main/OfflineSplash";
 import { ipcSend } from "./rendererUtil";
-import SettingsTab from "./tabs/settings";
+import SettingsTab from "./tabs/SettingsTab";
 import store from "../shared/redux/stores/rendererStore";
 import { reduxAction } from "../shared/redux/sharedRedux";
 

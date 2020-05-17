@@ -8,6 +8,8 @@ import {
   SINGLETONS
 } from "./collectionStats";
 
+import notFound from "../../../assets/images/notFound.png";
+
 export default function CompletionProgressBar({
   countMode,
   countStats,
@@ -89,7 +91,7 @@ export function SetCompletionBar({
   const iconSvg = db.sets[setIconCode]?.svg ?? db.defaultSet?.svg;
   const setIcon = iconSvg
     ? `url(data:image/svg+xml;base64,${iconSvg})`
-    : "url(../assets/images/notfound.png)";
+    : `url(${notFound})`;
   return (
     <CompletionProgressBar
       countMode={countMode}

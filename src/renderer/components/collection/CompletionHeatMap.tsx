@@ -4,6 +4,8 @@ import db from "../../../shared/database";
 import { CardStats } from "./collectionStats";
 import useHoverCard from "../../hooks/useHoverCard";
 
+import notFound from "../../../assets/images/notFound.png";
+
 type ColorData = { [key: string]: CardStats[] };
 export type CardData = ColorData[];
 
@@ -119,7 +121,7 @@ export default function CompletionHeatMap({
   const iconSvg = db.sets[setName]?.svg ?? db.defaultSet?.svg;
   const setIcon = iconSvg
     ? `url(data:image/svg+xml;base64,${iconSvg})`
-    : "url(../assets/images/notfound.png)";
+    : `url(${notFound})`;
   return (
     <>
       <div className={"stats_set_icon"} style={{ backgroundImage: setIcon }}>

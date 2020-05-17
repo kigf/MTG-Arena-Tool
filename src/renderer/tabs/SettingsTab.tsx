@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 import {
   SETTINGS_BEHAVIOUR,
@@ -12,10 +12,10 @@ import {
   SETTINGS_ABOUT,
   SETTINGS_LOGIN,
   IPC_ALL,
-  IPC_RENDERER
+  IPC_RENDERER,
 } from "../../shared/constants";
 
-import store, { AppState } from "../../shared/redux/stores/rendererStore";
+import store, {AppState} from "../../shared/redux/stores/rendererStore";
 import SectionBehaviour from "../components/settings/SectionBehaviour";
 import SectionData from "../components/settings/SectionData";
 import SectionOverlay from "../components/settings/sectionOverlay";
@@ -24,9 +24,11 @@ import SectionShortcuts from "../components/settings/SectionShortcuts";
 import SectionPrivacy from "../components/settings/SectionPrivacy";
 import SectionAbout from "../components/settings/SectionAbout";
 import SectionLogin from "../components/settings/SectionLogin";
-import { reduxAction } from "../../shared/redux/sharedRedux";
+import {reduxAction} from "../../shared/redux/sharedRedux";
 
 import appCss from "../app/app.css";
+import indexCss from "../index.css";
+import css from "./SettingsTab.css";
 
 interface SettingsNavProps {
   component: () => JSX.Element;
@@ -43,9 +45,9 @@ function SettingsNav(props: SettingsNavProps): JSX.Element {
 
   return (
     <div
-      className={
-        "settings_nav" + (props.currentTab == props.id ? " nav_selected" : "")
-      }
+      className={`${css.settings_nav} ${
+        props.currentTab == props.id ? css.nav_selected : ""
+      }`}
       onClick={click}
     >
       {props.title}
@@ -72,14 +74,14 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
 
   const defaultTab = {
     currentTab: currentTab,
-    callback: setCurrentTab
+    callback: setCurrentTab,
   };
 
   React.useEffect(() => {
     reduxAction(
       store.dispatch,
       "SET_SETTINGS",
-      { last_settings_section: currentTab },
+      {last_settings_section: currentTab},
       IPC_ALL ^ IPC_RENDERER
     );
   }, [currentTab]);
@@ -89,55 +91,55 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
     ...defaultTab,
     id: SETTINGS_BEHAVIOUR,
     component: SectionBehaviour,
-    title: "Behaviour"
+    title: "Behaviour",
   };
   tabs[SETTINGS_ARENA_DATA] = {
     ...defaultTab,
     id: SETTINGS_ARENA_DATA,
     component: SectionData,
-    title: "Arena Data"
+    title: "Arena Data",
   };
   tabs[SETTINGS_OVERLAY] = {
     ...defaultTab,
     id: SETTINGS_OVERLAY,
     component: SectionOverlay,
-    title: "Overlays"
+    title: "Overlays",
   };
   tabs[SETTINGS_VISUAL] = {
     ...defaultTab,
     id: SETTINGS_VISUAL,
     component: SectionVisual,
-    title: "Visual"
+    title: "Visual",
   };
   tabs[SETTINGS_SHORTCUTS] = {
     ...defaultTab,
     id: SETTINGS_SHORTCUTS,
     component: SectionShortcuts,
-    title: "Shortcuts"
+    title: "Shortcuts",
   };
   tabs[SETTINGS_PRIVACY] = {
     ...defaultTab,
     id: SETTINGS_PRIVACY,
     component: SectionPrivacy,
-    title: "Privacy"
+    title: "Privacy",
   };
   tabs[SETTINGS_ABOUT] = {
     ...defaultTab,
     id: SETTINGS_ABOUT,
     component: SectionAbout,
-    title: "About"
+    title: "About",
   };
   tabs[SETTINGS_LOGIN] = {
     ...defaultTab,
     id: SETTINGS_LOGIN,
     component: SectionLogin,
-    title: "Login"
+    title: "Login",
   };
 
   const CurrentSettings = tabs[currentTab].component;
   return (
     <div className={appCss.uxItem}>
-      <div className="wrapper_column sidebar_column_r">
+      <div className={`${indexCss.wrapperColumn} ${css.sidebar_column_r}`}>
         <SettingsNav {...tabs[SETTINGS_BEHAVIOUR]} />
         <SettingsNav {...tabs[SETTINGS_ARENA_DATA]} />
         <SettingsNav {...tabs[SETTINGS_OVERLAY]} />
@@ -147,8 +149,8 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
         <SettingsNav {...tabs[SETTINGS_ABOUT]} />
         <SettingsNav {...tabs[SETTINGS_LOGIN]} />
       </div>
-      <div className="wrapper_column settings_page">
-        <div className="settings_title">{tabs[currentTab].title}</div>
+      <div className={`${indexCss.wrapperColumn} ${css.settings_page}`}>
+        <div className={css.settings_title}>{tabs[currentTab].title}</div>
         <CurrentSettings />
       </div>
     </div>

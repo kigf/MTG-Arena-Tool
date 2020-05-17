@@ -7,7 +7,7 @@ const post = require("./webpack.post.js");
 console.log("MODE: production");
 
 const merged = merge(common, {
-  mode: "production",
+  mode: "production"
 });
 
 module.exports = post(merged);

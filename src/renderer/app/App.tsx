@@ -1,6 +1,6 @@
 import { remote } from "electron";
 import anime from "animejs";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   LOGIN_WAITING,
@@ -48,6 +48,7 @@ export function App(): JSX.Element {
   const authForm = useSelector((state: AppState) => state.login.loginForm);
   const noLog = useSelector((state: AppState) => state.renderer.noLog);
   const share = useSelector((state: AppState) => state.renderer.shareDialog);
+  const movingUxRef = useRef<HTMLDivElement | null>(null);
   /*
     Set up IPC listeners.
     This should only happen once when the app starts, so no
@@ -79,13 +80,13 @@ export function App(): JSX.Element {
   useEffect(() => {
     setTimeout(() => {
       anime({
-        targets: css.movingUx,
+        targets: movingUxRef.current,//css.movingUx,
         left: navIndex * -100 + "%",
         easing: EASING_DEFAULT,
         duration: 350
       });
     }, 10);
-  }, [navIndex]);
+  }, [navIndex, movingUxRef]);
 
   return (
     <>
@@ -106,7 +107,7 @@ export function App(): JSX.Element {
           {loginState == LOGIN_OK ? (
             <div className={css.wrapper}>
               <div className={css.overflowUxMain}>
-                <div className={css.movingUx}>
+                <div className={css.movingUx} ref={movingUxRef}>
                   {getOpenNav(topNav, offline)}
                   <div className={css.uxItem}>
                     {getOpenSub(subNavType, subNavId, subNavData)}

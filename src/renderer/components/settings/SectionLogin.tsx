@@ -6,6 +6,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { IPC_BACKGROUND } from "../../../shared/constants";
 import { useSelector } from "react-redux";
+import css from "./Sections.css";
 
 function click(): void {
   const clearAppSettings = {
@@ -28,7 +29,7 @@ function click(): void {
 export default function SectionLogin(): JSX.Element {
   const offline = useSelector((state: AppState) => state.renderer.offline);
   return (
-    <div className="about">
+    <div className={css.about}>
       <Button text={offline ? "Login" : "Logout"} onClick={click} />
     </div>
   );

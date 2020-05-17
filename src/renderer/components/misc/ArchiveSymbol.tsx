@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+import showPng from "../../../assets/images/show.png";
+import hidePng from "../../../assets/images/hide.png";
+
 export const ArchiveSymbol = styled.div`
   border-radius: 50%;
   cursor: pointer;
@@ -7,7 +10,7 @@ export const ArchiveSymbol = styled.div`
   min-height: 24px;
   margin: auto;
   overflow: hidden;
-  background: url(../assets/images/show.png) no-repeat center;
+  background: url(${showPng}) no-repeat center;
   background-size: contain;
   -webkit-transition: all 0.25s cubic-bezier(0.2, 0.5, 0.35, 1);
   vertical-align: middle;
@@ -27,6 +30,6 @@ export const ColoredArchivedSymbol = styled(ArchiveSymbol)<
   background: var(
       ${(props): string => (props.archived ? "--color-g" : "--color-r")}
     )
-    url(../assets/images/${(props): string => (props.archived ? "show.png" : "hide.png")})
+    url(${(props): string => (props.archived ? showPng : hidePng)})
     no-repeat center;
 `;

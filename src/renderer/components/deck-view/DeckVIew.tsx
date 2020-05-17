@@ -27,8 +27,7 @@ import CardsWinratesView from "./CardsWinrateView";
 import sharedCss from "../../../shared/shared.css";
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
-
-const ReactSvgPieChart = require("react-svg-piechart");
+import ReactSvgPieChart from "react-svg-piechart";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;

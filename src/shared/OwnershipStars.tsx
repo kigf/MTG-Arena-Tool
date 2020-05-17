@@ -71,7 +71,7 @@ function MultiCardOwnership(props: OwnershipProps): JSX.Element {
         <OwnershipStar
           acquired={acquired}
           copyIndex={copyIndex}
-          key={"inventory_card_quantity_" + copyIndex}
+          key={copyIndex}
           owned={owned}
           wanted={wanted}
           title={title}

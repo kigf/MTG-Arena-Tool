@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getWildcardsMissing } from "../renderer/rendererUtil";
 
-import indexCss from "../shared/shared.css";
+import sharedCss from "../shared/shared.css";
 import css from "./CardTile.css";
 
 const tiles: Record<string, string> = {};
@@ -35,6 +35,46 @@ tiles["wg"] = css.tile_wg;
 tiles["br"] = css.tile_br;
 tiles["bg"] = css.tile_bg;
 
+const mana: Record<string, string> = {};
+mana["w"] = sharedCss.mana_w;
+mana["u"] = sharedCss.mana_u;
+mana["b"] = sharedCss.mana_b;
+mana["r"] = sharedCss.mana_r;
+mana["g"] = sharedCss.mana_g;
+mana["c"] = sharedCss.mana_c;
+mana["wu"] = sharedCss.mana_wu;
+mana["wb"] = sharedCss.mana_wb;
+mana["ur"] = sharedCss.mana_ur;
+mana["ub"] = sharedCss.mana_ub;
+mana["br"] = sharedCss.mana_br;
+mana["bg"] = sharedCss.mana_bg;
+mana["gw"] = sharedCss.mana_gw;
+mana["gu"] = sharedCss.mana_gu;
+mana["rw"] = sharedCss.mana_rw;
+mana["rg"] = sharedCss.mana_rg;
+mana["x"] = sharedCss.mana_x;
+mana["0"] = sharedCss.mana_0;
+mana["1"] = sharedCss.mana_1;
+mana["2"] = sharedCss.mana_2;
+mana["3"] = sharedCss.mana_3;
+mana["4"] = sharedCss.mana_4;
+mana["5"] = sharedCss.mana_5;
+mana["6"] = sharedCss.mana_6;
+mana["7"] = sharedCss.mana_7;
+mana["8"] = sharedCss.mana_8;
+mana["9"] = sharedCss.mana_9;
+mana["10"] = sharedCss.mana_10;
+mana["11"] = sharedCss.mana_11;
+mana["12"] = sharedCss.mana_12;
+mana["13"] = sharedCss.mana_13;
+mana["14"] = sharedCss.mana_14;
+mana["15"] = sharedCss.mana_15;
+mana["16"] = sharedCss.mana_16;
+mana["17"] = sharedCss.mana_17;
+mana["18"] = sharedCss.mana_18;
+mana["19"] = sharedCss.mana_19;
+mana["20"] = sharedCss.mana_20;
+
 export interface CardTileProps {
   card: DbCardData;
   deck?: Deck;
@@ -53,7 +93,7 @@ function isNumber(n: number | string): boolean {
 function frameClassName(card: DbCardData): string {
   const frame = card?.frame.concat().sort() ?? [];
   if (frame.length === 0) {
-    return css.tileC;;
+    return css.tileC;
   } else if (frame.length <= 2) {
     const colorString = frame.map((i: number) => COLORS_ALL[i - 1]).join("");
     return tiles[colorString];
@@ -127,8 +167,11 @@ function CostSymbols(props: {
       }
       costSymbols.push(
         <div
+          style={{
+            justifyContent: "flex-end"
+          }}
           key={card.id + "_" + index}
-          className={"mana_s16 flex_end mana_" + cost}
+          className={`${sharedCss.manaS16} ${mana[cost]}`}
         />
       );
     });
@@ -138,8 +181,11 @@ function CostSymbols(props: {
     dfcCard.cost.forEach((cost: string, index: number) => {
       costSymbols.push(
         <div
+          style={{
+            justifyContent: "flex-end"
+          }}
           key={dfcCard.id + "_" + index}
-          className={"mana_s16 flex_end mana_" + cost}
+          className={`${sharedCss.manaS16} ${mana[cost]}`}
         />
       );
     });
@@ -183,7 +229,7 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
 
   return (
     <div
-      className="card_tile_container click-on"
+      className={`${css.card_tile} ${css.card_tile_container} click-on`}
       data-grp-id={card.id}
       data-id={indent}
       data-quantity={quantity}
@@ -196,21 +242,21 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
     >
       {quantityElement}
       <div
-        className={"card_tile " + (card.frame ? frameClassName(card) : "")}
+        className={`${css.card_tile} ${card.frame ? frameClassName(card) : ""}`}
         style={{
           minWidth: `calc(100% - ${ww}px)`,
           marginTop: isMouseHovering ? 0 : "3px"
         }}
       >
         <div style={{display: "flex"}}>
-          <div className="card_tile_name">{card.name || "Unknown"}</div>
+          <div className={css.card_tile_name}>{card.name || "Unknown"}</div>
         </div>
         <div style={{ display: "flex", lineHeight: "26px" }}>
           <CostSymbols card={card} dfcCard={dfcCard} />
         </div>
       </div>
       <div
-        className="card_tile_glow"
+        className={css.card_tile_glow}
         style={{
           minWidth: `calc(100% - ${ww}px)`,
           left: `calc(0px - 100% + ${ll}px)`
@@ -234,21 +280,21 @@ function FlatQuantityDisplay(props: { quantity: any }): JSX.Element {
   if (typeof quantity === "object") {
     // Mixed quantity (odds and quantity)
     return (
-      <div className="card_tile_odds_flat">
-        <div className="card_tile_odds_flat_half">{quantity.quantity}</div>
-        <div className="card_tile_odds_flat_half_dark">{quantity.odds}</div>
+      <div className={css.card_tile_odds_flat}>
+        <div className={css.card_tile_odds_flat_half}>{quantity.quantity}</div>
+        <div className={css.card_tile_odds_flat_half_dark}>{quantity.odds}</div>
       </div>
     );
   } else if (!isNumber(quantity)) {
     // Text quantity
     const rankClass = getRankColorClass(quantity);
-    return <div className={"card_tile_odds_flat " + rankClass}>{quantity}</div>;
+    return <div className={css.card_tile_odds_flat + " " + rankClass}>{quantity}</div>;
   } else if (quantity === 9999) {
     // Undefined Quantity
-    return <div className="card_tile_quantity_flat">1</div>;
+    return <div className={css.card_tile_quantity_flat}>1</div>;
   } else {
     // Normal Quantity
-    return <div className="card_tile_quantity_flat">{quantity}</div>;
+    return <div className={css.card_tile_quantity_flat}>{quantity}</div>;
   }
 }
 
@@ -277,7 +323,7 @@ function WildcardsNeeded(props: WildcardsNeededProps): JSX.Element {
       return MissingCardSprite({ missing, cardRarity, listStyle, ww });
     }
   }
-  return <div className="not_owned_sprite_empty"></div>;
+  return <div className={css.not_owned_sprite_empty}></div>;
 }
 
 function MissingCardSprite(props: MissingCardsProps): JSX.Element {
@@ -286,9 +332,9 @@ function MissingCardSprite(props: MissingCardsProps): JSX.Element {
   const xoff = CARD_RARITIES.indexOf(cardRarity) * -24;
   const yoff = missing * -24;
 
-  let className = "not_owned_sprite";
+  let className = css.not_owned_sprite;
   if (listStyle === "flat") {
-    className += "_flat";
+    className += css.not_owned_sprite_flat;
   }
 
   const style: React.CSSProperties = {
@@ -369,9 +415,9 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
   }
 
   return (
-    <div className="card_tile_container_outer">
+    <div className={css.card_tile_container_outer}>
       <div
-        className="card_tile_container_flat click-on"
+        className={`${css.card_tile_container_flat} click-on`}
         data-grp-id={card.id}
         data-id={indent}
         data-quantity={quantity}
@@ -381,9 +427,9 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
         onClick={handleMouseClick}
       >
         <FlatQuantityDisplay quantity={quantity} />
-        <div className="card_tile_crop_flat" style={cardTileStyle} />
-        <div className="card_tile_name_flat">{card.name || "Unknown"}</div>
-        <div className="cart_tile_mana_flat">
+        <div className={css.card_tile_crop_flat} style={cardTileStyle} />
+        <div className={css.card_tile_name_flat}>{card.name || "Unknown"}</div>
+        <div className={css.cart_tile_mana_flat}>
           <CostSymbols card={card} dfcCard={dfcCard} />
         </div>
       </div>

@@ -23,14 +23,16 @@ import {
 } from "./constants";
 import db from "./database";
 import Deck from "./deck";
-const NO_IMG_URL = "../assets/images/notfound.png";
+
+import sharedCss from "../shared/shared.css";
+const notFound = "../assets/images/notFound.png";
 
 export function getCardImage(
   card: DbCardData | number | undefined,
   quality: string
 ): string {
   if (card === undefined) {
-    return NO_IMG_URL;
+    return notFound;
   }
   const cardObj =
     typeof card == "string"
@@ -46,7 +48,7 @@ export function getCardImage(
     // eslint-disable-next-line no-console
     // console.error(e);
     console.log("Cant find card image: ", cardObj, typeof cardObj);
-    return NO_IMG_URL;
+    return notFound;
   }
 }
 
@@ -71,23 +73,23 @@ export function getRankColorClass(rank: string): string {
   switch (rank) {
     case "A+":
     case "A":
-      return "blue";
+      return sharedCss.blue;
     case "A-":
     case "B+":
     case "B":
-      return "green";
+      return sharedCss.green;
     case "B-":
     case "C+":
     case "C":
     default:
-      return "white";
+      return sharedCss.white;
     case "C-":
     case "D+":
     case "D":
-      return "orange";
+      return sharedCss.orange;
     case "D-":
     case "F":
-      return "red";
+      return sharedCss.red;
   }
 }
 

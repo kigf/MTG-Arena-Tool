@@ -1,0 +1,48 @@
+
+.settings_nav {
+  cursor: pointer;
+  color: var(--color-light-50);
+  font-size: 18px;
+  line-height: 40px;
+  height: 40px;
+  font-family: "belerenbold";
+  margin-left: 24px;
+  -webkit-transition: all .25s cubic-bezier(0.2, 0.5, 0.35, 1);
+}
+
+.settings_nav:hover, .nav_selected {
+  color: var(--color-light);
+  margin-left: 32px;
+}
+
+.settings_section {
+  display: none;
+}
+
+.settings_row {
+  display: inline-flex;
+  margin-left: 16px;
+}
+
+.sidebar_column_r {
+  margin-top: 16px;
+  height: calc(100% - 16px);
+  width: 30% !important;
+  max-width: 220px;
+  border-width: 2px;
+  border-style: none solid none none;
+  border-image: linear-gradient(to bottom, rgba(250, 229, 210, 0) 10px, var(--color-light-50) 10px, rgba(250, 229, 210, 0)) 1 100%;
+}
+
+.settings_page {
+  /*height: calc(100% - 64px);*/
+}
+
+.settings_title {
+  font-family:  var(--main-font-name-it);
+  font-size: 20px;
+  border-bottom: solid var(--color-light-20) 2px;
+  color: var(--color-light);
+  margin: 24px 64px 14px 12px;
+  padding-bottom: 2px;
+}

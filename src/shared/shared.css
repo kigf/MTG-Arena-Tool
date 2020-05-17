@@ -66,15 +66,6 @@ body {
   overflow: hidden;
 }
 
-input#flat.color_picker {
-  width: 64px;
-  height: 32px;
-  border: 1px solid rgba(140, 140, 140, 0.8);
-  border-radius: 3px;
-  text-align: center;
-  font-family: var(--sub-font-name);
-}
-
 label {
   font-family: var(--main-font-name);
   color: var(--color-light);
@@ -166,24 +157,6 @@ label {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #b59579;
-}
-
-.tiny_scroll::-webkit-scrollbar {
-  height: 2px;
-}
-
-.tiny_scroll::-webkit-scrollbar-track {
-  border-radius: 2px;
-  margin-left: 2px;
-}
-
-.tiny_scroll::-webkit-scrollbar-thumb {
-  background: #c3a485;
-  border-radius: 2px;
-}
-
-.tiny_scroll::-webkit-scrollbar-thumb:hover {
-  background: #ffe9d3;
 }
 
 .med_scroll {
@@ -726,81 +699,6 @@ span {
   align-items: center;
   display: flex;
   border-radius: 5px 5px 0 0;
-}
-
-.actionlog-div {
-  font-family: var(--main-font-name);
-  width: calc(50% - 48px);
-  max-width: 700px;
-  margin: auto;
-}
-
-.actionlog-div .actionlog {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.actionlog {
-  color: white;
-  text-shadow: 2px 2px 2px rgb(0, 0, 0);
-  white-space: nowrap;
-  overflow: hidden;
-  height: 24px;
-  line-height: 24px;
-  width: 100%;
-  display: flex;
-  font-size: 14px;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
-}
-
-.log_p0 {
-  color: rgba(200, 255, 200, 1);
-}
-
-.log_p1 {
-  color: rgba(255, 200, 200, 1);
-}
-
-.log_p2 {
-  color: rgba(200, 200, 255, 1);
-}
-
-.log_p-1 {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: bold;
-}
-
-.log_p-2 {
-  margin-top: 16px;
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: bold;
-}
-
-.actionlog_time {
-  margin-left: 8px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.actionlog_text {
-  display: flex;
-  margin-left: 8px;
-}
-
-.log-text {
-  margin-right: 3px;
-}
-
-.log-card {
-  text-decoration: none;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-right: 3px;
-}
-
-.log-ability {
-  text-decoration: underline !important;
-  cursor: pointer;
-  margin-right: 3px;
 }
 
 .Selectable

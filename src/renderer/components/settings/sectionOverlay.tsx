@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
 import Button from "../misc/Button";
-import { ipcSend } from "../../rendererUtil";
+import {ipcSend} from "../../rendererUtil";
 import Toggle from "../misc/Toggle";
 import Slider from "../misc/Slider";
 import _ from "lodash";
@@ -17,14 +17,18 @@ import {
   OVERLAY_FULL,
   OVERLAY_DRAFT_MODES,
   IPC_RENDERER,
-  IPC_ALL
+  IPC_ALL,
 } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import useColorPicker from "../../hooks/useColorPicker";
-import { useSelector } from "react-redux";
-import store, { AppState } from "../../../shared/redux/stores/rendererStore";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
+import {useSelector} from "react-redux";
+import store, {AppState} from "../../../shared/redux/stores/rendererStore";
+import {reduxAction} from "../../../shared/redux/sharedRedux";
 import defaultConfig from "../../../shared/defaultConfig";
+
+import css from "./Sections.css";
+import indexCss from "../../index.css";
+import topNavCss from "../main/topNav.css";
 
 function toggleEditMode(): void {
   ipcSend("toggle_edit_mode");
@@ -34,7 +38,7 @@ function backgroundColorPicker(color: string): void {
   reduxAction(
     store.dispatch,
     "SET_SETTINGS",
-    { overlay_back_color: color },
+    {overlay_back_color: color},
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -43,7 +47,7 @@ function setAlwaysOnTop(checked: boolean): void {
   reduxAction(
     store.dispatch,
     "SET_SETTINGS",
-    { overlay_ontop: checked },
+    {overlay_ontop: checked},
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -52,7 +56,7 @@ function setSoundPriority(checked: boolean): void {
   reduxAction(
     store.dispatch,
     "SET_SETTINGS",
-    { sound_priority: checked },
+    {sound_priority: checked},
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -61,7 +65,7 @@ export function setCurrentOverlaySettings(current: number): void {
   reduxAction(
     store.dispatch,
     "SET_SETTINGS",
-    { last_settings_overlay_section: current },
+    {last_settings_overlay_section: current},
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -74,7 +78,7 @@ interface OverlaysTopNavProps {
 function OverlaysTopNav(props: OverlaysTopNavProps): JSX.Element {
   const overlays = [0, 1, 2, 3, 4];
   return (
-    <div className="overlay_section_selector_cont top_nav_icons">
+    <div className={`${css.overlay_section_selector_cont} ${topNavCss.icons}`}>
       {overlays.map((id: number) => {
         return (
           <div
@@ -83,20 +87,21 @@ function OverlaysTopNav(props: OverlaysTopNavProps): JSX.Element {
               props.setCurrent(id);
             }}
             key={id}
-            style={{ maxWidth: "160px", display: "flex" }}
-            className={
-              "overlay_settings_nav top_nav_item" +
-              (props.current == id ? " item_selected" : "")
-            }
+            style={{maxWidth: "160px", display: "flex"}}
+            className={`overlay_settings_nav ${topNavCss.item} ${
+              props.current == id ? " " + topNavCss.itemSelected : ""
+            }`}
           >
             <div
               style={{
                 backgroundColor: `var(--color-${COLORS_ALL[id]})`,
-                flexShrink: 0
+                flexShrink: 0,
               }}
-              className="overlay_icon"
+              className={css.overlayIcon}
             ></div>
-            <div className="overlay_label">{"Overlay " + (id + 1)}</div>
+            <div className={indexCss.overlay_label}>
+              {"Overlay " + (id + 1)}
+            </div>
           </div>
         );
       })}
@@ -140,7 +145,7 @@ interface SectionProps {
 
 function saveOverlaySettings(current: number, value: any, key: string): void {
   const send: any = {
-    index: current
+    index: current,
   };
   send[key] = value;
   ipcSend("save_overlay_settings", send);
@@ -149,12 +154,12 @@ function saveOverlaySettings(current: number, value: any, key: string): void {
 function setOverlayMode(current: number, filter: string): void {
   ipcSend("save_overlay_settings", {
     index: current,
-    mode: modeOptions.indexOf(filter)
+    mode: modeOptions.indexOf(filter),
   });
 }
 
 function OverlaySettingsSection(props: SectionProps): JSX.Element {
-  const { settings, current, show } = props;
+  const {settings, current, show} = props;
   const [overlayAlpha, setOverlayAlpha] = React.useState(0);
   const [overlayAlphaBack, setOverlayAlphaBack] = React.useState(0);
   const primaryMonitorPos = useSelector(
@@ -201,7 +206,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           saveOverlaySettings(current, val, "show")
         }
       />
-      <div className="centered_setting_container">
+      <div className={css.centered_setting_container}>
         <label>Mode:</label>
         <ReactSelect
           options={modeOptions}
@@ -209,7 +214,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           callback={(filter: string): void => setOverlayMode(current, filter)}
         />
       </div>
-      <div className="settings_note" style={{ paddingLeft: "16px" }}>
+      <div className={css.settings_note} style={{paddingLeft: "16px"}}>
         <p>
           <i>{modeHelp[settings.mode]}</i>
         </p>
@@ -221,7 +226,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           saveOverlaySettings(current, val, "show_always")
         }
       />
-      <div className="settings_note" style={{ paddingLeft: "16px" }}>
+      <div className={css.settings_note} style={{paddingLeft: "16px"}}>
         <p>
           <i>
             Displays the overlay regardless of Arena match or draft status
@@ -298,7 +303,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           OVERLAY_SEEN,
           OVERLAY_DRAFT,
           OVERLAY_LOG,
-          OVERLAY_DRAFT_BREW
+          OVERLAY_DRAFT_BREW,
         ].includes(settings.mode)}
       />
       <Toggle
@@ -317,8 +322,8 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
         }
         disabled={[OVERLAY_LOG, OVERLAY_DRAFT].includes(settings.mode)}
       />
-      <div className="centered_setting_container">
-        <label style={{ width: "400px" }} className="card_size_container">
+      <div className={css.centered_setting_container}>
+        <label style={{width: "400px"}}>
           {`Elements transparency: ${Math.round(overlayAlpha * 100)}%`}
         </label>
         <Slider
@@ -330,8 +335,8 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           onChange={overlayAlphaHandler}
         />
       </div>
-      <div className="centered_setting_container">
-        <label style={{ width: "400px" }} className="card_size_container">
+      <div className={css.centered_setting_container}>
+        <label style={{width: "400px"}}>
           {`background transparency: ${Math.round(overlayAlphaBack * 100)}%`}
         </label>
         <Slider
@@ -343,10 +348,10 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           onChange={overlayAlphaBackHandler}
         />
       </div>
-      <div className="settings_note" style={{ textAlign: "center" }}>
+      <div className={css.settings_note} style={{textAlign: "center"}}>
         Position: [{settings.bounds.x},{settings.bounds.y}]
       </div>
-      <div className="settings_note" style={{ textAlign: "center" }}>
+      <div className={css.settings_note} style={{textAlign: "center"}}>
         <Button
           text="Reset Position"
           onClick={(): void =>
@@ -358,7 +363,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
                   primaryMonitorPos.x,
                 y:
                   defaultConfig.settings.overlays[current].bounds.y +
-                  primaryMonitorPos.y
+                  primaryMonitorPos.y,
               },
               "bounds"
             )
@@ -400,7 +405,7 @@ export default function SectionOverlay(): JSX.Element {
       reduxAction(
         store.dispatch,
         "SET_SETTINGS",
-        { overlay_scale: value },
+        {overlay_scale: value},
         IPC_ALL ^ IPC_RENDERER
       );
     }, 1000),
@@ -414,15 +419,15 @@ export default function SectionOverlay(): JSX.Element {
 
   const overlayVolumeDebouce = React.useCallback(
     _.debounce((value: number) => {
-      const { Howl, Howler } = require("howler");
-      const sound = new Howl({ src: ["../sounds/blip.mp3"] });
+      const {Howl, Howler} = require("howler");
+      const sound = new Howl({src: ["../sounds/blip.mp3"]});
       Howler.volume(value);
       sound.play();
 
       reduxAction(
         store.dispatch,
         "SET_SETTINGS",
-        { sound_priority_volume: value },
+        {sound_priority_volume: value},
         IPC_ALL ^ IPC_RENDERER
       );
     }, 1000),
@@ -447,10 +452,8 @@ export default function SectionOverlay(): JSX.Element {
     <>
       <Button onClick={toggleEditMode} text="Edit Overlay Positions" />
 
-      <div className="centered_setting_container">
-        <label style={{ width: "400px" }} className="card_size_container">
-          {`UI Scale: ${overlayScale}%`}
-        </label>
+      <div className={css.centered_setting_container}>
+        <label style={{width: "400px"}}>{`UI Scale: ${overlayScale}%`}</label>
         <Slider
           min={10}
           max={200}
@@ -460,16 +463,16 @@ export default function SectionOverlay(): JSX.Element {
         />
       </div>
 
-      <label className="centered_setting_container">
+      <label className={css.centered_setting_container}>
         <span>
           Background color <i>(0,0,0,0 to use default background)</i>:
         </span>
         <input
           onClick={pickerDoShow}
           ref={containerRef}
-          style={{ backgroundColor: pickerColor }}
-          className="color_picker"
-          id="flat"
+          style={{backgroundColor: pickerColor}}
+          className={css.color_picker}
+          id={css.flat}
           type="text"
           defaultValue=""
         ></input>
@@ -488,8 +491,8 @@ export default function SectionOverlay(): JSX.Element {
         callback={setSoundPriority}
       />
 
-      <div className="centered_setting_container">
-        <label style={{ width: "400px" }} className="card_size_container">
+      <div className={css.centered_setting_container}>
+        <label style={{width: "400px"}}>
           {`Volume: ${Math.round(overlayVolume * 100)}%`}
         </label>
         <Slider
@@ -502,15 +505,15 @@ export default function SectionOverlay(): JSX.Element {
       </div>
 
       <div
-        className="settings_note"
-        style={{ margin: "24px auto 0px auto", width: "fit-content" }}
+        className={css.settings_note}
+        style={{margin: "24px auto 0px auto", width: "fit-content"}}
       >
         You can enable up to 5 independent overlay windows. Customize each
         overlay using the settings below.
       </div>
 
       <OverlaysTopNav current={currentOverlay} setCurrent={setCurrentOverlay} />
-      <div className="overlay_section">
+      <div className={css.overlay_section}>
         {settings.overlays.map((settings: any, index: number) => {
           return (
             <OverlaySettingsSection

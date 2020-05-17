@@ -11,6 +11,12 @@ import {
 } from "../../rendererUtil";
 import indexCss from "../../index.css";
 
+const wcIcon: Record<string, string> = {};
+wcIcon["common"] = indexCss.wcCommon;
+wcIcon["uncommon"] = indexCss.wcUncommon;
+wcIcon["rare"] = indexCss.wcRare;
+wcIcon["mythic"] = indexCss.wcMythic;
+
 const getRarityKey = (
   rarity: string
 ): "rare" | "common" | "uncommon" | "mythic" | undefined => {
@@ -62,8 +68,8 @@ export default function WildcardsCost(props: {
                     (shrink
                       ? indexCss.wc_deckstab_cost
                       : indexCss.wc_explore_cost) +
-                    " wc_" +
-                    cardRarity
+                    " " +
+                    wcIcon[cardRarity]
                   }
                   title={_.capitalize(cardRarity) + " wildcards needed."}
                 >

@@ -18,6 +18,8 @@ import { getDraft } from "../../../shared/store";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
+import css from "./DraftView.css" 
 
 interface PickPack {
   pack: number;
@@ -65,17 +67,16 @@ function DraftCard(props: DraftCardProps): JSX.Element {
 
   const RANK_SOURCE = card?.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
   return (
-    <div className="draft-card-cont">
+    <div className={css.draftCardCont}>
       <div
         style={makeStyle()}
         onMouseEnter={hoverIn}
         onMouseLeave={hoverOut}
-        className={"draft-card" + (pick ? " " + "draft-card-picked" : "")}
+        className={`${css.draftCard} + ${pick ? css.draftCardPicked : ""}`}
       />
       <div
         className={
-          "draft-card-rank " +
-          getRankColorClass(RANK_SOURCE[card ? card.rank : 0])
+          `${css.draftCardRank} ${getRankColorClass(RANK_SOURCE[card ? card.rank : 0])}`
         }
       >
         {card ? RANK_SOURCE[card.rank] : "-"}
@@ -165,15 +166,15 @@ export function DraftView(props: DraftViewProps): JSX.Element {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <div className="decklist_top">
-        <div className="button back" onClick={goBack}></div>
-        <div className="deck_name">{draft.set + " Draft"}</div>
+      <div className={indexCss.decklist_top}>
+        <div className={`${sharedCss.button} ${sharedCss.back}`} onClick={goBack}></div>
+        <div className={indexCss.deckName}>{draft.set + " Draft"}</div>
       </div>
       <div
         className={indexCss.flexItem}
         style={{ flexDirection: "column", margin: "0 32px" }}
       >
-        <div className="draft-title">
+        <div className={css.draftTitle}>
           {`Pack ${pickpack.pack + 1}, Pick ${pickpack.pick + 1}`}
         </div>
         <Slider
@@ -183,9 +184,9 @@ export function DraftView(props: DraftViewProps): JSX.Element {
           max={maxPosition}
           positions={sliderPositions}
         />
-        <div className="draft-container">
+        <div className={css.draftContainer}>
           <div
-            className="draft-view"
+            className={css.draftView}
             style={{
               gridTemplateColumns: `repeat(auto-fit, minmax(${cardSize +
                 12}px, 1fr))`
@@ -202,7 +203,7 @@ export function DraftView(props: DraftViewProps): JSX.Element {
               );
             })}
           </div>
-          <div className="draft-deck-view">
+          <div className={css.draftDeckView}>
             <DeckList deck={getCurrentDeck()} />
           </div>
         </div>

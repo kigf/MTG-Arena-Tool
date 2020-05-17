@@ -10,6 +10,7 @@ import store, {AppState} from "../../../shared/redux/stores/rendererStore";
 import {reduxAction} from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
+import css from "./Sections.css";
 
 function setKeyboardShortcuts(checked: boolean): void {
   reduxAction(
@@ -29,7 +30,7 @@ function ShortcutsRow({
 }): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
   const [openDialog, setOpenDialog] = useState(false);
-  const ld = index % 2 ? "line_dark" : "line_light";
+  const ld = index % 2 ? indexCss.lineDark : indexCss.lineLight;
 
   function openKeyCombinationDialog(): void {
     remote.globalShortcut.unregisterAll();
@@ -52,19 +53,19 @@ function ShortcutsRow({
   return (
     <>
       <div
-        className={ld + " shortcuts_line"}
+        className={ld + " " + css.shortcuts_line}
         style={{gridArea: `${index + 2} / 1 / auto / 2`}}
       >
         {SHORTCUT_NAMES[code]}
       </div>
       <div
-        className={ld + " shortcuts_line"}
+        className={ld + " " + css.shortcuts_line}
         style={{gridArea: `${index + 2} / 2 / auto / 3`}}
       >
         {((settings as unknown) as Record<string, string>)[code]}
       </div>
       <div
-        className={ld + " shortcuts_line"}
+        className={ld + " " + css.shortcuts_line}
         style={{gridArea: `${index + 2} / 3 / auto / 4`}}
       >
         <Button
@@ -89,18 +90,18 @@ export default function SectionShortcuts(): JSX.Element {
         value={enableKeyboardShortcuts}
         callback={setKeyboardShortcuts}
       />
-      <div className="settings_note" style={{margin: "24px 16px 16px"}}>
+      <div className={css.settings_note} style={{margin: "24px 16px 16px"}}>
         Click Edit to change a shortcut
       </div>
-      <div className="shortcuts_grid">
+      <div className={css.shortcuts_grid}>
         <div
-          className="line_dark line_bottom_border shortcuts_line"
+          className={`${indexCss.lineDark} ${indexCss.line_bottom_border} ${css.shortcuts_line}`}
           style={{gridArea: "1 / 1 / auto / 3"}}
         >
           Action
         </div>
         <div
-          className="line_dark line_bottom_border shortcuts_line"
+          className={`${indexCss.lineDark} ${indexCss.line_bottom_border} ${css.shortcuts_line}`}
           style={{gridArea: "1 / 2 / auto / 4"}}
         >
           Shortcut

@@ -2,6 +2,7 @@
 import React from "react";
 import db from "./database";
 import useHoverCard from "../renderer/hooks/useHoverCard";
+import css from "./ActionLog.css";
 
 interface ActionLogProps {
   logStr: string;
@@ -18,7 +19,7 @@ export default function ActionLog(props: ActionLogProps): JSX.Element {
   const { logStr } = props;
   const actionLog = logStr.split("\n");
 
-  const logP = ["log_p0", "log_p1", "log_p2"];
+  const logP = [css.log_player0, css.log_player1, css.log_player2];
 
   const elements: LogLine[] = [];
   for (let line = 1; line < actionLog.length - 1; line += 3) {
@@ -48,11 +49,11 @@ export default function ActionLog(props: ActionLogProps): JSX.Element {
     <>
       {elements.map((line, i) => {
         return (
-          <div key={i} className={"actionlog " + logP[line.seat]}>
-            <div key={i + 1} className="actionlog_time">
+          <div key={i} className={`${css.actionlog} ${logP[line.seat]}`}>
+            <div key={i + 1} className={css.actionlog_time}>
               {line.time}
             </div>
-            <div key={i + 2} className="actionlog_text">
+            <div key={i + 2} className={css.actionlog_text}>
               {line.strings.map((str, ii) => {
                 if (line.groups.length == ii && str !== "") {
                   return <LogText key={i + "text" + ii}>{str}</LogText>;
@@ -92,7 +93,7 @@ interface LogTextProps {
 
 function LogText(props: LogTextProps): JSX.Element {
   const { children } = props;
-  return <div className={"log-text"}>{children}</div>;
+  return <div className={css.logText}>{children}</div>;
 }
 
 interface LogCardProps {
@@ -133,7 +134,7 @@ function LogAbility(props: LogAbilityProps): JSX.Element {
   return (
     <>
       {children !== "" ? <LogText>{children}</LogText> : <></>}
-      <div title={desc} className={"log-ability"}>
+      <div title={desc} className={css.logAbility}>
         ability
       </div>
     </>

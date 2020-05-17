@@ -23,6 +23,7 @@ import {AppState} from "../../../shared/redux/stores/rendererStore";
 
 import notFound from "../../../assets/images/notFound.png";
 import indexCss from "../../index.css";
+import listCss from "../list-item/ListItem.css";
 import css from "./economy.css";
 
 function EconomyRowDate(date: Date): JSX.Element {
@@ -379,7 +380,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
 
   const xpGainedNumber = change.xpGained > 0 && parseInt(change.xpGained);
   return (
-    <div className={"tiny_scroll list_economy_awarded"} id={economyId}>
+    <div className={css.tiny_scroll + " " + listCss.list_economy_awarded} id={economyId}>
       {fullContext === "Pay Event Entry" ? (
         <EconomyIcon title={"Event Entry"} className={"economy_ticket_med"} />
       ) : (
@@ -396,7 +397,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
       )}
       {checkGoldEarnt && change.delta && !!change.delta.goldDelta ? (
         <EconomyValueRecord
-          iconClassName={css.economy_gold + " " + indexCss.marginLeft}
+          iconClassName={css.economy_gold + " " + css.marginLeft}
           title={"Gold"}
           deltaContent={formatNumber(Math.abs(change.delta.goldDelta))}
         />
@@ -625,7 +626,7 @@ export function ChangeRow(props: ChangeRowProps): JSX.Element {
 
   return (
     <div
-      className={economyId + " " + css.list_economy}
+      className={economyId + " " + listCss.list_economy}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >

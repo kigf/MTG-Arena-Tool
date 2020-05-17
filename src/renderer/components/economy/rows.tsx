@@ -5,13 +5,14 @@ import { TableViewRowProps } from "../tables/types";
 import { EconomyDayHeader, EconomyDayHeaderProps } from "./EconomyDayHeader";
 import { ChangeRow } from "./EconomyRow";
 import { EconomyTableRowProps, TransactionData } from "./types";
+import css from "./economy.css";
 
 export function EconomyListViewGroup({
   row
 }: TableViewRowProps<TransactionData>): JSX.Element {
   const props = row.values as EconomyDayHeaderProps;
   return (
-    <div className={"economy_title"}>
+    <div className={css.economy_title}>
       <EconomyDayHeader {...props} />
     </div>
   );

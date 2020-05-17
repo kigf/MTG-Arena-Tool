@@ -19,6 +19,8 @@ import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
+import css from "./Sections.css";
+
 function getCardStyleName(style: any): string {
   if (style == CARD_TILE_FLAT) return "Flat";
   return "Arena";
@@ -130,7 +132,7 @@ export default function SectionVisual(): JSX.Element {
 
   return (
     <>
-      <div className="centered_setting_container">
+      <div className={css.centered_setting_container}>
         <label>Background URL:</label>
         <Input
           value={settings.back_url !== "default" ? settings.back_url : ""}
@@ -143,20 +145,20 @@ export default function SectionVisual(): JSX.Element {
         value={settings.back_shadow}
         callback={backShadowCallback}
       />
-      <label className="centered_setting_container">
+      <label className={css.centered_setting_container}>
         <span style={{ marginRight: "32px" }}>Background hue:</span>
         <input
           onClick={pickerDoShow}
           ref={containerRef}
           style={{ backgroundColor: pickerColor }}
-          className="color_picker"
-          id="flat"
+          className={css.color_picker}
+          id={css.flat}
           type="text"
           defaultValue=""
         ></input>
       </label>
       {pickerElement}
-      <div className="centered_setting_container">
+      <div className={css.centered_setting_container}>
         <label>List style:</label>
         <ReactSelect
           options={[CARD_TILE_ARENA, CARD_TILE_FLAT]}
@@ -165,7 +167,7 @@ export default function SectionVisual(): JSX.Element {
           callback={setCardStyle}
         />
       </div>
-      <div className="centered_setting_container">
+      <div className={css.centered_setting_container}>
         {!!card && (
           <CardTile
             card={card}
@@ -177,7 +179,7 @@ export default function SectionVisual(): JSX.Element {
           />
         )}
       </div>
-      <div className="centered_setting_container">
+      <div className={css.centered_setting_container}>
         <label>Image quality:</label>
         <ReactSelect
           options={["small", "normal", "large"]}
@@ -185,8 +187,8 @@ export default function SectionVisual(): JSX.Element {
           callback={setCardQuality}
         />
       </div>
-      <div className="centered_setting_container">
-        <label style={{ width: "400px" }} className="card_size_container">
+      <div className={css.centered_setting_container}>
+        <label style={{ width: "400px" }} >
           {`Hover card size: ${100 + Math.round(hoverCardSize) * 15}px`}
         </label>
         <Slider
@@ -198,8 +200,8 @@ export default function SectionVisual(): JSX.Element {
         />
       </div>
 
-      <div className="centered_setting_container">
-        <label style={{ width: "400px" }} className="card_size_container">
+      <div className={css.centered_setting_container}>
+        <label style={{ width: "400px" }} >
           {`Collection card size: ${100 +
             Math.round(collectionCardSize) * 15}px`}
         </label>
@@ -215,7 +217,7 @@ export default function SectionVisual(): JSX.Element {
       <label style={{ marginLeft: "16px" }}>
         Example collection card:
         <div
-          className="inventory_card_settings"
+          className={css.inventory_card_settings}
           style={{
             marginTop: "16px",
             width: cardSize + "px",
@@ -223,7 +225,7 @@ export default function SectionVisual(): JSX.Element {
           }}
         >
           <img
-            className="inventory_card_settings_img"
+            className={css.inventory_card_settings_img}
             style={{ width: cardSize + "px" }}
             src={getCardImage(card, settings.cards_quality)}
           />

@@ -45,6 +45,8 @@ declare namespace EconomyCssModule {
     economy_wc_med: string;
     marginLeft: string;
     small: string;
+    tinyScroll: string;
+    tiny_scroll: string;
   }
 }
 

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
+import css from "./Sections.css";
 
 function clickBetaChannel(value: boolean): void {
   reduxAction(
@@ -117,7 +118,7 @@ export default function SectionBehaviour(): JSX.Element {
         placeholder="$Name,$Count,$SetName,$SetCode,$Rarity,$Type"
         callback={changeExportFormat}
       />
-      <div className="settings_note">
+      <div className={css.settings_note}>
         <i>
           Possible variables: $Name, $Count, $SetName, $SetCode, $Collector,
           $Rarity, $Type, $Cmc

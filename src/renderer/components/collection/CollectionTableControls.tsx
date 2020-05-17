@@ -17,7 +17,6 @@ import { CollectionTableControlsProps } from "./types";
 
 import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
-import deckTableCss from "../decks/deckTable.css";
 
 const boostersFilters = (): FilterValue[] => [
   { id: "booster", value: { true: true, false: false } }
@@ -70,7 +69,7 @@ export default function CollectionTableControls(
         paddingBottom: "8px"
       }}
     >
-      <div className="react_table_toggles">
+      <div className={tableCss.reactTableToggles}>
         <SmallTextButton onClick={exportRows}>Export</SmallTextButton>
         <span style={{ paddingBottom: "8px", marginLeft: "12px" }}>
           Presets:

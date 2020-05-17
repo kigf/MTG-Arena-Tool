@@ -7,6 +7,8 @@ import useHoverCard from "../../hooks/useHoverCard";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector } from "react-redux";
 
+import indexCss from "../../index.css";
+
 export function CardTableViewRow({
   row,
   contextMenuCallback,
@@ -77,13 +79,13 @@ export function CardTileRow({
         <OwnershipStars card={card} wanted={card.wanted} />
       </div>
       <div
-        className={"inventory_card"}
+        className={indexCss.inventory_card}
         onMouseEnter={hoverIn}
         onMouseLeave={hoverOut}
         style={{ width: cardSize + "px" }}
       >
         <img
-          className={"inventory_card_img"}
+          className={indexCss.inventory_card_img}
           style={{ width: cardSize + "px" }}
           src={getCardImage(card, cardsQuality)}
         />

@@ -6,7 +6,7 @@ import { cardType } from "../../../shared/cardTypes";
 import CardTile from "../../../shared/CardTile";
 import { DbCardData } from "../../../types/Metadata";
 import Deck from "../../../shared/deck";
-import sharedCss from "../../../shared/shared.css";
+import cardTileCss from "../../../shared/CardTile.css";
 
 interface SeparatorProps {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ interface SeparatorProps {
 
 function Separator(props: SeparatorProps): JSX.Element {
   const { children } = props;
-  return <div className={sharedCss.cardTileSeparator}>{children}</div>;
+  return <div className={cardTileCss.cardTileSeparator}>{children}</div>;
 }
 
 function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {

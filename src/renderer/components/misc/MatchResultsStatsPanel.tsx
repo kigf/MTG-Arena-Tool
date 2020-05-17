@@ -17,6 +17,16 @@ import {
 import indexCss from "../../index.css";
 import topNavCss from "../main/topNav.css";
 import listItemCss from "../list-item/ListItem.css";
+import manaCurveCss from "../../../shared/ManaCurve.css";
+import sharedCss from "../../../shared/shared.css";
+
+const manaClasses: string[] = [];
+manaClasses[0] = sharedCss.mana_w;
+manaClasses[1] = sharedCss.mana_u;
+manaClasses[2] = sharedCss.mana_b;
+manaClasses[3] = sharedCss.mana_r;
+manaClasses[4] = sharedCss.mana_g;
+manaClasses[5] = sharedCss.mana_c;
 
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
 
@@ -50,17 +60,17 @@ function WinrateChart({
   barStats.sort(compareWinrates);
   return (
     <>
-      <div className={"mana_curve"}>
+      <div className={manaCurveCss.manaCurve}>
         {barStats.map((cwr, index) => {
           return (
             <React.Fragment key={index}>
               <div
-                className={"mana_curve_column back_green"}
+                className={manaCurveCss.manaCurveColumn + " " + sharedCss.back_green}
                 style={{ height: getStyleHeight(cwr.wins / curveMax) }}
                 title={`${cwr.wins} won`}
               />
               <div
-                className={"mana_curve_column back_red"}
+                className={manaCurveCss.mana_curve_column +" " + sharedCss.back_red}
                 style={{ height: getStyleHeight(cwr.losses / curveMax) }}
                 title={`${cwr.losses} lost`}
               />
@@ -68,25 +78,25 @@ function WinrateChart({
           );
         })}
       </div>
-      <div className={"mana_curve_costs"}>
+      <div className={manaCurveCss.mana_curve_costs}>
         {barStats.map((cwr, index) => {
           let winRate = 0;
           if (cwr.wins) {
             winRate = cwr.wins / (cwr.wins + cwr.losses);
           }
-          const colClass = getWinrateClass(winRate);
+          const colClass = getWinrateClass(winRate, true);
           return (
             <div
               key={index}
-              className={"mana_curve_column_number"}
+              className={manaCurveCss.mana_curve_column_number}
               title={`${cwr.wins} won : ${cwr.losses} lost`}
             >
-              <span className={colClass + "_bright"}>
+              <span className={colClass}>
                 {formatPercent(winRate)}
               </span>
               {showTags && (
                 <div
-                  className={"mana_curve_tag"}
+                  className={manaCurveCss.mana_curve_tag}
                   style={{ backgroundColor: getTagColor(cwr.tag) }}
                 >
                   {cwr.tag}
@@ -95,7 +105,7 @@ function WinrateChart({
               {cwr.colors?.map(color => (
                 <div
                   key={color}
-                  className={"mana_s16 mana_" + MANA[color]}
+                  className={sharedCss.manaS16 + " " + manaClasses[color]}
                   style={{ margin: "3px auto 3px auto" }}
                 />
               ))}
@@ -121,19 +131,19 @@ function FrequencyChart({
   barStats.sort(frequencySort);
   return (
     <>
-      <div className={"mana_curve"}>
+      <div className={manaCurveCss.mana_curve}>
         {barStats.map((cwr, index) => {
           return (
             <div
               key={index}
-              className={"mana_curve_column back_blue"}
+              className={manaCurveCss.mana_curve_column + " " + sharedCss.back_blue}
               style={{ height: getStyleHeight(cwr.total / curveMax) }}
               title={`${cwr.total} matches`}
             />
           );
         })}
       </div>
-      <div className={"mana_curve_costs"}>
+      <div className={manaCurveCss.mana_curve_costs}>
         {barStats.map((cwr, index) => {
           let frequency = 0;
           if (cwr.total) {
@@ -142,13 +152,13 @@ function FrequencyChart({
           return (
             <div
               key={index}
-              className={"mana_curve_column_number"}
+              className={manaCurveCss.mana_curve_column_number}
               title={`${cwr.total} matches`}
             >
-              <span className={"white_bright"}>{formatPercent(frequency)}</span>
+              <span className={sharedCss.whiteBright}>{formatPercent(frequency)}</span>
               {showTags && (
                 <div
-                  className={"mana_curve_tag"}
+                  className={manaCurveCss.mana_curve_tag}
                   style={{ backgroundColor: getTagColor(cwr.tag) }}
                 >
                   {cwr.tag}
@@ -157,7 +167,7 @@ function FrequencyChart({
               {cwr.colors?.map(color => (
                 <div
                   key={color}
-                  className={"mana_s16 mana_" + MANA[color]}
+                  className={sharedCss.manaS16 + " " + manaClasses[color]}
                   style={{ margin: "3px auto 3px auto" }}
                 />
               ))}
@@ -290,7 +300,7 @@ export default function MatchResultsStatsPanel({
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <label className={"but_container_label"}>Group by:</label>
+          <label className={indexCss.butContainerLabel}>Group by:</label>
           <ReactSelect
             className={"match_results_group_select"}
             current={showTags ? "Archetype" : "Color"}
