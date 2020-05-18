@@ -5,12 +5,10 @@ declare namespace SettingsTabCssModule {
     navSelected: string;
     nav_selected: string;
     settingsNav: string;
-    settingsPage: string;
     settingsRow: string;
     settingsSection: string;
     settingsTitle: string;
     settings_nav: string;
-    settings_page: string;
     settings_row: string;
     settings_section: string;
     settings_title: string;

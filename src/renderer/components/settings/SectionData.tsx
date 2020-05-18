@@ -259,7 +259,7 @@ export default function SectionData(): JSX.Element {
           Output: <b>{parsedOutput}</b>
         </p>
       </div>
-      <div className={tabCss.settings_title}>Local Data</div>
+      <div className={tabCss.settingsTitle}>Local Data</div>
       <div className={css.settings_note}>
         <p>
           Current application settings:

@@ -62,18 +62,18 @@
     ],
     "win": {
       "target": "NSIS",
-      "icon": "assets/icons/icon.ico",
+      "icon": "src/assets/icons/icon.ico",
       "artifactName": "${productName}-${version}.${ext}"
     },
     "mac": {
       "target": "pkg",
-      "icon": "assets/icons/icon-512.ico",
+      "icon": "src/assets/icons/icon-512.ico",
       "artifactName": "${productName}-${version}.${ext}"
     },
     "linux": {
       "target": "AppImage",
       "category": "Utility;",
-      "icon": "assets/icons/icon-256.png",
+      "icon": "src/assets/icons/icon-256.png",
       "artifactName": "${productName}-${version}.${ext}"
     }
   },

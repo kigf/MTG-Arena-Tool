@@ -29,8 +29,7 @@ let common_config = {
           {
             loader: "@teamsupercell/typings-for-css-modules-loader",
             options: {
-              banner: "/* eslint-disable */\n// GENERATED FILE; DO NOT EDIT",
-              verifyOnly: process.env.NODE_ENV === "production",
+              banner: "/* eslint-disable */\n// GENERATED FILE; DO NOT EDIT"
             },
           },
           MiniCssExtractPlugin.loader,

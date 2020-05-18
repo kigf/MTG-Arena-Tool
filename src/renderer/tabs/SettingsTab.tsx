@@ -45,8 +45,8 @@ function SettingsNav(props: SettingsNavProps): JSX.Element {
 
   return (
     <div
-      className={`${css.settings_nav} ${
-        props.currentTab == props.id ? css.nav_selected : ""
+      className={`${css.settingsNav} ${
+        props.currentTab == props.id ? css.navSelected : ""
       }`}
       onClick={click}
     >
@@ -150,7 +150,7 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
         <SettingsNav {...tabs[SETTINGS_LOGIN]} />
       </div>
       <div className={`${indexCss.wrapperColumn} ${css.settings_page}`}>
-        <div className={css.settings_title}>{tabs[currentTab].title}</div>
+        <div className={css.settingsTitle}>{tabs[currentTab].title}</div>
         <CurrentSettings />
       </div>
     </div>
