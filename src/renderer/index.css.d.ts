@@ -88,14 +88,6 @@ declare namespace IndexCssModule {
     draft_nav_prev: string;
     dragger: string;
     economy: string;
-    exploreButtonsContainer: string;
-    exploreButtonsRow: string;
-    exploreButtonsTop: string;
-    exploreWcInput: string;
-    explore_buttons_container: string;
-    explore_buttons_row: string;
-    explore_buttons_top: string;
-    explore_wc_input: string;
     exportDeck: string;
     exportDeckStandard: string;
     filterColumn: string;

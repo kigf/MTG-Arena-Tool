@@ -1,6 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { COLORS_LONG, RANKS, SUB_DECK, IPC_NONE } from "../../shared/constants";
+import {
+  RANKS,
+  SUB_DECK,
+  IPC_NONE,
+  WHITE,
+  BLUE,
+  BLACK,
+  RED,
+  GREEN,
+  COLORLESS,
+} from "../../shared/constants";
 import db from "../../shared/database";
 import ReactSelect from "../../shared/ReactSelect";
 import { AppState } from "../../shared/redux/stores/rendererStore";
@@ -12,7 +22,19 @@ import { ipcSend } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { ExploreQuery } from "../../shared/redux/slices/exploreSlice";
 
+import ranks16 from "../../assets/images/ranks_16.png";
+import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
+import appCss from "../app/app.css";
+import css from "./ExploreTab.css";
+
+const manaClasses: string[] = [];
+manaClasses[WHITE] = sharedCss.manaW;
+manaClasses[BLUE] = sharedCss.manaU;
+manaClasses[BLACK] = sharedCss.manaB;
+manaClasses[RED] = sharedCss.manaR;
+manaClasses[GREEN] = sharedCss.manaG;
+manaClasses[COLORLESS] = sharedCss.manaC;
 
 export default function ExploreTab(): JSX.Element {
   const dispatcher = useDispatch();
@@ -90,7 +112,7 @@ export default function ExploreTab(): JSX.Element {
   }, [exploreData.results_number, loading, scrollQuery]);
 
   return (
-    <div ref={containerRef} onScroll={onScroll} className="ux_item">
+    <div ref={containerRef} onScroll={onScroll} className={appCss.uxItem}>
       <div
         style={{ width: "100%", flexDirection: "column" }}
         className={indexCss.flexItem}
@@ -108,7 +130,10 @@ export default function ExploreTab(): JSX.Element {
               );
             })
           ) : !loading ? (
-            <div style={{ marginTop: "32px" }} className="message_sub red">
+            <div
+              style={{ marginTop: "32px" }}
+              className={`${indexCss.messageSub} ${sharedCss.red}`}
+            >
               {queries == 0
                 ? "Click Search to begin."
                 : "Query returned no data."}
@@ -117,7 +142,10 @@ export default function ExploreTab(): JSX.Element {
             <></>
           )}
           {loading ? (
-            <div style={{ margin: "16px" }} className="message_sub white">
+            <div
+              style={{ margin: "16px" }}
+              className={`${indexCss.messageSub} ${sharedCss.white}`}
+            >
               Loading...
             </div>
           ) : (
@@ -241,8 +269,8 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
   }
 
   return (
-    <div className="explore_buttons_container">
-      <div className="explore_buttons_row explore_buttons_top">
+    <div className={css.exploreButtonsContainer}>
+      <div className={`${css.exploreButtonsRow} ${css.exploreButtonsTop}`}>
         <ReactSelect
           options={typeFilter}
           current={filters.filterType}
@@ -286,7 +314,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           }
         />
       </div>
-      <div className="explore_buttons_row explore_buttons_middle">
+      <div className={css.exploreButtonsRow}>
         <Checkbox
           text="Only Owned"
           value={filters.onlyOwned}
@@ -297,10 +325,10 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
             })
           }
         />
-        <div className="wc_common wc_search_icon"></div>
+        <div className={`${indexCss.wcCommon} ${indexCss.wcSearchIcon}`}></div>
         <Input
           type="number"
-          containerClassName="input_container_explore explore_wc_input"
+          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
           value={filters.filterWCC}
           placeholder=""
           validate={validateWildcardValues}
@@ -311,10 +339,12 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
             })
           }
         />
-        <div className="wc_uncommon wc_search_icon"></div>
+        <div
+          className={`${indexCss.wcUncommon} ${indexCss.wcSearchIcon}`}
+        ></div>
         <Input
           type="number"
-          containerClassName="input_container_explore explore_wc_input"
+          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
           value={filters.filterWCU}
           placeholder=""
           validate={validateWildcardValues}
@@ -325,10 +355,10 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
             })
           }
         />
-        <div className="wc_rare wc_search_icon"></div>
+        <div className={`${indexCss.wcRare} ${indexCss.wcSearchIcon}`}></div>
         <Input
           type="number"
-          containerClassName="input_container_explore explore_wc_input"
+          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
           value={filters.filterWCR}
           placeholder=""
           validate={validateWildcardValues}
@@ -339,10 +369,10 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
             })
           }
         />
-        <div className="wc_mythic wc_search_icon"></div>
+        <div className={`${indexCss.wcMythic} ${indexCss.wcSearchIcon}`}></div>
         <Input
           type="number"
-          containerClassName="input_container_explore explore_wc_input"
+          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
           value={filters.filterWCM}
           placeholder=""
           validate={validateWildcardValues}
@@ -354,7 +384,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           }
         />
       </div>
-      <div className="explore_buttons_row explore_buttons_bottom">
+      <div className={css.exploreButtonsRow}>
         <ManaFilter callback={setManaFilter} filter={filters.filteredMana} />
         <RanksFilter callback={setRanksFilter} filter={filters.filteredRanks} />
         <Button
@@ -398,19 +428,16 @@ function ManaFilter(props: ManaFilterProps): JSX.Element {
   const manas = [1, 2, 3, 4, 5];
 
   return (
-    <div className="mana_filters_explore">
+    <div className={indexCss.manaFiltersExplore}>
       {manas.map((mana: number) => {
         return (
           <div
             key={"mana-filter-" + mana}
             onClick={(): void => setFilter(mana)}
             style={filterSize}
-            className={
-              "mana_filter mana_" +
-              COLORS_LONG[mana - 1] +
-              " " +
-              (filters.includes(mana) ? "" : "mana_filter_on")
-            }
+            className={`${indexCss.manaFilter} ${manaClasses[mana]} ${
+              filters.includes(mana) ? "" : indexCss.manaFilterOn
+            }`}
           ></div>
         );
       })}
@@ -444,7 +471,7 @@ function RanksFilter(props: RanksFilterProps): JSX.Element {
   }, [filter]);
 
   return (
-    <div className="mana_filters_explore">
+    <div className={indexCss.manaFiltersExplore}>
       {RANKS.map((rank: string, index: number) => {
         return (
           <div
@@ -452,10 +479,12 @@ function RanksFilter(props: RanksFilterProps): JSX.Element {
             onClick={(): void => setFilter(rank)}
             style={{
               backgroundPosition: (index + 1) * -16 + "px 0px",
-              backgroundImage: "url(../assets/images/ranks_16.png)",
+              backgroundImage: `url(${ranks16})`,
             }}
             className={
-              "rank_filter " + (filters.includes(rank) ? "" : "rank_filter_on")
+              indexCss.rankFilter +
+              " " +
+              (filters.includes(rank) ? "" : indexCss.rankFilterOn)
             }
           ></div>
         );

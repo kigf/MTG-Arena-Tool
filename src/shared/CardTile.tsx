@@ -15,6 +15,7 @@ import useHoverCard from "../renderer/hooks/useHoverCard";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getWildcardsMissing } from "../renderer/rendererUtil";
+import cardTileCss from "../shared/CardTile.css";
 import sharedCss from "../shared/shared.css";
 import css from "./CardTile.css";
 
@@ -326,9 +327,9 @@ function MissingCardSprite(props: MissingCardsProps): JSX.Element {
   const xoff = CARD_RARITIES.indexOf(cardRarity) * -24;
   const yoff = missing * -24;
 
-  let className = css.not_owned_sprite;
+  let className = cardTileCss.notOwnedSprite;
   if (listStyle === "flat") {
-    className += css.not_owned_sprite_flat;
+    className = cardTileCss.notOwnedSpriteFlat;
   }
 
   const style: React.CSSProperties = {
@@ -353,7 +354,7 @@ function WildcardsNeeded(props: WildcardsNeededProps): JSX.Element {
       return MissingCardSprite({ missing, cardRarity, listStyle, ww });
     }
   }
-  return <div className={css.not_owned_sprite_empty}></div>;
+  return <div className={css.notOwnedSpriteEmpty}></div>;
 }
 
 function FlatCardTile(props: CardTileProps): JSX.Element {

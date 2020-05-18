@@ -38,6 +38,8 @@ import SettingsTab from "./tabs/SettingsTab";
 import store from "../shared/redux/stores/rendererStore";
 import { reduxAction } from "../shared/redux/sharedRedux";
 
+import appCss from "./app/app.css";
+
 export function getOpenNav(tab: number, offline: boolean): JSX.Element {
   if (offline == true && (tab == MAIN_HOME || tab == MAIN_EXPLORE)) {
     return <OfflineSplash />;
@@ -95,7 +97,7 @@ export function getOpenNav(tab: number, offline: boolean): JSX.Element {
     case MAIN_HOME:
       return <HomeTab />;
     default:
-      return <div className="ux_item" />;
+      return <div className={appCss.uxItem} />;
   }
 }
 

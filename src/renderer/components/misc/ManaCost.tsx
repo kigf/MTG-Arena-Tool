@@ -36,9 +36,7 @@ export default function ManaCost(props: ManaCostProps): JSX.Element {
         return (
           <div
             key={mana + "_" + index}
-            className={`${newclass} ${indexCss.flex_end} ${
-              manaClasses[mana - 1]
-            }`}
+            className={`${newclass} ${indexCss.flex_end} ${manaClasses[mana]}`}
           />
         );
       })}

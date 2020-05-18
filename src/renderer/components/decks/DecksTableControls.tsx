@@ -78,7 +78,6 @@ export default function DecksTableControls(
             setAggFiltersCallback({ ...aggFilters, eventId })
           }
           optionFormatter={getReadableEvent}
-          style={{ marginBottom: "auto" }}
         />
         <span style={{ paddingBottom: "8px" }}>Presets:</span>
         <SmallTextButton
@@ -133,7 +132,7 @@ export default function DecksTableControls(
         </SmallTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
-          style={{ margin: "0 0 5px 12px" }}
+          style={{ margin: "8px" }}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>

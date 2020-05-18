@@ -9,7 +9,6 @@ export const InputContainer = styled.div.attrs((props) => ({
   position: relative;
   width: 100%;
   height: 26px;
-  padding-bottom: 4px;
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
