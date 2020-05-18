@@ -3,7 +3,7 @@ import { ColumnInstance } from "react-table";
 import { CheckboxContainer } from "../misc/CheckboxContainer";
 import { TableData } from "./types";
 
-import css from "../../index.css";
+import css from "./tables.css";
 
 export default function ColumnToggles<D extends TableData>({
   toggleableColumns,

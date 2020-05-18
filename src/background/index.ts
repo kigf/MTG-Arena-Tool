@@ -115,7 +115,7 @@ ipc.on("start_background", async function () {
   );
 
   const appSettings = await appDb.find("", "settings");
-  let logUri = appSettings.logUri;
+  let logUri = appSettings.logUri || undefined;
 
   if (typeof process.env.LOGFILE !== "undefined") {
     logUri = process.env.LOGFILE;

@@ -34,8 +34,8 @@ export default function InventoryUpdated(entry: Entry): void {
     };
 
     // Add delta to our current values
-    if (newDelta.delta) {
-      inventoryAddDelta(newDelta.delta);
+    if (update.delta) {
+      inventoryAddDelta(update.delta);
     }
     // Do not modify the context from now on.
     saveEconomyTransaction(newDelta);

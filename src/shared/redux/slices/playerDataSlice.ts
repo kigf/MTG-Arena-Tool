@@ -92,6 +92,7 @@ const playerDataSlice = createSlice({
     addCardsList: (state, action): void => {
       action.payload.forEach((grpId: number) => {
         state.cardsNew[grpId] = state.cardsNew[grpId] + 1 || 1;
+        state.cards.cards[grpId] = state.cards.cards[grpId] + 1;
       });
     },
     addCardsKeys: (state, action): void => {

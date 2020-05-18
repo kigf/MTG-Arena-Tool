@@ -7,36 +7,36 @@
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+}
 
-  .loading_w {
-    background-color: var(--color-w);
-    animation-delay: 0s;
-    top: 0px;
-  }
-  
-  .loading_u {
-    background-color: var(--color-u);
-    animation-delay: 0.4s;
-    top: -100%;
-  }
-  
-  .loading_b {
-    background-color: var(--color-b);
-    animation-delay: 0.8s;
-    top: -200%;
-  }
-  
-  .loading_r {
-    background-color: var(--color-r);
-    animation-delay: 1.2s;
-    top: -300%;
-  }
-  
-  .loading_g {
-    background-color: var(--color-g);
-    animation-delay: 1.6s;
-    top: -400%;
-  }
+.loading_w {
+  background-color: var(--color-w);
+  animation-delay: 0s;
+  top: 0px;
+}
+
+.loading_u {
+  background-color: var(--color-u);
+  animation-delay: 0.4s;
+  top: -100%;
+}
+
+.loading_b {
+  background-color: var(--color-b);
+  animation-delay: 0.8s;
+  top: -200%;
+}
+
+.loading_r {
+  background-color: var(--color-r);
+  animation-delay: 1.2s;
+  top: -300%;
+}
+
+.loading_g {
+  background-color: var(--color-g);
+  animation-delay: 1.6s;
+  top: -400%;
 }
 
 .loading_bar {

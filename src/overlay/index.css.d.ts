@@ -120,9 +120,7 @@ declare namespace IndexCssModule {
     topNavWrapper: string;
     top_nav_wrapper: string;
     typeIcon: string;
-    typeIconCont: string;
     type_icon: string;
-    type_icon_cont: string;
     typesContainer: string;
     types_container: string;
   }

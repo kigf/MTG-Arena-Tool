@@ -9,11 +9,11 @@ export default function LoadingBar({ style }: LoadingBarProps): JSX.Element {
   return (
     <>
       <div style={{ ...style }} className={css.loadingBarMain}>
-        <div className={css.loadingW}></div>
-        <div className={css.loadingU}></div>
-        <div className={css.loadingB}></div>
-        <div className={css.loadingR}></div>
-        <div className={css.loadingG}></div>
+        <div className={`${css.loadingW} ${css.loadingColor}`}></div>
+        <div className={`${css.loadingU} ${css.loadingColor}`}></div>
+        <div className={`${css.loadingB} ${css.loadingColor}`}></div>
+        <div className={`${css.loadingR} ${css.loadingColor}`}></div>
+        <div className={`${css.loadingG} ${css.loadingColor}`}></div>
       </div>
     </>
   );
