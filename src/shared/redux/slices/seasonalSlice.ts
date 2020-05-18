@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SeasonalRankData } from "../../Season";
+import { SeasonalRankData } from "../../../types/Season";
 import globalStore from "../../store";
 
 const seasonalSlice = createSlice({

@@ -64,9 +64,8 @@ class Database {
     this.rewards_daily_ends = new Date();
     this.rewards_weekly_ends = new Date();
 
-    /* eslint-disable */
-    this.metadata = defaultDatabase;
-    /* eslint enable */
+    // tsc fails if not asserting
+    this.metadata = defaultDatabase as Metadata;
 
     if (cachePath && fs.existsSync(cachePath)) {
       const dbString = fs.readFileSync(cachePath, "utf8");

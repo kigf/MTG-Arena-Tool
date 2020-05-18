@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalEvent } from "../../event";
+import { InternalEvent } from "../../../types/event";
 
 const eventsSlice = createSlice({
   name: "events",

@@ -94,7 +94,7 @@ export default function DeckManaCurve(props: { deck: Deck }): JSX.Element {
                   if (ind < 5 && cost[ind + 1] > 0) {
                     return (
                       <div
-                        className={css.mana_curve_column_color}
+                        className={"mana_curve_column_color"}
                         key={"mana_curve_column_color_" + ind}
                         style={{
                           height:

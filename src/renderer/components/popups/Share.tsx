@@ -7,6 +7,8 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 
 import css from "./popups.css";
+import selectCss from "../../select.scss";
+import formsCss from "../../forms.css";
 import indexCss from "../../index.css";
 
 function shareTypeId(type: string): number {
@@ -117,19 +119,19 @@ export default function Share(props: ShareProps): JSX.Element {
         <div style={{ marginBottom: "26px" }} className={indexCss.messageSub}>
           Create new link
         </div>
-        <div style={{ margin: "4px 0" }} className={css.formLabel}>
+        <div style={{ margin: "4px 0" }} className={formsCss.formLabel}>
           Expires after:
         </div>
         <ReactSelect
           style={{ width: "-webkit-fill-available", margin: "0 0 16px 0" }}
-          className={indexCss.light}
+          className={selectCss.light}
           options={expireOptions}
           current={"Select..."}
           callback={selectExpire}
         />
-        <label className={css.formLabel}>URL:</label>
+        <label className={formsCss.formLabel}>URL:</label>
         <div style={{ display: "flex" }}>
-          <div className={css.formInputContainer}>
+          <div className={formsCss.formInputContainer}>
             <input type="text" autoComplete="off" value={stateUrl} />
           </div>
           <div

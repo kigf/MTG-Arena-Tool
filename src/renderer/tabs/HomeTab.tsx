@@ -9,6 +9,7 @@ import { IPC_NONE } from "../../shared/constants";
 
 import appCss from "../app/app.css";
 import sharedCss from "../../shared/shared.css";
+import cardTileCss from "../../shared/CardTile.css";
 import indexCss from "../index.css";
 import css from "./home.css";
 
@@ -72,7 +73,7 @@ export default function HomeTab(): JSX.Element {
     <div className={appCss.uxItem}>
       <div style={{ margin: "0 auto" }}>
         <div className={css.listFill}></div>
-        <div className={sharedCss.cardTileSeparator}>General</div>
+        <div className={cardTileCss.cardTileSeparator}>General</div>
         <div
           className={css.textCentered}
           tooltip-content="In the last 24 hours"
@@ -97,7 +98,7 @@ export default function HomeTab(): JSX.Element {
           <>
             <div className={css.listFill}></div>
             <div
-              className={sharedCss.cardTileSeparator}
+              className={cardTileCss.cardTileSeparator}
               tooltip-content="In the last 15 days."
               tooltip-bottom=""
             >

@@ -28,11 +28,10 @@ export interface DeckOptionProps {
 export default function DeckOption(props: DeckOptionProps): JSX.Element {
   const { deckId, deck } = props;
 
-  const deckName: string = deckExists(deckId)
-    ? getDeckName(deckId)
-    : deck.name || "";
+  const exists = deckExists(deckId);
+  const deckName: string = exists ? getDeckName(deckId) : deck.name || "";
   let maxChars = 10;
-  if (deckExists && deck.colors) {
+  if (exists && deck.colors) {
     maxChars = 16 - 2 * deck.colors.length;
   }
 
@@ -43,7 +42,7 @@ export default function DeckOption(props: DeckOptionProps): JSX.Element {
       ) : (
         deckName
       )}
-      {deckExists ? (
+      {exists ? (
         <>
           {deck.archived && (
             <small>

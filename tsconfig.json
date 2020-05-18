@@ -4,6 +4,7 @@
     "target": "es2018",
     "moduleResolution": "node",
     "allowJs": true,
+    "noEmit": true,
     "checkJs": false,
     "strict": true,
     "jsx": "react",
@@ -19,9 +20,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["dom", "es2020.string"],
   },
-  "lib": ["dom", "es2020.string"],
   "exclude": [
     "node_modules",
     "dist",
