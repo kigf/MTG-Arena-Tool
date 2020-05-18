@@ -4,6 +4,7 @@
     "target": "es2018",
     "moduleResolution": "node",
     "allowJs": true,
+    "checkJs": false,
     "strict": true,
     "jsx": "react",
     "isolatedModules": true,

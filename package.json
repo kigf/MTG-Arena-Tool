@@ -46,9 +46,12 @@
     "clean:dist": "rimraf dist",
     "postinstall": "rimraf node_modules/@types/react-native",
     "version": "node -p \"require('./package.json').version\"",
-    "test:jest": "jest src/",
-    "eslint": "eslint src/ --ext .ts,.tsx",
     "eslint:fix": "eslint --fix src/ --ext .ts,.tsx",
+    "test:jest": "jest src/",
+    "test:prettier": "prettier --check \"src/**/*.{js,ts,jsx,tsx}\"",
+    "test:eslint": "eslint src/ --ext .ts,.tsx",
+    "test:tsc": "tsc",
+    "test": "npm run --silent test:eslint && npm run --silent test:tsc && npm run --silent test:prettier && npm run --silent test:jest",
     "run-electron": "electron ."
   },
   "build": {
