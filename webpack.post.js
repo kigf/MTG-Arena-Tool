@@ -46,6 +46,7 @@ module.exports = function post(common_config) {
         path: path.join(__dirname, "lib/background"),
       },
       plugins: [
+        // Background should not require this
         new MiniCssExtractPlugin({
           filename: "[name].[hash].css",
           chunkFilename: "[id].[hash].css",
@@ -79,13 +80,17 @@ module.exports = function post(common_config) {
     Object.assign({}, common_config, {
       target: "electron-renderer",
       entry: {
-        renderer: "./src/updater/index.ts",
+        renderer: "./src/updater/index.tsx",
       },
       output: {
         filename: "index.js",
         path: path.join(__dirname, "lib/updater"),
       },
       plugins: [
+        new MiniCssExtractPlugin({
+          filename: "[name].[hash].css",
+          chunkFilename: "[id].[hash].css",
+        }),
         new HtmlWebpackPlugin({
           template: "src/assets/template.html",
         }),

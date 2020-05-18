@@ -608,7 +608,7 @@ function createUpdaterWindow(): BrowserWindow {
     width: 320,
     height: 240,
     title: "Updater",
-    icon: "icons/icon.png",
+    icon: path.join(__dirname, iconNormal),
     webPreferences: {
       nodeIntegration: true,
     },
@@ -627,7 +627,7 @@ function createBackgroundWindow(): BrowserWindow {
     width: 640,
     height: 480,
     title: "Background",
-    icon: "icons/icon.png",
+    icon: path.join(__dirname, iconNormal),
     webPreferences: {
       nodeIntegration: true,
     },
@@ -675,7 +675,7 @@ function createMainWindow(): BrowserWindow {
     width: 800,
     height: 600,
     title: "MTG Arena Tool",
-    icon: iconNormal,
+    icon: path.join(__dirname, iconNormal),
     webPreferences: {
       nodeIntegration: true,
     },

@@ -15,7 +15,7 @@ const colorSearchKeyFactory = (
 
 export function eventSearchFilterFn(
   rows: Row<EventTableData>[],
-  columnIds: string[],
+  _columnIds: string[],
   filterValue: FilterValue
 ): Row<EventTableData>[] {
   const tokens = String(filterValue)

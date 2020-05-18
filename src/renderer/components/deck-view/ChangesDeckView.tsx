@@ -10,7 +10,7 @@ import { getDeckChangesList } from "../../../shared/store";
 
 import css from "./ChangesDeckView.css";
 import indexCss from "../../index.css";
-import sharedCss from "../../../shared/shared.css";
+import cardTileCss from "../../../shared/CardTile.css";
 
 function sortDeckChanges(ad: DeckChange, bd: DeckChange): number {
   const a = ad.date;
@@ -103,7 +103,9 @@ export default function ChangesDeckView(
                     style={expandSprings[index]}
                     className={css.deckChangesExpand}
                   >
-                    <div className={sharedCss.cardTileSeparator}>Mainboard</div>
+                    <div className={cardTileCss.cardTileSeparator}>
+                      Mainboard
+                    </div>
                     {ch.changesMain.map((card) => {
                       const cardObj = db.card(card.id);
                       if (cardObj)
@@ -123,7 +125,9 @@ export default function ChangesDeckView(
                           />
                         );
                     })}
-                    <div className={sharedCss.cardTileSeparator}>Sideboard</div>
+                    <div className={cardTileCss.cardTileSeparator}>
+                      Sideboard
+                    </div>
                     {ch.changesSide.map((card) => {
                       const cardObj = db.card(card.id);
                       if (cardObj)

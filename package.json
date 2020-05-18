@@ -1,5 +1,5 @@
 {
-  "name": "mtgatool-app",
+  "name": "MTG-Arena-Tool",
   "description": "A MTG Arena deck tracker and statistics manager.",
   "author": "Manuel Etchegaray <manuel.etchegaray7@gmail.com>",
   "contributors": [
@@ -35,6 +35,7 @@
     "start:background": "webpack --config webpack.dev.background.js && npm run run-electron",
     "start:overlay": "webpack --config webpack.dev.overlay.js && npm run run-electron",
     "start:updater": "webpack --config webpack.dev.updater.js && npm run run-electron",
+    "start:main": "webpack --config webpack.dev.main.js && npm run run-electron",
     "start:all": "npm-run-all clean:lib build:dev run-electron",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",

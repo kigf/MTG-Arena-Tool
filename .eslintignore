@@ -9,8 +9,10 @@ src/background/messages_pb.js
 webpack.common.js
 webpack.dev.background.js
 webpack.dev.js
+webpack.dev.main.js
 webpack.dev.overlay.js
 webpack.dev.renderer.js
+webpack.dev.updater.js
 webpack.post.js
 webpack.prod.js
 

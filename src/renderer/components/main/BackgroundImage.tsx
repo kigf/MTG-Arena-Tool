@@ -1,13 +1,12 @@
 import React from "react";
 import fs from "fs";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector, useDispatch } from "react-redux";
 import db from "../../../shared/database";
-import { getCardArtCrop } from "../../../shared/util";
+import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import DEFAULT_BACKGROUND from "../../../assets/images/Bedevil-Art.jpg";
-
 import sharedCss from "../../../shared/shared.css";
 
 export default function BackgroundImage(): JSX.Element {

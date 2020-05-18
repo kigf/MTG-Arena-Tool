@@ -21,7 +21,7 @@ function saveCourse(json: InternalEvent): void {
   delete json._id;
   json.id = id;
   const eventData = {
-    date: globals.logTime,
+    // date: globals.logTime,
     // preserve custom fields if possible
     ...(getEvent(id) || {}),
     ...json,

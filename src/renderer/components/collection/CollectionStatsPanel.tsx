@@ -23,6 +23,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
+import economyCss from "../economy/economy.css";
 
 const getRarityKey = (
   rarity: string
@@ -86,13 +87,13 @@ export function CollectionStatsPanel({
           alignItems: "center",
         }}
       >
-        <div className={`${indexCss.economyWc} ${indexCss.wcCommon}`}></div>
+        <div className={`${economyCss.economyWc} ${indexCss.wcCommon}`}></div>
         <div>{formatNumber(playerEconomy.wcCommon)}</div>
-        <div className={`${indexCss.economyWc} ${indexCss.wcUncommon}`}></div>
+        <div className={`${economyCss.economyWc} ${indexCss.wcUncommon}`}></div>
         <div>{formatNumber(playerEconomy.wcUncommon)}</div>
-        <div className={`${indexCss.economyWc} ${indexCss.wcRare}`}></div>
+        <div className={`${economyCss.economyWc} ${indexCss.wcRare}`}></div>
         <div>{formatNumber(playerEconomy.wcRare)}</div>
-        <div className={`${indexCss.economyWc} ${indexCss.wcMythic}`}></div>
+        <div className={`${economyCss.economyWc} ${indexCss.wcMythic}`}></div>
         <div>{formatNumber(playerEconomy.wcMythic)}</div>
       </div>
       <div className={indexCss.main_stats}>

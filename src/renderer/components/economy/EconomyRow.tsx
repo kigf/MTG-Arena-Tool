@@ -591,7 +591,7 @@ function FlexTop(props: FlexTopProps): JSX.Element {
   return (
     <div className={`${indexCss.flexTop} ${css.economy_sub}`}>
       <span title={change.originalContext}>{fullContext}</span>
-      <div className={css.list_economy_time}>
+      <div className={"list_economy_time"}>
         {EconomyRowDate(new Date(change.date))}
       </div>
     </div>
