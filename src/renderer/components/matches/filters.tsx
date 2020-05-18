@@ -9,6 +9,8 @@ import { MultiSelectFilterProps } from "../tables/types";
 import { useMultiSelectFilter } from "../tables/useMultiSelectFilter";
 import { MatchTableData } from "./types";
 
+import indexCss from "../../index.css";
+
 export function OnPlayColumnFilter(props: {
   column: ColumnInstance<MatchTableData>;
 }): JSX.Element {
@@ -72,7 +74,7 @@ export function RankFilter(props: RankFilterProps): JSX.Element {
             rank={code}
             key={code}
             onClick={onClickMultiFilter(code)}
-            className={filterValue[code] ? "" : " rarity_filter_on"}
+            className={filterValue[code] ? "" : indexCss.rarityFilterOn}
             title={code}
           />
         );

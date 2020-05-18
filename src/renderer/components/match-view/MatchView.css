@@ -1,0 +1,59 @@
+
+.game_prev {
+  cursor: pointer;
+  background: url(../../../assets/images/prev.png) no-repeat center;
+  opacity: 0.5;
+  width: 24px;
+  height: 24px;
+  -webkit-transition: all .2s ease-in;
+}
+
+.game_swap {
+  color: var(--color-light);
+  display: flex;
+  justify-content: space-around;
+  margin: 4px 0;
+}
+
+.game_next {
+  cursor: pointer;
+  background: url(../../../assets/images/next.png) no-repeat center;
+  opacity: 0.5;
+  width: 24px;
+  height: 24px;
+  -webkit-transition: all .2s ease-in;
+}
+
+.game_prev:hover, .game_next:hover {
+  opacity: 1;
+}
+
+.match_player_win {
+  -webkit-user-select: none;
+  align-self: center;
+  margin-right: 16px;
+  font-family:  var(--main-font-name-it);
+  color: var(--color-g);
+}
+
+.match_player_name {
+  -webkit-user-select: none;
+  align-self: center;
+  margin-right: 16px;
+  font-family:  var(--main-font-name);
+  color: var(--color-light);
+}
+
+.gamestats_side {
+  margin: 0 16px 16px 16px;
+  max-width: 360px;
+  width: -webkit-fill-available;
+}
+
+.gamestats_subtitle {
+  margin: 4px auto 10px auto;
+  color: var(--color-light);
+  font-size: 16px;
+  font-family: var(--main-font-name-bold-it);
+  text-align: center;
+}

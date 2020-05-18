@@ -5,6 +5,7 @@ import db from "./database";
 import Deck from "../shared/deck";
 import { CardObject } from "../types/Deck";
 
+import sharedCss from "./shared.css";
 import css from "./TypesStats.css";
 
 const typeIcons: Record<string, string> = {};
@@ -50,7 +51,7 @@ export default function DeckTypesStats(props: { deck: Deck }): JSX.Element {
     <div className={css.types_container}>
       {CARD_TYPE_CODES.map((cardTypeKey, index) => {
         return (
-          <div className={css.type_icon_cont} key={"type_icon_cont_" + index}>
+          <div className={sharedCss.type_icon_cont} key={"type_icon_cont_" + index}>
             <div
               className={`${css.type_icon} ${typeIcons[cardTypeKey]}`}
               title={CARD_TYPES[index]}

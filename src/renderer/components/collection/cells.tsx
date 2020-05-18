@@ -9,13 +9,15 @@ import { SetSymbol } from "../misc/SetSymbol";
 import { TypeSymbol } from "../misc/TypeSymbol";
 import { CollectionTableCellProps } from "./types";
 
+import sharedCss from "../../../shared/shared.css";
+
 export function RarityCell({ cell }: CollectionTableCellProps): JSX.Element {
   const data = cell.row.values;
   const code = data.rarity;
   return (
     <FlexLeftContainer>
       {code === "land" ? (
-        <div className="type_icon_cont">
+        <div className={sharedCss.typeIconCont}>
           <TypeSymbol type={"Land"} />
         </div>
       ) : (
@@ -41,7 +43,7 @@ export function TypeCell({ cell }: CollectionTableCellProps): JSX.Element {
   const type = cell.value;
   return (
     <FlexLeftContainer>
-      <div className="type_icon_cont">
+      <div className={sharedCss.typeIconCont}>
         <TypeSymbol type={type} />
       </div>
       <BriefText value={type} />

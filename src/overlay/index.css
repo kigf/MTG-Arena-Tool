@@ -424,11 +424,6 @@ body {
     justify-content: space-between;
 }
 
-.type_icon_cont {
-    display: flex;
-    flex-direction: column;
-}
-
 .type_icon {
     width: 32px;
     height: 32px;

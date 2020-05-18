@@ -753,3 +753,8 @@ span {
 .type_lan { background-image: url(../assets/images/type_land.png); }
 .type_pla { background-image: url(../assets/images/type_planeswalker.png); }
 .type_sor { background-image: url(../assets/images/type_sorcery.png); }
+
+.type_icon_cont {
+  display: flex;
+  flex-direction: column;
+}

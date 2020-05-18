@@ -12,6 +12,9 @@ import { MultiSelectFilterProps } from "../tables/types";
 import { useMultiSelectFilter } from "../tables/useMultiSelectFilter";
 import { CardsData } from "./types";
 
+import sharedCss from "../../../shared/shared.css";
+import indexCss from "../../index.css";
+
 export function InBoostersColumnFilter(props: {
   column: ColumnInstance<CardsData>;
 }): JSX.Element {
@@ -74,14 +77,13 @@ export function RarityFilter(props: RarityFilterProps): JSX.Element {
     >
       {CARD_RARITIES.map((code: RarityFilterKeys) => {
         return code === "land" ? (
-          <div className="type_icon_cont" key={code}>
+          <div className={sharedCss.typeIconCont} key={code}>
             <TypeSymbol
               type={"Land"}
               onClick={onClickMultiFilter(code)}
-              className={
-                "rarity_filter " +
-                (filterValue[code] ? "" : " rarity_filter_on")
-              }
+              className={`${indexCss.rarityFilter} ${
+                filterValue[code] ? "" : indexCss.rarityFilterOn
+              }`}
               title={filterLabels[code]}
             />
           </div>
@@ -90,7 +92,7 @@ export function RarityFilter(props: RarityFilterProps): JSX.Element {
             rarity={code}
             key={code}
             onClick={onClickMultiFilter(code)}
-            className={filterValue[code] ? "" : " rarity_filter_on"}
+            className={filterValue[code] ? "" : indexCss.rarityFilterOn}
             title={filterLabels[code]}
           />
         );
@@ -154,7 +156,7 @@ export function SetFilter(props: SetFilterProps): JSX.Element {
             key={code}
             set={code}
             onClick={onClickMultiFilter(code)}
-            className={filterValue?.[code] ? "" : "rarity_filter_on"}
+            className={filterValue?.[code] ? "" : indexCss.rarityFilterOn}
             title={code}
           />
         );
@@ -162,7 +164,7 @@ export function SetFilter(props: SetFilterProps): JSX.Element {
       <SetSymbol
         set={"other"}
         onClick={onClickMultiFilter("other")}
-        className={filterValue?.other ? "" : "rarity_filter_on"}
+        className={filterValue?.other ? "" : indexCss.rarityFilterOn}
         title={"all other sets"}
       />
     </div>

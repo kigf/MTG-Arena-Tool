@@ -19,7 +19,11 @@ import { IPC_NONE } from "../../../shared/constants";
 import { getMatch } from "../../../shared/store";
 import { MatchGameStats } from "../../../types/currentMatch";
 
+import css from "./MatchView.css";
 import indexCss from "../../index.css";
+import sharedCss from "../../../shared/shared.css";
+import actionLogCss from "../../../shared/ActionLog.css";
+import cardTileCss from "../../../shared/CardTile.css";
 
 interface MatchViewProps {
   match: InternalMatch;
@@ -71,10 +75,13 @@ export function MatchView(props: MatchViewProps): JSX.Element {
   return (
     <>
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <div className="decklist_top">
-          <div className="button back" onClick={goBack}></div>
-          <div className="deck_name">{playerDeck.getName()}</div>
-          <div className="deck_top_colors">
+        <div className={indexCss.decklistTop}>
+          <div
+            className={`${sharedCss.button} ${sharedCss.back}`}
+            onClick={goBack}
+          ></div>
+          <div className={indexCss.deckName}>{playerDeck.getName()}</div>
+          <div className={indexCss.deckTopColors}>
             <ManaCost colors={playerDeck.getColors().get()} />
           </div>
         </div>
@@ -134,7 +141,7 @@ export function MatchView(props: MatchViewProps): JSX.Element {
               className={indexCss.buttonSimple + " " + indexCss.centered}
               text="Go back"
             ></Button>
-            <div className="actionlog-div">
+            <div className={actionLogCss.actionlogDiv}>
               <ActionLog logStr={actionLogDataString} />
             </div>
           </>
@@ -201,7 +208,7 @@ function Seat(props: SeatProps): JSX.Element {
 
   return (
     <>
-      <div className="decklist">
+      <div className={indexCss.decklist}>
         <div className={indexCss.flexItem} style={{ justifyContent: "center" }}>
           <RankIcon
             rank={player.rank}
@@ -210,24 +217,24 @@ function Seat(props: SeatProps): JSX.Element {
             leaderboardPlace={player.leaderboardPlace || 0}
             format={isLimited ? "limited" : "constructed"}
           />
-          <div className="match_player_name">
+          <div className={css.matchPlayerName}>
             {player.name.slice(0, -6)} ({player.win})
           </div>
-          {won ? <div className="match_player_win"> Winner</div> : <></>}
+          {won ? <div className={css.matchPlayerWin}> Winner</div> : <></>}
         </div>
         <Button text="Add to Decks" onClick={clickAdd} />
         <Button text="Export to Arena" onClick={clickArena} />
         <Button text="Export to .txt" onClick={clickTxt} />
         {gameDetails && match ? (
           <>
-            <div className="game_swap">
-              <div className="game_prev" onClick={gamePrev} />
+            <div className={css.gameSwap}>
+              <div className={css.gamePrev} onClick={gamePrev} />
               <div>
                 {gameSeen == match.gameStats.length
                   ? `Combined`
                   : `Seen in game ${gameSeen + 1}`}
               </div>
-              <div className="game_next" onClick={gameNext} />
+              <div className={css.gameNext} onClick={gameNext} />
             </div>
             <DeckList deck={deck} showWildcards={true} />
           </>
@@ -264,24 +271,32 @@ function GameStats(props: GameStatsProps): JSX.Element {
     >
       {game.sideboardChanges ? (
         <>
-          <div className="card_tile_separator">
+          <div className={cardTileCss.cardTileSeparator}>
             Game {index + 1} Sideboard Changes
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {game.sideboardChanges.added.length == 0 &&
             game.sideboardChanges.removed.length == 0 ? (
-              <div className="gamestats_subtitle red">No Changes</div>
+              <div className={`${css.gamestats_subtitle} ${sharedCss.red}`}>
+                No Changes
+              </div>
             ) : (
               <>
-                <div className="gamestats_side">
-                  <div className="gamestats_subtitle green">Sideboarded In</div>
-                  <div className="card_lists_list">
+                <div className={css.gamestatsSide}>
+                  <div
+                    className={`${css.gamestatsSubtitle} ${sharedCss.green}`}
+                  >
+                    Sideboarded In
+                  </div>
+                  <div className={indexCss.cardListsList}>
                     <CardList list={addedCards} />
                   </div>
                 </div>
-                <div className="gamestats_side">
-                  <div className="gamestats_subtitle red">Sideboarded Out</div>
-                  <div className="card_lists_list">
+                <div className={css.gamestatsSide}>
+                  <div className={`${css.gamestatsSubtitle} ${sharedCss.red}`}>
+                    Sideboarded Out
+                  </div>
+                  <div className={indexCss.cardListsList}>
                     <CardList list={removedCards} />
                   </div>
                 </div>
@@ -292,12 +307,14 @@ function GameStats(props: GameStatsProps): JSX.Element {
       ) : (
         <></>
       )}
-      <div className="card_tile_separator">Game {index + 1} Hands Drawn</div>
+      <div className={cardTileCss.cardTileSeparator}>
+        Game {index + 1} Hands Drawn
+      </div>
       {game.handsDrawn.map((hand: any, i: number) => {
         return (
           <React.Fragment key={"gsh-" + index + "-" + i}>
-            <div className="gamestats_subtitle">#{i + 1}</div>
-            <div className="card_lists_list">
+            <div className={css.gamestatsSubtitle}>#{i + 1}</div>
+            <div className={indexCss.cardListsList}>
               <CardList list={new CardsList(hand)} />
             </div>
           </React.Fragment>

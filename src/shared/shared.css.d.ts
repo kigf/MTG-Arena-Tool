@@ -188,6 +188,7 @@ declare namespace SharedCssModule {
     typeArt: string;
     typeCre: string;
     typeEnc: string;
+    typeIconCont: string;
     typeIns: string;
     typeLan: string;
     typePla: string;
@@ -195,6 +196,7 @@ declare namespace SharedCssModule {
     type_art: string;
     type_cre: string;
     type_enc: string;
+    type_icon_cont: string;
     type_ins: string;
     type_lan: string;
     type_pla: string;

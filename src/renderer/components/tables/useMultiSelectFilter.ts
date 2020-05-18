@@ -1,5 +1,6 @@
 import React from "react";
 import { MultiSelectFilterProps } from "../tables/types";
+import indexCss from "../../index.css";
 
 type OnClickFactory = (
   code: string
@@ -13,9 +14,9 @@ export function useMultiSelectFilter<D>(
   const onClickMultiFilter = React.useCallback(
     (code: string) => (event: React.MouseEvent<HTMLDivElement>): void => {
       (filterValue as any)[code] = event.currentTarget.classList.contains(
-        "rarity_filter_on"
+        indexCss.rarityFilterOn
       );
-      event.currentTarget.classList.toggle("rarity_filter_on");
+      event.currentTarget.classList.toggle(indexCss.rarityFilterOn);
       onFilterChanged(filterValue);
     },
     [filterValue, onFilterChanged]
