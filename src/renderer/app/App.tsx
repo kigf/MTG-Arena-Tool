@@ -1,16 +1,16 @@
-import { remote } from "electron";
+import {remote} from "electron";
 import anime from "animejs";
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {useEffect, useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {
   LOGIN_WAITING,
   LOGIN_OK,
   IPC_NONE,
-  EASING_DEFAULT
+  EASING_DEFAULT,
 } from "../../shared/constants";
 import ErrorBoundary from "./ErrorBoundary";
-import { TopNav } from "../components/main/topNav";
-import { forceOpenAbout, getOpenNav, getOpenSub } from "../tabControl";
+import {TopNav} from "../components/main/topNav";
+import {forceOpenAbout, getOpenNav, getOpenSub} from "../tabControl";
 import BackgroundImage from "../components/main/BackgroundImage";
 import TopBar from "../components/main/TopBar";
 import LoadingBar from "../components/main/LoadingBar";
@@ -19,13 +19,11 @@ import ipcListeners from "./ipcListeners";
 import Popup from "../components/main/Popup";
 import CardHover from "../components/main/CardHover";
 import OutputLogInput from "../components/popups/OutputLogInput";
-import { ipcSend } from "../rendererUtil";
+import {ipcSend} from "../rendererUtil";
 import Share from "../components/popups/Share";
-import store, { AppState } from "../../shared/redux/stores/rendererStore";
-import {
-  reduxAction,
-  initializeRendererReduxIPC
-} from "../../shared/redux/sharedRedux";
+import store, {AppState} from "../../shared/redux/stores/rendererStore";
+import {reduxAction} from "../../shared/redux/sharedRedux";
+import initializeRendererReduxIPC from "../../shared/redux/initializeRendererReduxIPC";
 
 import css from "./app.css";
 
@@ -80,10 +78,10 @@ export function App(): JSX.Element {
   useEffect(() => {
     setTimeout(() => {
       anime({
-        targets: movingUxRef.current,//css.movingUx,
+        targets: movingUxRef.current, //css.movingUx,
         left: navIndex * -100 + "%",
         easing: EASING_DEFAULT,
-        duration: 350
+        duration: 350,
       });
     }, 10);
   }, [navIndex, movingUxRef]);
@@ -99,7 +97,7 @@ export function App(): JSX.Element {
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (
-          <LoadingBar style={loginState == LOGIN_OK ? { top: "99px" } : {}} />
+          <LoadingBar style={loginState == LOGIN_OK ? {top: "99px"} : {}} />
         ) : (
           <></>
         )}

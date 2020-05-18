@@ -1,5 +1,5 @@
 import React from "react";
-import { get_rank_index as getRankIndex } from "../../../shared/util";
+import { getRankIndex } from "../../../shared/utils/getRankIndex";
 import indexCss from "../../index.css";
 import topNavCss from "../main/topNav.css";
 

@@ -20,7 +20,8 @@ import {
   SYNC_OK,
 } from "../../../shared/constants";
 import {useDispatch, useSelector} from "react-redux";
-import {get_rank_index as getRankIndex, formatRank} from "../../../shared/util";
+import {getRankIndex} from "../../../shared/utils/getRankIndex";
+import {formatRank} from "../../../shared/util";
 import {AppState} from "../../../shared/redux/stores/rendererStore";
 import useWindowSize from "../../hooks/useWindowSize";
 import {reduxAction} from "../../../shared/redux/sharedRedux";

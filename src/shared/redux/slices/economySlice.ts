@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalEconomyTransaction } from "../../types/inventory";
+import { InternalEconomyTransaction } from "../../inventory";
 
 const economySlice = createSlice({
   name: "decks",

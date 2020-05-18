@@ -1,20 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable no-console */
-import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
-import { timestamp } from "../../shared/util";
+import {ipcRenderer as ipc, IpcRendererEvent} from "electron";
+import {timestamp} from "../../shared/util";
 import {
   MAIN_SETTINGS,
   SETTINGS_OVERLAY,
-  IPC_NONE
+  IPC_NONE,
 } from "../../shared/constants";
-import { ipcSend } from "../rendererUtil";
+import {ipcSend} from "../rendererUtil";
 import {
   LOGIN_FAILED,
   LOGIN_WAITING,
-  SETTINGS_ABOUT
+  SETTINGS_ABOUT,
 } from "../../shared/constants";
-import { reduxAction } from "../../shared/redux/sharedRedux";
+import {reduxAction} from "../../shared/redux/sharedRedux";
+import globalStore from "../../shared/store";
+import {ArenaV3Deck} from "../../types/Deck";
 
 export default function ipcListeners(dispatcher: any): void {
   console.log("Set up IPC listeners.");
@@ -26,7 +28,7 @@ export default function ipcListeners(dispatcher: any): void {
       {
         email: arg.username,
         pass: arg.password,
-        rememberme: arg.rememberMe
+        rememberme: arg.rememberMe,
       },
       IPC_NONE
     );
@@ -58,7 +60,7 @@ export default function ipcListeners(dispatcher: any): void {
           "SET_PATREON",
           {
             patreon: arg.patreon,
-            patreonTier: arg.patreon_tier
+            patreonTier: arg.patreon_tier,
           },
           IPC_NONE
         );
@@ -87,7 +89,7 @@ export default function ipcListeners(dispatcher: any): void {
         {
           text: text,
           time: newTime,
-          duration: time
+          duration: time,
         },
         IPC_NONE
       );
@@ -100,11 +102,11 @@ export default function ipcListeners(dispatcher: any): void {
       reduxAction(dispatcher, "SET_TOPNAV", MAIN_SETTINGS, IPC_NONE);
       reduxAction(dispatcher, "SET_NAV_INDEX", 0, IPC_NONE);
       if (arg === -1) {
-        ipcSend("save_user_settings", { last_open_tab: MAIN_SETTINGS });
+        ipcSend("save_user_settings", {last_open_tab: MAIN_SETTINGS});
       } else {
         ipcSend("save_user_settings", {
           last_open_tab: MAIN_SETTINGS,
-          last_settings_section: arg
+          last_settings_section: arg,
         });
       }
     }
@@ -118,7 +120,7 @@ export default function ipcListeners(dispatcher: any): void {
       ipcSend("save_user_settings", {
         last_open_tab: MAIN_SETTINGS,
         last_settings_section: SETTINGS_OVERLAY,
-        last_settings_overlay_section: arg
+        last_settings_overlay_section: arg,
       });
     }
   );
@@ -128,7 +130,7 @@ export default function ipcListeners(dispatcher: any): void {
     reduxAction(dispatcher, "SET_TOPNAV", MAIN_SETTINGS, IPC_NONE);
     ipcSend("save_user_settings", {
       last_open_tab: MAIN_SETTINGS,
-      last_settings_section: SETTINGS_ABOUT
+      last_settings_section: SETTINGS_ABOUT,
     });
   });
 
@@ -140,7 +142,7 @@ export default function ipcListeners(dispatcher: any): void {
       {
         wildcards: arg.wildcards,
         filteredSet: arg.filtered_set,
-        usersActive: arg.users_active
+        usersActive: arg.users_active,
       },
       IPC_NONE
     );
@@ -167,28 +169,39 @@ export default function ipcListeners(dispatcher: any): void {
     reduxAction(dispatcher, "SET_NO_LOG", true, IPC_NONE);
   });
 
-  ipc.on("set_draft_link", function(_event: IpcRendererEvent, arg: string) {
+  ipc.on("set_draft_link", function (_event: IpcRendererEvent, arg: string) {
     reduxAction(dispatcher, "SET_SHARE_DIALOG_URL", arg, IPC_NONE);
     reduxAction(dispatcher, "SET_LOADING", false, IPC_NONE);
   });
 
-  ipc.on("set_log_link", function(_event: IpcRendererEvent, arg: string) {
+  ipc.on("set_log_link", function (_event: IpcRendererEvent, arg: string) {
     reduxAction(dispatcher, "SET_SHARE_DIALOG_URL", arg, IPC_NONE);
     reduxAction(dispatcher, "SET_LOADING", false, IPC_NONE);
   });
 
-  ipc.on("set_deck_link", function(_event: IpcRendererEvent, arg: string) {
+  ipc.on("set_deck_link", function (_event: IpcRendererEvent, arg: string) {
     reduxAction(dispatcher, "SET_SHARE_DIALOG_URL", arg, IPC_NONE);
     reduxAction(dispatcher, "SET_LOADING", false, IPC_NONE);
   });
 
-  ipc.on("set_active_events", function(_event: IpcRendererEvent, arg: string) {
+  ipc.on("set_active_events", function (_event: IpcRendererEvent, arg: string) {
     if (!arg) return;
     try {
       const activeEvents = JSON.parse(arg);
       reduxAction(dispatcher, "SET_ACTIVE_EVENTS", activeEvents, IPC_NONE);
     } catch (e) {
       console.log("(set_active_events) Error parsing JSON:", arg);
+    }
+  });
+
+  ipc.on("set_precon_decks", (_event: IpcRendererEvent, arg: string) => {
+    try {
+      const json = JSON.parse(arg);
+      json.forEach(
+        (deck: ArenaV3Deck) => (globalStore.preconDecks[deck.id] = deck)
+      );
+    } catch (e) {
+      console.log("Error parsing JSON:", arg);
     }
   });
 }

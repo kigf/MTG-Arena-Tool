@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import Slider, { SliderPosition } from "../misc/Slider";
 import DeckList from "../misc/DeckList";
 import Deck from "../../../shared/deck";
-import { getCardImage, getRankColorClass } from "../../../shared/util";
 import {
   PACK_SIZES,
   DRAFT_RANKS,
@@ -20,11 +19,14 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
 import css from "./DraftView.css" 
+import { getCardImage } from "../../../shared/utils/getCardArtCrop";
+import { getRankColorClass } from "../../../shared/utils/getRankColorClass";
 
 interface PickPack {
   pack: number;
   pick: number;
 }
+
 
 const DEFAULT_PACK_SIZE = 14;
 

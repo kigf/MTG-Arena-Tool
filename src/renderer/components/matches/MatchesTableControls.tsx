@@ -1,8 +1,8 @@
 import React from "react";
 import {FilterValue} from "react-table";
+import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
 import {MATCHES_TABLE_MODES} from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import {getReadableEvent} from "../../../shared/util";
 import DateFilter from "../../DateFilter";
 import {MediumTextButton} from "../misc/MediumTextButton";
 import {SmallTextButton} from "../misc/SmallTextButton";

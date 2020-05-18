@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { DeckChange } from "../../types/Deck";
+import { DeckChange } from "../../../types/Deck";
 
 const deckChangesSlice = createSlice({
   name: "deckChanges",

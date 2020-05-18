@@ -34,6 +34,7 @@
     "start:renderer": "webpack --config webpack.dev.renderer.js && npm run run-electron",
     "start:background": "webpack --config webpack.dev.background.js && npm run run-electron",
     "start:overlay": "webpack --config webpack.dev.overlay.js && npm run run-electron",
+    "start:updater": "webpack --config webpack.dev.updater.js && npm run run-electron",
     "start:all": "npm-run-all clean:lib build:dev run-electron",
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",

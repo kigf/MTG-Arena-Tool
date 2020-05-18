@@ -46,6 +46,10 @@ module.exports = function post(common_config) {
         path: path.join(__dirname, "lib/background"),
       },
       plugins: [
+        new MiniCssExtractPlugin({
+          filename: "[name].[hash].css",
+          chunkFilename: "[id].[hash].css",
+        }),
         new HtmlWebpackPlugin({
           template: "src/assets/template.html",
         }),

@@ -13,7 +13,7 @@ import {
 } from "../shared/constants";
 import db from "../shared/database";
 import { normalApproximationInterval } from "../shared/statsFns";
-import { getReadableEvent } from "../shared/util";
+import { getReadableEvent } from "../shared/utils/getReadableEvent";
 import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";

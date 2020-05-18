@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { app, ipcRenderer as ipc, remote } from "electron";
+import {app, ipcRenderer as ipc, remote} from "electron";
 import fs from "fs";
 import _ from "lodash";
 import path from "path";
@@ -9,26 +9,24 @@ import {
   HIDDEN_PW,
   IPC_RENDERER,
   IPC_ALL,
-  IPC_BACKGROUND
+  IPC_BACKGROUND,
 } from "../shared/constants";
-import { appDb, playerDb } from "../shared/db/LocalDatabase";
-import { InternalDeck } from "../types/Deck";
+import {appDb, playerDb} from "../shared/db/LocalDatabase";
+import {InternalDeck} from "../types/Deck";
 import addCustomDeck from "./addCustomDeck";
 import arenaLogWatcher from "./arena-log-watcher";
-import { ipcSend, unleakString } from "./backgroundUtil";
-import { createDeck } from "./data";
+import {ipcSend, unleakString} from "./backgroundUtil";
+import {createDeck} from "./data";
 import forceDeckUpdate from "./forceDeckUpdate";
 import globals from "./globals";
 import * as httpApi from "./httpApi";
-import { loadPlayerConfig, syncSettings } from "./loadPlayerConfig";
+import {loadPlayerConfig, syncSettings} from "./loadPlayerConfig";
 import * as mtgaLog from "./mtgaLog";
 import updateDeck from "./updateDeck";
-import {
-  initializeRendererReduxIPC,
-  reduxAction
-} from "../shared/redux/sharedRedux";
-import { archive, getMatch, deckExists, getDeck } from "../shared/store";
-import { AppState } from "../shared/redux/stores/backgroundStore";
+import {reduxAction} from "../shared/redux/sharedRedux";
+import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxIPC";
+import {archive, getMatch, deckExists, getDeck} from "../shared/store";
+import {AppState} from "../shared/redux/stores/backgroundStore";
 
 initializeRendererReduxIPC(globals.store);
 
@@ -49,12 +47,12 @@ globals.store.subscribe(() => {
   }
 
   // App settings
-  const newAppSettings = { ...newState.appsettings };
+  const newAppSettings = {...newState.appsettings};
   if (!_.isEqual(oldState.appsettings, newAppSettings)) {
     newAppSettings.toolVersion = globals.toolVersion;
     //console.log(".appsettings updated");
     if (!newAppSettings.rememberMe) {
-      appDb.upsert("", "settings", { ...newAppSettings, email: "", token: "" });
+      appDb.upsert("", "settings", {...newAppSettings, email: "", token: ""});
     } else {
       appDb.upsert("", "settings", newAppSettings);
     }
@@ -101,12 +99,12 @@ ipc.on("download_metadata", () => {
 });
 
 //
-ipc.on("sync_check", async function() {
+ipc.on("sync_check", async function () {
   httpApi.httSyncPush();
 });
 
 //
-ipc.on("start_background", async function() {
+ipc.on("start_background", async function () {
   appDb.init("application");
   reduxAction(
     globals.store.dispatch,
@@ -145,19 +143,19 @@ ipc.on("start_background", async function() {
 });
 
 function offlineLogin(): void {
-  ipcSend("auth", { ok: true, user: -1 });
+  ipcSend("auth", {ok: true, user: -1});
   loadPlayerConfig();
   reduxAction(
     globals.store.dispatch,
     "SET_APP_SETTINGS",
-    { email: "" },
+    {email: ""},
     IPC_ALL ^ IPC_BACKGROUND
   );
   reduxAction(globals.store.dispatch, "SET_OFFLINE", true, IPC_RENDERER);
 }
 
 //
-ipc.on("login", function(_event, arg) {
+ipc.on("login", function (_event, arg) {
   ipcSend("begin_login", {});
   if (arg.password == HIDDEN_PW) {
     httpApi.httpAuth(arg.username, arg.password);
@@ -169,17 +167,17 @@ ipc.on("login", function(_event, arg) {
 });
 
 //
-ipc.on("request_draft_link", function(_event, obj) {
+ipc.on("request_draft_link", function (_event, obj) {
   httpApi.httpDraftShareLink(obj.id, obj.expire, obj.draftData);
 });
 
 //
-ipc.on("request_log_link", function(_event, obj) {
+ipc.on("request_log_link", function (_event, obj) {
   httpApi.httpLogShareLink(obj.id, obj.log, obj.expire);
 });
 
 //
-ipc.on("request_deck_link", function(_event, obj) {
+ipc.on("request_deck_link", function (_event, obj) {
   httpApi.httpDeckShareLink(obj.deckString, obj.expire);
 });
 
@@ -194,71 +192,71 @@ ipc.on("overlayBounds", (_event, index, bounds) => {
   const overlays = [...globals.store.getState().settings.overlays];
   const newOverlay = {
     ...overlays[index], // old overlay
-    bounds // new bounds
+    bounds, // new bounds
   };
   overlays[index] = newOverlay;
   playerDb.upsert("settings", "overlays", overlays);
 });
 
 //
-ipc.on("save_overlay_settings", function(_event, settings) {
+ipc.on("save_overlay_settings", function (_event, settings) {
   // console.log("save_overlay_settings");
   if (settings.index === undefined) return;
 
-  const { index } = settings;
+  const {index} = settings;
   const overlays = globals.store
     .getState()
     .settings.overlays.map((overlay, _index) => {
       if (_index === index) {
-        const updatedOverlay = { ...overlay, ...settings };
+        const updatedOverlay = {...overlay, ...settings};
         delete updatedOverlay.index;
         return updatedOverlay;
       }
       return overlay;
     });
 
-  const updated = { ...globals.store.getState().settings, overlays };
+  const updated = {...globals.store.getState().settings, overlays};
   playerDb.upsert("settings", "overlays", overlays);
   syncSettings(updated);
 });
 
 //
-ipc.on("delete_data", function() {
+ipc.on("delete_data", function () {
   httpApi.httpDeleteData();
 });
 
 //
-ipc.on("import_custom_deck", function(_event, arg) {
+ipc.on("import_custom_deck", function (_event, arg) {
   const data = JSON.parse(arg);
   const id = data.id;
   if (!id || deckExists(id)) return;
   const deckData = {
     ...createDeck(),
-    ...data
+    ...data,
   };
   addCustomDeck(deckData);
 });
 
 //
-ipc.on("toggle_deck_archived", function(_event, arg) {
+ipc.on("toggle_deck_archived", function (_event, arg) {
   const id = arg;
   const deck = getDeck(id);
   if (!deck) return;
-  const deckData: InternalDeck = { ...deck, archived: !deck.archived };
+  const deckData: InternalDeck = {...deck, archived: !deck.archived};
 
   reduxAction(globals.store.dispatch, "SET_DECK", deckData, IPC_RENDERER);
   playerDb.upsert("decks", id, deckData);
 });
 
 //
-ipc.on("toggle_archived", function(_event, id) {
+ipc.on("toggle_archived", function (_event, id) {
   const data = archive(id);
   if (data) {
     playerDb.upsert("", id, data);
   }
 });
 
-ipc.on("request_explore", function(_event, arg) {
+ipc.on("request_explore", function (_event, arg) {
   if (globals.store.getState().appsettings.email === "") {
     reduxAction(globals.store.dispatch, "SET_OFFLINE", true, IPC_RENDERER);
   } else {
@@ -266,7 +264,7 @@ ipc.on("request_explore", function(_event, arg) {
   }
 });
 
-ipc.on("request_course", function(_event, arg) {
+ipc.on("request_course", function (_event, arg) {
   httpApi.httpGetCourse(arg);
 });
 
@@ -279,10 +277,10 @@ ipc.on("request_home", (_event, set) => {
 });
 
 ipc.on("edit_tag", (_event, arg) => {
-  const { tag, color } = arg;
+  const {tag, color} = arg;
   const tags = {
     ...globals.store.getState().playerdata.tagsColors,
-    [tag]: color
+    [tag]: color,
   };
   playerDb.upsert("", "tags_colors", tags);
   reduxAction(globals.store.dispatch, "EDIT_TAG_COLOR", arg, IPC_RENDERER);
@@ -290,41 +288,41 @@ ipc.on("edit_tag", (_event, arg) => {
 });
 
 ipc.on("delete_matches_tag", (_event, arg) => {
-  const { matchid, tag } = arg;
+  const {matchid, tag} = arg;
   const match = getMatch(matchid);
   if (!match || !tag) return;
   if (!match.tags || !match.tags.includes(tag)) return;
 
   const tags = [...match.tags];
   tags.splice(tags.indexOf(tag), 1);
-  const matchData = { ...match, tags };
+  const matchData = {...match, tags};
 
   reduxAction(globals.store.dispatch, "SET_MATCH", matchData, IPC_RENDERER);
   playerDb.upsert(matchid, "tags", tags);
 });
 
 ipc.on("add_matches_tag", (_event, arg) => {
-  const { matchid, tag } = arg;
+  const {matchid, tag} = arg;
   const match = getMatch(matchid);
   if (!match || !tag) return;
   if (match.tags && match.tags.includes(tag)) return;
 
   const tags = [...(match.tags || []), tag];
-  const matchData = { ...match, tags };
+  const matchData = {...match, tags};
 
   reduxAction(globals.store.dispatch, "SET_MATCH", matchData, IPC_RENDERER);
   playerDb.upsert(matchid, "tags", tags);
   httpApi.httpSetDeckTag(tag, match.oppDeck, match.eventId);
 });
 
-ipc.on("set_odds_samplesize", function(_event, state) {
+ipc.on("set_odds_samplesize", function (_event, state) {
   globals.oddsSampleSize = state;
   forceDeckUpdate(false);
   updateDeck(true);
 });
 
 // Set a new log URI
-ipc.on("set_log", function(_event, arg) {
+ipc.on("set_log", function (_event, arg) {
   if (globals.watchingLog) {
     globals.stopWatchingLog();
     globals.stopWatchingLog = arenaLogWatcher.startWatchingLog(arg);
@@ -359,13 +357,13 @@ async function logLoop(): Promise<void> {
       ipcSend("no_log", logUri);
       ipcSend("popup", {
         text: "No log file found. Please include the file name too.",
-        time: 1000
+        time: 1000,
       });
       return;
     }
   } else {
     ipcSend("no_log", logUri);
-    ipcSend("popup", { text: "No log file found.", time: 1000 });
+    ipcSend("popup", {text: "No log file found.", time: 1000});
     return;
   }
 
@@ -373,7 +371,7 @@ async function logLoop(): Promise<void> {
     ipcSend("log_read", 1);
   }
 
-  const { size } = await mtgaLog.stat(logUri);
+  const {size} = await mtgaLog.stat(logUri);
 
   if (size == undefined) {
     // Something went wrong obtaining the file size, try again later
@@ -399,11 +397,11 @@ async function logLoop(): Promise<void> {
   const splitString = rawString.split("[UnityCrossThread");
   const parsedData: Record<string, string | undefined> = {
     arenaId: undefined,
-    playerName: undefined
+    playerName: undefined,
   };
 
   let detailedLogs = true;
-  splitString.forEach(value => {
+  splitString.forEach((value) => {
     // Check if detailed logs / plugin support is disabled
     // This should be an action rather than a simple popup
     // Renderer should display a special popup with pretty instructions
@@ -416,7 +414,7 @@ async function logLoop(): Promise<void> {
 3) Open the View Account screen
 4) Enable Detailed logs.
 5) Restart Arena.`,
-        time: 0
+        time: 0,
       });
       detailedLogs = false;
     }
@@ -447,11 +445,11 @@ async function logLoop(): Promise<void> {
   }
 
   prevLogSize = size;
-  const { arenaId, playerName } = parsedData;
+  const {arenaId, playerName} = parsedData;
   if (!arenaId || !playerName) {
     ipcSend("popup", {
       text: "output_log.txt contains no player data",
-      time: 0
+      time: 0,
     });
     return;
   } else {
@@ -466,7 +464,7 @@ async function logLoop(): Promise<void> {
 
   ipcSend("popup", {
     text: "Found Arena log for " + playerName,
-    time: 0
+    time: 0,
   });
   clearInterval(logLoopInterval);
 
@@ -474,7 +472,7 @@ async function logLoop(): Promise<void> {
     autoLogin,
     rememberMe,
     email,
-    token
+    token,
   } = globals.store.getState().appsettings;
   let username = "";
   let password = "";
@@ -488,7 +486,7 @@ async function logLoop(): Promise<void> {
   ipcSend("prefill_auth_form", {
     username,
     password,
-    rememberMe
+    rememberMe,
   });
 
   if (autoLogin) {
@@ -497,14 +495,14 @@ async function logLoop(): Promise<void> {
       ipcSend("popup", {
         text: "Logging in automatically...",
         time: 0,
-        progress: 2
+        progress: 2,
       });
       httpApi.httpAuth(username, HIDDEN_PW);
     } else {
       ipcSend("popup", {
         text: "Launching offline mode automatically...",
         time: 0,
-        progress: 2
+        progress: 2,
       });
       offlineLogin();
     }

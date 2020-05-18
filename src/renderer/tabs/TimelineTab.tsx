@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import format from "date-fns/format";
-import {get_rank_index as getRankIndex} from "../../shared/util";
+import { getRankIndex } from "../../shared/utils/getRankIndex";
 import {SeasonalRankData} from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
 import Deck from "../../shared/deck";

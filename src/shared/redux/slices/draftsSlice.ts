@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalDraft } from "../../types/draft";
+import { InternalDraft } from "../../../types/draft";
 
 const draftsSlice = createSlice({
   name: "drafts",

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { InternalMatch } from "../../types/match";
+import { InternalMatch } from "../../../types/match";
 import globalStore from "../../store";
 
 const matchesSlice = createSlice({

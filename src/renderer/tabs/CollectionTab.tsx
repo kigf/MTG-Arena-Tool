@@ -10,7 +10,7 @@ import {
 } from "../../shared/constants";
 import db from "../../shared/database";
 import { DbCardData } from "../../types/Metadata";
-import { openScryfallCard, replaceAll } from "../../shared/util";
+import { replaceAll } from "../../shared/util";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
 
@@ -23,6 +23,7 @@ import { decksList } from "../../shared/store";
 import { useSelector } from "react-redux";
 
 import appCss from "../app/app.css";
+import { openScryfallCard } from "../../shared/utils/openScryfallCard";
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;

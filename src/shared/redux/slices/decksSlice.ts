@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalDeck } from "../../types/Deck";
+import { InternalDeck } from "../../../types/Deck";
 
 const decksSlice = createSlice({
   name: "decks",

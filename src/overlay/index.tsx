@@ -5,7 +5,7 @@ import OverlayController from "./OverlayController";
 import TransparencyFix from "./electron-transparency-mouse-fix";
 
 import store from "../shared/redux/stores/overlayStore";
-import { initializeRendererReduxIPC } from "../shared/redux/sharedRedux";
+import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxIPC";
 
 import "../shared/shared.css";
 import "./index.css";

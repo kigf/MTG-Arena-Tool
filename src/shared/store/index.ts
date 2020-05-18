@@ -1,23 +1,20 @@
-import { InternalMatch } from "../types/match";
-import { get_deck_colors as getDeckColors } from "../util";
-import { DEFAULT_TILE } from "../constants";
-import { prettierDeckData } from "../util";
-import db from "../database";
-import { InternalEvent } from "../types/event";
-import { InternalDeck } from "../types/Deck";
-import { InternalEconomyTransaction } from "../types/inventory";
-import { InternalDraft } from "../types/draft";
-import { SeasonalRankData } from "../types/Season";
-import { matchStateObject } from "./currentMatchStore";
+import {InternalMatch} from "../../types/match";
+import {InternalEvent} from "../../types/event";
+import {InternalDeck, ArenaV3Deck} from "../../types/Deck";
+import {InternalEconomyTransaction} from "../../types/inventory";
+import {InternalDraft} from "../../types/draft";
+import {SeasonalRankData} from "../../types/Season";
+import {matchStateObject} from "./currentMatchStore";
+import {DEFAULT_TILE} from "../constants";
 
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
-import { DeckChange } from "../types/Deck";
+import {DeckChange} from "../../types/Deck";
+import prettierDeckData from "../utils/prettierDeckData";
+import getDeckColors from "../utils/getDeckColors";
 
 const defaultDeck = JSON.parse(
-  '{"deckTileId":' +
-    DEFAULT_TILE +
-    ',"description":null,"format":"Standard","colors":[],"id":"00000000-0000-0000-0000-000000000000","isValid":false,"lastUpdated":"2018-05-31T00:06:29.7456958","lockedForEdit":false,"lockedForUse":false,"mainDeck":[],"name":"Undefined","resourceId":"00000000-0000-0000-0000-000000000000","sideboard":[]}'
+  `{"deckTileId":${DEFAULT_TILE},"description":null,"format":"Standard","colors":[],"id":"00000000-0000-0000-0000-000000000000","isValid":false,"lastUpdated":"2018-05-31T00:06:29.7456958","lockedForEdit":false,"lockedForUse":false,"mainDeck":[],"name":"Undefined","resourceId":"00000000-0000-0000-0000-000000000000","sideboard":[]}`
 );
 
 // Use this store only when redux struggles with the data (too complex, too deep)
@@ -31,7 +28,8 @@ const globalStore = {
   drafts: {} as Record<string, InternalDraft>,
   seasonal: {} as Record<string, SeasonalRankData>,
   deckChanges: {} as Record<string, DeckChange>,
-  currentMatch: matchStateObject
+  currentMatch: matchStateObject,
+  preconDecks: {} as {[id: string]: ArenaV3Deck},
 };
 
 //
@@ -42,17 +40,20 @@ export function getMatch(id: string): InternalMatch | undefined {
   if (!id || !globalStore.matches[id]) return undefined;
   const matchData = globalStore.matches[id];
   let preconData = {};
-  if (matchData.playerDeck && matchData.playerDeck.id in db.preconDecks) {
-    preconData = db.preconDecks[matchData.playerDeck.id];
+  if (
+    matchData.playerDeck &&
+    matchData.playerDeck.id in globalStore.preconDecks
+  ) {
+    preconData = globalStore.preconDecks[matchData.playerDeck.id];
   }
   const playerDeck = prettierDeckData({
     ...defaultDeck,
     ...preconData,
-    ...matchData.playerDeck
+    ...matchData.playerDeck,
   });
   playerDeck.colors = getDeckColors(playerDeck);
 
-  const oppDeck = { ...defaultDeck, ...matchData.oppDeck };
+  const oppDeck = {...defaultDeck, ...matchData.oppDeck};
   oppDeck.colors = getDeckColors(oppDeck);
 
   return {
@@ -60,7 +61,7 @@ export function getMatch(id: string): InternalMatch | undefined {
     id,
     oppDeck,
     playerDeck,
-    type: "match"
+    type: "match",
   };
 }
 
@@ -83,7 +84,7 @@ export function getEvent(id: string): InternalEvent | undefined {
   return {
     ...eventData,
     //custom: !static_events.includes(id),
-    type: "Event"
+    type: "Event",
   };
 }
 
@@ -102,12 +103,12 @@ export function eventsList(): InternalEvent[] {
 //
 export function getDeck(id: string): InternalDeck | undefined {
   if (!id || !globalStore.decks[id]) return undefined;
-  const preconData = db.preconDecks[id] || {};
+  const preconData = globalStore.preconDecks[id] || {};
   const deckData = {
     ...preconData,
     ...globalStore.decks[id],
     colors: getDeckColors(globalStore.decks[id]),
-    custom: !globalStore.staticDecks.includes(id)
+    custom: !globalStore.staticDecks.includes(id),
   };
   // lastUpdated does not specify timezone but implicitly occurs at UTC
   // attempt to add UTC timezone to lastUpdated iff result would be valid
@@ -149,8 +150,8 @@ export function deckChangeExists(id: string): boolean {
 
 export function getDeckChangesList(id?: string): DeckChange[] {
   return Object.keys(globalStore.deckChanges)
-    .map(id => globalStore.deckChanges[id])
-    .filter(change => change && change.deckId === id);
+    .map((id) => globalStore.deckChanges[id])
+    .filter((change) => change && change.deckId === id);
 }
 
 //
@@ -165,7 +166,7 @@ export function getTransaction(
     ...txnData,
     // Some old data stores the raw original context in ".originalContext"
     // All NEW data stores this in ".context" and ".originalContext" is blank.
-    originalContext: txnData.originalContext ?? txnData.context
+    originalContext: txnData.originalContext ?? txnData.context,
   };
 }
 
@@ -215,7 +216,7 @@ export function seasonalList(ids: string[] = []): SeasonalRankData[] {
       (key: string) => globalStore.seasonal[key]
     );
   } else {
-    return ids.map(id => globalStore.seasonal[id]).filter(update => update);
+    return ids.map((id) => globalStore.seasonal[id]).filter((update) => update);
   }
 }
 
@@ -228,7 +229,7 @@ export function archive(id: string): any {
   if (transactionExists(id)) data = getTransaction(id);
 
   if (data) {
-    return { ...data, archived: !data.archived };
+    return {...data, archived: !data.archived};
   }
   return undefined;
 }

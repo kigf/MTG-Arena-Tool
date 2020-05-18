@@ -1,8 +1,8 @@
 import React, { useRef, useCallback, useState } from "react";
-import { MANA, RANKS } from "../../../shared/constants";
+import { RANKS } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
+import { getRankIndex } from "../../../shared/utils/getRankIndex";
 import {
-  get_rank_index as getRankIndex,
   toDDHHMMSS,
   toMMSS
 } from "../../../shared/util";

@@ -1,19 +1,20 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useState} from "react";
 import {
   CARD_RARITIES,
   CARD_TILE_FLAT,
   COLORS_ALL,
   FACE_SPLIT_FULL,
-  FACE_ADVENTURE_MAIN
+  FACE_ADVENTURE_MAIN,
 } from "./constants";
 import Deck from "./deck";
-import { getCardArtCrop, getRankColorClass, openScryfallCard } from "./util";
-import { DbCardData, Rarity } from "../types/Metadata";
+import { getRankColorClass } from "./utils/getRankColorClass";
+import {openScryfallCard} from "./utils/openScryfallCard";
+import {getCardArtCrop} from "./utils/getCardArtCrop";
+import {DbCardData, Rarity} from "../types/Metadata";
 import useHoverCard from "../renderer/hooks/useHoverCard";
-import { useSelector } from "react-redux";
-import { AppState } from "../shared/redux/stores/rendererStore";
-import { getWildcardsMissing } from "../renderer/rendererUtil";
-
+import {useSelector} from "react-redux";
+import {AppState} from "../shared/redux/stores/rendererStore";
+import {getWildcardsMissing} from "../renderer/rendererUtil";
 import sharedCss from "../shared/shared.css";
 import css from "./CardTile.css";
 
@@ -82,7 +83,7 @@ export interface CardTileProps {
   indent: string;
   isHighlighted: boolean;
   isSideboard: boolean;
-  quantity: { quantity: string; odds: number } | number | string; // TODO clean this up?
+  quantity: {quantity: string; odds: number} | number | string; // TODO clean this up?
   showWildcards: boolean;
 }
 
@@ -131,7 +132,7 @@ function getArenaQuantityDisplay(quantity: any): [number, number, JSX.Element] {
         style={{
           color: "rgba(255, 255, 255, 0)",
           minWidth: "0px",
-          width: "0px"
+          width: "0px",
         }}
       >
         <span>1</span>
@@ -153,7 +154,7 @@ function CostSymbols(props: {
   card: DbCardData;
   dfcCard?: DbCardData;
 }): JSX.Element {
-  const { card, dfcCard } = props;
+  const {card, dfcCard} = props;
   const costSymbols: JSX.Element[] = [];
   let prevc = true;
   const hasSplitCost = card.dfc === FACE_SPLIT_FULL;
@@ -168,7 +169,7 @@ function CostSymbols(props: {
       costSymbols.push(
         <div
           style={{
-            justifyContent: "flex-end"
+            justifyContent: "flex-end",
           }}
           key={card.id + "_" + index}
           className={`${sharedCss.manaS16} ${mana[cost]}`}
@@ -182,7 +183,7 @@ function CostSymbols(props: {
       costSymbols.push(
         <div
           style={{
-            justifyContent: "flex-end"
+            justifyContent: "flex-end",
           }}
           key={dfcCard.id + "_" + index}
           className={`${sharedCss.manaS16} ${mana[cost]}`}
@@ -202,7 +203,7 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
     isHighlighted,
     isSideboard,
     quantity,
-    showWildcards
+    showWildcards,
   } = props;
 
   const [isMouseHovering, setMouseHovering] = useState(false);
@@ -234,7 +235,7 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
       data-id={indent}
       data-quantity={quantity}
       style={{
-        backgroundColor: isHighlighted ? "rgba(250, 229, 210, 0.66)" : ""
+        backgroundColor: isHighlighted ? "rgba(250, 229, 210, 0.66)" : "",
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -245,13 +246,13 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
         className={`${css.card_tile} ${card.frame ? frameClassName(card) : ""}`}
         style={{
           minWidth: `calc(100% - ${ww}px)`,
-          marginTop: isMouseHovering ? 0 : "3px"
+          marginTop: isMouseHovering ? 0 : "3px",
         }}
       >
         <div style={{display: "flex"}}>
           <div className={css.card_tile_name}>{card.name || "Unknown"}</div>
         </div>
-        <div style={{ display: "flex", lineHeight: "26px" }}>
+        <div style={{display: "flex", lineHeight: "26px"}}>
           <CostSymbols card={card} dfcCard={dfcCard} />
         </div>
       </div>
@@ -259,7 +260,7 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
         className={css.card_tile_glow}
         style={{
           minWidth: `calc(100% - ${ww}px)`,
-          left: `calc(0px - 100% + ${ll}px)`
+          left: `calc(0px - 100% + ${ll}px)`,
         }}
       />
       {showWildcards && deck && (
@@ -275,8 +276,8 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
   );
 }
 
-function FlatQuantityDisplay(props: { quantity: any }): JSX.Element {
-  const { quantity } = props;
+function FlatQuantityDisplay(props: {quantity: any}): JSX.Element {
+  const {quantity} = props;
   if (typeof quantity === "object") {
     // Mixed quantity (odds and quantity)
     return (
@@ -288,7 +289,11 @@ function FlatQuantityDisplay(props: { quantity: any }): JSX.Element {
   } else if (!isNumber(quantity)) {
     // Text quantity
     const rankClass = getRankColorClass(quantity);
-    return <div className={css.card_tile_odds_flat + " " + rankClass}>{quantity}</div>;
+    return (
+      <div className={css.card_tile_odds_flat + " " + rankClass}>
+        {quantity}
+      </div>
+    );
   } else if (quantity === 9999) {
     // Undefined Quantity
     return <div className={css.card_tile_quantity_flat}>1</div>;
@@ -314,20 +319,20 @@ interface MissingCardsProps {
 }
 
 function WildcardsNeeded(props: WildcardsNeededProps): JSX.Element {
-  const { card, deck, isSideboard, listStyle, ww } = props;
+  const {card, deck, isSideboard, listStyle, ww} = props;
   if (card.type.indexOf("Basic Land") === -1) {
     const missing = getWildcardsMissing(deck, card.id, isSideboard);
     const cardRarity = card.rarity;
 
     if (missing > 0) {
-      return MissingCardSprite({ missing, cardRarity, listStyle, ww });
+      return MissingCardSprite({missing, cardRarity, listStyle, ww});
     }
   }
   return <div className={css.not_owned_sprite_empty}></div>;
 }
 
 function MissingCardSprite(props: MissingCardsProps): JSX.Element {
-  const { missing, cardRarity, listStyle, ww } = props;
+  const {missing, cardRarity, listStyle, ww} = props;
 
   const xoff = CARD_RARITIES.indexOf(cardRarity) * -24;
   const yoff = missing * -24;
@@ -338,7 +343,7 @@ function MissingCardSprite(props: MissingCardsProps): JSX.Element {
   }
 
   const style: React.CSSProperties = {
-    backgroundPosition: `${xoff}px ${yoff}px`
+    backgroundPosition: `${xoff}px ${yoff}px`,
   };
   if (ww) {
     style.left = `calc(0px - 100% + ${ww - 14}px)`;
@@ -358,7 +363,7 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
     isHighlighted,
     isSideboard,
     quantity,
-    showWildcards
+    showWildcards,
   } = props;
   const [isMouseHovering, setMouseHovering] = useState(false);
   const [hoverIn, hoverOut] = useHoverCard(card.id);
@@ -380,7 +385,7 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
     openScryfallCard(_card);
   }, [card, dfcCard]);
 
-  const cardTileStyle = { backgroundImage: "", borderImage: "" };
+  const cardTileStyle = {backgroundImage: "", borderImage: ""};
   try {
     if (card.type == "Special") {
       cardTileStyle.backgroundImage = `url(${card.images["art_crop"]})`;
@@ -407,7 +412,7 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
   }
   cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
 
-  const tileStyle = { backgroundColor: "rgba(0, 0, 0, 0.75)" };
+  const tileStyle = {backgroundColor: "rgba(0, 0, 0, 0.75)"};
   if (isHighlighted) {
     tileStyle.backgroundColor = "rgba(250, 229, 210, 0.66)";
   } else if (isMouseHovering) {

@@ -30,7 +30,7 @@ import {
 import { appDb } from "../shared/db/LocalDatabase";
 import { SettingsData, OverlaySettingsData } from "../types/settings";
 
-import { initializeMainReduxIPC } from "../shared/redux/sharedRedux";
+import initializeMainReduxIPC from "../shared/redux/initializeMainReduxIPC";
 import store from "../shared/redux/stores/mainStore";
 
 import iconNormal from "../assets/icons/icon.png";

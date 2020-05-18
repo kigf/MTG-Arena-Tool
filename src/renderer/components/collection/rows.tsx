@@ -1,6 +1,6 @@
 import React from "react";
 import OwnershipStars from "../../../shared/OwnershipStars";
-import { getCardImage } from "../../../shared/util";
+import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import { TableViewRow } from "../tables/TableViewRow";
 import { CollectionTableRowProps } from "./types";
 import useHoverCard from "../../hooks/useHoverCard";

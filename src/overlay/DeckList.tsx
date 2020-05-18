@@ -17,13 +17,13 @@ import DeckTypesStats from "../shared/DeckTypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
 import {
   compare_cards as compareCards,
-  get_card_type_sort as getCardTypeSort,
   objectClone
 } from "../shared/util";
 import { Chances } from "../types/Chances";
 import { CardObject } from "../types/Deck";
 import { OverlaySettingsData } from "../types/settings";
 import SampleSizePanel from "./SampleSizePanel";
+import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
 
 const landsCard = {
   id: 100,

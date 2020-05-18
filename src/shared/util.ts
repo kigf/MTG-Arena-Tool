@@ -1,129 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
-import { shell } from "electron";
-import { MatchPlayer } from "../types/currentMatch";
-import {
-  CardObject,
-  InternalDeck,
-  v2cardsList,
-  DeckChange
-} from "../types/Deck";
-import { InternalPlayer } from "../types/match";
-import { DbCardData } from "../types/Metadata";
-import { InternalRankData } from "../types/rank";
+import {MatchPlayer} from "../types/currentMatch";
+import {CardObject, InternalDeck, v2cardsList} from "../types/Deck";
+import {InternalPlayer} from "../types/match";
+import {InternalRankData} from "../types/rank";
 
-import {
-  BLACK,
-  BLUE,
-  FACE_DFC_FRONT,
-  FORMATS,
-  GREEN,
-  RED,
-  WHITE
-} from "./constants";
+import {FACE_DFC_FRONT, FORMATS} from "./constants";
 import db from "./database";
-import Deck from "./deck";
+import { getCardTypeSort } from "./utils/getCardTypeSort";
 
-import sharedCss from "../shared/shared.css";
-const notFound = "../assets/images/notFound.png";
-
-export function getCardImage(
-  card: DbCardData | number | undefined,
-  quality: string
-): string {
-  if (card === undefined) {
-    return notFound;
-  }
-  const cardObj =
-    typeof card == "string"
-      ? db.card(parseInt(card))
-      : typeof card == "number"
-      ? db.card(card)
-      : card;
-  try {
-    const url = cardObj?.images[quality];
-    if (url === undefined || url === "") throw "Undefined url";
-    return "https://img.scryfall.com/cards" + cardObj?.images[quality];
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    // console.error(e);
-    console.log("Cant find card image: ", cardObj, typeof cardObj);
-    return notFound;
-  }
-}
-
-export function getCardArtCrop(card?: DbCardData | number): string {
-  return getCardImage(card, "art_crop");
-}
-
-export function openScryfallCard(card?: DbCardData | number): void {
-  const cardObj = typeof card == "number" ? db.card(card) : card;
-  if (cardObj) {
-    const { cid, set } = cardObj;
-    shell.openExternal(
-      "https://scryfall.com/card/" + db.sets[set].scryfall + "/" + cid
-    );
-  } else {
-    // eslint-disable-next-line no-console
-    console.log("Cant open scryfall card: ", cardObj);
-  }
-}
-
-export function getRankColorClass(rank: string): string {
-  switch (rank) {
-    case "A+":
-    case "A":
-      return sharedCss.blue;
-    case "A-":
-    case "B+":
-    case "B":
-      return sharedCss.green;
-    case "B-":
-    case "C+":
-    case "C":
-    default:
-      return sharedCss.white;
-    case "C-":
-    case "D+":
-    case "D":
-      return sharedCss.orange;
-    case "D-":
-    case "F":
-      return sharedCss.red;
-  }
-}
-
-export function get_rank_index(_rank: string, _tier: number): number {
-  let ii = 0;
-  if (_rank == "Unranked") ii = 0;
-  if (_rank == "Bronze") ii = 1 + (_tier - 1); //1 2 3 4
-  if (_rank == "Silver") ii = 5 + (_tier - 1); //5 6 7 8
-  if (_rank == "Gold") ii = 9 + (_tier - 1); //9 0 1 2
-  if (_rank == "Platinum") ii = 13 + (_tier - 1); //3 4 5 6
-  if (_rank == "Diamond") ii = 17 + (_tier - 1); //7 8 9 0
-  if (_rank == "Mythic") ii = 21;
-  return ii;
-}
-
-export function get_rank_index_16(_rank: string): number {
-  let ii = 0;
-  if (_rank == "Unranked") ii = 0;
-  if (_rank == "Bronze") ii = 1;
-  if (_rank == "Silver") ii = 2;
-  if (_rank == "Gold") ii = 3;
-  if (_rank == "Platinum") ii = 4;
-  if (_rank == "Diamond") ii = 5;
-  if (_rank == "Mythic") ii = 6;
-  return ii;
-}
-
-export function getReadableEvent(arg: string): string {
-  if (db.events[arg] != undefined) {
-    return db.events[arg];
-  }
-
-  return arg;
-}
 
 export function getReadableFormat(format: string): string {
   if (format in FORMATS) {
@@ -137,10 +22,10 @@ export function getReadableFormat(format: string): string {
 export function removeDuplicates(decklist: v2cardsList): v2cardsList {
   const newList: v2cardsList = [];
   try {
-    decklist.forEach(function(card: CardObject) {
+    decklist.forEach(function (card: CardObject) {
       const cname = db.card(card.id)?.name;
       let added = false;
-      newList.forEach(function(c) {
+      newList.forEach(function (c) {
         const cn = db.card(c.id)?.name;
         if (cn == cname) {
           if (c.quantity !== 9999) {
@@ -163,18 +48,6 @@ export function removeDuplicates(decklist: v2cardsList): v2cardsList {
   }
 }
 
-export function get_card_type_sort(a?: string): number {
-  if (a == undefined) return 0;
-  if (a.includes("Creature", 0)) return 1;
-  if (a.includes("Planeswalker", 0)) return 2;
-  if (a.includes("Instant", 0)) return 3;
-  if (a.includes("Sorcery", 0)) return 4;
-  if (a.includes("Artifact", 0)) return 5;
-  if (a.includes("Enchantment", 0)) return 6;
-  if (a.includes("Land", 0)) return 7;
-  if (a.includes("Special", 0)) return 8;
-  return 0;
-}
 
 export function compare_cards(a: CardObject, b: CardObject): number {
   // Yeah this is lazy.. I know
@@ -184,8 +57,8 @@ export function compare_cards(a: CardObject, b: CardObject): number {
   if (!aObj) return 1;
   if (!bObj) return -1;
 
-  const _as = get_card_type_sort(aObj.type);
-  const _bs = get_card_type_sort(bObj.type);
+  const _as = getCardTypeSort(aObj.type);
+  const _bs = getCardTypeSort(bObj.type);
 
   // Order by type?
   if (_as < _bs) {
@@ -259,60 +132,10 @@ export function collectionSortRarity(a: number, b: number): number {
   return 0;
 }
 
-export function get_deck_colors(deck: InternalDeck): number[] {
-  let colorIndices: number[] = [];
-  try {
-    deck.mainDeck.forEach(card => {
-      if (card.quantity < 1) {
-        return;
-      }
-
-      const cardData = db.card(card.id);
-
-      if (!cardData) {
-        return;
-      }
-
-      const isLand = cardData.type.indexOf("Land") !== -1;
-      const frame = cardData.frame;
-      if (isLand && frame.length < 3) {
-        colorIndices = colorIndices.concat(frame);
-      }
-
-      cardData.cost.forEach(cost => {
-        if (cost === "w") {
-          colorIndices.push(WHITE);
-        } else if (cost === "u") {
-          colorIndices.push(BLUE);
-        } else if (cost === "b") {
-          colorIndices.push(BLACK);
-        } else if (cost === "r") {
-          colorIndices.push(RED);
-        } else if (cost === "g") {
-          colorIndices.push(GREEN);
-        }
-      });
-    });
-
-    colorIndices = Array.from(new Set(colorIndices));
-    colorIndices.sort((a, b) => {
-      return a - b;
-    });
-  } catch (e) {
-    // FIXME: Errors shouldn't be caught silently. If this is an
-    //        expected error then there should be a test to catch only that error.
-    console.error(e);
-    colorIndices = [];
-  }
-
-  deck.colors = colorIndices;
-  return colorIndices;
-}
-
 export function get_deck_export(deck: InternalDeck): string {
   let str = "";
   deck.mainDeck = removeDuplicates(deck.mainDeck);
-  deck.mainDeck.forEach(function(card) {
+  deck.mainDeck.forEach(function (card) {
     let grpid = card.id;
     let cardObj = db.card(grpid);
 
@@ -352,7 +175,7 @@ export function get_deck_export(deck: InternalDeck): string {
   str += "\r\n";
 
   deck.sideboard = removeDuplicates(deck.sideboard);
-  deck.sideboard.forEach(function(card) {
+  deck.sideboard.forEach(function (card) {
     let grpid = card.id;
     let cardObj = db.card(grpid);
 
@@ -394,7 +217,7 @@ export function get_deck_export(deck: InternalDeck): string {
 export function get_deck_export_txt(deck: InternalDeck): string {
   let str = "";
   deck.mainDeck = removeDuplicates(deck.mainDeck);
-  deck.mainDeck.forEach(function(card) {
+  deck.mainDeck.forEach(function (card) {
     const grpid = card.id;
     const card_name = db.card(grpid)?.name;
     //var card_set = db.card(grpid).set;
@@ -407,7 +230,7 @@ export function get_deck_export_txt(deck: InternalDeck): string {
   str += "\r\n";
 
   deck.sideboard = removeDuplicates(deck.sideboard);
-  deck.sideboard.forEach(function(card) {
+  deck.sideboard.forEach(function (card) {
     const grpid = card.id;
     const card_name = db.card(grpid)?.name;
     //var card_set = db.card(grpid).set;
@@ -533,41 +356,6 @@ export function roundWinrate(x: number): number {
   return Math.round(x * 100) / 100;
 }
 
-export function prettierDeckData(deckData: InternalDeck): InternalDeck {
-  // many precon descriptions are total garbage
-  // manually update them with generic descriptions
-  const prettyDescriptions: Record<string, string> = {
-    "Decks/Precon/Precon_EPP_BG_Desc": "Golgari Swarm",
-    "Decks/Precon/Precon_EPP_BR_Desc": "Cult of Rakdos",
-    "Decks/Precon/Precon_EPP_GU_Desc": "Simic Combine",
-    "Decks/Precon/Precon_EPP_GW_Desc": "Selesnya Conclave",
-    "Decks/Precon/Precon_EPP_RG_Desc": "Gruul Clans",
-    "Decks/Precon/Precon_EPP_RW_Desc": "Boros Legion",
-    "Decks/Precon/Precon_EPP_UB_Desc": "House Dimir",
-    "Decks/Precon/Precon_EPP_UR_Desc": "Izzet League",
-    "Decks/Precon/Precon_EPP_WB_Desc": "Orzhov Syndicate",
-    "Decks/Precon/Precon_EPP_WU_Desc": "Azorius Senate",
-    "Decks/Precon/Precon_July_B": "Out for Blood",
-    "Decks/Precon/Precon_July_U": "Azure Skies",
-    "Decks/Precon/Precon_July_G": "Forest's Might",
-    "Decks/Precon/Precon_July_R": "Dome Destruction",
-    "Decks/Precon/Precon_July_W": "Angelic Army",
-    "Decks/Precon/Precon_Brawl_Alela": "Alela, Artful Provocateur",
-    "Decks/Precon/Precon_Brawl_Chulane": "Chulane, Teller of Tales",
-    "Decks/Precon/Precon_Brawl_Korvold": "Korvold, Fae-Cursed King",
-    "Decks/Precon/Precon_Brawl_SyrGwyn": "Syr Gwyn, Hero of Ashvale"
-  };
-  if (deckData.description in prettyDescriptions) {
-    deckData.description = prettyDescriptions[deckData.description];
-  }
-  if (deckData.name.includes("?=?Loc")) {
-    // precon deck names are garbage address locators
-    // mask them with description instead
-    deckData.name = deckData.description || "Preconstructed Deck";
-  }
-  return deckData;
-}
-
 // Im not sure if this would be better as a converter instead of a check
 export function isEpochTimestamp(timestamp: number): boolean {
   const asDate = new Date(timestamp);
@@ -583,30 +371,4 @@ export function isRankedEvent(eventId: string): boolean {
     eventId.indexOf("QuickDraft") !== -1 ||
     eventId.indexOf("Ladder") !== -1
   );
-}
-
-export function getDeckAfterChange(change: DeckChange): Deck {
-  const decklist = new Deck({}, change.previousMain, change.previousSide);
-  // Calculate new deck hash based on the changes
-  change.changesMain.map(change => {
-    const q = parseInt(change.quantity + "") || 0;
-    if (q < 0) {
-      decklist.getMainboard().remove(change.id, Math.abs(q));
-    } else {
-      decklist.getMainboard().add(change.id, q);
-    }
-  });
-  change.changesSide.map(change => {
-    const q = parseInt(change.quantity + "") || 0;
-    if (q < 0) {
-      decklist.getSideboard().remove(change.id, Math.abs(q));
-    } else {
-      decklist.getSideboard().add(change.id, q);
-    }
-  });
-  decklist.getMainboard().removeZeros(true);
-  decklist.getMainboard().removeDuplicates(true);
-  decklist.getSideboard().removeZeros(true);
-  decklist.getSideboard().removeDuplicates(true);
-  return decklist;
 }

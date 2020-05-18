@@ -2,12 +2,7 @@
 import React from "react";
 import db from "../../../shared/database";
 import LocalTime from "../../../shared/time-components/LocalTime";
-import {
-  collectionSortRarity,
-  getCardArtCrop,
-  getCardImage,
-  openScryfallCard,
-} from "../../../shared/util";
+import {collectionSortRarity} from "../../../shared/util";
 import {DbCardData} from "../../../types/Metadata";
 import useHoverCard from "../../hooks/useHoverCard";
 import {formatNumber, formatPercent, toggleArchived} from "../../rendererUtil";
@@ -25,6 +20,11 @@ import notFound from "../../../assets/images/notFound.png";
 import indexCss from "../../index.css";
 import listCss from "../list-item/ListItem.css";
 import css from "./economy.css";
+import {
+  getCardArtCrop,
+  getCardImage,
+} from "../../../shared/utils/getCardArtCrop";
+import {openScryfallCard} from "../../../shared/utils/openScryfallCard";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (
@@ -380,7 +380,10 @@ function FlexRight(props: FlexRightProps): JSX.Element {
 
   const xpGainedNumber = change.xpGained > 0 && parseInt(change.xpGained);
   return (
-    <div className={css.tiny_scroll + " " + listCss.list_economy_awarded} id={economyId}>
+    <div
+      className={css.tiny_scroll + " " + listCss.list_economy_awarded}
+      id={economyId}
+    >
       {fullContext === "Pay Event Entry" ? (
         <EconomyIcon title={"Event Entry"} className={"economy_ticket_med"} />
       ) : (

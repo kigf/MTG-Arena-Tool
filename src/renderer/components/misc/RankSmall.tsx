@@ -1,6 +1,7 @@
 import React from "react";
-import { get_rank_index_16, formatRank } from "../../../shared/util";
+import { formatRank } from "../../../shared/util";
 import indexCss from "../../index.css";
+import { getRankIndex16 } from "../../../shared/utils/getRankIndex";
 
 interface RankSmallProps {
   rank?: any | string;
@@ -16,7 +17,7 @@ export default function RankSmall(props: RankSmallProps): JSX.Element {
       ...(style ? style : {}),
       marginRight: "0px",
       backgroundPosition:
-        get_rank_index_16(rankTier ? rankTier : rank.rank) * -16 + "px 0px"
+        getRankIndex16(rankTier ? rankTier : rank.rank) * -16 + "px 0px"
     };
   };
 

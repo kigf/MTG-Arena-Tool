@@ -11,11 +11,11 @@ import {
 import ShareButton from "../misc/ShareButton";
 import db from "../../../shared/database";
 
+import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
 import {DEFAULT_TILE} from "../../../shared/constants";
 import {DbCardData} from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
 import {toggleArchived} from "../../rendererUtil";
-import {getReadableEvent} from "../../../shared/util";
 import {InternalDraft} from "../../../types/draft";
 import css from "./ListItem.css";
 

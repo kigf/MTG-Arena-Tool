@@ -49,7 +49,6 @@ class Database {
   private static instance: Database;
   rewards_daily_ends: Date;
   rewards_weekly_ends: Date;
-  preconDecks: { [id: string]: ArenaV3Deck };
   public metadata: Metadata;
   season: SeasonAndRankDetail | undefined;
   public scryfallData: any;
@@ -58,13 +57,11 @@ class Database {
     this.handleSetDb = this.handleSetDb.bind(this);
     this.handleSetRewardResets = this.handleSetRewardResets.bind(this);
     this.handleSetSeason = this.handleSetSeason.bind(this);
-    this.handleSetPreconDecks = this.handleSetPreconDecks.bind(this);
 
     if (ipc) {
       ipc.on("set_db", this.handleSetDb);
       ipc.on("set_reward_resets", this.handleSetRewardResets);
       ipc.on("set_season", this.handleSetSeason);
-      ipc.on("set_precon_decks", this.handleSetPreconDecks);
     }
 
     this.rewards_daily_ends = new Date();
@@ -140,20 +137,6 @@ class Database {
       this.season = season;
     } catch (e) {
       console.log("Error parsing metadata", e);
-    }
-  }
-
-  handleSetPreconDecks(
-    _event: IpcRendererEvent | null,
-    arg: ArenaV3Deck[]
-  ): void {
-    if (!arg || !arg.length) return;
-    try {
-      this.preconDecks = {};
-      arg.forEach(deck => (this.preconDecks[deck.id] = deck));
-      // console.log(this.preconDecks);
-    } catch (e) {
-      console.log("Error parsing JSON:", arg);
     }
   }
 

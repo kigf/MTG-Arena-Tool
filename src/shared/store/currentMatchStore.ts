@@ -12,12 +12,12 @@ import {
   CardCast,
   PriorityTimers,
   MatchGameStats
-} from "../types/currentMatch";
-import { GameObject, DetailsIdChange } from "../types/greInterpreter";
-import { InternalPlayer } from "../types/match";
+} from "../../types/currentMatch";
+import { GameObject, DetailsIdChange } from "../../types/greInterpreter";
+import { InternalPlayer } from "../../types/match";
 import globalStore from ".";
 import Deck from "../deck";
-import { Chances } from "../types/Chances";
+import { Chances } from "../../types/Chances";
 
 export const matchStateObject = {
   matchId: "",

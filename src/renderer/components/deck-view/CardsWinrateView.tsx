@@ -1,4 +1,5 @@
 import React, {useCallback, useMemo} from "react";
+import { getDeckAfterChange } from "../../../shared/utils/getDeckAfterChange";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
 import Aggregator, {AggregatorFilters} from "../../aggregator";
@@ -7,7 +8,7 @@ import db from "../../../shared/database";
 import {CardWinrateData} from "../../aggregator";
 import {getWinrateClass} from "../../rendererUtil";
 import {DbCardData} from "../../../types/Metadata";
-import {compare_cards, getDeckAfterChange} from "../../../shared/util";
+import {compare_cards} from "../../../shared/util";
 import {getDeckChangesList} from "../../../shared/store";
 import {DeckChange, CardObject} from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";

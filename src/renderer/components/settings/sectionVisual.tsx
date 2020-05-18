@@ -14,7 +14,7 @@ import Input from "../misc/Input";
 import Toggle from "../misc/Toggle";
 import useColorPicker from "../../hooks/useColorPicker";
 import Slider from "../misc/Slider";
-import { getCardImage } from "../../../shared/util";
+import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";

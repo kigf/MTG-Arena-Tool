@@ -1,7 +1,7 @@
 import React from "react";
 import {DbCardData} from "../../../types/Metadata";
-import {getCardImage} from "../../../shared/util";
 import indexCss from "../../index.css";
+import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 
 interface RoundCardProps {
   card: DbCardData;

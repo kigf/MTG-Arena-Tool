@@ -1,0 +1,35 @@
+import settingsSlice from "./slices/settingsSlice";
+import appSettingsSlice from "./slices/appSettingsSlice";
+import rendererSlice from "./slices/rendererSlice";
+import loginSlice from "./slices/loginSlice";
+
+const actions: Record<string, (arg: any) => any> = {};
+actions["SET_SETTINGS"] = settingsSlice.actions.setSettings;
+actions["SET_APP_SETTINGS"] = appSettingsSlice.actions.setAppSettings;
+actions["SET_ARCHIVED"] = rendererSlice.actions.setArchived;
+actions["SET_BACK_COLOR"] = rendererSlice.actions.setBackgroundColor;
+actions["SET_BACK_GRPID"] = rendererSlice.actions.setBackgroundGrpId;
+actions["SET_BACK_IMAGE"] = rendererSlice.actions.setBackgroundImage;
+actions["SET_LOADING"] = rendererSlice.actions.setLoading;
+actions["SET_NO_LOG"] = rendererSlice.actions.setNoLog;
+actions["SET_OFFLINE"] = rendererSlice.actions.setOffline;
+actions["SET_PATREON"] = rendererSlice.actions.setPatreon;
+actions["SET_POPUP"] = rendererSlice.actions.setPopup;
+actions["SET_SHARE_DIALOG"] = rendererSlice.actions.setShareDialog;
+actions["SET_SHARE_DIALOG_OPEN"] = rendererSlice.actions.setShareDialogOpen;
+actions["SET_SHARE_DIALOG_URL"] = rendererSlice.actions.setShareDialogUrl;
+actions["SET_NAV_INDEX"] = rendererSlice.actions.setNavIndex;
+actions["SET_SUBNAV"] = rendererSlice.actions.setSubNav;
+actions["SET_TOPARTIST"] = rendererSlice.actions.setTopArtist;
+actions["SET_TOPNAV"] = rendererSlice.actions.setTopNav;
+actions["SET_UPDATE_STATE"] = rendererSlice.actions.setUpdateState;
+actions["SET_SYNC_STATE"] = rendererSlice.actions.setSyncState;
+actions["SET_TO_PUSH"] = rendererSlice.actions.setSyncToPush;
+actions["SET_CAN_LOGIN"] = loginSlice.actions.setCanLogin;
+actions["SET_LOGIN_EMAIL"] = loginSlice.actions.setLoginEmail;
+actions["SET_LOGIN_FORM"] = loginSlice.actions.setLoginForm;
+actions["SET_LOGIN_PASSWORD"] = loginSlice.actions.setLoginPassword;
+actions["SET_LOGIN_REMEMBER"] = loginSlice.actions.setLoginRemember;
+actions["SET_LOGIN_STATE"] = loginSlice.actions.setLoginState;
+
+export default actions;

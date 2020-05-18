@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {get_rank_index_16 as getRankIndex16} from "../../../shared/util";
+import { getRankIndex16 } from "../../../shared/utils/getRankIndex";
 import {SymbolBase} from "./SymbolBase";
 import indexCss from "../../index.css";
 

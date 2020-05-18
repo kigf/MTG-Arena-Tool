@@ -10,7 +10,8 @@ import {
   IPC_BACKGROUND
 } from "../../shared/constants";
 import Deck from "../../shared/deck";
-import { getReadableFormat, get_deck_colors } from "../../shared/util";
+import getDeckColors from "../../shared/utils/getDeckColors";
+import { getReadableFormat } from "../../shared/util";
 import { InternalDeck } from "../../types/Deck";
 import Aggregator, {
   AggregatorFilters,
@@ -129,7 +130,7 @@ function getDecksData(
         lastEditLosses: recentStats.losses,
         lastEditTotal: recentStats.total,
         lastEditWinrate: recentStats.winrate,
-        colors: deck.colors || get_deck_colors(deck)
+        colors: deck.colors || getDeckColors(deck)
       };
     }
   );

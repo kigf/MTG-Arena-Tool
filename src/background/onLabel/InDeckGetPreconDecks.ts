@@ -9,5 +9,5 @@ interface Entry extends LogEntry {
 export default function InDeckGetPreconDecks(entry: Entry): void {
   const json = entry.json();
   if (!json) return;
-  ipcSend("set_precon_decks", json);
+  ipcSend("set_precon_decks", JSON.stringify(json));
 }

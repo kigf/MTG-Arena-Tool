@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import { ARENA_MODE_DRAFT } from "../shared/constants";
 import db from "../shared/database";
 import { DraftRatings, DraftRatingsLola } from "../shared/DraftRatings";
-import { getCardImage } from "../shared/util";
+import { getCardImage } from "../shared/utils/getCardArtCrop";
 import { Chances } from "../types/Chances";
 import { SettingsData } from "../types/settings";
 import { AppState } from "../shared/redux/stores/rendererStore";
