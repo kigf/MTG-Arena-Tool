@@ -1,6 +1,9 @@
 import React from "react";
 import { TableData, TableViewRowProps } from "./types";
 
+import tableCss from "./tables.css";
+import indexCss from "../../index.css";
+
 export function TableViewRow<D extends TableData>({
   row,
   index,
@@ -12,22 +15,24 @@ export function TableViewRow<D extends TableData>({
   const lineClass = React.useMemo(
     () =>
       index === -1
-        ? "line_lighter"
+        ? indexCss.lineLighter
         : index % 2 === 0
-        ? "line_light"
-        : "line_dark",
+        ? indexCss.lineLight
+        : indexCss.lineDark,
     [index]
   );
   return (
     <div
-      className={(className ?? "") + " react_table_body_row " + lineClass}
+      className={
+        (className ?? "") + " " + tableCss.reactTableBodyRow + " " + lineClass
+      }
       style={{ ...style, gridTemplateColumns }}
       {...otherProps}
     >
       {row.cells.map((cell, ii) => {
         return (
           <div
-            className="inner_div"
+            className={tableCss.innerDiv}
             {...cell.getCellProps()}
             style={{
               gridArea: `1 / ${ii + 1} / 1 / ${ii + 2}`,

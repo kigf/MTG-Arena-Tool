@@ -41,7 +41,7 @@ export function SetsView({
       {collectibleSets.map((set, index) => (
         <div
           key={set}
-          className={"set_stats"}
+          className={indexCss.setStats}
           onClick={(): void => setClickCallback(set)}
         >
           <SetCompletionBar

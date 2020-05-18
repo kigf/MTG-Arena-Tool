@@ -5,14 +5,15 @@ import React from "react";
 import { getDeckName, deckExists } from "../shared/store";
 import indexCss from "./index.css";
 import sharedCss from "../shared/shared.css";
+import { WHITE, BLUE, BLACK, RED, GREEN, COLORLESS } from "../shared/constants";
 
 const manaClasses: string[] = [];
-manaClasses[0] = sharedCss.mana_w;
-manaClasses[1] = sharedCss.mana_u;
-manaClasses[2] = sharedCss.mana_b;
-manaClasses[3] = sharedCss.mana_r;
-manaClasses[4] = sharedCss.mana_g;
-manaClasses[5] = sharedCss.mana_c;
+manaClasses[WHITE] = sharedCss.manaW;
+manaClasses[BLUE] = sharedCss.manaU;
+manaClasses[BLACK] = sharedCss.manaB;
+manaClasses[RED] = sharedCss.manaR;
+manaClasses[GREEN] = sharedCss.manaG;
+manaClasses[COLORLESS] = sharedCss.manaC;
 
 export interface DeckOptionDeck {
   colors?: number[];

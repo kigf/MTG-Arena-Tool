@@ -1,7 +1,7 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace HomeCssModule {
-  export interface IHomeCss {
+declare namespace HomeTabCssModule {
+  export interface IHomeTabCss {
     arrowDown: string;
     arrowUp: string;
     arrow_down: string;
@@ -21,9 +21,9 @@ declare namespace HomeCssModule {
   }
 }
 
-declare const HomeCssModule: HomeCssModule.IHomeCss & {
+declare const HomeTabCssModule: HomeTabCssModule.IHomeTabCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: HomeCssModule.IHomeCss;
+  locals: HomeTabCssModule.IHomeTabCss;
 };
 
-export = HomeCssModule;
+export = HomeTabCssModule;

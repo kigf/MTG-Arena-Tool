@@ -14,7 +14,8 @@ import {
   SetStats,
 } from "./collectionStats";
 
-import css from "../../index.css";
+import indexCss from "../../index.css";
+import css from "./CompletionProgressBar.css";
 
 export function SetCompletionStats({
   setStats,
@@ -38,9 +39,9 @@ export function SetCompletionStats({
   if (!boosterMath) {
     // current filters specify invalid domain for booster-completion math
     return (
-      <div className={"stats_set_completion"}>
+      <div className={css.statsSetCompletion}>
         <div
-          className={"stats_set_icon notification"}
+          className={`${indexCss.statsSetIcon} ${indexCss.notification}`}
           style={{ height: "30px", display: "initial", alignSelf: "initial" }}
         >
           <span style={{ fontSize: "13px" }}>
@@ -137,19 +138,19 @@ export function SetCompletionStats({
   };
   const newSymbol = (
     <OwnershipSymbol
-      className={css.inventoryCardQuantityOrange}
+      className={indexCss.inventoryCardQuantityOrange}
       style={symbolStyle}
     />
   );
   const wantedSymbol = (
     <OwnershipSymbol
-      className={css.inventoryCardQuantityOrange}
+      className={indexCss.inventoryCardQuantityOrange}
       style={symbolStyle}
     />
   );
   return (
-    <div className={"stats_set_completion"}>
-      <div className={"stats_set_completion_row"}>
+    <div className={css.statsSetCompletion}>
+      <div className={css.statsSetCompletionRow}>
         <MetricText />
         <MetricText>
           <RaritySymbol rarity={"rare"} /> Rares
@@ -159,7 +160,7 @@ export function SetCompletionStats({
         </MetricText>
       </div>
       {!!(setStats.boosterRares > 0 || futureBoosters > 0) && (
-        <div className={"stats_set_completion_row"}>
+        <div className={css.statsSetCompletionRow}>
           <MetricText title={"boosters in inventory, current (+future)"}>
             Inventory
             <BoosterSymbol />
@@ -174,7 +175,7 @@ export function SetCompletionStats({
           </MetricText>
         </div>
       )}
-      <div className={"stats_set_completion_row"}>
+      <div className={css.statsSetCompletionRow}>
         <MetricText title={"Arena booster w duplicate protection"}>
           Next booster
           <BoosterSymbol />:
@@ -198,7 +199,7 @@ export function SetCompletionStats({
           </span>
         </MetricText>
       </div>
-      <div className={"stats_set_completion_row"}>
+      <div className={css.statsSetCompletionRow}>
         <MetricText title={"draft pool first picks (P1P1+P2P1+P3P1)"}>
           Next draft pool
           <TicketSymbol />:
@@ -222,7 +223,7 @@ export function SetCompletionStats({
           </span>
         </MetricText>
       </div>
-      <div className={"stats_set_completion_row"}>
+      <div className={css.statsSetCompletionRow}>
         <MetricText title={"see estimation inputs on right"}>
           Completion* <CalendarSymbol />:
         </MetricText>

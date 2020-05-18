@@ -9,6 +9,8 @@ import {
 } from "./collectionStats";
 
 import notFound from "../../../assets/images/notFound.png";
+import indexCss from "../../index.css";
+import css from "./CompletionProgressBar.css";
 
 export default function CompletionProgressBar({
   countMode,
@@ -43,13 +45,15 @@ export default function CompletionProgressBar({
   const completionRatio = numerator / denominator;
   return (
     <div
-      className={"stats_set_completion" + (isSidebar ? " stats_sidebar" : "")}
+      className={`${css.statsSetCompletion} ${
+        isSidebar ? css.statsSidebar : ""
+      }`}
     >
-      <div className={"stats_set_icon"} style={{ backgroundImage: image }}>
+      <div className={indexCss.statsSetIcon} style={{ backgroundImage: image }}>
         <span>{title}</span>
       </div>
       <div>
-        <div className={"stats_set_details"}>
+        <div className={css.statsSetDetails}>
           <span>
             {completionRatio.toLocaleString([], {
               style: "percent",
@@ -68,7 +72,7 @@ export default function CompletionProgressBar({
         </div>
       </div>
       <div
-        className={"stats_set_bar"}
+        className={css.statsSetBar}
         style={{ width: Math.round(completionRatio * 100) + "%" }}
       />
     </div>

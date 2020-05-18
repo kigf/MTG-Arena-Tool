@@ -1,0 +1,73 @@
+
+.completion_table {
+  width: 100%;
+  max-width: 600px;
+  margin: 16px auto;
+  text-align: center;
+  display: grid;
+  line-height: 24px;
+  font-size: 14px;
+  grid-template-columns: repeat(35, 1fr);
+  color: var(--color-light);
+}
+
+.completion_table_color_title {
+  height: 24px;
+  margin-right: 20%;
+  margin-bottom: 4px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.completion_table_rarity_title {
+  height: 8px;
+  margin-bottom: 2px;
+}
+
+.completion_table_rarity_title_common {
+  background-color: var(--color-common);
+}
+.completion_table_rarity_title_uncommon {
+  background-color: var(--color-uncommon);
+}
+.completion_table_rarity_title_rare {
+  background-color: var(--color-rare);
+}
+.completion_table_rarity_title_mythic {
+  background-color: var(--color-mythic);
+}
+
+.completion_table_card {
+  font-family: var(--sub-font-name-bold);
+  color: var(--color-back);
+  height: 24px;
+  line-height: 24px;
+}
+
+.completion_table_card:hover {
+  opacity: 0.8;
+  border: 1px white solid;
+  margin: -1px;
+  z-index: 1;
+}
+
+.completion_table_card_n0 {
+  background-color: #af593c;
+}
+.completion_table_card_n1 {
+  background-color: #dc8a6e;
+}
+.completion_table_card_n2 {
+  background-color: #ffdf9e;
+}
+.completion_table_card_n3 {
+  background-color: #e9ff92;
+}
+.completion_table_card_n4 {
+  background-color: #d3ebb0;
+}
+.wanted {
+  font-family: var(--sub-font-name-bold);
+  color: var(--color-u);
+}

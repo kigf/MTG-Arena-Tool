@@ -871,25 +871,6 @@ a:hover {
     background-color: rgba(0,0,0,0.4);
 }
 
-.stats_set_completion {
-    max-width: 600px;
-    margin: 24px auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.stats_set_completion_row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    height: 32px;
-    color: var(--color-light);
-}
-
-.stats_set_completion.stats_sidebar {
-    cursor: default;
-    max-width: 240px;
-}
-
 .stats_set_icon {
     width: 24px;
     height: 24px;
@@ -911,20 +892,6 @@ a:hover {
     -webkit-transition: all .2s ease-in;
 }
 
-.stats_set_details {
-    display: inline-flex;
-    justify-content: space-between;
-    width: 100%;
-    -webkit-transition: all .2s ease-in;
-}
-
-.stats_set_details span {
-    line-height: 24px;
-    margin: 0 6px;
-    font-size: 13px;
-    color: var(--color-light);
-    -webkit-transition: all .2s ease-in;
-}
 
 .stats_rarity_icon {
     /*width: 24px;*/
@@ -942,26 +909,6 @@ a:hover {
     position: relative;
     margin-left: 36px;
     color: var(--color-light);
-}
-
-.stats_set_bar {
-    position: relative;
-    background-color: rgba(183, 200, 158, 1);
-    height: 2px;
-}
-
-.stats_set_bar:after {
-    content: '';
-    left: 0;
-    width: 600px;
-    background-color: rgb(99, 79, 53);
-    height: 2px;
-    position: absolute;
-    z-index: -1;
-}
-
-.stats_sidebar .stats_set_bar:after {
-    width: 240px;
 }
 
 .sets_container {
@@ -2186,80 +2133,6 @@ a:hover {
     height: 12px;
     margin: 2px 4px;
 }
-
-.completion_table {
-    width: 100%;
-    max-width: 600px;
-    margin: 16px auto;
-    text-align: center;
-    display: grid;
-    line-height: 24px;
-    font-size: 14px;
-    grid-template-columns: repeat(35, 1fr);
-    color: var(--color-light);
-}
-
-.completion_table_color_title {
-    height: 24px;
-    margin-right: 20%;
-    margin-bottom: 4px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.completion_table_rarity_title {
-    height: 8px;
-    margin-bottom: 2px;
-}
-
-.completion_table_rarity_title.common {
-    background-color: var(--color-common);
-}
-.completion_table_rarity_title.uncommon {
-    background-color: var(--color-uncommon);
-}
-.completion_table_rarity_title.rare {
-    background-color: var(--color-rare);
-}
-.completion_table_rarity_title.mythic {
-    background-color: var(--color-mythic);
-}
-
-.completion_table_card {
-    font-family: var(--sub-font-name-bold);
-    color: var(--color-back);
-    height: 24px;
-    line-height: 24px;
-}
-
-.completion_table_card:hover {
-    opacity: 0.8;
-    border: 1px white solid;
-    margin: -1px;
-    z-index: 1;
-}
-
-.completion_table_card.n0 {
-    background-color: #af593c;
-}
-.completion_table_card.n1 {
-    background-color: #dc8a6e;
-}
-.completion_table_card.n2 {
-    background-color: #ffdf9e;
-}
-.completion_table_card.n3 {
-    background-color: #e9ff92;
-}
-.completion_table_card.n4 {
-    background-color: #d3ebb0;
-}
-.completion_table_card.wanted {
-    font-family: var(--sub-font-name-bold);
-    color: var(--color-u);
-}
-
 
 .filter_panel_root {
     display: flex;

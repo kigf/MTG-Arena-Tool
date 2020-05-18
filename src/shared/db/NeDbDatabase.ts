@@ -64,8 +64,10 @@ export class NeDbDatabase implements LocalDatabase {
 
   init(dbName: string, arenaName?: string): void {
     this.dbName = sanitize(arenaName ? arenaName : dbName);
+    const dbPath = path.join(USER_DATA_DIR, this.dbName + ".db");
+    console.log("Db path: " + dbPath);
     this.datastore = new Datastore({
-      filename: path.join(USER_DATA_DIR, this.dbName + ".db"),
+      filename: dbPath,
     });
     // ensure session begins with most compact possible db
     this.datastore.persistence.compactDatafile();

@@ -11,7 +11,7 @@ import appCss from "../app/app.css";
 import sharedCss from "../../shared/shared.css";
 import cardTileCss from "../../shared/CardTile.css";
 import indexCss from "../index.css";
-import css from "./home.css";
+import css from "./HomeTab.css";
 
 export interface WildcardsChange {
   grpId: number;
@@ -71,7 +71,7 @@ export default function HomeTab(): JSX.Element {
 
   return (
     <div className={appCss.uxItem}>
-      <div style={{ margin: "0 auto" }}>
+      <div style={{ width: "100%", margin: "0 auto" }}>
         <div className={css.listFill}></div>
         <div className={cardTileCss.cardTileSeparator}>General</div>
         <div
@@ -107,8 +107,9 @@ export default function HomeTab(): JSX.Element {
             <div className={css.topWildcardsSetsCont}>
               {orderedSets.map((set: string) => {
                 const svgData = db.sets[set].svg;
-                const setClass =
-                  "set_filter " + (filteredSet !== set ? "set_filter_on" : "");
+                const setClass = `${indexCss.setFilter} ${
+                  filteredSet !== set ? indexCss.setFilterOn : ""
+                }`;
                 const requestSet = filteredSet == set ? "" : set;
                 return (
                   <div

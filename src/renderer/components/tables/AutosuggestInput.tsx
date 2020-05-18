@@ -4,6 +4,7 @@ import { TagCount } from "./types";
 
 import indexCss from "../../index.css";
 import selectCss from "../../select.scss";
+import tableCss from "./tables.css";
 
 const getSuggestions = (value: string, options: TagCount[]): TagCount[] => {
   const inputValue = value.trim().toLowerCase();
@@ -35,7 +36,9 @@ const setCellWrapperOverflow = (
       ?.parentElement;
   if (
     cellWrapper &&
-    [...((cellWrapper?.classList as unknown) as string[])].includes("inner_div")
+    [...((cellWrapper?.classList as unknown) as string[])].includes(
+      tableCss.innerDiv
+    )
   ) {
     cellWrapper.style.overflow = overflow;
   }

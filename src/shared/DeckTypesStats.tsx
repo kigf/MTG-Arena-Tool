@@ -51,7 +51,10 @@ export default function DeckTypesStats(props: { deck: Deck }): JSX.Element {
     <div className={css.types_container}>
       {CARD_TYPE_CODES.map((cardTypeKey, index) => {
         return (
-          <div className={sharedCss.type_icon_cont} key={"type_icon_cont_" + index}>
+          <div
+            className={sharedCss.type_icon_cont}
+            key={"type_icon_cont_" + index}
+          >
             <div
               className={`${css.type_icon} ${typeIcons[cardTypeKey]}`}
               title={CARD_TYPES[index]}
