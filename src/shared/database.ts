@@ -9,21 +9,18 @@ import {
   Archetype,
   DbCardData,
   CardSet,
-  RewardsDate
+  RewardsDate,
 } from "../types/Metadata";
-import { ArenaV3Deck } from "../types/Deck";
 import { SeasonAndRankDetail, Rank, RankInfo } from "../types/event";
 import { STANDARD_CUTOFF_DATE } from "./constants";
 import format from "date-fns/format";
 
 import defaultDatabase from "../assets/resources/database.json";
 
-/*
 const cachePath: string | null =
   app || (remote && remote.app)
     ? path.join((app || remote.app).getPath("userData"), "database.json")
     : null;
-*/
 
 /*
  This is cool for debugging the metadata files, so we can
@@ -66,15 +63,16 @@ class Database {
 
     this.rewards_daily_ends = new Date();
     this.rewards_weekly_ends = new Date();
-    this.preconDecks = {};
 
+    /* eslint-disable */
     this.metadata = defaultDatabase;
-    /*
+    /* eslint enable */
+
     if (cachePath && fs.existsSync(cachePath)) {
       const dbString = fs.readFileSync(cachePath, "utf8");
       this.handleSetDb(null, dbString);
     }
-    */
+
     /*
     try {
       const data = fs.readFileSync(scryfallDataPath, "utf8");
@@ -94,7 +92,6 @@ class Database {
   }
 
   handleSetDb(_event: IpcRendererEvent | null, arg: string): void {
-    /*
     try {
       this.metadata = JSON.parse(arg) as Metadata;
       for (const event of this.playBrawlEvents) {
@@ -105,11 +102,9 @@ class Database {
     } catch (e) {
       console.log("Error parsing metadata", e);
     }
-    */
   }
 
   updateCache(data: string): void {
-    /*
     try {
       if (cachePath) {
         console.log("Saved metadata to " + cachePath);
@@ -118,7 +113,6 @@ class Database {
     } catch (e) {
       console.log("Error saving metadata", e);
     }
-    */
   }
 
   handleSetRewardResets(
@@ -154,7 +148,7 @@ class Database {
 
   get cardIds(): number[] {
     return this.cards
-      ? Object.keys(this.cards).map(k => parseInt(k))
+      ? Object.keys(this.cards).map((k) => parseInt(k))
       : ([] as number[]);
   }
 
@@ -244,7 +238,7 @@ class Database {
 
   get standardSetCodes(): string[] {
     return this.sortedSetCodes.filter(
-      code =>
+      (code) =>
         this.sets[code].collation !== -1 &&
         new Date(this.sets[code].release) > new Date(STANDARD_CUTOFF_DATE)
     );
@@ -303,7 +297,7 @@ class Database {
       if (!this.season.constructedRankInfo) return 0;
       rankInfo = this.season.constructedRankInfo;
     }
-    rankInfo.forEach(ri => {
+    rankInfo.forEach((ri) => {
       if (ri.rankClass === rank && ri.level === tier) {
         return ri.steps;
       }
@@ -313,7 +307,7 @@ class Database {
 
   cardFromArt(artId: number | string): DbCardData | boolean {
     const numArtId = typeof artId === "number" ? artId : parseInt(artId);
-    const matches = this.cardList.filter(card => card.artid === numArtId);
+    const matches = this.cardList.filter((card) => card.artid === numArtId);
     return matches.length ? matches[0] : false;
   }
 }

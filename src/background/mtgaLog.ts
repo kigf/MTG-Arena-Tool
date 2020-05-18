@@ -5,7 +5,7 @@ const fsPromises = {
   access: promisify(fs.access),
   stat: promisify(fs.stat),
   open: promisify(fs.open),
-  read: promisify(fs.read)
+  read: promisify(fs.read),
 };
 
 export function defaultLogUri(): string {

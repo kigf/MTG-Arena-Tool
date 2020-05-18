@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
-import {remote, shell} from "electron";
-const {dialog} = remote;
+import { remote, shell } from "electron";
+const { dialog } = remote;
 import Toggle from "../misc/Toggle";
 import Input from "../misc/Input";
-import {ipcSend} from "../../rendererUtil";
+import { ipcSend } from "../../rendererUtil";
 import ReactSelect from "../../../shared/ReactSelect";
-import {parse, isValid} from "date-fns";
-import {useSelector} from "react-redux";
-import store, {AppState} from "../../../shared/redux/stores/rendererStore";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
-import {IPC_ALL, IPC_RENDERER} from "../../../shared/constants";
+import { parse, isValid } from "date-fns";
+import { useSelector } from "react-redux";
+import store, { AppState } from "../../../shared/redux/stores/rendererStore";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 
 import tabCss from "../../tabs/SettingsTab.css";
 import sharedCss from "../../../shared/shared.css";
@@ -72,7 +72,7 @@ function firstPassCallback(checked: boolean): void {
   reduxAction(
     store.dispatch,
     "SET_SETTINGS",
-    {skip_firstpass: checked},
+    { skip_firstpass: checked },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -126,8 +126,8 @@ export default function SectionData(): JSX.Element {
         defaultPath: appSettings.logUri,
         buttonLabel: "Select",
         filters: [
-          {name: "Text", extensions: ["txt", "text"]},
-          {name: "All Files", extensions: ["*"]},
+          { name: "Text", extensions: ["txt", "text"] },
+          { name: "All Files", extensions: ["*"] },
         ],
         properties: ["openFile"],
       })
@@ -202,7 +202,7 @@ export default function SectionData(): JSX.Element {
         value={settings.skip_firstpass}
         callback={firstPassCallback}
       />
-      <div style={{paddingLeft: "35px"}} className={css.settings_note}>
+      <div style={{ paddingLeft: "35px" }} className={css.settings_note}>
         <i>
           <p>
             Disabling this ensures that mtgatool will not miss any data still
@@ -248,7 +248,7 @@ export default function SectionData(): JSX.Element {
           </p>
         </i>
       </div>
-      <div style={{paddingLeft: "35px"}} className={css.settings_note}>
+      <div style={{ paddingLeft: "35px" }} className={css.settings_note}>
         <p>
           Example time read: <b>{appSettings.logTimeExample}</b>
         </p>

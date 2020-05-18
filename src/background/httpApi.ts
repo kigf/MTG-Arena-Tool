@@ -15,7 +15,7 @@ import {
   handleError,
   ipcLog,
   ipcPop,
-  makeSimpleResponseHandler
+  makeSimpleResponseHandler,
 } from "./httpWorker";
 import globals from "./globals";
 import globalStore, {
@@ -28,7 +28,7 @@ import globalStore, {
   getDraft,
   getTransaction,
   getMatch,
-  getSeasonal
+  getSeasonal,
 } from "../shared/store";
 import {
   SYNC_CHECK,
@@ -36,7 +36,7 @@ import {
   SYNC_IDLE,
   SYNC_FETCH,
   IPC_RENDERER,
-  IPC_ALL
+  IPC_ALL,
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
 
@@ -196,18 +196,6 @@ function syncUserData(data: any): void {
   finishSync();
 }
 
-export function httpNotificationsPull(): void {
-  const _id = makeId(6);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "notifications",
-      method_path: "/api/pull.php"
-    },
-    handleNotificationsResponse
-  );
-}
-
 function handleNotificationsResponse(
   error?: Error | null,
   _task?: HttpTask,
@@ -231,7 +219,7 @@ function handleNotificationsResponse(
     if (typeof str == "string") {
       //console.log("Notification string:", str);
       new Notification("MTG Arena Tool", {
-        body: str
+        body: str,
       });
     } else if (typeof str == "object") {
       if (str.task) {
@@ -245,23 +233,35 @@ function handleNotificationsResponse(
   });
 }
 
+export function httpNotificationsPull(): void {
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "notifications",
+      method_path: "/api/pull.php",
+    },
+    handleNotificationsResponse
+  );
+}
+
 function handleSync(syncIds: SyncIds): void {
   const toPush = {
     courses: Object.keys(globalStore.events).filter(
-      id => syncIds.courses.indexOf(id) == -1
+      (id) => syncIds.courses.indexOf(id) == -1
     ),
     matches: Object.keys(globalStore.matches).filter(
-      id => syncIds.matches.indexOf(id) == -1
+      (id) => syncIds.matches.indexOf(id) == -1
     ),
     drafts: Object.keys(globalStore.drafts).filter(
-      id => syncIds.drafts.indexOf(id) == -1
+      (id) => syncIds.drafts.indexOf(id) == -1
     ),
     economy: Object.keys(globalStore.transactions).filter(
-      id => syncIds.economy.indexOf(id) == -1
+      (id) => syncIds.economy.indexOf(id) == -1
     ),
     seasonal: Object.keys(globalStore.seasonal).filter(
-      id => syncIds.seasonal.indexOf(id) == -1
-    )
+      (id) => syncIds.seasonal.indexOf(id) == -1
+    ),
   };
   reduxAction(globals.store.dispatch, "SET_TO_PUSH", toPush, IPC_RENDERER);
   if (
@@ -277,24 +277,12 @@ function handleSync(syncIds: SyncIds): void {
   }
 }
 
-export function httpAuth(userName: string, pass: string): void {
-  const _id = makeId(6);
-  const playerData = globals.store.getState().playerdata;
-  setSyncState(SYNC_CHECK);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "auth",
-      method_path: "/api/login.php",
-      email: userName,
-      password: pass,
-      playerid: playerData.arenaId,
-      playername: encodeURIComponent(playerData.playerName),
-      mtgaversion: playerData.arenaVersion,
-      version: electron.remote.app.getVersion()
-    },
-    handleAuthResponse
-  );
+export interface SyncRequestData {
+  courses?: any[];
+  matches?: any[];
+  drafts?: any[];
+  economy?: any[];
+  seasonal?: any[];
 }
 
 interface SyncIds {
@@ -303,6 +291,22 @@ interface SyncIds {
   drafts: string[];
   economy: string[];
   seasonal: string[];
+}
+
+export function httpSyncRequest(data: SyncRequestData): void {
+  setSyncState(SYNC_FETCH);
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "get_sync",
+      method_path: "/api/get_sync.php",
+      data: JSON.stringify(data),
+    },
+    makeSimpleResponseHandler((parsedResult: any) => {
+      syncUserData(parsedResult.data);
+    })
+  );
 }
 
 function handleAuthResponse(
@@ -317,7 +321,7 @@ function handleAuthResponse(
       "SET_APP_SETTINGS",
       {
         token: "",
-        email: ""
+        email: "",
       },
       IPC_ALL
     );
@@ -328,7 +332,7 @@ function handleAuthResponse(
     ipcPop({
       text: error?.message,
       time: 3000,
-      progress: -1
+      progress: -1,
     });
     return;
   }
@@ -344,7 +348,7 @@ function handleAuthResponse(
       "SET_APP_SETTINGS",
       {
         token: parsedResult.token,
-        email: appSettings.email
+        email: appSettings.email,
       },
       IPC_ALL
     );
@@ -358,7 +362,7 @@ function handleAuthResponse(
     courses: [],
     drafts: [],
     economy: [],
-    seasonal: []
+    seasonal: [],
   };
 
   if (parsedResult && data.patreon) {
@@ -377,13 +381,15 @@ function handleAuthResponse(
     }
     ipcLog("Checking for sync requests...");
     const requestSync = {
-      courses: serverData.courses.filter(id => !(id in globalStore.events)),
-      matches: serverData.matches.filter(id => !(id in globalStore.matches)),
-      drafts: serverData.drafts.filter(id => !(id in globalStore.drafts)),
+      courses: serverData.courses.filter((id) => !(id in globalStore.events)),
+      matches: serverData.matches.filter((id) => !(id in globalStore.matches)),
+      drafts: serverData.drafts.filter((id) => !(id in globalStore.drafts)),
       economy: serverData.economy.filter(
-        id => !(id in globalStore.transactions)
+        (id) => !(id in globalStore.transactions)
       ),
-      seasonal: serverData.seasonal.filter(id => !(id in globalStore.seasonal))
+      seasonal: serverData.seasonal.filter(
+        (id) => !(id in globalStore.seasonal)
+      ),
     };
 
     if (requestSync) {
@@ -395,6 +401,42 @@ function handleAuthResponse(
     }
     //httpNotificationsPull();
   });
+}
+
+export function httpAuth(userName: string, pass: string): void {
+  const _id = makeId(6);
+  const playerData = globals.store.getState().playerdata;
+  setSyncState(SYNC_CHECK);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "auth",
+      method_path: "/api/login.php",
+      email: userName,
+      password: pass,
+      playerid: playerData.arenaId,
+      playername: encodeURIComponent(playerData.playerName),
+      mtgaversion: playerData.arenaVersion,
+      version: electron.remote.app.getVersion(),
+    },
+    handleAuthResponse
+  );
+}
+
+function handleSetDataResponse(
+  error?: Error | null,
+  _task?: HttpTask,
+  _results?: string,
+  parsedResult?: any
+): void {
+  const mongoDbDuplicateKeyErrorCode = 11000;
+  finishSync();
+  if (parsedResult && parsedResult.error === mongoDbDuplicateKeyErrorCode) {
+    return; // idempotent success case, just return
+  } else if (error) {
+    // handle all other errors
+    handleError(error);
+  }
 }
 
 export function httpSubmitCourse(course: any): void {
@@ -413,7 +455,7 @@ export function httpSubmitCourse(course: any): void {
       reqId: _id,
       method: "submit_course",
       method_path: "/api/send_course.php",
-      course: course
+      course: course,
     },
     handleSetDataResponse
   );
@@ -439,7 +481,7 @@ export function httpGetExplore(query: any): void {
       filter_mana: query.filteredMana,
       filter_ranks: query.filteredRanks,
       filter_skip: query.filterSkip,
-      collection: JSON.stringify(playerData.cards.cards)
+      collection: JSON.stringify(playerData.cards.cards),
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_explore_decks", parsedResult);
@@ -453,7 +495,7 @@ export function httpGetTopLadderDecks(): void {
     {
       reqId: _id,
       method: "get_ladder_decks",
-      method_path: "/top_ladder.json"
+      method_path: "/top_ladder.json",
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_ladder_decks", parsedResult);
@@ -467,7 +509,7 @@ export function httpGetTopLadderTraditionalDecks(): void {
     {
       reqId: _id,
       method: "get_ladder_traditional_decks",
-      method_path: "/top_ladder_traditional.json"
+      method_path: "/top_ladder_traditional.json",
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_ladder_traditional_decks", parsedResult);
@@ -482,28 +524,12 @@ export function httpGetCourse(courseId: string): void {
       reqId: _id,
       method: "get_course",
       method_path: "/api/get_course.php",
-      courseid: courseId
+      courseid: courseId,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("open_course_deck", parsedResult.result);
     })
   );
-}
-
-function handleSetDataResponse(
-  error?: Error | null,
-  _task?: HttpTask,
-  _results?: string,
-  parsedResult?: any
-): void {
-  const mongoDbDuplicateKeyErrorCode = 11000;
-  finishSync();
-  if (parsedResult && parsedResult.error === mongoDbDuplicateKeyErrorCode) {
-    return; // idempotent success case, just return
-  } else if (error) {
-    // handle all other errors
-    handleError(error);
-  }
 }
 
 export function httpSetMatch(match: any): void {
@@ -519,7 +545,7 @@ export function httpSetMatch(match: any): void {
       reqId: _id,
       method: "set_match",
       method_path: "/api/send_match.php",
-      match: match
+      match: match,
     },
     handleSetDataResponse
   );
@@ -533,7 +559,7 @@ export function httpSetDraft(draft: any): void {
       reqId: _id,
       method: "set_draft",
       method_path: "/api/send_draft.php",
-      draft: draft
+      draft: draft,
     },
     handleSetDataResponse
   );
@@ -547,7 +573,7 @@ export function httpSetEconomy(change: any): void {
       reqId: _id,
       method: "set_economy",
       method_path: "/api/send_economy.php",
-      change: change
+      change: change,
     },
     handleSetDataResponse
   );
@@ -561,7 +587,7 @@ export function httpSetSeasonal(change: any): void {
       reqId: _id,
       method: "set_seasonal",
       method_path: "/api/send_seasonal.php",
-      change: change
+      change: change,
     },
     handleSetDataResponse
   );
@@ -575,7 +601,7 @@ export function httpSetSettings(settings: any): void {
       reqId: _id,
       method: "set_settings",
       method_path: "/api/send_settings.php",
-      settings: settings
+      settings: settings,
     },
     handleSetDataResponse
   );
@@ -587,22 +613,9 @@ export function httpDeleteData(): void {
     {
       reqId: _id,
       method: "delete_data",
-      method_path: "/api/delete_data.php"
+      method_path: "/api/delete_data.php",
     },
     makeSimpleResponseHandler()
-  );
-}
-
-export function httpGetDatabase(lang: string): void {
-  const _id = makeId(6);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "get_database",
-      method_path: "/database/" + lang,
-      lang: lang
-    },
-    handleGetDatabaseResponse
   );
 }
 
@@ -625,13 +638,26 @@ function handleGetDatabaseResponse(
   }
 }
 
+export function httpGetDatabase(lang: string): void {
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "get_database",
+      method_path: "/database/" + lang,
+      lang: lang,
+    },
+    handleGetDatabaseResponse
+  );
+}
+
 export function httpGetDatabaseVersion(lang: string): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "get_database_version",
-      method_path: "/database/latest/" + lang
+      method_path: "/database/latest/" + lang,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       const lang = globals.store.getState().appsettings.metadataLang;
@@ -643,7 +669,7 @@ export function httpGetDatabaseVersion(lang: string): void {
         // compare language
         ipcSend("popup", {
           text: `Downloading latest Database (v${parsedResult.latest})`,
-          time: 5000
+          time: 5000,
         });
         ipcLog(
           `Downloading database (had lang ${db.metadata.language}, needed ${parsedResult.lang})`
@@ -653,7 +679,7 @@ export function httpGetDatabaseVersion(lang: string): void {
         // Compare parsedResult.version with stored version
         ipcSend("popup", {
           text: `Downloading latest Database (v${parsedResult.latest})`,
-          time: 5000
+          time: 5000,
         });
         ipcLog(
           `Downloading latest database (had v${db.version}, found v${parsedResult.latest})`
@@ -662,7 +688,7 @@ export function httpGetDatabaseVersion(lang: string): void {
       } else {
         ipcSend("popup", {
           text: `Database up to date (v${db.version})`,
-          time: 5000
+          time: 5000,
         });
         ipcLog(`Database up to date (${db.version}), skipping download.`);
       }
@@ -683,7 +709,7 @@ export function httpDraftShareLink(
       method_path: "/api/get_share_draft.php",
       id: did,
       draft: draftData,
-      expire: exp
+      expire: exp,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_draft_link", parsedResult.url);
@@ -700,7 +726,7 @@ export function httpLogShareLink(lid: string, log: any, exp: any): void {
       method_path: "/api/get_share_log.php",
       id: lid,
       log: log,
-      expire: exp
+      expire: exp,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_log_link", parsedResult.url);
@@ -716,7 +742,7 @@ export function httpDeckShareLink(deck: any, exp: any): void {
       method: "share_deck",
       method_path: "/api/get_share_deck.php",
       deck: deck,
-      expire: exp
+      expire: exp,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_deck_link", parsedResult.url);
@@ -731,7 +757,7 @@ export function httpHomeGet(set: string): void {
       reqId: _id,
       method: "home_get",
       set: set,
-      method_path: "/api/get_home.php"
+      method_path: "/api/get_home.php",
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_home", parsedResult);
@@ -747,7 +773,7 @@ export function httpSetMythicRank(opp: string, rank: string): void {
       method: "mythicrank",
       method_path: "/api/send_mythic_rank.php",
       opp: opp,
-      rank: rank
+      rank: rank,
     },
     handleSetDataResponse
   );
@@ -763,7 +789,7 @@ export function httpSetDeckTag(
   const cards = deck.mainDeck.map((card: any) => {
     return {
       ...card,
-      quantity: 1
+      quantity: 1,
     };
   });
   globals.httpQueue?.push(
@@ -773,33 +799,9 @@ export function httpSetDeckTag(
       method_path: "/api/send_deck_tag.php",
       tag: tag,
       cards: JSON.stringify(cards),
-      format: format
+      format: format,
     },
     handleSetDataResponse
-  );
-}
-
-export interface SyncRequestData {
-  courses?: any[];
-  matches?: any[];
-  drafts?: any[];
-  economy?: any[];
-  seasonal?: any[];
-}
-
-export function httpSyncRequest(data: SyncRequestData): void {
-  setSyncState(SYNC_FETCH);
-  const _id = makeId(6);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "get_sync",
-      method_path: "/api/get_sync.php",
-      data: JSON.stringify(data)
-    },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      syncUserData(parsedResult.data);
-    })
   );
 }
 
@@ -838,7 +840,7 @@ export function httSyncPush(): void {
       courses: [],
       drafts: [],
       economy: [],
-      seasonal: []
+      seasonal: [],
     },
     IPC_RENDERER
   );

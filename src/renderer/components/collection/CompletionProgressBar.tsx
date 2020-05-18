@@ -5,7 +5,7 @@ import {
   CountStats,
   FULL_SETS,
   SetStats,
-  SINGLETONS
+  SINGLETONS,
 } from "./collectionStats";
 
 import notFound from "../../../assets/images/notFound.png";
@@ -15,7 +15,7 @@ export default function CompletionProgressBar({
   countStats,
   image,
   title,
-  isSidebar
+  isSidebar,
 }: {
   countMode: string;
   countStats: CountStats;
@@ -53,7 +53,7 @@ export default function CompletionProgressBar({
           <span>
             {completionRatio.toLocaleString([], {
               style: "percent",
-              maximumSignificantDigits: 2
+              maximumSignificantDigits: 2,
             })}
           </span>
           <span>
@@ -80,7 +80,7 @@ export function SetCompletionBar({
   setStats,
   setIconCode,
   setName,
-  isSidebar
+  isSidebar,
 }: {
   countMode: string;
   setStats: SetStats;

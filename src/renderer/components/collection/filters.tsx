@@ -29,7 +29,7 @@ export function inBoostersFilterFn(
   _id: string,
   filterValue: BinaryFilterValue
 ): Row<CardsData>[] {
-  return rows.filter(row =>
+  return rows.filter((row) =>
     Object.entries(filterValue).some(
       ([code, value]) => value && String(row.original.booster) === code
     )
@@ -50,7 +50,7 @@ export const defaultRarity: RarityFilterValue = {
   uncommon: true,
   rare: true,
   mythic: true,
-  land: true
+  land: true,
 };
 
 export type RarityFilterProps = MultiSelectFilterProps<RarityFilterValue>;
@@ -61,7 +61,7 @@ export function RarityFilter(props: RarityFilterProps): JSX.Element {
     uncommon: "Uncommon",
     rare: "Rare",
     mythic: "Mythic",
-    land: "Land"
+    land: "Land",
   };
   const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);
   return (
@@ -69,7 +69,7 @@ export function RarityFilter(props: RarityFilterProps): JSX.Element {
       className={"collection_table_query_rarity"}
       style={{
         display: "flex",
-        height: "32px"
+        height: "32px",
       }}
     >
       {CARD_RARITIES.map((code: RarityFilterKeys) => {
@@ -100,7 +100,7 @@ export function RarityFilter(props: RarityFilterProps): JSX.Element {
 }
 
 export function RarityColumnFilter({
-  column: { filterValue = { ...defaultRarity }, setFilter }
+  column: { filterValue = { ...defaultRarity }, setFilter },
 }: {
   column: ColumnInstance<CardsData>;
 }): JSX.Element {
@@ -124,7 +124,7 @@ export function rarityFilterFn(
   _id: string,
   filterValue: RarityFilterValue
 ): Row<CardsData>[] {
-  return rows.filter(row =>
+  return rows.filter((row) =>
     Object.entries(filterValue).some(
       ([code, value]) => value && row.values.rarity === code
     )
@@ -145,10 +145,10 @@ export function SetFilter(props: SetFilterProps): JSX.Element {
       className={"collection_table_query_rarity"}
       style={{
         display: "flex",
-        height: "32px"
+        height: "32px",
       }}
     >
-      {db.standardSetCodes.map(code => {
+      {db.standardSetCodes.map((code) => {
         return (
           <SetSymbol
             key={code}
@@ -170,7 +170,7 @@ export function SetFilter(props: SetFilterProps): JSX.Element {
 }
 
 export function SetColumnFilter({
-  column: { filterValue = { ...defaultSetFilter }, setFilter }
+  column: { filterValue = { ...defaultSetFilter }, setFilter },
 }: {
   column: ColumnInstance<CardsData>;
 }): JSX.Element {
@@ -196,7 +196,7 @@ export function setFilterFn(
 ): Row<CardsData>[] {
   const standardSets = new Set(db.standardSetCodes);
   return rows.filter(
-    row =>
+    (row) =>
       Object.entries(filterValue).some(
         ([code, value]) => value && row.values.set === code
       ) ||
@@ -205,7 +205,7 @@ export function setFilterFn(
 }
 
 type SearchKeyFn = (row: Row<CardsData>) => string;
-const colorSearchKey: SearchKeyFn = row => {
+const colorSearchKey: SearchKeyFn = (row) => {
   const { colors } = row.values;
   return colors.map((color: number): string => MANA[color]).join(" ");
 };
@@ -226,7 +226,7 @@ const searchKeyMap: { [key: string]: SearchKeyValue } = {
   art: "values.artist",
   artist: "values.artist",
   c: colorSearchKey,
-  color: colorSearchKey
+  color: colorSearchKey,
 };
 
 const allSearchKeys = [...new Set(Object.values(searchKeyMap))];
@@ -262,11 +262,11 @@ export function cardSearchFilterFn(
   _columnIds: string[],
   filterValue: string
 ): Row<CardsData>[] {
-  const tokens = filterValue.split(" ").filter(token => token.length > 2);
+  const tokens = filterValue.split(" ").filter((token) => token.length > 2);
   if (tokens.length === 0) {
     return rows;
   }
-  const matches = tokens.map(token => {
+  const matches = tokens.map((token) => {
     let keys = allSearchKeys;
     let finalToken = token;
     let threshold;

@@ -5,7 +5,7 @@ import { InternalEconomyTransaction } from "../../inventory";
 const economySlice = createSlice({
   name: "decks",
   initialState: {
-    economyIndex: [] as string[]
+    economyIndex: [] as string[],
   },
   reducers: {
     setEconomy: (state, action): void => {
@@ -24,8 +24,8 @@ const economySlice = createSlice({
         }
       });
       state.economyIndex = [...newList, ...state.economyIndex];
-    }
-  }
+    },
+  },
 });
 
 export default economySlice;

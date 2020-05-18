@@ -66,9 +66,9 @@ function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {
 
   // draw maindeck grouped by cardType
   const cardsByGroup = _(deck.getMainboard().get())
-    .map(card => ({ data: db.card(card.id), ...card }))
-    .filter(card => card.data !== undefined)
-    .groupBy(card => {
+    .map((card) => ({ data: db.card(card.id), ...card }))
+    .filter((card) => card.data !== undefined)
+    .groupBy((card) => {
       const type = cardType(card.data as DbCardData);
       switch (type) {
         case "Creature":
@@ -97,10 +97,10 @@ function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {
     "Spells",
     "Enchantments",
     "Artifacts",
-    "Lands"
+    "Lands",
   ])
-    .filter(group => !_.isEmpty(cardsByGroup[group]))
-    .forEach(group => {
+    .filter((group) => !_.isEmpty(cardsByGroup[group]))
+    .forEach((group) => {
       // draw a separator for the group
       const cards = cardsByGroup[group];
       const count = _.sumBy(cards, "quantity");
@@ -110,7 +110,7 @@ function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {
 
       // draw the cards
       _(cards)
-        .filter(card => card.quantity > 0)
+        .filter((card) => card.quantity > 0)
         .orderBy(["data.cmc", "data.name"])
         .forEach((card, index) => {
           components.push(
@@ -143,8 +143,8 @@ function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {
 
     // draw the cards
     _(deck.getSideboard().get())
-      .map(card => ({ data: db.card(card.id), ...card }))
-      .filter(card => card.quantity > 0)
+      .map((card) => ({ data: db.card(card.id), ...card }))
+      .filter((card) => card.quantity > 0)
       .orderBy(["data.cmc", "data.name"])
       .forEach((card, index) => {
         components.push(

@@ -1,21 +1,21 @@
 import React from "react";
-import {CardObject} from "../../../types/Deck";
-import {IPC_NONE} from "../../../shared/constants";
+import { CardObject } from "../../../types/Deck";
+import { IPC_NONE } from "../../../shared/constants";
 import DeckTypesStats from "../../../shared/DeckTypesStats";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import db from "../../../shared/database";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 
 import indexCss from "../../index.css";
 import css from "./VisualDeckView.css";
 
 interface VisualDeckViewProps {
   deck: Deck;
-  setRegularView: {(): void};
+  setRegularView: { (): void };
 }
 
 type SplitIds = [number, number, number, number];
@@ -34,7 +34,7 @@ function cmcSort(a: CardObject, b: CardObject): number {
 export default function VisualDeckView(
   props: VisualDeckViewProps
 ): JSX.Element {
-  const {deck, setRegularView} = props;
+  const { deck, setRegularView } = props;
   const sz =
     100 + useSelector((state: AppState) => state.settings.cards_size) * 15;
   const cardQuality = useSelector(
@@ -46,7 +46,7 @@ export default function VisualDeckView(
     reduxAction(
       dispatcher,
       hover ? "SET_HOVER_IN" : "SET_HOVER_OUT",
-      {grpId: id},
+      { grpId: id },
       IPC_NONE
     );
   };
@@ -89,7 +89,7 @@ export default function VisualDeckView(
       <Button text="Normal View" onClick={setRegularView} />
       <div
         className={indexCss.decklist}
-        style={{display: "flex", width: "auto", margin: "0 auto"}}
+        style={{ display: "flex", width: "auto", margin: "0 auto" }}
       >
         <div className={css.visualMainboard}>
           {splitDeck.map((idsList: SplitIds, index: number) => {
@@ -98,7 +98,7 @@ export default function VisualDeckView(
               if (cardObj) {
                 return (
                   <div
-                    style={{width: sz + "px", height: sz * 0.166 + "px"}}
+                    style={{ width: sz + "px", height: sz * 0.166 + "px" }}
                     key={"visual-main-" + cindex}
                     className={css.deckVisualCard}
                   >
@@ -109,7 +109,7 @@ export default function VisualDeckView(
                       onMouseLeave={(): void => {
                         hoverCard(grpId, false);
                       }}
-                      style={{width: sz + "px"}}
+                      style={{ width: sz + "px" }}
                       src={getCardImage(cardObj, cardQuality)}
                       className={css.deckVisualCardImg}
                     ></img>
@@ -120,7 +120,7 @@ export default function VisualDeckView(
             return (
               <div
                 key={"visual-" + index}
-                style={{marginBottom: sz * 0.5 + "px"}}
+                style={{ marginBottom: sz * 0.5 + "px" }}
                 className={css.deckVisualTile}
               >
                 {cards}
@@ -135,7 +135,7 @@ export default function VisualDeckView(
           className={css.visualSideboard}
         >
           <div
-            style={{width: (sz + 6) * 5 + "px"}}
+            style={{ width: (sz + 6) * 5 + "px" }}
             className={css.deckVisualTileSide}
           >
             {newSideboard.map((grpId: number, _n: number) => {
@@ -158,7 +158,7 @@ export default function VisualDeckView(
                       onMouseLeave={(): void => {
                         hoverCard(grpId, false);
                       }}
-                      style={{width: sz + "px"}}
+                      style={{ width: sz + "px" }}
                       src={getCardImage(cardObj, cardQuality)}
                       className={css.deckVisualCardImg}
                     ></img>

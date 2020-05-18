@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace PopupsCssModule {
   export interface IPopupsCss {
     "error-info-bottom": string;

@@ -17,7 +17,7 @@ export default function useColorPicker(
   const [show, setShow] = useState(false);
 
   const handleClose = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation();
       setShow(false);
       if (closeCallback) {

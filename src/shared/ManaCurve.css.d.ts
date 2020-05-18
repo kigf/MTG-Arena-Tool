@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace ManaCurveCssModule {
   export interface IManaCurveCss {
     manaCurve: string;

@@ -1,8 +1,8 @@
 import React from "react";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
-import {useSelector, useDispatch} from "react-redux";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
-import {IPC_NONE} from "../../../shared/constants";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
+import { useSelector, useDispatch } from "react-redux";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import { IPC_NONE } from "../../../shared/constants";
 import indexCss from "../../index.css";
 
 interface ShareButtonProps {

@@ -9,7 +9,7 @@ import {
   IPC_RENDERER,
   IPC_OVERLAY,
   IPC_MAIN,
-  IPC_ALL
+  IPC_ALL,
 } from "../shared/constants";
 import Deck from "../shared/deck";
 import store, { AppState } from "../shared/redux/stores/overlayStore";
@@ -67,7 +67,7 @@ export default function OverlayController(): JSX.Element {
     overlayHover,
     overlays,
     sound_priority: soundPriority,
-    sound_priority_volume: soundPriorityVolume
+    sound_priority_volume: soundPriorityVolume,
   } = settings;
 
   useEffect(() => {
@@ -110,7 +110,7 @@ export default function OverlayController(): JSX.Element {
               width: forceInt(overlayDiv.style.width),
               height: forceInt(overlayDiv.style.height),
               x: forceInt(overlayDiv.style.left),
-              y: forceInt(overlayDiv.style.top)
+              y: forceInt(overlayDiv.style.top),
             };
           }
           return { ...overlay, bounds };
@@ -121,7 +121,7 @@ export default function OverlayController(): JSX.Element {
       const newOverlayHover =
         (hoverDiv && {
           x: forceInt(hoverDiv.style.left),
-          y: forceInt(hoverDiv.style.top)
+          y: forceInt(hoverDiv.style.top),
         }) ||
         overlayHover;
 
@@ -157,7 +157,7 @@ export default function OverlayController(): JSX.Element {
     const newOverlays = [...overlays];
     newOverlays[index] = {
       ...overlays[index], // old overlay
-      show // new setting
+      show, // new setting
     };
 
     reduxAction(
@@ -232,7 +232,7 @@ export default function OverlayController(): JSX.Element {
     settings,
     setDraftStateCallback: setDraftState,
     setOddsCallback,
-    turnPriority
+    turnPriority,
   };
 
   const cardDetailsProps = {
@@ -242,7 +242,7 @@ export default function OverlayController(): JSX.Element {
     odds: match ? match.playerCardsOdds : undefined,
     overlayHover,
     overlayScale,
-    settings
+    settings,
   };
 
   return (
@@ -262,7 +262,7 @@ export default function OverlayController(): JSX.Element {
               handleClose(null, { action: -1, index });
             },
             index,
-            ...commonProps
+            ...commonProps,
           };
           return (
             <OverlayWindowlet

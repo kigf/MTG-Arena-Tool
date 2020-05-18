@@ -11,7 +11,7 @@ import {
   chanceNotWildCard,
   estimateBoosterMythics,
   estimateBoosterRares,
-  SetStats
+  SetStats,
 } from "./collectionStats";
 
 import css from "../../index.css";
@@ -22,7 +22,7 @@ export function SetCompletionStats({
   rareDraftFactor,
   mythicDraftFactor,
   boosterWinFactor,
-  futureBoosters
+  futureBoosters,
 }: {
   setStats: SetStats;
   boosterMath: boolean;
@@ -133,10 +133,20 @@ export function SetCompletionStats({
     width: "20px",
     backgroundSize: "contain",
     margin: "auto 2px",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   };
-  const newSymbol = <OwnershipSymbol className={css.inventoryCardQuantityOrange} style={symbolStyle} />;
-  const wantedSymbol = <OwnershipSymbol className={css.inventoryCardQuantityOrange} style={symbolStyle} />;
+  const newSymbol = (
+    <OwnershipSymbol
+      className={css.inventoryCardQuantityOrange}
+      style={symbolStyle}
+    />
+  );
+  const wantedSymbol = (
+    <OwnershipSymbol
+      className={css.inventoryCardQuantityOrange}
+      style={symbolStyle}
+    />
+  );
   return (
     <div className={"stats_set_completion"}>
       <div className={"stats_set_completion_row"}>

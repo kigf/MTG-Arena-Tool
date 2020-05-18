@@ -13,7 +13,7 @@ function clickBetaChannel(value: boolean): void {
     store.dispatch,
     "SET_APP_SETTINGS",
     {
-      betaChannel: value
+      betaChannel: value,
     },
     IPC_ALL ^ IPC_RENDERER
   );
@@ -24,7 +24,7 @@ function clickAutoLogin(value: boolean): void {
     store.dispatch,
     "SET_APP_SETTINGS",
     {
-      autoLogin: value
+      autoLogin: value,
     },
     IPC_ALL ^ IPC_RENDERER
   );
@@ -35,7 +35,7 @@ function clickLaunchToTray(value: boolean): void {
     store.dispatch,
     "SET_APP_SETTINGS",
     {
-      launchToTray: value
+      launchToTray: value,
     },
     IPC_ALL ^ IPC_RENDERER
   );

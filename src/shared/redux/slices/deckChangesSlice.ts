@@ -5,7 +5,7 @@ import { DeckChange } from "../../../types/Deck";
 const deckChangesSlice = createSlice({
   name: "deckChanges",
   initialState: {
-    deckChangesIndex: [] as string[]
+    deckChangesIndex: [] as string[],
   },
   reducers: {
     setChange: (state, action): void => {
@@ -24,8 +24,8 @@ const deckChangesSlice = createSlice({
         globalStore.deckChanges[change.id] = change;
       });
       state.deckChangesIndex = [...newList, ...state.deckChangesIndex];
-    }
-  }
+    },
+  },
 });
 
 export default deckChangesSlice;

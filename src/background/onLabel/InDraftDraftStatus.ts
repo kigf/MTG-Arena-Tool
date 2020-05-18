@@ -18,7 +18,7 @@ export default function InDraftDraftStatus(entry: Entry): void {
   const data = {
     ...globals.currentDraft,
     ...json,
-    currentPack: (json.DraftPack || []).slice(0)
+    currentPack: (json.DraftPack || []).slice(0),
   };
   data.draftId = data.id;
 

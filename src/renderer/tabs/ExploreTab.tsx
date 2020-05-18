@@ -1,16 +1,16 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {COLORS_LONG, RANKS, SUB_DECK, IPC_NONE} from "../../shared/constants";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { COLORS_LONG, RANKS, SUB_DECK, IPC_NONE } from "../../shared/constants";
 import db from "../../shared/database";
 import ReactSelect from "../../shared/ReactSelect";
-import {AppState} from "../../shared/redux/stores/rendererStore";
-import {ListItemExplore} from "../components/list-item/ListItemExplore";
+import { AppState } from "../../shared/redux/stores/rendererStore";
+import { ListItemExplore } from "../components/list-item/ListItemExplore";
 import Button from "../components/misc/Button";
 import Checkbox from "../components/misc/Checkbox";
 import Input from "../components/misc/Input";
-import {ipcSend} from "../rendererUtil";
-import {reduxAction} from "../../shared/redux/sharedRedux";
-import {ExploreQuery} from "../../shared/redux/slices/exploreSlice";
+import { ipcSend } from "../rendererUtil";
+import { reduxAction } from "../../shared/redux/sharedRedux";
+import { ExploreQuery } from "../../shared/redux/slices/exploreSlice";
 
 import indexCss from "../index.css";
 
@@ -92,7 +92,7 @@ export default function ExploreTab(): JSX.Element {
   return (
     <div ref={containerRef} onScroll={onScroll} className="ux_item">
       <div
-        style={{width: "100%", flexDirection: "column"}}
+        style={{ width: "100%", flexDirection: "column" }}
         className={indexCss.flexItem}
       >
         <ExploreFilters doSearch={newQuery} />
@@ -108,7 +108,7 @@ export default function ExploreTab(): JSX.Element {
               );
             })
           ) : !loading ? (
-            <div style={{marginTop: "32px"}} className="message_sub red">
+            <div style={{ marginTop: "32px" }} className="message_sub red">
               {queries == 0
                 ? "Click Search to begin."
                 : "Query returned no data."}
@@ -117,7 +117,7 @@ export default function ExploreTab(): JSX.Element {
             <></>
           )}
           {loading ? (
-            <div style={{margin: "16px"}} className="message_sub white">
+            <div style={{ margin: "16px" }} className="message_sub white">
               Loading...
             </div>
           ) : (
@@ -138,7 +138,7 @@ interface ExploreFiltersProps {
 }
 
 function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
-  const {doSearch} = props;
+  const { doSearch } = props;
   const filters = useSelector((state: AppState) => state.explore.filters);
   const activeEvents = useSelector(
     (state: AppState) => state.explore.activeEvents
@@ -260,21 +260,21 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
           current={filters.filterEvent}
           optionFormatter={getEventPrettyName}
           callback={(filter: string): void =>
-            updateFilters({...filters, filterEvent: filter})
+            updateFilters({ ...filters, filterEvent: filter })
           }
         />
-        <label style={{marginLeft: "16px"}}>Sort:</label>
+        <label style={{ marginLeft: "16px" }}>Sort:</label>
         <ReactSelect
-          style={{width: "130px"}}
+          style={{ width: "130px" }}
           options={sortFilters}
           current={filters.filterSort}
           callback={(filter: string): void =>
-            updateFilters({...filters, filterSort: filter})
+            updateFilters({ ...filters, filterSort: filter })
           }
         />
         <ReactSelect
           options={sortDirection}
-          style={{width: "130px"}}
+          style={{ width: "130px" }}
           current={
             filters.filterSortDir == -1 ? sortDirection[0] : sortDirection[1]
           }
@@ -359,7 +359,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         <RanksFilter callback={setRanksFilter} filter={filters.filteredRanks} />
         <Button
           className={indexCss.buttonSimple}
-          style={{margin: "0px"}}
+          style={{ margin: "0px" }}
           text="Search"
           onClick={doSearch}
         />
@@ -374,10 +374,10 @@ interface ManaFilterProps {
 }
 
 function ManaFilter(props: ManaFilterProps): JSX.Element {
-  const {filter, callback} = props;
+  const { filter, callback } = props;
   const [filters, setFilters] = useState(filter);
 
-  const filterSize = {height: "20px", width: "30px"};
+  const filterSize = { height: "20px", width: "30px" };
 
   const setFilter = (filter: number): void => {
     const n = filters.indexOf(filter);
@@ -424,7 +424,7 @@ interface RanksFilterProps {
 }
 
 function RanksFilter(props: RanksFilterProps): JSX.Element {
-  const {filter, callback} = props;
+  const { filter, callback } = props;
   const [filters, setFilters] = useState(filter);
 
   const setFilter = (filter: string): void => {

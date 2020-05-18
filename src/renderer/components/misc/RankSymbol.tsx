@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { getRankIndex16 } from "../../../shared/utils/getRankIndex";
-import {SymbolBase} from "./SymbolBase";
+import { SymbolBase } from "./SymbolBase";
 import indexCss from "../../index.css";
 
 const RankSymbolBase = styled(SymbolBase).attrs<RankSymbolProps>((props) => ({

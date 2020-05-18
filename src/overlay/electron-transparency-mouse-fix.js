@@ -1,5 +1,5 @@
+/* eslint-disable */
 "use strict";
-
 /**
  * @module TransparencyMouseFix
  */

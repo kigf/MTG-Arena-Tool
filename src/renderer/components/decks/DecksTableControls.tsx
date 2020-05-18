@@ -16,12 +16,12 @@ import tableCss from "../tables/tables.css";
 import deckTableCss from "./deckTable.css";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
-  { id: "archivedCol", value: "hideArchived" }
+  { id: "archivedCol", value: "hideArchived" },
 ];
 const bestFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },
   { id: "wins", value: [5, undefined] },
-  { id: "winrate100", value: [50, undefined] }
+  { id: "winrate100", value: [50, undefined] },
 ];
 const craftColumns = new Set([
   "colorSortVal",
@@ -29,7 +29,7 @@ const craftColumns = new Set([
   "rare",
   "mythic",
   "uncommon",
-  "common"
+  "common",
 ]);
 
 export default function DecksTableControls(
@@ -52,7 +52,7 @@ export default function DecksTableControls(
     toggleableColumns,
     toggleHideColumn,
     toggleSortBy,
-    togglesVisible
+    togglesVisible,
   } = props;
   return (
     <div
@@ -60,7 +60,7 @@ export default function DecksTableControls(
         display: "flex",
         flexWrap: "wrap",
         color: "var(--color-light)",
-        paddingBottom: "8px"
+        paddingBottom: "8px",
       }}
     >
       <div className={tableCss.reactTableToggles}>
@@ -101,7 +101,7 @@ export default function DecksTableControls(
             setFiltersVisible({
               ...initialFiltersVisible,
               wins: true,
-              winrate100: true
+              winrate100: true,
             });
             toggleSortBy("winrate100", true, false);
             toggleSortBy("wins", true, true);

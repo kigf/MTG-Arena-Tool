@@ -2,16 +2,13 @@ import React, { useRef, useCallback, useState } from "react";
 import { RANKS } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import { getRankIndex } from "../../../shared/utils/getRankIndex";
-import {
-  toDDHHMMSS,
-  toMMSS
-} from "../../../shared/util";
+import { toDDHHMMSS, toMMSS } from "../../../shared/util";
 import Aggregator, { AggregatorStats } from "../../aggregator";
 import {
   compareWinrates,
   formatPercent,
   getTagColor,
-  getWinrateClass
+  getWinrateClass,
 } from "../../rendererUtil";
 
 import indexCss from "../../index.css";
@@ -47,13 +44,13 @@ const getStyleHeight = (frac: number): string => Math.round(frac * 100) + "%";
 
 function WinrateChart({
   winrates,
-  showTags
+  showTags,
 }: {
   winrates: AggregatorStats[];
   showTags: boolean;
 }): JSX.Element {
   const curveMax = Math.max(
-    ...winrates.map(cwr => Math.max(cwr.wins || 0, cwr.losses || 0)),
+    ...winrates.map((cwr) => Math.max(cwr.wins || 0, cwr.losses || 0)),
     0
   );
   const barStats = [...winrates];
@@ -65,12 +62,16 @@ function WinrateChart({
           return (
             <React.Fragment key={index}>
               <div
-                className={manaCurveCss.manaCurveColumn + " " + sharedCss.back_green}
+                className={
+                  manaCurveCss.manaCurveColumn + " " + sharedCss.back_green
+                }
                 style={{ height: getStyleHeight(cwr.wins / curveMax) }}
                 title={`${cwr.wins} won`}
               />
               <div
-                className={manaCurveCss.mana_curve_column +" " + sharedCss.back_red}
+                className={
+                  manaCurveCss.mana_curve_column + " " + sharedCss.back_red
+                }
                 style={{ height: getStyleHeight(cwr.losses / curveMax) }}
                 title={`${cwr.losses} lost`}
               />
@@ -91,9 +92,7 @@ function WinrateChart({
               className={manaCurveCss.mana_curve_column_number}
               title={`${cwr.wins} won : ${cwr.losses} lost`}
             >
-              <span className={colClass}>
-                {formatPercent(winRate)}
-              </span>
+              <span className={colClass}>{formatPercent(winRate)}</span>
               {showTags && (
                 <div
                   className={manaCurveCss.mana_curve_tag}
@@ -102,7 +101,7 @@ function WinrateChart({
                   {cwr.tag}
                 </div>
               )}
-              {cwr.colors?.map(color => (
+              {cwr.colors?.map((color) => (
                 <div
                   key={color}
                   className={sharedCss.manaS16 + " " + manaClasses[color]}
@@ -120,13 +119,13 @@ function WinrateChart({
 function FrequencyChart({
   winrates,
   total,
-  showTags
+  showTags,
 }: {
   winrates: AggregatorStats[];
   total: number;
   showTags: boolean;
 }): JSX.Element {
-  const curveMax = Math.max(...winrates.map(cwr => cwr.total));
+  const curveMax = Math.max(...winrates.map((cwr) => cwr.total));
   const barStats = [...winrates];
   barStats.sort(frequencySort);
   return (
@@ -136,7 +135,9 @@ function FrequencyChart({
           return (
             <div
               key={index}
-              className={manaCurveCss.mana_curve_column + " " + sharedCss.back_blue}
+              className={
+                manaCurveCss.mana_curve_column + " " + sharedCss.back_blue
+              }
               style={{ height: getStyleHeight(cwr.total / curveMax) }}
               title={`${cwr.total} matches`}
             />
@@ -155,7 +156,9 @@ function FrequencyChart({
               className={manaCurveCss.mana_curve_column_number}
               title={`${cwr.total} matches`}
             >
-              <span className={sharedCss.whiteBright}>{formatPercent(frequency)}</span>
+              <span className={sharedCss.whiteBright}>
+                {formatPercent(frequency)}
+              </span>
               {showTags && (
                 <div
                   className={manaCurveCss.mana_curve_tag}
@@ -164,7 +167,7 @@ function FrequencyChart({
                   {cwr.tag}
                 </div>
               )}
-              {cwr.colors?.map(color => (
+              {cwr.colors?.map((color) => (
                 <div
                   key={color}
                   className={sharedCss.manaS16 + " " + manaClasses[color]}
@@ -182,7 +185,7 @@ function FrequencyChart({
 export default function MatchResultsStatsPanel({
   prefixId,
   aggregator,
-  showCharts
+  showCharts,
 }: {
   prefixId: string;
   aggregator: Aggregator;
@@ -214,7 +217,7 @@ export default function MatchResultsStatsPanel({
 
   // Make an interval to listen for the resize of the div
   React.useEffect(() => {
-    const interval = setInterval(function() {
+    const interval = setInterval(function () {
       checkResize();
     }, 100);
     return (): void => {
@@ -235,16 +238,22 @@ export default function MatchResultsStatsPanel({
     <div className={indexCss.main_stats} ref={panelRef}>
       <div className={prefixId + "_winrate"}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 auto 0 0" }}>
+          <div
+            className={listItemCss.listDeckWinrate}
+            style={{ margin: "0 auto 0 0" }}
+          >
             Overall (matches):
           </div>
-          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 0 0 auto" }}>
+          <div
+            className={listItemCss.listDeckWinrate}
+            style={{ margin: "0 0 0 auto" }}
+          >
             {`${stats.wins}:${stats.losses} `}(
             <ColoredWinrate stats={stats} />)
           </div>
         </div>
         {!!rankedStats &&
-          RANKS.map(rank => {
+          RANKS.map((rank) => {
             const stats = rankedStats[rank.toLowerCase()];
             if (!stats || !stats.total) {
               return <React.Fragment key={rank} />;
@@ -255,16 +264,18 @@ export default function MatchResultsStatsPanel({
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
                 <div
                   className={
-                    isLimited ? topNavCss.topLimitedRank : topNavCss.topConstructedRank
+                    isLimited
+                      ? topNavCss.topLimitedRank
+                      : topNavCss.topConstructedRank
                   }
                   style={{
                     margin: "0 auto 0 0",
-                    backgroundPosition: `${getRankIndex(rank, 1) * -48}px 0px`
+                    backgroundPosition: `${getRankIndex(rank, 1) * -48}px 0px`,
                   }}
                   title={rank}
                 ></div>
@@ -279,16 +290,25 @@ export default function MatchResultsStatsPanel({
             );
           })}
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 auto 0 0" }}>
+          <div
+            className={listItemCss.listDeckWinrate}
+            style={{ margin: "0 auto 0 0" }}
+          >
             Play/Draw (games):
           </div>
-          <div className={listItemCss.listDeckWinrate} style={{ margin: "0 0 0 auto" }}>
+          <div
+            className={listItemCss.listDeckWinrate}
+            style={{ margin: "0 0 0 auto" }}
+          >
             <ColoredWinrate stats={playStats} />/
             <ColoredWinrate stats={drawStats} />
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className={listItemCss.listMatchTime} style={{ margin: "0 auto 0 0" }}>
+          <div
+            className={listItemCss.listMatchTime}
+            style={{ margin: "0 auto 0 0" }}
+          >
             Duration:
           </div>
           <div
@@ -310,7 +330,7 @@ export default function MatchResultsStatsPanel({
               margin: "12px auto auto 4px",
               textAlign: "left",
               width: "120px",
-              display: "inline-flex"
+              display: "inline-flex",
             }}
           />
         </div>

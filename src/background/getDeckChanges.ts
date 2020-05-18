@@ -9,7 +9,7 @@ export function getDeckChanges(
 ): DeckChanges {
   const sideboardChanges: DeckChanges = {
     added: [],
-    removed: []
+    removed: [],
   };
 
   const mainDiff: { [id: number]: number } = [];
@@ -22,7 +22,7 @@ export function getDeckChanges(
   originalDeck
     .getMainboard()
     .get()
-    .forEach(card => {
+    .forEach((card) => {
       mainDiff[card.id] = (mainDiff[card.id] || 0) - card.quantity;
     });
 

@@ -13,7 +13,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
   const [open, setOpen] = useState(0);
 
   const handleClose = useCallback(
-    e => {
+    (e) => {
       setOpen(0);
       e.stopPropagation();
       if (closeCallback) {
@@ -36,7 +36,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
       className={css.popupBackground}
       style={{
         opacity: open * 2,
-        backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
+        backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`,
       }}
       onClick={handleClose}
     >
@@ -45,14 +45,17 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
         style={{
           height: `${open * 340}px`,
           width: `${open * 520}px`,
-          overflow: "initial"
+          overflow: "initial",
         }}
         onClick={(e): void => {
           e.stopPropagation();
         }}
       >
         <div className={css.patreonInfoPopTop}>
-          <div style={{ color: "var(--color-light)" }} className={indexCss.messageSub}>
+          <div
+            style={{ color: "var(--color-light)" }}
+            className={indexCss.messageSub}
+          >
             You discovered a Patreon exclusive feature!
           </div>
         </div>

@@ -12,11 +12,11 @@ export const rememberDefaults = {
     betaChannel: false,
     metadataLang: "en",
     logLocaleFormat: "",
-    logUri: ""
-  }
+    logUri: "",
+  },
 };
 export const settingsDefaults = {
-  logUri: ""
+  logUri: "",
 };
 
 export const USER_DATA_DIR = (app || remote.app).getPath("userData");

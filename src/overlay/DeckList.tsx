@@ -8,17 +8,14 @@ import {
   OVERLAY_FULL,
   OVERLAY_LEFT,
   OVERLAY_MIXED,
-  OVERLAY_ODDS
+  OVERLAY_ODDS,
 } from "../shared/constants";
 import db from "../shared/database";
 import Deck from "../shared/deck";
 import DeckManaCurve from "../shared/DeckManaCurve";
 import DeckTypesStats from "../shared/DeckTypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
-import {
-  compare_cards as compareCards,
-  objectClone
-} from "../shared/util";
+import { compare_cards as compareCards, objectClone } from "../shared/util";
 import { Chances } from "../types/Chances";
 import { CardObject } from "../types/Deck";
 import { OverlaySettingsData } from "../types/settings";
@@ -41,9 +38,9 @@ const landsCard = {
   collectible: false,
   craftable: false,
   images: {
-    art_crop: "../assets/images/type_land.png"
+    art_crop: "../assets/images/type_land.png",
   },
-  dfcId: 0
+  dfcId: 0,
 };
 
 function getRank(cardId: string): number {
@@ -112,7 +109,7 @@ export default function DeckList(props: DeckListProps): JSX.Element {
     tileStyle,
     highlightCardId,
     cardOdds,
-    setOddsCallback
+    setOddsCallback,
   } = props;
   if (!deck) return <></>;
   tileStyle;
@@ -169,13 +166,13 @@ export default function DeckList(props: DeckListProps): JSX.Element {
       if (!settings.lands || (settings.lands && odds !== "0%")) {
         quantity = {
           quantity: q,
-          odds: odds
+          odds: odds,
         };
       }
     } else if (settings.mode === OVERLAY_ODDS) {
       quantity = ((card.chance || 0) / 100).toLocaleString([], {
         style: "percent",
-        maximumSignificantDigits: 2
+        maximumSignificantDigits: 2,
       });
     } else if (settings.mode === OVERLAY_DRAFT) {
       const rank = getRank(card.id);
@@ -235,7 +232,7 @@ export default function DeckList(props: DeckListProps): JSX.Element {
             ? "0%"
             : {
                 quantity: card.quantity,
-                odds: "0%"
+                odds: "0%",
               }
           : card.quantity;
       let fullCard = card;

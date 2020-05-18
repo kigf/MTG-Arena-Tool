@@ -14,10 +14,10 @@ function getTypeIconClass(type: string): string {
   else return "";
 }
 
-const TypeSymbolBase = styled(SymbolBase).attrs<TypeSymbolProps>(props => ({
-  className: `${indexCss.wcExploreCost} ${getTypeIconClass(
-    props.type
-  )} ${props.className ?? ""}`
+const TypeSymbolBase = styled(SymbolBase).attrs<TypeSymbolProps>((props) => ({
+  className: `${indexCss.wcExploreCost} ${getTypeIconClass(props.type)} ${
+    props.className ?? ""
+  }`,
 }))``;
 
 interface TypeSymbolProps {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {SymbolBase} from "./SymbolBase";
+import { SymbolBase } from "./SymbolBase";
 import indexCss from "../../index.css";
 
 const wcIcon: Record<string, string> = {};

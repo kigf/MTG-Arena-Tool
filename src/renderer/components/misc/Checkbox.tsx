@@ -24,7 +24,7 @@ export default function Checkbox(props: CheckboxProps): JSX.Element {
   const disabledLabelStyle = {
     ...style,
     cursor: "default",
-    opacity: 0.4
+    opacity: 0.4,
   };
 
   React.useEffect(() => {
@@ -35,7 +35,9 @@ export default function Checkbox(props: CheckboxProps): JSX.Element {
     <label
       style={disabled ? disabledLabelStyle : { ...style }}
       onClick={click}
-      className={css.checkContainer + (disabled ? "" : " " + sharedCss.hoverLabel)}
+      className={
+        css.checkContainer + (disabled ? "" : " " + sharedCss.hoverLabel)
+      }
     >
       {props.text}
       <input type="checkbox" checked={currentValue} disabled />

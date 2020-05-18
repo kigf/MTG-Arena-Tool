@@ -10,11 +10,11 @@ export default function trackUpdate(
   const { trackName, trackTier, trackDiff, orbCountDiff } = trackUpdate;
 
   if (trackDiff?.inventoryUpdates) {
-    trackDiff.inventoryUpdates.forEach(update => {
+    trackDiff.inventoryUpdates.forEach((update) => {
       const data = {
         ...update,
         trackName,
-        trackTier
+        trackTier,
       };
       data.context.subSource = trackName;
       inventoryUpdate(entry, data);

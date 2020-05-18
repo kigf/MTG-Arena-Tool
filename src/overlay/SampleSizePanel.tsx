@@ -40,7 +40,7 @@ export default function SampleSizePanel(
         <div className="odds_next click-on" onClick={handleOddsNext} />
       </div>
       <div className="chance_title" />
-      {CARD_TYPES.map(type => {
+      {CARD_TYPES.map((type) => {
         let value = 0;
         let field = "";
         switch (type) {
@@ -75,7 +75,7 @@ export default function SampleSizePanel(
         }
         const display = value.toLocaleString([], {
           style: "percent",
-          maximumSignificantDigits: 2
+          maximumSignificantDigits: 2,
         });
         return (
           <div className="chance_title" key={"chance_title_" + field}>

@@ -29,7 +29,7 @@ export default function HomeTab(): JSX.Element {
   const [filteredSet, setFilteredSet] = React.useState(fSet);
   const [requested, setRequested] = React.useState(false);
   const orderedSets: string[] = db.sortedSetCodes.filter(
-    set => db.sets[set].collation > 0
+    (set) => db.sets[set].collation > 0
   );
 
   const [dailyRewards, setDailyRewards] = React.useState(
@@ -113,7 +113,7 @@ export default function HomeTab(): JSX.Element {
                   <div
                     key={set}
                     style={{
-                      backgroundImage: `url(data:image/svg+xml;base64,${svgData})`
+                      backgroundImage: `url(data:image/svg+xml;base64,${svgData})`,
                     }}
                     title={set}
                     className={setClass}
@@ -143,8 +143,8 @@ const wcIcons = {
   common: indexCss.wcCommon,
   uncommon: indexCss.wcUncommon,
   rare: indexCss.wcRare,
-  mythic: indexCss.wcMythic
-}
+  mythic: indexCss.wcMythic,
+};
 
 function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
   const lineDark = indexCss.lineDark + " " + indexCss.lineBottomBorder;
@@ -182,7 +182,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
               className={ld}
               style={{
                 gridArea: `${index + 2} / 1 / auto / auto`,
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               {index + 1}
@@ -197,7 +197,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
                 style={{
                   backgroundImage: `url(data:image/svg+xml;base64,${
                     db.sets[card.set].svg
-                  })`
+                  })`,
                 }}
                 title={card.set}
               ></div>
@@ -218,7 +218,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
               }}
               style={{
                 gridArea: `${index + 2} / 4 / auto / auto`,
-                textDecoration: "underline dotted"
+                textDecoration: "underline dotted",
               }}
             >
               {card.name}
@@ -227,7 +227,7 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
             <div
               className={ld}
               style={{
-                gridArea: `${index + 2} / 5 / auto / auto`
+                gridArea: `${index + 2} / 5 / auto / auto`,
               }}
             >
               {wc.quantity}
@@ -244,14 +244,14 @@ function TopWildcards({ wildcards }: TopWildcardsProps): JSX.Element {
                   : "")
               }
               style={{
-                gridArea: `${index + 2} / 6 / auto / auto`
+                gridArea: `${index + 2} / 6 / auto / auto`,
               }}
             ></div>
 
             <div
               className={ld}
               style={{
-                gridArea: `${index + 2} / 7 / auto / auto`
+                gridArea: `${index + 2} / 7 / auto / auto`,
               }}
             >
               {(wc.change > 0 ? "+" : "") + wc.change}

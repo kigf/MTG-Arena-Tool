@@ -8,9 +8,9 @@ const loginSlice = createSlice({
     loginForm: {
       email: "",
       pass: "",
-      rememberme: false
+      rememberme: false,
     },
-    loginState: LOGIN_AUTH
+    loginState: LOGIN_AUTH,
   },
   reducers: {
     setLoginState: (state, action): void => {
@@ -30,8 +30,8 @@ const loginSlice = createSlice({
     },
     setCanLogin: (state, action): void => {
       state.canLogin = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export default loginSlice;

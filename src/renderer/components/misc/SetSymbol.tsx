@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import db from "../../../shared/database";
-import {SymbolBase} from "./SymbolBase";
+import { SymbolBase } from "./SymbolBase";
 import indexCss from "../../index.css";
 
 const SetSymbolBase = styled(SymbolBase).attrs((props) => ({

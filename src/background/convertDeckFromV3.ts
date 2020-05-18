@@ -2,7 +2,7 @@ import {
   ArenaV3Deck,
   InternalDeck,
   v2cardsList,
-  v3cardsList
+  v3cardsList,
 } from "../types/Deck";
 import Deck from "../shared/deck";
 
@@ -32,7 +32,7 @@ export default function convertDeckFromV3(v3deck: ArenaV3Deck): InternalDeck {
     commandZoneGRPIds: v3deck.commandZoneGRPIds,
     companionGRPId: v3deck.companionGRPId,
     format: v3deck.format,
-    type: "InternalDeck"
+    type: "InternalDeck",
   };
   const deck = new Deck(v2Deck);
   return deck.getSave();

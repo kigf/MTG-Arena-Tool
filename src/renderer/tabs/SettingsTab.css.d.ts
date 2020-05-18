@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace SettingsTabCssModule {
   export interface ISettingsTabCss {
     navSelected: string;

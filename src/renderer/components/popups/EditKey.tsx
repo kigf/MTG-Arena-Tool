@@ -58,7 +58,7 @@ export default function EditKey(props: EditKeyProps): JSX.Element {
       className={css.popupBackground}
       style={{
         opacity: open * 2,
-        backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
+        backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`,
       }}
       onClick={handleClose}
     >
@@ -67,7 +67,7 @@ export default function EditKey(props: EditKeyProps): JSX.Element {
         style={{
           height: `${open * 160}px`,
           width: `${open * 400}px`,
-          color: "var(--color-back)"
+          color: "var(--color-back)",
         }}
         onClick={(e): void => {
           e.stopPropagation();

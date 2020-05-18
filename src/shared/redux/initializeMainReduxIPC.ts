@@ -1,13 +1,10 @@
 import { EnhancedStore } from "@reduxjs/toolkit";
-import electron, {
-  IpcMainEvent,
-  BrowserWindow
-} from "electron";
+import electron, { IpcMainEvent, BrowserWindow } from "electron";
 import {
   IPC_BACKGROUND,
   IPC_RENDERER,
   IPC_OVERLAY,
-  IPC_MAIN
+  IPC_MAIN,
 } from "../constants";
 import actions from "./mainActions";
 const ipc = electron.ipcMain;
@@ -27,7 +24,7 @@ export default function initializeMainReduxIPC(
   main: BrowserWindow,
   overlay: BrowserWindow
 ): void {
-  ipc.on("redux-action", function(
+  ipc.on("redux-action", function (
     _event: IpcMainEvent,
     type: number,
     arg: string,
@@ -39,7 +36,9 @@ export default function initializeMainReduxIPC(
         const action = JSON.parse(arg);
         if (!actions[type]) {
           console.log("ERROR: Unknown redux action to main: " + type);
-          console.error("This action should not be sent to main or the action is missing on the actions list.");
+          console.error(
+            "This action should not be sent to main or the action is missing on the actions list."
+          );
         } else {
           store.dispatch(actions[type](action));
         }

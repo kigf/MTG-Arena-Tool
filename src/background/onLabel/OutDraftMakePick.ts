@@ -25,8 +25,8 @@ export default function onLabelOutDraftMakePick(entry: Entry): void {
     ...draftData,
     [key]: {
       pick: cardId,
-      pack: draftData.currentPack
-    }
+      pack: draftData.currentPack,
+    },
   };
 
   //console.log("LABEL:  Make pick > ", json, data);

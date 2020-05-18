@@ -31,15 +31,15 @@ export default function ChangesDeckView(
   const changes = getDeckChangesList(deck.id).sort(sortDeckChanges);
   const [currentDeck, setDeck] = useState<Deck>(deck);
   const numberOfChanges = changes.map(
-    ch => [...ch.changesMain, ...ch.changesSide].length + 2
+    (ch) => [...ch.changesMain, ...ch.changesSide].length + 2
   );
 
   const [expandSprings, expandSet] = useSprings(changes.length, () => ({
-    height: 0
+    height: 0,
   }));
 
   const [arrowSprings, arrowSet] = useSprings(changes.length, () => ({
-    transform: "rotate(0deg)"
+    transform: "rotate(0deg)",
   }));
 
   const expand = (index: number): void => {
@@ -72,10 +72,10 @@ export default function ChangesDeckView(
             changes.map((ch, index) => {
               const bothChanges = [...ch.changesMain, ...ch.changesSide];
               const added = bothChanges
-                .filter(c => c.quantity > 0)
+                .filter((c) => c.quantity > 0)
                 .reduce((ca, cb) => ca + cb.quantity, 0);
               const removed = bothChanges
-                .filter(c => c.quantity < 0)
+                .filter((c) => c.quantity < 0)
                 .reduce((ca, cb) => ca + Math.abs(cb.quantity), 0);
               return (
                 <React.Fragment key={ch.id}>
@@ -104,7 +104,7 @@ export default function ChangesDeckView(
                     className={css.deckChangesExpand}
                   >
                     <div className={sharedCss.cardTileSeparator}>Mainboard</div>
-                    {ch.changesMain.map(card => {
+                    {ch.changesMain.map((card) => {
                       const cardObj = db.card(card.id);
                       if (cardObj)
                         return (
@@ -124,7 +124,7 @@ export default function ChangesDeckView(
                         );
                     })}
                     <div className={sharedCss.cardTileSeparator}>Sideboard</div>
-                    {ch.changesSide.map(card => {
+                    {ch.changesSide.map((card) => {
                       const cardObj = db.card(card.id);
                       if (cardObj)
                         return (

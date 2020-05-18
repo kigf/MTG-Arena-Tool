@@ -6,7 +6,7 @@ import {
   OVERLAY_LOG,
   OVERLAY_MIXED,
   OVERLAY_ODDS,
-  OVERLAY_SEEN
+  OVERLAY_SEEN,
 } from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";
@@ -36,7 +36,7 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
     setOddsCallback,
     settings,
     tileStyle,
-    turnPriority
+    turnPriority,
   } = props;
   let visibleDeck = null;
   let cardsCount = 0;

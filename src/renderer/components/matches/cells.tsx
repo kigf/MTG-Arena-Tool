@@ -21,7 +21,7 @@ export function ArchetypeCell(props: {
 }
 
 export function OnPlayCell({
-  cell
+  cell,
 }: {
   cell: Cell<MatchTableData>;
 }): JSX.Element {
@@ -34,7 +34,7 @@ export function OnPlayCell({
 }
 
 export function RankCell({
-  cell
+  cell,
 }: {
   cell: Cell<MatchTableData>;
 }): JSX.Element {

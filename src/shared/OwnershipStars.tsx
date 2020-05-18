@@ -26,14 +26,19 @@ interface OwnershipProps {
   wanted: number;
 }
 
-export const OwnershipSymbol = (
-  props: {
-    style?: React.CSSProperties,
-    className?: string,
-    title?: string
-  }) => {
-  return <div className={props.className || ""} style={props.style}  title={props.title} />;
-}
+export const OwnershipSymbol = (props: {
+  style?: React.CSSProperties;
+  className?: string;
+  title?: string;
+}): JSX.Element => {
+  return (
+    <div
+      className={props.className || ""}
+      style={props.style}
+      title={props.title}
+    />
+  );
+};
 
 interface OwnershipStarProps extends OwnershipProps {
   copyIndex: number;
@@ -67,7 +72,7 @@ function MultiCardOwnership(props: OwnershipProps): JSX.Element {
   const possibleCopiesIndex = [0, 1, 2, 3];
   return (
     <>
-      {possibleCopiesIndex.map(copyIndex => (
+      {possibleCopiesIndex.map((copyIndex) => (
         <OwnershipStar
           acquired={acquired}
           copyIndex={copyIndex}

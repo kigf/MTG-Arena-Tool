@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace DraftViewCssModule {
   export interface IDraftViewCss {
     "draft-card": string;

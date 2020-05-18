@@ -1,19 +1,19 @@
-import React, {useCallback, useMemo} from "react";
+import React, { useCallback, useMemo } from "react";
 import { getDeckAfterChange } from "../../../shared/utils/getDeckAfterChange";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
-import Aggregator, {AggregatorFilters} from "../../aggregator";
+import Aggregator, { AggregatorFilters } from "../../aggregator";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
-import {CardWinrateData} from "../../aggregator";
-import {getWinrateClass} from "../../rendererUtil";
-import {DbCardData} from "../../../types/Metadata";
-import {compare_cards} from "../../../shared/util";
-import {getDeckChangesList} from "../../../shared/store";
-import {DeckChange, CardObject} from "../../../types/Deck";
+import { CardWinrateData } from "../../aggregator";
+import { getWinrateClass } from "../../rendererUtil";
+import { DbCardData } from "../../../types/Metadata";
+import { compare_cards } from "../../../shared/util";
+import { getDeckChangesList } from "../../../shared/store";
+import { DeckChange, CardObject } from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";
-import {format} from "date-fns";
-import {useTable, useSortBy} from "react-table";
+import { format } from "date-fns";
+import { useTable, useSortBy } from "react-table";
 
 import sectionCss from "../settings/Sections.css";
 import indexCss from "../../index.css";
@@ -157,7 +157,7 @@ function sortDeckChanges(a: DeckChange, b: DeckChange): number {
 interface CardsWinratesViewProps {
   deck: Deck;
   aggregator: Aggregator;
-  setRegularView: {(): void};
+  setRegularView: { (): void };
   aggFilters: AggregatorFilters;
   setAggFilters: (filters: AggregatorFilters) => void;
 }
@@ -165,8 +165,8 @@ interface CardsWinratesViewProps {
 export default function CardsWinratesView(
   props: CardsWinratesViewProps
 ): JSX.Element {
-  const {aggregator, setRegularView, aggFilters, setAggFilters} = props;
-  let {deck} = props;
+  const { aggregator, setRegularView, aggFilters, setAggFilters } = props;
+  let { deck } = props;
   const deckChanges = getDeckChangesList(deck.id);
   if (aggFilters.deckVersion !== Aggregator.DEFAULT_DECK_VERSION) {
     const change = deckChanges.filter(
@@ -212,7 +212,7 @@ export default function CardsWinratesView(
   const setDeckVersionFilter = useCallback(
     (version: string) => {
       // Set deck hash filter
-      setAggFilters({...aggFilters, deckVersion: version});
+      setAggFilters({ ...aggFilters, deckVersion: version });
     },
     [aggFilters, setAggFilters]
   );
@@ -289,7 +289,7 @@ export default function CardsWinratesView(
     []
   );
 
-  const {headerGroups, rows, prepareRow} = useTable(
+  const { headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
@@ -300,10 +300,10 @@ export default function CardsWinratesView(
   return (
     <>
       <Button text="Normal View" onClick={setRegularView} />
-      <div style={{display: "flex", flexDirection: "column"}}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <div
           className={sectionCss.centered_setting_container}
-          style={{justifyContent: "center"}}
+          style={{ justifyContent: "center" }}
         >
           <label>Deck Version:</label>
           <ReactSelect
@@ -313,7 +313,10 @@ export default function CardsWinratesView(
             callback={setDeckVersionFilter}
           />
         </div>
-        <div className={sectionCss.settingsNote} style={{textAlign: "center"}}>
+        <div
+          className={sectionCss.settingsNote}
+          style={{ textAlign: "center" }}
+        >
           All winrates shown correspond to the times when the card in question
           was cast during a game, except for the &quot;Sided out WR&quot;
           column.
@@ -353,7 +356,7 @@ export default function CardsWinratesView(
                   (card: CardObject) => row.original.cardObj?.id == card.id
                 );
               if (q > 0 && row.original.cardObj !== null) {
-                return cardWinrateLine({...row.original, quantity: q});
+                return cardWinrateLine({ ...row.original, quantity: q });
               }
             }
           })}
@@ -381,7 +384,7 @@ export default function CardsWinratesView(
                   (card: CardObject) => row.original.cardObj?.id == card.id
                 );
               if (q > 0 && row.original.cardObj !== null) {
-                return cardWinrateLine({...row.original, quantity: q});
+                return cardWinrateLine({ ...row.original, quantity: q });
               }
             }
           })}

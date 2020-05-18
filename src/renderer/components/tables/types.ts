@@ -9,7 +9,7 @@ import {
   TablePropGetter,
   TableProps,
   TableState,
-  PluginHook
+  PluginHook,
 } from "react-table";
 
 export type TagCount = { tag: string; q: number };

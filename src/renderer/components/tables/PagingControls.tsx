@@ -18,7 +18,7 @@ export default function PagingControls({
   pageLabel,
   pageIndex,
   pageSize,
-  pageSizeOptions
+  pageSizeOptions,
 }: PagingControlsProps): JSX.Element {
   pageSizeOptions = pageSizeOptions ?? ["10", "25", "50", "100"];
   const expandButtons = pageCount < 10;

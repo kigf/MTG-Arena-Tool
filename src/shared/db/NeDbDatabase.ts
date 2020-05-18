@@ -18,7 +18,7 @@ const nonDocFields = [
   "draft_index",
   "decks_last_used",
   "static_decks",
-  "static_events"
+  "static_events",
 ];
 
 /**
@@ -49,11 +49,11 @@ export class NeDbDatabase implements LocalDatabase {
     this.remove = this.remove.bind(this);
   }
 
-  get filePath() {
+  get filePath(): string {
     return path.join(USER_DATA_DIR, this.dbName + ".db");
   }
 
-  static getCleanDoc(doc: any) {
+  static getCleanDoc(doc: any): any {
     if (doc && doc._id) {
       const clean = { ...doc };
       delete clean._id;
@@ -62,10 +62,10 @@ export class NeDbDatabase implements LocalDatabase {
     return doc;
   }
 
-  init(dbName: string, arenaName?: string) {
+  init(dbName: string, arenaName?: string): void {
     this.dbName = sanitize(arenaName ? arenaName : dbName);
     this.datastore = new Datastore({
-      filename: path.join(USER_DATA_DIR, this.dbName + ".db")
+      filename: path.join(USER_DATA_DIR, this.dbName + ".db"),
     });
     // ensure session begins with most compact possible db
     this.datastore.persistence.compactDatafile();
@@ -91,14 +91,14 @@ export class NeDbDatabase implements LocalDatabase {
     this.datastore.persistence.setAutocompactionInterval(60000);
   }
 
-  async findAll() {
+  async findAll(): Promise<{ [key: string]: any }> {
     if (!this.datastore) {
       throw new DatabaseNotInitializedError();
     }
     showBusy("Loading all data...");
     const data: { [key: string]: any } = {};
     const docs: any[] = await this._find({});
-    docs.forEach(doc => {
+    docs.forEach((doc) => {
       const key = doc._id;
       if (nonDocFields.includes(key)) {
         data[key] = doc.data;
@@ -114,7 +114,7 @@ export class NeDbDatabase implements LocalDatabase {
   async upsertAll(
     data: any,
     intermediateCallback?: (err: Error | null, num: number) => void
-  ) {
+  ): Promise<number> {
     if (!this.datastore) {
       throw new DatabaseNotInitializedError();
     }
@@ -144,7 +144,7 @@ export class NeDbDatabase implements LocalDatabase {
     return successCount;
   }
 
-  async upsert(table: string, key: string, data: any) {
+  async upsert(table: string, key: string, data: any): Promise<number> {
     if (!this.datastore) {
       throw new DatabaseNotInitializedError();
     }
@@ -169,7 +169,7 @@ export class NeDbDatabase implements LocalDatabase {
     );
   }
 
-  async find(table: string, key: string) {
+  async find(table: string, key: string): Promise<any> {
     if (!this.datastore) {
       throw new DatabaseNotInitializedError();
     }
@@ -190,7 +190,7 @@ export class NeDbDatabase implements LocalDatabase {
     return NeDbDatabase.getCleanDoc(doc);
   }
 
-  async remove(table: string, key: string) {
+  async remove(table: string, key: string): Promise<any> {
     if (!this.datastore) {
       throw new DatabaseNotInitializedError();
     }

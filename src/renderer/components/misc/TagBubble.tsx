@@ -58,7 +58,7 @@ export function TagBubble({
   title,
   tag,
   editTagCallback,
-  deleteTagCallback
+  deleteTagCallback,
 }: TagBubbleProps): JSX.Element {
   const backgroundColor = getTagColor(tag);
   const containerRef: React.MutableRefObject<HTMLDivElement | null> = React.useRef(
@@ -114,7 +114,7 @@ export function NewTag({
   addTagCallback,
   tagPrompt,
   tags,
-  title
+  title,
 }: NewTagProps): JSX.Element {
   const backgroundColor = getTagColor();
   return (

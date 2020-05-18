@@ -3,7 +3,7 @@ import inventoryAddDelta from "./inventoryAddDelta";
 import saveEconomyTransaction from "./saveEconomyTransaction";
 import {
   InventoryUpdate,
-  InternalEconomyTransaction
+  InternalEconomyTransaction,
 } from "../types/inventory";
 import { Entry as PostMatchUpdateEntry } from "./onLabel/PostMatchUpdate";
 import sha1 from "js-sha1";
@@ -41,7 +41,7 @@ export default function inventoryUpdate(
     date: globals.logTime.toISOString(),
     delta: update.delta,
     context,
-    subContext: update.context // preserve sub-context object data
+    subContext: update.context, // preserve sub-context object data
   };
   // Construct a unique ID
   transaction.id = sha1(JSON.stringify(transaction) + entry.hash);

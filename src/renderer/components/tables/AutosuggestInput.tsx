@@ -11,7 +11,7 @@ const getSuggestions = (value: string, options: TagCount[]): TagCount[] => {
   return inputLength === 0
     ? []
     : options.filter(
-        lang => lang.tag.toLowerCase().slice(0, inputLength) === inputValue
+        (lang) => lang.tag.toLowerCase().slice(0, inputLength) === inputValue
       );
 };
 
@@ -64,7 +64,7 @@ export default function AutosuggestInput({
   initialValue,
   placeholder,
   submitCallback,
-  tags
+  tags,
 }: {
   id: string;
   initialValue?: string;
@@ -122,7 +122,7 @@ export default function AutosuggestInput({
     onKeyUp,
     placeholder: placeholder ?? "enter value",
     size: 1,
-    value
+    value,
   };
   return (
     <div onFocus={onFocus} style={{ paddingLeft: "10px" }}>

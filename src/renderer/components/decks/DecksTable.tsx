@@ -13,13 +13,13 @@ import {
   MetricCell,
   RelativeTimeCell,
   ShortTextCell,
-  TagsCell
+  TagsCell,
 } from "../tables/cells";
 import {
   ArchiveColumnFilter,
   ColorColumnFilter,
   NumberRangeColumnFilter,
-  TextBoxFilter
+  TextBoxFilter,
 } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
@@ -33,7 +33,7 @@ import {
   LastEditWinRateCell,
   WildcardCell,
   WildcardHeader,
-  WinRateCell
+  WinRateCell,
 } from "./cells";
 import DecksArtViewRow from "./DecksArtViewRow";
 import DecksTableControls from "./DecksTableControls";
@@ -59,7 +59,7 @@ const columns: Column<DecksData>[] = [
     Filter: TextBoxFilter,
     Cell: ShortTextCell,
     gridWidth: "210px",
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Colors",
@@ -70,7 +70,7 @@ const columns: Column<DecksData>[] = [
     Cell: ColorsCell,
     gridWidth: "150px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   { accessor: "colors" },
   {
@@ -82,7 +82,7 @@ const columns: Column<DecksData>[] = [
     Cell: FormatCell,
     gridWidth: "150px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Tags",
@@ -93,7 +93,7 @@ const columns: Column<DecksData>[] = [
     disableSortBy: true,
     Cell: TagsCell,
     gridWidth: "240px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Last Updated",
@@ -101,7 +101,7 @@ const columns: Column<DecksData>[] = [
     Cell: RelativeTimeCell,
     sortDescFirst: true,
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Last Played",
@@ -109,7 +109,7 @@ const columns: Column<DecksData>[] = [
     Cell: RelativeTimeCell,
     sortDescFirst: true,
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Last Touched",
@@ -118,7 +118,7 @@ const columns: Column<DecksData>[] = [
     sortDescFirst: true,
     mayToggle: true,
     defaultVisible: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Won",
@@ -128,7 +128,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Lost",
@@ -138,7 +138,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Total",
@@ -148,21 +148,21 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Total Duration",
     accessor: "duration",
     Cell: DurationCell,
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Avg. Duration",
     accessor: "avgDuration",
     Cell: DurationCell,
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   {
     Header: "Winrate",
@@ -172,7 +172,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   { accessor: "winrate" },
   { accessor: "interval", sortInverted: true },
@@ -183,7 +183,7 @@ const columns: Column<DecksData>[] = [
     accessor: "lastEditWinrate",
     Cell: LastEditWinRateCell,
     mayToggle: true,
-    needsTileLabel: true
+    needsTileLabel: true,
   },
   { accessor: "lastEditWins" },
   { accessor: "lastEditLosses" },
@@ -196,7 +196,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     gridWidth: "100px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: WildcardHeader,
@@ -206,7 +206,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     gridWidth: "100px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: WildcardHeader,
@@ -216,7 +216,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     gridWidth: "100px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: WildcardHeader,
@@ -226,7 +226,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     gridWidth: "100px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: WildcardHeader,
@@ -236,7 +236,7 @@ const columns: Column<DecksData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     gridWidth: "100px",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "custom" },
   { accessor: "archived" },
@@ -251,12 +251,14 @@ const columns: Column<DecksData>[] = [
     gridWidth: "110px",
     sortType: "basic",
     mayToggle: true,
-    defaultVisible: true
-  }
+    defaultVisible: true,
+  },
 ];
 
 function getDataAggFilters(data: Row<DecksData>[]): AggregatorFilters {
-  const deckId = data.map(row => row.original.id).filter(id => id) as string[];
+  const deckId = data
+    .map((row) => row.original.id)
+    .filter((id) => id) as string[];
   return { deckId };
 }
 
@@ -275,12 +277,12 @@ export default function DecksTable({
   const [tableMode, setTableMode] = React.useState(cachedTableMode);
   React.useEffect(() => tableModeCallback(tableMode), [
     tableMode,
-    tableModeCallback
+    tableModeCallback,
   ]);
   const tags = React.useMemo(() => {
     const tagCounts: { [tag: string]: number } = {};
     for (const deck of data) {
-      deck.tags?.forEach(tag => {
+      deck.tags?.forEach((tag) => {
         tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
       });
     }
@@ -295,19 +297,19 @@ export default function DecksTable({
     data,
     defaultState: {
       filters: [{ id: "archivedCol", value: "hideArchived" }],
-      sortBy: [{ id: "timeTouched", desc: true }]
+      sortBy: [{ id: "timeTouched", desc: true }],
     },
     globalFilter: deckSearchFilterFn,
     setTableMode,
     tableMode,
-    tableStateCallback
+    tableStateCallback,
   };
   const {
     table,
     gridTemplateColumns,
     headersProps,
     pagingProps,
-    tableControlsProps
+    tableControlsProps,
   } = useBaseReactTable(tableProps);
 
   useAggregatorArchiveFilter(table, aggFilters, setAggFiltersCallback);
@@ -317,7 +319,7 @@ export default function DecksTable({
     aggFilters,
     events,
     setAggFiltersCallback,
-    ...tableControlsProps
+    ...tableControlsProps,
   };
 
   const isTableMode = tableMode === DECKS_TABLE_MODE;
@@ -385,7 +387,10 @@ export default function DecksTable({
           <PagingControls {...pagingProps} />
         </div>
       </div>
-      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
+      <animated.div
+        {...bind()}
+        className={tablesCss.sidebarDragger}
+      ></animated.div>
       <animated.div
         className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}

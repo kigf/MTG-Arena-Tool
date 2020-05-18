@@ -20,7 +20,7 @@ export default function InEventCompleteDraft(entry: Entry): void {
   const data = {
     ...globals.currentDraft,
     ...json,
-    CourseDeck: json.CourseDeck ? convertDeckFromV3(json.CourseDeck) : null
+    CourseDeck: json.CourseDeck ? convertDeckFromV3(json.CourseDeck) : null,
   };
   data.set = getDraftSet(json.InternalEventName) || data.set;
   data.id = toolId;

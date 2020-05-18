@@ -12,11 +12,11 @@ import ShareButton from "../misc/ShareButton";
 import db from "../../../shared/database";
 
 import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
-import {DEFAULT_TILE} from "../../../shared/constants";
-import {DbCardData} from "../../../types/Metadata";
+import { DEFAULT_TILE } from "../../../shared/constants";
+import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
-import {toggleArchived} from "../../rendererUtil";
-import {InternalDraft} from "../../../types/draft";
+import { toggleArchived } from "../../rendererUtil";
+import { InternalDraft } from "../../../types/draft";
 import css from "./ListItem.css";
 
 interface ListItemDraftProps {
@@ -65,7 +65,7 @@ export default function ListItemDraft({
       </Column>
 
       <div
-        style={{flexGrow: 1, display: "flex", justifyContent: "center"}}
+        style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
         className={css.listItemCenter}
       >
         {draft.CardPool
@@ -100,7 +100,7 @@ export default function ListItemDraft({
         </FlexBottom>
       </Column>
 
-      <Column style={{display: "flex"}}>
+      <Column style={{ display: "flex" }}>
         <ShareButton type="draft" data={draft} />
       </Column>
 

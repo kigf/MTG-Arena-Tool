@@ -1,7 +1,7 @@
 import startOfDay from "date-fns/startOfDay";
 import React from "react";
-import {Column, useExpanded, useGroupBy, useSortBy} from "react-table";
-import {EVENTS_TABLE_MODE} from "../../../shared/constants";
+import { Column, useExpanded, useGroupBy, useSortBy } from "react-table";
+import { EVENTS_TABLE_MODE } from "../../../shared/constants";
 import {
   AggregatedContextCell,
   ArchivedCell,
@@ -19,12 +19,12 @@ import {
 } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
-import {BaseTableProps} from "../tables/types";
-import {useBaseReactTable} from "../tables/useBaseReactTable";
+import { BaseTableProps } from "../tables/types";
+import { useBaseReactTable } from "../tables/useBaseReactTable";
 import EconomyTableControls from "./EconomyTableControls";
-import {vaultPercentFormat} from "./economyUtils";
-import {txnSearchFilterFn} from "./filters";
-import {EconomyTableRow} from "./rows";
+import { vaultPercentFormat } from "./economyUtils";
+import { txnSearchFilterFn } from "./filters";
+import { EconomyTableRow } from "./rows";
 import {
   EconomyTableControlsProps,
   EconomyTableProps,
@@ -39,9 +39,9 @@ function dateStart(values: number[]): number {
 }
 
 const columns: Column<TransactionData>[] = [
-  {id: "txnId", accessor: "id"},
-  {accessor: "id"},
-  {accessor: "date"},
+  { id: "txnId", accessor: "id" },
+  { accessor: "id" },
+  { accessor: "date" },
   {
     Header: "Days Ago",
     accessor: "daysAgo",
@@ -75,7 +75,7 @@ const columns: Column<TransactionData>[] = [
     gridWidth: "400px",
     mayToggle: true,
   },
-  {accessor: "prettyContext"},
+  { accessor: "prettyContext" },
   {
     Header: "Context",
     accessor: "fullContext",
@@ -90,9 +90,9 @@ const columns: Column<TransactionData>[] = [
     defaultVisible: true,
     mayToggle: true,
   },
-  {accessor: "trackDiff"},
-  {accessor: "trackLevelDelta"},
-  {accessor: "delta"},
+  { accessor: "trackDiff" },
+  { accessor: "trackLevelDelta" },
+  { accessor: "delta" },
   {
     Header: "Cards",
     accessor: "cardsAddedCount",
@@ -216,7 +216,7 @@ const columns: Column<TransactionData>[] = [
     mayToggle: true,
     defaultVisible: true,
   },
-  {accessor: "aetherizedCards"},
+  { accessor: "aetherizedCards" },
   {
     Header: "Duplicates",
     accessor: "aetherizedCardsCount",
@@ -249,7 +249,7 @@ const columns: Column<TransactionData>[] = [
     mayToggle: true,
     defaultVisible: true,
   },
-  {accessor: "xpGained"},
+  { accessor: "xpGained" },
   {
     Header: "Experience",
     accessor: "xpGainedNumber",
@@ -261,7 +261,7 @@ const columns: Column<TransactionData>[] = [
     mayToggle: true,
     defaultVisible: true,
   },
-  {accessor: "orbCountDiff"},
+  { accessor: "orbCountDiff" },
   {
     Header: "Orbs",
     accessor: "orbDelta",
@@ -272,8 +272,8 @@ const columns: Column<TransactionData>[] = [
     aggregate: "sum",
     mayToggle: true,
   },
-  {accessor: "custom"},
-  {accessor: "archived"},
+  { accessor: "custom" },
+  { accessor: "archived" },
   {
     id: "archivedCol",
     Header: ArchiveHeader,
@@ -305,13 +305,13 @@ export default function EconomyTable({
   const tableProps: BaseTableProps<TransactionData> = {
     cachedState,
     columns,
-    customProps: {archiveCallback, countLabel: "transactions"},
+    customProps: { archiveCallback, countLabel: "transactions" },
     customHooks: [useGroupBy, useSortBy, useExpanded],
     data,
     defaultState: {
-      filters: [{id: "archivedCol", value: "hideArchived"}],
+      filters: [{ id: "archivedCol", value: "hideArchived" }],
       groupBy: ["daysAgo"],
-      sortBy: [{id: "timestamp", desc: true}],
+      sortBy: [{ id: "timestamp", desc: true }],
       pageSize: 3,
     },
     globalFilter: txnSearchFilterFn,
@@ -326,7 +326,7 @@ export default function EconomyTable({
     pagingProps,
     tableControlsProps,
   } = useBaseReactTable(tableProps);
-  const {getTableBodyProps, page, prepareRow} = table;
+  const { getTableBodyProps, page, prepareRow } = table;
   const pageSizeOptions = ["3", "7", "21"];
   const pageLabel = "days";
   pagingProps.pageSizeOptions = pageSizeOptions;
@@ -344,14 +344,14 @@ export default function EconomyTable({
         <EconomyTableControls {...economyTableControlsProps} />
         <div
           className={sharedCss.medScroll}
-          style={isTableMode ? {overflowX: "auto"} : undefined}
+          style={isTableMode ? { overflowX: "auto" } : undefined}
         >
           <TableHeaders
             {...headersProps}
             style={
               isTableMode
-                ? {width: "fit-content"}
-                : {overflowX: "auto", overflowY: "hidden"}
+                ? { width: "fit-content" }
+                : { overflowX: "auto", overflowY: "hidden" }
             }
           />
           <div

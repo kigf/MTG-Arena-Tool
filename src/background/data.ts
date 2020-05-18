@@ -13,7 +13,7 @@ const deckDefault = {
   lastUpdated: "2018-05-31T00:06:29.7456958",
   mainDeck: [],
   name: "Undefined",
-  sideboard: []
+  sideboard: [],
 };
 
 export function createDeck(): Deck {

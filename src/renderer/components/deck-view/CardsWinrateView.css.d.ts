@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace CardsWinrateViewCssModule {
   export interface ICardsWinrateViewCss {
     "card-wr-item": string;

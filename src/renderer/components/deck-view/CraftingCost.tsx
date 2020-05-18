@@ -1,9 +1,9 @@
 import React from "react";
 import Deck from "../../../shared/deck";
-import {CARD_RARITIES} from "../../../shared/constants";
-import {useSelector} from "react-redux";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
-import {getBoosterCountEstimate, get_deck_missing} from "../../rendererUtil";
+import { CARD_RARITIES } from "../../../shared/constants";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
+import { getBoosterCountEstimate, get_deck_missing } from "../../rendererUtil";
 
 import indexCss from "../../index.css";
 
@@ -13,15 +13,15 @@ wcIcon["uncommon"] = indexCss.wcUncommon;
 wcIcon["rare"] = indexCss.wcRare;
 wcIcon["mythic"] = indexCss.wcMythic;
 
-type IndexableObject = {[key: string]: number};
+type IndexableObject = { [key: string]: number };
 
 interface CraftingCostProps {
   deck: Deck;
 }
 
 export default function CraftingCost(props: CraftingCostProps): JSX.Element {
-  const {deck} = props;
-  const {wcCommon, wcUncommon, wcRare, wcMythic} = useSelector(
+  const { deck } = props;
+  const { wcCommon, wcUncommon, wcRare, wcMythic } = useSelector(
     (state: AppState) => state.playerdata.economy
   );
   const ownedWildcards: IndexableObject = {

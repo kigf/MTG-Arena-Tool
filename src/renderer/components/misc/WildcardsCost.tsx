@@ -1,10 +1,10 @@
 import React from "react";
-import {CARD_RARITIES} from "../../../shared/constants";
+import { CARD_RARITIES } from "../../../shared/constants";
 import _ from "lodash";
-import {MissingWildcards} from "../decks/types";
+import { MissingWildcards } from "../decks/types";
 import Deck from "../../../shared/deck";
-import {useSelector} from "react-redux";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 import {
   getBoosterCountEstimate,
   get_deck_missing as getDeckMissing,
@@ -28,7 +28,7 @@ export default function WildcardsCost(props: {
   deck: Deck;
   shrink?: boolean;
 }): JSX.Element {
-  const {shrink, deck} = props;
+  const { shrink, deck } = props;
   const playerEconomy = useSelector(
     (state: AppState) => state.playerdata.economy
   );
@@ -50,8 +50,8 @@ export default function WildcardsCost(props: {
     <div
       style={
         shrink
-          ? {display: "flex", fontSize: "14px"}
-          : {display: "flex", flexDirection: "row", marginRight: "16px"}
+          ? { display: "flex", fontSize: "14px" }
+          : { display: "flex", flexDirection: "row", marginRight: "16px" }
       }
     >
       {CARD_RARITIES.filter((rarity) => rarity !== "land").map(

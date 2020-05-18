@@ -79,7 +79,9 @@ function DeltaLabel(props: {
   smallLabel?: boolean;
 }): JSX.Element {
   return (
-    <div className={css.economy_sub + " " + (props.smallLabel ? css.small : "")}>
+    <div
+      className={css.economy_sub + " " + (props.smallLabel ? css.small : "")}
+    >
       {props.content}
     </div>
   );

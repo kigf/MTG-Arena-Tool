@@ -124,7 +124,7 @@ export enum Rank {
   Gold,
   Platinum,
   Diamond,
-  Mythic
+  Mythic,
 }
 
 export interface SeasonAndRankDetail {

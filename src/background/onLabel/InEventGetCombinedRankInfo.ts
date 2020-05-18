@@ -47,7 +47,7 @@ export default function InEventGetCombinedRankInfo(entry: Entry): void {
       drawn: json.constructedMatchesDrawn,
       percentile: json.constructedPercentile,
       leaderboardPlace: json.constructedLeaderboardPlace,
-      seasonOrdinal: json.constructedSeasonOrdinal
+      seasonOrdinal: json.constructedSeasonOrdinal,
     },
     limited: {
       rank: json.limitedClass,
@@ -58,8 +58,8 @@ export default function InEventGetCombinedRankInfo(entry: Entry): void {
       drawn: json.limitedMatchesDrawn,
       percentile: json.limitedPercentile,
       leaderboardPlace: json.limitedLeaderboardPlace,
-      seasonOrdinal: json.limitedSeasonOrdinal
-    }
+      seasonOrdinal: json.limitedSeasonOrdinal,
+    },
   };
 
   const eventId = globalStore.currentMatch.eventId;
@@ -69,7 +69,7 @@ export default function InEventGetCombinedRankInfo(entry: Entry): void {
 
   const infoLength = Object.keys(json).length - 1;
   const processedLength = [rank.limited, rank.constructed]
-    .map(o => Object.keys(o).length)
+    .map((o) => Object.keys(o).length)
     .reduce((a, b) => a + b, 0);
   if (infoLength != processedLength) {
     console.warn("rankInfo is not processing all data.", Object.keys(json));

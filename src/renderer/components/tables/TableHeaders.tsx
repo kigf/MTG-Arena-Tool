@@ -1,5 +1,5 @@
 import React from "react";
-import {TableData, TableHeadersProps} from "./types";
+import { TableData, TableHeadersProps } from "./types";
 
 import sharedCss from "../../../shared/shared.css";
 import indexCss from "../../index.css";
@@ -19,7 +19,7 @@ export default function TableHeaders<D extends TableData>({
       className={
         sharedCss.medScroll + " " + indexCss.lineDark + " " + css.reactTableHead
       }
-      style={{...style, gridTemplateColumns}}
+      style={{ ...style, gridTemplateColumns }}
       {...getTableProps()}
     >
       {visibleHeaders.map((column, ii) => (
@@ -40,12 +40,12 @@ export default function TableHeaders<D extends TableData>({
                     : " " + indexCss.sortAsc
                   : ""
               }
-              style={{marginRight: "4px", width: "16px"}}
+              style={{ marginRight: "4px", width: "16px" }}
             />
             <div className={indexCss.flexItem}>{column.render("Header")}</div>
             {column.canFilter && (
               <div
-                style={{marginRight: 0}}
+                style={{ marginRight: 0 }}
                 className={sharedCss.button + " " + sharedCss.settings}
                 onClick={(e): void => {
                   e.stopPropagation();
@@ -62,7 +62,7 @@ export default function TableHeaders<D extends TableData>({
             )}
             {column.filterValue && (
               <div
-                style={{marginRight: 0}}
+                style={{ marginRight: 0 }}
                 className={sharedCss.button + " " + sharedCss.close}
                 onClick={(e): void => {
                   e.stopPropagation();

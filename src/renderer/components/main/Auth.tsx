@@ -10,7 +10,7 @@ import {
   IPC_NONE,
   IPC_BACKGROUND,
   IPC_ALL,
-  IPC_RENDERER
+  IPC_RENDERER,
 } from "../../../shared/constants";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import sha1 from "js-sha1";
@@ -70,7 +70,7 @@ export default function Auth(props: AuthProps): JSX.Element {
       );
       ipcSend("login", {
         username: authForm.email,
-        password: pwd
+        password: pwd,
       });
     }
   }, [dispatcher, authForm.email, authForm.pass]);
@@ -104,7 +104,7 @@ export default function Auth(props: AuthProps): JSX.Element {
             style={{
               color: "var(--color-mid-75)",
               cursor: "pointer",
-              marginBottom: "16px"
+              marginBottom: "16px",
             }}
           >
             <a

@@ -7,12 +7,12 @@ import {
   useGlobalFilter,
   usePagination,
   useSortBy,
-  useTable
+  useTable,
 } from "react-table";
 import {
   archivedFilterFn,
   colorsFilterFn,
-  fuzzyTextFilterFn
+  fuzzyTextFilterFn,
 } from "../tables/filters";
 import {
   BaseTableProps,
@@ -20,7 +20,7 @@ import {
   PagingControlsProps,
   TableControlsProps,
   TableData,
-  TableHeadersProps
+  TableHeadersProps,
 } from "../tables/types";
 
 export function useBaseReactTable<D extends TableData>({
@@ -35,7 +35,7 @@ export function useBaseReactTable<D extends TableData>({
   tableMode,
   data,
   tableStateCallback,
-  cachedState
+  cachedState,
 }: BaseTableProps<D>): {
   table: TableInstance<D>;
   pagingProps: PagingControlsProps;
@@ -47,7 +47,7 @@ export function useBaseReactTable<D extends TableData>({
     () => ({
       disableFilters: true,
       disableGroupBy: true,
-      ...customDefaultColumn
+      ...customDefaultColumn,
     }),
     [customDefaultColumn]
   );
@@ -56,18 +56,18 @@ export function useBaseReactTable<D extends TableData>({
       fuzzyText: fuzzyTextFilterFn,
       showArchived: archivedFilterFn,
       colors: colorsFilterFn,
-      ...customFilterTypes
+      ...customFilterTypes,
     }),
     [customFilterTypes]
   );
   const initialState: TableState<D> = React.useMemo(() => {
     // default hidden columns
     const hiddenColumns = columns
-      .filter(column => !column.defaultVisible)
-      .map(column => column.id ?? column.accessor);
+      .filter((column) => !column.defaultVisible)
+      .map((column) => column.id ?? column.accessor);
     const mergedDefault = _.defaults(defaultState, {
       pageSize: 25,
-      hiddenColumns
+      hiddenColumns,
     }) as TableState<D>;
     const state = { ...(cachedState ?? mergedDefault) };
     // ensure data-only columns are all invisible
@@ -92,7 +92,7 @@ export function useBaseReactTable<D extends TableData>({
       autoResetFilters: false,
       autoResetGlobalFilter: false,
       autoResetSortBy: false,
-      ...customProps
+      ...customProps,
     },
     useFilters,
     useGlobalFilter,
@@ -116,7 +116,7 @@ export function useBaseReactTable<D extends TableData>({
     nextPage,
     previousPage,
     setPageSize,
-    state
+    state,
   } = table;
   // It seems allComumns can be undefined on some cycles of the table hook
   const allColumns = table.allColumns || [];
@@ -135,14 +135,16 @@ export function useBaseReactTable<D extends TableData>({
     previousPage,
     setPageSize,
     pageIndex,
-    pageSize
+    pageSize,
   };
   const visibleHeaders = headers.filter((header: any) => header.isVisible);
   const gridTemplateColumns = visibleHeaders
     .map((header: any) => `minmax(${header.gridWidth ?? "140px"}, auto)`)
     .join(" ");
   const [toggleableColumns, initialFiltersVisible] = React.useMemo(() => {
-    const toggleableColumns = allColumns.filter((column: any) => column.mayToggle);
+    const toggleableColumns = allColumns.filter(
+      (column: any) => column.mayToggle
+    );
     const initialFiltersVisible: FiltersVisible = {};
     for (const column of allColumns) {
       if (column.canFilter) {
@@ -161,7 +163,7 @@ export function useBaseReactTable<D extends TableData>({
     gridTemplateColumns,
     setFilter,
     setFiltersVisible,
-    visibleHeaders
+    visibleHeaders,
   };
   const tableControlsProps: TableControlsProps<D> = {
     filters,
@@ -184,13 +186,13 @@ export function useBaseReactTable<D extends TableData>({
     toggleHideColumn,
     toggleSortBy,
     visibleHeaders,
-    ...customProps
+    ...customProps,
   };
   return {
     table,
     pagingProps,
     gridTemplateColumns,
     headersProps,
-    tableControlsProps
+    tableControlsProps,
   };
 }

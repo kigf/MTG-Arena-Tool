@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
   SETTINGS_BEHAVIOUR,
@@ -15,7 +15,7 @@ import {
   IPC_RENDERER,
 } from "../../shared/constants";
 
-import store, {AppState} from "../../shared/redux/stores/rendererStore";
+import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import SectionBehaviour from "../components/settings/SectionBehaviour";
 import SectionData from "../components/settings/SectionData";
 import SectionOverlay from "../components/settings/sectionOverlay";
@@ -24,7 +24,7 @@ import SectionShortcuts from "../components/settings/SectionShortcuts";
 import SectionPrivacy from "../components/settings/SectionPrivacy";
 import SectionAbout from "../components/settings/SectionAbout";
 import SectionLogin from "../components/settings/SectionLogin";
-import {reduxAction} from "../../shared/redux/sharedRedux";
+import { reduxAction } from "../../shared/redux/sharedRedux";
 
 import appCss from "../app/app.css";
 import indexCss from "../index.css";
@@ -81,7 +81,7 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
     reduxAction(
       store.dispatch,
       "SET_SETTINGS",
-      {last_settings_section: currentTab},
+      { last_settings_section: currentTab },
       IPC_ALL ^ IPC_RENDERER
     );
   }, [currentTab]);

@@ -5,7 +5,7 @@ import { InternalDeck } from "../../../types/Deck";
 const decksSlice = createSlice({
   name: "decks",
   initialState: {
-    decksIndex: [] as string[]
+    decksIndex: [] as string[],
   },
   reducers: {
     setDeck: (state, action): void => {
@@ -37,8 +37,8 @@ const decksSlice = createSlice({
         }
       });
       state.decksIndex = [...newList, ...state.decksIndex];
-    }
-  }
+    },
+  },
 });
 
 export default decksSlice;

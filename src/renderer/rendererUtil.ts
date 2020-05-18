@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define, @typescript-eslint/camelcase */
-import {app, ipcRenderer as ipc, remote} from "electron";
+import { app, ipcRenderer as ipc, remote } from "electron";
 import path from "path";
-import {IPC_BACKGROUND, IPC_RENDERER, CARD_RARITIES} from "../shared/constants";
-import {WinLossGate} from "../types/event";
+import {
+  IPC_BACKGROUND,
+  IPC_RENDERER,
+  CARD_RARITIES,
+} from "../shared/constants";
+import { WinLossGate } from "../types/event";
 import store from "../shared/redux/stores/rendererStore";
-import {MissingWildcards, CardCounts} from "./components/decks/types";
+import { MissingWildcards, CardCounts } from "./components/decks/types";
 import Deck from "../shared/deck";
 import db from "../shared/database";
 
@@ -35,7 +39,7 @@ export function getTagColor(tag?: string): string {
 
 export function formatPercent(
   value: number,
-  config = {maximumSignificantDigits: 2}
+  config = { maximumSignificantDigits: 2 }
 ): string {
   return value.toLocaleString([], {
     style: "percent",
@@ -211,7 +215,7 @@ export function getCardsMissingCount(deck: Deck, grpid: number): number {
 }
 
 export function get_deck_missing(deck: Deck): MissingWildcards {
-  const missing = {rare: 0, common: 0, uncommon: 0, mythic: 0};
+  const missing = { rare: 0, common: 0, uncommon: 0, mythic: 0 };
   const alreadySeenIds = new Set(); // prevents double counting cards across main/sideboard
   const entireDeck = [
     ...deck.getMainboard().get(),

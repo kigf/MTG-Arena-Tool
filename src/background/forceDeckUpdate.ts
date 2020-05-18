@@ -23,7 +23,7 @@ function chanceType(
   );
 }
 
-const forceDeckUpdate = function(removeUsed = true): void {
+const forceDeckUpdate = function (removeUsed = true): void {
   let decksize = 0;
   let cardsleft = 0;
   let typeCre = 0;
@@ -41,7 +41,7 @@ const forceDeckUpdate = function(removeUsed = true): void {
 
   // Remove cards that came from the sideboard from the list of
   // cards used to remove from the mainboard.
-  playerCardsFromSide.forEach(grpId => {
+  playerCardsFromSide.forEach((grpId) => {
     playerCardsUsed.splice(playerCardsUsed.indexOf(grpId) + 1, 1);
   });
 

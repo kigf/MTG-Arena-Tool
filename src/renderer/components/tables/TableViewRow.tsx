@@ -30,7 +30,7 @@ export function TableViewRow<D extends TableData>({
             className="inner_div"
             {...cell.getCellProps()}
             style={{
-              gridArea: `1 / ${ii + 1} / 1 / ${ii + 2}`
+              gridArea: `1 / ${ii + 1} / 1 / ${ii + 2}`,
             }}
             key={cell.column.id + "_" + row.index}
           >

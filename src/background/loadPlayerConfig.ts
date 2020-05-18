@@ -2,7 +2,7 @@ import {
   IPC_BACKGROUND,
   IPC_OVERLAY,
   IPC_RENDERER,
-  IPC_ALL
+  IPC_ALL,
 } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
 import globals from "./globals";
@@ -106,7 +106,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
   // Get Matches data
   const newMatchesIndex: string[] = [];
-  Object.keys(savedData).forEach(k => {
+  Object.keys(savedData).forEach((k) => {
     if (k.indexOf("-" + arenaId) !== -1) {
       newMatchesIndex.push(k);
     }

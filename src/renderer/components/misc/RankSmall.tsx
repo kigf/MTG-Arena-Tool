@@ -17,7 +17,7 @@ export default function RankSmall(props: RankSmallProps): JSX.Element {
       ...(style ? style : {}),
       marginRight: "0px",
       backgroundPosition:
-        getRankIndex16(rankTier ? rankTier : rank.rank) * -16 + "px 0px"
+        getRankIndex16(rankTier ? rankTier : rank.rank) * -16 + "px 0px",
     };
   };
 

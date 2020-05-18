@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace ChangesDeckViewCssModule {
   export interface IChangesDeckViewCss {
     "change-add": string;

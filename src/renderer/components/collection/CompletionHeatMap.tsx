@@ -13,7 +13,7 @@ function CardCell({
   card,
   color,
   rarityIndex,
-  index
+  index,
 }: {
   card: CardStats;
   color: number;
@@ -32,9 +32,9 @@ function CardCell({
       onMouseEnter={hoverIn}
       onMouseLeave={hoverOut}
       style={{
-        gridArea: `${index + 3} / ${color * 5 +
-          1 +
-          rarityIndex} / auto / ${color * 5 + 1 + rarityIndex}`
+        gridArea: `${index + 3} / ${color * 5 + 1 + rarityIndex} / auto / ${
+          color * 5 + 1 + rarityIndex
+        }`,
       }}
     >
       {card.owned}
@@ -45,7 +45,7 @@ function CardCell({
 function RarityColumn({
   colorData,
   color,
-  rarityCode
+  rarityCode,
 }: {
   colorData: ColorData;
   color: number;
@@ -60,9 +60,9 @@ function RarityColumn({
         className={"completion_table_rarity_title " + rarity}
         title={rarity}
         style={{
-          gridArea: `2 / ${color * 5 + 1 + rarityIndex} / auto / ${color * 5 +
-            1 +
-            rarityIndex}`
+          gridArea: `2 / ${color * 5 + 1 + rarityIndex} / auto / ${
+            color * 5 + 1 + rarityIndex
+          }`,
         }}
       />
       {cardsArray.map((card, index) => {
@@ -70,7 +70,7 @@ function RarityColumn({
           card,
           color,
           rarityIndex,
-          index
+          index,
         };
         return <CardCell key={index} {...props} />;
       })}
@@ -81,7 +81,7 @@ function RarityColumn({
 function ColorColumn({
   cardData,
   colorCode,
-  color
+  color,
 }: {
   cardData: CardData;
   colorCode: string;
@@ -96,14 +96,14 @@ function ColorColumn({
         key={color}
         className={"completion_table_color_title mana_" + colorCode}
         style={{
-          gridArea: `1 / ${color * 5 + 1} / auto / ${color * 5 + 6}`
+          gridArea: `1 / ${color * 5 + 1} / auto / ${color * 5 + 6}`,
         }}
       />
-      {CARD_RARITIES.filter(rarity => rarity !== "land").map(rarityCode => {
+      {CARD_RARITIES.filter((rarity) => rarity !== "land").map((rarityCode) => {
         const props = {
           colorData,
           color,
-          rarityCode
+          rarityCode,
         };
         return <RarityColumn key={rarityCode} {...props} />;
       })}
@@ -113,7 +113,7 @@ function ColorColumn({
 
 export default function CompletionHeatMap({
   cardData,
-  setName
+  setName,
 }: {
   cardData: CardData;
   setName: string;

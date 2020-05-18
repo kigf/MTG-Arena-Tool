@@ -1,10 +1,7 @@
 // PROBABLY DEPRECATED
 import { playerDb } from "../../shared/db/LocalDatabase";
 import Deck from "../../shared/deck";
-import {
-  InternalEvent,
-  PlayerCourse
-} from "../../types/event";
+import { InternalEvent, PlayerCourse } from "../../types/event";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";
 import globals from "../globals";
@@ -27,7 +24,7 @@ function saveCourse(json: InternalEvent): void {
     date: globals.logTime,
     // preserve custom fields if possible
     ...(getEvent(id) || {}),
-    ...json
+    ...json,
   };
 
   reduxAction(globals.store.dispatch, "SET_EVENT", eventData, IPC_RENDERER);
@@ -42,7 +39,7 @@ export default function InEventGetPlayerCourseV2(entry: Entry): void {
   if (json.Id == "00000000-0000-0000-0000-000000000000") return;
 
   const newModule: Record<string, any> = {};
-  json.ModuleInstanceData = Object.keys(json.ModuleInstanceData).map(k => {
+  json.ModuleInstanceData = Object.keys(json.ModuleInstanceData).map((k) => {
     const newK = k.split(".").join("");
     newModule[newK] = json.ModuleInstanceData[k];
   });
@@ -60,7 +57,7 @@ export default function InEventGetPlayerCourseV2(entry: Entry): void {
     ModuleInstanceData: json.ModuleInstanceData,
     type: "Event",
     id: json.Id,
-    date: globals.logTime.getTime()
+    date: globals.logTime.getTime(),
   };
 
   if (v2Deck) {

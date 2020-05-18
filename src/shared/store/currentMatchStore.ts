@@ -5,13 +5,13 @@ import {
   GameInfo,
   TurnInfo,
   GameObjectInfo,
-  GREToClientMessage
+  GREToClientMessage,
 } from "../../assets/proto/GreTypes";
 
 import {
   CardCast,
   PriorityTimers,
-  MatchGameStats
+  MatchGameStats,
 } from "../../types/currentMatch";
 import { GameObject, DetailsIdChange } from "../../types/greInterpreter";
 import { InternalPlayer } from "../../types/match";
@@ -43,7 +43,7 @@ export const matchStateObject = {
   beginTime: new Date(),
   priorityTimers: {
     last: 0,
-    timers: [0, 0, 0, 0, 0] as number[]
+    timers: [0, 0, 0, 0, 0] as number[],
   } as PriorityTimers,
   currentPriority: 0,
   // Zones, objects, annotations, ids tracking
@@ -58,7 +58,7 @@ export const matchStateObject = {
   cardsCast: [] as CardCast[],
   handsDrawn: [] as number[][],
   matchGameStats: [] as MatchGameStats[],
-  cardsOdds: new Chances()
+  cardsOdds: new Chances(),
 };
 
 export function setMatchId(arg: string): void {
@@ -98,7 +98,7 @@ export function resetCurrentGame(): void {
     players: [],
     priorityTimers: {
       last: 0,
-      timers: [0, 0, 0, 0, 0]
+      timers: [0, 0, 0, 0, 0],
     },
     cardsFromSideboard: [],
     cardsBottom: [],
@@ -111,7 +111,7 @@ export function resetCurrentGame(): void {
     instanceToCardIdMap: {},
     idChanges: {},
     handsDrawn: [],
-    cardsCast: []
+    cardsCast: [],
   });
 }
 
@@ -166,7 +166,7 @@ export function setManyAnnotations(arg: AnnotationInfo[]): void {
 export function removeAnnotations(arg: number[]): void {
   const newProcessed = [
     ...globalStore.currentMatch.processedAnnotations,
-    ...arg
+    ...arg,
   ];
   const newAnn = {} as Record<number, AnnotationInfo>;
 
@@ -211,7 +211,7 @@ export function setIdChange(arg: DetailsIdChange): void {
 export function addCardCast(arg: CardCast): void {
   globalStore.currentMatch.cardsCast = [
     ...globalStore.currentMatch.cardsCast,
-    arg
+    arg,
   ];
 }
 
@@ -226,7 +226,7 @@ export function setCardsBottom(arg: number[]): void {
 export function addCardFromSideboard(arg: number[]): void {
   globalStore.currentMatch.cardsFromSideboard = [
     ...globalStore.currentMatch.cardsFromSideboard,
-    ...arg
+    ...arg,
   ];
 }
 

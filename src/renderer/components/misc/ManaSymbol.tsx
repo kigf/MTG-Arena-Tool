@@ -9,8 +9,10 @@ manaClasses[3] = sharedCss.mana_r;
 manaClasses[4] = sharedCss.mana_g;
 manaClasses[5] = sharedCss.mana_c;
 
-const ManaSymbolBase = styled.div.attrs<ManaSymbolProps>(props => ({
-  className: `${sharedCss.mana_s16} ${manaClasses[props.colorIndex]} ${props.className ?? ""}`
+const ManaSymbolBase = styled.div.attrs<ManaSymbolProps>((props) => ({
+  className: `${sharedCss.mana_s16} ${manaClasses[props.colorIndex]} ${
+    props.className ?? ""
+  }`,
 }))``;
 interface ManaSymbolProps {
   colorIndex: number;

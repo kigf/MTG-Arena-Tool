@@ -6,7 +6,7 @@ import {
   DRAFT_RANKS,
   IPC_ALL,
   IPC_RENDERER,
-  DRAFT_RANKS_LOLA
+  DRAFT_RANKS_LOLA,
 } from "../../shared/constants";
 import db from "../../shared/database";
 import { DbCardData } from "../../types/Metadata";
@@ -42,7 +42,7 @@ function addCardMenu(div: HTMLElement, card: DbCardData): void {
         label: "Copy Arena code",
         click: (): void => {
           remote.clipboard.writeText(arenaCode);
-        }
+        },
       });
       menu.append(menuItem);
       menu.popup();
@@ -56,7 +56,7 @@ function getExportString(cardIds: string[]): string {
   const cards = store.getState().playerdata.cards;
   // TODO teach export how to handle all the new optional columns?
   let exportString = "";
-  cardIds.forEach(key => {
+  cardIds.forEach((key) => {
     let add = exportFormat + "";
     const card = db.card(key);
     if (card) {
@@ -106,15 +106,15 @@ function getCollectionData(): CardsData[] {
   const cards = store.getState().playerdata.cards;
   const cardsNew = store.getState().playerdata.cardsNew;
   decksList()
-    .filter(deck => deck && !deck.archived)
-    .forEach(deck => {
+    .filter((deck) => deck && !deck.archived)
+    .forEach((deck) => {
       const missing = getMissingCardCounts(new Deck(deck));
       Object.entries(missing).forEach(([grpid, count]) => {
         wantedCards[grpid] = Math.max(wantedCards[grpid] ?? 0, count);
       });
     });
   return db.cardList
-    .filter(card => card.collectible)
+    .filter((card) => card.collectible)
     .map(
       (card): CardsData => {
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
@@ -133,7 +133,7 @@ function getCollectionData(): CardsData[] {
           colors,
           colorSortVal,
           wanted,
-          rankSortVal
+          rankSortVal,
         };
       }
     );
@@ -142,7 +142,7 @@ function getCollectionData(): CardsData[] {
 export default function CollectionTab(): JSX.Element {
   const {
     collectionTableMode,
-    collectionTableState
+    collectionTableState,
   } = store.getState().settings;
   const cardsNew = useSelector((state: AppState) => state.playerdata.cardsNew);
   const data = React.useMemo(() => {

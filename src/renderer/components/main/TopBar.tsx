@@ -36,9 +36,18 @@ export default function TopBar(props: TopBarProps): JSX.Element {
         ) : (
           <></>
         )}
-        <div onClick={clickMinimize} className={sharedCss.minimize+" "+sharedCss.button}></div>
-        <div onClick={clickSettings} className={sharedCss.settings+" "+sharedCss.button}></div>
-        <div onClick={clickClose} className={sharedCss.close+" "+sharedCss.button}></div>
+        <div
+          onClick={clickMinimize}
+          className={sharedCss.minimize + " " + sharedCss.button}
+        ></div>
+        <div
+          onClick={clickSettings}
+          className={sharedCss.settings + " " + sharedCss.button}
+        ></div>
+        <div
+          onClick={clickClose}
+          className={sharedCss.close + " " + sharedCss.button}
+        ></div>
       </div>
     </div>
   );

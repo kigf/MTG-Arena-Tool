@@ -5,7 +5,7 @@ import globalStore from "../../store";
 const seasonalSlice = createSlice({
   name: "seasonal",
   initialState: {
-    seasonal: {} as Record<string, string[]>
+    seasonal: {} as Record<string, string[]>,
   },
   reducers: {
     setSeasonal: (state, action): void => {
@@ -31,8 +31,8 @@ const seasonalSlice = createSlice({
         newSeasonal[season] = [...(newSeasonal[season] || []), update.id];
       });
       state.seasonal = newSeasonal;
-    }
-  }
+    },
+  },
 });
 
 export default seasonalSlice;

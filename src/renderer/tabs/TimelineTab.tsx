@@ -8,26 +8,26 @@ import React, {
 } from "react";
 import format from "date-fns/format";
 import { getRankIndex } from "../../shared/utils/getRankIndex";
-import {SeasonalRankData} from "../../types/Season";
+import { SeasonalRankData } from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
 import Deck from "../../shared/deck";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 import ResultDetails from "../components/misc/ResultDetails";
 import RankIcon from "../components/misc/RankIcon";
-import store, {AppState} from "../../shared/redux/stores/rendererStore";
+import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import {
   getSeasonal,
   seasonalExists,
   matchExists,
   getMatch,
 } from "../../shared/store";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Button from "../components/misc/Button";
-import {reduxAction} from "../../shared/redux/sharedRedux";
-import {SUB_MATCH, IPC_NONE} from "../../shared/constants";
-import {addMonths} from "date-fns";
-import {PagingButton} from "../components/misc/PagingButton";
+import { reduxAction } from "../../shared/redux/sharedRedux";
+import { SUB_MATCH, IPC_NONE } from "../../shared/constants";
+import { addMonths } from "date-fns";
+import { PagingButton } from "../components/misc/PagingButton";
 
 import appCss from "../app/app.css";
 import topNavCss from "../components/main/topNav.css";
@@ -222,7 +222,7 @@ interface RankBulletProps {
  * @param props
  */
 function TimelineRankBullet(props: RankBulletProps): JSX.Element {
-  const {width, height, rankClass, rankLevel} = props;
+  const { width, height, rankClass, rankLevel } = props;
 
   const divStyle = {
     backgroundPosition: getRankIndex(rankClass, rankLevel) * -48 + "px 0px",
@@ -349,7 +349,7 @@ export default function TimelineTab(): JSX.Element {
 
   return (
     <div className={appCss.uxItem}>
-      <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <div className={css.timelineTitle}>
           <PagingButton
             onClick={setPrevSeason}
@@ -376,7 +376,7 @@ export default function TimelineTab(): JSX.Element {
             callback={handleSetSeasonType}
           />
         </div>
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex" }}>
           <div className={css.timelineBoxLabels}>
             <div className={css.timelineLabel}>#1</div>
             <div className={css.timelineLabel}></div>
@@ -412,14 +412,14 @@ export default function TimelineTab(): JSX.Element {
             )}
           </div>
         </div>
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex" }}>
           <div className={css.timelineBoxLabels} />
           <div className={css.timelineBottomBox}>
             {hoverPart > -1 ? (
               <>
                 <div
                   className={css.timelinePos}
-                  style={{marginLeft: hoverPartX + "px"}}
+                  style={{ marginLeft: hoverPartX + "px" }}
                 />
                 <div
                   style={{
@@ -447,7 +447,10 @@ export default function TimelineTab(): JSX.Element {
             display: "flex",
           }}
         >
-          <div className="card_lists_list" style={{margin: "0", width: "50%"}}>
+          <div
+            className="card_lists_list"
+            style={{ margin: "0", width: "50%" }}
+          >
             {hoverMatch && hoverDecklist ? (
               <>
                 <div className={css.decklistName}>{hoverDecklist.name}</div>
@@ -503,7 +506,7 @@ export default function TimelineTab(): JSX.Element {
                   {won ? "Win" : "Loss"}
                 </div>
                 <ResultDetails match={match} />
-                <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <RankIcon
                     format={seasonType}
                     rank={hData.oldClass}

@@ -14,13 +14,13 @@ const settingsSlice = createSlice({
     logLocaleFormat: "",
     logTimeExample: "",
     logTimeFormat: "",
-    logUri: ""
+    logUri: "",
   },
   reducers: {
     setAppSettings: (state, action): void => {
       Object.assign(state, action.payload);
-    }
-  }
+    },
+  },
 });
 
 export default settingsSlice;

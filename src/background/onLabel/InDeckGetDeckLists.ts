@@ -18,7 +18,7 @@ export default function InDeckGetDeckLists(
   if (json.length == 0) return;
 
   const decks: InternalDeck[] = [];
-  json.forEach(deck => {
+  json.forEach((deck) => {
     const deckData = { ...(getDeck(deck.id) || {}), ...deck };
     decks.push(convertDeckFromV3(deckData));
   });

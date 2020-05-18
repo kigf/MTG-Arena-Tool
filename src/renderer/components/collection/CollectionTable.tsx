@@ -1,5 +1,5 @@
-import React, {useMemo} from "react";
-import {Column, Filters, FilterValue, IdType, Row} from "react-table";
+import React, { useMemo } from "react";
+import { Column, Filters, FilterValue, IdType, Row } from "react-table";
 import {
   COLLECTION_CARD_MODE,
   COLLECTION_CHART_MODE,
@@ -8,7 +8,7 @@ import {
   DRAFT_RANKS,
 } from "../../../shared/constants";
 import db from "../../../shared/database";
-import {ColorsCell, MetricCell, ShortTextCell} from "../tables/cells";
+import { ColorsCell, MetricCell, ShortTextCell } from "../tables/cells";
 import {
   ColorColumnFilter,
   NumberRangeColumnFilter,
@@ -16,8 +16,8 @@ import {
 } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
-import {BaseTableProps} from "../tables/types";
-import {useBaseReactTable} from "../tables/useBaseReactTable";
+import { BaseTableProps } from "../tables/types";
+import { useBaseReactTable } from "../tables/useBaseReactTable";
 import {
   InBoostersCell,
   InBoostersHeader,
@@ -26,8 +26,8 @@ import {
   TypeCell,
 } from "./cells";
 import ChartView from "./ChartView";
-import {getCollectionStats} from "./collectionStats";
-import {CollectionStatsPanel} from "./CollectionStatsPanel";
+import { getCollectionStats } from "./collectionStats";
+import { CollectionStatsPanel } from "./CollectionStatsPanel";
 import CollectionTableControls from "./CollectionTableControls";
 import {
   cardSearchFilterFn,
@@ -38,17 +38,17 @@ import {
   SetColumnFilter,
   setFilterFn,
 } from "./filters";
-import {CardTableViewRow, CardTileRow} from "./rows";
-import {SetsView} from "./SetCompletionView";
+import { CardTableViewRow, CardTileRow } from "./rows";
+import { SetsView } from "./SetCompletionView";
 import {
   CardsData,
   CollectionTableControlsProps,
   CollectionTableProps,
 } from "./types";
-import {useSelector} from "react-redux";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 import useResizePanel from "../../hooks/useResizePanel";
-import {animated} from "react-spring";
+import { animated } from "react-spring";
 
 import indexCss from "../../index.css";
 import tablesCss from "../tables/tables.css";
@@ -141,10 +141,10 @@ export default function CollectionTable({
 
   const columns: Column<CardsData>[] = useMemo(
     () => [
-      {id: "grpId", accessor: "id"},
-      {accessor: "id"},
-      {accessor: "dfc"},
-      {accessor: "dfcId"},
+      { id: "grpId", accessor: "id" },
+      { accessor: "id" },
+      { accessor: "dfc" },
+      { accessor: "dfcId" },
       {
         Header: "Name",
         accessor: "name",
@@ -155,7 +155,7 @@ export default function CollectionTable({
         gridWidth: "210px",
         defaultVisible: true,
       },
-      {accessor: "colors"},
+      { accessor: "colors" },
       {
         Header: "Colors",
         disableFilters: false,
@@ -251,8 +251,8 @@ export default function CollectionTable({
         gridWidth: "200px",
         mayToggle: true,
       },
-      {accessor: "collectible"},
-      {accessor: "craftable"},
+      { accessor: "collectible" },
+      { accessor: "craftable" },
       {
         Header: InBoostersHeader,
         accessor: "booster",
@@ -274,10 +274,10 @@ export default function CollectionTable({
         gridWidth: "100px",
         mayToggle: true,
       },
-      {accessor: "rank"},
-      {accessor: "rank_controversy"},
-      {accessor: "images"},
-      {accessor: "reprints"},
+      { accessor: "rank" },
+      { accessor: "rank_controversy" },
+      { accessor: "images" },
+      { accessor: "reprints" },
     ],
     [rankSortType, raritySortType, setSortType]
   );
@@ -296,7 +296,7 @@ export default function CollectionTable({
           },
         },
       ],
-      sortBy: [{id: "grpId", desc: true}],
+      sortBy: [{ id: "grpId", desc: true }],
     },
     globalFilter: cardSearchFilterFn,
     setTableMode,
@@ -322,7 +322,7 @@ export default function CollectionTable({
   const setClickCallback = React.useCallback(
     (set: string) => {
       setTableMode(COLLECTION_CHART_MODE);
-      setFilter("set", {[set]: true});
+      setFilter("set", { [set]: true });
       toggleHideColumn("set", false);
     },
     [setFilter, toggleHideColumn]
@@ -387,7 +387,7 @@ export default function CollectionTable({
   const clickCompletionCallback = React.useCallback((): void => {
     setTableMode(COLLECTION_SETS_MODE);
     setAllFilters((): FilterValue[] => [
-      {id: "booster", value: {true: true, false: false}},
+      { id: "booster", value: { true: true, false: false } },
     ]);
   }, [setAllFilters]);
 
@@ -400,14 +400,14 @@ export default function CollectionTable({
           <CollectionTableControls {...collectionTableControlsProps} />
           <div
             className={sharedCss.medScroll}
-            style={isTableMode ? {overflowX: "auto"} : undefined}
+            style={isTableMode ? { overflowX: "auto" } : undefined}
           >
             <TableHeaders
               {...headersProps}
               style={
                 isTableMode
-                  ? {width: "fit-content"}
-                  : {overflowX: "auto", overflowY: "hidden"}
+                  ? { width: "fit-content" }
+                  : { overflowX: "auto", overflowY: "hidden" }
               }
             />
             {tableBody}

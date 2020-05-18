@@ -11,7 +11,7 @@ export default function getMatchGameStats(): void {
   const currentMatch = globalStore.currentMatch;
 
   const players = currentMatch.players.map(
-    player => player.systemSeatNumber || 0
+    (player) => player.systemSeatNumber || 0
   );
   // Calculate time of this game
   const time = players.reduce((acc, cur) => {
@@ -19,7 +19,7 @@ export default function getMatchGameStats(): void {
   }, 0);
   // Get current number of games completed
   const gameNumberCompleted = currentMatch.gameInfo.results.filter(
-    res => res.scope == "MatchScope_Game"
+    (res) => res.scope == "MatchScope_Game"
   ).length;
 
   const game: MatchGameStats = {
@@ -40,7 +40,7 @@ export default function getMatchGameStats(): void {
     libraryLands: [],
     sideboardChanges: {
       added: [],
-      removed: []
+      removed: [],
     },
     cardsSeen: currentMatch.opponent.cardsUsed,
     deck: {
@@ -54,8 +54,8 @@ export default function getMatchGameStats(): void {
       lastUpdated: new Date().toISOString(),
       format: "",
       description: "",
-      type: "InternalDeck"
-    }
+      type: "InternalDeck",
+    },
   };
 
   for (let i = 0; i < currentMatch.initialLibraryInstanceIds.length; i++) {
@@ -89,7 +89,7 @@ export default function getMatchGameStats(): void {
   }
 
   game.handLands = game.handsDrawn.map(
-    hand => hand.filter(card => db.card(card)?.type.includes("Land")).length
+    (hand) => hand.filter((card) => db.card(card)?.type.includes("Land")).length
   );
   const handSize = 7;
   let deckSize = 0;
@@ -97,13 +97,13 @@ export default function getMatchGameStats(): void {
   const multiCardPositions: MatchGameStats["multiCardPositions"] = {
     "2": {},
     "3": {},
-    "4": {}
+    "4": {},
   };
   const cardCounts: { [key: string]: number } = {};
   globalStore.currentMatch.currentDeck
     .getMainboard()
     .get()
-    .forEach(card => {
+    .forEach((card) => {
       cardCounts[card.id] = card.quantity;
       deckSize += card.quantity;
       if (card.quantity >= 2 && card.quantity <= 4) {

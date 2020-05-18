@@ -1,23 +1,25 @@
-import {shell} from "electron";
+import { shell } from "electron";
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {CARD_RARITIES, IPC_NONE} from "../../../shared/constants";
+import { useSelector, useDispatch } from "react-redux";
+import { CARD_RARITIES, IPC_NONE } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
-import {formatNumber} from "../../rendererUtil";
-import {BoosterSymbol} from "../misc/BoosterSymbol";
-import {CalendarSymbol} from "../misc/CalendarSymbol";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
+import { formatNumber } from "../../rendererUtil";
+import { BoosterSymbol } from "../misc/BoosterSymbol";
+import { CalendarSymbol } from "../misc/CalendarSymbol";
 import Input from "../misc/Input";
-import {MediumTextButton} from "../misc/MediumTextButton";
-import {RaritySymbol} from "../misc/RaritySymbol";
+import { MediumTextButton } from "../misc/MediumTextButton";
+import { RaritySymbol } from "../misc/RaritySymbol";
 import {
   ALL_CARDS,
   CollectionStats,
   FULL_SETS,
   SINGLETONS,
 } from "./collectionStats";
-import CompletionProgressBar, {SetCompletionBar} from "./CompletionProgressBar";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
+import CompletionProgressBar, {
+  SetCompletionBar,
+} from "./CompletionProgressBar";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
@@ -56,8 +58,8 @@ export function CollectionStatsPanel({
     return <></>;
   }
   const setStats = stats.complete;
-  const wanted: {[key: string]: number} = {};
-  const missing: {[key: string]: number} = {};
+  const wanted: { [key: string]: number } = {};
+  const missing: { [key: string]: number } = {};
   const filteredRarities = CARD_RARITIES.filter((rarity) => {
     const key = getRarityKey(rarity);
     return !!key && setStats[key].total > 0;
@@ -70,7 +72,7 @@ export function CollectionStatsPanel({
       missing[key] = countStats.total - countStats.owned;
     }
   });
-  const inputStyle = {width: "60px"};
+  const inputStyle = { width: "60px" };
 
   return (
     <>
@@ -139,7 +141,7 @@ export function CollectionStatsPanel({
           <>
             <div
               className={indexCss.deck_name}
-              style={{width: "100%"}}
+              style={{ width: "100%" }}
               title={"set completion estimator"}
             >
               Completion* <CalendarSymbol />:

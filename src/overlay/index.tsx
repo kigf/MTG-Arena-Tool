@@ -25,7 +25,7 @@ function ready(fn: () => void): void {
   }
 }
 
-ready(function() {
+ready(function () {
   const wrap = document.createElement("div");
   ReactDOM.render(
     <Provider store={store}>
@@ -37,7 +37,7 @@ ready(function() {
   setTimeout(() => {
     new TransparencyFix({
       log: false,
-      fixPointerEvents: "auto"
+      fixPointerEvents: "auto",
     });
   }, 1000);
 });

@@ -11,11 +11,11 @@ export function deckSearchFilterFn(
 ): Row<DecksData>[] {
   const tokens = (filterValue + "")
     .split(" ")
-    .filter(token => token.length > 2);
+    .filter((token) => token.length > 2);
   if (tokens.length === 0) {
     return rows;
   }
-  const matches = tokens.map(token =>
+  const matches = tokens.map((token) =>
     matchSorter(rows, token, {
       keys: [
         "values.name",
@@ -24,8 +24,8 @@ export function deckSearchFilterFn(
         (row: Row<DecksData>): string => {
           const { colors } = row.values;
           return colors?.map((color: number): string => MANA[color]).join(" ");
-        }
-      ]
+        },
+      ],
     })
   );
   return _.intersection(...matches);

@@ -88,7 +88,7 @@ export class SetStats {
       this.common,
       this.uncommon,
       this.rare,
-      this.mythic
+      this.mythic,
     ].reduce((acc, c) => {
       acc.owned += c.owned;
       acc.total += c.total;
@@ -117,8 +117,8 @@ export function getCollectionStats(
   const playerEconomy = store.getState().playerdata.economy;
   const wantedCards: { [key: string]: number } = {};
   decksList()
-    .filter(deck => deck && !deck.archived)
-    .forEach(deck => {
+    .filter((deck) => deck && !deck.archived)
+    .forEach((deck) => {
       const missing = getMissingCardCounts(new Deck(deck));
       Object.entries(missing).forEach(([grpid, count]) => {
         wantedCards[grpid] = Math.max(wantedCards[grpid] ?? 0, count);
@@ -126,10 +126,10 @@ export function getCollectionStats(
     });
 
   const stats: any = {
-    "complete": new SetStats("complete")
+    complete: new SetStats("complete"),
   };
   const cards = store.getState().playerdata.cards;
-  Object.keys(db.sets).forEach(setName => {
+  Object.keys(db.sets).forEach((setName) => {
     const setStats = new SetStats(setName);
     setStats.boosters = playerEconomy.boosters
       .filter(
@@ -145,7 +145,7 @@ export function getCollectionStats(
     setStats.boosterMythics = estimateBoosterMythics(setStats.boosters);
     stats[setName] = setStats;
   });
-  cardIds.forEach(cardId => {
+  cardIds.forEach((cardId) => {
     const card = db.card(cardId);
     if (!card) return;
     if (!card.collectible || card.rarity === "land") return;
@@ -154,7 +154,7 @@ export function getCollectionStats(
     const obj: CardStats = {
       id: card.id,
       owned: 0,
-      wanted: 0
+      wanted: 0,
     };
     // add to totals
     if (stats[card.set][card.rarity] == undefined) {

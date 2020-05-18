@@ -19,7 +19,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 
 export function ColorsCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   const data = cell.row.values;
   // assume data key is fooColors and cell.column.id is fooColorSortVal
@@ -35,19 +35,19 @@ export function ColorsCell<D extends TableData>({
 }
 
 export function ShortTextCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   return <BriefText value={cell.value} />;
 }
 
 export function TextCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   return <BriefText value={cell.value} maxLength={50} />;
 }
 
 export function SubTextCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   return (
     <BriefText
@@ -58,7 +58,7 @@ export function SubTextCell<D extends TableData>({
   );
 }
 export function MetricCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   return (
     <MetricText style={cell.value === 0 ? { opacity: 0.6 } : undefined}>
@@ -68,7 +68,7 @@ export function MetricCell<D extends TableData>({
 }
 
 export function PercentCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   const value = (cell.value ?? 0) / (cell.column.divideBy100 ? 100 : 1);
   return (
@@ -79,7 +79,7 @@ export function PercentCell<D extends TableData>({
 }
 
 export function LocalDateCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   const dateVal = new Date(cell.value);
   if (!isValid(dateVal)) {
@@ -98,7 +98,7 @@ export function LocalDateCell<D extends TableData>({
 }
 
 export function LocalTimeCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   const dateVal = new Date(cell.value);
   if (!isValid(dateVal)) {
@@ -117,7 +117,7 @@ export function LocalTimeCell<D extends TableData>({
 }
 
 export function RelativeTimeCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   const dateVal = new Date(cell.value);
   if (!isValid(dateVal)) {
@@ -131,7 +131,7 @@ export function RelativeTimeCell<D extends TableData>({
 }
 
 export function DurationCell<D extends TableData>({
-  cell
+  cell,
 }: CellProps<D>): JSX.Element {
   let value, tooltip;
   if (cell.value) {
@@ -146,7 +146,7 @@ export function DurationCell<D extends TableData>({
 
 export function FormatCell<D extends TableData>({
   cell,
-  editTagCallback
+  editTagCallback,
 }: {
   cell: Cell<D>;
   editTagCallback: (tag: string, color: string) => void;
@@ -172,7 +172,7 @@ export function TagsCell<D extends TableData>({
   disallowMultiple = false,
   tagPrompt = "Add",
   tags = [],
-  title = "add new tag"
+  title = "add new tag",
 }: {
   cell: Cell<D>;
   addTagCallback: (id: string, tag: string) => void;
@@ -236,7 +236,7 @@ export function ArchiveHeader(): JSX.Element {
 
 export function ArchivedCell<D extends TableData>({
   cell,
-  archiveCallback
+  archiveCallback,
 }: {
   cell: Cell<D>;
   archiveCallback: (id: string) => void;
@@ -273,7 +273,7 @@ export function ArchivedCell<D extends TableData>({
 
 export function AggregatedContextCell<D extends TableData>({
   cell,
-  countLabel
+  countLabel,
 }: {
   cell: Cell<D>;
   countLabel: string;

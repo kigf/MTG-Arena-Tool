@@ -4,13 +4,13 @@ import defaultConfig from "../../defaultConfig";
 const settingsSlice = createSlice({
   name: "settings",
   initialState: {
-    ...defaultConfig.settings
+    ...defaultConfig.settings,
   },
   reducers: {
     setSettings: (state, action): void => {
       Object.assign(state, action.payload);
-    }
-  }
+    },
+  },
 });
 
 export default settingsSlice;

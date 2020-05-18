@@ -1,5 +1,5 @@
-import {InternalDeck} from "../../types/Deck";
-import {WHITE, BLUE, BLACK, RED, GREEN} from "../constants";
+import { InternalDeck } from "../../types/Deck";
+import { WHITE, BLUE, BLACK, RED, GREEN } from "../constants";
 import database from "../database";
 
 export default function getDeckColors(deck: InternalDeck): number[] {

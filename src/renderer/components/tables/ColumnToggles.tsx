@@ -7,7 +7,7 @@ import css from "../../index.css";
 
 export default function ColumnToggles<D extends TableData>({
   toggleableColumns,
-  togglesVisible
+  togglesVisible,
 }: {
   toggleableColumns: ColumnInstance<D>[];
   togglesVisible: boolean;
@@ -15,7 +15,7 @@ export default function ColumnToggles<D extends TableData>({
   return (
     <div className={css.reactTableToggles}>
       {togglesVisible &&
-        toggleableColumns.map(column => (
+        toggleableColumns.map((column) => (
           <CheckboxContainer key={column.id}>
             {column.render("Header")}
             <input type="checkbox" {...column.getToggleHiddenProps()} />

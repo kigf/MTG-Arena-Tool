@@ -5,7 +5,7 @@ import globalStore from "../../store";
 const matchesSlice = createSlice({
   name: "matches",
   initialState: {
-    matchesIndex: [] as string[]
+    matchesIndex: [] as string[],
   },
   reducers: {
     setMatch: (state, action): void => {
@@ -27,8 +27,8 @@ const matchesSlice = createSlice({
         }
       });
       state.matchesIndex = [...newList, ...state.matchesIndex];
-    }
-  }
+    },
+  },
 });
 
 export default matchesSlice;

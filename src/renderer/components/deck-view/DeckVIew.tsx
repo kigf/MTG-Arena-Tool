@@ -54,7 +54,7 @@ function getDeckColorsAmmount(deck: Deck): ColorsAmmount {
   deck
     .getMainboard()
     .get()
-    .forEach(function(card: CardObject) {
+    .forEach(function (card: CardObject) {
       if (card.quantity > 0) {
         db.card(card.id)?.cost.forEach((c: string) => {
           if (c.indexOf("w") !== -1) {
@@ -94,7 +94,7 @@ function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
   deck
     .getMainboard()
     .get()
-    .forEach(function(c: CardObject) {
+    .forEach(function (c: CardObject) {
       const quantity = c.quantity;
       const card = db.card(c.id);
       if (quantity > 0 && card) {
@@ -103,7 +103,7 @@ function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
           card.type.indexOf("land") != -1
         ) {
           if (card.frame.length < 5) {
-            card.frame.forEach(function(c) {
+            card.frame.forEach(function (c) {
               if (c == 1) {
                 colors.w += quantity;
                 colors.total += quantity;
@@ -176,7 +176,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
       "SET_POPUP",
       {
         text: "Copied to clipboard",
-        time: 2000
+        time: 2000,
       },
       IPC_NONE
     );
@@ -193,7 +193,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
     { title: "Blue", value: colorCounts.u, color: MANA_COLORS[1] },
     { title: "Black", value: colorCounts.b, color: MANA_COLORS[2] },
     { title: "Red", value: colorCounts.r, color: MANA_COLORS[3] },
-    { title: "Green", value: colorCounts.g, color: MANA_COLORS[4] }
+    { title: "Green", value: colorCounts.g, color: MANA_COLORS[4] },
   ];
   const landCounts = getDeckLandsAmmount(deck);
   const landsPie = [
@@ -201,7 +201,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
     { title: "Blue", value: landCounts.u, color: MANA_COLORS[1] },
     { title: "Black", value: landCounts.b, color: MANA_COLORS[2] },
     { title: "Red", value: landCounts.r, color: MANA_COLORS[3] },
-    { title: "Green", value: landCounts.g, color: MANA_COLORS[4] }
+    { title: "Green", value: landCounts.g, color: MANA_COLORS[4] },
   ];
 
   const [width, bind] = useResizePanel();
@@ -221,7 +221,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
   const { aggFilters, setAggFilters } = useAggregatorData({
     aggFiltersArg: initFilters,
     getData: decksList,
-    showArchived: false
+    showArchived: false,
   });
 
   const aggregator = useMemo(() => {
@@ -235,7 +235,10 @@ export function DeckView(props: DeckViewProps): JSX.Element {
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
           <div className={indexCss.decklistTop}>
-            <div className={sharedCss.button + " " + sharedCss.back} onClick={goBack}></div>
+            <div
+              className={sharedCss.button + " " + sharedCss.back}
+              onClick={goBack}
+            ></div>
             <div className={indexCss.deckName}>{deck.getName()}</div>
             <ShareButton type="deck" data={deck.getSave()} />
             <div className={indexCss.deckTopColors}>
@@ -268,27 +271,37 @@ export function DeckView(props: DeckViewProps): JSX.Element {
                 </div>
                 <div className={indexCss.stats}>
                   <Button
-                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
+                    className={
+                      indexCss.buttonSimple + " " + indexCss.exportDeck
+                    }
                     text="Deck Changes"
                     onClick={deckChangesView}
                   />
                   <Button
-                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
+                    className={
+                      indexCss.buttonSimple + " " + indexCss.exportDeck
+                    }
                     text="Card Winrates"
                     onClick={deckWinratesView}
                   />
                   <Button
-                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
+                    className={
+                      indexCss.buttonSimple + " " + indexCss.exportDeck
+                    }
                     text="Visual View"
                     onClick={visualView}
                   />
                   <Button
-                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
+                    className={
+                      indexCss.buttonSimple + " " + indexCss.exportDeck
+                    }
                     text="Export to Arena"
                     onClick={arenaExport}
                   />
                   <Button
-                    className={indexCss.buttonSimple + " " + indexCss.exportDeck}
+                    className={
+                      indexCss.buttonSimple + " " + indexCss.exportDeck
+                    }
                     text="Export to .txt"
                     onClick={txtExport}
                   />
@@ -311,7 +324,10 @@ export function DeckView(props: DeckViewProps): JSX.Element {
           </div>
         </div>
       </div>
-      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
+      <animated.div
+        {...bind()}
+        className={tablesCss.sidebarDragger}
+      ></animated.div>
       <animated.div
         className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}

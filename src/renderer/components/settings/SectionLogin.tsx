@@ -12,7 +12,7 @@ function click(): void {
   const clearAppSettings = {
     rememberMe: false,
     autoLogin: false,
-    launchToTray: false
+    launchToTray: false,
   };
   reduxAction(
     store.dispatch,

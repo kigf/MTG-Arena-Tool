@@ -1,11 +1,11 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import fs from "fs";
 import path from "path";
-import {InternalMatch, InternalPlayer} from "../../../types/match";
+import { InternalMatch, InternalPlayer } from "../../../types/match";
 import ShareButton from "../misc/ShareButton";
 import ManaCost from "../misc/ManaCost";
 import Deck from "../../../shared/deck";
-import {actionLogDir, ipcSend} from "../../rendererUtil";
+import { actionLogDir, ipcSend } from "../../rendererUtil";
 import Button from "../misc/Button";
 import DeckList from "../misc/DeckList";
 import RankIcon from "../misc/RankIcon";
@@ -13,11 +13,11 @@ import db from "../../../shared/database";
 import CardList from "../misc/CardList";
 import CardsList from "../../../shared/cardsList";
 import ActionLog from "../../../shared/ActionLog";
-import {useDispatch} from "react-redux";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
-import {IPC_NONE} from "../../../shared/constants";
-import {getMatch} from "../../../shared/store";
-import {MatchGameStats} from "../../../types/currentMatch";
+import { useDispatch } from "react-redux";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import { IPC_NONE } from "../../../shared/constants";
+import { getMatch } from "../../../shared/store";
+import { MatchGameStats } from "../../../types/currentMatch";
 
 import indexCss from "../../index.css";
 
@@ -29,7 +29,7 @@ const VIEW_MATCH = 1;
 const VIEW_LOG = 2;
 
 export function MatchView(props: MatchViewProps): JSX.Element {
-  const {match} = props;
+  const { match } = props;
   const dispatcher = useDispatch();
   const [view, setView] = useState(VIEW_MATCH);
   const playerDeck = new Deck(match.playerDeck);
@@ -70,7 +70,7 @@ export function MatchView(props: MatchViewProps): JSX.Element {
   */
   return (
     <>
-      <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <div className="decklist_top">
           <div className="button back" onClick={goBack}></div>
           <div className="deck_name">{playerDeck.getName()}</div>
@@ -84,14 +84,14 @@ export function MatchView(props: MatchViewProps): JSX.Element {
               {logExists ? (
                 <>
                   <Button
-                    style={{marginLeft: "auto"}}
+                    style={{ marginLeft: "auto" }}
                     onClick={openActionLog}
                     className={indexCss.buttonSimple + " openLog"}
                     text="Action log"
                   ></Button>
                   <ShareButton
                     type="actionlog"
-                    data={{log: actionLogDataB64, id: match.id}}
+                    data={{ log: actionLogDataB64, id: match.id }}
                   />
                 </>
               ) : (
@@ -129,7 +129,7 @@ export function MatchView(props: MatchViewProps): JSX.Element {
         ) : (
           <>
             <Button
-              style={{margin: "auto"}}
+              style={{ margin: "auto" }}
               onClick={openMatch}
               className={indexCss.buttonSimple + " " + indexCss.centered}
               text="Go back"
@@ -153,7 +153,7 @@ interface SeatProps {
 }
 
 function Seat(props: SeatProps): JSX.Element {
-  const {player, eventId, won, match} = props;
+  const { player, eventId, won, match } = props;
 
   // v4.1.0: Introduced by-game cards seen
   const gameDetails = match && match.toolVersion >= 262400; // 262164 for debug
@@ -196,13 +196,13 @@ function Seat(props: SeatProps): JSX.Element {
 
   const clickTxt = (): void => {
     const str = deck.getExportTxt();
-    ipcSend("export_txt", {str, name: deck.getName()});
+    ipcSend("export_txt", { str, name: deck.getName() });
   };
 
   return (
     <>
       <div className="decklist">
-        <div className={indexCss.flexItem} style={{justifyContent: "center"}}>
+        <div className={indexCss.flexItem} style={{ justifyContent: "center" }}>
           <RankIcon
             rank={player.rank}
             tier={player.tier}
@@ -245,7 +245,7 @@ interface GameStatsProps {
 }
 
 function GameStats(props: GameStatsProps): JSX.Element {
-  const {game, index} = props;
+  const { game, index } = props;
 
   const addedCards = new CardsList(
     game.sideboardChanges ? game.sideboardChanges.added : []
@@ -267,7 +267,7 @@ function GameStats(props: GameStatsProps): JSX.Element {
           <div className="card_tile_separator">
             Game {index + 1} Sideboard Changes
           </div>
-          <div style={{display: "flex", justifyContent: "center"}}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             {game.sideboardChanges.added.length == 0 &&
             game.sideboardChanges.removed.length == 0 ? (
               <div className="gamestats_subtitle red">No Changes</div>

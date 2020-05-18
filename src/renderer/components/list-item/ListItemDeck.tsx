@@ -5,7 +5,7 @@ import Deck from "../../../shared/deck";
 import {
   formatPercent,
   formatWinrateInterval,
-  getWinrateClass
+  getWinrateClass,
 } from "../../rendererUtil";
 import { DecksTableRowProps } from "../decks/types";
 import ManaCost from "../misc/ManaCost";
@@ -17,7 +17,7 @@ import {
   FlexBottom,
   FlexTop,
   HoverTile,
-  ListItem
+  ListItem,
 } from "./ListItem";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
@@ -29,7 +29,7 @@ export function ListItemDeck({
   openDeckCallback,
   addTagCallback,
   editTagCallback,
-  deleteTagCallback
+  deleteTagCallback,
 }: DecksTableRowProps): JSX.Element {
   const deck = row.original;
   const deckObj = new Deck(deck);
@@ -76,7 +76,7 @@ export function ListItemDeck({
   const lastTouch = new Date(deck.timeTouched);
   const deckLastTouchedStyle = {
     marginRight: "auto",
-    lineHeight: "18px"
+    lineHeight: "18px",
   };
 
   // Deck winrates
@@ -99,14 +99,14 @@ export function ListItemDeck({
     tag: deck.format ?? "unknown",
     editTagCallback,
     fontStyle: "italic",
-    hideCloseButton: true
+    hideCloseButton: true,
   };
   const newTagProps = {
     parentId,
     addTagCallback: addTag,
     tagPrompt: "Add",
     tags,
-    title: "Add custom deck tag"
+    title: "Add custom deck tag",
   };
 
   return (
@@ -131,7 +131,7 @@ export function ListItemDeck({
               parentId,
               tag,
               editTagCallback,
-              deleteTagCallback: deleteTag
+              deleteTagCallback: deleteTag,
             };
             return <TagBubble key={tag} {...tagProps} />;
           })}
@@ -162,9 +162,7 @@ export function ListItemDeck({
             >
               Since last edit:{" "}
               {deck.lastEditTotal > 0 ? (
-                <span
-                  className={getWinrateClass(deck.lastEditWinrate, true)}
-                >
+                <span className={getWinrateClass(deck.lastEditWinrate, true)}>
                   {formatPercent(deck.lastEditWinrate)}
                 </span>
               ) : (

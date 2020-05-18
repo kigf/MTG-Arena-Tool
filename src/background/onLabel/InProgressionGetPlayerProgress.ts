@@ -22,7 +22,7 @@ export default function onLabelInProgressionGetPlayerProgress(
     trackTier: activeTrack.currentTier,
     currentLevel: activeTrack.currentLevel,
     currentExp: activeTrack.currentExp,
-    currentOrbCount: activeTrack.currentOrbCount
+    currentOrbCount: activeTrack.currentOrbCount,
   };
   reduxAction(
     globals.store.dispatch,

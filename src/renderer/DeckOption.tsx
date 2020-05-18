@@ -52,7 +52,7 @@ export default function DeckOption(props: DeckOptionProps): JSX.Element {
           )}
           <div className={indexCss.flexItem}>
             {deck.colors &&
-              deck.colors.map(color => (
+              deck.colors.map((color) => (
                 <div
                   className={sharedCss.manaS16 + " " + manaClasses[color - 1]}
                   key={color}

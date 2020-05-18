@@ -47,7 +47,7 @@ function getDeckCurve(deck: Deck): number[][] {
   deck
     .getMainboard()
     .get()
-    .forEach(card => {
+    .forEach((card) => {
       const cardObj = db.card(card.id);
       if (!cardObj) return;
 
@@ -70,7 +70,7 @@ function getDeckCurve(deck: Deck): number[][] {
 export default function DeckManaCurve(props: { deck: Deck }): JSX.Element {
   const { deck } = props;
   const manaCounts = getDeckCurve(deck);
-  const curveMax = Math.max(...manaCounts.map(v => v[0]));
+  const curveMax = Math.max(...manaCounts.map((v) => v[0]));
   // console.log("deckManaCurve", manaCounts, curveMax);
 
   return (
@@ -99,7 +99,7 @@ export default function DeckManaCurve(props: { deck: Deck }): JSX.Element {
                         style={{
                           height:
                             Math.round((cost[ind + 1] / manaTotal) * 100) + "%",
-                          backgroundColor: mc
+                          backgroundColor: mc,
                         }}
                       />
                     );

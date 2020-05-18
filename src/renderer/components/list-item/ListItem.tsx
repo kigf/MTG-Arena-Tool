@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { getCardArtCrop } from "../../../shared/util";
+import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import { useSpring, animated } from "react-spring";
@@ -39,7 +39,7 @@ export function HoverTile(props: HoverTileProps): JSX.Element {
   const spring = useSpring({
     opacity: hover ? "1" : "0.66",
     width: hover ? "195px" : "128px",
-    config: { mass: 1, tension: 235, friction: 25 }
+    config: { mass: 1, tension: 235, friction: 25 },
   });
 
   return (
@@ -101,11 +101,11 @@ function archiveButtonStyle(hover: boolean): React.CSSProperties {
   return hover
     ? {
         width: "32px",
-        minWidth: "32px"
+        minWidth: "32px",
       }
     : {
         width: "4px",
-        minWidth: "4px"
+        minWidth: "4px",
       };
 }
 

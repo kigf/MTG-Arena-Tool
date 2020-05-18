@@ -1,5 +1,5 @@
 import React from "react";
-import {DbCardData} from "../../../types/Metadata";
+import { DbCardData } from "../../../types/Metadata";
 import indexCss from "../../index.css";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 
@@ -8,7 +8,7 @@ interface RoundCardProps {
 }
 
 export default function RoundCard(props: RoundCardProps): JSX.Element {
-  const {card} = props;
+  const { card } = props;
 
   const className = `${indexCss.roundCard} ${card.rarity} ${indexCss.rarityOverlay}`;
 

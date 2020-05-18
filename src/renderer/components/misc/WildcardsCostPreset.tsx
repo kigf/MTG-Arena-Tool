@@ -1,8 +1,8 @@
 import React from "react";
-import {CARD_RARITIES} from "../../../shared/constants";
+import { CARD_RARITIES } from "../../../shared/constants";
 import _ from "lodash";
-import {MissingWildcards} from "../decks/types";
-import {getBoosterCountEstimate} from "../../rendererUtil";
+import { MissingWildcards } from "../decks/types";
+import { getBoosterCountEstimate } from "../../rendererUtil";
 import indexCss from "../../index.css";
 
 const wcIcon: Record<string, string> = {};
@@ -32,7 +32,7 @@ interface WildcardsCostPresetProps {
 export default function WildcardsCostPreset(
   props: WildcardsCostPresetProps
 ): JSX.Element {
-  const {c, u, r, m} = props.wildcards;
+  const { c, u, r, m } = props.wildcards;
   const showComplete = props.showComplete || false;
 
   const missingWildcards: MissingWildcards = {

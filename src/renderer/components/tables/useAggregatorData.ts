@@ -14,7 +14,7 @@ export function getDefaultAggFilters(
     date: dateFilter,
     eventId: Aggregator.DEFAULT_EVENT,
     ...aggFiltersArg,
-    showArchived
+    showArchived,
   };
 }
 
@@ -22,7 +22,7 @@ export function useAggregatorData<D extends TableData>({
   aggFiltersArg,
   getData,
   showArchived,
-  forceMemo
+  forceMemo,
 }: {
   aggFiltersArg?: AggregatorFilters;
   getData: (
@@ -53,6 +53,6 @@ export function useAggregatorData<D extends TableData>({
   return {
     aggFilters,
     data,
-    setAggFilters
+    setAggFilters,
   };
 }

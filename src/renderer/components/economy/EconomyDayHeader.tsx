@@ -51,18 +51,18 @@ export function EconomyDayHeader(props: EconomyDayHeaderProps): JSX.Element {
     vaultProgressDelta,
     gemsDelta,
     goldDelta,
-    xpGainedNumber
+    xpGainedNumber,
   } = props;
   const timestamp = addDays(new Date(), -daysAgo);
 
   const gridTitleStyle = {
     gridArea: "1 / 1 / auto / 2",
-    lineHeight: "64px"
+    lineHeight: "64px",
   };
 
   return (
     <>
-      <div style={gridTitleStyle} className={indexCss.flexItem +" gridTitle"}>
+      <div style={gridTitleStyle} className={indexCss.flexItem + " gridTitle"}>
         {getDayString(daysAgo, timestamp)}
       </div>
       <EconomyValueRecord

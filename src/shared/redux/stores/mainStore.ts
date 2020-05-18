@@ -10,11 +10,11 @@ const rootReducer = combineReducers({
   settings: settingsSlice.reducer,
   appsettings: appSettingsSlice.reducer,
   renderer: rendererSlice.reducer,
-  login: loginSlice.reducer
+  login: loginSlice.reducer,
 });
 
 const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
 });
 
 export default store;

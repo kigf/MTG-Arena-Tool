@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, {useState, useCallback} from "react";
+import React, { useState, useCallback } from "react";
 import {
   MAIN_HOME,
   MAIN_DECKS,
@@ -19,14 +19,14 @@ import {
   SYNC_IDLE,
   SYNC_OK,
 } from "../../../shared/constants";
-import {useDispatch, useSelector} from "react-redux";
-import {getRankIndex} from "../../../shared/utils/getRankIndex";
-import {formatRank} from "../../../shared/util";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
+import { useDispatch, useSelector } from "react-redux";
+import { getRankIndex } from "../../../shared/utils/getRankIndex";
+import { formatRank } from "../../../shared/util";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 import useWindowSize from "../../hooks/useWindowSize";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
 import PatreonInfo from "../popups/PatreonInfo";
-import {ipcSend} from "../../rendererUtil";
+import { ipcSend } from "../../rendererUtil";
 
 import topNavCss from "./topNav.css";
 
@@ -56,7 +56,7 @@ interface TopNavItemProps {
 }
 
 function TopNavItem(props: TopNavItemProps): JSX.Element {
-  const {currentTab, compact, dispatcher, id, title} = props;
+  const { currentTab, compact, dispatcher, id, title } = props;
 
   const clickTab = React.useCallback(
     (tabId: number) => (): void => {
@@ -114,7 +114,7 @@ interface TopRankProps {
 }
 
 function TopRankIcon(props: TopRankProps): JSX.Element {
-  const {currentTab, dispatcher, id, rank, rankClass} = props;
+  const { currentTab, dispatcher, id, rank, rankClass } = props;
 
   const selected = currentTab === id;
   const clickTab = React.useCallback(
@@ -173,7 +173,7 @@ function PatreonBadge(): JSX.Element {
   return <div title={title} style={style} className={topNavCss.patreon}></div>;
 }
 
-function SyncBadge({patreon}: {patreon: boolean}): JSX.Element {
+function SyncBadge({ patreon }: { patreon: boolean }): JSX.Element {
   const [patreonInfo, setPatreonInfo] = useState(false);
   const offline = useSelector((state: AppState) => state.renderer.offline);
   const syncState = useSelector((state: AppState) => state.renderer.syncState);
@@ -253,7 +253,7 @@ function SyncBadge({patreon}: {patreon: boolean}): JSX.Element {
       <div
         title={title}
         onClick={doClick}
-        style={{backgroundImage: `url(${image})`}}
+        style={{ backgroundImage: `url(${image})` }}
         className={topNavCss.sync}
       ></div>
       {patreonInfo ? <PatreonInfo closeCallback={closePatreonDialog} /> : <></>}
@@ -278,13 +278,13 @@ export function TopNav(): JSX.Element {
     currentTab: currentTab,
   };
 
-  const homeTab = {...defaultTab, id: MAIN_HOME, title: ""};
-  const myDecksTab = {...defaultTab, id: MAIN_DECKS, title: "MY DECKS"};
-  const historyTab = {...defaultTab, id: MAIN_MATCHES, title: "HISTORY"};
-  const timelineTab = {...defaultTab, id: MAIN_TIMELINE, title: "TIMELINE"};
-  const eventsTab = {...defaultTab, id: MAIN_EVENTS, title: "EVENTS"};
-  const exploreTab = {...defaultTab, id: MAIN_EXPLORE, title: "EXPLORE"};
-  const economyTab = {...defaultTab, id: MAIN_ECONOMY, title: "ECONOMY"};
+  const homeTab = { ...defaultTab, id: MAIN_HOME, title: "" };
+  const myDecksTab = { ...defaultTab, id: MAIN_DECKS, title: "MY DECKS" };
+  const historyTab = { ...defaultTab, id: MAIN_MATCHES, title: "HISTORY" };
+  const timelineTab = { ...defaultTab, id: MAIN_TIMELINE, title: "TIMELINE" };
+  const eventsTab = { ...defaultTab, id: MAIN_EVENTS, title: "EVENTS" };
+  const exploreTab = { ...defaultTab, id: MAIN_EXPLORE, title: "EXPLORE" };
+  const economyTab = { ...defaultTab, id: MAIN_ECONOMY, title: "ECONOMY" };
   const collectionTab = {
     ...defaultTab,
     id: MAIN_COLLECTION,

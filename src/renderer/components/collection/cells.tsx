@@ -50,7 +50,7 @@ export function TypeCell({ cell }: CollectionTableCellProps): JSX.Element {
 }
 
 export function InBoostersCell({
-  cell
+  cell,
 }: CollectionTableCellProps): JSX.Element {
   return (
     <BinarySymbol

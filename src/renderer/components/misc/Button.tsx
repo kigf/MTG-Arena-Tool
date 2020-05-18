@@ -13,7 +13,9 @@ export default function Button(props: ButtonProps): JSX.Element {
     <div
       style={props.style || {}}
       onClick={props.onClick}
-      className={props.className ?? indexCss.buttonSimple + " " + indexCss.centered}
+      className={
+        props.className ?? indexCss.buttonSimple + " " + indexCss.centered
+      }
     >
       {props.text}
     </div>

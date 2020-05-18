@@ -15,7 +15,7 @@ import { MultiSelectFilterProps, TableData } from "./types";
 import css from "../../index.css";
 
 export function TextBoxFilter<D extends TableData>({
-  column: { id, filterValue, preFilteredRows, setFilter }
+  column: { id, filterValue, preFilteredRows, setFilter },
 }: {
   column: ColumnInstance<D>;
 }): JSX.Element {
@@ -34,14 +34,14 @@ export function TextBoxFilter<D extends TableData>({
 }
 
 export function NumberRangeColumnFilter<D extends TableData>({
-  column: { filterValue = [], preFilteredRows, setFilter, id }
+  column: { filterValue = [], preFilteredRows, setFilter, id },
 }: {
   column: ColumnInstance<D>;
 }): JSX.Element {
   const [min, max] = React.useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
     let max = min;
-    preFilteredRows.forEach(row => {
+    preFilteredRows.forEach((row) => {
       min = Math.min(row.values[id], min);
       max = Math.max(row.values[id], max);
     });
@@ -52,7 +52,7 @@ export function NumberRangeColumnFilter<D extends TableData>({
       <InputContainer
         style={{
           width: "36px",
-          marginRight: "4px"
+          marginRight: "4px",
         }}
       >
         <input
@@ -62,7 +62,7 @@ export function NumberRangeColumnFilter<D extends TableData>({
             const val = e.target.value;
             setFilter((old: number[] = []) => [
               val ? parseInt(val, 10) : undefined,
-              old[1]
+              old[1],
             ]);
           }}
           placeholder={"min"}
@@ -73,7 +73,7 @@ export function NumberRangeColumnFilter<D extends TableData>({
       <InputContainer
         style={{
           width: "36px",
-          marginLeft: "4px"
+          marginLeft: "4px",
         }}
       >
         <input
@@ -83,7 +83,7 @@ export function NumberRangeColumnFilter<D extends TableData>({
             const val = e.target.value;
             setFilter((old: number[] = []) => [
               old[0],
-              val ? parseInt(val, 10) : undefined
+              val ? parseInt(val, 10) : undefined,
             ]);
           }}
           placeholder={"max"}
@@ -106,7 +106,7 @@ export function GlobalFilter<D extends TableData>({
   preGlobalFilteredRows,
   globalFilter,
   setGlobalFilter,
-  countLabel
+  countLabel,
 }: {
   preGlobalFilteredRows: Row<D>[];
   globalFilter: FilterValue;
@@ -132,7 +132,7 @@ export type BinaryFilterValue = { [key in BinaryFilterKeys]: boolean };
 
 const defaultBinary: BinaryFilterValue = {
   true: true,
-  false: true
+  false: true,
 };
 
 export interface BinaryFilterProps
@@ -150,20 +150,21 @@ export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
     height: "20px",
     width: "20px",
     margin: "auto 2px",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   };
   return (
     <div
       className={"matches_table_query_binary"}
       style={{
         display: "flex",
-        height: "32px"
+        height: "32px",
       }}
     >
       {trueSymbol ? (
         <div
           className={
-            css.ontheplaytext + (filterValue["true"] ? "" : " " + css.rarityFilterOn)
+            css.ontheplaytext +
+            (filterValue["true"] ? "" : " " + css.rarityFilterOn)
           }
           style={symbolStyle}
           onClick={onClickMultiFilter("true")}
@@ -182,7 +183,8 @@ export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
       {falseSymbol ? (
         <div
           className={
-            css.onthedrawtext + (filterValue["false"] ? "" : " " +css.rarityFilterOn)
+            css.onthedrawtext +
+            (filterValue["false"] ? "" : " " + css.rarityFilterOn)
           }
           style={symbolStyle}
           onClick={onClickMultiFilter("false")}
@@ -230,7 +232,7 @@ export function BinaryColumnFilter<D extends TableData>({
 
 export function getDefaultColorFilter(): ColorFilter {
   const colorFilters: any = {};
-  COLORS_BRIEF.forEach(code => (colorFilters[code] = false));
+  COLORS_BRIEF.forEach((code) => (colorFilters[code] = false));
   return { ...colorFilters, multi: true };
 }
 
@@ -242,7 +244,7 @@ export function filterDeckByColors(
   // Normalize deck colors into matching data format
   const deckColorCodes = getDefaultColorFilter();
   deck.colors?.forEach(
-    i => (deckColorCodes[COLORS_ALL[i - 1] as ManaFilterKeys] = true)
+    (i) => (deckColorCodes[COLORS_ALL[i - 1] as ManaFilterKeys] = true)
   );
   return Object.entries(_colors).every(([color, value]) => {
     const key = color as ManaFilterKeys;
@@ -257,7 +259,7 @@ export function filterDeckByColors(
 const defaultColors = getDefaultColorFilter();
 
 export function ColorColumnFilter<D extends TableData>({
-  column: { filterValue = { ...defaultColors }, setFilter }
+  column: { filterValue = { ...defaultColors }, setFilter },
 }: {
   column: ColumnInstance<D>;
 }): JSX.Element {
@@ -285,13 +287,13 @@ export function colorsFilterFn<D extends TableData>(
 ): Row<D>[] {
   const [id] = columnIds;
   const key = id.replace("SortVal", "s");
-  return rows.filter(row =>
+  return rows.filter((row) =>
     filterDeckByColors({ colors: row.original[key] }, filterValue)
   );
 }
 
 export function ArchiveColumnFilter<D extends TableData>({
-  column: { filterValue, setFilter }
+  column: { filterValue, setFilter },
 }: {
   column: ColumnInstance<D>;
 }): JSX.Element {
@@ -317,7 +319,7 @@ export function archivedFilterFn<D extends TableData>(
   filterValue: string
 ): Row<D>[] {
   if (filterValue === "hideArchived") {
-    return rows.filter(row => !row.values.archived);
+    return rows.filter((row) => !row.values.archived);
   }
   return rows;
 }
@@ -327,7 +329,7 @@ export function isHidingArchived<D extends TableData>(
 ): boolean {
   return (
     state?.filters?.some(
-      filter => filter.id === "archivedCol" && filter.value === "hideArchived"
+      (filter) => filter.id === "archivedCol" && filter.value === "hideArchived"
     ) ?? false
   );
 }

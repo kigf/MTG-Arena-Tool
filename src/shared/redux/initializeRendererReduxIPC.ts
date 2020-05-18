@@ -1,5 +1,5 @@
-import {EnhancedStore} from "@reduxjs/toolkit";
-import electron, {IpcRendererEvent} from "electron";
+import { EnhancedStore } from "@reduxjs/toolkit";
+import electron, { IpcRendererEvent } from "electron";
 import actionsMain from "./mainActions";
 import actionsOther from "./otherActions";
 const ipcRenderer = electron.ipcRenderer;

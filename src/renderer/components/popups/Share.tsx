@@ -39,7 +39,7 @@ export default function Share(props: ShareProps): JSX.Element {
   );
 
   const handleClose = useCallback(
-    e => {
+    (e) => {
       setOpen(0);
       e.stopPropagation();
       if (closeCallback) {
@@ -57,20 +57,20 @@ export default function Share(props: ShareProps): JSX.Element {
           ipcSend("request_draft_link", {
             expire: shareTypeId(option),
             id,
-            draftData: data
+            draftData: data,
           });
           break;
         case "deck":
           ipcSend("request_deck_link", {
             expire: shareTypeId(option),
-            deckString: data
+            deckString: data,
           });
           break;
         case "actionlog":
           ipcSend("request_log_link", {
             expire: shareTypeId(option),
             log: data,
-            id
+            id,
           });
           break;
         default:
@@ -103,7 +103,7 @@ export default function Share(props: ShareProps): JSX.Element {
       className={css.popupBackground}
       style={{
         opacity: open * 2,
-        backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`
+        backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`,
       }}
       onClick={handleClose}
     >

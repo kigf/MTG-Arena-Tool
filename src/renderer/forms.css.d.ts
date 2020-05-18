@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace FormsCssModule {
   export interface IFormsCss {
     "form-authenticate": string;

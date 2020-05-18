@@ -13,7 +13,7 @@ export default function InEventGetPlayerCoursesV2(entry: Entry): void {
   if (!json) return;
 
   const staticEvents: string[] = [];
-  json.forEach(course => {
+  json.forEach((course) => {
     if (course.CurrentEventState != "PreMatch") {
       if (course.CourseDeck != null) {
         const v2deck = convertDeckFromV3(course.CourseDeck);

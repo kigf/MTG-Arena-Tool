@@ -31,7 +31,7 @@ const questMap = {
   "fa28d3a3-63f6-4d00-b74f-4292e71a1c72": "Quests/Quest_Selesnya_Silence",
   "6a4ef8b1-cf56-4c61-b3c8-f886bd804e92": "Quests/Quest_Selesnya_Sentry",
   "a28b4eb1-345e-41a8-b3f6-033773cb6682": "Quests/Quest_Simic_Evolution",
-  "85e3c2f5-94d2-4574-b8d6-084ba371dcca": "Quests/Quest_Simic_Manipulator"
+  "85e3c2f5-94d2-4574-b8d6-084ba371dcca": "Quests/Quest_Simic_Manipulator",
 };
 
 // These should match the full text of the event
@@ -57,7 +57,7 @@ const economyTransactionContextsMap = {
   "Track Progress": "Match Rewards: Level Up",
   "Track.RewardTier.Updated": "Mastery Pass Purchase",
   "Player Rewards": "Match Rewards",
-  "Event Prize": "Event Rewards"
+  "Event Prize": "Event Rewards",
 };
 
 type EconomyTransactionKeys = keyof typeof economyTransactionContextsMap;
@@ -70,7 +70,7 @@ const trackCodeMap = {
   BattlePass_THB: "Theros: Beyond Death",
   BattlePass_ELD: "Throne of Eldraine",
   BattlePass_M20: "Core Set 2020",
-  EarlyPlayerProgression: "New Player Experience"
+  EarlyPlayerProgression: "New Player Experience",
 };
 
 function isTrackCode(s: string): s is MasteryTrackKeys {
@@ -79,21 +79,21 @@ function isTrackCode(s: string): s is MasteryTrackKeys {
 
 type MasteryTrackKeys = keyof typeof trackCodeMap;
 
+// quick and dirty generic pretty formatting
+// "WhyDoesWotc.KeepChanging.Codes" => "Why Does Wotc: Keep Changing: Codes"
+export function getReadableCode(code: string): string {
+  let result = "";
+  code.split(".").forEach((group) => {
+    result += ": " + _.startCase(group);
+  });
+  return result.substring(2);
+}
+
 function getReadableTrack(trackCode: string): string {
   return (
     (isTrackCode(trackCode) && trackCodeMap[trackCode]) ||
     getReadableCode(trackCode)
   );
-}
-
-// quick and dirty generic pretty formatting
-// "WhyDoesWotc.KeepChanging.Codes" => "Why Does Wotc: Keep Changing: Codes"
-export function getReadableCode(code: string): string {
-  let result = "";
-  code.split(".").forEach(group => {
-    result += ": " + _.startCase(group);
-  });
-  return result.substring(2);
 }
 
 type QuestKeys = keyof typeof questMap;
@@ -188,5 +188,5 @@ export function getPrettyContext(context: string, full = true): string {
 
 export const vaultPercentFormat = {
   minimumFractionDigits: 1,
-  maximumFractionDigits: 1
+  maximumFractionDigits: 1,
 };

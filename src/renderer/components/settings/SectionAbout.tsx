@@ -56,7 +56,10 @@ export default function SectionAbout(): JSX.Element {
       >
         Release Notes
       </div>
-      <div style={{ margin: "40px auto 0px auto" }} className={indexCss.flexItem}>
+      <div
+        style={{ margin: "40px auto 0px auto" }}
+        className={indexCss.flexItem}
+      >
         <div
           className="discord_link"
           onClick={(): void => {

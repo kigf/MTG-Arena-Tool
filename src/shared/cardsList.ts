@@ -3,7 +3,7 @@ import {
   anyCardsList,
   CardObject,
   isV2CardsList,
-  v2cardsList
+  v2cardsList,
 } from "../types/Deck";
 import Colors from "./colors";
 import db from "./database";
@@ -45,11 +45,11 @@ class CardsList {
           quantity: 1, // TODO remove group lands hack
           id: obj, // TODO remove group lands hack
           ...obj,
-          measurable: true
+          measurable: true,
         };
       });
     } else {
-      newList.forEach(id => {
+      newList.forEach((id) => {
         this.list.push({ quantity: 1, id: id, measurable: true, chance: 0 });
       });
       this.removeDuplicates(true);
@@ -81,7 +81,7 @@ class CardsList {
       quantity: quantity,
       id: grpId,
       measurable: true,
-      chance: 0
+      chance: 0,
     });
     return this.list[this.list.length - 1];
   }
@@ -92,7 +92,7 @@ class CardsList {
   remove(grpId: number, quantity = 1, byName = false): void {
     if (byName) {
       const cardToFind = db.card(grpId);
-      this.list.forEach(function(card) {
+      this.list.forEach(function (card) {
         const cardInList = db.card(card.id);
         if (cardToFind?.name === cardInList?.name) {
           const remove = Math.min(card.quantity, quantity);
@@ -101,7 +101,7 @@ class CardsList {
         }
       });
     } else {
-      this.list.forEach(function(card) {
+      this.list.forEach(function (card) {
         if (grpId == card.id) {
           const remove = Math.min(card.quantity, quantity);
           card.quantity -= remove;
@@ -123,9 +123,7 @@ class CardsList {
    * Same as count(), but here we can apply a filter function to the list.
    **/
   countFilter(prop = "quantity", func: any): number {
-    return _(this.list)
-      .filter(func)
-      .sumBy(prop);
+    return _(this.list).filter(func).sumBy(prop);
   }
 
   /**
@@ -134,7 +132,7 @@ class CardsList {
   countTypesAll(): CardTypesCount {
     const types = { art: 0, cre: 0, enc: 0, ins: 0, lan: 0, pla: 0, sor: 0 };
 
-    this.list.forEach(function(card) {
+    this.list.forEach(function (card) {
       const c = db.card(card.id);
       if (c !== undefined) {
         if (c.type.includes("Land", 0))
@@ -179,11 +177,11 @@ class CardsList {
   getColorsAmounts(): ColorsCount {
     const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };
 
-    this.list.forEach(function(card) {
+    this.list.forEach(function (card) {
       if (card.quantity > 0) {
         const dbCard = db.card(card.id);
         if (dbCard !== undefined) {
-          dbCard.cost.forEach(function(c) {
+          dbCard.cost.forEach(function (c) {
             if (c.indexOf("w") !== -1) {
               colors.w += card.quantity;
               colors.total += card.quantity;
@@ -222,7 +220,7 @@ class CardsList {
   getLandsAmounts(): ColorsCount {
     const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };
 
-    this.list.forEach(function(cardEntry) {
+    this.list.forEach(function (cardEntry) {
       const quantity = cardEntry.quantity;
       const card = db.card(cardEntry.id);
       if (card !== undefined && quantity > 0) {
@@ -231,7 +229,7 @@ class CardsList {
           card.type.indexOf("land") != -1
         ) {
           if (card.frame.length < 5) {
-            card.frame.forEach(function(c) {
+            card.frame.forEach(function (c) {
               if (c == 1) {
                 colors.w += quantity;
                 colors.total += quantity;
@@ -269,7 +267,7 @@ class CardsList {
    * Inserts a chance property to each card in the list.
    **/
   addChance(fn: (item: CardObject) => number): void {
-    this.list.forEach(card => {
+    this.list.forEach((card) => {
       card.chance = fn(card);
     });
   }
@@ -279,7 +277,7 @@ class CardsList {
    **/
   getColors(): Colors {
     const colors = new Colors();
-    this.list.forEach(card => {
+    this.list.forEach((card) => {
       const cardData = db.card(card.id);
       if (cardData !== undefined) {
         const isLand = cardData.type.indexOf("Land") !== -1;
@@ -301,7 +299,7 @@ class CardsList {
   removeDuplicates(replaceList = true): v2cardsList {
     const newList: v2cardsList = [];
 
-    this.list.forEach(function(card) {
+    this.list.forEach(function (card) {
       const cardObj = db.card(card.id);
       const found = newList.find((c: CardObject) => {
         const dbCard = db.card(c.id);
@@ -331,7 +329,7 @@ class CardsList {
   removeZeros(replaceList = true): v2cardsList {
     const newList: v2cardsList = [];
 
-    this.list.forEach(card => {
+    this.list.forEach((card) => {
       if (card.quantity > 0) {
         newList.push(card);
       }

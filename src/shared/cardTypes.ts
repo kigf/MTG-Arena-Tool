@@ -11,18 +11,18 @@ export const cardTypes = [
   "Enchantment",
   "Instant",
   "Sorcery",
-  "Planeswalker"
+  "Planeswalker",
 ] as const;
 type CardType = typeof cardTypes[number];
 
-export const cardType = (card: DbCardData) => {
-  const result = cardTypes.find(ct => cardHasType(card, ct));
-  if (!result) throw new Error("Card type could not be determined");
-  return result;
-};
-
-export function cardHasType(card: DbCardData, type: CardType) {
+export function cardHasType(card: DbCardData, type: CardType): boolean {
   if (!_.has(card, "type"))
     throw new Error("The specified card object does not have a type property");
   return card.type.includes(type + " ");
 }
+
+export const cardType = (card: DbCardData): CardType => {
+  const result = cardTypes.find((ct) => cardHasType(card, ct));
+  if (!result) throw new Error("Card type could not be determined");
+  return result;
+};

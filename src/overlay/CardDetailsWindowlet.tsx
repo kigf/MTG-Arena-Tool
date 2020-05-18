@@ -16,7 +16,7 @@ function GroupedLandsDetails(props: { odds: Chances }): JSX.Element {
     (state: AppState) => state.settings.cards_size_hover_card
   );
 
-  const manaChanceDiv = function(value: number, color: string): JSX.Element {
+  const manaChanceDiv = function (value: number, color: string): JSX.Element {
     return (
       <div className="mana_cont">
         {value + "%"}
@@ -67,7 +67,7 @@ export default function CardDetailsWindowlet(
     odds,
     overlayHover,
     overlayScale,
-    settings
+    settings,
   } = props;
   const grpId = useSelector((state: AppState) => state.hover.grpId);
   const opacity = useSelector((state: AppState) => state.hover.opacity);
@@ -90,8 +90,8 @@ export default function CardDetailsWindowlet(
     style: {
       width: size + "px",
       height: size / SCALAR + "px",
-      opacity
-    }
+      opacity,
+    },
   };
   const containerRef = useRef(null);
   useEditModeOnRef(editMode, containerRef, overlayScale);
@@ -108,7 +108,7 @@ export default function CardDetailsWindowlet(
           : `${window.innerWidth / 2 - size / 2}px`,
         top: overlayHover
           ? `${overlayHover.y}px`
-          : `${window.innerHeight - size / SCALAR - 50}px`
+          : `${window.innerHeight - size / SCALAR - 50}px`,
       }}
     >
       {editMode ? (

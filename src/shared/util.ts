@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
-import {MatchPlayer} from "../types/currentMatch";
-import {CardObject, InternalDeck, v2cardsList} from "../types/Deck";
-import {InternalPlayer} from "../types/match";
-import {InternalRankData} from "../types/rank";
+import { MatchPlayer } from "../types/currentMatch";
+import { CardObject, InternalDeck, v2cardsList } from "../types/Deck";
+import { InternalPlayer } from "../types/match";
+import { InternalRankData } from "../types/rank";
 
-import {FACE_DFC_FRONT, FORMATS} from "./constants";
+import { FACE_DFC_FRONT, FORMATS } from "./constants";
 import db from "./database";
 import { getCardTypeSort } from "./utils/getCardTypeSort";
-
 
 export function getReadableFormat(format: string): string {
   if (format in FORMATS) {
@@ -47,7 +46,6 @@ export function removeDuplicates(decklist: v2cardsList): v2cardsList {
     return [];
   }
 }
-
 
 export function compare_cards(a: CardObject, b: CardObject): number {
   // Yeah this is lazy.. I know

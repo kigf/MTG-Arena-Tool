@@ -10,11 +10,11 @@ const rootReducer = combineReducers({
   settings: settingsSlice.reducer,
   playerdata: playerDataSlice.reducer,
   renderer: rendererSlice.reducer,
-  hover: hoverSlice.reducer
+  hover: hoverSlice.reducer,
 });
 
 const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
 });
 
 export default store;

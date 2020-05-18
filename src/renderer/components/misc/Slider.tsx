@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, {useState} from "react";
+import React, { useState } from "react";
 import css from "./slider.css";
 
 export class SliderPosition {
@@ -26,7 +26,7 @@ interface SliderProps {
 }
 
 export default function Slider(props: SliderProps): JSX.Element {
-  const {onChange, onInput} = props;
+  const { onChange, onInput } = props;
   const min = props.min || 0;
   const max = props.max || 10;
   const step = props.step || 1;
@@ -74,7 +74,7 @@ export default function Slider(props: SliderProps): JSX.Element {
             <div className={css.sliderMarkOuter} key={c.text + "-" + i}>
               <div
                 className={css.sliderMarkHor}
-                style={{backgroundColor: c.color, opacity: c.hide ? 0 : 1}}
+                style={{ backgroundColor: c.color, opacity: c.hide ? 0 : 1 }}
               />
               {c.text !== "" && (
                 <div className={css.sliderMarkText}>{c.text}</div>

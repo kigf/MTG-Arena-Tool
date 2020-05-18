@@ -91,7 +91,7 @@ function getTxnData(archivedCache: Record<string, boolean>): TransactionData[] {
         aetherizedCardsCount: txn.aetherizedCards?.length ?? 0,
         timestamp: isValid(ts) ? ts.getTime() : NaN,
         daysAgo: differenceInCalendarDays(today, ts),
-        xpGainedNumber: txn.xpGained ?? 0
+        xpGainedNumber: txn.xpGained ?? 0,
       };
     }
   );

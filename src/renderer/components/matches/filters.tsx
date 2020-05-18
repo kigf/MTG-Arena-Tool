@@ -28,7 +28,7 @@ export function onPlayFilterFn(
   _id: string,
   filterValue: BinaryFilterValue
 ): Row<MatchTableData>[] {
-  return rows.filter(row =>
+  return rows.filter((row) =>
     Object.entries(filterValue).some(
       ([code, value]) => value && String(row.original.isOnPlay) === code
     )
@@ -51,7 +51,7 @@ const defaultRank: RankFilterValue = {
   Gold: true,
   Platinum: true,
   Diamond: true,
-  Mythic: true
+  Mythic: true,
 };
 
 export type RankFilterProps = MultiSelectFilterProps<RankFilterValue>;
@@ -63,7 +63,7 @@ export function RankFilter(props: RankFilterProps): JSX.Element {
       className={"collection_table_query_rank"}
       style={{
         display: "flex",
-        height: "32px"
+        height: "32px",
       }}
     >
       {RANKS.map((code: RankFilterKeys) => {
@@ -82,7 +82,7 @@ export function RankFilter(props: RankFilterProps): JSX.Element {
 }
 
 export function RankColumnFilter({
-  column: { id, filterValue = { ...defaultRank }, setFilter }
+  column: { id, filterValue = { ...defaultRank }, setFilter },
 }: {
   column: ColumnInstance<MatchTableData>;
 }): JSX.Element {
@@ -106,7 +106,7 @@ export function rankFilterFn(
   columnIds: string[],
   filterValue: RankFilterValue
 ): Row<MatchTableData>[] {
-  return rows.filter(row =>
+  return rows.filter((row) =>
     Object.entries(filterValue).some(
       ([code, value]) => value && row.values[columnIds[0]] === code
     )
@@ -129,13 +129,13 @@ export function matchSearchFilterFn(
 ): Row<MatchTableData>[] {
   const tokens = String(filterValue)
     .split(" ")
-    .filter(token =>
+    .filter((token) =>
       token.includes(":") ? token.split(":")[1].length > 2 : token.length > 2
     );
   if (tokens.length === 0) {
     return rows;
   }
-  const matches = tokens.map(token => {
+  const matches = tokens.map((token) => {
     return matchSorter(rows, token, {
       keys: [
         "values.deckName",
@@ -144,8 +144,8 @@ export function matchSearchFilterFn(
         "values.deckTags",
         "values.tags",
         colorSearchKeyFactory("colors"),
-        colorSearchKeyFactory("oppColors")
-      ]
+        colorSearchKeyFactory("oppColors"),
+      ],
     });
   });
   return _.intersection(...matches);

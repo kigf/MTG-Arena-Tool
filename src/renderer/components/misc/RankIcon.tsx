@@ -20,11 +20,13 @@ export default function RankIcon(props: RankIconProps): JSX.Element {
   const style = { ...{ width: "48px", height: "48px" }, ...props.style };
 
   const rankStyle = {
-    backgroundPosition: rankIndex * -48 + "px 0px"
+    backgroundPosition: rankIndex * -48 + "px 0px",
   };
 
   const rankClass =
-    !format || format == "constructed" ? topNavCss.constructed_rank : topNavCss.limited_rank;
+    !format || format == "constructed"
+      ? topNavCss.constructed_rank
+      : topNavCss.limited_rank;
 
   const mythicRankTitle =
     rank +
@@ -44,7 +46,9 @@ export default function RankIcon(props: RankIconProps): JSX.Element {
             return (
               <div
                 key={"rank-bullet-" + i}
-                className={v ? indexCss.rankBulletLight : indexCss.rankBulletDark}
+                className={
+                  v ? indexCss.rankBulletLight : indexCss.rankBulletDark
+                }
               />
             );
           })}

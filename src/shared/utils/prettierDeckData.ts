@@ -22,7 +22,7 @@ export default function prettierDeckData(deckData: InternalDeck): InternalDeck {
     "Decks/Precon/Precon_Brawl_Alela": "Alela, Artful Provocateur",
     "Decks/Precon/Precon_Brawl_Chulane": "Chulane, Teller of Tales",
     "Decks/Precon/Precon_Brawl_Korvold": "Korvold, Fae-Cursed King",
-    "Decks/Precon/Precon_Brawl_SyrGwyn": "Syr Gwyn, Hero of Ashvale"
+    "Decks/Precon/Precon_Brawl_SyrGwyn": "Syr Gwyn, Hero of Ashvale",
   };
   if (deckData.description in prettyDescriptions) {
     deckData.description = prettyDescriptions[deckData.description];

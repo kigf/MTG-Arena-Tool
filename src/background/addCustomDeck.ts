@@ -10,7 +10,7 @@ export default function addCustomDeck(customDeck: Partial<InternalDeck>): void {
   const deckData = {
     // preserve custom fields if possible
     ...(getDeck(id) || {}),
-    ...customDeck
+    ...customDeck,
   };
 
   reduxAction(globals.store.dispatch, "SET_DECK", deckData, IPC_RENDERER);

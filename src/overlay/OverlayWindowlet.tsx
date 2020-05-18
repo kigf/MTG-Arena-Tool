@@ -4,7 +4,7 @@ import {
   ARENA_MODE_IDLE,
   ARENA_MODE_MATCH,
   COLORS_ALL,
-  OVERLAY_DRAFT_MODES
+  OVERLAY_DRAFT_MODES,
 } from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
 import { DraftData, DraftState } from "../types/draft";
@@ -35,7 +35,7 @@ export interface OverlayWindowletProps {
 }
 
 function isOverlayDraftMode(mode: number): boolean {
-  return OVERLAY_DRAFT_MODES.some(draftMode => draftMode === mode);
+  return OVERLAY_DRAFT_MODES.some((draftMode) => draftMode === mode);
 }
 
 /**
@@ -61,7 +61,7 @@ export default function OverlayWindowlet(
     setDraftStateCallback,
     setOddsCallback,
     settings,
-    turnPriority
+    turnPriority,
   } = props;
 
   const containerRef = useRef(null);
@@ -95,14 +95,14 @@ export default function OverlayWindowlet(
   const commonProps = {
     index,
     settings: overlaySettings,
-    tileStyle
+    tileStyle,
   };
   if (draft && isOverlayDraftMode(overlaySettings.mode)) {
     const props = {
       ...commonProps,
       draft,
       draftState,
-      setDraftStateCallback
+      setDraftStateCallback,
     };
     elements = <DraftElements {...props} />;
   } else if (match) {
@@ -111,7 +111,7 @@ export default function OverlayWindowlet(
       actionLog,
       match,
       setOddsCallback,
-      turnPriority
+      turnPriority,
     };
     elements = <MatchElements {...props} />;
   } else {
@@ -142,7 +142,7 @@ export default function OverlayWindowlet(
   const bgStyle: React.CSSProperties = {
     left: "0px",
     right: "0px",
-    opacity: overlaySettings.alpha_back.toString()
+    opacity: overlaySettings.alpha_back.toString(),
   };
 
   // This needs its own setting, like a checkbox or something
@@ -167,7 +167,7 @@ export default function OverlayWindowlet(
         height: overlaySettings.bounds.height + "px",
         width: overlaySettings.bounds.width + "px",
         left: overlaySettings.bounds.x + "px",
-        top: overlaySettings.bounds.y + "px"
+        top: overlaySettings.bounds.y + "px",
       }}
     >
       <div className="outer_wrapper">
@@ -189,7 +189,7 @@ export default function OverlayWindowlet(
             onClick={handleToggleEditMode}
             style={{
               backgroundColor: `var(--color-${COLORS_ALL[index]})`,
-              marginRight: "auto"
+              marginRight: "auto",
             }}
             title={settings.shortcut_editmode}
           />

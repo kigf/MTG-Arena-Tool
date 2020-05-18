@@ -5,7 +5,7 @@ import {
   DATE_LAST_DAY,
   DATE_SEASON,
   IPC_ALL,
-  IPC_RENDERER
+  IPC_RENDERER,
 } from "../shared/constants";
 import ReactSelect from "../shared/ReactSelect";
 import { reduxAction } from "../shared/redux/sharedRedux";
@@ -26,7 +26,7 @@ const dateOptions = [
   DATE_SEASON,
   DATE_LAST_30,
   DATE_LAST_DAY,
-  "Custom"
+  "Custom",
 ];
 
 function customDateFormatter(filter: Date | string): string {
@@ -40,7 +40,6 @@ export default function DateFilter({
   callback,
   className,
   current,
-  prefixId
 }: DateFilterProps): JSX.Element {
   const dispatch = useDispatch();
 

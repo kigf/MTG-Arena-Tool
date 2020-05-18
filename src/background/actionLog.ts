@@ -8,7 +8,7 @@ import globalStore from "../shared/store";
 
 let currentActionLog = "";
 
-const actionLog = function(
+const actionLog = function (
   seat: number,
   time = new Date(),
   str: string,
@@ -17,9 +17,7 @@ const actionLog = function(
   if (seat == -99) {
     currentActionLog = "version: 1\r\n";
   } else {
-    /*
-      str = str.replace(/(<([^>]+)>)/gi, "");
-      */
+    //str = str.replace(/(<([^>]+)>)/gi, "");
 
     currentActionLog += `${seat}\r\n`;
     currentActionLog += `${format(time, "HH:mm:ss")}\r\n`;

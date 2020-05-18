@@ -8,13 +8,13 @@ export default function useDatePicker(
 ): [Date, () => void, JSX.Element] {
   const initState = {
     from: initialDateFrom,
-    to: new Date()
+    to: new Date(),
   };
   const [range, setRange] = useState(initState);
   const [show, setShow] = useState(false);
 
   const handleClose = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation();
       setShow(false);
       if (closeCallback) {
@@ -55,7 +55,7 @@ export default function useDatePicker(
             textAlign: "center",
             backgroundColor: "white",
             borderRadius: "4px",
-            color: "black"
+            color: "black",
           }}
           onClick={(e): void => {
             e.stopPropagation();

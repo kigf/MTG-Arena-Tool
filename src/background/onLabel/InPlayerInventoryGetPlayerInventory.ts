@@ -23,7 +23,7 @@ export default function InPlayerInventoryGetPlayerInventory(
     wcUncommon: json.wcUncommon,
     wcRare: json.wcRare,
     wcMythic: json.wcMythic,
-    boosters: json.boosters
+    boosters: json.boosters,
   };
   reduxAction(
     globals.store.dispatch,

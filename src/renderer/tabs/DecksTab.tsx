@@ -7,7 +7,7 @@ import {
   IPC_NONE,
   IPC_ALL,
   IPC_RENDERER,
-  IPC_BACKGROUND
+  IPC_BACKGROUND,
 } from "../../shared/constants";
 import Deck from "../../shared/deck";
 import getDeckColors from "../../shared/utils/getDeckColors";
@@ -16,7 +16,7 @@ import { InternalDeck } from "../../types/Deck";
 import Aggregator, {
   AggregatorFilters,
   AggregatorStats,
-  dateMaxValid
+  dateMaxValid,
 } from "../aggregator";
 import DecksTable from "../components/decks/DecksTable";
 import { DecksData } from "../components/decks/types";
@@ -25,7 +25,7 @@ import { useAggregatorData } from "../components/tables/useAggregatorData";
 import {
   ipcSend,
   getBoosterCountEstimate,
-  get_deck_missing as getDeckMissing
+  get_deck_missing as getDeckMissing,
 } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
@@ -130,7 +130,7 @@ function getDecksData(
         lastEditLosses: recentStats.losses,
         lastEditTotal: recentStats.total,
         lastEditWinrate: recentStats.winrate,
-        colors: deck.colors || getDeckColors(deck)
+        colors: deck.colors || getDeckColors(deck),
       };
     }
   );
@@ -142,7 +142,7 @@ function getTotalAggEvents(): string[] {
 }
 
 export default function DecksTab({
-  aggFiltersArg
+  aggFiltersArg,
 }: {
   aggFiltersArg?: AggregatorFilters;
 }): JSX.Element {
@@ -152,7 +152,7 @@ export default function DecksTab({
   const { aggFilters, data, setAggFilters } = useAggregatorData({
     aggFiltersArg,
     getData: getDecksData,
-    showArchived
+    showArchived,
   });
   const openDeckCallback = React.useCallback(
     (deck: InternalDeck): void => {
@@ -162,7 +162,7 @@ export default function DecksTab({
         "SET_SUBNAV",
         {
           type: SUB_DECK,
-          id: deck.id
+          id: deck.id,
         },
         IPC_NONE
       );

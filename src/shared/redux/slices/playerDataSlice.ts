@@ -17,7 +17,7 @@ const playerDataSlice = createSlice({
     cards: {
       cards_time: Date.now(),
       cards_before: {} as Record<string, number>,
-      cards: {} as Record<string, number>
+      cards: {} as Record<string, number>,
     },
     cardsNew: {} as Record<string, number>,
     economy: {
@@ -34,7 +34,7 @@ const playerDataSlice = createSlice({
       currentLevel: 0,
       currentExp: 0,
       currentOrbCount: 0,
-      boosters: []
+      boosters: [],
     },
     rank: {
       constructed: {
@@ -46,7 +46,7 @@ const playerDataSlice = createSlice({
         drawn: 0,
         percentile: 0,
         leaderboardPlace: 0,
-        seasonOrdinal: 0
+        seasonOrdinal: 0,
       },
       limited: {
         rank: "",
@@ -57,9 +57,9 @@ const playerDataSlice = createSlice({
         drawn: 0,
         percentile: 0,
         leaderboardPlace: 0,
-        seasonOrdinal: 0
-      }
-    }
+        seasonOrdinal: 0,
+      },
+    },
   },
   reducers: {
     setPlayerId: (state, action): void => {
@@ -149,8 +149,8 @@ const playerDataSlice = createSlice({
     },
     setAppDb: (state, action): void => {
       state.appDbPath = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export default playerDataSlice;

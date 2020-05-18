@@ -3,7 +3,7 @@ import {
   MANA,
   OVERLAY_DRAFT,
   OVERLAY_DRAFT_BREW,
-  PACK_SIZES
+  PACK_SIZES,
 } from "../shared/constants";
 import Deck from "../shared/deck";
 import { DraftData, DraftState } from "../types/draft";
@@ -32,7 +32,7 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
     index,
     setDraftStateCallback,
     settings,
-    tileStyle
+    tileStyle,
   } = props;
   const packSize = packSizeMap[draft.set] || 14;
 

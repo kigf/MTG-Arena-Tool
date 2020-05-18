@@ -3,7 +3,7 @@ import {
   CardObject,
   InternalDeck,
   isV2CardsList,
-  v2cardsList
+  v2cardsList,
 } from "../types/Deck";
 import { DbCardData } from "../types/Metadata";
 import CardsList from "./cardsList";
@@ -71,7 +71,7 @@ class Deck {
         list.map(({ id, quantity }: CardObject) =>
           Object.freeze({
             id,
-            quantity
+            quantity,
           })
         )
       );
@@ -183,7 +183,7 @@ class Deck {
       deckTileId: this.tile,
       tags: this.tags,
       custom: this.custom,
-      commandZoneGRPIds: this.commandZoneGRPIds
+      commandZoneGRPIds: this.commandZoneGRPIds,
     };
 
     return new Deck(
@@ -224,7 +224,7 @@ class Deck {
   getExportTxt(): string {
     let str = "";
     const mainList = this.mainboard.removeDuplicates(false);
-    mainList.forEach(function(card) {
+    mainList.forEach(function (card) {
       const grpid = card.id;
       const cardName = (db.card(grpid) as DbCardData).name;
 
@@ -234,7 +234,7 @@ class Deck {
     str += "\r\n";
 
     const sideList = this.sideboard.removeDuplicates(false);
-    sideList.forEach(function(card) {
+    sideList.forEach(function (card) {
       const grpid = card.id;
       const cardName = (db.card(grpid) as DbCardData).name;
 
@@ -250,7 +250,7 @@ class Deck {
   getExportArena(): string {
     let str = "";
     const listMain = this.mainboard.removeDuplicates(false);
-    listMain.forEach(function(card) {
+    listMain.forEach(function (card) {
       let grpid = card.id;
       let cardObj = db.card(grpid) as DbCardData;
 
@@ -271,7 +271,7 @@ class Deck {
     str += "\r\n";
 
     const listSide = this.sideboard.removeDuplicates(false);
-    listSide.forEach(function(card) {
+    listSide.forEach(function (card) {
       let grpid = card.id;
       let cardObj = db.card(grpid) as DbCardData;
 
@@ -308,7 +308,7 @@ class Deck {
       sideboard: this.sideboard.get(),
       ...(includeAsLogged && {
         arenaMain: this.arenaMain,
-        arenaSide: this.arenaSide
+        arenaSide: this.arenaSide,
       }),
       name: this.name,
       id: this.id,
@@ -321,7 +321,7 @@ class Deck {
       companionGRPId: this.companionGRPId || undefined,
       format: this.format,
       type: "InternalDeck",
-      description: this.description
+      description: this.description,
     };
   }
 
@@ -334,12 +334,12 @@ class Deck {
     this.sortSideboard(compare_cards);
 
     let str = "";
-    this.mainboard.get().forEach(card => {
+    this.mainboard.get().forEach((card) => {
       str += card.id + "," + card.quantity + ",";
     });
 
     if (checkSide) {
-      this.sideboard.get().forEach(card => {
+      this.sideboard.get().forEach((card) => {
         str += card.id + "," + card.quantity + ",";
       });
     }

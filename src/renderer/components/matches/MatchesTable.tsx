@@ -1,9 +1,6 @@
 import React from "react";
 import { Column, Row } from "react-table";
-import {
-  DATE_SEASON,
-  MATCHES_TABLE_MODE
-} from "../../../shared/constants";
+import { DATE_SEASON, MATCHES_TABLE_MODE } from "../../../shared/constants";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import ListItemMatch from "../list-item/ListItemMatch";
 import MatchResultsStatsPanel from "../misc/MatchResultsStatsPanel";
@@ -17,13 +14,13 @@ import {
   PercentCell,
   RelativeTimeCell,
   ShortTextCell,
-  SubTextCell
+  SubTextCell,
 } from "../tables/cells";
 import {
   ArchiveColumnFilter,
   ColorColumnFilter,
   NumberRangeColumnFilter,
-  TextBoxFilter
+  TextBoxFilter,
 } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
@@ -37,14 +34,14 @@ import {
   OnPlayColumnFilter,
   onPlayFilterFn,
   RankColumnFilter,
-  rankFilterFn
+  rankFilterFn,
 } from "./filters";
 import MatchesTableControls from "./MatchesTableControls";
 import RankedStats from "./RankedStats";
 import {
   MatchesTableControlsProps,
   MatchesTableProps,
-  MatchTableData
+  MatchTableData,
 } from "./types";
 import { animated } from "react-spring";
 import useResizePanel from "../../hooks/useResizePanel";
@@ -64,7 +61,7 @@ const columns: Column<MatchTableData>[] = [
     Cell: RelativeTimeCell,
     sortDescFirst: true,
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   { accessor: "onThePlay" },
   {
@@ -75,7 +72,7 @@ const columns: Column<MatchTableData>[] = [
     Filter: OnPlayColumnFilter,
     Cell: OnPlayCell,
     gridWidth: "100px",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "eventId" },
   {
@@ -87,7 +84,7 @@ const columns: Column<MatchTableData>[] = [
     Cell: SubTextCell,
     gridWidth: "210px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Format",
@@ -97,7 +94,7 @@ const columns: Column<MatchTableData>[] = [
     Filter: TextBoxFilter,
     Cell: FormatCell,
     gridWidth: "150px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Best of",
@@ -106,7 +103,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "gameStats" },
   { accessor: "toolVersion" },
@@ -119,7 +116,7 @@ const columns: Column<MatchTableData>[] = [
     filter: "rank",
     Filter: RankColumnFilter,
     Cell: RankCell,
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "My Tier",
@@ -128,7 +125,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "My Mythic %",
@@ -137,7 +134,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "My Mythic #",
@@ -146,7 +143,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "playerDeck" },
   { accessor: "deckId" },
@@ -159,7 +156,7 @@ const columns: Column<MatchTableData>[] = [
     Cell: ShortTextCell,
     gridWidth: "210px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   { accessor: "colors" },
   {
@@ -170,7 +167,7 @@ const columns: Column<MatchTableData>[] = [
     filter: "colors",
     Cell: ColorsCell,
     gridWidth: "150px",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "opponent" },
   { accessor: "oppDeck" },
@@ -183,7 +180,7 @@ const columns: Column<MatchTableData>[] = [
     Cell: ShortTextCell,
     gridWidth: "210px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Op. ID",
@@ -193,7 +190,7 @@ const columns: Column<MatchTableData>[] = [
     Filter: TextBoxFilter,
     Cell: SubTextCell,
     gridWidth: "210px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Op. Rank",
@@ -202,7 +199,7 @@ const columns: Column<MatchTableData>[] = [
     filter: "rank",
     Filter: RankColumnFilter,
     Cell: RankCell,
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Op. Tier",
@@ -211,7 +208,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Op. Mythic %",
@@ -220,7 +217,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Op. Mythic #",
@@ -229,7 +226,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "oppColors" },
   {
@@ -241,7 +238,7 @@ const columns: Column<MatchTableData>[] = [
     Cell: ColorsCell,
     gridWidth: "150px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   { accessor: "oppArchetype" },
   {
@@ -254,13 +251,13 @@ const columns: Column<MatchTableData>[] = [
     Cell: ArchetypeCell,
     gridWidth: "210px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Duration",
     accessor: "duration",
     Cell: DurationCell,
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Won",
@@ -269,7 +266,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Lost",
@@ -278,7 +275,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Drawn",
@@ -287,7 +284,7 @@ const columns: Column<MatchTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "custom" },
   { accessor: "archived" },
@@ -301,18 +298,18 @@ const columns: Column<MatchTableData>[] = [
     Cell: ArchivedCell,
     gridWidth: "110px",
     sortType: "basic",
-    mayToggle: true
-  }
+    mayToggle: true,
+  },
 ];
 
 function getDataAggFilters(data: Row<MatchTableData>[]): AggregatorFilters {
-  const matchIds = data.map(row => row.original.id);
+  const matchIds = data.map((row) => row.original.id);
   return { matchIds };
 }
 
 function MatchesSidePanel({
   subAggFilters,
-  setAggFiltersCallback
+  setAggFiltersCallback,
 }: {
   subAggFilters: AggregatorFilters;
   setAggFiltersCallback: (filters: AggregatorFilters) => void;
@@ -359,11 +356,11 @@ export default function MatchesTable({
   const [tableMode, setTableMode] = React.useState(cachedTableMode);
   React.useEffect(() => tableModeCallback(tableMode), [
     tableMode,
-    tableModeCallback
+    tableModeCallback,
   ]);
   const customFilterTypes = {
     onPlay: onPlayFilterFn,
-    rank: rankFilterFn
+    rank: rankFilterFn,
   };
   const tableProps: BaseTableProps<MatchTableData> = {
     cachedState,
@@ -373,19 +370,19 @@ export default function MatchesTable({
     data,
     defaultState: {
       filters: [{ id: "archivedCol", value: "hideArchived" }],
-      sortBy: [{ id: "timestamp", desc: true }]
+      sortBy: [{ id: "timestamp", desc: true }],
     },
     globalFilter: matchSearchFilterFn,
     setTableMode,
     tableMode,
-    tableStateCallback
+    tableStateCallback,
   };
   const {
     table,
     gridTemplateColumns,
     headersProps,
     pagingProps,
-    tableControlsProps
+    tableControlsProps,
   } = useBaseReactTable(tableProps);
   useAggregatorArchiveFilter(table, aggFilters, setAggFiltersCallback);
   const { getTableBodyProps, page, prepareRow, rows } = table;
@@ -393,7 +390,7 @@ export default function MatchesTable({
     aggFilters,
     events,
     setAggFiltersCallback,
-    ...tableControlsProps
+    ...tableControlsProps,
   };
   const isTableMode = tableMode === MATCHES_TABLE_MODE;
 
@@ -418,7 +415,9 @@ export default function MatchesTable({
             />
             <div
               className={
-                isTableMode ? tablesCss.reactTableBody : tablesCss.reactTableBodyNoAdjust
+                isTableMode
+                  ? tablesCss.reactTableBody
+                  : tablesCss.reactTableBodyNoAdjust
               }
               {...getTableBodyProps()}
             >
@@ -453,7 +452,10 @@ export default function MatchesTable({
         </div>
       </div>
 
-      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
+      <animated.div
+        {...bind()}
+        className={tablesCss.sidebarDragger}
+      ></animated.div>
       <animated.div
         className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}

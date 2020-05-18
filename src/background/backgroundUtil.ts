@@ -31,7 +31,7 @@ const dateFormats = [
   "M/dd/yyyy hh:mm:ss aa",
   "dd/MM/yyyy hh:mm:ss aa",
   "yyyy-MM-dd A HH:mm:ss",
-  "yyyy/MM/dd HH:mm:ss"
+  "yyyy/MM/dd HH:mm:ss",
 ];
 
 class DateParseError extends Error {
@@ -53,7 +53,7 @@ export function getDateFormat(dateStr: string): string | undefined {
   } else {
     // return the first date format which parses
     // the string returning a valid date
-    return dateFormats.find(dateFormat => {
+    return dateFormats.find((dateFormat) => {
       return isValidDate(parse(dateStr, dateFormat, new Date()));
     });
   }
@@ -126,7 +126,7 @@ export function updateLoading(entry: any): void {
     ipcSend("popup", {
       text: `Reading log: ${Math.round(100 * completion)}%`,
       time: 0,
-      progress: completion
+      progress: completion,
     });
   }
 }

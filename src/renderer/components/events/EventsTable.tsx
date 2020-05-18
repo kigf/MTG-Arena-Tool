@@ -16,13 +16,13 @@ import {
   RelativeTimeCell,
   ShortTextCell,
   SubTextCell,
-  TextCell
+  TextCell,
 } from "../tables/cells";
 import {
   ArchiveColumnFilter,
   ColorColumnFilter,
   NumberRangeColumnFilter,
-  TextBoxFilter
+  TextBoxFilter,
 } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
@@ -35,7 +35,7 @@ import { eventSearchFilterFn } from "./filters";
 import {
   EventsTableControlsProps,
   EventsTableProps,
-  EventTableData
+  EventTableData,
 } from "./types";
 import useResizePanel from "../../hooks/useResizePanel";
 import { animated } from "react-spring";
@@ -52,7 +52,7 @@ const columns: Column<EventTableData>[] = [
     Cell: RelativeTimeCell,
     sortDescFirst: true,
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Code",
@@ -62,7 +62,7 @@ const columns: Column<EventTableData>[] = [
     Filter: TextBoxFilter,
     Cell: SubTextCell,
     gridWidth: "210px",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Event",
@@ -73,7 +73,7 @@ const columns: Column<EventTableData>[] = [
     Cell: ShortTextCell,
     gridWidth: "210px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Format",
@@ -83,7 +83,7 @@ const columns: Column<EventTableData>[] = [
     Filter: TextBoxFilter,
     Cell: FormatCell,
     gridWidth: "150px",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "CourseDeck" },
   { accessor: "deckId" },
@@ -96,7 +96,7 @@ const columns: Column<EventTableData>[] = [
     Cell: SubTextCell,
     gridWidth: "210px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   { accessor: "colors" },
   {
@@ -108,14 +108,14 @@ const columns: Column<EventTableData>[] = [
     Cell: ColorsCell,
     gridWidth: "150px",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Duration",
     accessor: "duration",
     Cell: DurationCell,
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Won",
@@ -125,7 +125,7 @@ const columns: Column<EventTableData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Lost",
@@ -135,7 +135,7 @@ const columns: Column<EventTableData>[] = [
     Filter: NumberRangeColumnFilter,
     filter: "between",
     mayToggle: true,
-    defaultVisible: true
+    defaultVisible: true,
   },
   {
     Header: "Games Won",
@@ -144,7 +144,7 @@ const columns: Column<EventTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   {
     Header: "Games Lost",
@@ -153,7 +153,7 @@ const columns: Column<EventTableData>[] = [
     disableFilters: false,
     Filter: NumberRangeColumnFilter,
     filter: "between",
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "isMissingMatchData" },
   { accessor: "CurrentEventState" },
@@ -164,7 +164,7 @@ const columns: Column<EventTableData>[] = [
     filter: "fuzzyText",
     Filter: TextBoxFilter,
     Cell: TextCell,
-    mayToggle: true
+    mayToggle: true,
   },
   { accessor: "custom" },
   { accessor: "archived" },
@@ -178,12 +178,12 @@ const columns: Column<EventTableData>[] = [
     Cell: ArchivedCell,
     gridWidth: "110px",
     sortType: "basic",
-    mayToggle: true
-  }
+    mayToggle: true,
+  },
 ];
 
 function getDataAggFilters(data: Row<EventTableData>[]): AggregatorFilters {
-  const matchIds = _.flatten(data.map(row => row.original.stats.matchIds));
+  const matchIds = _.flatten(data.map((row) => row.original.stats.matchIds));
   return { matchIds };
 }
 
@@ -196,12 +196,12 @@ export default function EventsTable({
   tableStateCallback,
   cachedState,
   cachedTableMode,
-  editTagCallback
+  editTagCallback,
 }: EventsTableProps): JSX.Element {
   const [tableMode, setTableMode] = React.useState(cachedTableMode);
   React.useEffect(() => tableModeCallback(tableMode), [
     tableMode,
-    tableModeCallback
+    tableModeCallback,
   ]);
   const tableProps: BaseTableProps<EventTableData> = {
     cachedState,
@@ -210,19 +210,19 @@ export default function EventsTable({
     data,
     defaultState: {
       filters: [{ id: "archivedCol", value: "hideArchived" }],
-      sortBy: [{ id: "timestamp", desc: true }]
+      sortBy: [{ id: "timestamp", desc: true }],
     },
     globalFilter: eventSearchFilterFn,
     setTableMode,
     tableMode,
-    tableStateCallback
+    tableStateCallback,
   };
   const {
     table,
     gridTemplateColumns,
     headersProps,
     pagingProps,
-    tableControlsProps
+    tableControlsProps,
   } = useBaseReactTable(tableProps);
   useAggregatorArchiveFilter(table, aggFilters, setAggFiltersCallback);
   const { getTableBodyProps, page, prepareRow, rows } = table;
@@ -230,7 +230,7 @@ export default function EventsTable({
     aggFilters,
     events,
     setAggFiltersCallback,
-    ...tableControlsProps
+    ...tableControlsProps,
   };
   const isTableMode = tableMode === EVENTS_TABLE_MODE;
 
@@ -255,7 +255,9 @@ export default function EventsTable({
             />
             <div
               className={
-                isTableMode ? tablesCss.reactTableBody : tablesCss.reactTableBodyNoAdjust
+                isTableMode
+                  ? tablesCss.reactTableBody
+                  : tablesCss.reactTableBodyNoAdjust
               }
               {...getTableBodyProps()}
             >
@@ -285,7 +287,10 @@ export default function EventsTable({
           <PagingControls {...pagingProps} />
         </div>
       </div>
-      <animated.div {...bind()} className={tablesCss.sidebarDragger}></animated.div>
+      <animated.div
+        {...bind()}
+        className={tablesCss.sidebarDragger}
+      ></animated.div>
       <animated.div
         className={tablesCss.sidebarMain}
         style={{ width, minWidth: width, maxWidth: width }}

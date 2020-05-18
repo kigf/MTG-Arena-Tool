@@ -18,7 +18,7 @@ export default function onLabelInDraftMakePick(entry: Entry): void {
     packNumber: json.PackNumber,
     pickNumber: json.PickNumber,
     pickedCards: json.PickedCards,
-    currentPack: json.DraftPack || []
+    currentPack: json.DraftPack || [],
   };
   data.draftId = data.id;
   setDraftData(data);

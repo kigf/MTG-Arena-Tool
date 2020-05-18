@@ -4,7 +4,7 @@ import saveEconomyTransaction from "../saveEconomyTransaction";
 import LogEntry from "../../types/logDecoder";
 import {
   InventoryUpdate,
-  InternalEconomyTransaction
+  InternalEconomyTransaction,
 } from "../../types/inventory";
 import sha1 from "js-sha1";
 
@@ -30,7 +30,7 @@ export default function InventoryUpdated(entry: Entry): void {
       subContext: update.context,
       context: transaction.context + "." + update.context.source,
       id: sha1(JSON.stringify(update) + entry.hash),
-      date: globals.logTime.toISOString()
+      date: globals.logTime.toISOString(),
     };
 
     // Add delta to our current values

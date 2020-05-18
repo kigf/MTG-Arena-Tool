@@ -23,7 +23,7 @@ function getDeckTypesAmount(deck: Deck): { [key: string]: number } {
   deck
     .getMainboard()
     .get()
-    .forEach(function(card: CardObject | any) {
+    .forEach(function (card: CardObject | any) {
       // TODO remove group lands hack
       if (card?.id?.id === 100) {
         return;

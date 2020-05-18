@@ -5,7 +5,7 @@ import { InternalDraft } from "../../../types/draft";
 const draftsSlice = createSlice({
   name: "drafts",
   initialState: {
-    draftsIndex: [] as string[]
+    draftsIndex: [] as string[],
   },
   reducers: {
     setDraft: (state, action): void => {
@@ -24,8 +24,8 @@ const draftsSlice = createSlice({
         }
       });
       state.draftsIndex = [...newList, ...state.draftsIndex];
-    }
-  }
+    },
+  },
 });
 
 export default draftsSlice;

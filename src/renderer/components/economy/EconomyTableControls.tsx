@@ -16,7 +16,7 @@ import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
-  { id: "archivedCol", value: "hideArchived" }
+  { id: "archivedCol", value: "hideArchived" },
 ];
 
 export default function EconomyTableControls(
@@ -37,7 +37,7 @@ export default function EconomyTableControls(
     toggleableColumns,
     toggleHideColumn,
     toggleSortBy,
-    togglesVisible
+    togglesVisible,
   } = props;
   return (
     <div
@@ -45,7 +45,7 @@ export default function EconomyTableControls(
         display: "flex",
         flexWrap: "wrap",
         color: "var(--color-light)",
-        paddingBottom: "8px"
+        paddingBottom: "8px",
       }}
     >
       <div className={tablesCss.reactTableToggles}>

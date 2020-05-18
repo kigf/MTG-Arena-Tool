@@ -15,7 +15,7 @@ const STATS_CUTOFF = 100;
 export function SetsView({
   stats,
   boosterMath,
-  setClickCallback
+  setClickCallback,
 }: {
   stats: CollectionStats;
   boosterMath: boolean;
@@ -26,9 +26,9 @@ export function SetsView({
     rareDraftFactor,
     mythicDraftFactor,
     boosterWinFactor,
-    futureBoosters
+    futureBoosters,
   } = useSelector((state: AppState) => state.collection);
-  const collectibleSets = db.sortedSetCodes.filter(set => {
+  const collectibleSets = db.sortedSetCodes.filter((set) => {
     // ensure metadata populated
     const setStats = stats[set];
     const hasData = setStats.all.total > 0;

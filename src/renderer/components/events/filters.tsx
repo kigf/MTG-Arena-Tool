@@ -20,20 +20,20 @@ export function eventSearchFilterFn(
 ): Row<EventTableData>[] {
   const tokens = String(filterValue)
     .split(" ")
-    .filter(token =>
+    .filter((token) =>
       token.includes(":") ? token.split(":")[1].length > 2 : token.length > 2
     );
   if (tokens.length === 0) {
     return rows;
   }
-  const events = tokens.map(token => {
+  const events = tokens.map((token) => {
     return matchSorter(rows, token, {
       keys: [
         "values.name",
         "values.InternalEventName",
         "values.deckName",
-        colorSearchKeyFactory("colors")
-      ]
+        colorSearchKeyFactory("colors"),
+      ],
     });
   });
   return _.intersection(...events);

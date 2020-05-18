@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import indexCss from "../../index.css";
 
-export const InputContainer = styled.div.attrs(props => ({
-  className: (props.className ?? "") + " " + indexCss.input_container
+export const InputContainer = styled.div.attrs((props) => ({
+  className: (props.className ?? "") + " " + indexCss.input_container,
 }))`
   display: inline-flex;
   margin: inherit;

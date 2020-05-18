@@ -7,7 +7,7 @@ const collectionSlice = createSlice({
     rareDraftFactor: 3,
     mythicDraftFactor: 0.14,
     boosterWinFactor: 1.2,
-    futureBoosters: 0
+    futureBoosters: 0,
   },
   reducers: {
     setCountMode: (state, action): void => {
@@ -24,8 +24,8 @@ const collectionSlice = createSlice({
     },
     setFutureBoosters: (state, action): void => {
       state.futureBoosters = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export default collectionSlice;

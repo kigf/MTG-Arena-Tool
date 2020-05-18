@@ -65,7 +65,7 @@ export default function CardHover(): JSX.Element {
       height: size / 0.71808510638 + "px",
       top: `calc(100% - ${size / 0.71808510638 + 32}px)`,
       opacity: opacity,
-      backgroundImage: `url(${frontLoaded == grpId ? frontUrl : NoCard})`
+      backgroundImage: `url(${frontLoaded == grpId ? frontUrl : NoCard})`,
     };
   }, [frontUrl, opacity, grpId, frontLoaded, size]);
 
@@ -88,7 +88,7 @@ export default function CardHover(): JSX.Element {
       height: size / 0.71808510638 + "px",
       top: `calc(100% - ${size / 0.71808510638 + 32}px)`,
       opacity: op,
-      backgroundImage: `url(${backLoaded == grpId ? backUrl : NoCard})`
+      backgroundImage: `url(${backLoaded == grpId ? backUrl : NoCard})`,
     };
   }, [backUrl, opacity, grpId, backLoaded, size]);
 
@@ -118,7 +118,7 @@ export default function CardHover(): JSX.Element {
 
   return (
     <>
-      <div style={styleDfc} className={sharedCss.cardHoverDfc}/>
+      <div style={styleDfc} className={sharedCss.cardHoverDfc} />
       <div style={styleFront} className={sharedCss.cardHoverMain}>
         {card ? (
           <div className={sharedCss.ownershipStarsContainer}>

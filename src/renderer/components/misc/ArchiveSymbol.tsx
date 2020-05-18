@@ -30,6 +30,6 @@ export const ColoredArchivedSymbol = styled(ArchiveSymbol)<
   background: var(
       ${(props): string => (props.archived ? "--color-g" : "--color-r")}
     )
-    url(${(props): string => (props.archived ? showPng : hidePng)})
-    no-repeat center;
+    url(${(props): string => (props.archived ? showPng : hidePng)}) no-repeat
+    center;
 `;

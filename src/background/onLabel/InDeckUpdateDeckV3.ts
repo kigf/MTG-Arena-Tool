@@ -36,7 +36,7 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
     changesSide: [],
     previousMain: _deck?.mainDeck || [],
     previousSide: _deck?.sideboard || [],
-    newDeckHash: newDeck.getHash()
+    newDeckHash: newDeck.getHash(),
   };
 
   // Check Mainboard

@@ -21,7 +21,7 @@ export const InternalDraftDefault: InternalDraft = {
   CardPool: [],
   CourseDeck: null,
   date: "",
-  type: "draft"
+  type: "draft",
 };
 
 // Hey! If you're here, you might be thinking of adding stuff to this file.
@@ -80,5 +80,5 @@ export default {
   cardTypesByZone,
   stopWatchingLog,
   toolVersion,
-  watchingLog
+  watchingLog,
 };

@@ -6,11 +6,11 @@ const homeSlice = createSlice({
   initialState: {
     wildcards: [] as WildcardsChange[],
     filteredSet: "",
-    usersActive: 0
+    usersActive: 0,
   },
   reducers: {
-    setHomeData: (_state, action): any => action.payload
-  }
+    setHomeData: (_state, action): any => action.payload,
+  },
 });
 
 export default homeSlice;

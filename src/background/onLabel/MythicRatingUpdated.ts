@@ -44,7 +44,7 @@ export default function MythicRatingUpdated(entry: Entry): void {
     id: entry.hash,
     timestamp: parseWotcTimeFallback(entry.timestamp).getTime(),
     lastMatchId: globalStore.currentMatch.matchId,
-    eventId: globalStore.currentMatch.eventId
+    eventId: globalStore.currentMatch.eventId,
   };
 
   rank[type].percentile = json.newMythicPercentile;

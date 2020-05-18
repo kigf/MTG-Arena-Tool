@@ -1,15 +1,15 @@
-import {InternalMatch} from "../../types/match";
-import {InternalEvent} from "../../types/event";
-import {InternalDeck, ArenaV3Deck} from "../../types/Deck";
-import {InternalEconomyTransaction} from "../../types/inventory";
-import {InternalDraft} from "../../types/draft";
-import {SeasonalRankData} from "../../types/Season";
-import {matchStateObject} from "./currentMatchStore";
-import {DEFAULT_TILE} from "../constants";
+import { InternalMatch } from "../../types/match";
+import { InternalEvent } from "../../types/event";
+import { InternalDeck, ArenaV3Deck } from "../../types/Deck";
+import { InternalEconomyTransaction } from "../../types/inventory";
+import { InternalDraft } from "../../types/draft";
+import { SeasonalRankData } from "../../types/Season";
+import { matchStateObject } from "./currentMatchStore";
+import { DEFAULT_TILE } from "../constants";
 
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
-import {DeckChange} from "../../types/Deck";
+import { DeckChange } from "../../types/Deck";
 import prettierDeckData from "../utils/prettierDeckData";
 import getDeckColors from "../utils/getDeckColors";
 
@@ -29,7 +29,7 @@ const globalStore = {
   seasonal: {} as Record<string, SeasonalRankData>,
   deckChanges: {} as Record<string, DeckChange>,
   currentMatch: matchStateObject,
-  preconDecks: {} as {[id: string]: ArenaV3Deck},
+  preconDecks: {} as { [id: string]: ArenaV3Deck },
 };
 
 //
@@ -53,7 +53,7 @@ export function getMatch(id: string): InternalMatch | undefined {
   });
   playerDeck.colors = getDeckColors(playerDeck);
 
-  const oppDeck = {...defaultDeck, ...matchData.oppDeck};
+  const oppDeck = { ...defaultDeck, ...matchData.oppDeck };
   oppDeck.colors = getDeckColors(oppDeck);
 
   return {
@@ -229,7 +229,7 @@ export function archive(id: string): any {
   if (transactionExists(id)) data = getTransaction(id);
 
   if (data) {
-    return {...data, archived: !data.archived};
+    return { ...data, archived: !data.archived };
   }
   return undefined;
 }

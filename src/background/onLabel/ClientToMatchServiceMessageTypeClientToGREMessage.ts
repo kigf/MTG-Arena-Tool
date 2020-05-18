@@ -71,7 +71,7 @@ export default function ClientToMatchServiceMessageTypeClientToGREMessage(
     const deckResp = payload.submitDeckResp?.deck || {
       deckCards: [],
       sideboardCards: [],
-      commanderCards: []
+      commanderCards: [],
     };
 
     const currentDeck = globalStore.currentMatch.currentDeck.getSave();

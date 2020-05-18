@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import React from "react";
+import React, { useMemo } from "react";
 import _ from "lodash";
 import ReactSelect from "../../../shared/ReactSelect";
 import {
   CARD_TILE_ARENA,
   CARD_TILE_FLAT,
   IPC_ALL,
-  IPC_RENDERER
+  IPC_RENDERER,
 } from "../../../shared/constants";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
@@ -91,17 +90,16 @@ export default function SectionVisual(): JSX.Element {
     settings.cards_size_hover_card
   );
 
-  const hoverCardSizeDebouce = React.useCallback(
-    _.debounce((value: number) => {
+  const hoverCardSizeDebouce = useMemo(() => {
+    return _.debounce((value: number) => {
       reduxAction(
         store.dispatch,
         "SET_SETTINGS",
         { cards_size_hover_card: value },
         IPC_ALL ^ IPC_RENDERER
       );
-    }, 500),
-    []
-  );
+    }, 500);
+  }, []);
 
   const hoverCardSizeHandler = (value: number): void => {
     setHoverCardSize(value);
@@ -113,17 +111,16 @@ export default function SectionVisual(): JSX.Element {
     settings.cards_size
   );
 
-  const collectionCardSizeDebouce = React.useCallback(
-    _.debounce((value: number) => {
+  const collectionCardSizeDebouce = useMemo(() => {
+    return _.debounce((value: number) => {
       reduxAction(
         store.dispatch,
         "SET_SETTINGS",
         { cards_size: value },
         IPC_ALL ^ IPC_RENDERER
       );
-    }, 500),
-    []
-  );
+    }, 500);
+  }, []);
 
   const collectionCardSizeHandler = (value: number): void => {
     setCollectionCardSize(value);
@@ -188,7 +185,7 @@ export default function SectionVisual(): JSX.Element {
         />
       </div>
       <div className={css.centered_setting_container}>
-        <label style={{ width: "400px" }} >
+        <label style={{ width: "400px" }}>
           {`Hover card size: ${100 + Math.round(hoverCardSize) * 15}px`}
         </label>
         <Slider
@@ -201,9 +198,10 @@ export default function SectionVisual(): JSX.Element {
       </div>
 
       <div className={css.centered_setting_container}>
-        <label style={{ width: "400px" }} >
-          {`Collection card size: ${100 +
-            Math.round(collectionCardSize) * 15}px`}
+        <label style={{ width: "400px" }}>
+          {`Collection card size: ${
+            100 + Math.round(collectionCardSize) * 15
+          }px`}
         </label>
         <Slider
           min={0}
@@ -221,7 +219,7 @@ export default function SectionVisual(): JSX.Element {
           style={{
             marginTop: "16px",
             width: cardSize + "px",
-            alignSelf: "flex-start"
+            alignSelf: "flex-start",
           }}
         >
           <img

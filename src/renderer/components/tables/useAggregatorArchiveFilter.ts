@@ -10,13 +10,13 @@ export function useAggregatorArchiveFilter<D extends TableData>(
   setAggFiltersCallback: (filters: AggregatorFilters) => void
 ): void {
   const {
-    state: { filters }
+    state: { filters },
   } = table;
   React.useEffect(() => {
     if (isHidingArchived({ filters }) === !!aggFilters.showArchived) {
       setAggFiltersCallback({
         ...aggFilters,
-        showArchived: !isHidingArchived({ filters })
+        showArchived: !isHidingArchived({ filters }),
       });
     }
   }, [aggFilters, setAggFiltersCallback, filters]);

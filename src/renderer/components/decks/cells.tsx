@@ -5,7 +5,7 @@ import { HeaderProps } from "react-table";
 import {
   formatPercent,
   formatWinrateInterval,
-  getWinrateClass
+  getWinrateClass,
 } from "../../rendererUtil";
 import { BoosterSymbol } from "../misc/BoosterSymbol";
 import { MetricText } from "../misc/MetricText";
@@ -19,7 +19,7 @@ export function WinRateCell({ cell }: DecksTableCellProps): JSX.Element {
     interval,
     winrate,
     winrateLow,
-    winrateHigh
+    winrateHigh,
   } = cell.row.original;
   if (!total) {
     return <MetricText title={"no data yet"}>-</MetricText>;
@@ -45,7 +45,7 @@ export function WinRateCell({ cell }: DecksTableCellProps): JSX.Element {
 }
 
 export function LastEditWinRateCell({
-  cell
+  cell,
 }: DecksTableCellProps): JSX.Element {
   const data = cell.row.values;
   let value, tooltip;
@@ -98,7 +98,7 @@ export function WildcardCell({ cell }: DecksTableCellProps): JSX.Element {
 }
 
 export function WildcardHeader({
-  column
+  column,
 }: HeaderProps<DecksData>): JSX.Element {
   return (
     <RaritySymbol

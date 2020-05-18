@@ -1,8 +1,8 @@
-export function starts(text: string, position: number) {
+export function starts(text: string, position: number): boolean {
   return ["{", "["].includes(text.charAt(position));
 }
 
-export function length(text: string, position: number) {
+export function length(text: string, position: number): number {
   switch (text.charAt(position)) {
     case "{":
     case "[": {

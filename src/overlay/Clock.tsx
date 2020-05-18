@@ -23,7 +23,7 @@ export default function Clock(props: ClockProps): JSX.Element {
     priorityTimers,
     turnPriority,
     oppName,
-    playerSeat
+    playerSeat,
   } = props;
 
   const handleClockPrev = useCallback((): void => {

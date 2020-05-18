@@ -1,13 +1,13 @@
 import _ from "lodash";
 import React from "react";
 import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
-import {DEFAULT_TILE} from "../../../shared/constants";
-import { toMMSS} from "../../../shared/util";
-import {ListItemMatchProps} from "../matches/types";
+import { DEFAULT_TILE } from "../../../shared/constants";
+import { toMMSS } from "../../../shared/util";
+import { ListItemMatchProps } from "../matches/types";
 import ManaCost from "../misc/ManaCost";
 import RankSmall from "../misc/RankSmall";
 import ResultDetails from "../misc/ResultDetails";
-import {NewTag, TagBubble} from "../misc/TagBubble";
+import { NewTag, TagBubble } from "../misc/TagBubble";
 import {
   ArchiveButton,
   Column,
@@ -91,14 +91,14 @@ export default function ListItemMatch({
         </FlexBottom>
       </Column>
 
-      <Column style={{flexGrow: 1}} class={css.listItemRight}>
+      <Column style={{ flexGrow: 1 }} class={css.listItemRight}>
         <FlexTop>
           <div className={css.listMatchTitle}>
             {"vs " + match.opponent.name.slice(0, -6)}
           </div>
           <RankSmall rank={match.opponent}></RankSmall>
         </FlexTop>
-        <FlexBottom style={{alignItems: "center"}}>
+        <FlexBottom style={{ alignItems: "center" }}>
           <div className={css.listMatchTime}>
             <relative-time datetime={dateTime.toISOString()}>
               {match.date?.toString() ?? ""}
@@ -111,7 +111,7 @@ export default function ListItemMatch({
             colors={match.oppDeck.colors || []}
           />
           {addTagCallback && editTagCallback ? (
-            <div style={{marginLeft: "8px"}}>
+            <div style={{ marginLeft: "8px" }}>
               {tagState.length > 0 ? (
                 tagState.map((tag: any) => {
                   return (

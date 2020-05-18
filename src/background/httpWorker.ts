@@ -42,7 +42,7 @@ export function handleError(error: Error): void {
 export function makeSimpleResponseHandler(
   fnToWrap?: (parsedResult: any) => void
 ): HttpTaskCallback {
-  return function(
+  return function (
     error?: Error | null,
     _task?: HttpTask,
     _results?: string,
@@ -67,13 +67,13 @@ export function getRequestOptions(task: HttpTask): RequestOptions {
         port: 443,
         hostname: serverAddress,
         path: "/database/" + task.lang,
-        method: "GET"
+        method: "GET",
       };
       // TODO why is this side-effect here?
       ipcPop({
         text: "Downloading metadata...",
         time: 0,
-        progress: 2
+        progress: 2,
       });
       break;
 
@@ -83,7 +83,7 @@ export function getRequestOptions(task: HttpTask): RequestOptions {
         port: 443,
         hostname: serverAddress,
         path: "/top_ladder.json",
-        method: "GET"
+        method: "GET",
       };
       break;
 
@@ -93,7 +93,7 @@ export function getRequestOptions(task: HttpTask): RequestOptions {
         port: 443,
         hostname: serverAddress,
         path: "/top_ladder_traditional.json",
-        method: "GET"
+        method: "GET",
       };
       break;
 
@@ -103,7 +103,7 @@ export function getRequestOptions(task: HttpTask): RequestOptions {
         port: 443,
         hostname: serverAddress,
         path: task.method_path ? task.method_path : "/api.php",
-        method: "POST"
+        method: "POST",
       };
   }
   return options;
@@ -115,7 +115,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     "auth",
     "delete_data",
     "get_database",
-    "get_database_version"
+    "get_database_version",
   ];
   const sendData = globals.store.getState().settings.send_data;
   const offline = globals.store.getState().renderer.offline;
@@ -150,19 +150,19 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   const postData = qs.stringify(_headers);
   options.headers = {
     "Content-Type": "application/x-www-form-urlencoded",
-    "Content-Length": postData.length
+    "Content-Length": postData.length,
   };
   let results = "";
-  const req = http.request(options, function(res: IncomingMessage) {
+  const req = http.request(options, function (res: IncomingMessage) {
     if (res.statusCode && (res.statusCode < 200 || res.statusCode > 299)) {
       const text = `Server error with request. (${task.method}: ${res.statusCode})`;
       callback(new Error(text), task);
       return;
     } else {
-      res.on("data", function(chunk: any) {
+      res.on("data", function (chunk: any) {
         results = results + chunk;
       });
-      res.on("end", function() {
+      res.on("end", function () {
         try {
           if (globals.debugNet && task.method !== "notifications") {
             ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));

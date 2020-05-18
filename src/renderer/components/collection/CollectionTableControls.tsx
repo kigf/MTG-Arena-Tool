@@ -3,7 +3,7 @@ import { FilterValue } from "react-table";
 import {
   COLLECTION_CHART_MODE,
   COLLECTION_SETS_MODE,
-  COLLECTION_TABLE_MODES
+  COLLECTION_TABLE_MODES,
 } from "../../../shared/constants";
 import db from "../../../shared/database";
 import ReactSelect from "../../../shared/ReactSelect";
@@ -19,19 +19,19 @@ import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 
 const boostersFilters = (): FilterValue[] => [
-  { id: "booster", value: { true: true, false: false } }
+  { id: "booster", value: { true: true, false: false } },
 ];
 const standardSetsFilter: FilterValue = {};
-db.standardSetCodes.forEach(code => (standardSetsFilter[code] = true));
+db.standardSetCodes.forEach((code) => (standardSetsFilter[code] = true));
 const standardFilters = (): FilterValue[] => [
-  { id: "set", value: standardSetsFilter }
+  { id: "set", value: standardSetsFilter },
 ];
 const ownedFilters = (): FilterValue[] => [
-  { id: "owned", value: [1, undefined] }
+  { id: "owned", value: [1, undefined] },
 ];
 const wantedFilters = (): FilterValue[] => [
   { id: "wanted", value: [1, undefined] },
-  { id: "rarity", value: { ...defaultRarity, land: false } }
+  { id: "rarity", value: { ...defaultRarity, land: false } },
 ];
 
 const legacyModes = [COLLECTION_CHART_MODE, COLLECTION_SETS_MODE];
@@ -55,10 +55,10 @@ export default function CollectionTableControls(
     toggleableColumns,
     toggleHideColumn,
     toggleSortBy,
-    togglesVisible
+    togglesVisible,
   } = props;
   const exportRows = React.useCallback(() => {
-    exportCallback(rows.map(row => row.values.id));
+    exportCallback(rows.map((row) => row.values.id));
   }, [exportCallback, rows]);
   return (
     <div
@@ -66,7 +66,7 @@ export default function CollectionTableControls(
         display: "flex",
         flexWrap: "wrap",
         color: "var(--color-light)",
-        paddingBottom: "8px"
+        paddingBottom: "8px",
       }}
     >
       <div className={tableCss.reactTableToggles}>
@@ -79,7 +79,7 @@ export default function CollectionTableControls(
             setAllFilters(boostersFilters);
             setFiltersVisible({
               ...initialFiltersVisible,
-              booster: true
+              booster: true,
             });
             toggleSortBy("grpId", true, false);
             for (const column of toggleableColumns) {
@@ -96,7 +96,7 @@ export default function CollectionTableControls(
             setAllFilters(standardFilters);
             setFiltersVisible({
               ...initialFiltersVisible,
-              set: true
+              set: true,
             });
             toggleSortBy("grpId", true, false);
             for (const column of toggleableColumns) {
@@ -111,7 +111,7 @@ export default function CollectionTableControls(
             setAllFilters(ownedFilters);
             setFiltersVisible({
               ...initialFiltersVisible,
-              owned: true
+              owned: true,
             });
             toggleSortBy("grpId", true, false);
             for (const column of toggleableColumns) {
@@ -127,7 +127,7 @@ export default function CollectionTableControls(
             setFiltersVisible({
               ...initialFiltersVisible,
               rarity: true,
-              wanted: true
+              wanted: true,
             });
             toggleSortBy("grpId", true, false);
             for (const column of toggleableColumns) {

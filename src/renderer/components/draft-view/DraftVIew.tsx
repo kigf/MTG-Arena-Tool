@@ -6,7 +6,7 @@ import {
   PACK_SIZES,
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,
-  IPC_NONE
+  IPC_NONE,
 } from "../../../shared/constants";
 import useHoverCard from "../../hooks/useHoverCard";
 import { DraftData } from "../../../types/draft";
@@ -18,7 +18,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
-import css from "./DraftView.css" 
+import css from "./DraftView.css";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import { getRankColorClass } from "../../../shared/utils/getRankColorClass";
 
@@ -26,7 +26,6 @@ interface PickPack {
   pack: number;
   pick: number;
 }
-
 
 const DEFAULT_PACK_SIZE = 14;
 
@@ -63,7 +62,7 @@ function DraftCard(props: DraftCardProps): JSX.Element {
     return {
       width: size + "px",
       height: size / 0.71808510638 + "px",
-      backgroundImage: `url(${getCardImage(grpId, cardQuality)})`
+      backgroundImage: `url(${getCardImage(grpId, cardQuality)})`,
     };
   }, [grpId, cardQuality, size]);
 
@@ -77,9 +76,9 @@ function DraftCard(props: DraftCardProps): JSX.Element {
         className={`${css.draftCard} + ${pick ? css.draftCardPicked : ""}`}
       />
       <div
-        className={
-          `${css.draftCardRank} ${getRankColorClass(RANK_SOURCE[card ? card.rank : 0])}`
-        }
+        className={`${css.draftCardRank} ${getRankColorClass(
+          RANK_SOURCE[card ? card.rank : 0]
+        )}`}
       >
         {card ? RANK_SOURCE[card.rank] : "-"}
       </div>
@@ -169,7 +168,10 @@ export function DraftView(props: DraftViewProps): JSX.Element {
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <div className={indexCss.decklist_top}>
-        <div className={`${sharedCss.button} ${sharedCss.back}`} onClick={goBack}></div>
+        <div
+          className={`${sharedCss.button} ${sharedCss.back}`}
+          onClick={goBack}
+        ></div>
         <div className={indexCss.deckName}>{draft.set + " Draft"}</div>
       </div>
       <div
@@ -190,8 +192,9 @@ export function DraftView(props: DraftViewProps): JSX.Element {
           <div
             className={css.draftView}
             style={{
-              gridTemplateColumns: `repeat(auto-fit, minmax(${cardSize +
-                12}px, 1fr))`
+              gridTemplateColumns: `repeat(auto-fit, minmax(${
+                cardSize + 12
+              }px, 1fr))`,
             }}
           >
             {getCurrentPick().pack.map((grpId: number, index: number) => {

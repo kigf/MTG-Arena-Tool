@@ -18,7 +18,7 @@ function getBestArchetype(deck: Deck): string {
   deck
     .getMainboard()
     .get()
-    .forEach(card => {
+    .forEach((card) => {
       const deviation = card.quantity;
       mainDeviations.push(deviation * deviation);
     });
@@ -33,7 +33,7 @@ function getBestArchetype(deck: Deck): string {
     deck
       .getMainboard()
       .get()
-      .forEach(card => {
+      .forEach((card) => {
         const cardData = db.card(card.id);
         if (!cardData) return;
         //let q = card.quantity;
@@ -61,7 +61,7 @@ function getBestArchetype(deck: Deck): string {
 
 function getOpponentDeck(): InternalDeck {
   let oppCardsList: number[] = [...globalStore.currentMatch.opponent.cardsUsed];
-  globalStore.currentMatch.matchGameStats.map(stats => {
+  globalStore.currentMatch.matchGameStats.map((stats) => {
     oppCardsList = [...oppCardsList, ...stats.cardsSeen];
   });
 

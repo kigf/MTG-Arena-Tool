@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace DeckTableCssModule {
   export interface IDeckTableCss {
     "decks-table-deck-archive": string;

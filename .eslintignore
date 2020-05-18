@@ -1,0 +1,20 @@
+# dependencies
+src/background/messages_pb.js
+
+# assets
+/assets
+
+# development
+/lib
+webpack.common.js
+webpack.dev.background.js
+webpack.dev.js
+webpack.dev.overlay.js
+webpack.dev.renderer.js
+webpack.post.js
+webpack.prod.js
+
+# production
+/build
+/dist
+/node_modules

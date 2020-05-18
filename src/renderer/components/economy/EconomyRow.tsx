@@ -2,19 +2,23 @@
 import React from "react";
 import db from "../../../shared/database";
 import LocalTime from "../../../shared/time-components/LocalTime";
-import {collectionSortRarity} from "../../../shared/util";
-import {DbCardData} from "../../../types/Metadata";
+import { collectionSortRarity } from "../../../shared/util";
+import { DbCardData } from "../../../types/Metadata";
 import useHoverCard from "../../hooks/useHoverCard";
-import {formatNumber, formatPercent, toggleArchived} from "../../rendererUtil";
-import {ArchiveButton} from "../list-item/ListItem";
+import {
+  formatNumber,
+  formatPercent,
+  toggleArchived,
+} from "../../rendererUtil";
+import { ArchiveButton } from "../list-item/ListItem";
 import {
   getCollationSet,
   getReadableCode,
   vaultPercentFormat,
 } from "./economyUtils";
-import EconomyValueRecord, {EconomyIcon} from "./EconomyValueRecord";
-import {useSelector} from "react-redux";
-import {AppState} from "../../../shared/redux/stores/rendererStore";
+import EconomyValueRecord, { EconomyIcon } from "./EconomyValueRecord";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 
 import notFound from "../../../assets/images/notFound.png";
 import indexCss from "../../index.css";
@@ -24,7 +28,7 @@ import {
   getCardArtCrop,
   getCardImage,
 } from "../../../shared/utils/getCardArtCrop";
-import {openScryfallCard} from "../../../shared/utils/openScryfallCard";
+import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (
@@ -39,11 +43,11 @@ function EconomyRowDate(date: Date): JSX.Element {
 }
 
 interface BoosterDeltaProps {
-  booster: {collationId: number; count: number};
+  booster: { collationId: number; count: number };
 }
 
 function BoosterDelta(props: BoosterDeltaProps): JSX.Element {
-  const {booster} = props;
+  const { booster } = props;
   const set = getCollationSet(booster.collationId);
   const imagePath =
     db.sets[set] && db.sets[set].code
@@ -134,7 +138,7 @@ interface WildcardEconomyValueRecordProps {
 function WildcardEconomyValueRecord(
   props: WildcardEconomyValueRecordProps
 ): JSX.Element {
-  const {count, title, className, smallLabel} = props;
+  const { count, title, className, smallLabel } = props;
   return (
     <EconomyValueRecord
       iconClassName={css.economy_wc + " " + className}
@@ -160,7 +164,7 @@ interface AllWildcardsEconomyValueRecordProps {
 function AllWildcardsEconomyValueRecord(
   props: AllWildcardsEconomyValueRecordProps
 ): JSX.Element {
-  const {delta, isSmall} = props;
+  const { delta, isSmall } = props;
   return (
     <>
       {delta && delta.wcCommonDelta ? (
@@ -214,8 +218,8 @@ interface FlexBottomProps {
 }
 
 function FlexBottom(props: FlexBottomProps): JSX.Element {
-  const {fullContext, change, thingsToCheck} = props;
-  const {checkGemsPaid, checkGoldPaid} = thingsToCheck;
+  const { fullContext, change, thingsToCheck } = props;
+  const { checkGemsPaid, checkGoldPaid } = thingsToCheck;
   return (
     <div className={indexCss.flex_bottom}>
       {fullContext === "Booster Open" ? (
@@ -269,7 +273,7 @@ interface InventoryCardListProps {
 function CardPoolAddedEconomyValueRecord(
   props: CardPoolAddedEconomyValueRecordProps
 ): JSX.Element {
-  const {addedCardIds, aetherizedCardIds} = props;
+  const { addedCardIds, aetherizedCardIds } = props;
   return (
     <>
       <InventoryCardList cardsList={addedCardIds} isAetherized={false} />
@@ -279,7 +283,7 @@ function CardPoolAddedEconomyValueRecord(
 }
 
 function InventoryCardList(props: InventoryCardListProps): JSX.Element {
-  const {cardsList, isAetherized} = props;
+  const { cardsList, isAetherized } = props;
   const uniqueCardList = countDupesArray(cardsList);
   const cardCounts = Object.entries(uniqueCardList);
   cardCounts.sort((a: [string, number], b: [string, number]): number =>
@@ -313,10 +317,10 @@ interface FlexRightProps {
 }
 
 function FlexRight(props: FlexRightProps): JSX.Element {
-  const {trackName} = useSelector(
+  const { trackName } = useSelector(
     (state: AppState) => state.playerdata.economy
   );
-  const {fullContext, change, thingsToCheck, economyId} = props;
+  const { fullContext, change, thingsToCheck, economyId } = props;
   const {
     checkAetherized,
     checkBoosterAdded,
@@ -351,7 +355,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
     change.aetherizedCards.length > 0;
   const aetherCards: string[] = checkAether
     ? change.aetherizedCards.reduce(
-        (aggregator: string[], obj: {grpId: string}) => {
+        (aggregator: string[], obj: { grpId: string }) => {
           const grpId = obj.grpId;
           if (change.delta.cardsAdded) {
             if (change.delta.cardsAdded.indexOf(grpId) == -1) {
@@ -371,7 +375,7 @@ function FlexRight(props: FlexRightProps): JSX.Element {
     checkSkinsAdded &&
     change.delta.artSkinsAdded !== undefined;
   const skinsToCards = checkSkins
-    ? change.delta.artSkinsAdded.map((obj: {artId: string}) =>
+    ? change.delta.artSkinsAdded.map((obj: { artId: string }) =>
         db.cardFromArt(obj.artId)
       )
     : undefined;
@@ -510,7 +514,7 @@ interface InventoryCardProps {
 }
 
 function InventoryCard(props: InventoryCardProps): JSX.Element {
-  const {card, isAetherized, quantity} = props;
+  const { card, isAetherized, quantity } = props;
   const onCardClick = React.useCallback(() => {
     const lookupCard =
       card && card.dfcId && card.dfcId !== true ? db.card(card.dfcId) : card;
@@ -582,7 +586,7 @@ interface FlexTopProps {
 }
 
 function FlexTop(props: FlexTopProps): JSX.Element {
-  const {change, fullContext} = props;
+  const { change, fullContext } = props;
   // flexTop.style.lineHeight = "32px";
   return (
     <div className={`${indexCss.flexTop} ${css.economy_sub}`}>
@@ -600,7 +604,7 @@ interface ChangeRowProps {
 }
 
 export function ChangeRow(props: ChangeRowProps): JSX.Element {
-  const {economyId, change} = props;
+  const { economyId, change } = props;
   const fullContext = change.fullContext;
   const thingsToCheck = getThingsToCheck(fullContext, change);
 

@@ -23,7 +23,7 @@ export default function TagOption(props: TagOptionProps): JSX.Element | string {
     color: "black",
     paddingRight: "12px",
     margin: "5px",
-    marginRight: "30px"
+    marginRight: "30px",
   };
   let tagString = getReadableFormat(tag);
   if (showCount && archCounts && tag in archCounts) {

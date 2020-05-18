@@ -8,7 +8,7 @@ import { EconomyTableRowProps, TransactionData } from "./types";
 import css from "./economy.css";
 
 export function EconomyListViewGroup({
-  row
+  row,
 }: TableViewRowProps<TransactionData>): JSX.Element {
   const props = row.values as EconomyDayHeaderProps;
   return (
@@ -19,7 +19,7 @@ export function EconomyListViewGroup({
 }
 
 export function EconomyListViewRow({
-  row
+  row,
 }: TableViewRowProps<TransactionData>): JSX.Element {
   return (
     <div>
@@ -33,7 +33,7 @@ export function EconomyTableRow({
   gridTemplateColumns,
   tableMode,
   prepareRow,
-  isExpanded
+  isExpanded,
 }: EconomyTableRowProps): JSX.Element {
   const GroupRenderer =
     tableMode === ECONOMY_TABLE_MODE ? TableViewRow : EconomyListViewGroup;

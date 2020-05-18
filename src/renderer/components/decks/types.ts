@@ -5,7 +5,7 @@ import {
   TableControlsProps,
   TableData,
   TableViewRowProps,
-  TagCounts
+  TagCounts,
 } from "../tables/types";
 
 export interface CardCounts {

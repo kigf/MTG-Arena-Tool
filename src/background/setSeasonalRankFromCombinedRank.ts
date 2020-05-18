@@ -39,7 +39,7 @@ export default function setSeasonalRankFromCombinedRank(
     oldStep: playerData.rank[type].step,
     seasonOrdinal: playerData.rank[type].seasonOrdinal,
     timestamp: timestamp,
-    wasLossProtected: false
+    wasLossProtected: false,
   };
 
   if (newJson.newClass == "Mythic" && newJson.oldClass == "Mythic") {

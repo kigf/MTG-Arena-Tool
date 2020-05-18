@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace ToggleCssModule {
   export interface IToggleCss {
     switch: string;

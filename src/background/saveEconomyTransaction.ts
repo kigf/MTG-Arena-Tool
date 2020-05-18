@@ -13,7 +13,7 @@ export default function saveEconomyTransaction(
   const txnData = {
     // preserve custom fields if possible
     ...(getTransaction(id) || {}),
-    ...transaction
+    ...transaction,
   };
 
   if (!transactionExists(id)) {

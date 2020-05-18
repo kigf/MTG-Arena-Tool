@@ -29,7 +29,7 @@ export default function RankUpdated(entry: Entry): void {
     //date: globals.logTime.toISOString(),
     timestamp: globals.logTime.getTime(),
     lastMatchId: globalStore.currentMatch.matchId,
-    eventId: globalStore.currentMatch.eventId
+    eventId: globalStore.currentMatch.eventId,
   };
 
   // newJson.wasLossProtected

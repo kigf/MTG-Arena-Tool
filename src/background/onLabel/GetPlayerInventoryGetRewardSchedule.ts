@@ -37,7 +37,7 @@ export default function GetPlayerInventoryGetRewardSchedule(
 
   const data = {
     daily: db.rewards_daily_ends.toISOString(),
-    weekly: db.rewards_weekly_ends.toISOString()
+    weekly: db.rewards_weekly_ends.toISOString(),
   };
 
   if (json.dailyReset) {

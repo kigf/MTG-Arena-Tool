@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import { getCardArtCrop } from "../../../shared/util";
 import { DecksTableRowProps } from "./types";
 import { useSpring, animated } from "react-spring";
 import ManaCost from "../misc/ManaCost";
 import {
   getWinrateClass,
   formatPercent,
-  get_deck_missing as getDeckMissing
+  get_deck_missing as getDeckMissing,
 } from "../../rendererUtil";
 import WildcardsCost from "../misc/WildcardsCost";
 import Deck from "../../../shared/deck";
+import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import { useDispatch } from "react-redux";
-
 import deckTableCss from "./deckTable.css";
 
 export default function DecksArtViewRow({
   row,
   archiveCallback,
-  openDeckCallback
+  openDeckCallback,
 }: DecksTableRowProps): JSX.Element {
   const deck = row.original;
   const onRowClick = (): void => {
@@ -30,7 +29,7 @@ export default function DecksArtViewRow({
   const props = useSpring({
     filter: "brightness(" + (hover ? "1.1" : "1.0") + ")",
     backgroundSize: "auto " + Math.round(hover ? 210 : 175) + "px",
-    config: { mass: 5, tension: 2000, friction: 150 }
+    config: { mass: 5, tension: 2000, friction: 150 },
   });
 
   const mouseEnter = React.useCallback(() => {
@@ -75,7 +74,7 @@ export default function DecksArtViewRow({
       onMouseLeave={mouseLeave}
       style={{
         ...props,
-        backgroundImage: `url(${getCardArtCrop(row.values["deckTileId"])})`
+        backgroundImage: `url(${getCardArtCrop(row.values["deckTileId"])})`,
       }}
     >
       {!!deck.custom && (
@@ -147,7 +146,9 @@ export function ArchiveArtViewButton(props: ArchiveButtonProps): JSX.Element {
     <div
       onClick={onClick}
       className={
-        isArchived ? deckTableCss.decksTableDeckUnarchive : deckTableCss.decksTableDeckArchive
+        isArchived
+          ? deckTableCss.decksTableDeckUnarchive
+          : deckTableCss.decksTableDeckArchive
       }
       title={isArchived ? "restore" : "archive (will not delete data)"}
     />

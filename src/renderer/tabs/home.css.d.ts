@@ -1,3 +1,5 @@
+/* eslint-disable */
+// GENERATED FILE; DO NOT EDIT
 declare namespace HomeCssModule {
   export interface IHomeCss {
     arrowDown: string;

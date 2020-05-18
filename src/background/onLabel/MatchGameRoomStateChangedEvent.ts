@@ -10,7 +10,7 @@ import globalStore from "../../shared/store";
 import {
   setPlayer,
   setOpponent,
-  setCurrentMatchMany
+  setCurrentMatchMany,
 } from "../../shared/store/currentMatchStore";
 
 interface Entry extends LogEntry {
@@ -30,7 +30,7 @@ export default function onLabelMatchGameRoomStateChangedEvent(
   if (gameRoom.gameRoomConfig) {
     eventId = gameRoom.gameRoomConfig.eventId;
     setCurrentMatchMany({
-      eventId: eventId
+      eventId: eventId,
     });
     globals.duringMatch = true;
   }
@@ -39,20 +39,20 @@ export default function onLabelMatchGameRoomStateChangedEvent(
 
   // Now only when a match begins
   if (gameRoom.stateType == "MatchGameRoomStateType_Playing") {
-    gameRoom.gameRoomConfig.reservedPlayers.forEach(player => {
+    gameRoom.gameRoomConfig.reservedPlayers.forEach((player) => {
       if (player.userId == playerData.arenaId) {
         setCurrentMatchMany({
           name: player.playerName,
           playerSeat: player.systemSeatId,
-          userid: player.userId
+          userid: player.userId,
         });
       } else {
         setOpponent({
           name: player.playerName,
-          userid: player.userId
+          userid: player.userId,
         });
         setCurrentMatchMany({
-          oppSeat: player.systemSeatId
+          oppSeat: player.systemSeatId,
         });
       }
     });
@@ -74,16 +74,16 @@ export default function onLabelMatchGameRoomStateChangedEvent(
       rank: playerRank[format].rank,
       percentile: playerRank[format].percentile,
       leaderboardPlace: playerRank[format].leaderboardPlace,
-      seat: currentMatch.playerSeat
+      seat: currentMatch.playerSeat,
     };
     setPlayer(player);
 
     const opponent = {
-      seat: currentMatch.oppSeat
+      seat: currentMatch.oppSeat,
     };
     setOpponent(opponent);
 
-    gameRoom.finalMatchResult.resultList.forEach(function(res) {
+    gameRoom.finalMatchResult.resultList.forEach(function (res) {
       if (res.scope == "MatchScope_Match") {
         // skipMatch = false;
         globals.duringMatch = false;
@@ -104,18 +104,18 @@ export default function onLabelMatchGameRoomStateChangedEvent(
   }
   // Only update if needed
   if (json.players) {
-    json.players.forEach(function(player) {
+    json.players.forEach(function (player) {
       const currentMatch = globalStore.currentMatch;
       if (
         player.userId == playerData.arenaId &&
         currentMatch.playerSeat !== player.systemSeatId
       ) {
         setCurrentMatchMany({
-          playerSeat: player.systemSeatId
+          playerSeat: player.systemSeatId,
         });
       } else if (currentMatch.oppSeat !== player.systemSeatId) {
         setCurrentMatchMany({
-          oppSeat: player.systemSeatId
+          oppSeat: player.systemSeatId,
         });
       }
     });

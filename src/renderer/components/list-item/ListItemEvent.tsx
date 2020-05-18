@@ -1,6 +1,6 @@
-import React, {useRef} from "react";
-import {TableViewRowProps} from "../tables/types";
-import {EventTableData} from "../events/types";
+import React, { useRef } from "react";
+import { TableViewRowProps } from "../tables/types";
+import { EventTableData } from "../events/types";
 import ManaCost from "../misc/ManaCost";
 import db from "../../../shared/database";
 
@@ -20,19 +20,19 @@ import {
   SUB_DRAFT,
   IPC_NONE,
 } from "../../../shared/constants";
-import {getEventWinLossClass, toggleArchived} from "../../rendererUtil";
-import {DbCardData} from "../../../types/Metadata";
+import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
+import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
-import {compareDesc} from "date-fns";
-import {useDispatch} from "react-redux";
-import {InternalMatch} from "../../../types/match";
-import {InternalDraft} from "../../../types/draft";
-import {reduxAction} from "../../../shared/redux/sharedRedux";
-import {getMatch, draftExists, getDraft} from "../../../shared/store";
+import { compareDesc } from "date-fns";
+import { useDispatch } from "react-redux";
+import { InternalMatch } from "../../../types/match";
+import { InternalDraft } from "../../../types/draft";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import { getMatch, draftExists, getDraft } from "../../../shared/store";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 
-function DraftRares({event}: {event: EventTableData}): JSX.Element {
+function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   const draftId = event.id + "-draft";
   let draftRares: JSX.Element[] = [];
   if (draftExists(draftId)) {
@@ -52,7 +52,7 @@ function DraftRares({event}: {event: EventTableData}): JSX.Element {
   }
   return (
     <div
-      style={{flexGrow: 1, display: "flex", justifyContent: "center"}}
+      style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
       className={css.listItemCenter}
     >
       {draftRares}
@@ -203,7 +203,7 @@ function EventSubRows({
     return matchRows;
   }, [draftId, event.stats.matchIds, expanded, initialDraft]);
 
-  const style = expanded ? {height: matchRows.length * 64 + "px"} : {};
+  const style = expanded ? { height: matchRows.length * 64 + "px" } : {};
 
   return (
     <div style={style} className={css.listEventExpand}>
@@ -236,8 +236,8 @@ export function ListItemEvent({
   const onRowClick = React.useCallback((): void => {
     setExpanded(!expanded);
   }, [expanded]);
-  const mainRowProps = {event, onRowClick};
-  const subRowsProps = {event, expanded};
+  const mainRowProps = { event, onRowClick };
+  const subRowsProps = { event, expanded };
   return (
     <>
       <EventMainRow {...mainRowProps} />

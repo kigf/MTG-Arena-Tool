@@ -13,7 +13,7 @@ import {
   OVERLAY_SEEN,
   OVERLAY_DRAFT,
   OVERLAY_FULL,
-  OVERLAY_LOG
+  OVERLAY_LOG,
 } from "./constants";
 
 export const overlayCfg = {
@@ -33,7 +33,7 @@ export const overlayCfg = {
   sideboard: false,
   title: true,
   top: true,
-  type_counts: false
+  type_counts: false,
 };
 
 const primaryBounds: Electron.Rectangle = remote
@@ -98,10 +98,10 @@ const defaultConfig = {
         bounds: {
           ...primaryBounds,
           width: 300,
-          height: 600
+          height: 600,
         },
         mode: OVERLAY_LEFT,
-        clock: true
+        clock: true,
       },
       {
         ...overlayCfg,
@@ -109,32 +109,32 @@ const defaultConfig = {
           ...primaryBounds,
           width: 300,
           height: 600,
-          x: primaryBounds.x + 310
+          x: primaryBounds.x + 310,
         },
         mode: OVERLAY_SEEN,
-        clock: false
+        clock: false,
       },
       {
         ...overlayCfg,
         bounds: { ...primaryBounds, width: 300, height: 600 },
         mode: OVERLAY_DRAFT,
         clock: false,
-        show: false
+        show: false,
       },
       {
         ...overlayCfg,
         bounds: { ...primaryBounds, width: 300, height: 600 },
         mode: OVERLAY_LOG,
         clock: false,
-        show: false
+        show: false,
       },
       {
         ...overlayCfg,
         bounds: { ...primaryBounds, width: 300, height: 600 },
         mode: OVERLAY_FULL,
-        show: false
-      }
-    ]
+        show: false,
+      },
+    ],
   },
   seasonal_rank: {},
   seasonal: {},
@@ -153,7 +153,7 @@ const defaultConfig = {
     currentLevel: 0,
     currentExp: 0,
     currentOrbCount: 0,
-    boosters: []
+    boosters: [],
   },
   rank: {
     constructed: {
@@ -165,7 +165,7 @@ const defaultConfig = {
       drawn: 0,
       percentile: 0,
       leaderboardPlace: 0,
-      seasonOrdinal: 0
+      seasonOrdinal: 0,
     },
     limited: {
       rank: "",
@@ -176,8 +176,8 @@ const defaultConfig = {
       drawn: 0,
       percentile: 0,
       leaderboardPlace: 0,
-      seasonOrdinal: 0
-    }
+      seasonOrdinal: 0,
+    },
   },
   deck_changes: {},
   deck_changes_index: [],
@@ -189,7 +189,7 @@ const defaultConfig = {
   decks_last_used: [],
   static_decks: [],
   static_events: [],
-  tags_colors: {}
+  tags_colors: {},
 };
 
 export default defaultConfig;

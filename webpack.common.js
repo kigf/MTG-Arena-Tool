@@ -11,11 +11,25 @@ let common_config = {
   module: {
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        enforce: "pre",
+        use: [
+          {
+            options: {
+              eslintPath: require.resolve("eslint"),
+            },
+            loader: require.resolve("eslint-loader"),
+          },
+        ],
+        exclude: /(node_modules|lib)/,
+      },
+      {
         test: /\.(s[ac]|c)ss$/i,
         use: [
           {
             loader: "@teamsupercell/typings-for-css-modules-loader",
             options: {
+              banner: "/* eslint-disable */\n// GENERATED FILE; DO NOT EDIT",
               verifyOnly: process.env.NODE_ENV === "production",
             },
           },

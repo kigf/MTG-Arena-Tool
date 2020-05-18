@@ -46,7 +46,7 @@ export function CardTableViewRow({
 export function CardTileRow({
   row,
   contextMenuCallback,
-  openCardCallback
+  openCardCallback,
 }: CollectionTableRowProps): JSX.Element {
   const card = row.original;
   const onClick = React.useCallback(() => {

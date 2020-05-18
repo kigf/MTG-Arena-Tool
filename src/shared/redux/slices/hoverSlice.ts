@@ -5,7 +5,7 @@ const hoverSlice = createSlice({
   initialState: {
     grpId: 0,
     opacity: 0,
-    wanted: 0
+    wanted: 0,
   },
   reducers: {
     setHoverIn: (state, action): void => {
@@ -13,13 +13,13 @@ const hoverSlice = createSlice({
       Object.assign(state, {
         grpId: grpId,
         wanted: wanted ?? 0,
-        opacity: 1
+        opacity: 1,
       });
     },
     setHoverOut: (state): void => {
       state.opacity = 0;
-    }
-  }
+    },
+  },
 });
 
 export default hoverSlice;

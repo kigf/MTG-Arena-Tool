@@ -1,6 +1,6 @@
-import { Dispatch, AnyAction} from "@reduxjs/toolkit";
+import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 import electron from "electron";
-import {IPC_NONE} from "../constants";
+import { IPC_NONE } from "../constants";
 import actionsMain from "./mainActions";
 import actionsOther from "./otherActions";
 const ipcRenderer = electron.ipcRenderer;

@@ -8,7 +8,7 @@ import sha1 from "js-sha1";
 
 const LABEL_JSON_PATTERNS = [
   /\[UnityCrossThreadLogger\](?<timestamp>.*): (?:Match to )?(?<playerId>\w*)(?: to Match)?: (?<label>.*)(?:\r\n|\n)/,
-  /\[UnityCrossThreadLogger\]Received unhandled GREMessageType: (?<label>.*)(?:\r\n|\n)*/
+  /\[UnityCrossThreadLogger\]Received unhandled GREMessageType: (?<label>.*)(?:\r\n|\n)*/,
 ];
 
 const LABEL_ARROW_JSON_PATTERN = /\[UnityCrossThreadLogger\](?<arrow>[<=]=[=>]) (?<label>.*?) /;
@@ -16,11 +16,13 @@ const LABEL_ARROW_JSON_PATTERN = /\[UnityCrossThreadLogger\](?<arrow>[<=]=[=>]) 
 const ALL_PATTERNS = [...LABEL_JSON_PATTERNS, LABEL_ARROW_JSON_PATTERN];
 
 const maxLinesOfAnyPattern = Math.max(
-  ...ALL_PATTERNS.map(regex => occurrences(regex.source, /\\n/g))
+  ...ALL_PATTERNS.map((regex) => occurrences(regex.source, /\\n/g))
 );
 
 const logEntryPattern = new RegExp(
-  `(${ALL_PATTERNS.map(re => re.source.replace(/\(\?<\w*>/g, "(")).join("|")})`,
+  `(${ALL_PATTERNS.map((re) => re.source.replace(/\(\?<\w*>/g, "(")).join(
+    "|"
+  )})`,
   "g"
 );
 
@@ -60,7 +62,7 @@ export default function ArenaLogDecoder(): {
           bufferUsed = match.index + length;
           callback({
             ...entry,
-            position
+            position,
           });
           break;
       }
@@ -128,11 +130,11 @@ function parseLogEntry(
           } catch (e) {
             console.log(e, {
               input: rematches?.input,
-              string: jsonString
+              string: jsonString,
             });
           }
-        }
-      }
+        },
+      },
     ];
   }
 
@@ -180,11 +182,11 @@ function parseLogEntry(
           } catch (e) {
             console.log(e, {
               input: rematches?.input,
-              string: jsonString
+              string: jsonString,
             });
           }
-        }
-      }
+        },
+      },
     ];
   }
 

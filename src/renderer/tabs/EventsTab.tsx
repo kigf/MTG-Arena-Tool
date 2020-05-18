@@ -59,7 +59,7 @@ function getEventStats(event: InternalEvent): EventStats {
     CurrentLosses: 0,
     ProcessedMatchIds: [],
     ...event.ModuleInstanceData.WinNoGate,
-    ...event.ModuleInstanceData.WinLossGate
+    ...event.ModuleInstanceData.WinLossGate,
   };
   const stats: EventStats = {
     displayName: getReadableEvent(event.InternalEventName),
@@ -70,7 +70,7 @@ function getEventStats(event: InternalEvent): EventStats {
     isMissingMatchData: false,
     losses: 0,
     matchIds: [],
-    wins: 0
+    wins: 0,
   };
   if (
     event.custom ||
@@ -81,7 +81,7 @@ function getEventStats(event: InternalEvent): EventStats {
   }
   if (eventData.ProcessedMatchIds) {
     stats.matchIds = eventData.ProcessedMatchIds.map(getValidMatchId).filter(
-      id => id !== undefined
+      (id) => id !== undefined
     ) as string[];
     if (eventData.ProcessedMatchIds.length !== stats.matchIds.length) {
       stats.isMissingMatchData = true;
@@ -89,7 +89,7 @@ function getEventStats(event: InternalEvent): EventStats {
   } else {
     stats.isMissingMatchData = true;
   }
-  stats.matchIds.forEach(matchId => {
+  stats.matchIds.forEach((matchId) => {
     const match = getMatch(matchId);
     if (!match) {
       stats.isMissingMatchData = true;
@@ -150,7 +150,7 @@ function getEventsData(
           deckName: event.CourseDeck.name ?? "",
           format: db.events_format[event.InternalEventName] ?? "unknown",
           stats,
-          timestamp: isValid(timestamp) ? timestamp.getTime() : NaN
+          timestamp: isValid(timestamp) ? timestamp.getTime() : NaN,
         };
       }
     );
@@ -162,7 +162,7 @@ function getTotalAggEvents(): string[] {
 }
 
 export default function EventsTab({
-  aggFiltersArg
+  aggFiltersArg,
 }: {
   aggFiltersArg?: AggregatorFilters;
 }): JSX.Element {
@@ -171,7 +171,7 @@ export default function EventsTab({
   const { aggFilters, data, setAggFilters } = useAggregatorData({
     aggFiltersArg,
     getData: getEventsData,
-    showArchived
+    showArchived,
   });
   const events = React.useMemo(getTotalAggEvents, []);
   return (

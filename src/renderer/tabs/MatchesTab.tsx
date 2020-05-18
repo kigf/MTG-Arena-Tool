@@ -6,7 +6,7 @@ import {
   SUB_MATCH,
   IPC_NONE,
   IPC_ALL,
-  IPC_RENDERER
+  IPC_RENDERER,
 } from "../../shared/constants";
 import db from "../../shared/database";
 import { getReadableEvent } from "../../shared/utils/getReadableEvent";
@@ -122,7 +122,7 @@ function getMatchesData(
           tags: match.tags ?? [],
           tier: match.player.tier,
           timestamp: isValid(timestamp) ? timestamp.getTime() : NaN,
-          wins: match.player.win
+          wins: match.player.win,
         };
       }
     );
@@ -132,11 +132,11 @@ function getTotalAggData(): [string[], TagCounts] {
   const totalAgg = new Aggregator();
   const allTags = [
     ...(totalAgg.archs ?? []).filter(
-      arch => arch !== NO_ARCH && arch !== DEFAULT_ARCH
+      (arch) => arch !== NO_ARCH && arch !== DEFAULT_ARCH
     ),
-    ...Object.values(db.archetypes).map(arch => arch.name)
+    ...Object.values(db.archetypes).map((arch) => arch.name),
   ];
-  const tags = [...new Set(allTags)].map(tag => {
+  const tags = [...new Set(allTags)].map((tag) => {
     const count = totalAgg.archCounts?.[tag as string] ?? 0;
     return { tag, q: count };
   });
@@ -144,7 +144,7 @@ function getTotalAggData(): [string[], TagCounts] {
 }
 
 export default function MatchesTab({
-  aggFiltersArg
+  aggFiltersArg,
 }: {
   aggFiltersArg?: AggregatorFilters;
 }): JSX.Element {
@@ -158,7 +158,7 @@ export default function MatchesTab({
     aggFiltersArg,
     getData: getMatchesData,
     showArchived,
-    forceMemo: matchesList
+    forceMemo: matchesList,
   });
 
   const openMatchDetails = React.useCallback(
@@ -174,7 +174,7 @@ export default function MatchesTab({
         "SET_SUBNAV",
         {
           type: SUB_MATCH,
-          id: match.id
+          id: match.id,
         },
         IPC_NONE
       );

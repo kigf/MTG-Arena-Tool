@@ -5,7 +5,7 @@ import { InternalEvent } from "../../event";
 const eventsSlice = createSlice({
   name: "events",
   initialState: {
-    eventsIndex: [] as string[]
+    eventsIndex: [] as string[],
   },
   reducers: {
     setEvent: (state, action): void => {
@@ -24,8 +24,8 @@ const eventsSlice = createSlice({
         }
       });
       state.eventsIndex = [...newList, ...state.eventsIndex];
-    }
-  }
+    },
+  },
 });
 
 export default eventsSlice;

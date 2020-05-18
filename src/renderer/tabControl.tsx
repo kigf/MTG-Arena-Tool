@@ -17,7 +17,7 @@ import {
   SUB_DRAFT,
   SUB_MATCH,
   IPC_RENDERER,
-  IPC_ALL
+  IPC_ALL,
 } from "../shared/constants";
 import Aggregator from "./aggregator";
 import openDeckSub from "./components/deck-view/DeckVIew";
@@ -43,7 +43,7 @@ export function getOpenNav(tab: number, offline: boolean): JSX.Element {
     return <OfflineSplash />;
   }
   const newSettings: Record<string, any> = {
-    last_open_tab: tab
+    last_open_tab: tab,
   };
   if ([MAIN_CONSTRUCTED, MAIN_LIMITED].includes(tab)) {
     newSettings.last_date_filter = DATE_SEASON;
@@ -63,7 +63,7 @@ export function getOpenNav(tab: number, offline: boolean): JSX.Element {
         <MatchesTab
           aggFiltersArg={{
             date: DATE_SEASON,
-            eventId: Aggregator.RANKED_CONST
+            eventId: Aggregator.RANKED_CONST,
           }}
         />
       );
@@ -72,7 +72,7 @@ export function getOpenNav(tab: number, offline: boolean): JSX.Element {
         <MatchesTab
           aggFiltersArg={{
             date: DATE_SEASON,
-            eventId: Aggregator.RANKED_DRAFT
+            eventId: Aggregator.RANKED_DRAFT,
           }}
         />
       );

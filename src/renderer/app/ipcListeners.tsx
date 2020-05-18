@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable no-console */
-import {ipcRenderer as ipc, IpcRendererEvent} from "electron";
-import {timestamp} from "../../shared/util";
+import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
+import { timestamp } from "../../shared/util";
 import {
   MAIN_SETTINGS,
   SETTINGS_OVERLAY,
   IPC_NONE,
 } from "../../shared/constants";
-import {ipcSend} from "../rendererUtil";
+import { ipcSend } from "../rendererUtil";
 import {
   LOGIN_FAILED,
   LOGIN_WAITING,
   SETTINGS_ABOUT,
 } from "../../shared/constants";
-import {reduxAction} from "../../shared/redux/sharedRedux";
+import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore from "../../shared/store";
-import {ArenaV3Deck} from "../../types/Deck";
+import { ArenaV3Deck } from "../../types/Deck";
 
 export default function ipcListeners(dispatcher: any): void {
   console.log("Set up IPC listeners.");
@@ -102,7 +102,7 @@ export default function ipcListeners(dispatcher: any): void {
       reduxAction(dispatcher, "SET_TOPNAV", MAIN_SETTINGS, IPC_NONE);
       reduxAction(dispatcher, "SET_NAV_INDEX", 0, IPC_NONE);
       if (arg === -1) {
-        ipcSend("save_user_settings", {last_open_tab: MAIN_SETTINGS});
+        ipcSend("save_user_settings", { last_open_tab: MAIN_SETTINGS });
       } else {
         ipcSend("save_user_settings", {
           last_open_tab: MAIN_SETTINGS,

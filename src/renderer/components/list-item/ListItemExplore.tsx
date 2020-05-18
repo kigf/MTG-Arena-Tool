@@ -1,9 +1,9 @@
 import React from "react";
 
-import {RANKS} from "../../../shared/constants";
+import { RANKS } from "../../../shared/constants";
 import ManaCost from "../misc/ManaCost";
-import {formatPercent, getWinrateClass} from "../../rendererUtil";
-import {ListItem, Column, HoverTile, FlexTop, FlexBottom} from "./ListItem";
+import { formatPercent, getWinrateClass } from "../../rendererUtil";
+import { ListItem, Column, HoverTile, FlexTop, FlexBottom } from "./ListItem";
 import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import RankSmall from "../misc/RankSmall";
 import css from "./ListItem.css";
@@ -44,7 +44,7 @@ interface ListItemExploreProps {
 }
 
 export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
-  const {row, openCallback} = props;
+  const { row, openCallback } = props;
   const [hover, setHover] = React.useState(false);
 
   const onRowClick = (): void => {
@@ -86,7 +86,7 @@ export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
       </Column>
 
       <Column
-        style={{maxWidth: "50%", alignSelf: "flex-end", marginLeft: "auto"}}
+        style={{ maxWidth: "50%", alignSelf: "flex-end", marginLeft: "auto" }}
         class={css.listItemCenter}
       >
         <WildcardsCostPreset wildcards={row.wildcards} showComplete={true} />
@@ -99,7 +99,7 @@ export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
           </span>
           )
         </FlexTop>
-        <FlexBottom style={{justifyContent: "flex-end", marginRight: "18px"}}>
+        <FlexBottom style={{ justifyContent: "flex-end", marginRight: "18px" }}>
           {RANKS.map((r) => {
             if (row.rank.includes(r)) {
               return <RankSmall key={row._id + "-r-" + r} rankTier={r} />;

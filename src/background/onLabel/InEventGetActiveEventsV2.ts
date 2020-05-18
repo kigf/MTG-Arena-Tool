@@ -9,6 +9,6 @@ export default function InEventGetActiveEventsV2(entry: Entry): void {
   const json = entry.json();
   if (!json) return;
 
-  const activeEvents = json.map(event => event.InternalEventName);
+  const activeEvents = json.map((event) => event.InternalEventName);
   ipcSend("set_active_events", JSON.stringify(activeEvents));
 }

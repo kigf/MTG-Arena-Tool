@@ -4,7 +4,7 @@ import interact from "interactjs";
 const restrictMinSize =
   interact.modifiers &&
   interact.modifiers.restrictSize({
-    min: { width: 100, height: 100 }
+    min: { width: 100, height: 100 },
   });
 const cursorChecker: any = (
   action: any,
@@ -30,7 +30,7 @@ export function useEditModeOnRef(
   const restrictDragBounds: any =
     interact.modifiers &&
     interact.modifiers.restrict({
-      elementRect: { left: 0, right: 1, top: 0, bottom: 1 } as any
+      elementRect: { left: 0, right: 1, top: 0, bottom: 1 } as any,
     });
   useEffect(() => {
     const container = containerRef.current;
@@ -38,7 +38,7 @@ export function useEditModeOnRef(
       if (container) {
         interact(container)
           .draggable({ cursorChecker, modifiers: [restrictDragBounds] })
-          .on("dragmove", function(event) {
+          .on("dragmove", function (event) {
             const target = event.target;
             const x = parseFloat(target.style.left) + event.dx;
             const y = parseFloat(target.style.top) + event.dy;
@@ -48,9 +48,9 @@ export function useEditModeOnRef(
           .resizable({
             edges: { left: true, right: true, bottom: true, top: true },
             modifiers: [restrictMinSize],
-            inertia: true
+            inertia: true,
           } as any)
-          .on("resizemove", function(event) {
+          .on("resizemove", function (event) {
             const target = event.target;
             const x = parseFloat(target.style.left) + event.deltaRect.left;
             const y = parseFloat(target.style.top) + event.deltaRect.top;

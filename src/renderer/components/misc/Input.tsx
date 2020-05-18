@@ -26,7 +26,7 @@ function InputBase(
     contStyle,
     callback,
     title,
-    placeholder
+    placeholder,
   } = props;
   const [currentValue, setCurrentValue] = React.useState(value + "");
   const autocomplete = props.autocomplete || "off";
@@ -38,7 +38,7 @@ function InputBase(
       }
       setCurrentValue(e.target.value);
     },
-    []
+    [props]
   );
   const onKeyUp = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.keyCode === 13) {

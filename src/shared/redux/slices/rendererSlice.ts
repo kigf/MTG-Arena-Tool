@@ -12,7 +12,7 @@ const rendererSlice = createSlice({
     offline: false,
     patreon: {
       patreon: false,
-      patreonTier: -1
+      patreonTier: -1,
     },
     syncState: 0,
     syncToPush: {
@@ -20,29 +20,29 @@ const rendererSlice = createSlice({
       matches: [],
       drafts: [],
       economy: [],
-      seasonal: []
+      seasonal: [],
     },
     popup: {
       text: "",
       time: 0,
-      duration: 0
+      duration: 0,
     },
     shareDialog: {
       open: false,
       url: "",
       type: "",
       data: {},
-      id: ""
+      id: "",
     },
     subNav: {
       type: -1,
       id: "",
-      data: null
+      data: null,
     },
     topArtist: "Bedevil by Seb McKinnon",
     topNav: 0,
     navIndex: 0,
-    updateState: ""
+    updateState: "",
   },
   reducers: {
     setBackgroundColor: (state, action): void => {
@@ -111,8 +111,8 @@ const rendererSlice = createSlice({
     },
     setSyncToPush: (state, action): void => {
       Object.assign(state.syncToPush, action.payload);
-    }
-  }
+    },
+  },
 });
 
 export default rendererSlice;

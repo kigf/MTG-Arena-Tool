@@ -9,7 +9,7 @@ import {
   DATE_ALL_TIME,
   DATE_LAST_30,
   DATE_LAST_DAY,
-  DATE_SEASON
+  DATE_SEASON,
 } from "../shared/constants";
 import db from "../shared/database";
 import { normalApproximationInterval } from "../shared/statsFns";
@@ -57,7 +57,7 @@ export function newCardWinrate(grpId: number): CardWinrateData {
     initHandWins: 0,
     initHandsLosses: 0,
     colors: {},
-    mulligans: 0
+    mulligans: 0,
   };
 }
 
@@ -121,7 +121,7 @@ export default class Aggregator {
       winrateHigh: NaN,
       duration: 0,
       avgDuration: NaN,
-      colors: []
+      colors: [],
     };
   }
 
@@ -145,7 +145,7 @@ export default class Aggregator {
       deckId: Aggregator.DEFAULT_DECK,
       deckVersion: Aggregator.DEFAULT_DECK_VERSION,
       date: store.getState().settings.last_date_filter,
-      showArchived: false
+      showArchived: false,
     };
   }
 
@@ -163,7 +163,7 @@ export default class Aggregator {
     const tagSet = new Set<string>();
     const formatSet = new Set<string>();
     const counts: Record<string, number> = {};
-    decks.forEach(deck => {
+    decks.forEach((deck) => {
       if (deck.tags) {
         deck.tags.forEach((tag: string) => {
           tagSet.add(tag);
@@ -175,7 +175,7 @@ export default class Aggregator {
         counts[deck.format] = (counts[deck.format] ?? 0) + 1;
       }
     });
-    const tagList = [...tagSet].filter(tag => tag && !formatSet.has(tag));
+    const tagList = [...tagSet].filter((tag) => tag && !formatSet.has(tag));
     tagList.sort(); // alpha sort instead of counts for now
     const formatList = [...formatSet];
     formatList.sort((a, b) => counts[b] - counts[a]);
@@ -301,7 +301,7 @@ export default class Aggregator {
     this.filters = {
       ...Aggregator.getDefaultFilters(),
       ...this.filters,
-      ...filters
+      ...filters,
     };
     if (this.filters.matchIds instanceof Array) {
       this.validMatches = new Set(this.filters.matchIds);
@@ -332,7 +332,7 @@ export default class Aggregator {
 
     matchesList()
       .filter(this.filterMatch)
-      .map(match => {
+      .map((match) => {
         if (!match.playerDeckHash) {
           const playerDeck = new Deck(match.playerDeck);
           match.playerDeckHash = playerDeck.getHash();
@@ -349,14 +349,14 @@ export default class Aggregator {
       ...Object.values(this.colorStats),
       ...Object.values(this.tagStats),
       ...Object.values(this.constructedStats),
-      ...Object.values(this.limitedStats)
+      ...Object.values(this.limitedStats),
     ].forEach(Aggregator.finishStats);
 
     this._eventIds = [...Object.keys(this.eventLastPlayed)];
     this._eventIds.sort(this.compareEvents);
 
     const archList = Object.keys(this.archCounts).filter(
-      arch => arch !== Aggregator.NO_ARCH
+      (arch) => arch !== Aggregator.NO_ARCH
     );
     archList.sort();
     this.archs = [Aggregator.DEFAULT_ARCH, Aggregator.NO_ARCH, ...archList];
@@ -374,7 +374,7 @@ export default class Aggregator {
     // on play vs draw
     const hasPlayDrawData = match && match.toolVersion >= 262400;
     if (hasPlayDrawData) {
-      match.gameStats.forEach(gameStats => {
+      match.gameStats.forEach((gameStats) => {
         const onThePlay = match.player.seat == gameStats.onThePlay;
         let toUpdate;
         if (onThePlay && gameStats) {
@@ -410,13 +410,13 @@ export default class Aggregator {
         if (!(rank in this.constructedStats)) {
           this.constructedStats[rank] = {
             ...Aggregator.getDefaultStats(),
-            rank
+            rank,
           };
         }
         if (!(rank in this.limitedStats)) {
           this.limitedStats[rank] = {
             ...Aggregator.getDefaultStats(),
-            rank
+            rank,
           };
         }
         if (db.standard_ranked_events.includes(match.eventId)) {
@@ -460,7 +460,7 @@ export default class Aggregator {
         if (!(colorStr in this.colorStats)) {
           this.colorStats[colorStr] = {
             ...Aggregator.getDefaultStats(),
-            colors
+            colors,
           };
         }
         statsToUpdate.push(this.colorStats[colorStr]);
@@ -472,18 +472,18 @@ export default class Aggregator {
         this.tagStats[tag] = {
           ...Aggregator.getDefaultStats(),
           colors,
-          tag
+          tag,
         };
       } else {
         this.tagStats[tag].colors = [
-          ...new Set([...this.tagStats[tag].colors || [], ...colors])
+          ...new Set([...(this.tagStats[tag].colors || []), ...colors]),
         ];
       }
       if (!statsToUpdate.includes(this.tagStats[tag]))
         statsToUpdate.push(this.tagStats[tag]);
     }
     // update relevant stats
-    statsToUpdate.forEach(stats => {
+    statsToUpdate.forEach((stats) => {
       // some of the data is wierd. Games which last years or have no data.
       if (match.duration && match.duration < 3600) {
         stats.duration += match.duration;
@@ -551,7 +551,7 @@ export default class Aggregator {
       Aggregator.RANKED_CONST,
       Aggregator.RANKED_DRAFT,
       Aggregator.PLAY_BRAWL,
-      ...this._eventIds.filter(eventId => !brawlEvents.has(eventId))
+      ...this._eventIds.filter((eventId) => !brawlEvents.has(eventId)),
     ];
   }
 
@@ -561,14 +561,14 @@ export default class Aggregator {
       Aggregator.ALL_EVENT_TRACKS,
       Aggregator.ALL_DRAFTS,
       Aggregator.RANKED_DRAFT,
-      ...this._eventIds.filter(eventId => !bo1Events.has(eventId))
+      ...this._eventIds.filter((eventId) => !bo1Events.has(eventId)),
     ];
   }
 
   get decks(): Partial<InternalDeck>[] {
     return [
       { id: Aggregator.DEFAULT_DECK, name: Aggregator.DEFAULT_DECK },
-      ...this._decks
+      ...this._decks,
     ];
   }
 
@@ -584,15 +584,15 @@ export default class Aggregator {
     const winrates: Record<number, CardWinrateData> = {};
     matchesList()
       .filter(this.filterMatch)
-      .forEach(match => {
+      .forEach((match) => {
         let addDelta: number[] = [];
         let remDelta: number[] = [];
-        match.gameStats.forEach(game => {
+        match.gameStats.forEach((game) => {
           const gameCards: number[] = [];
           const wins = game.win ? 1 : 0;
           const losses = game.win ? 0 : 1;
           // For each card cast
-          game.cardsCast?.forEach(cardCast => {
+          game.cardsCast?.forEach((cardCast) => {
             const { grpId, player, turn } = cardCast;
             // Only if we casted it
             if (player == match.player.seat) {
@@ -611,7 +611,7 @@ export default class Aggregator {
                   if (!winrates[grpId].colors[bits]) {
                     winrates[grpId].colors[bits] = {
                       wins: 0,
-                      losses: 0
+                      losses: 0,
                     };
                   }
                   winrates[grpId].colors[bits].wins += wins;
@@ -627,14 +627,14 @@ export default class Aggregator {
           game.handsDrawn?.forEach((hand, index) => {
             // Initial hand
             if (index == game.handsDrawn.length - 1) {
-              hand.forEach(grpId => {
+              hand.forEach((grpId) => {
                 // define
                 if (!winrates[grpId]) winrates[grpId] = newCardWinrate(grpId);
                 winrates[grpId].initHandWins += wins;
                 winrates[grpId].initHandsLosses += losses;
               });
             } else {
-              hand.forEach(grpId => {
+              hand.forEach((grpId) => {
                 if (!winrates[grpId]) winrates[grpId] = newCardWinrate(grpId);
                 winrates[grpId].mulligans++;
               });
@@ -645,7 +645,7 @@ export default class Aggregator {
           addDelta = [...addDelta, ...(game.sideboardChanges?.added || [])];
           remDelta = [...remDelta, ...(game.sideboardChanges?.removed || [])];
 
-          addDelta.forEach(grpId => {
+          addDelta.forEach((grpId) => {
             // define
             if (!winrates[grpId]) winrates[grpId] = newCardWinrate(grpId);
             winrates[grpId].sidedIn++;
@@ -655,7 +655,7 @@ export default class Aggregator {
               winrates[grpId].sideInLosses += losses;
             }
           });
-          remDelta.forEach(grpId => {
+          remDelta.forEach((grpId) => {
             // define
             if (!winrates[grpId]) winrates[grpId] = newCardWinrate(grpId);
             winrates[grpId].sidedOut++;

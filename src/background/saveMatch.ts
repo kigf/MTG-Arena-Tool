@@ -15,7 +15,7 @@ function matchResults(results: ResultSpec[]): number[] {
   let opponentWins = 0;
   let draws = 0;
   const currentMatch = globalStore.currentMatch;
-  results.forEach(function(res) {
+  results.forEach(function (res) {
     if (res.scope == "MatchScope_Game") {
       if (res.result == "ResultType_Draw") {
         draws += 1;
@@ -107,7 +107,7 @@ export default function saveMatch(id: string, matchEndTime: number): void {
   playerDb.upsert("", id, match);
 
   const gameNumberCompleted = currentMatch.gameInfo.results.filter(
-    res => res.scope == "MatchScope_Match"
+    (res) => res.scope == "MatchScope_Match"
   ).length;
 
   if (globals.matchCompletedOnGameNumber === gameNumberCompleted) {

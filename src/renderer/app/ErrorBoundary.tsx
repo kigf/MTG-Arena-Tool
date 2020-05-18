@@ -19,7 +19,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
     // Catch errors in any components below and re-render with error message
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     });
     // You can also log error messages to an error reporting service here
   }
@@ -33,14 +33,14 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
       {
         type: -1,
         id: "",
-        data: null
+        data: null,
       },
       IPC_NONE
     );
     setTimeout(() => {
       this.setState({
         error: null,
-        errorInfo: null
+        errorInfo: null,
       });
     }, 350);
   };

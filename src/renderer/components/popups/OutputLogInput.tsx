@@ -22,7 +22,7 @@ export default function OutputLogInput(
   const [log, setLog] = useState(logUri);
   const [open, setOpen] = useState(0);
   const handleClose = useCallback(
-    e => {
+    (e) => {
       setOpen(0);
       e.stopPropagation();
       if (closeCallback) {
@@ -44,9 +44,9 @@ export default function OutputLogInput(
         buttonLabel: "Select",
         filters: [
           { name: "Text", extensions: ["txt", "text"] },
-          { name: "All Files", extensions: ["*"] }
+          { name: "All Files", extensions: ["*"] },
         ],
-        properties: ["openFile"]
+        properties: ["openFile"],
       })
       .then((value: Electron.OpenDialogReturnValue): void => {
         const paths = value.filePaths;
@@ -77,7 +77,10 @@ export default function OutputLogInput(
           e.stopPropagation();
         }}
       >
-        <div style={{ marginBottom: "26px" }} className={indexCss.messageSub + " " + sharedCss.red}>
+        <div
+          style={{ marginBottom: "26px" }}
+          className={indexCss.messageSub + " " + sharedCss.red}
+        >
           Could not find a log
         </div>
         <label className={formsCss.formLabel}>Output log location:</label>

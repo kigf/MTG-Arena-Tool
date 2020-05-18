@@ -14,7 +14,7 @@ import {
   //GameObjectTypeAbility,
   AggregatedDetailsType,
   DetailsSrcDestCategoryType,
-  DetailsKeyType
+  DetailsKeyType,
 } from "../types/greInterpreter";
 
 import {
@@ -28,7 +28,7 @@ import {
   AnnotationType,
   PlayerInfo,
   GameStateMessage,
-  ZoneType
+  ZoneType,
 } from "../assets/proto/GreTypes";
 
 import getMatchGameStats from "./getMatchGameStats";
@@ -56,7 +56,7 @@ import {
   setGameBeginTime,
   setGameWinner,
   setCardsBottom,
-  addCardFromSideboard
+  addCardFromSideboard,
 } from "../shared/store/currentMatchStore";
 
 function changePriority(previous: number, current: number, time: number): void {
@@ -66,7 +66,7 @@ function changePriority(previous: number, current: number, time: number): void {
 
   setCurrentMatchMany({
     priorityTimers: priorityTimers,
-    currentPriority: current
+    currentPriority: current,
   });
 }
 
@@ -80,7 +80,7 @@ function getZone(id: number): ZoneInfo {
 
 function getPlayer(seat: number): PlayerInfo | undefined {
   return globalStore.currentMatch.players.filter(
-    player => player.systemSeatNumber == seat
+    (player) => player.systemSeatNumber == seat
   )[0];
 }
 
@@ -90,7 +90,7 @@ function getZoneByType(
 ): ZoneInfo | undefined {
   const currentMatch = globalStore.currentMatch;
   let ret = undefined;
-  Object.values(currentMatch.zones).forEach(zone => {
+  Object.values(currentMatch.zones).forEach((zone) => {
     if (zone.type == type && zone.ownerSeatId == seat) {
       ret = zone;
     }
@@ -112,14 +112,14 @@ function isAnnotationProcessed(id: number): boolean {
   return anns.includes(id);
 }
 
-const actionLogGenerateLink = function(grpId: number): string {
+const actionLogGenerateLink = function (grpId: number): string {
   const card = db.card(grpId);
   return card
     ? '<log-card id="' + grpId + '">' + card.name + "</log-card>"
     : "";
 };
 
-const actionLogGenerateAbilityLink = function(abId: number): string {
+const actionLogGenerateAbilityLink = function (abId: number): string {
   return `<log-ability id="${abId}">ability</log-ability>`;
 };
 
@@ -159,14 +159,14 @@ function instanceIdToObject(instanceID: number): GameObject {
   throw new NoInstanceException(orig, instanceID, instance);
 }
 
-const AnnotationType_ObjectIdChanged = function(ann: Annotations): void {
+const AnnotationType_ObjectIdChanged = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_ObjectIdChanged") return;
   //let newObj = cloneDeep(getGameObject(details.orig_id));
   //getGameObject(details.new_id) = newObj;
   setIdChange(ann.details);
 };
 
-const AnnotationType_ZoneTransfer = function(ann: Annotations): void {
+const AnnotationType_ZoneTransfer = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_ZoneTransfer") return;
 
   // Capture cards that travel from the sideboard
@@ -224,7 +224,7 @@ const AnnotationType_ZoneTransfer = function(ann: Annotations): void {
     const cast = {
       grpId: grpId,
       turn: turnNumber || 0,
-      player: seat
+      player: seat,
     };
     addCardCast(cast);
 
@@ -362,7 +362,9 @@ const AnnotationType_ZoneTransfer = function(ann: Annotations): void {
   }
 };
 
-const AnnotationType_AbilityInstanceCreated = function(ann: Annotations): void {
+const AnnotationType_AbilityInstanceCreated = function (
+  ann: Annotations
+): void {
   if (ann.type !== "AnnotationType_AbilityInstanceCreated") return;
   /*
   const affected = ann.affectedIds[0];
@@ -386,7 +388,7 @@ const AnnotationType_AbilityInstanceCreated = function(ann: Annotations): void {
   */
 };
 
-const AnnotationType_ResolutionStart = function(ann: Annotations): void {
+const AnnotationType_ResolutionStart = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_ResolutionStart") return;
   const affected = instanceIdToObject(ann.affectedIds[0]);
   const grpId = ann.details.grpid;
@@ -404,7 +406,7 @@ const AnnotationType_ResolutionStart = function(ann: Annotations): void {
   }
 };
 
-const AnnotationType_DamageDealt = function(ann: Annotations): void {
+const AnnotationType_DamageDealt = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_DamageDealt") return;
   let recipient = "";
   if (ann.affectedIds[0] < 5) {
@@ -427,7 +429,7 @@ const AnnotationType_DamageDealt = function(ann: Annotations): void {
   );
 };
 
-const AnnotationType_ModifiedLife = function(ann: Annotations): void {
+const AnnotationType_ModifiedLife = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_ModifiedLife") return;
   const affected = ann.affectedIds[0];
   const total = getPlayer(affected)?.lifeTotal || 0 + ann.details.life;
@@ -440,7 +442,7 @@ const AnnotationType_ModifiedLife = function(ann: Annotations): void {
   );
 };
 
-const AnnotationType_TargetSpec = function(ann: Annotations): void {
+const AnnotationType_TargetSpec = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_TargetSpec") return;
   let target;
   if (ann.affectedIds[0] < 5) {
@@ -464,7 +466,7 @@ const AnnotationType_TargetSpec = function(ann: Annotations): void {
   actionLog(seat, globals.logTime, `${text} targetted ${target}`);
 };
 
-const AnnotationType_Scry = function(ann: Annotations): void {
+const AnnotationType_Scry = function (ann: Annotations): void {
   if (ann.type !== "AnnotationType_Scry") return;
   // REVIEW SCRY ANNOTATION
   let affector = ann.affectorId;
@@ -521,7 +523,7 @@ const AnnotationType_Scry = function(ann: Annotations): void {
   }
 };
 
-const AnnotationType_CardRevealed = function(ann: Annotations): void {
+const AnnotationType_CardRevealed = function (ann: Annotations): void {
   const playerSeat = globalStore.currentMatch.playerSeat;
   if (ann.type !== "AnnotationType_CardRevealed") return;
   if (!ann.ignoreForSeatIds.includes(playerSeat)) return;
@@ -638,7 +640,7 @@ function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
     topIds: undefined,
     type: 0,
     zone_dest: 0,
-    zone_src: 0
+    zone_src: 0,
   };
 
   for (const obj of kvp) {
@@ -678,7 +680,7 @@ function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
 function processAnnotations(): void {
   const removeIds = [] as number[];
   const anns = getAllAnnotations();
-  anns.forEach(ann => {
+  anns.forEach((ann) => {
     if (ann.id && isAnnotationProcessed(ann.id)) return;
 
     // Details can be undefined sometimes
@@ -706,7 +708,7 @@ function processAnnotations(): void {
 function getOppUsedCards(): number[] {
   const cardsUsed: number[] = [];
   const oppSeat = globalStore.currentMatch.oppSeat;
-  Object.keys(globalStore.currentMatch.zones).forEach(key => {
+  Object.keys(globalStore.currentMatch.zones).forEach((key) => {
     const zone = getZone(parseInt(key));
     const zoneType = (zone.type || "ZoneType_None").trim();
     if (zone.objectInstanceIds && zoneType !== "ZoneType_Limbo") {
@@ -775,14 +777,14 @@ function getCardsTypeZone(): ZoneData {
 function getPlayerUsedCards(): number[] {
   const cardsUsed: number[] = [];
   const playerSeat = globalStore.currentMatch.playerSeat;
-  Object.keys(globalStore.currentMatch.zones).forEach(key => {
+  Object.keys(globalStore.currentMatch.zones).forEach((key) => {
     const zone = getZone(parseInt(key));
     const zoneType = (zone.type || "ZoneType_None").trim();
     const ignoreZones = [
       "ZoneType_Limbo",
       "ZoneType_Library",
       "ZoneType_Sideboard",
-      "ZoneType_Revealed"
+      "ZoneType_Revealed",
     ];
     if (zone.objectInstanceIds && !ignoreZones.includes(zoneType)) {
       zone.objectInstanceIds.forEach((id: number) => {
@@ -826,7 +828,7 @@ const defaultZone: ZoneInfo = {
   visibility: "Visibility_None",
   ownerSeatId: 0,
   objectInstanceIds: [],
-  viewers: []
+  viewers: [],
 };
 
 function checkForStartingLibrary(gameState?: GameStateMessage): boolean {
@@ -834,7 +836,7 @@ function checkForStartingLibrary(gameState?: GameStateMessage): boolean {
   let zoneHand: ZoneInfo = defaultZone;
   let zoneLibrary: ZoneInfo = defaultZone;
 
-  Object.keys(currentMatch.zones).forEach(key => {
+  Object.keys(currentMatch.zones).forEach((key) => {
     const zone = getZone(parseInt(key));
     if (zone.ownerSeatId == currentMatch.playerSeat) {
       if (zone.type == "ZoneType_Hand") {
@@ -861,7 +863,7 @@ function checkForStartingLibrary(gameState?: GameStateMessage): boolean {
       const mull = player.mulliganCount || 0;
       // If this is the first hand drawn or we made a mulligan
       if (mull > 0 || currentMatch.handsDrawn.length == 0) {
-        const drawn = hand.map(n => getGameObject(n).grpId);
+        const drawn = hand.map((n) => getGameObject(n).grpId);
         setHandDrawn(mull, drawn);
         console.log("Mulligan: " + mull, drawn);
       }
@@ -927,7 +929,7 @@ function checkTurnDiff(turnInfo: TurnInfo): void {
         turnNumber: turnInfo.turnNumber,
         turnActive: turnInfo.activePlayer,
         turnPriority: turnInfo.priorityPlayer,
-        turnDecision: turnInfo.decisionPlayer
+        turnDecision: turnInfo.decisionPlayer,
       },
       IPC_OVERLAY
     );

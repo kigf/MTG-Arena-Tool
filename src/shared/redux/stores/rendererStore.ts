@@ -34,11 +34,11 @@ const rootReducer = combineReducers({
   decks: decksSlice.reducer,
   drafts: draftsSlice.reducer,
   seasonal: seasonalSlice.reducer,
-  deckChanges: deckChangesSlice.reducer
+  deckChanges: deckChangesSlice.reducer,
 });
 
 const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
 });
 
 export default store;

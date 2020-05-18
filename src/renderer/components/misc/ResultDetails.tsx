@@ -1,5 +1,5 @@
 import React from "react";
-import {InternalMatch} from "../../../types/match";
+import { InternalMatch } from "../../../types/match";
 import indexCss from "../../index.css";
 
 interface ResultDetailsProps {
@@ -7,7 +7,7 @@ interface ResultDetailsProps {
 }
 
 export default function ResultDetails(props: ResultDetailsProps): JSX.Element {
-  const {match} = props;
+  const { match } = props;
 
   const colStyle: React.CSSProperties = {
     display: "flex",
@@ -72,7 +72,7 @@ export default function ResultDetails(props: ResultDetailsProps): JSX.Element {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "row", margin: "auto 4px"}}>
+    <div style={{ display: "flex", flexDirection: "row", margin: "auto 4px" }}>
       <div title={g1Title} style={colStyle}>
         <div
           className={

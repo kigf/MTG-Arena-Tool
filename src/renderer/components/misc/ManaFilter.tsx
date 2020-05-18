@@ -1,25 +1,25 @@
 import React from "react";
-import {COLORS_BRIEF} from "../../../shared/constants";
-import {ManaSymbol} from "./ManaSymbol";
+import { COLORS_BRIEF } from "../../../shared/constants";
+import { ManaSymbol } from "./ManaSymbol";
 import indexCss from "../../index.css";
 
 export type ManaFilterKeys = "w" | "u" | "b" | "r" | "g" | "multi";
 
-export type ColorFilter = {[key in ManaFilterKeys]: boolean};
+export type ColorFilter = { [key in ManaFilterKeys]: boolean };
 
 export interface ManaFilterProps {
   filterKey: string;
   prefixId: string;
-  filters: {[key: string]: ColorFilter};
+  filters: { [key: string]: ColorFilter };
   onFilterChanged: (colors: ColorFilter) => void;
   symbolSize?: number;
 }
 
 export default function ManaFilter(props: ManaFilterProps): JSX.Element {
-  const {filterKey, prefixId, filters, onFilterChanged} = props;
-  const colors = {...filters[filterKey]};
+  const { filterKey, prefixId, filters, onFilterChanged } = props;
+  const colors = { ...filters[filterKey] };
 
-  const filterLabels: {[key in ManaFilterKeys]: string} = {
+  const filterLabels: { [key in ManaFilterKeys]: string } = {
     w: "White",
     u: "Blue",
     b: "Black",

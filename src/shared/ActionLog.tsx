@@ -39,7 +39,7 @@ export default function ActionLog(props: ActionLogProps): JSX.Element {
       seat: parseInt(seat),
       time: time,
       groups: groups,
-      strings: list
+      strings: list,
     };
 
     elements.push(newObj);

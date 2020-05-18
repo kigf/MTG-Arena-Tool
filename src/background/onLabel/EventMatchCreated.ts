@@ -10,7 +10,7 @@ import {
   setEventId,
   setPlayer,
   setOpponent,
-  resetCurrentMatch
+  resetCurrentMatch,
 } from "../../shared/store/currentMatchStore";
 
 export interface EntryJson {
@@ -69,12 +69,12 @@ export default function EventMatchCreated(entry: Entry): void {
       rank: json.opponentRankingClass,
       percentile: json.opponentMythicPercentile,
       leaderboardPlace: json.opponentMythicLeaderboardPlace,
-      commanderGrpIds: json.opponentCommanderGrpIds
+      commanderGrpIds: json.opponentCommanderGrpIds,
     };
     setOpponent(opponent);
 
     const player = {
-      commanderGrpIds: json.commanderGrpIds
+      commanderGrpIds: json.commanderGrpIds,
     };
     setPlayer(player);
 

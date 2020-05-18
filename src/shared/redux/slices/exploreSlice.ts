@@ -23,7 +23,7 @@ const exploreSlice = createSlice({
       results_type: "Ranked Constructed",
       skip: 0,
       results_number: 0,
-      result: []
+      result: [],
     },
     filters: {
       filterEvent: "Ladder",
@@ -37,8 +37,8 @@ const exploreSlice = createSlice({
       filterWCM: "",
       filteredMana: [],
       filteredRanks: [],
-      onlyOwned: false
-    } as ExploreQuery
+      onlyOwned: false,
+    } as ExploreQuery,
   },
   reducers: {
     setExploreData: (state, action): void => {
@@ -71,8 +71,8 @@ const exploreSlice = createSlice({
     },
     setActiveEvents: (state, action): void => {
       state.activeEvents.push(...action.payload);
-    }
-  }
+    },
+  },
 });
 
 export default exploreSlice;

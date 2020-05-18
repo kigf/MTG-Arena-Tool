@@ -10,7 +10,7 @@ import electron, {
   globalShortcut,
   Menu,
   SaveDialogReturnValue,
-  Tray
+  Tray,
 } from "electron";
 import _ from "lodash";
 import { autoUpdater } from "electron-updater";
@@ -25,7 +25,7 @@ import {
   IPC_ALL,
   IPC_BACKGROUND,
   IPC_RENDERER,
-  IPC_OVERLAY
+  IPC_OVERLAY,
 } from "../shared/constants";
 import { appDb } from "../shared/db/LocalDatabase";
 import { SettingsData, OverlaySettingsData } from "../types/settings";
@@ -93,11 +93,11 @@ app.on("ready", () => {
 function startUpdater(): void {
   if (!app.isPackaged) return;
   appDb.init("application");
-  appDb.find("", "settings").then(doc => {
+  appDb.find("", "settings").then((doc) => {
     const allowBeta = doc.betaChannel || false;
     updaterWindow = createUpdaterWindow();
 
-    updaterWindow.webContents.on("did-finish-load", function() {
+    updaterWindow.webContents.on("did-finish-load", function () {
       updaterWindow?.show();
       updaterWindow?.moveTop();
     });
@@ -108,24 +108,24 @@ function startUpdater(): void {
   });
 }
 
-autoUpdater.on("update-not-available", info => {
+autoUpdater.on("update-not-available", (info) => {
   console.log("Update not available", info);
   if (mainWindow) {
     mainWindow.webContents.send("set_update_state", "Client up to date!");
   }
   startApp();
 });
-autoUpdater.on("error", err => {
+autoUpdater.on("error", (err) => {
   if (mainWindow) {
     mainWindow.webContents.send("set_update_state", "Update error.");
   }
   console.log("Update error: ", err);
   startApp();
 });
-autoUpdater.on("download-progress", progressObj => {
+autoUpdater.on("download-progress", (progressObj) => {
   updaterWindow?.webContents.send("update_progress", progressObj);
 });
-autoUpdater.on("update-downloaded", info => {
+autoUpdater.on("update-downloaded", (info) => {
   console.log("Update downloaded: ", info);
   installUpdate();
 });
@@ -190,7 +190,7 @@ function startApp(): void {
     updaterWindow = undefined;
   }
 
-  ipc.on("ipc_switch", function(_event, method, from, arg, to) {
+  ipc.on("ipc_switch", function (_event, method, from, arg, to) {
     if (debugIPC && method != "log_read") {
       if (debugIPC == 2 && method != "set_status" && method != "set_db") {
         console.log("IPC ", method + ": " + JSON.stringify(arg));
@@ -277,10 +277,10 @@ function startApp(): void {
               filters: [
                 {
                   name: "txt",
-                  extensions: ["txt"]
-                }
+                  extensions: ["txt"],
+                },
               ],
-              defaultPath: "~/" + arg.name + ".txt"
+              defaultPath: "~/" + arg.name + ".txt",
             })
             .then((value: SaveDialogReturnValue): void => {
               const filePath = value.filePath;
@@ -306,14 +306,14 @@ function startApp(): void {
               filters: [
                 {
                   name: "csv",
-                  extensions: ["csv"]
+                  extensions: ["csv"],
                 },
                 {
                   name: "txt",
-                  extensions: ["txt"]
-                }
+                  extensions: ["txt"],
+                },
               ],
-              defaultPath: "~/" + arg.name + ".csv"
+              defaultPath: "~/" + arg.name + ".csv",
             })
             .then((value: SaveDialogReturnValue): void => {
               const filePath = value.filePath;
@@ -410,7 +410,7 @@ function setSettings(settings: SettingsData): void {
   }
 
   app.setLoginItemSettings({
-    openAtLogin: settings.startup
+    openAtLogin: settings.startup,
   });
 
   // Send settings update
@@ -434,7 +434,7 @@ function updateOverlayVisibility(): void {
   if (!shouldDisplayOverlay && isOverlayVisible) {
     // hide entire overlay window
     // Add a 1 second timeout for animations
-    overlayHideTimeout = setTimeout(function() {
+    overlayHideTimeout = setTimeout(function () {
       overlay?.hide();
     }, 1000);
   } else if (shouldDisplayOverlay && !isOverlayVisible) {
@@ -478,11 +478,11 @@ function overlaySetBounds(): void {
   const primaryBounds = electron.screen.getPrimaryDisplay().bounds;
   const primaryPos = { x: 0, y: 0 };
   const newBounds = { x: 0, y: 0, width: 0, height: 0 };
-  electron.screen.getAllDisplays().forEach(display => {
+  electron.screen.getAllDisplays().forEach((display) => {
     newBounds.x = Math.min(newBounds.x, display.bounds.x);
     newBounds.y = Math.min(newBounds.y, display.bounds.y);
   });
-  electron.screen.getAllDisplays().forEach(display => {
+  electron.screen.getAllDisplays().forEach((display) => {
     newBounds.width = Math.max(
       newBounds.width,
       Math.abs(newBounds.x) + display.bounds.x + display.bounds.width
@@ -506,14 +506,14 @@ function overlaySetBounds(): void {
 
   const windows = [overlay, mainWindow, background];
   windows
-    .filter(w => w)
-    .map(window =>
+    .filter((w) => w)
+    .map((window) =>
       window?.webContents.send(
         "redux-action",
         "SET_SETTINGS",
         JSON.stringify({
           fullOverlayBounds: newBounds,
-          primaryMonitorPos: primaryPos
+          primaryMonitorPos: primaryPos,
         }),
         IPC_ALL
       )
@@ -522,7 +522,7 @@ function overlaySetBounds(): void {
 }
 
 // Catch exceptions
-process.on("uncaughtException", function(err) {
+process.on("uncaughtException", function (err) {
   console.log("Uncaught exception;");
   console.log(err.stack);
   //console.log('Current chunk:',  currentChunk);
@@ -610,8 +610,8 @@ function createUpdaterWindow(): BrowserWindow {
     title: "Updater",
     icon: "icons/icon.png",
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
   win.loadURL(path.join(__dirname, "updater/index.html"));
 
@@ -629,8 +629,8 @@ function createBackgroundWindow(): BrowserWindow {
     title: "Background",
     icon: "icons/icon.png",
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
   win.loadURL(path.join(__dirname, "background/index.html"));
   win.on("closed", onBackClosed);
@@ -653,8 +653,8 @@ function createOverlayWindow(): BrowserWindow {
     title: "Overlay",
     show: process.platform == "linux" ? false : true,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
   overlay.loadURL(path.join(__dirname, "overlay/index.html"));
 
@@ -677,8 +677,8 @@ function createMainWindow(): BrowserWindow {
     title: "MTG Arena Tool",
     icon: iconNormal,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
   win.loadURL(path.join(__dirname, "renderer/index.html"));
   win.on("closed", onMainClosed);
@@ -698,24 +698,24 @@ function createMainWindow(): BrowserWindow {
       label: "Show",
       click: (): void => {
         showWindow();
-      }
+      },
     },
     {
       label: "Edit Overlay Positions",
       click: (): void => {
         toggleEditMode();
-      }
+      },
     },
     {
       label: "Reset Windows",
-      click: (): void => resetWindows()
+      click: (): void => resetWindows(),
     },
     {
       label: "Quit",
       click: (): void => {
         quit();
-      }
-    }
+      },
+    },
   ]);
   tray.on("double-click", toggleWindow);
   tray.setToolTip("MTG Arena Tool");
@@ -726,18 +726,18 @@ function createMainWindow(): BrowserWindow {
       clearTimeout(mainTimeout);
       mainTimeout = undefined;
     }
-    mainTimeout = setTimeout(function() {
+    mainTimeout = setTimeout(function () {
       saveWindowPos();
       mainTimeout = undefined;
     }, 500);
   });
 
-  win.on("move", function() {
+  win.on("move", function () {
     if (mainTimeout) {
       clearTimeout(mainTimeout);
       mainTimeout = undefined;
     }
-    mainTimeout = setTimeout(function() {
+    mainTimeout = setTimeout(function () {
       saveWindowPos();
       mainTimeout = undefined;
     }, 500);

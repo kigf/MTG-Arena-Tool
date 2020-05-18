@@ -34,7 +34,7 @@ export default function GreToClient(entry: Entry): void {
   globals.logTime = parseLogTimestamp(json.timestamp);
 
   const message = json.greToClientEvent.greToClientMessages;
-  message.forEach(function(msg) {
+  message.forEach(function (msg) {
     greToClientInterpreter.GREMessage(msg, globals.logTime);
     /*
     const msgId = msg.msgId;

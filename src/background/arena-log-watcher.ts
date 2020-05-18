@@ -13,14 +13,14 @@ import {
   ipcSend,
   parseWotcTimeFallback,
   updateLoading,
-  getDateFormat
+  getDateFormat,
 } from "./backgroundUtil";
 import {
   ARENA_MODE_MATCH,
   ARENA_MODE_DRAFT,
   ARENA_MODE_IDLE,
   LOGIN_OK,
-  IPC_RENDERER
+  IPC_RENDERER,
 } from "../shared/constants";
 import updateDeck from "./updateDeck";
 import globals from "./globals";
@@ -34,7 +34,7 @@ const fsAsync = {
   close: promisify(fs.close),
   open: promisify(fs.open),
   read: promisify(fs.read),
-  stat: promisify(fs.stat)
+  stat: promisify(fs.stat),
 };
 
 interface StartProps {
@@ -50,7 +50,7 @@ export function start({
   chunkSize,
   onLogEntry,
   onError,
-  onFinish
+  onFinish,
 }: StartProps): () => void {
   const q = queue({ concurrency: 1 });
   let position = 0;
@@ -166,7 +166,7 @@ function startWatchingLog(path: fs.PathLike): () => void {
     chunkSize: 268435440,
     onLogEntry: onLogEntryFound,
     onError: (err: any) => console.error(err),
-    onFinish: finishLoading
+    onFinish: finishLoading,
   });
 }
 
@@ -397,7 +397,7 @@ function finishLoading(): void {
     ipcSend("popup", {
       text: "Finishing initial log read...",
       time: 0,
-      progress: 2
+      progress: 2,
     });
     globals.firstPass = false;
     logReadEnd = new Date();
@@ -408,7 +408,7 @@ function finishLoading(): void {
     ipcSend("popup", {
       text: "Initializing...",
       time: 0,
-      progress: 2
+      progress: 2,
     });
 
     if (globals.duringMatch) {
@@ -432,7 +432,7 @@ function finishLoading(): void {
     ipcSend("popup", {
       text: "Initialized successfully!",
       time: 3000,
-      progress: -1
+      progress: -1,
     });
   }
 }
