@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import {
   IPC_BACKGROUND,
   IPC_OVERLAY,

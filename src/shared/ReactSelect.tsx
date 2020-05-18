@@ -32,11 +32,14 @@ export default function ReactSelect({
     setOptionsOpen(!optionsOpen);
   }, [optionsOpen]);
 
-  const onClickOption = React.useCallback((event) => {
-    setCurrentOption(event.currentTarget.value);
-    setOptionsOpen(false);
-    callback && callback(event.currentTarget.value);
-  }, []);
+  const onClickOption = React.useCallback(
+    (event) => {
+      setCurrentOption(event.currentTarget.value);
+      setOptionsOpen(false);
+      callback && callback(event.currentTarget.value);
+    },
+    [callback]
+  );
 
   const buttonClassNames = `${indexCss.buttonReset} ${css.selectButton} ${
     optionsOpen ? css.active : ""
