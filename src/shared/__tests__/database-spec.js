@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import db from "../database";
-import * as httpApi from "../../window_background/httpApi";
+import * as httpApi from "../../background/httpApi";
 
 const distributedVersion = db.version;
 const httpQueue = httpApi.initHttpQueue();
