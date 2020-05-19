@@ -40,24 +40,6 @@
   margin: 4px 64px 12px 12px;
 }
 
-
-.overlay_icon {
-  width: 16px;
-  height: 16px;
-  margin: auto;
-  border-radius: 50%;
-  cursor: pointer;
-  -webkit-mask: url(../../../assets/images/resize.svg);
-}
-
-.button.overlay_icon {
-  width: 16px;
-  height: 16px;
-  background-repeat: no-repeat;
-  background-size: auto;
-  background-position: center;
-}
-
 input#flat.color_picker {
   width: 64px;
   height: 32px;

@@ -2,12 +2,6 @@
 // GENERATED FILE; DO NOT EDIT
 declare namespace SharedCssModule {
   export interface ISharedCss {
-    "DayPicker-Day": string;
-    "DayPicker-Day--end": string;
-    "DayPicker-Day--outside": string;
-    "DayPicker-Day--selected": string;
-    "DayPicker-Day--start": string;
-    Selectable: string;
     absolute: string;
     afterHidden: string;
     after_hidden: string;
@@ -37,11 +31,6 @@ declare namespace SharedCssModule {
     cardHoverDfc: string;
     cardHoverMain: string;
     close: string;
-    dayPickerDay: string;
-    dayPickerDayEnd: string;
-    dayPickerDayOutside: string;
-    dayPickerDaySelected: string;
-    dayPickerDayStart: string;
     green: string;
     greenBright: string;
     greenBrightBg: string;
@@ -180,7 +169,6 @@ declare namespace SharedCssModule {
     redBrightBg: string;
     red_bright: string;
     red_bright_bg: string;
-    selectable: string;
     settings: string;
     top: string;
     topLogo: string;

@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { ChromePicker } from "react-color";
 
+import popupCss from "../components/popups/popups.css";
+
 const decimalToHex = (alpha: number): string =>
   alpha === 0
     ? ""
@@ -47,9 +49,9 @@ export default function useColorPicker(
 
   const elem = useMemo((): JSX.Element => {
     return show ? (
-      <div className="picker-background" onClick={handleClose}>
+      <div className={popupCss.pickerBackground} onClick={handleClose}>
         <div
-          className="picker-div"
+          className={popupCss.pickerDiv}
           onClick={(e): void => {
             e.stopPropagation();
           }}

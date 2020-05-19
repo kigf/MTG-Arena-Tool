@@ -1,6 +1,41 @@
 import React, { useState, useCallback, useMemo } from "react";
 import DayPicker from "react-day-picker";
 
+import pickerCss from "react-day-picker/lib/style.css";
+import popupCss from "../components/popups/popups.css";
+import css from "./DatePicker.scss";
+
+// The wizardy contained in our webpack build will generate a proper
+// style.css.d.ts for the default css in react-day-picker's module folder.
+// Its a little of a bummer to type each class here but it works.
+const pickerClasses = {
+  container: css.selectable,
+  day: css.dayPickerDay,// + " " + css.dayPickerDay,
+  wrapper: pickerCss.dayPickerWrapper,
+  interactionDisabled: pickerCss.dayPickerInteractionDisabled,
+  navBar: "",
+  navButtonPrev: pickerCss.dayPickerNavButtonPrev,
+  navButtonNext: pickerCss.dayPickerNavButtonNext,
+  navButtonInteractionDisabled: pickerCss.dayPickerInteractionDisabled,
+
+  months: pickerCss.dayPickerMonths,
+  month: pickerCss.dayPickerMonth,
+  caption: pickerCss.dayPickerCaption,
+  weekdays: pickerCss.dayPickerWeekdays,
+  weekdaysRow: pickerCss.dayPickerWeekdaysRow,
+  weekday: pickerCss.dayPickerWeekday,
+  weekNumber: pickerCss.dayPickerWeekNumber,
+  body: pickerCss.dayPickerBody,
+  week: pickerCss.dayPickerWeek,
+  footer: pickerCss.dayPickerFooter,
+  todayButton: pickerCss.dayPickerTodayButton,
+
+  today: pickerCss.dayPickerDayToday,
+  selected: css.modifierSelected,
+  disabled: pickerCss.dayPickerDayDisabled,
+  outside: pickerCss.dayPickerDayOutside,
+};
+
 export default function useDatePicker(
   initialDateFrom: Date,
   editCallback?: (range: Date) => void,
@@ -39,7 +74,10 @@ export default function useDatePicker(
     setRange(initState);
   }, [initState]);
 
-  const modifiers = { start: range.from, end: new Date() };
+  const modifiers = {
+    [css.modifierStart]: range.from,
+    [css.modifierEnd]: new Date(),
+  };
 
   const doShow = useCallback(() => {
     setShow(true);
@@ -47,9 +85,9 @@ export default function useDatePicker(
 
   const elem = useMemo((): JSX.Element => {
     return show ? (
-      <div className="picker-background" onClick={handleClose}>
+      <div className={popupCss.pickerBackground} onClick={handleClose}>
         <div
-          className="picker-div"
+          className={popupCss.pickerDiv}
           style={{
             fontFamily: "var(--main-font-name)",
             textAlign: "center",
@@ -61,7 +99,7 @@ export default function useDatePicker(
             e.stopPropagation();
           }}
         >
-          <div className="RangeExample">
+          <div className="date-range">
             <p>
               {!range.from && "Please select the first day."}
               {range.from &&
@@ -74,7 +112,7 @@ export default function useDatePicker(
               )}
             </p>
             <DayPicker
-              className="Selectable"
+              classNames={pickerClasses}
               numberOfMonths={2}
               selectedDays={[range.from, { from: range.from, to: new Date() }]}
               modifiers={modifiers}

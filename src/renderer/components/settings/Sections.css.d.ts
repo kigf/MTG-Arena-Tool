@@ -3,7 +3,6 @@
 declare namespace SectionsCssModule {
   export interface ISectionsCss {
     about: string;
-    button: string;
     centeredSettingContainer: string;
     centered_setting_container: string;
     colorPicker: string;
@@ -22,10 +21,8 @@ declare namespace SectionsCssModule {
     keycombDesc: string;
     keycomb_desc: string;
     link: string;
-    overlayIcon: string;
     overlaySection: string;
     overlaySectionSelectorCont: string;
-    overlay_icon: string;
     overlay_section: string;
     overlay_section_selector_cont: string;
     patreonLink: string;

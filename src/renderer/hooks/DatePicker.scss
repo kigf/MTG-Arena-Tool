@@ -1,0 +1,39 @@
+.selectable
+  .DayPicker-Day
+  .modifier_selected:not(.modifier_start):not(.modifier_end):not(.modifier_outside) {
+  position: relative !important;
+  background-color: var(--color-light-40) !important;
+  color: var(--color-back) !important;
+}
+
+.selectable .DayPicker-Day {
+  border-radius: 0;
+  color: var(--color-back);
+  display: table-cell;
+  padding: 0.5em;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+
+.selectable .modifier_selected {
+  background-color: var(--color-light-40) !important;
+  &:focus {
+    outline: none;
+  }
+}
+
+.selectable .modifier_start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+  background-color: var(--color-light) !important;
+}
+
+.selectable .modifier_end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+  background-color: var(--color-light) !important;
+}

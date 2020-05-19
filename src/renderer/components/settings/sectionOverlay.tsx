@@ -98,7 +98,7 @@ function OverlaysTopNav(props: OverlaysTopNavProps): JSX.Element {
                 backgroundColor: `var(--color-${COLORS_ALL[id]})`,
                 flexShrink: 0,
               }}
-              className={css.overlayIcon}
+              className={indexCss.overlayIcon}
             ></div>
             <div className={indexCss.overlay_label}>
               {"Overlay " + (id + 1)}
