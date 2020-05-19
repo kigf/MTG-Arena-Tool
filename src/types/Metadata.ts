@@ -67,8 +67,8 @@ export interface Archetype {
 }
 
 interface ArchetypeAverage {
-  mainDeck: { [id: string]: number };
-  sideboard: { [id: string]: number };
+  mainDeck: any; // Record<string, number>
+  sideboard: any; // Record<string, number>
 }
 
 export interface RewardsDate {
