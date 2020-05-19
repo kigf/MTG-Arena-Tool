@@ -32,6 +32,7 @@ import { PagingButton } from "../components/misc/PagingButton";
 import appCss from "../app/app.css";
 import topNavCss from "../components/main/topNav.css";
 import sharedCss from "../../shared/shared.css";
+import indexCss from "../index.css";
 import css from "./TimelineTab.css";
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
@@ -349,186 +350,189 @@ export default function TimelineTab(): JSX.Element {
 
   return (
     <div className={appCss.uxItem}>
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <div className={css.timelineTitle}>
-          <PagingButton
-            onClick={setPrevSeason}
-            disabled={drawingSeason <= 1}
-            selected={false}
-          >
-            {"<"}
-          </PagingButton>
-          <div>
-            Season {drawingSeason} -{" "}
-            {format(drawingSeasonDate as Date, "MMMM yyyy")}
-          </div>
-          <PagingButton
-            onClick={setNextSeason}
-            disabled={drawingSeason >= rank.constructed.seasonOrdinal}
-            selected={false}
-          >
-            {">"}
-          </PagingButton>
-
-          <ReactSelect
-            options={["constructed", "limited"]}
-            current={seasonType}
-            callback={handleSetSeasonType}
-          />
-        </div>
-        <div style={{ display: "flex" }}>
-          <div className={css.timelineBoxLabels}>
-            <div className={css.timelineLabel}>#1</div>
-            <div className={css.timelineLabel}></div>
-            <div className={css.timelineLabel}>Mythic</div>
-            <div className={css.timelineLabel}>Diamond</div>
-            <div className={css.timelineLabel}>Platinum</div>
-            <div className={css.timelineLabel}>Gold</div>
-            <div className={css.timelineLabel}>Silver</div>
-            <div className={css.timelineLabel}>Bronze</div>
-          </div>
-          <div className={css.timelineBox} ref={boxRef}>
-            {data.length > 0 ? (
-              data.map((value: SeasonalRankData, index: number) => {
-                //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
-                //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
-                return (
-                  <TimeLinePart
-                    height={dimensions.height}
-                    width={dimensions.width / data.length}
-                    index={index}
-                    key={index}
-                    hover={hoverDeckId}
-                    setHover={setHover}
-                    setPartHover={setHoverPart}
-                    {...value}
-                  />
-                );
-              })
-            ) : (
-              <div className={css.timelineWarning}>
-                No data for this ranked season.
-              </div>
-            )}
-          </div>
-        </div>
-        <div style={{ display: "flex" }}>
-          <div className={css.timelineBoxLabels} />
-          <div className={css.timelineBottomBox}>
-            {hoverPart > -1 ? (
-              <>
-                <div
-                  className={css.timelinePos}
-                  style={{ marginLeft: hoverPartX + "px" }}
-                />
-                <div
-                  style={{
-                    whiteSpace: "nowrap",
-                    marginLeft:
-                      Math.min(dimensions.width - 120, hoverPartX) + "px",
-                  }}
-                >
-                  {data[hoverPart]
-                    ? format(
-                        data[hoverPart].date || new Date(),
-                        "EEEE do, HH:mm"
-                      )
-                    : ""}
-                </div>
-              </>
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
+      <div className={indexCss.centeredUx}>
         <div
-          style={{
-            margin: "0 28px",
-            display: "flex",
-          }}
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <div
-            className="card_lists_list"
-            style={{ margin: "0", width: "50%" }}
-          >
-            {hoverMatch && hoverDecklist ? (
-              <>
-                <div className={css.decklistName}>{hoverDecklist.name}</div>
-                <div className={css.decklistColors}>
-                  <ManaCost
-                    class={sharedCss.manaS20}
-                    colors={hoverDecklist.colors || []}
-                  />
+          <div className={css.timelineTitle}>
+            <PagingButton
+              onClick={setPrevSeason}
+              disabled={drawingSeason <= 1}
+              selected={false}
+            >
+              {"<"}
+            </PagingButton>
+            <div style={{ lineHeight: "32px" }}>
+              Season {drawingSeason} -{" "}
+              {format(drawingSeasonDate as Date, "MMMM yyyy")}
+            </div>
+            <PagingButton
+              onClick={setNextSeason}
+              disabled={drawingSeason >= rank.constructed.seasonOrdinal}
+              selected={false}
+            >
+              {">"}
+            </PagingButton>
+            <ReactSelect
+              options={["constructed", "limited"]}
+              current={seasonType}
+              callback={handleSetSeasonType}
+            />
+          </div>
+          <div style={{ display: "flex" }}>
+            <div className={css.timelineBoxLabels}>
+              <div className={css.timelineLabel}>#1</div>
+              <div className={css.timelineLabel}></div>
+              <div className={css.timelineLabel}>Mythic</div>
+              <div className={css.timelineLabel}>Diamond</div>
+              <div className={css.timelineLabel}>Platinum</div>
+              <div className={css.timelineLabel}>Gold</div>
+              <div className={css.timelineLabel}>Silver</div>
+              <div className={css.timelineLabel}>Bronze</div>
+            </div>
+            <div className={css.timelineBox} ref={boxRef}>
+              {data.length > 0 ? (
+                data.map((value: SeasonalRankData, index: number) => {
+                  //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
+                  //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
+                  return (
+                    <TimeLinePart
+                      height={dimensions.height}
+                      width={dimensions.width / data.length}
+                      index={index}
+                      key={index}
+                      hover={hoverDeckId}
+                      setHover={setHover}
+                      setPartHover={setHoverPart}
+                      {...value}
+                    />
+                  );
+                })
+              ) : (
+                <div className={css.timelineWarning}>
+                  No data for this ranked season.
                 </div>
-                <DeckList deck={new Deck(hoverDecklist)} />
-              </>
-            ) : (
-              <></>
-            )}
+              )}
+            </div>
+          </div>
+          <div style={{ display: "flex" }}>
+            <div className={css.timelineBoxLabels} />
+            <div className={css.timelineBottomBox}>
+              {hoverPart > -1 ? (
+                <>
+                  <div
+                    className={css.timelinePos}
+                    style={{ marginLeft: hoverPartX + "px" }}
+                  />
+                  <div
+                    style={{
+                      whiteSpace: "nowrap",
+                      marginLeft:
+                        Math.min(dimensions.width - 120, hoverPartX) + "px",
+                    }}
+                  >
+                    {data[hoverPart]
+                      ? format(
+                          data[hoverPart].date || new Date(),
+                          "EEEE do, HH:mm"
+                        )
+                      : ""}
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
           <div
             style={{
-              margin: "0 auto",
-              color: "var(--color-light)",
+              margin: "0 28px",
+              display: "flex",
             }}
           >
-            {match ? (
-              <div
-                style={{
-                  color: "var(--color-light)",
-                  margin: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Button
-                  text="Open match details"
-                  onClick={openCurrentMatch}
-                ></Button>
-
-                <div>vs. {match.opponent.name.slice(0, -6)}</div>
-                <RankIcon
-                  format={seasonType}
-                  rank={match.opponent.rank}
-                  tier={match.opponent.tier}
-                  leaderboardPlace={match.opponent.leaderboardPlace || 0}
-                  percentile={match.opponent.percentile || 0}
-                />
+            <div
+              className="card_lists_list"
+              style={{ margin: "0", width: "50%" }}
+            >
+              {hoverMatch && hoverDecklist ? (
+                <>
+                  <div className={css.decklistName}>{hoverDecklist.name}</div>
+                  <div className={css.decklistColors}>
+                    <ManaCost
+                      class={sharedCss.manaS20}
+                      colors={hoverDecklist.colors || []}
+                    />
+                  </div>
+                  <DeckList deck={new Deck(hoverDecklist)} />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div
+              style={{
+                margin: "0 auto",
+                color: "var(--color-light)",
+              }}
+            >
+              {match ? (
                 <div
                   style={{
-                    lineHeight: "32px",
-                    fontFamily: "var(--main-font-name-it}",
-                    fontSize: "18px",
+                    color: "var(--color-light)",
+                    margin: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
-                  className={won ? sharedCss.green : sharedCss.red}
                 >
-                  {won ? "Win" : "Loss"}
-                </div>
-                <ResultDetails match={match} />
-                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Button
+                    text="Open match details"
+                    onClick={openCurrentMatch}
+                  ></Button>
+
+                  <div>vs. {match.opponent.name.slice(0, -6)}</div>
                   <RankIcon
                     format={seasonType}
-                    rank={hData.oldClass}
-                    tier={hData.oldLevel}
-                    step={hData.oldStep}
-                    leaderboardPlace={0}
-                    percentile={0}
+                    rank={match.opponent.rank}
+                    tier={match.opponent.tier}
+                    leaderboardPlace={match.opponent.leaderboardPlace || 0}
+                    percentile={match.opponent.percentile || 0}
                   />
-                  <div className={css.rankToRight} />
-                  <RankIcon
-                    format={seasonType}
-                    rank={hData.newClass}
-                    tier={hData.newLevel}
-                    step={hData.newStep}
-                    leaderboardPlace={0}
-                    percentile={0}
-                  />
+                  <div
+                    style={{
+                      lineHeight: "32px",
+                      fontFamily: "var(--main-font-name-it}",
+                      fontSize: "18px",
+                    }}
+                    className={won ? sharedCss.green : sharedCss.red}
+                  >
+                    {won ? "Win" : "Loss"}
+                  </div>
+                  <ResultDetails match={match} />
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <RankIcon
+                      format={seasonType}
+                      rank={hData.oldClass}
+                      tier={hData.oldLevel}
+                      step={hData.oldStep}
+                      leaderboardPlace={0}
+                      percentile={0}
+                    />
+                    <div className={css.rankToRight} />
+                    <RankIcon
+                      format={seasonType}
+                      rank={hData.newClass}
+                      tier={hData.newLevel}
+                      step={hData.newStep}
+                      leaderboardPlace={0}
+                      percentile={0}
+                    />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <></>
-            )}
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
       </div>

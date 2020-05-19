@@ -166,7 +166,7 @@ export function DraftView(props: DraftViewProps): JSX.Element {
   ] = new SliderPosition("Pack 3");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+    <div className={indexCss.centeredUx}>
       <div className={indexCss.decklist_top}>
         <div
           className={`${sharedCss.button} ${sharedCss.back}`}

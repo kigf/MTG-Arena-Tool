@@ -231,9 +231,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
   return (
     <>
       <div className={indexCss.wrapperColumn}>
-        <div
-          style={{ display: "flex", flexDirection: "column", width: "100%" }}
-        >
+        <div className={indexCss.centeredUx}>
           <div className={indexCss.decklistTop}>
             <div
               className={sharedCss.button + " " + sharedCss.back}

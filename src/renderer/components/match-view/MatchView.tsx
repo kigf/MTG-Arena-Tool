@@ -74,7 +74,7 @@ export function MatchView(props: MatchViewProps): JSX.Element {
   */
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      <div className={indexCss.centeredUx}>
         <div className={indexCss.decklistTop}>
           <div
             className={`${sharedCss.button} ${sharedCss.back}`}

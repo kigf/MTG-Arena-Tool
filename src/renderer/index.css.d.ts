@@ -35,6 +35,8 @@ declare namespace IndexCssModule {
     card_lists_list: string;
     cardlist: string;
     centered: string;
+    centeredUx: string;
+    centered_ux: string;
     chartContainer: string;
     chart_container: string;
     checkContainer: string;

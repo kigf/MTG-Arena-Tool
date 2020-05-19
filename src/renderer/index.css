@@ -2,6 +2,14 @@ p {
     margin: 0;
 }
 
+.centered_ux {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .button_reset {
     font-family: inherit; /* 1 */
     font-size: 100%; /* 1 */
