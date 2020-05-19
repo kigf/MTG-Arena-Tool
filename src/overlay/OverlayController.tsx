@@ -1,8 +1,8 @@
 import { ipcRenderer as ipc, webFrame } from "electron";
-import { Howl, Howler } from "howler";
 import React, { useCallback, useEffect, useState } from "react";
+import { Howl, Howler } from "howler";
 import { useSelector } from "react-redux";
-
+import { reduxAction } from "../shared/redux/sharedRedux";
 import {
   ARENA_MODE_IDLE,
   IPC_BACKGROUND,
@@ -18,8 +18,10 @@ import { DraftData } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
-import { reduxAction } from "../shared/redux/sharedRedux";
-const sound = new Howl({ src: ["../sounds/blip.mp3"] });
+import css from "./index.css";
+
+import blipSound from "../assets/sounds/blip.mp3";
+const sound = new Howl({ src: [blipSound] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);
 
@@ -117,7 +119,7 @@ export default function OverlayController(): JSX.Element {
         }
       );
       // Compute current dimensions of hover card windowlet in DOM
-      const hoverDiv = byId("overlay_hover");
+      const hoverDiv = byId(css.overlayHover);
       const newOverlayHover =
         (hoverDiv && {
           x: forceInt(hoverDiv.style.left),
@@ -246,7 +248,7 @@ export default function OverlayController(): JSX.Element {
   };
 
   return (
-    <div className="overlay_master_wrapper">
+    <div className={css.overlayMasterWrapper}>
       {!!overlays &&
         overlays.map((_overlaySettings: OverlaySettingsData, index: number) => {
           const overlayProps = {

@@ -7,9 +7,6 @@ import TransparencyFix from "./electron-transparency-mouse-fix";
 import store from "../shared/redux/stores/overlayStore";
 import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxIPC";
 
-import "../shared/shared.css";
-import "./index.css";
-
 initializeRendererReduxIPC(store);
 
 function ready(fn: () => void): void {

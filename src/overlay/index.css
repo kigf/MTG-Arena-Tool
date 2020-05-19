@@ -124,6 +124,17 @@ body {
 }
 
 .main_hover {
+    pointer-events: none;
+    align-self: right;
+    width: 340px;
+    height: 473px;
+    opacity: 1;
+    display: block;
+    margin-right: 24px;
+    margin-bottom: 12px;
+    -webkit-border-radius: 4.75% / 3.5%;
+    box-shadow: 0px 15px 30px 0px rgba(0, 0, 0, 0.5);
+    -webkit-transition: all 0.2s ease-in;
     margin-bottom: 0px !important;
     margin-right: 0px !important;
 }
@@ -457,6 +468,7 @@ body {
     flex-direction: row !important;
     height: 32px !important;
     justify-content: flex-end !important;
+    display: flex;
 }
 
 .overlay_text {
@@ -470,3 +482,22 @@ body {
     line-height: 32px;
     top: calc(50% - 16px);
 }
+
+.flex_end {
+    justify-content: flex-end;
+}
+
+.draft_title {
+    margin: 16px auto;
+    line-height: 20px;
+    vertical-align: middle;
+    text-align: center;
+    font-family:  var(--main-font-name-it);
+    font-size: 20px;
+    color: var(--color-light);
+}
+
+.after_hidden:after {
+    opacity: 0;
+}
+  

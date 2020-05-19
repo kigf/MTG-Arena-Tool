@@ -233,7 +233,7 @@ function ArenaCardTile(props: CardTileProps): JSX.Element {
 
   return (
     <div
-      className={`${css.card_tile} ${css.card_tile_container} click-on`}
+      className={`${css.card_tile} ${css.card_tile_container} ${sharedCss.clickOn}`}
       data-grp-id={card.id}
       data-id={indent}
       data-quantity={quantity}
@@ -425,7 +425,7 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
   return (
     <div className={css.card_tile_container_outer}>
       <div
-        className={`${css.card_tile_container_flat} click-on`}
+        className={`${css.card_tile_container_flat} ${sharedCss.clickOn}`}
         data-grp-id={card.id}
         data-id={indent}
         data-quantity={quantity}

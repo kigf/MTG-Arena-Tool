@@ -2,6 +2,8 @@
 // GENERATED FILE; DO NOT EDIT
 declare namespace IndexCssModule {
   export interface IIndexCss {
+    afterHidden: string;
+    after_hidden: string;
     button: string;
     chanceTitle: string;
     chance_title: string;
@@ -33,9 +35,13 @@ declare namespace IndexCssModule {
     decklist_title: string;
     draftNext: string;
     draftPrev: string;
+    draftTitle: string;
     draft_next: string;
     draft_prev: string;
+    draft_title: string;
     editable: string;
+    flexEnd: string;
+    flex_end: string;
     hoverFadeEnter: string;
     hoverFadeEnterActive: string;
     hoverFadeExit: string;

@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
-
 import { CARD_TYPES } from "../shared/constants";
 import { Chances } from "../types/Chances";
+
+import css from "./index.css";
 
 export interface SampleSizePanelProps {
   cardOdds: Chances;
@@ -34,12 +35,18 @@ export default function SampleSizePanel(
 
   return (
     <>
-      <div className="overlay_samplesize_container">
-        <div className="odds_prev click-on" onClick={handleOddsPrev} />
-        <div className="odds_number">Sample size: {sampleSize}</div>
-        <div className="odds_next click-on" onClick={handleOddsNext} />
+      <div className={css.overlaySamplesizeContainer}>
+        <div
+          className={`${css.oddsPrev} ${css.clickOn}`}
+          onClick={handleOddsPrev}
+        />
+        <div className={css.oddsNumber}>Sample size: {sampleSize}</div>
+        <div
+          className={`${css.oddsNext} ${css.clickOn}`}
+          onClick={handleOddsNext}
+        />
       </div>
-      <div className="chance_title" />
+      <div className={css.chanceTitle} />
       {CARD_TYPES.map((type) => {
         let value = 0;
         let field = "";
@@ -78,7 +85,7 @@ export default function SampleSizePanel(
           maximumSignificantDigits: 2,
         });
         return (
-          <div className="chance_title" key={"chance_title_" + field}>
+          <div className={css.chanceTitle} key={"chance_title_" + field}>
             {type}: {display}
           </div>
         );

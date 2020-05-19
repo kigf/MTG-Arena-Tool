@@ -67,6 +67,8 @@ body {
   overflow: hidden;
 }
 
+.click-on      {pointer-events: all}
+
 label {
   font-family: var(--main-font-name);
   color: var(--color-light);
@@ -346,10 +348,6 @@ label {
   /* opacity: 0.9; */
   z-index: -4;
   /* filter: hue-rotate(200deg); */
-}
-
-.overlay_wrapper.after_hidden:after {
-  opacity: 0;
 }
 
 .top {

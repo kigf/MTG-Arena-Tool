@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import interact from "interactjs";
 
+import css from "./index.css";
+
 const restrictMinSize =
   interact.modifiers &&
   interact.modifiers.restrictSize({
@@ -67,4 +69,4 @@ export function useEditModeOnRef(
 }
 
 export const getEditModeClass = (editMode: boolean): string =>
-  editMode ? "click-on editable" : "click-through";
+  editMode ? css.clickOn + " " + css.editable : css.clickThrough;

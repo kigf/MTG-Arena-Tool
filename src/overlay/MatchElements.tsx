@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  MANA,
   OVERLAY_FULL,
   OVERLAY_LEFT,
   OVERLAY_LOG,
@@ -13,6 +12,9 @@ import { OverlaySettingsData } from "../types/settings";
 import ActionLog from "../shared/ActionLog";
 import Clock from "./Clock";
 import DeckList from "./DeckList";
+
+import css from "./index.css";
+import ManaCost from "../renderer/components/misc/ManaCost";
 
 export interface MatchElementsProps {
   actionLog: string;
@@ -87,22 +89,22 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
   visibleDeck?.getSideboard().removeZeros(true);
   return (
     <div
-      className="outer_wrapper elements_wrapper"
+      className={`${css.outerWrapper} elements_wrapper`}
       style={{ opacity: settings.alpha.toString() }}
     >
-      {!!settings.title && <div className="overlay_deckname">{mainTitle}</div>}
+      {!!settings.title && (
+        <div className={css.overlayDeckname}>{mainTitle}</div>
+      )}
       {settings.mode === OVERLAY_SEEN && (
-        <div className="overlay_archetype">{match.oppArchetype}</div>
+        <div className={css.overlayArchetype}>{match.oppArchetype}</div>
       )}
       {!!settings.title && !!visibleDeck && (
-        <div className="overlay_deckcolors">
-          {visibleDeck.colors.get().map((color: number) => (
-            <div className={"mana_s20 mana_" + MANA[color]} key={color} />
-          ))}
+        <div className={css.overlayDeckcolors}>
+          <ManaCost colors={visibleDeck.colors.get()} />
         </div>
       )}
       {settings.mode === OVERLAY_LOG && (
-        <div className="click-on" style={{ overflowY: "auto" }}>
+        <div className={css.clickOn} style={{ overflowY: "auto" }}>
           <ActionLog logStr={actionLog} />
         </div>
       )}

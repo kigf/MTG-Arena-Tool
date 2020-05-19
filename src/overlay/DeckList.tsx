@@ -22,6 +22,9 @@ import { OverlaySettingsData } from "../types/settings";
 import SampleSizePanel from "./SampleSizePanel";
 import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
 
+import css from "./index.css";
+import typeLand from "../assets/images/type_land.png";
+
 const landsCard = {
   id: 100,
   name: "Lands",
@@ -38,7 +41,7 @@ const landsCard = {
   collectible: false,
   craftable: false,
   images: {
-    art_crop: "../assets/images/type_land.png",
+    art_crop: typeLand,
   },
   dfcId: 0,
 };
@@ -187,7 +190,7 @@ export default function DeckList(props: DeckListProps): JSX.Element {
     if (settings.mode === OVERLAY_DRAFT) {
       mainCardTiles.push(
         <div
-          className="overlay_card_quantity"
+          className={css.overlayCardQuantity}
           key={"maincardtile_owned_" + index + "_" + card.id}
         >
           <OwnershipStars card={fullCard} />
@@ -260,11 +263,13 @@ export default function DeckList(props: DeckListProps): JSX.Element {
   }
 
   return (
-    <div className="overlay_decklist click-on">
-      <div className="decklist_title">{subTitle}</div>
+    <div className={`${css.overlayDecklist} ${css.clickOn}`}>
+      <div className={css.decklistTitle}>{subTitle}</div>
       {!!settings.deck && mainCardTiles}
       {!!settings.sideboard && sideboardCardTiles.length && (
-        <div className="decklist_title">Sideboard ({sideboardCards} cards)</div>
+        <div className={css.decklistTitle}>
+          Sideboard ({sideboardCards} cards)
+        </div>
       )}
       {!!settings.sideboard && sideboardCardTiles}
       {!!settings.type_counts && <DeckTypesStats deck={deck} />}

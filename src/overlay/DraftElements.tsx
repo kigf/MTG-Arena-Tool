@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import {
-  MANA,
   OVERLAY_DRAFT,
   OVERLAY_DRAFT_BREW,
   PACK_SIZES,
@@ -9,6 +8,9 @@ import Deck from "../shared/deck";
 import { DraftData, DraftState } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import DeckList from "./DeckList";
+
+import css from "./index.css";
+import ManaCost from "../renderer/components/misc/ManaCost";
 
 const packSizeMap: { [key: string]: number } = PACK_SIZES;
 
@@ -105,29 +107,33 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
 
   return (
     <div
-      className="outer_wrapper elements_wrapper"
+      className={`${css.outerWrapper} elements_wrapper`}
       style={{ opacity: settings.alpha.toString() }}
     >
       {!!settings.title && (
-        <div className="overlay_deckname">
+        <div className={css.overlayDeckname}>
           {mainTitle}
           {settings.mode === OVERLAY_DRAFT && (
             <div
-              className="overlay_draft_container"
+              className={css.overlayDraftContainer}
               style={settings.top ? { top: "32px" } : undefined}
             >
-              <div className="draft_prev click-on" onClick={handleDraftPrev} />
-              <div className="draft_title" />
-              <div className="draft_next click-on" onClick={handleDraftNext} />
+              <div
+                className={`${css.draftPrev} ${css.clickOn}`}
+                onClick={handleDraftPrev}
+              />
+              <div className={css.draftTitle} />
+              <div
+                className={`${css.draftNext} ${css.clickOn}`}
+                onClick={handleDraftNext}
+              />
             </div>
           )}
         </div>
       )}
       {!!settings.title && !!visibleDeck && (
-        <div className="overlay_deckcolors">
-          {visibleDeck.colors.get().map((color: number) => (
-            <div className={"mana_s20 mana_" + MANA[color]} key={color} />
-          ))}
+        <div className={css.overlayDeckcolors}>
+          <ManaCost colors={visibleDeck.colors.get()} />
         </div>
       )}
       {!!visibleDeck && (

@@ -3,8 +3,6 @@
 declare namespace SharedCssModule {
   export interface ISharedCss {
     absolute: string;
-    afterHidden: string;
-    after_hidden: string;
     autoWidth: string;
     auto_width: string;
     back: string;
@@ -30,6 +28,8 @@ declare namespace SharedCssModule {
     "card-hover-main": string;
     cardHoverDfc: string;
     cardHoverMain: string;
+    "click-on": string;
+    clickOn: string;
     close: string;
     green: string;
     greenBright: string;
@@ -156,8 +156,6 @@ declare namespace SharedCssModule {
     orange_bright_bg: string;
     outerWrapper: string;
     outer_wrapper: string;
-    overlayWrapper: string;
-    overlay_wrapper: string;
     "ownership-stars-container": string;
     ownershipStarsContainer: string;
     pieContainer: string;

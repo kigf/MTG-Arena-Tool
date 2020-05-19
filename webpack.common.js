@@ -65,7 +65,7 @@ let common_config = {
         loader: "html-loader",
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|webm)$/i,
+        test: /\.(mp3|png|jpg|jpeg|gif|svg|webm)$/i,
         loader: "file-loader",
       },
     ],
@@ -78,9 +78,10 @@ let common_config = {
       ".css",
       ".json",
       ".scss",
-      "jpeg",
-      "jpg",
+      ".jpeg",
+      ".jpg",
       ".png",
+      ".mp3",
     ],
   },
 };

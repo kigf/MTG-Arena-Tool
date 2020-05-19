@@ -15,7 +15,9 @@ import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/overlayStore";
 
-const DEFAULT_BACKGROUND = "../assets/images/Bedevil-Art.jpg";
+import css from "./index.css";
+import sharedCss from "../shared/shared.css";
+import DEFAULT_BACKGROUND from "../assets/images/Bedevil-Art.jpg";
 
 export interface OverlayWindowletProps {
   arenaState: number;
@@ -117,22 +119,21 @@ export default function OverlayWindowlet(
   } else {
     elements = (
       <div
-        className="outer_wrapper elements_wrapper"
+        className={`${css.outerWrapper} elements_wrapper`}
         style={{ opacity: overlaySettings.alpha.toString() }}
       >
         {!!overlaySettings.title && (
-          <div className="overlay_deckname">Overlay {index + 1}</div>
+          <div className={css.overlayDeckname}>Overlay {index + 1}</div>
         )}
       </div>
     );
   }
 
-  const backgroundImage =
-    "url(" +
-    (settings.back_url && settings.back_url !== "default"
+  const backgroundImage = `url(${
+    settings.back_url && settings.back_url !== "default"
       ? settings.back_url
-      : DEFAULT_BACKGROUND) +
-    ")";
+      : DEFAULT_BACKGROUND
+  })`;
 
   const backgroundColor = settings.overlay_back_color;
   const backgroundShade = useSelector(
@@ -157,7 +158,7 @@ export default function OverlayWindowlet(
   const borderAlpha = (overlaySettings.alpha_back * 1.5).toString();
   return (
     <div
-      className={"overlay_container " + getEditModeClass(editMode)}
+      className={`${css.overlayContainer} ${getEditModeClass(editMode)}`}
       id={"overlay_" + (index + 1)}
       ref={containerRef}
       style={{
@@ -170,22 +171,22 @@ export default function OverlayWindowlet(
         top: overlaySettings.bounds.y + "px",
       }}
     >
-      <div className="outer_wrapper">
+      <div className={css.outerWrapper}>
         <div
-          className={"main_wrapper " + (solidBg ? "after_hidden" : "")}
+          className={`${css.mainWrapper} ${solidBg ? css.afterHidden : ""}`}
           style={bgStyle}
         >
           {!solidBg && backgroundShade ? (
-            <div className="wrapper_after"></div>
+            <div className={sharedCss.wrapperAfter}></div>
           ) : (
             <></>
           )}
         </div>
       </div>
       {overlaySettings.top && (
-        <div className="outer_wrapper top_nav_wrapper">
+        <div className={`${css.outerWrapper} ${css.topNavWrapper}`}>
           <div
-            className="button overlay_icon click-on"
+            className={`${css.button} ${css.overlayIcon} ${css.clickOn}`}
             onClick={handleToggleEditMode}
             style={{
               backgroundColor: `var(--color-${COLORS_ALL[index]})`,
@@ -194,12 +195,12 @@ export default function OverlayWindowlet(
             title={settings.shortcut_editmode}
           />
           <div
-            className="button settings click-on"
+            className={`${sharedCss.button} ${sharedCss.settings} ${css.clickOn}`}
             onClick={handleClickSettings}
             style={{ margin: 0 }}
           />
           <div
-            className="button close click-on"
+            className={`${sharedCss.button} ${sharedCss.close} ${css.clickOn}`}
             onClick={handleClickClose}
             style={{ marginRight: "4px" }}
           />

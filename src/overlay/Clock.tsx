@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { toMMSS, toHHMMSS } from "../shared/util";
 import { PriorityTimers } from "../types/currentMatch";
 
+import css from "./index.css";
+
 const CLOCK_MODE_BOTH = 0;
 const CLOCK_MODE_ELAPSED = 1;
 const CLOCK_MODE_CLOCK = 2;
@@ -61,10 +63,12 @@ export default function Clock(props: ClockProps): JSX.Element {
       p2name = oppName;
     }
     if (clockMode === CLOCK_MODE_BOTH) {
-      const className1 =
-        "clock_pname1 " + (turnPriority === 1 ? "pname_priority" : "");
-      const className2 =
-        "clock_pname2 " + (turnPriority === 2 ? "pname_priority" : "");
+      const className1 = `${css.clockPname1} ${
+        turnPriority === 1 ? css.pnamePriority : ""
+      }`;
+      const className2 = `${css.clockPname2} ${
+        turnPriority === 2 ? css.pnamePriority : ""
+      }`;
       return (
         <>
           <div className={className1}>{p1name}</div>
@@ -98,20 +102,20 @@ export default function Clock(props: ClockProps): JSX.Element {
   );
 
   return (
-    <div className="overlay_clock_container click-on">
-      <div className="clock_prev" onClick={handleClockPrev} />
-      <div className="clock_turn">{clockTitle}</div>
-      <div className="clock_elapsed">
+    <div className={`${css.overlayClockContainer} ${css.clickOn}`}>
+      <div className={css.clockPrev} onClick={handleClockPrev} />
+      <div className={css.clockTurn}>{clockTitle}</div>
+      <div className={css.clockElapsed}>
         {clockMode === CLOCK_MODE_BOTH && (
           <>
-            <div className="clock_priority_1">{toMMSS(duration1)}</div>
-            <div className="clock_priority_2">{toMMSS(duration2)}</div>
+            <div className="clockPriority_1">{toMMSS(duration1)}</div>
+            <div className="clockPriority_2">{toMMSS(duration2)}</div>
           </>
         )}
         {clockMode === CLOCK_MODE_ELAPSED && toHHMMSS(elapsedDuration)}
         {clockMode === CLOCK_MODE_CLOCK && now.toLocaleTimeString()}
       </div>
-      <div className="clock_next" onClick={handleClockNext} />
+      <div className={css.clockNext} onClick={handleClockNext} />
     </div>
   );
 }
