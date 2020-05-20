@@ -236,6 +236,13 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
         </p>
       </div>
       <Toggle
+        text={"Auto adjust size"}
+        value={settings.autosize}
+        callback={(val: boolean): void =>
+          saveOverlaySettings(current, val, "autosize")
+        }
+      />
+      <Toggle
         text={"Show top bar"}
         value={settings.top}
         callback={(val: boolean): void =>

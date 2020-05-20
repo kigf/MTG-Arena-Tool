@@ -15,6 +15,7 @@ import {
   OVERLAY_FULL,
   OVERLAY_LOG,
 } from "./constants";
+import { SettingsData } from "../types/settings";
 
 export const overlayCfg = {
   alpha: 1,
@@ -34,6 +35,7 @@ export const overlayCfg = {
   title: true,
   top: true,
   type_counts: false,
+  autosize: false,
 };
 
 const primaryBounds: Electron.Rectangle = remote
@@ -101,6 +103,7 @@ const defaultConfig = {
           height: 600,
         },
         mode: OVERLAY_LEFT,
+        autosize: true,
         clock: true,
       },
       {
@@ -112,6 +115,7 @@ const defaultConfig = {
           x: primaryBounds.x + 310,
         },
         mode: OVERLAY_SEEN,
+        autosize: true,
         clock: false,
       },
       {
@@ -132,10 +136,11 @@ const defaultConfig = {
         ...overlayCfg,
         bounds: { ...primaryBounds, width: 300, height: 600 },
         mode: OVERLAY_FULL,
+        autosize: true,
         show: false,
       },
     ],
-  },
+  } as SettingsData,
   seasonal_rank: {},
   seasonal: {},
   economy_index: [],

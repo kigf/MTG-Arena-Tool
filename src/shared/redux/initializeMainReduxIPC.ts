@@ -51,7 +51,12 @@ export default function initializeMainReduxIPC(
       if (to & IPC_OVERLAY)
         overlay?.webContents.send("redux-action", type, arg);
     } catch (e) {
-      console.error("Attempted to parse a Redux Action but failed;", type, e);
+      console.error(
+        "Attempted to parse a Redux Action but failed;",
+        type,
+        arg,
+        e
+      );
     }
   });
 }

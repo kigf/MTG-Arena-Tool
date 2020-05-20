@@ -8,6 +8,7 @@ import { MatchTableData } from "../renderer/components/matches/types";
 export interface OverlaySettingsData {
   alpha: number;
   alpha_back: number;
+  autosize: boolean;
   bounds: { width: number; height: number; x: number; y: number };
   clock: boolean;
   draw_odds: boolean;
@@ -55,6 +56,7 @@ export interface SettingsData {
   overlay_ontop: boolean;
   overlay_scale: number;
   overlayHover: { x: number; y: number };
+  primaryMonitorPos: { x: number; y: number };
   overlays: OverlaySettingsData[];
   right_panel_width: number;
   startup: boolean;
@@ -65,4 +67,5 @@ export interface SettingsData {
   shortcut_devtools_main: string;
   shortcut_devtools_overlay: string;
   send_data: boolean;
+  back_shadow: boolean;
 }

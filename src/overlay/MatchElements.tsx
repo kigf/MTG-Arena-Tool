@@ -1,4 +1,7 @@
+import { ipcRenderer as ipc } from "electron";
 import React from "react";
+import useMeasure from "react-use-measure";
+
 import {
   OVERLAY_FULL,
   OVERLAY_LEFT,
@@ -6,6 +9,7 @@ import {
   OVERLAY_MIXED,
   OVERLAY_ODDS,
   OVERLAY_SEEN,
+  IPC_ALL,
 } from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";
@@ -15,6 +19,8 @@ import DeckList from "./DeckList";
 
 import css from "./index.css";
 import ManaCost from "../renderer/components/misc/ManaCost";
+import { useSelector } from "react-redux";
+import { AppState } from "../shared/redux/stores/backgroundStore";
 
 export interface MatchElementsProps {
   actionLog: string;
@@ -44,6 +50,34 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
   let cardsCount = 0;
   let mainTitle = "Overlay " + (index + 1);
   let subTitle = "";
+  const [ref, bounds] = useMeasure();
+  const fullSettings = useSelector((state: AppState) => state.settings);
+
+  // Auto adjust
+  if (
+    settings &&
+    settings.show &&
+    bounds &&
+    bounds.height > 0 &&
+    bounds.height !== settings.bounds.height
+  ) {
+    const newOverlays = [...fullSettings.overlays];
+    newOverlays[index] = {
+      ...fullSettings.overlays[index], // old overlay
+      bounds: {
+        ...settings.bounds,
+        height: bounds.height,
+      },
+    };
+
+    // Send to ipc, dispatching here creates an overflow.
+    ipc.send(
+      "redux-action",
+      "SET_SETTINGS",
+      JSON.stringify({ overlays: newOverlays }),
+      IPC_ALL
+    );
+  }
 
   let cleanName = match.opponent && match.opponent.name;
   if (cleanName && cleanName !== "Sparky") {
@@ -92,41 +126,43 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
       className={`${css.outerWrapper} elements_wrapper`}
       style={{ opacity: settings.alpha.toString() }}
     >
-      {!!settings.title && (
-        <div className={css.overlayDeckname}>{mainTitle}</div>
-      )}
-      {settings.mode === OVERLAY_SEEN && (
-        <div className={css.overlayArchetype}>{match.oppArchetype}</div>
-      )}
-      {!!settings.title && !!visibleDeck && (
-        <div className={css.overlayDeckcolors}>
-          <ManaCost colors={visibleDeck.colors.get()} />
-        </div>
-      )}
-      {settings.mode === OVERLAY_LOG && (
-        <div className={css.clickOn} style={{ overflowY: "auto" }}>
-          <ActionLog logStr={actionLog} />
-        </div>
-      )}
-      {!!visibleDeck && (
-        <DeckList
-          deck={visibleDeck}
-          subTitle={subTitle}
-          settings={settings}
-          tileStyle={tileStyle}
-          setOddsCallback={setOddsCallback}
-        />
-      )}
-      {!!settings.clock && (
-        <Clock
-          key={"overlay_clock_" + index}
-          matchBeginTime={new Date(match.beginTime)}
-          oppName={oppName}
-          playerSeat={match.player ? match.player.seat : 1}
-          priorityTimers={match.priorityTimers}
-          turnPriority={turnPriority}
-        />
-      )}
+      <div ref={ref}>
+        {!!settings.title && (
+          <div className={css.overlayDeckname}>{mainTitle}</div>
+        )}
+        {settings.mode === OVERLAY_SEEN && (
+          <div className={css.overlayArchetype}>{match.oppArchetype}</div>
+        )}
+        {!!settings.title && !!visibleDeck && (
+          <div className={css.overlayDeckcolors}>
+            <ManaCost colors={visibleDeck.colors.get()} />
+          </div>
+        )}
+        {settings.mode === OVERLAY_LOG && (
+          <div className={css.clickOn} style={{ overflowY: "auto" }}>
+            <ActionLog logStr={actionLog} />
+          </div>
+        )}
+        {!!visibleDeck && (
+          <DeckList
+            deck={visibleDeck}
+            subTitle={subTitle}
+            settings={settings}
+            tileStyle={tileStyle}
+            setOddsCallback={setOddsCallback}
+          />
+        )}
+        {!!settings.clock && (
+          <Clock
+            key={"overlay_clock_" + index}
+            matchBeginTime={new Date(match.beginTime)}
+            oppName={oppName}
+            playerSeat={match.player ? match.player.seat : 1}
+            priorityTimers={match.priorityTimers}
+            turnPriority={turnPriority}
+          />
+        )}
+      </div>
     </div>
   );
 }

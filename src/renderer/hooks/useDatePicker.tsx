@@ -10,7 +10,7 @@ import css from "./DatePicker.scss";
 // Its a little of a bummer to type each class here but it works.
 const pickerClasses = {
   container: css.selectable,
-  day: css.dayPickerDay,// + " " + css.dayPickerDay,
+  day: css.dayPickerDay, // + " " + css.dayPickerDay,
   wrapper: pickerCss.dayPickerWrapper,
   interactionDisabled: pickerCss.dayPickerInteractionDisabled,
   navBar: "",
