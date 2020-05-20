@@ -6,6 +6,20 @@ import indexCss from "../../index.css";
 import selectCss from "../../select.scss";
 import tableCss from "./tables.css";
 
+// Autossugest styles are SO HARD to see and test in devtools :(
+const theme = {
+  //container: selectCss.AScontainer,
+  //containerOpen: selectCss.AScontainerOpen,
+  input: selectCss.ASinput,
+  suggestionsList: selectCss.ASsuggestionsList,
+  suggestion: selectCss.ASsuggestion,
+  //suggestionFirst: selectCss.ASsuggestionFirst,
+  suggestionHighlighted: selectCss.ASsuggestionHighlighted,
+  //sectionContainer: selectCss.ASsectionContainer,
+  //sectionContainerFirst: selectCss.ASsectionContainerFirst,
+  //sectionTitle: selectCss.ASsectionTitle,
+};
+
 const getSuggestions = (value: string, options: TagCount[]): TagCount[] => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
@@ -130,6 +144,7 @@ export default function AutosuggestInput({
   return (
     <div onFocus={onFocus} style={{ paddingLeft: "10px" }}>
       <Autosuggest
+        theme={theme}
         id={id}
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}

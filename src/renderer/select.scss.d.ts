@@ -2,14 +2,16 @@
 // GENERATED FILE; DO NOT EDIT
 declare namespace SelectScssModule {
   export interface ISelectScss {
+    ASinput: string;
+    ASsuggestion: string;
+    ASsuggestionHighlighted: string;
+    ASsuggestionsList: string;
+    aSinput: string;
+    aSsuggestion: string;
+    aSsuggestionHighlighted: string;
+    aSsuggestionsList: string;
     active: string;
     light: string;
-    "react-autosuggest__input": string;
-    "react-autosuggest__suggestion--highlighted": string;
-    "react-autosuggest__suggestions-list": string;
-    reactAutosuggestInput: string;
-    reactAutosuggestSuggestionHighlighted: string;
-    reactAutosuggestSuggestionsList: string;
     select: string;
     "select-hidden": string;
     "select-options": string;
