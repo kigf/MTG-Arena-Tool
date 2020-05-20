@@ -42,8 +42,6 @@ class CardsList {
     if (isV2CardsList(newList)) {
       this.list = newList.map((obj: CardObject) => {
         return {
-          quantity: 1, // TODO remove group lands hack
-          id: obj, // TODO remove group lands hack
           ...obj,
           measurable: true,
         };
