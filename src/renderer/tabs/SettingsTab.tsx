@@ -139,21 +139,19 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
   const CurrentSettings = tabs[currentTab].component;
   return (
     <div className={appCss.uxItem}>
-      <div className={indexCss.centeredUx} style={{ flexDirection: "row" }}>
-        <div className={`${indexCss.wrapperColumn} ${css.sidebar_column_r}`}>
-          <SettingsNav {...tabs[SETTINGS_BEHAVIOUR]} />
-          <SettingsNav {...tabs[SETTINGS_ARENA_DATA]} />
-          <SettingsNav {...tabs[SETTINGS_OVERLAY]} />
-          <SettingsNav {...tabs[SETTINGS_VISUAL]} />
-          <SettingsNav {...tabs[SETTINGS_SHORTCUTS]} />
-          <SettingsNav {...tabs[SETTINGS_PRIVACY]} />
-          <SettingsNav {...tabs[SETTINGS_ABOUT]} />
-          <SettingsNav {...tabs[SETTINGS_LOGIN]} />
-        </div>
-        <div className={`${indexCss.wrapperColumn} ${css.settings_page}`}>
-          <div className={css.settingsTitle}>{tabs[currentTab].title}</div>
-          <CurrentSettings />
-        </div>
+      <div className={`${indexCss.wrapperColumn} ${css.sidebar_column_r}`}>
+        <SettingsNav {...tabs[SETTINGS_BEHAVIOUR]} />
+        <SettingsNav {...tabs[SETTINGS_ARENA_DATA]} />
+        <SettingsNav {...tabs[SETTINGS_OVERLAY]} />
+        <SettingsNav {...tabs[SETTINGS_VISUAL]} />
+        <SettingsNav {...tabs[SETTINGS_SHORTCUTS]} />
+        <SettingsNav {...tabs[SETTINGS_PRIVACY]} />
+        <SettingsNav {...tabs[SETTINGS_ABOUT]} />
+        <SettingsNav {...tabs[SETTINGS_LOGIN]} />
+      </div>
+      <div className={`${indexCss.wrapperColumn} ${css.settings_page}`}>
+        <div className={css.settingsTitle}>{tabs[currentTab].title}</div>
+        <CurrentSettings />
       </div>
     </div>
   );
