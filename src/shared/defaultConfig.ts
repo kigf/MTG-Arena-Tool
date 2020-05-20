@@ -19,7 +19,7 @@ import { SettingsData } from "../types/settings";
 
 export const overlayCfg = {
   alpha: 1,
-  alpha_back: 1,
+  alpha_back: 0.7,
   bounds: { width: 300, height: 600, x: 0, y: 0 },
   clock: false,
   draw_odds: true,
@@ -63,7 +63,7 @@ const defaultConfig = {
     export_format: "$Name,$Count,$Rarity,$SetName,$Collector",
     back_color: "rgba(0,0,0,0.3)",
     back_shadow: true,
-    overlay_back_color: "rgba(0,0,0,0.0)",
+    overlay_back_color: "rgba(0,0,0,1)",
     back_url: "",
     right_panel_width: 300,
     right_panel_width_sub: 300,
