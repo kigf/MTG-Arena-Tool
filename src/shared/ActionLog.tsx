@@ -114,7 +114,7 @@ function LogCard(props: LogCardProps): JSX.Element {
       <div
         onMouseEnter={hoverIn}
         onMouseLeave={hoverOut}
-        className={"log-card"}
+        className={css.logCard}
       >
         {cardName}
       </div>
