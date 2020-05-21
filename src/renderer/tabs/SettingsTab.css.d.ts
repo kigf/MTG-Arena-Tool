@@ -4,8 +4,10 @@ declare namespace SettingsTabCssModule {
   export interface ISettingsTabCss {
     navSelected: string;
     nav_selected: string;
+    settingsLeft: string;
     settingsNav: string;
     settingsPage: string;
+    settingsRight: string;
     settingsRow: string;
     settingsSection: string;
     settingsTitle: string;
