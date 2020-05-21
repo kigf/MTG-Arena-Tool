@@ -261,7 +261,7 @@ body {
 }
 
 .clock_elapsed {
-    justify-content: center;
+    justify-content: space-around;
     display: flex;
     margin-left: 32px;
     width: calc(100% - 64px);
