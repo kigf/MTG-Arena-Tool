@@ -6,7 +6,7 @@ import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { FACE_DFC_FRONT, FACE_DFC_BACK } from "../../../shared/constants";
 import OwnershipStars from "../../../shared/OwnershipStars";
 
-import notFound from "../../../assets/images/notFound.png";
+import notFound from "../../../assets/images/notfound.png";
 import NoCard from "../../../assets/images/nocard.png";
 import sharedCss from "../../../shared/shared.css";
 

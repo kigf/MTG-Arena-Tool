@@ -20,7 +20,7 @@ import EconomyValueRecord, { EconomyIcon } from "./EconomyValueRecord";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 
-import notFound from "../../../assets/images/notFound.png";
+import notFound from "../../../assets/images/notfound.png";
 import indexCss from "../../index.css";
 import listCss from "../list-item/ListItem.css";
 import css from "./economy.css";

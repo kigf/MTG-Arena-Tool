@@ -1,6 +1,6 @@
 import { DbCardData } from "../../types/Metadata";
 
-import notFound from "../../assets/images/notFound.png";
+import notFound from "../../assets/images/notfound.png";
 import database from "../database";
 
 export function getCardImage(

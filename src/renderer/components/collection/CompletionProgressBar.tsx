@@ -8,7 +8,7 @@ import {
   SINGLETONS,
 } from "./collectionStats";
 
-import notFound from "../../../assets/images/notFound.png";
+import notFound from "../../../assets/images/notfound.png";
 import indexCss from "../../index.css";
 import css from "./CompletionProgressBar.css";
 

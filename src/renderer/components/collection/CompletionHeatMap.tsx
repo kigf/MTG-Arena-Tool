@@ -4,7 +4,7 @@ import db from "../../../shared/database";
 import { CardStats } from "./collectionStats";
 import useHoverCard from "../../hooks/useHoverCard";
 
-import notFound from "../../../assets/images/notFound.png";
+import notFound from "../../../assets/images/notfound.png";
 import sharedCss from "../../../shared/shared.css";
 import indexCss from "../../index.css";
 import css from "./CompletionTableHeatMap.css";
