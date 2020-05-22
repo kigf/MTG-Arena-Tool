@@ -43,6 +43,7 @@ export default function OutputLogInput(
         defaultPath: logUri,
         buttonLabel: "Select",
         filters: [
+          { name: "Log Files", extensions: ["log"] },
           { name: "Text", extensions: ["txt", "text"] },
           { name: "All Files", extensions: ["*"] },
         ],
