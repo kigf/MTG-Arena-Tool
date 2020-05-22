@@ -52,6 +52,9 @@
     "test:eslint": "eslint src/ --ext .ts,.tsx",
     "test:tsc": "tsc",
     "test": "npm run --silent test:eslint && npm run --silent test:tsc && npm run --silent test:jest",
+    "proto:model": "node node_modules/protobufjs/bin/pbjs src/assets/proto/messages.proto > src/assets/proto/model.json",
+    "proto:GreTypes": "node src/assets/proto/proto2typescript/index.js",
+    "proto:eslint": "eslint src/assets/proto/GreTypes.ts --fix",
     "run-electron": "electron ."
   },
   "build": {
@@ -166,7 +169,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "proto2typescript": "^2.2.0",
-    "protobufjs": "^6.9.0",
+    "protobufjs": "~5.0.3",
     "react-hot-loader": "^4.12.21",
     "react-test-renderer": "^16.13.1",
     "rimraf": "^3.0.2",

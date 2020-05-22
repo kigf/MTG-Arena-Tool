@@ -918,7 +918,6 @@ export interface GameMetrics {
 export interface GameObjectInfo {
   instanceId?: number;
   grpId?: number;
-  groupId?: number;
   type?: GameObjectType;
   zoneId?: number;
   visibility?: Visibility;
@@ -972,6 +971,7 @@ export interface GameStateMessage {
 export interface GameStateRedactorConfiguration {
   enableRedaction?: boolean;
   enableForceDiff?: boolean;
+  enableZoneRedaction?: boolean;
 }
 
 export interface GatherReq {
@@ -1077,6 +1077,10 @@ export interface GroupSpecification {
   subZoneType?: SubZoneType;
   prompt?: Prompt;
   isFacedown?: boolean;
+}
+
+export interface IRLoaderConfiguration {
+  enableLimitedIRLoading?: boolean;
 }
 
 export interface IllegalRequestMessage {
@@ -1716,11 +1720,13 @@ export interface SearchReq {
   itemsToSearch: number[];
   itemsSought: number[];
   sourceId?: number;
+  additionalZones: number[];
 }
 
 export interface SearchResp {
   optionIndex?: number;
   itemsFound: number[];
+  addZoneToSearchScope?: number;
 }
 
 export interface SelectCountersReq {
@@ -2056,7 +2062,6 @@ export interface TurnInfo {
   activePlayer?: number;
   priorityPlayer?: number;
   decisionPlayer?: number;
-  stormCount?: number;
   nextPhase?: Phase;
   nextStep?: Step;
 }
@@ -3237,6 +3242,7 @@ export enum EnumIdType {
   IdType_None = 0,
   IdType_InstanceId = 1,
   IdType_PromptParameterIndex = 2,
+  IdType_ZoneInstanceId = 3,
 }
 
 export type IdType = keyof typeof EnumIdType;
