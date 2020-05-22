@@ -5,7 +5,7 @@ module.exports = {
   require: jest.fn(),
   match: jest.fn(),
   app: {
-    getPath: () => "src\\resources",
+    getPath: () => "src\\assets\\resources",
   },
   remote: {
     app: {
