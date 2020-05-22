@@ -27,7 +27,7 @@ import updateDeck from "./updateDeck";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxIPC";
 import { archive, getMatch, deckExists, getDeck } from "../shared/store";
-import { AppState } from "../shared/redux/stores/backgroundStore";
+import store, { AppState } from "../shared/redux/stores/backgroundStore";
 
 initializeRendererReduxIPC(globals.store);
 
@@ -123,6 +123,7 @@ ipc.on("start_background", async function () {
   if (!logUri || logUri == "") {
     logUri = mtgaLog.defaultLogUri();
   }
+  console.log("logUri: " + appSettings.logUri, logUri);
   appSettings.logUri = logUri;
 
   ipcSend("initialize_main", appSettings.launchToTray);
@@ -328,7 +329,8 @@ ipc.on("set_log", function (_event, arg) {
     globals.stopWatchingLog();
     globals.stopWatchingLog = arenaLogWatcher.startWatchingLog(arg);
   }
-  appDb.upsert("", "settings.logUri", arg).then(() => {
+  const newAppSettings = { ...store.getState().appsettings, logUri: arg };
+  appDb.upsert("", "settings", newAppSettings).then(() => {
     remote.app.relaunch();
     remote.app.exit(0);
   });
@@ -351,7 +353,7 @@ async function attemptLogLoop(): Promise<void> {
 // Basic logic for reading the log file
 async function logLoop(): Promise<void> {
   const logUri = globals.store.getState().appsettings.logUri;
-  //console.log("logLoop() start");
+  //console.log("logLoop() start " + logUri);
   //ipcSend("ipc_log", "logLoop() start");
   if (
     logUri.indexOf("output_log") !== -1 &&
