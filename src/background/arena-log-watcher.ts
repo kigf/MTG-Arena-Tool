@@ -328,7 +328,7 @@ function entrySwitch(entry: LogEntry): void {
       break;
 
     case "Event.MatchCreated":
-      if (entry.arrow == "==>") {
+      if (entry.arrow == "<==") {
         Labels.EventMatchCreated(entry);
       }
       break;
