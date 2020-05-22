@@ -294,7 +294,7 @@ function entrySwitch(entry: LogEntry): void {
       break;
 
     case "PostMatch.Update":
-      if (entry.arrow == "==>") {
+      if (entry.arrow == "<==") {
         Labels.PostMatchUpdate(entry);
       }
       break;
