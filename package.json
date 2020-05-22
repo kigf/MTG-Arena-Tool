@@ -55,6 +55,7 @@
     "proto:model": "node node_modules/protobufjs/bin/pbjs src/assets/proto/messages.proto > src/assets/proto/model.json",
     "proto:GreTypes": "node src/assets/proto/proto2typescript/index.js",
     "proto:eslint": "eslint src/assets/proto/GreTypes.ts --fix",
+    "proto": "npm-run-all proto:model proto:GreTypes proto:eslint",
     "run-electron": "electron ."
   },
   "build": {

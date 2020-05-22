@@ -13,26 +13,26 @@ function loadDustTemplate(name) {
 
 function initializeDustJS() {
   // Keep line breaks
-  DustJS.optimizers.format = function(ctx, node) {
+  DustJS.optimizers.format = function (ctx, node) {
     return node;
   };
 
   // Create view filters
-  DustJS.filters["firstLetterInUpperCase"] = function(value) {
+  DustJS.filters["firstLetterInUpperCase"] = function (value) {
     return value.charAt(0).toUpperCase() + value.slice(1);
   };
 
-  DustJS.filters["firstLetterInLowerCase"] = function(value) {
+  DustJS.filters["firstLetterInLowerCase"] = function (value) {
     return value.charAt(0).toLowerCase() + value.slice(1);
   };
 
-  DustJS.filters["camelCase"] = function(value) {
-    return value.replace(/(_[a-zA-Z])/g, function(match) {
+  DustJS.filters["camelCase"] = function (value) {
+    return value.replace(/(_[a-zA-Z])/g, function (match) {
       return match[1].toUpperCase();
     });
   };
 
-  DustJS.filters["convertType"] = function(value) {
+  DustJS.filters["convertType"] = function (value) {
     switch (value.toLowerCase()) {
       case "string":
         return "string";
@@ -58,11 +58,11 @@ function initializeDustJS() {
     return value;
   };
 
-  DustJS.filters["optionalFieldDeclaration"] = function(value) {
+  DustJS.filters["optionalFieldDeclaration"] = function (value) {
     return value == "optional" ? "?" : "";
   };
 
-  DustJS.filters["repeatedType"] = function(value) {
+  DustJS.filters["repeatedType"] = function (value) {
     return value == "repeated" ? "[]" : "";
   };
 }
@@ -101,7 +101,7 @@ function generateNames(model, prefix, name = "") {
   for (key in newDefinitions) {
     definitions.push({
       name: key,
-      type: key + newDefinitions[key]
+      type: key + newDefinitions[key],
     });
   }
 
@@ -126,7 +126,7 @@ function proto2typescript(inputStr, callback) {
   generateNames(model, model.package);
 
   // Render the model
-  DustJS.render("module", model, function(err, out) {
+  DustJS.render("module", model, function (err, out) {
     callback(err, out);
   });
 }
@@ -139,8 +139,7 @@ loadDustTemplate("interface");
 loadDustTemplate("enum");
 loadDustTemplate("builder");
 
-const fileStr = fs.readFileSync(__dirname + "/../model.json", "utf8");
-
+const fileStr = fs.readFileSync(__dirname + "/../model.json");
 proto2typescript(fileStr, (err, out) => {
   if (err != null) {
     console.error(err);
