@@ -11,9 +11,11 @@ import css from "./Sections.css";
 function clickBetaChannel(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
     {
-      betaChannel: value,
+      type: "SET_APP_SETTINGS",
+      arg: {
+        betaChannel: value,
+      },
     },
     IPC_ALL ^ IPC_RENDERER
   );
@@ -22,9 +24,11 @@ function clickBetaChannel(value: boolean): void {
 function clickAutoLogin(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
     {
-      autoLogin: value,
+      type: "SET_APP_SETTINGS",
+      arg: {
+        autoLogin: value,
+      },
     },
     IPC_ALL ^ IPC_RENDERER
   );
@@ -33,9 +37,11 @@ function clickAutoLogin(value: boolean): void {
 function clickLaunchToTray(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
     {
-      launchToTray: value,
+      type: "SET_APP_SETTINGS",
+      arg: {
+        launchToTray: value,
+      },
     },
     IPC_ALL ^ IPC_RENDERER
   );
@@ -44,8 +50,7 @@ function clickLaunchToTray(value: boolean): void {
 function clickStartup(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { startup: value },
+    { type: "SET_SETTINGS", arg: { startup: value } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -53,8 +58,7 @@ function clickStartup(value: boolean): void {
 function clickCloseOnMatch(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { close_on_match: value },
+    { type: "SET_SETTINGS", arg: { close_on_match: value } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -62,8 +66,7 @@ function clickCloseOnMatch(value: boolean): void {
 function clickCloseToTray(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { close_to_tray: value },
+    { type: "SET_SETTINGS", arg: { close_to_tray: value } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -71,8 +74,7 @@ function clickCloseToTray(value: boolean): void {
 function changeExportFormat(value: string): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { export_format: value },
+    { type: "SET_SETTINGS", arg: { export_format: value } },
     IPC_ALL ^ IPC_RENDERER
   );
 }

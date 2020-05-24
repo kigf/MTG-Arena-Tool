@@ -86,8 +86,7 @@ function exportCards(cardIds: string[]): void {
 function saveTableState(collectionTableState: TableState<CardsData>): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { collectionTableState },
+    { type: "SET_SETTINGS", arg: { collectionTableState } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -95,8 +94,7 @@ function saveTableState(collectionTableState: TableState<CardsData>): void {
 function saveTableMode(collectionTableMode: string): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { collectionTableMode },
+    { type: "SET_SETTINGS", arg: { collectionTableMode } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -114,7 +112,7 @@ function getCollectionData(): CardsData[] {
       });
     });
   return db.cardList
-    .filter((card) => card.collectible)
+    .filter((card) => card.collectible && card.dfc !== 7 && card.dfc !== 5)
     .map(
       (card): CardsData => {
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;

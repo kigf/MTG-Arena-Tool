@@ -1,5 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import defaultConfig from "../../defaultConfig";
+
+const initialSettings = { ...defaultConfig.settings };
+
+type Settings = typeof initialSettings;
 
 const settingsSlice = createSlice({
   name: "settings",
@@ -7,10 +11,15 @@ const settingsSlice = createSlice({
     ...defaultConfig.settings,
   },
   reducers: {
-    setSettings: (state, action): void => {
+    setSettings: (
+      state: Settings,
+      action: PayloadAction<Partial<Settings>>
+    ): void => {
       Object.assign(state, action.payload);
     },
   },
 });
+
+export const { setSettings } = settingsSlice.actions;
 
 export default settingsSlice;

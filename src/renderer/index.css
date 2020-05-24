@@ -722,7 +722,8 @@ a:hover {
     border-radius: 50%;
     position: relative;
     margin: auto 4px;
-    background-size: contain;
+    background-size: cover;
+    background-position: center;
 }
 
 .rarity-overlay:before {

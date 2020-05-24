@@ -205,8 +205,10 @@ function onLogEntryFound(entry: any): void {
             const format = getDateFormat(timestamp);
             reduxAction(
               globals.store.dispatch,
-              "SET_APP_SETTINGS",
-              { logTimeExample: timestamp, logTimeFormat: format },
+              {
+                type: "SET_APP_SETTINGS",
+                arg: { logTimeExample: timestamp, logTimeFormat: format },
+              },
               IPC_RENDERER
             );
           }
@@ -421,11 +423,14 @@ function finishLoading(): void {
     }
 
     // replaces ipc "initialize"
-    reduxAction(globals.store.dispatch, "SET_LOADING", false, IPC_RENDERER);
     reduxAction(
       globals.store.dispatch,
-      "SET_LOGIN_STATE",
-      LOGIN_OK,
+      { type: "SET_LOADING", arg: false },
+      IPC_RENDERER
+    );
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_LOGIN_STATE", arg: LOGIN_OK },
       IPC_RENDERER
     );
 

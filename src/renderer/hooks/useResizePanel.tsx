@@ -26,8 +26,7 @@ export default function useResizePanel(): [
     (newWidth: number) => {
       reduxAction(
         dispatcher,
-        "SET_SETTINGS",
-        { right_panel_width: newWidth },
+        { type: "SET_SETTINGS", arg: { right_panel_width: newWidth } },
         IPC_ALL ^ IPC_RENDERER
       );
     },

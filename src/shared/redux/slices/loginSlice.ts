@@ -1,37 +1,53 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LOGIN_AUTH } from "../../constants";
+
+const initialLoginState = {
+  canLogin: true,
+  loginForm: {
+    email: "",
+    pass: "",
+    rememberme: false,
+  },
+  loginState: LOGIN_AUTH,
+};
+
+type Login = typeof initialLoginState;
 
 const loginSlice = createSlice({
   name: "login",
-  initialState: {
-    canLogin: true,
-    loginForm: {
-      email: "",
-      pass: "",
-      rememberme: false,
-    },
-    loginState: LOGIN_AUTH,
-  },
+  initialState: initialLoginState,
   reducers: {
-    setLoginState: (state, action): void => {
+    setLoginState: (state: Login, action: PayloadAction<number>): void => {
       state.loginState = action.payload;
     },
-    setLoginPassword: (state, action): void => {
+    setLoginPassword: (state: Login, action: PayloadAction<string>): void => {
       state.loginForm.pass = action.payload;
     },
-    setLoginEmail: (state, action): void => {
+    setLoginEmail: (state: Login, action: PayloadAction<string>): void => {
       state.loginForm.email = action.payload;
     },
-    setLoginRemember: (state, action): void => {
+    setLoginRemember: (state: Login, action: PayloadAction<boolean>): void => {
       state.loginForm.rememberme = action.payload;
     },
-    setLoginForm: (state, action): void => {
+    setLoginForm: (
+      state: Login,
+      action: PayloadAction<Login["loginForm"]>
+    ): void => {
       state.loginForm = action.payload;
     },
-    setCanLogin: (state, action): void => {
+    setCanLogin: (state: Login, action: PayloadAction<boolean>): void => {
       state.canLogin = action.payload;
     },
   },
 });
+
+export const {
+  setCanLogin,
+  setLoginEmail,
+  setLoginForm,
+  setLoginPassword,
+  setLoginRemember,
+  setLoginState,
+} = loginSlice.actions;
 
 export default loginSlice;

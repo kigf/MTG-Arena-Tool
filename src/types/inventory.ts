@@ -8,7 +8,7 @@ export interface AetherizedCard {
 export interface InventoryDelta {
   gemsDelta: number;
   goldDelta: number;
-  boosterDelta: { count: number }[];
+  boosterDelta: { collationId: number; count: number }[];
   cardsAdded: number[];
   decksAdded: [];
   starterDecksAdded: [];
@@ -30,7 +30,7 @@ interface InventoryUpdateBase {
   aetherizedCards: AetherizedCard[];
   xpGained: number;
   trackName: string;
-  trackTier: number;
+  trackTier: string;
   trackDiff: {
     currentLevel: number;
     oldLevel: number;
@@ -91,7 +91,7 @@ export interface PlayerInventory {
   sealedTokens: number;
   wcTrackPosition: number;
   vaultProgress: number;
-  boosters: number[];
+  boosters: { collationId: number; count: number }[];
   vanityItems: {
     pets: Pet[];
     avatars: Avatar[];

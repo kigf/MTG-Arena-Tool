@@ -11,8 +11,7 @@ import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 function clickAnonExplore(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { anon_explore: value },
+    { type: "SET_SETTINGS", arg: { anon_explore: value } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -20,8 +19,7 @@ function clickAnonExplore(value: boolean): void {
 function clickSendData(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { send_data: value },
+    { type: "SET_SETTINGS", arg: { send_data: value } },
     IPC_ALL ^ IPC_RENDERER
   );
 }

@@ -41,8 +41,7 @@ export default function OfflineSplash(): JSX.Element {
             };
             reduxAction(
               store.dispatch,
-              "SET_APP_SETTINGS",
-              clearAppSettings,
+              { type: "SET_APP_SETTINGS", arg: clearAppSettings },
               IPC_BACKGROUND
             );
             setTimeout(() => {

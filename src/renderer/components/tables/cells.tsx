@@ -251,8 +251,7 @@ export function ArchivedCell<D extends TableData>({
       event.nativeEvent.stopImmediatePropagation();
       reduxAction(
         dispatcher,
-        "SET_ARCHIVED",
-        { id: dataId, archived: !isArchived },
+        { type: "SET_ARCHIVED", arg: { id: dataId, archived: !isArchived } },
         IPC_NONE
       );
       archiveCallback(dataId);

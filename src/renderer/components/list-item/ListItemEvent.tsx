@@ -153,16 +153,17 @@ function EventSubRows({
     (match: InternalMatch): void => {
       reduxAction(
         dispatcher,
-        "SET_BACK_GRPID",
-        match.playerDeck.deckTileId,
+        { type: "SET_BACK_GRPID", arg: match.playerDeck.deckTileId },
         IPC_NONE
       );
       reduxAction(
         dispatcher,
-        "SET_SUBNAV",
         {
-          type: SUB_MATCH,
-          id: match.id,
+          type: "SET_SUBNAV",
+          arg: {
+            type: SUB_MATCH,
+            id: match.id,
+          },
         },
         IPC_NONE
       );
@@ -171,13 +172,15 @@ function EventSubRows({
   );
 
   const openDraft = React.useCallback(
-    (id: string | number): void => {
+    (id: string): void => {
       reduxAction(
         dispatcher,
-        "SET_SUBNAV",
         {
-          type: SUB_DRAFT,
-          id: id,
+          type: "SET_SUBNAV",
+          arg: {
+            type: SUB_DRAFT,
+            id: id,
+          },
         },
         IPC_NONE
       );

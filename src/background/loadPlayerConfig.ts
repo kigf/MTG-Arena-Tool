@@ -20,6 +20,8 @@ import store from "../shared/redux/stores/backgroundStore";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import Deck from "../shared/deck";
+import { InternalDraft } from "../types/draft";
+import { SeasonalRankData } from "../types/Season";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {
@@ -38,8 +40,7 @@ export function syncSettings(
   if (refresh) {
     reduxAction(
       globals.store.dispatch,
-      "SET_SETTINGS",
-      settings,
+      { type: "SET_SETTINGS", arg: settings },
       IPC_ALL ^ IPC_BACKGROUND
     );
   }
@@ -74,8 +75,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
   reduxAction(
     globals.store.dispatch,
-    "SET_PLAYERDB",
-    playerDb.filePath,
+    { type: "SET_PLAYERDB", arg: playerDb.filePath },
     IPC_RENDERER
   );
   ipcLog("Player database: " + playerDb.filePath);
@@ -89,8 +89,7 @@ export async function loadPlayerConfig(): Promise<void> {
   if (settings) {
     reduxAction(
       globals.store.dispatch,
-      "SET_TOPNAV",
-      settings.last_open_tab,
+      { type: "SET_TOPNAV", arg: settings.last_open_tab },
       IPC_RENDERER
     );
   }
@@ -99,8 +98,7 @@ export async function loadPlayerConfig(): Promise<void> {
   if (savedData.rank) {
     reduxAction(
       globals.store.dispatch,
-      "SET_RANK",
-      savedData.rank,
+      { type: "SET_RANK", arg: savedData.rank },
       IPC_RENDERER
     );
   }
@@ -133,8 +131,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
   reduxAction(
     globals.store.dispatch,
-    "SET_MANY_MATCHES",
-    matchesList,
+    { type: "SET_MANY_MATCHES", arg: matchesList },
     IPC_RENDERER
   );
 
@@ -150,8 +147,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
     reduxAction(
       globals.store.dispatch,
-      "SET_MANY_EVENTS",
-      eventsList,
+      { type: "SET_MANY_EVENTS", arg: eventsList },
       IPC_RENDERER
     );
   }
@@ -163,8 +159,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
     reduxAction(
       globals.store.dispatch,
-      "SET_MANY_DECKS",
-      decksList,
+      { type: "SET_MANY_DECKS", arg: decksList },
       IPC_RENDERER
     );
   }
@@ -185,8 +180,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
     reduxAction(
       globals.store.dispatch,
-      "SET_MANY_DECK_CHANGES",
-      changesList,
+      { type: "SET_MANY_DECK_CHANGES", arg: changesList },
       IPC_RENDERER
     );
   }
@@ -202,22 +196,20 @@ export async function loadPlayerConfig(): Promise<void> {
 
     reduxAction(
       globals.store.dispatch,
-      "SET_MANY_ECONOMY",
-      economyList,
+      { type: "SET_MANY_ECONOMY", arg: economyList },
       IPC_RENDERER
     );
   }
 
   // Get Drafts data
   if (savedData.draft_index) {
-    const draftsList: InternalEconomyTransaction[] = savedData.draft_index
+    const draftsList: InternalDraft[] = savedData.draft_index
       .filter((id: string) => savedData[id])
       .map((id: string) => savedData[id]);
 
     reduxAction(
       globals.store.dispatch,
-      "SET_MANY_DRAFT",
-      draftsList,
+      { type: "SET_MANY_DRAFT", arg: draftsList },
       IPC_RENDERER
     );
   }
@@ -237,11 +229,13 @@ export async function loadPlayerConfig(): Promise<void> {
         }
         return update;
       })
-      .filter((update: any) => update?.rankUpdateType);
+      .filter((update: any) => update?.rankUpdateType) as Record<
+      number,
+      SeasonalRankData
+    >;
     reduxAction(
       globals.store.dispatch,
-      "SET_MANY_SEASONAL",
-      seasonalAdd,
+      { type: "SET_MANY_SEASONAL", arg: seasonalAdd },
       IPC_RENDERER
     );
   }
@@ -255,8 +249,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
     reduxAction(
       globals.store.dispatch,
-      "ADD_CARDS_FROM_STORE",
-      newCards,
+      { type: "ADD_CARDS_FROM_STORE", arg: newCards },
       IPC_RENDERER
     );
     const cards = globals.store.getState().playerdata.cards;
@@ -267,8 +260,7 @@ export async function loadPlayerConfig(): Promise<void> {
   if (savedData.tags_colors) {
     reduxAction(
       globals.store.dispatch,
-      "SET_TAG_COLORS",
-      savedData.tags_colors,
+      { type: "SET_TAG_COLORS", arg: savedData.tags_colors },
       IPC_RENDERER
     );
   }
@@ -277,8 +269,7 @@ export async function loadPlayerConfig(): Promise<void> {
   if (savedData.deck_tags) {
     reduxAction(
       globals.store.dispatch,
-      "SET_DECK_TAGS",
-      savedData.deck_tags,
+      { type: "SET_DECK_TAGS", arg: savedData.deck_tags },
       IPC_RENDERER
     );
   }

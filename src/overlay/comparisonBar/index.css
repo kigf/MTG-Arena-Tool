@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.left {
+  background-color: var(--color-u);
+  background: linear-gradient(90deg, var(--color-u) 0%, #cddef7 100%);
+  color: black;
+  font-family: var(--sub-font-name-bold);
+  overflow: hidden;
+  text-align: initial;
+}
+
+.innerNumber {
+  margin: 0 4px;
+  line-height: 20px;
+}
+
+.right {
+  background-color: var(--color-r);
+  background: linear-gradient(90deg, #f9af96 0%, var(--color-r) 100%);
+  color: black;
+  font-family: var(--sub-font-name-bold);
+  overflow: hidden;
+  text-align: end;
+}
+
+.arrayBarSide {
+  width: calc(50% - 1px);
+  display: flex;
+}
+
+.arrayLeft {
+  background-color: var(--color-u);
+  margin: 0 0 0 2px;
+}
+
+.arrayRight {
+  background-color: var(--color-r);
+  margin: 0 2px 0 0;
+}

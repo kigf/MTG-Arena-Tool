@@ -25,7 +25,7 @@ export interface QuestUpdate {
 
 export interface BattlePassUpdate {
   trackName: string;
-  trackTier: number;
+  trackTier: string;
   trackDiff: {
     currentLevel: number;
     currentExp: number;

@@ -8,13 +8,15 @@ interface RankIconProps {
   rank: string;
   tier: number;
   step?: number;
-  percentile: number;
-  leaderboardPlace: number;
+  percentile?: number;
+  leaderboardPlace?: number;
   format: "constructed" | "limited";
 }
 
 export default function RankIcon(props: RankIconProps): JSX.Element {
-  const { rank, tier, step, percentile, leaderboardPlace, format } = props;
+  const { rank, tier, step, format } = props;
+  const percentile = props.percentile || 0;
+  const leaderboardPlace = props.leaderboardPlace || 0;
   const rankIndex = getRankIndex(rank, tier);
 
   const style = { ...{ width: "48px", height: "48px" }, ...props.style };

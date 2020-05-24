@@ -1,0 +1,45 @@
+.container {
+  width: 100%;
+  height: 128px;
+  display: flex;
+}
+
+.heatBar {
+  width: auto;
+  height: 100%;
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.heatBarSpace {
+  width: 1px;
+  margin: auto 2px;
+  height: 32px;
+  background-color: var(--color-light-50);
+}
+
+.heatBlue {
+  background-color: var(--color-u);
+  background: linear-gradient(0deg, var(--color-u) 0%, #cddef7 100%);
+  margin-top: auto;
+}
+
+.barTop {
+  height: 49%;
+  width: 100%;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.heatRed {
+  background-color: var(--color-r);
+  background: linear-gradient(0deg, #f9af96 0%, var(--color-r) 100%);
+}
+
+.barBottom {
+  height: 49%;
+  width: 100%;
+  margin-top: auto;
+}

@@ -70,6 +70,28 @@ function changePriority(previous: number, current: number, time: number): void {
   });
 }
 
+function setHeat(seat: number, value: number): void {
+  const turnInfo = globalStore.currentMatch.turnInfo;
+  const heat = {
+    value,
+    seat,
+    turn: turnInfo.turnNumber,
+    phase: turnInfo.phase || "Phase_None",
+  };
+  const lastN = globalStore.currentMatch.statsHeatMap.length - 1;
+  const lastItem = globalStore.currentMatch.statsHeatMap[lastN];
+  if (
+    lastItem &&
+    lastItem.seat == seat &&
+    lastItem.turn == turnInfo.turnNumber &&
+    lastItem.phase == turnInfo.phase
+  ) {
+    globalStore.currentMatch.statsHeatMap[lastN].value += value;
+  } else {
+    globalStore.currentMatch.statsHeatMap.push(heat);
+  }
+}
+
 function getGameObject(id: number): GameObject {
   return globalStore.currentMatch.gameObjects[id];
 }
@@ -182,6 +204,7 @@ const AnnotationType_ZoneTransfer = function (ann: Annotations): void {
   if (ann.details.category == "PlayLand") {
     const grpId = instanceIdToObject(ann.affectedIds[0]).grpId || 0;
     const playerName = getNameBySeat(ann.affectorId);
+    setHeat(ann.affectorId, 1);
     actionLog(
       ann.affectorId,
       globals.logTime,
@@ -197,6 +220,7 @@ const AnnotationType_ZoneTransfer = function (ann: Annotations): void {
     const obj = getGameObject(ann.affectedIds[0]);
     const playerSeat = globalStore.currentMatch.playerSeat;
     if (zone.ownerSeatId == playerSeat && obj) {
+      setHeat(zone.ownerSeatId, 1);
       const grpId = obj.grpId || 0;
       actionLog(
         zone.ownerSeatId || 0,
@@ -215,7 +239,7 @@ const AnnotationType_ZoneTransfer = function (ann: Annotations): void {
 
   // A player casts a spell
   if (ann.details.category == "CastSpell") {
-    const obj = instanceIdToObject(ann.affectedIds[0]);
+    const obj = instanceIdToObject(ann.affectedIds[0]) as GameObjectInfo;
     const grpId = obj.grpId || 0;
     const seat = obj.ownerSeatId || 0;
     const playerName = getNameBySeat(seat);
@@ -227,7 +251,7 @@ const AnnotationType_ZoneTransfer = function (ann: Annotations): void {
       player: seat,
     };
     addCardCast(cast);
-
+    setHeat(seat, 1);
     actionLog(
       seat,
       globals.logTime,
@@ -348,6 +372,7 @@ const AnnotationType_ZoneTransfer = function (ann: Annotations): void {
     }
 
     const seat = affector.ownerSeatId;
+    setHeat(seat, 1);
     actionLog(
       seat,
       globals.logTime,
@@ -366,10 +391,12 @@ const AnnotationType_AbilityInstanceCreated = function (
   ann: Annotations
 ): void {
   if (ann.type !== "AnnotationType_AbilityInstanceCreated") return;
-  /*
-  const affected = ann.affectedIds[0];
-  const affector = instanceIdToObject(ann.affectorId);
 
+  //const affected = ann.affectedIds[0];
+  const affector = instanceIdToObject(ann.affectorId);
+  setHeat(affector.controllerSeatId, 1);
+
+  /*
   if (affector) {
     //currentMatch.gameObjs[affected]
     const newObj = {
@@ -395,6 +422,7 @@ const AnnotationType_ResolutionStart = function (ann: Annotations): void {
 
   if (affected.type == "GameObjectType_Ability") {
     //affected.grpId = grpId;
+    setHeat(affected.controllerSeatId, 1);
     actionLog(
       affected.controllerSeatId,
       globals.logTime,
@@ -418,7 +446,16 @@ const AnnotationType_DamageDealt = function (ann: Annotations): void {
 
   const affector = instanceIdToObject(ann.affectorId);
   const dmg = ann.details.damage;
-
+  setHeat(affector.controllerSeatId, dmg);
+  if (affector.controllerSeatId == globalStore.currentMatch.playerSeat) {
+    const pstats = globalStore.currentMatch.playerStats;
+    const prev = pstats.damage[affector.grpId];
+    pstats.damage[affector.grpId] = (prev | 0) + dmg;
+  } else {
+    const pstats = globalStore.currentMatch.oppStats;
+    const prev = pstats.damage[affector.grpId];
+    pstats.damage[affector.grpId] = (prev | 0) + dmg;
+  }
   actionLog(
     affector.controllerSeatId,
     globals.logTime,
@@ -434,6 +471,19 @@ const AnnotationType_ModifiedLife = function (ann: Annotations): void {
   const affected = ann.affectedIds[0];
   const total = getPlayer(affected)?.lifeTotal || 0 + ann.details.life;
   const lifeStr = (ann.details.life > 0 ? "+" : "") + ann.details.life;
+
+  const lifeAbs = Math.abs(ann.details.life);
+  if (affected == globalStore.currentMatch.playerSeat) {
+    if (ann.details.life > 0)
+      globalStore.currentMatch.playerStats.lifeGained += lifeAbs;
+    else globalStore.currentMatch.playerStats.lifeLost += lifeAbs;
+    globalStore.currentMatch.playerStats.lifeTotals.push(Math.max(0, total));
+  } else {
+    if (ann.details.life > 0)
+      globalStore.currentMatch.oppStats.lifeGained += lifeAbs;
+    else globalStore.currentMatch.oppStats.lifeLost += lifeAbs;
+    globalStore.currentMatch.oppStats.lifeTotals.push(Math.max(0, total));
+  }
 
   actionLog(
     affected,
@@ -455,6 +505,7 @@ const AnnotationType_TargetSpec = function (ann: Annotations): void {
   const affector = instanceIdToObject(ann.affectorId);
   const seat = affector.ownerSeatId;
   let text = getNameBySeat(seat);
+  setHeat(seat, 1);
   if (affector.type == "GameObjectType_Ability") {
     text = `${actionLogGenerateLink(
       affector.objectSourceGrpId
@@ -490,7 +541,7 @@ const AnnotationType_Scry = function (ann: Annotations): void {
   const xtop = newTop.length;
   const xbottom = newBottom.length;
   const scrySize = xtop + xbottom;
-
+  setHeat(affector, scrySize);
   actionLog(
     affector,
     globals.logTime,
@@ -543,6 +594,22 @@ const AnnotationType_CardRevealed = function (ann: Annotations): void {
   });
 };
 
+const AnnotationType_ManaPaid = function (ann: Annotations): void {
+  if (ann.type !== "AnnotationType_ManaPaid") return;
+  const playerSeat = globalStore.currentMatch.playerSeat;
+
+  let affector = ann.affectorId;
+  if (affector > 3) {
+    affector = instanceIdToObject(affector).ownerSeatId;
+  }
+
+  if (affector == playerSeat) {
+    globalStore.currentMatch.playerStats.manaUsed++;
+  } else {
+    globalStore.currentMatch.oppStats.manaUsed++;
+  }
+};
+
 function annotationsSwitch(ann: Annotations, type: AnnotationType): void {
   //console.log(type, ann);
   switch (type) {
@@ -572,6 +639,9 @@ function annotationsSwitch(ann: Annotations, type: AnnotationType): void {
       break;
     case "AnnotationType_CardRevealed":
       AnnotationType_CardRevealed(ann);
+      break;
+    case "AnnotationType_ManaPaid":
+      AnnotationType_ManaPaid(ann);
       break;
     default:
       break;
@@ -626,6 +696,8 @@ function extractStringArrayFromKVP(obj: KeyValuePairInfo): string[] {
 function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
   const aggregate: AggregatedDetailsType = {
     abilityGrpId: 0,
+    id: 0,
+    color: 0,
     bottomIds: undefined,
     category: undefined,
     damage: 0,
@@ -648,6 +720,8 @@ function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
     switch (key) {
       case undefined:
         break;
+      case "id":
+      case "color":
       case "abilityGrpId":
       case "grpid":
       case "damage":
@@ -909,6 +983,7 @@ function checkTurnDiff(turnInfo: TurnInfo): void {
     );
   }
   if (currentTurnInfo.turnNumber !== turnInfo.turnNumber) {
+    globalStore.currentMatch.totalTurns++;
     actionLog(
       -1,
       globals.logTime,

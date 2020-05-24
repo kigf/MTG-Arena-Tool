@@ -23,11 +23,13 @@ export default function ShareButton({
       const draftData = JSON.stringify(data);
       reduxAction(
         dispatcher,
-        "SET_SHARE_DIALOG",
         {
-          data: draftData,
-          id: data.id,
-          type,
+          type: "SET_SHARE_DIALOG",
+          arg: {
+            data: draftData,
+            id: data.id,
+            type,
+          },
         },
         IPC_NONE
       );
@@ -35,27 +37,31 @@ export default function ShareButton({
       const deckString = JSON.stringify(data);
       reduxAction(
         dispatcher,
-        "SET_SHARE_DIALOG",
         {
-          data: deckString,
-          type,
+          type: "SET_SHARE_DIALOG",
+          arg: {
+            data: deckString,
+            type,
+          },
         },
         IPC_NONE
       );
     } else if (type == "actionlog") {
       reduxAction(
         dispatcher,
-        "SET_SHARE_DIALOG",
         {
-          data: data.log,
-          id: data.id,
-          type,
+          type: "SET_SHARE_DIALOG",
+          arg: {
+            data: data.log,
+            id: data.id,
+            type,
+          },
         },
         IPC_NONE
       );
     }
   };
-
+  
   return !offline ? (
     <div onClick={click} className={indexCss.list_log_share}></div>
   ) : (

@@ -3,7 +3,7 @@ import globals from "./globals";
 import { playerDb } from "../shared/db/LocalDatabase";
 import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { IPC_RENDERER } from "../shared/constants";
+import { IPC_RENDERER, IPC_OVERLAY } from "../shared/constants";
 import globalStore, { getMatch } from "../shared/store";
 import { InternalMatch } from "../types/match";
 import { ResultSpec } from "../assets/proto/GreTypes";
@@ -103,7 +103,11 @@ export default function saveMatch(id: string, matchEndTime: number): void {
 
   console.log("Save match:", match);
   const matches_index = [...globals.store.getState().matches.matchesIndex];
-  reduxAction(globals.store.dispatch, "SET_MATCH", match, IPC_RENDERER);
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_MATCH", arg: match },
+    IPC_RENDERER
+  );
   playerDb.upsert("", id, match);
 
   const gameNumberCompleted = currentMatch.gameInfo.results.filter(
@@ -117,5 +121,6 @@ export default function saveMatch(id: string, matchEndTime: number): void {
     matches_index.push(id);
     playerDb.upsert("", "matches_index", matches_index);
   }
+  ipcSend("match_end", JSON.stringify(currentMatch), IPC_OVERLAY);
   ipcSend("popup", { text: "Match saved!", time: 3000 });
 }

@@ -41,8 +41,7 @@ function addTag(deckid: string, tag: string): void {
   if (deck.tags && deck.tags.includes(tag)) return;
   reduxAction(
     store.dispatch,
-    "ADD_DECK_TAG",
-    { tag: tag, deck: deckid },
+    { type: "ADD_DECK_TAG", arg: { tag: tag, deck: deckid } },
     IPC_BACKGROUND
   );
 }
@@ -57,8 +56,7 @@ function deleteTag(deckid: string, tag: string): void {
   if (!deck.tags || !deck.tags.includes(tag)) return;
   reduxAction(
     store.dispatch,
-    "REMOVE_DECK_TAG",
-    { tag: tag, deck: deckid },
+    { type: "REMOVE_DECK_TAG", arg: { tag: tag, deck: deckid } },
     IPC_BACKGROUND
   );
 }
@@ -70,8 +68,7 @@ function toggleDeckArchived(id: string | number): void {
 function saveTableState(decksTableState: TableState<DecksData>): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { decksTableState },
+    { type: "SET_SETTINGS", arg: { decksTableState } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -79,8 +76,7 @@ function saveTableState(decksTableState: TableState<DecksData>): void {
 function saveTableMode(decksTableMode: string): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { decksTableMode },
+    { type: "SET_SETTINGS", arg: { decksTableMode } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -156,13 +152,19 @@ export default function DecksTab({
   });
   const openDeckCallback = React.useCallback(
     (deck: InternalDeck): void => {
-      reduxAction(dispatcher, "SET_BACK_GRPID", deck.deckTileId, IPC_NONE);
       reduxAction(
         dispatcher,
-        "SET_SUBNAV",
+        { type: "SET_BACK_GRPID", arg: deck.deckTileId },
+        IPC_NONE
+      );
+      reduxAction(
+        dispatcher,
         {
-          type: SUB_DECK,
-          id: deck.id,
+          type: "SET_SUBNAV",
+          arg: {
+            type: SUB_DECK,
+            id: deck.id,
+          },
         },
         IPC_NONE
       );

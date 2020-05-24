@@ -53,7 +53,7 @@ export default function Share(props: ShareProps): JSX.Element {
 
   const selectExpire = useCallback(
     (option: string): void => {
-      reduxAction(dispatcher, "SET_LOADING", true, IPC_NONE);
+      reduxAction(dispatcher, { type: "SET_LOADING", arg: true }, IPC_NONE);
       switch (type) {
         case "draft":
           ipcSend("request_draft_link", {

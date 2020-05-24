@@ -21,8 +21,7 @@ import formsCss from "../../forms.css";
 function clickRememberMe(value: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
-    { rememberMe: value },
+    { type: "SET_APP_SETTINGS", arg: { rememberMe: value } },
     IPC_BACKGROUND
   );
 }
@@ -61,11 +60,10 @@ export default function Auth(props: AuthProps): JSX.Element {
     } else {
       setErrorMessage("");
       const pwd = authForm.pass == HIDDEN_PW ? HIDDEN_PW : sha1(authForm.pass);
-      reduxAction(dispatcher, "SET_CAN_LOGIN", false, IPC_NONE);
+      reduxAction(dispatcher, { type: "SET_CAN_LOGIN", arg: false }, IPC_NONE);
       reduxAction(
         dispatcher,
-        "SET_APP_SETTINGS",
-        { email: authForm.email },
+        { type: "SET_APP_SETTINGS", arg: { email: authForm.email } },
         IPC_ALL ^ IPC_RENDERER
       );
       ipcSend("login", {

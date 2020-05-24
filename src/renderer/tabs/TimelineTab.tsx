@@ -322,16 +322,17 @@ export default function TimelineTab(): JSX.Element {
     if (hoverMatch) {
       reduxAction(
         dispatcher,
-        "SET_BACK_GRPID",
-        hoverMatch.playerDeck.deckTileId,
+        { type: "SET_BACK_GRPID", arg: hoverMatch.playerDeck.deckTileId },
         IPC_NONE
       );
       reduxAction(
         dispatcher,
-        "SET_SUBNAV",
         {
-          type: SUB_MATCH,
-          id: hoverMatch.id,
+          type: "SET_SUBNAV",
+          arg: {
+            type: SUB_MATCH,
+            id: hoverMatch.id,
+          },
         },
         IPC_NONE
       );

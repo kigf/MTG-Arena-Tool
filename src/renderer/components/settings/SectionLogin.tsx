@@ -16,8 +16,7 @@ function click(): void {
   };
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
-    clearAppSettings,
+    { type: "SET_APP_SETTINGS", arg: clearAppSettings },
     IPC_BACKGROUND
   );
   setTimeout(() => {

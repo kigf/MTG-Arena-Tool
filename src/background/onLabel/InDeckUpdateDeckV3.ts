@@ -100,8 +100,7 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
   if (foundNewDeckChange) {
     reduxAction(
       globals.store.dispatch,
-      "SET_DECK_CHANGE",
-      deltaDeck,
+      { type: "SET_DECK_CHANGE", arg: deltaDeck },
       IPC_RENDERER
     );
     const deckChangesIndex = globals.store.getState().deckChanges
@@ -111,5 +110,9 @@ export default function InDeckUpdateDeckV3(entry: Entry): void {
   }
 
   const deckData = { ..._deck, ...entryDeck, id: entryDeck.id ?? "" };
-  reduxAction(globals.store.dispatch, "SET_DECK", deckData, IPC_RENDERER);
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_DECK", arg: deckData },
+    IPC_RENDERER
+  );
 }

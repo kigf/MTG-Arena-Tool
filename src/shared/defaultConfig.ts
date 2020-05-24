@@ -154,7 +154,7 @@ const defaultConfig = {
     wcRare: 0,
     wcMythic: 0,
     trackName: "",
-    trackTier: 0,
+    trackTier: "",
     currentLevel: 0,
     currentExp: 0,
     currentOrbCount: 0,

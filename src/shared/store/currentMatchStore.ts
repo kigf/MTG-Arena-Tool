@@ -6,6 +6,7 @@ import {
   TurnInfo,
   GameObjectInfo,
   GREToClientMessage,
+  Phase,
 } from "../../assets/proto/GreTypes";
 
 import {
@@ -19,6 +20,13 @@ import globalStore from ".";
 import Deck from "../deck";
 import { Chances } from "../../types/Chances";
 
+interface Heat {
+  seat: number;
+  value: number;
+  turn: number | undefined;
+  phase: Phase;
+}
+
 export const matchStateObject = {
   matchId: "",
   eventId: "",
@@ -28,6 +36,22 @@ export const matchStateObject = {
   oppSeat: 0,
   opponent: {} as InternalPlayer,
   gameWinner: 0,
+  statsHeatMap: [] as Heat[],
+  totalTurns: 0,
+  playerStats: {
+    lifeGained: 0,
+    lifeLost: 0,
+    manaUsed: 0,
+    damage: {} as Record<string, number>,
+    lifeTotals: [] as number[],
+  },
+  oppStats: {
+    lifeGained: 0,
+    lifeLost: 0,
+    manaUsed: 0,
+    damage: {} as Record<string, number>,
+    lifeTotals: [] as number[],
+  },
   // Decks
   currentDeck: new Deck(),
   originalDeck: new Deck(),
@@ -87,6 +111,21 @@ export function setOppCardsUsed(arg: number[]): void {
 
 export function resetCurrentMatch(): void {
   Object.assign(globalStore.currentMatch, matchStateObject);
+  globalStore.currentMatch.playerStats = {
+    lifeLost: 0,
+    lifeGained: 0,
+    manaUsed: 0,
+    damage: {},
+    lifeTotals: [],
+  };
+  globalStore.currentMatch.oppStats = {
+    lifeLost: 0,
+    lifeGained: 0,
+    manaUsed: 0,
+    damage: {},
+    lifeTotals: [],
+  };
+  globalStore.currentMatch.statsHeatMap = [];
   globalStore.currentMatch.matchGameStats = [];
 }
 

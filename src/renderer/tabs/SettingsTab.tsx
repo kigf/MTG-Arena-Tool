@@ -79,8 +79,7 @@ export default function SettingsTab(props: SettingsProps): JSX.Element {
   React.useEffect(() => {
     reduxAction(
       store.dispatch,
-      "SET_SETTINGS",
-      { last_settings_section: currentTab },
+      { type: "SET_SETTINGS", arg: { last_settings_section: currentTab } },
       IPC_ALL ^ IPC_RENDERER
     );
   }, [currentTab]);

@@ -75,6 +75,10 @@ export default function InEventGetCombinedRankInfo(entry: Entry): void {
     console.warn("rankInfo is not processing all data.", Object.keys(json));
   }
 
-  reduxAction(globals.store.dispatch, "SET_RANK", rank, IPC_RENDERER);
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_RANK", arg: rank },
+    IPC_RENDERER
+  );
   playerDb.upsert("", "rank", rank);
 }

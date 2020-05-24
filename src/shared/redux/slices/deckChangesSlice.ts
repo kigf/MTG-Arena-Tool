@@ -1,6 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
 import { DeckChange } from "../../../types/Deck";
+
+const initialDeckChangesState = {
+  deckChangesIndex: [] as string[],
+};
+
+type DeckChanges = typeof initialDeckChangesState;
 
 const deckChangesSlice = createSlice({
   name: "deckChanges",
@@ -8,14 +14,20 @@ const deckChangesSlice = createSlice({
     deckChangesIndex: [] as string[],
   },
   reducers: {
-    setChange: (state, action): void => {
+    setChange: (
+      state: DeckChanges,
+      action: PayloadAction<DeckChange>
+    ): void => {
       const change = action.payload as DeckChange;
       globalStore.deckChanges[change.id] = { ...change };
       if (state.deckChangesIndex.indexOf(change.id) === -1) {
         state.deckChangesIndex.push(change.id);
       }
     },
-    setManyChangees: (state, action): void => {
+    setManyChanges: (
+      state: DeckChanges,
+      action: PayloadAction<DeckChange[]>
+    ): void => {
       const newList: string[] = [];
       action.payload.map((change: DeckChange) => {
         if (state.deckChangesIndex.indexOf(change.id) === -1) {
@@ -28,4 +40,5 @@ const deckChangesSlice = createSlice({
   },
 });
 
+export const { setChange, setManyChanges } = deckChangesSlice.actions;
 export default deckChangesSlice;

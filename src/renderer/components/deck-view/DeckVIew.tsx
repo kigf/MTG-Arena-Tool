@@ -28,6 +28,7 @@ import sharedCss from "../../../shared/shared.css";
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
 import ReactSvgPieChart from "react-svg-piechart";
+import { timestamp } from "../../../shared/util";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -143,8 +144,8 @@ export function DeckView(props: DeckViewProps): JSX.Element {
   const dispatcher = useDispatch();
 
   const goBack = (): void => {
-    reduxAction(dispatcher, "SET_BACK_GRPID", 0, IPC_NONE);
-    reduxAction(dispatcher, "SET_NAV_INDEX", 0, IPC_NONE);
+    reduxAction(dispatcher, { type: "SET_BACK_GRPID", arg: 0 }, IPC_NONE);
+    reduxAction(dispatcher, { type: "SET_NAV_INDEX", arg: 0 }, IPC_NONE);
   };
 
   const deckWinratesView = (): void => {
@@ -171,12 +172,16 @@ export function DeckView(props: DeckViewProps): JSX.Element {
   const arenaExport = (): void => {
     const list = deck.getExportArena();
     ipcSend("set_clipboard", list);
+    const newTime = timestamp() + 2000;
     reduxAction(
       dispatcher,
-      "SET_POPUP",
       {
-        text: "Copied to clipboard",
-        time: 2000,
+        type: "SET_POPUP",
+        arg: {
+          text: "Copied to clipboard",
+          time: newTime,
+          duration: 2000,
+        },
       },
       IPC_NONE
     );

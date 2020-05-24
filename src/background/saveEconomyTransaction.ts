@@ -20,7 +20,11 @@ export default function saveEconomyTransaction(
     const economyIndex = [...globals.store.getState().economy.economyIndex, id];
     playerDb.upsert("", "economy_index", economyIndex);
   }
-  reduxAction(globals.store.dispatch, "SET_ECONOMY", txnData, IPC_RENDERER);
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_ECONOMY", arg: txnData },
+    IPC_RENDERER
+  );
   playerDb.upsert("", id, txnData);
   httpSetEconomy(txnData);
 }

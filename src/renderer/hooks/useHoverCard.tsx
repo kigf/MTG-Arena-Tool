@@ -12,12 +12,16 @@ export default function useHoverCard(
   const dispatcher = useDispatch();
 
   const hoverIn = useCallback((): void => {
-    reduxAction(dispatcher, "SET_HOVER_IN", { grpId: card, wanted }, IPC_NONE);
+    reduxAction(
+      dispatcher,
+      { type: "SET_HOVER_IN", arg: { grpId: card, wanted } },
+      IPC_NONE
+    );
   }, [card, dispatcher, wanted]);
 
   const hoverOut = useCallback((): void => {
-    reduxAction(dispatcher, "SET_HOVER_OUT", card, IPC_NONE);
-  }, [card, dispatcher]);
+    reduxAction(dispatcher, { type: "SET_HOVER_OUT", arg: {} }, IPC_NONE);
+  }, [dispatcher]);
 
   return [hoverIn, hoverOut];
 }

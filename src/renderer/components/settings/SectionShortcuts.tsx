@@ -19,8 +19,7 @@ import css from "./Sections.css";
 function setKeyboardShortcuts(checked: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { enable_keyboard_shortcuts: checked },
+    { type: "SET_SETTINGS", arg: { enable_keyboard_shortcuts: checked } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -46,8 +45,7 @@ function ShortcutsRow({
       setOpenDialog(false);
       reduxAction(
         store.dispatch,
-        "SET_SETTINGS",
-        { ...settings, [code]: key },
+        { type: "SET_SETTINGS", arg: { ...settings, [code]: key } },
         IPC_ALL ^ IPC_RENDERER
       );
     },

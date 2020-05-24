@@ -60,9 +60,11 @@ function getLanguageName(lang: string): string {
 function setCardsLanguage(filter: string): void {
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
     {
-      metadataLang: filter.toLowerCase(),
+      type: "SET_APP_SETTINGS",
+      arg: {
+        metadataLang: filter.toLowerCase(),
+      },
     },
     IPC_ALL ^ IPC_RENDERER
   );
@@ -71,8 +73,7 @@ function setCardsLanguage(filter: string): void {
 function firstPassCallback(checked: boolean): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { skip_firstpass: checked },
+    { type: "SET_SETTINGS", arg: { skip_firstpass: checked } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -80,9 +81,11 @@ function firstPassCallback(checked: boolean): void {
 function localeCallback(value: string): void {
   reduxAction(
     store.dispatch,
-    "SET_APP_SETTINGS",
     {
-      logLocaleFormat: value,
+      type: "SET_APP_SETTINGS",
+      arg: {
+        logLocaleFormat: value,
+      },
     },
     IPC_ALL ^ IPC_RENDERER
   );

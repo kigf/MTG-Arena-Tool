@@ -27,7 +27,11 @@ function saveCourse(json: InternalEvent): void {
     ...json,
   };
 
-  reduxAction(globals.store.dispatch, "SET_EVENT", eventData, IPC_RENDERER);
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_EVENT", arg: eventData },
+    IPC_RENDERER
+  );
   const coursesIndex = globals.store.getState().events.eventsIndex;
   playerDb.upsert("", "courses_index", coursesIndex);
   playerDb.upsert("", id, eventData);

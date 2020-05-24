@@ -18,8 +18,7 @@ import appCss from "../app/app.css";
 function saveTableState(economyTableState: TableState<TransactionData>): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { economyTableState },
+    { type: "SET_SETTINGS", arg: { economyTableState } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -27,8 +26,7 @@ function saveTableState(economyTableState: TableState<TransactionData>): void {
 function saveTableMode(economyTableMode: string): void {
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    { economyTableMode },
+    { type: "SET_SETTINGS", arg: { economyTableMode } },
     IPC_ALL ^ IPC_RENDERER
   );
 }

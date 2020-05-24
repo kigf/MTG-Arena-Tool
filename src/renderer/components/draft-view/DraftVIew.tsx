@@ -125,8 +125,8 @@ export function DraftView(props: DraftViewProps): JSX.Element {
   }, [downHandler]);
 
   const goBack = (): void => {
-    reduxAction(dispatcher, "SET_NAV_INDEX", 0, IPC_NONE);
-    reduxAction(dispatcher, "SET_BACK_GRPID", 0, IPC_NONE);
+    reduxAction(dispatcher, { type: "SET_NAV_INDEX", arg: 0 }, IPC_NONE);
+    reduxAction(dispatcher, { type: "SET_BACK_GRPID", arg: 0 }, IPC_NONE);
   };
 
   const onSliderChange = useCallback(

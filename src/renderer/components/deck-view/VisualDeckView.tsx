@@ -45,8 +45,7 @@ export default function VisualDeckView(
   const hoverCard = (id: number, hover: boolean): void => {
     reduxAction(
       dispatcher,
-      hover ? "SET_HOVER_IN" : "SET_HOVER_OUT",
-      { grpId: id },
+      { type: hover ? "SET_HOVER_IN" : "SET_HOVER_OUT", arg: { grpId: id } },
       IPC_NONE
     );
   };

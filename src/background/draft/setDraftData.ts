@@ -22,7 +22,11 @@ export default function setDraftData(
     if (!draftIndex.includes(id)) {
       draftIndex = [...draftIndex, id];
       playerDb.upsert("", "draft_index", draftIndex);
-      reduxAction(globals.store.dispatch, "SET_DRAFT", data, IPC_RENDERER);
+      reduxAction(
+        globals.store.dispatch,
+        { type: "SET_DRAFT", arg: data },
+        IPC_RENDERER
+      );
     }
     playerDb.upsert("", id, data);
   } else if (persist) {

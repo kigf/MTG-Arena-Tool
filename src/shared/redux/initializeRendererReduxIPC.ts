@@ -1,7 +1,7 @@
 import { EnhancedStore } from "@reduxjs/toolkit";
 import electron, { IpcRendererEvent } from "electron";
-import actionsMain from "./mainActions";
-import actionsOther from "./otherActions";
+import actionsMain, { MainActions } from "./mainActions";
+import actionsOther, { OtherActions } from "./otherActions";
 const ipcRenderer = electron.ipcRenderer;
 
 const actions = Object.assign({}, actionsMain, actionsOther);
@@ -15,7 +15,11 @@ const actions = Object.assign({}, actionsMain, actionsOther);
 export default function initializeRendererReduxIPC(store: EnhancedStore): void {
   ipcRenderer.on(
     "redux-action",
-    (_event: IpcRendererEvent, type: string, arg: string) => {
+    (
+      _event: IpcRendererEvent,
+      type: MainActions | OtherActions,
+      arg: string
+    ) => {
       // dispatch action
       try {
         const action = JSON.parse(arg);

@@ -1,3 +1,8 @@
+export interface DetailsManaPaid {
+  id: number;
+  color: number;
+}
+
 export interface DetailsSourceZone {
   source_zone: number;
 }
@@ -72,7 +77,8 @@ export type AggregatedDetailsType = DetailsSrcDest &
   DetailsLife &
   DetailsPhaseStep &
   DetailsAbilityGrpId &
-  DetailsScry;
+  DetailsScry &
+  DetailsManaPaid;
 
 export type DetailsKeyType = keyof AggregatedDetailsType;
 
@@ -182,6 +188,14 @@ interface AnnotationCardRevealed {
   type: "AnnotationType_CardRevealed";
 }
 
+interface AnnotationManaPaid {
+  id: number;
+  affectorId: number;
+  affectedIds: number[];
+  details: DetailsManaPaid;
+  type: "AnnotationType_ManaPaid";
+}
+
 export type Annotations =
   | AnnotationZoneTransfer
   | AnnotationAbilityInstanceCreated
@@ -195,7 +209,8 @@ export type Annotations =
   | AnnotationTargetSpec
   | AnnotationResolutionComplete
   | AnnotationScry
-  | AnnotationCardRevealed;
+  | AnnotationCardRevealed
+  | AnnotationManaPaid;
 
 export interface GameObjectType {
   type: string;

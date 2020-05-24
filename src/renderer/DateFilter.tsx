@@ -49,8 +49,7 @@ export default function DateFilter({
       callback(filter);
       reduxAction(
         dispatch,
-        "SET_SETTINGS",
-        { last_date_filter: filter },
+        { type: "SET_SETTINGS", arg: { last_date_filter: filter } },
         IPC_ALL ^ IPC_RENDERER
       );
     },
@@ -73,8 +72,7 @@ export default function DateFilter({
         callback(filter);
         reduxAction(
           dispatch,
-          "SET_SETTINGS",
-          { last_date_filter: filter },
+          { type: "SET_SETTINGS", arg: { last_date_filter: filter } },
           IPC_ALL ^ IPC_RENDERER
         );
       }

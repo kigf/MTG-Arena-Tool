@@ -109,7 +109,11 @@ export function CollectionStatsPanel({
           options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
           current={countMode}
           callback={(mode: string): void => {
-            reduxAction(dispatch, "SET_COUNT_MODE", mode, IPC_NONE);
+            reduxAction(
+              dispatch,
+              { type: "SET_COUNT_MODE", arg: mode },
+              IPC_NONE
+            );
           }}
         />
         <SetCompletionBar
@@ -160,8 +164,7 @@ export function CollectionStatsPanel({
               callback={(value: string): void => {
                 reduxAction(
                   dispatch,
-                  "SET_RARE_DRAFT_FACTOR",
-                  parseFloat(value),
+                  { type: "SET_RARE_DRAFT_FACTOR", arg: parseFloat(value) },
                   IPC_NONE
                 );
               }}
@@ -179,8 +182,7 @@ export function CollectionStatsPanel({
               callback={(value: string): void => {
                 reduxAction(
                   dispatch,
-                  "SET_MYTHIC_DRAFT_FACTOR",
-                  parseFloat(value),
+                  { type: "SET_MYTHIC_DRAFT_FACTOR", arg: parseFloat(value) },
                   IPC_NONE
                 );
               }}
@@ -198,8 +200,7 @@ export function CollectionStatsPanel({
               callback={(value: string): void => {
                 reduxAction(
                   dispatch,
-                  "SET_BOOSTER_WIN_FACTOR",
-                  parseFloat(value),
+                  { type: "SET_BOOSTER_WIN_FACTOR", arg: parseFloat(value) },
                   IPC_NONE
                 );
               }}
@@ -217,8 +218,7 @@ export function CollectionStatsPanel({
               callback={(value: string): void => {
                 reduxAction(
                   dispatch,
-                  "SET_FUTURE_BOOSTERS",
-                  parseFloat(value),
+                  { type: "SET_FUTURE_BOOSTERS", arg: parseFloat(value) },
                   IPC_NONE
                 );
               }}

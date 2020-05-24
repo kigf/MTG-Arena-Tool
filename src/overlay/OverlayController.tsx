@@ -18,6 +18,7 @@ import { DraftData } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
+import Overview from "./overview";
 import css from "./index.css";
 
 import blipSound from "../assets/sounds/blip.mp3";
@@ -63,6 +64,7 @@ export default function OverlayController(): JSX.Element {
   const [turnPriority, setTurnPriority] = useState(1);
   const settings = useSelector((state: AppState) => state.settings);
   const [lastBeep, setLastBeep] = useState(Date.now());
+  const [matchEnd, setMatchEnd] = useState<any | null>(null);
 
   const {
     overlay_scale: overlayScale,
@@ -129,8 +131,10 @@ export default function OverlayController(): JSX.Element {
 
       reduxAction(
         store.dispatch,
-        "SET_SETTINGS",
-        { overlays: newOverlays, overlayHover: newOverlayHover },
+        {
+          type: "SET_SETTINGS",
+          arg: { overlays: newOverlays, overlayHover: newOverlayHover },
+        },
         IPC_ALL ^ IPC_OVERLAY
       );
     }
@@ -164,8 +168,7 @@ export default function OverlayController(): JSX.Element {
 
     reduxAction(
       store.dispatch,
-      "SET_SETTINGS",
-      { overlays: newOverlays },
+      { type: "SET_SETTINGS", arg: { overlays: newOverlays } },
       IPC_ALL ^ IPC_OVERLAY
     );
   };
@@ -201,6 +204,15 @@ export default function OverlayController(): JSX.Element {
     [handleBeep, soundPriority, turnPriority]
   );
 
+  const handleMatchEnd = useCallback((_event: unknown, arg: string) => {
+    const matchData = JSON.parse(arg);
+    setMatchEnd(matchData);
+  }, []);
+
+  const clearMatchEnd = useCallback(() => {
+    setMatchEnd(null);
+  }, []);
+
   // register all IPC listeners
   useEffect(() => {
     ipc.on("action_log", handleActionLog);
@@ -210,6 +222,7 @@ export default function OverlayController(): JSX.Element {
     ipc.on("set_draft_cards", handleSetDraftCards);
     ipc.on("set_match", handleSetMatch);
     ipc.on("set_turn", handleSetTurn);
+    ipc.on("match_end", handleMatchEnd);
 
     return (): void => {
       // unregister all IPC listeners
@@ -220,6 +233,7 @@ export default function OverlayController(): JSX.Element {
       ipc.removeListener("set_draft_cards", handleSetDraftCards);
       ipc.removeListener("set_match", handleSetMatch);
       ipc.removeListener("set_turn", handleSetTurn);
+      ipc.removeListener("match_end", handleMatchEnd);
     };
   });
 
@@ -273,6 +287,11 @@ export default function OverlayController(): JSX.Element {
             />
           );
         })}
+      {matchEnd ? (
+        <Overview closeCallback={clearMatchEnd} matchData={matchEnd} />
+      ) : (
+        <></>
+      )}
       <CardDetailsWindowlet {...cardDetailsProps} />
     </div>
   );

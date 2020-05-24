@@ -52,8 +52,7 @@ export function getOpenNav(tab: number, offline: boolean): JSX.Element {
   }
   reduxAction(
     store.dispatch,
-    "SET_SETTINGS",
-    newSettings,
+    { type: "SET_SETTINGS", arg: newSettings },
     IPC_ALL ^ IPC_RENDERER
   );
 
