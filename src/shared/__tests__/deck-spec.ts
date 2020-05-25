@@ -3,7 +3,7 @@
 import Deck from "../deck";
 import { v2cardsList } from "../../types/Deck";
 import db from "../database";
-import { compare_cards } from "../util";
+import { compareCards } from "../utils/compareCards";
 
 describe("deck", () => {
   describe("constructor", () => {
@@ -229,8 +229,8 @@ describe("deck", () => {
       // Any meaningful sort order will take the non-adjacent duplicates and put
       // them together, guaranteeing a change.
       const deck = new Deck({}, [66091, 66089, 66091], [66089, 66091, 66089]);
-      deck.sortMainboard(compare_cards);
-      deck.sortSideboard(compare_cards);
+      deck.sortMainboard(compareCards);
+      deck.sortSideboard(compareCards);
       const saved = deck.getSave(true);
       expect(saved.arenaMain).toEqual([
         {
@@ -272,8 +272,8 @@ describe("deck", () => {
         [66091, 66089, 66091, 66091, 67224],
         [66091, 66089, 67224, 66091, 66091]
       );
-      deck.sortMainboard(compare_cards);
-      deck.sortSideboard(compare_cards);
+      deck.sortMainboard(compareCards);
+      deck.sortSideboard(compareCards);
       const saved = deck.clone().getSave(true);
       expect(saved.arenaMain).toEqual([
         {

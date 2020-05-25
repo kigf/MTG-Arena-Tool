@@ -10,7 +10,8 @@ import CardsList from "./cardsList";
 import Colors from "./colors";
 import { DEFAULT_TILE } from "./constants";
 import db from "./database";
-import { compare_cards, get_set_code, objectClone } from "./util";
+import { compareCards } from "./utils/compareCards";
+import { get_set_code, objectClone } from "./util";
 import sha1 from "js-sha1";
 
 class Deck {
@@ -330,8 +331,8 @@ class Deck {
    * @param checkSide whether or not to use the sideboard (default: true)
    */
   getUniqueString(checkSide = true): string {
-    this.sortMainboard(compare_cards);
-    this.sortSideboard(compare_cards);
+    this.sortMainboard(compareCards);
+    this.sortSideboard(compareCards);
 
     let str = "";
     this.mainboard.get().forEach((card) => {

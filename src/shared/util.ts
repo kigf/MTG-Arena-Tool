@@ -7,7 +7,6 @@ import { InternalRankData } from "../types/rank";
 
 import { FACE_DFC_FRONT, FORMATS } from "./constants";
 import db from "./database";
-import { getCardTypeSort } from "./utils/getCardTypeSort";
 
 export function getReadableFormat(format: string): string {
   if (format in FORMATS) {
@@ -45,44 +44,6 @@ export function removeDuplicates(decklist: v2cardsList): v2cardsList {
   } catch (e) {
     return [];
   }
-}
-
-export function compare_cards(a: CardObject, b: CardObject): number {
-  // Yeah this is lazy.. I know
-  const aObj = db.card(a.id);
-  const bObj = db.card(b.id);
-
-  if (!aObj) return 1;
-  if (!bObj) return -1;
-
-  const _as = getCardTypeSort(aObj.type);
-  const _bs = getCardTypeSort(bObj.type);
-
-  // Order by type?
-  if (_as < _bs) {
-    return -1;
-  }
-  if (_as > _bs) {
-    return 1;
-  }
-
-  // by cmc
-  if (aObj.cmc < bObj.cmc) {
-    return -1;
-  }
-  if (aObj.cmc > bObj.cmc) {
-    return 1;
-  }
-
-  // then by name
-  if (aObj.name < bObj.name) {
-    return -1;
-  }
-  if (aObj.name > bObj.name) {
-    return 1;
-  }
-
-  return 0;
 }
 
 export function get_set_code(set: string): string {

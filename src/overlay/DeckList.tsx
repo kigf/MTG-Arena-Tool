@@ -16,7 +16,7 @@ import Deck from "../shared/deck";
 import DeckManaCurve from "../shared/DeckManaCurve";
 import DeckTypesStats from "../shared/DeckTypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
-import { compare_cards as compareCards } from "../shared/util";
+import { compareCards } from "../shared/utils/compareCards";
 import { Chances } from "../types/Chances";
 import { CardObject } from "../types/Deck";
 import { OverlaySettingsData } from "../types/settings";
@@ -24,7 +24,6 @@ import SampleSizePanel from "./SampleSizePanel";
 import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
 
 import css from "./index.css";
-
 function getRank(cardId: number): number {
   const cardObj = db.card(cardId);
   return cardObj?.rank || 0;

@@ -8,8 +8,8 @@ import db from "../../../shared/database";
 import { CardWinrateData } from "../../aggregator";
 import { getWinrateClass } from "../../rendererUtil";
 import { DbCardData } from "../../../types/Metadata";
-import { compare_cards } from "../../../shared/util";
 import { getDeckChangesList } from "../../../shared/store";
+import { compareCards } from "../../../shared/utils/compareCards";
 import { DeckChange, CardObject } from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";
 import { format } from "date-fns";
@@ -230,8 +230,8 @@ export default function CardsWinratesView(
       }),
     [winrates]
   );
-  deck.sortMainboard(compare_cards);
-  deck.sortSideboard(compare_cards);
+  deck.sortMainboard(compareCards);
+  deck.sortSideboard(compareCards);
 
   const columns = useMemo(
     () => [
