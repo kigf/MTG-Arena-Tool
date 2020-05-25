@@ -40,6 +40,8 @@ interface BarArrayProps {
 
 export function ComparisonBarArray(props: BarArrayProps): JSX.Element {
   let { leftVal, rightVal } = props;
+  // reverse the left one
+  leftVal = leftVal.slice().reverse();
   if (leftVal.length == 0) {
     leftVal = [1];
   }
@@ -53,7 +55,7 @@ export function ComparisonBarArray(props: BarArrayProps): JSX.Element {
   return (
     <div className={css.container}>
       <div className={css.arrayBarSide}>
-        {leftVal.reverse().map((val, index) => {
+        {leftVal.map((val, index) => {
           const width = (100 / leftTotal) * val;
           return (
             <div
