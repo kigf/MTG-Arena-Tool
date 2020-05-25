@@ -12,7 +12,7 @@ import {
   DATE_SEASON,
 } from "../shared/constants";
 import db from "../shared/database";
-import { normalApproximationInterval } from "../shared/statsFns";
+import { normalApproximationInterval } from "../shared/utils/statsFns";
 import getReadableEvent from "../shared/utils/getReadableEvent";
 import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";

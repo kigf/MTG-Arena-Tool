@@ -13,8 +13,8 @@ import {
 } from "../shared/constants";
 import db from "../shared/database";
 import Deck from "../shared/deck";
-import DeckManaCurve from "../shared/DeckManaCurve";
-import DeckTypesStats from "../shared/DeckTypesStats";
+import DeckManaCurve from "../shared/ManaCurve";
+import DeckTypesStats from "../shared/TypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
 import { compareCards } from "../shared/utils/compareCards";
 import { Chances } from "../types/Chances";

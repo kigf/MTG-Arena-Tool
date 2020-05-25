@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { CARD_TYPES, CARD_TYPE_CODES } from "./constants";
-import db from "./database";
-import Deck from "../shared/deck";
-import { CardObject } from "../types/Deck";
+import { CARD_TYPES, CARD_TYPE_CODES } from "../constants";
+import db from "../database";
+import Deck from "../deck";
+import { CardObject } from "../../types/Deck";
 
 import sharedCss from "./shared.css";
 import css from "./TypesStats.css";

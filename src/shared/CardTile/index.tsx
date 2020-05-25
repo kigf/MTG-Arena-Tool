@@ -5,37 +5,19 @@ import {
   FACE_SPLIT_FULL,
   FACE_ADVENTURE_MAIN,
   LANDS_HACK,
-} from "./constants";
-import Deck from "./deck";
-import { getRankColorClass } from "./utils/getRankColorClass";
-import { openScryfallCard } from "./utils/openScryfallCard";
-import { getCardArtCrop } from "./utils/getCardArtCrop";
-import { DbCardData, Rarity } from "../types/Metadata";
-import useHoverCard from "../renderer/hooks/useHoverCard";
-import { getWildcardsMissing } from "../renderer/rendererUtil";
+} from "../constants";
+import Deck from "../deck";
+import { getRankColorClass } from "../utils/getRankColorClass";
+import { openScryfallCard } from "../utils/openScryfallCard";
+import { getCardArtCrop } from "../utils/getCardArtCrop";
+import { DbCardData, Rarity } from "../../types/Metadata";
+import useHoverCard from "../../renderer/hooks/useHoverCard";
+import { getWildcardsMissing } from "../../renderer/rendererUtil";
 import cardTileCss from "../shared/CardTile.css";
 import sharedCss from "../shared/shared.css";
 import css from "./CardTile.css";
 
 import typeLand from "../assets/images/type_land.png";
-
-const tiles: Record<string, string> = {};
-tiles["w"] = css.tile_w;
-tiles["u"] = css.tile_u;
-tiles["b"] = css.tile_b;
-tiles["r"] = css.tile_r;
-tiles["g"] = css.tile_g;
-tiles["c"] = css.tile_c;
-tiles["wr"] = css.tile_wr;
-tiles["wb"] = css.tile_wb;
-tiles["wu"] = css.tile_wu;
-tiles["ur"] = css.tile_ur;
-tiles["ug"] = css.tile_ug;
-tiles["ub"] = css.tile_ub;
-tiles["rg"] = css.tile_rg;
-tiles["wg"] = css.tile_wg;
-tiles["br"] = css.tile_br;
-tiles["bg"] = css.tile_bg;
 
 const mana: Record<string, string> = {};
 mana["w"] = sharedCss.mana_w;

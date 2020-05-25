@@ -1,5 +1,5 @@
 import globals from "./globals";
-import { hypergeometricRange } from "../shared/statsFns";
+import { hypergeometricRange } from "../shared/utils/statsFns";
 import { CardObject } from "../types/Deck";
 import { Chances } from "../types/Chances";
 import globalStore from "../shared/store";

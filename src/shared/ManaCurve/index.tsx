@@ -1,7 +1,7 @@
 import * as React from "react";
-import Deck from "../shared/deck";
-import { MANA_COLORS } from "./constants";
-import db from "./database";
+import Deck from "../deck";
+import { MANA_COLORS } from "../constants";
+import db from "../database";
 
 import css from "./ManaCurve.css";
 import sharedCss from "./shared.css";
