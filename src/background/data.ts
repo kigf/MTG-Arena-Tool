@@ -1,10 +1,8 @@
 import { DEFAULT_TILE } from "../shared/constants";
-import Deck from "../shared/deck";
-import { objectClone } from "../shared/util";
+import { objectClone } from "../shared/utils/objectClone";
+import { InternalDeck } from "../types/Deck";
 
-// Deck Creation
-// This isn't typed yet because it's slightly more complicated.
-const deckDefault = {
+const deckDefault: InternalDeck = {
   deckTileId: DEFAULT_TILE,
   description: "",
   format: "Standard",
@@ -14,8 +12,9 @@ const deckDefault = {
   mainDeck: [],
   name: "Undefined",
   sideboard: [],
+  type: "InternalDeck",
 };
 
-export function createDeck(): Deck {
-  return objectClone(deckDefault);
+export function createDeck(): InternalDeck {
+  return objectClone<InternalDeck>(deckDefault);
 }

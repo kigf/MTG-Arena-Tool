@@ -2,7 +2,8 @@
 import React from "react";
 import db from "../../../shared/database";
 import LocalTime from "../../../shared/time-components/LocalTime";
-import { collectionSortRarity } from "../../../shared/util";
+import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
+import collectionSortRarity from "../../../shared/utils/collectionSortRarity";
 import { DbCardData } from "../../../types/Metadata";
 import useHoverCard from "../../hooks/useHoverCard";
 import {
@@ -28,7 +29,6 @@ import {
   getCardArtCrop,
   getCardImage,
 } from "../../../shared/utils/getCardArtCrop";
-import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (

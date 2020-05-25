@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Cell, CellProps } from "react-table";
 import LocalTime from "../../../shared/time-components/LocalTime";
 import RelativeTime from "../../../shared/time-components/RelativeTime";
-import { toDDHHMMSS, toMMSS } from "../../../shared/util";
+import { toDDHHMMSS, toMMSS } from "../../../shared/utils/dateTo";
 import { formatNumber, formatPercent } from "../../rendererUtil";
 import { ArchiveSymbol, ColoredArchivedSymbol } from "../misc/ArchiveSymbol";
 import { BriefText } from "../misc/BriefText";

@@ -6,7 +6,7 @@ import globals from "../globals";
 import { IPC_RENDERER } from "../../shared/constants";
 import setSeasonalRankFromCombinedRank from "../setSeasonalRankFromCombinedRank";
 import globalStore from "../../shared/store";
-import { isRankedEvent } from "../../shared/util";
+import isRankedEvent from "../../shared/utils/isRankedEvent";
 
 interface EntryJson {
   playerId: string;

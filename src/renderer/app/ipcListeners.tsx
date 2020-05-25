@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable no-console */
 import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
-import { timestamp } from "../../shared/util";
+import timestamp from "../../shared/utils/timestamp";
 import {
   MAIN_SETTINGS,
   SETTINGS_OVERLAY,

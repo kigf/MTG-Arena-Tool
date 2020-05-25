@@ -11,8 +11,9 @@ import Colors from "./colors";
 import { DEFAULT_TILE } from "./constants";
 import db from "./database";
 import { compareCards } from "./utils/compareCards";
-import { get_set_code, objectClone } from "./util";
 import sha1 from "js-sha1";
+import getSetCode from "./utils/getSetCode";
+import { objectClone } from "./utils/objectClone";
 
 class Deck {
   private mainboard: CardsList;
@@ -265,7 +266,7 @@ class Deck {
       const cardCn = cardObj.cid;
       const cardQ = card.measurable ? card.quantity : 1;
 
-      const setCode = db.sets[cardSet].arenacode ?? get_set_code(cardSet);
+      const setCode = db.sets[cardSet].arenacode ?? getSetCode(cardSet);
       str += `${cardQ} ${cardName} (${setCode}) ${cardCn}\r\n`;
     });
 
@@ -286,7 +287,7 @@ class Deck {
       const cardCn = cardObj.cid;
       const cardQ = card.measurable ? card.quantity : 1;
 
-      const setCode = db.sets[cardSet].arenacode || get_set_code(cardSet);
+      const setCode = db.sets[cardSet].arenacode || getSetCode(cardSet);
       str += `${cardQ} ${cardName} (${setCode}) ${cardCn}\r\n`;
     });
 

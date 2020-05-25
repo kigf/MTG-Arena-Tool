@@ -8,9 +8,9 @@ import {
 import { ipcSend } from "./backgroundUtil";
 import globals from "./globals";
 
-import { getDeckAfterChange } from "../shared/utils/getDeckAfterChange";
+import getDeckAfterChange from "../shared/utils/getDeckAfterChange";
+import isEpochTimestamp from "../shared/utils/isEpochTimestamp";
 import { playerDb } from "../shared/db/LocalDatabase";
-import { isEpochTimestamp } from "../shared/util";
 import { isV2CardsList, ArenaV3Deck, DeckChange } from "../types/Deck";
 import arenaLogWatcher from "./arena-log-watcher";
 import convertDeckFromV3 from "./convertDeckFromV3";

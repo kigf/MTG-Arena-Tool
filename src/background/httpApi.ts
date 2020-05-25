@@ -3,7 +3,8 @@
 import electron from "electron";
 import async from "async";
 
-import { makeId, isEpochTimestamp } from "../shared/util";
+import makeId from "../shared/utils/makeId";
+import isEpochTimestamp from "../shared/utils/isEpochTimestamp";
 import db from "../shared/database";
 import { playerDb } from "../shared/db/LocalDatabase";
 

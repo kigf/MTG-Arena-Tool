@@ -2,7 +2,7 @@ import React from "react";
 import { FilterValue } from "react-table";
 import { EVENTS_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
+import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import DateFilter from "../../DateFilter";
 import { MediumTextButton } from "../misc/MediumTextButton";
 import { SmallTextButton } from "../misc/SmallTextButton";

@@ -233,7 +233,7 @@ ipc.on("import_custom_deck", function (_event, arg) {
   const data = JSON.parse(arg);
   const id = data.id;
   if (!id || deckExists(id)) return;
-  const deckData = {
+  const deckData: InternalDeck = {
     ...createDeck(),
     ...data,
   };

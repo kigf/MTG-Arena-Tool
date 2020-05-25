@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import { getDeckAfterChange } from "../../../shared/utils/getDeckAfterChange";
+import getDeckAfterChange from "../../../shared/utils/getDeckAfterChange";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
 import Aggregator, { AggregatorFilters } from "../../aggregator";

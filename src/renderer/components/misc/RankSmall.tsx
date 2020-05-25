@@ -1,7 +1,7 @@
 import React from "react";
-import { formatRank } from "../../../shared/util";
 import indexCss from "../../index.css";
 import { getRankIndex16 } from "../../../shared/utils/getRankIndex";
+import formatRank from "../../../shared/utils/formatRank";
 
 interface RankSmallProps {
   rank?: any | string;

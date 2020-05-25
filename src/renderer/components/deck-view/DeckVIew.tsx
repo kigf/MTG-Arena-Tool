@@ -28,7 +28,7 @@ import sharedCss from "../../../shared/shared.css";
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
 import ReactSvgPieChart from "react-svg-piechart";
-import { timestamp } from "../../../shared/util";
+import timestamp from "../../../shared/utils/timestamp";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;

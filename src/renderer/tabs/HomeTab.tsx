@@ -1,7 +1,7 @@
 import React from "react";
 import db from "../../shared/database";
 import { ipcSend } from "../rendererUtil";
-import { timestamp, toDDHHMMSS } from "../../shared/util";
+import { toDDHHMMSS } from "../../shared/utils/dateTo";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../shared/redux/sharedRedux";
@@ -12,6 +12,7 @@ import sharedCss from "../../shared/shared.css";
 import cardTileCss from "../../shared/CardTile.css";
 import indexCss from "../index.css";
 import css from "./HomeTab.css";
+import timestamp from "../../shared/utils/timestamp";
 
 export interface WildcardsChange {
   grpId: number;

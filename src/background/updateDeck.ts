@@ -1,10 +1,10 @@
 import globals from "./globals";
 import forceDeckUpdate from "./forceDeckUpdate";
-import { objectClone } from "../shared/util";
 import getOpponentDeck from "./getOpponentDeck";
 import globalStore from "../shared/store";
 import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
+import { objectClone } from "../shared/utils/objectClone";
 
 const lastDeckUpdate = new Date();
 
@@ -16,7 +16,7 @@ function updateDeck(force: boolean): void {
   ) {
     forceDeckUpdate();
     const currentMatch = globalStore.currentMatch;
-    let currentMatchCopy = objectClone(currentMatch);
+    let currentMatchCopy = objectClone<any>(currentMatch);
     currentMatchCopy.oppCards = getOpponentDeck();
     currentMatchCopy.playerCardsLeft = currentMatch.cardsLeft.getSave();
     currentMatchCopy.playerCardsOdds = currentMatch.cardsOdds;

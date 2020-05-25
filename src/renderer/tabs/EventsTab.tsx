@@ -2,7 +2,7 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { TableState } from "react-table";
 import db from "../../shared/database";
-import { getReadableEvent } from "../../shared/utils/getReadableEvent";
+import getReadableEvent from "../../shared/utils/getReadableEvent";
 import { EventInstanceData, InternalEvent } from "../../types/event";
 import Aggregator, { AggregatorFilters } from "../aggregator";
 import EventsTable from "../components/events/EventsTable";

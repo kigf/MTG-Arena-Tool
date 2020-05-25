@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import { toMMSS, toHHMMSS } from "../shared/util";
+import { toMMSS, toHHMMSS } from "../shared/utils/dateTo";
 import { PriorityTimers } from "../types/currentMatch";
 
 import css from "./index.css";

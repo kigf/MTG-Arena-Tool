@@ -4,7 +4,7 @@
 import Aggregator from "./aggregator";
 import React from "react";
 import { getTagColor } from "./rendererUtil";
-import { getReadableFormat } from "../shared/util";
+import getReadableFormat from "../shared/utils/getReadableFormat";
 
 export interface TagOptionProps {
   tag: string;

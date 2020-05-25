@@ -10,7 +10,7 @@ import {
 } from "../../shared/constants";
 import db from "../../shared/database";
 import { DbCardData } from "../../types/Metadata";
-import { replaceAll } from "../../shared/util";
+import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
 

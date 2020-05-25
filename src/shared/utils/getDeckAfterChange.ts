@@ -1,7 +1,7 @@
 import { DeckChange } from "../../types/Deck";
 import Deck from "../deck";
 
-export function getDeckAfterChange(change: DeckChange): Deck {
+export default function getDeckAfterChange(change: DeckChange): Deck {
   const decklist = new Deck({}, change.previousMain, change.previousSide);
   // Calculate new deck hash based on the changes
   change.changesMain.map((change) => {

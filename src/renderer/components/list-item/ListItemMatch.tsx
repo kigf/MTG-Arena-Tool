@@ -1,8 +1,8 @@
 import _ from "lodash";
 import React from "react";
-import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
+import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DEFAULT_TILE } from "../../../shared/constants";
-import { toMMSS } from "../../../shared/util";
+import { toMMSS } from "../../../shared/utils/dateTo";
 import { ListItemMatchProps } from "../matches/types";
 import ManaCost from "../misc/ManaCost";
 import RankSmall from "../misc/RankSmall";

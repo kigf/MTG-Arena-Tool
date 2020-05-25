@@ -10,7 +10,7 @@ import {
 } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import { getRankIndex } from "../../../shared/utils/getRankIndex";
-import { toDDHHMMSS, toMMSS } from "../../../shared/util";
+import { toDDHHMMSS, toMMSS } from "../../../shared/utils/dateTo";
 import Aggregator, { AggregatorStats } from "../../aggregator";
 import {
   compareWinrates,

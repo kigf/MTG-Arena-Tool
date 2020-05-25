@@ -11,7 +11,8 @@ import {
 } from "../../shared/constants";
 import Deck from "../../shared/deck";
 import getDeckColors from "../../shared/utils/getDeckColors";
-import { getReadableFormat } from "../../shared/util";
+import getReadableFormat from "../../shared/utils/getReadableFormat";
+
 import { InternalDeck } from "../../types/Deck";
 import Aggregator, {
   AggregatorFilters,

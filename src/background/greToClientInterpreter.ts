@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/camelcase */
+import { objectClone } from "../shared/utils/objectClone";
 import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
 import globals from "./globals";
@@ -32,8 +33,7 @@ import {
 } from "../assets/proto/GreTypes";
 
 import getMatchGameStats from "./getMatchGameStats";
-//import { reduxAction } from "../shared/redux/sharedRedux";
-import { objectClone } from "../shared/util";
+
 import globalStore from "../shared/store";
 import {
   setMatchId,

@@ -11,7 +11,7 @@ import {
 import ShareButton from "../misc/ShareButton";
 import db from "../../../shared/database";
 
-import { getReadableEvent } from "../../../shared/utils/getReadableEvent";
+import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DEFAULT_TILE } from "../../../shared/constants";
 import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
