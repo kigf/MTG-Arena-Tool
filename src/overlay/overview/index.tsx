@@ -78,19 +78,24 @@ export default function Overview(props: OverviewProps): JSX.Element {
   const opponentCastId = Object.keys(oCasts).reduce((acc, cur) =>
     oCasts[acc] > oCasts[cur] ? acc : cur
   );
+  const oppCastIdTimes = oCasts[opponentCastId];
   const playerCastId = Object.keys(pCasts).reduce((acc, cur) =>
     oCasts[acc] > oCasts[cur] ? acc : cur
   );
+  const playerCastIdTimes = pCasts[playerCastId];
 
   // Get cards that dealt most damage
   const pDamages = matchData.playerStats.damage;
   const playerDamageId = Object.keys(pDamages).reduce((acc, cur) =>
     pDamages[acc] > pDamages[cur] ? acc : cur
   );
+  const playerDmgIdNumber = pDamages[playerDamageId];
+
   const oDamages = matchData.oppStats.damage;
   const opponentDamageId = Object.keys(oDamages).reduce((acc, cur) =>
     oDamages[acc] > oDamages[cur] ? acc : cur
   );
+  const oppDmgIdNumber = oDamages[opponentDamageId];
 
   Object.keys(oDamages).reduce((acc, cur) =>
     oDamages[acc] > oDamages[cur] ? acc : cur
@@ -98,7 +103,7 @@ export default function Overview(props: OverviewProps): JSX.Element {
 
   return (
     <div
-      className={css.container}
+      className={`${css.container} ${OverlayCss.clickOn}`}
       style={{ width: width + "px", height: height + "px", left, top }}
     >
       <div className={css.wrapper}>
@@ -134,11 +139,27 @@ export default function Overview(props: OverviewProps): JSX.Element {
         </div>
         <div className={css.bottom}>
           <div className={css.roundCards}>
-            <OverviewCard title="DMG" grpId={playerDamageId} />
-            <OverviewCard title="Cast" grpId={playerCastId} />
+            <OverviewCard
+              title="DMG"
+              grpId={playerDamageId}
+              value={playerDmgIdNumber}
+            />
+            <OverviewCard
+              title="Cast"
+              grpId={playerCastId}
+              value={playerCastIdTimes}
+            />
             <div className={css.roundCardSep} />
-            <OverviewCard title="DMG" grpId={opponentDamageId} />
-            <OverviewCard title="Cast" grpId={opponentCastId} />
+            <OverviewCard
+              title="DMG"
+              grpId={opponentDamageId}
+              value={oppDmgIdNumber}
+            />
+            <OverviewCard
+              title="Cast"
+              grpId={opponentCastId}
+              value={oppCastIdTimes}
+            />
           </div>
           <div className={css.subTitle}>Life Remaining</div>
           <ComparisonBarArray

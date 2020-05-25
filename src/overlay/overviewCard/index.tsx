@@ -6,6 +6,7 @@ import css from "./index.css";
 interface OverviewCardProps {
   grpId: string;
   title: string;
+  value?: number;
 }
 
 export default function OverviewCard(props: OverviewCardProps): JSX.Element {
@@ -21,7 +22,11 @@ export default function OverviewCard(props: OverviewCardProps): JSX.Element {
     <div className={css.container}>
       <div className={css.title}>{props.title}</div>
       <div className={css.overviewCardContainer}>
-        <div className={css.overviewCard} style={style} title={card.name} />
+        <div
+          className={css.overviewCard}
+          style={style}
+          title={props.value ? `${card.name} (${props.value})` : card.name}
+        />
       </div>
     </div>
   );

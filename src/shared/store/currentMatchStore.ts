@@ -110,23 +110,25 @@ export function setOppCardsUsed(arg: number[]): void {
 }
 
 export function resetCurrentMatch(): void {
-  Object.assign(globalStore.currentMatch, matchStateObject);
-  globalStore.currentMatch.playerStats = {
-    lifeLost: 0,
-    lifeGained: 0,
-    manaUsed: 0,
-    damage: {},
-    lifeTotals: [],
+  globalStore.currentMatch = {
+    ...matchStateObject,
+    playerStats: {
+      lifeLost: 0,
+      lifeGained: 0,
+      manaUsed: 0,
+      damage: {},
+      lifeTotals: [],
+    },
+    oppStats: {
+      lifeLost: 0,
+      lifeGained: 0,
+      manaUsed: 0,
+      damage: {},
+      lifeTotals: [],
+    },
+    statsHeatMap: [],
+    matchGameStats: [],
   };
-  globalStore.currentMatch.oppStats = {
-    lifeLost: 0,
-    lifeGained: 0,
-    manaUsed: 0,
-    damage: {},
-    lifeTotals: [],
-  };
-  globalStore.currentMatch.statsHeatMap = [];
-  globalStore.currentMatch.matchGameStats = [];
 }
 
 export function resetCurrentGame(): void {

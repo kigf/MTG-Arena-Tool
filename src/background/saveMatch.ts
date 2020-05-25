@@ -121,7 +121,9 @@ export default function saveMatch(id: string, matchEndTime: number): void {
     matches_index.push(id);
     playerDb.upsert("", "matches_index", matches_index);
   }
-  if (globals.store.getState().settings.overlay_overview) {
+  if (
+    globals.store.getState().settings.overlay_overview// && !globals.firstPass
+  ) {
     ipcSend("match_end", JSON.stringify(currentMatch), IPC_OVERLAY);
   }
   ipcSend("popup", { text: "Match saved!", time: 3000 });
