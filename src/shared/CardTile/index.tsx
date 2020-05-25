@@ -13,11 +13,10 @@ import { getCardArtCrop } from "../utils/getCardArtCrop";
 import { DbCardData, Rarity } from "../../types/Metadata";
 import useHoverCard from "../../renderer/hooks/useHoverCard";
 import { getWildcardsMissing } from "../../renderer/rendererUtil";
-import cardTileCss from "../shared/CardTile.css";
-import sharedCss from "../shared/shared.css";
+import sharedCss from "../shared.css";
 import css from "./CardTile.css";
 
-import typeLand from "../assets/images/type_land.png";
+import typeLand from "../../assets/images/type_land.png";
 
 const mana: Record<string, string> = {};
 mana["w"] = sharedCss.mana_w;
@@ -175,9 +174,9 @@ function MissingCardSprite(props: MissingCardsProps): JSX.Element {
   const xoff = CARD_RARITIES.indexOf(cardRarity) * -24;
   const yoff = missing * -24;
 
-  let className = cardTileCss.notOwnedSprite;
+  let className = css.notOwnedSprite;
   if (listStyle === "flat") {
-    className = cardTileCss.notOwnedSpriteFlat;
+    className = css.notOwnedSpriteFlat;
   }
 
   const style: React.CSSProperties = {

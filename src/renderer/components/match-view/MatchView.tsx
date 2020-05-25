@@ -22,8 +22,8 @@ import { MatchGameStats } from "../../../types/currentMatch";
 import css from "./MatchView.css";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
-import actionLogCss from "../../../shared/ActionLog.css";
-import cardTileCss from "../../../shared/CardTile.css";
+import actionLogCss from "../../../shared/ActionLog/ActionLog.css";
+import cardTileCss from "../../../shared/CardTile/CardTile.css";
 
 interface MatchViewProps {
   match: InternalMatch;

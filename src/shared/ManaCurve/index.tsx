@@ -4,7 +4,7 @@ import { MANA_COLORS } from "../constants";
 import db from "../database";
 
 import css from "./ManaCurve.css";
-import sharedCss from "./shared.css";
+import sharedCss from "../shared.css";
 
 // Should proably be in constants
 const mana: Record<string, string> = {};

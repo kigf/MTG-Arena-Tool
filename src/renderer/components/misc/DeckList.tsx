@@ -4,9 +4,9 @@ import React from "react";
 import db from "../../../shared/database";
 import { cardType } from "../../../shared/cardTypes";
 import CardTile from "../../../shared/CardTile";
+import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import { DbCardData } from "../../../types/Metadata";
 import Deck from "../../../shared/deck";
-import cardTileCss from "../../../shared/CardTile.css";
 
 interface SeparatorProps {
   children: React.ReactNode;

@@ -9,7 +9,7 @@ import { IPC_NONE } from "../../shared/constants";
 
 import appCss from "../app/app.css";
 import sharedCss from "../../shared/shared.css";
-import cardTileCss from "../../shared/CardTile.css";
+import cardTileCss from "../../shared/CardTile/CardTile.css";
 import indexCss from "../index.css";
 import css from "./HomeTab.css";
 import timestamp from "../../shared/utils/timestamp";

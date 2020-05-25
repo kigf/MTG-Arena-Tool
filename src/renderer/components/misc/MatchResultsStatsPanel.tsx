@@ -22,7 +22,7 @@ import {
 import indexCss from "../../index.css";
 import topNavCss from "../main/topNav.css";
 import listItemCss from "../list-item/ListItem.css";
-import manaCurveCss from "../../../shared/ManaCurve.css";
+import manaCurveCss from "../../../shared/ManaCurve/ManaCurve.css";
 import sharedCss from "../../../shared/shared.css";
 
 const manaClasses: string[] = [];

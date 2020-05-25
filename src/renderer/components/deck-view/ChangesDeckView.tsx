@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DeckChange } from "../../../types/Deck";
 import CardTile from "../../../shared/CardTile";
+import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import DeckList from "../misc/DeckList";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
@@ -10,7 +11,6 @@ import { getDeckChangesList } from "../../../shared/store";
 
 import css from "./ChangesDeckView.css";
 import indexCss from "../../index.css";
-import cardTileCss from "../../../shared/CardTile.css";
 
 function sortDeckChanges(ad: DeckChange, bd: DeckChange): number {
   const a = ad.date;

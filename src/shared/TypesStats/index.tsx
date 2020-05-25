@@ -5,7 +5,7 @@ import db from "../database";
 import Deck from "../deck";
 import { CardObject } from "../../types/Deck";
 
-import sharedCss from "./shared.css";
+import sharedCss from "../shared.css";
 import css from "./TypesStats.css";
 
 const typeIcons: Record<string, string> = {};
