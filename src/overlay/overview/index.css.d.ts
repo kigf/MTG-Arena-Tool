@@ -5,6 +5,7 @@ declare namespace IndexCssModule {
     bigTitle: string;
     bottom: string;
     container: string;
+    footer: string;
     pName: string;
     roundCardSep: string;
     roundCards: string;

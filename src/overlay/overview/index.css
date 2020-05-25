@@ -76,3 +76,8 @@
   justify-content: space-evenly;
   margin-bottom: 8px;
 }
+
+.footer {
+  color: var(--color-light-66);
+  font-family: var(--main-font-name-it);
+}

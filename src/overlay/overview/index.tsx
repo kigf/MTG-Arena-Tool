@@ -14,6 +14,37 @@ import { CardCast } from "../../types/currentMatch";
 
 const primaryBounds = remote.screen.getPrimaryDisplay().bounds;
 
+function getDMGData(
+  damages: Record<string, number>
+): [number | undefined, number] {
+  const damageId =
+    Object.keys(damages).length > 0
+      ? parseInt(
+          Object.keys(damages).reduce((acc, cur) =>
+            damages[acc] > damages[cur] ? acc : cur
+          )
+        )
+      : undefined;
+  const oppDmgIdNumber = damageId ? damages[damageId] : 0;
+  return [damageId, oppDmgIdNumber];
+}
+
+function getCastData(
+  casts: Record<string, number>
+): [number | undefined, number] {
+  const castId =
+    Object.keys(casts).length > 0
+      ? parseInt(
+          Object.keys(casts).reduce((acc, cur, _ind, []) =>
+            casts[acc] > casts[cur] ? acc : cur
+          )
+        )
+      : undefined;
+  const castIdTimes = castId ? casts[castId] : 0;
+
+  return [castId, castIdTimes];
+}
+
 interface OverviewProps {
   matchData: typeof MatchState;
   closeCallback: () => void;
@@ -75,31 +106,15 @@ export default function Overview(props: OverviewProps): JSX.Element {
     else pCasts[c.grpId] = (pCasts[c.grpId] | 0) + 1;
   });
 
-  const opponentCastId = Object.keys(oCasts).reduce((acc, cur) =>
-    oCasts[acc] > oCasts[cur] ? acc : cur
-  );
-  const oppCastIdTimes = oCasts[opponentCastId];
-  const playerCastId = Object.keys(pCasts).reduce((acc, cur) =>
-    oCasts[acc] > oCasts[cur] ? acc : cur
-  );
-  const playerCastIdTimes = pCasts[playerCastId];
+  const [opponentCastId, oppCastIdTimes] = getCastData(oCasts);
+  const [playerCastId, playerCastIdTimes] = getCastData(pCasts);
 
   // Get cards that dealt most damage
   const pDamages = matchData.playerStats.damage;
-  const playerDamageId = Object.keys(pDamages).reduce((acc, cur) =>
-    pDamages[acc] > pDamages[cur] ? acc : cur
-  );
-  const playerDmgIdNumber = pDamages[playerDamageId];
+  const [playerDamageId, playerDmgIdNumber] = getDMGData(pDamages);
 
   const oDamages = matchData.oppStats.damage;
-  const opponentDamageId = Object.keys(oDamages).reduce((acc, cur) =>
-    oDamages[acc] > oDamages[cur] ? acc : cur
-  );
-  const oppDmgIdNumber = oDamages[opponentDamageId];
-
-  Object.keys(oDamages).reduce((acc, cur) =>
-    oDamages[acc] > oDamages[cur] ? acc : cur
-  );
+  const [opponentDamageId, oppDmgIdNumber] = getDMGData(oDamages);
 
   return (
     <div
@@ -139,27 +154,35 @@ export default function Overview(props: OverviewProps): JSX.Element {
         </div>
         <div className={css.bottom}>
           <div className={css.roundCards}>
-            <OverviewCard
-              title="DMG"
-              grpId={playerDamageId}
-              value={playerDmgIdNumber}
-            />
-            <OverviewCard
-              title="Cast"
-              grpId={playerCastId}
-              value={playerCastIdTimes}
-            />
+            {playerDamageId && (
+              <OverviewCard
+                title="DMG"
+                grpId={playerDamageId}
+                value={playerDmgIdNumber}
+              />
+            )}
+            {playerCastId && (
+              <OverviewCard
+                title="Cast"
+                grpId={playerCastId}
+                value={playerCastIdTimes}
+              />
+            )}
             <div className={css.roundCardSep} />
-            <OverviewCard
-              title="DMG"
-              grpId={opponentDamageId}
-              value={oppDmgIdNumber}
-            />
-            <OverviewCard
-              title="Cast"
-              grpId={opponentCastId}
-              value={oppCastIdTimes}
-            />
+            {opponentDamageId && (
+              <OverviewCard
+                title="DMG"
+                grpId={opponentDamageId}
+                value={oppDmgIdNumber}
+              />
+            )}
+            {opponentCastId && (
+              <OverviewCard
+                title="Cast"
+                grpId={opponentCastId}
+                value={oppCastIdTimes}
+              />
+            )}
           </div>
           <div className={css.subTitle}>Life Remaining</div>
           <ComparisonBarArray
@@ -187,6 +210,7 @@ export default function Overview(props: OverviewProps): JSX.Element {
             Timeline ({matchData.totalTurns} Turns)
           </div>
           <HeatMap map={matchData.statsHeatMap} playerSeat={pSeat} />
+          <div className={css.footer}>By MTG Arena Tool</div>
         </div>
       </div>
     </div>

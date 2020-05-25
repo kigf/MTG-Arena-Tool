@@ -4,7 +4,7 @@ import database from "../../shared/database";
 import css from "./index.css";
 
 interface OverviewCardProps {
-  grpId: string;
+  grpId: number;
   title: string;
   value?: number;
 }

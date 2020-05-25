@@ -23,7 +23,7 @@ export default function HeatMap(props: HeatMapProps): JSX.Element {
         const height = (heat.value / maxHeat) * 100;
         const isPlayer = heat.seat == playerSeat;
         const Bar = (
-          <div className={css.heatBar}>
+          <div className={css.heatBar} key={"heat-" + index}>
             <div className={isPlayer ? css.barTop : css.barBottom}>
               <div
                 className={isPlayer ? css.heatBlue : css.heatRed}
