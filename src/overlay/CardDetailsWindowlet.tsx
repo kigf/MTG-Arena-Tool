@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
-import { ARENA_MODE_DRAFT } from "../shared/constants";
+import { ARENA_MODE_DRAFT, LANDS_HACK } from "../shared/constants";
 import db from "../shared/database";
 import { DraftRatings, DraftRatingsLola } from "../shared/DraftRatings";
 import { getCardImage } from "../shared/utils/getCardArtCrop";
@@ -94,7 +94,7 @@ export default function CardDetailsWindowlet(
   const card = db.card(grpId);
 
   // TODO remove group lands hack
-  const isCardGroupedLands = grpId === 100 && odds;
+  const isCardGroupedLands = grpId === LANDS_HACK && odds;
   // TODO support split cards
   const imgProps = {
     alt: card?.name ?? "",
@@ -135,7 +135,10 @@ to stop editing overlay positions`}
       ) : (
         <CSSTransition
           classNames={"hover_fade"}
-          in={!!card || (isCardGroupedLands && grpId === 100 && opacity > 0)}
+          in={
+            !!card ||
+            (isCardGroupedLands && grpId === LANDS_HACK && opacity > 0)
+          }
           timeout={200}
           unmountOnExit
         >

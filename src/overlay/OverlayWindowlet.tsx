@@ -92,12 +92,11 @@ export default function OverlayWindowlet(
     (editMode && arenaState === ARENA_MODE_IDLE);
   const isVisible =
     overlaySettings.show && (currentModeApplies || overlaySettings.show_always);
-  const tileStyle = parseInt(settings.card_tile_style + "");
+
   let elements = <></>;
   const commonProps = {
     index,
     settings: overlaySettings,
-    tileStyle,
   };
   if (draft && isOverlayDraftMode(overlaySettings.mode)) {
     const props = {

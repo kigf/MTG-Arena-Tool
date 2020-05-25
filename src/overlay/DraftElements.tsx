@@ -20,7 +20,6 @@ export interface DraftElementsProps {
   index: number;
   settings: OverlaySettingsData;
   setDraftStateCallback: (state: DraftState) => void;
-  tileStyle: number;
 }
 
 /**
@@ -28,14 +27,7 @@ export interface DraftElementsProps {
  * window set in one of the draft-related modes.
  */
 export default function DraftElements(props: DraftElementsProps): JSX.Element {
-  const {
-    draft,
-    draftState,
-    index,
-    setDraftStateCallback,
-    settings,
-    tileStyle,
-  } = props;
+  const { draft, draftState, index, setDraftStateCallback, settings } = props;
   const packSize = packSizeMap[draft.set] || 14;
 
   const handleDraftPrev = useCallback((): void => {
@@ -80,7 +72,7 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
   let mainTitle = "Overlay " + (index + 1);
   let subTitle = "";
   let pack = [];
-  let pick = "";
+  let pick = 0;
   let pickName = "Pack " + (packN + 1) + " - Pick " + (pickN + 1);
   if (isCurrent) {
     pickName += " - Current";
@@ -91,7 +83,7 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
     pick = draft[key].pick;
   } else if (isCurrent) {
     pack = draft.currentPack;
-    pick = "";
+    pick = 0;
   }
   if (settings.mode === OVERLAY_DRAFT) {
     visibleDeck = new Deck({ name: pickName }, pack);
@@ -142,7 +134,6 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
           subTitle={subTitle}
           highlightCardId={pick}
           settings={settings}
-          tileStyle={tileStyle}
         />
       )}
     </div>

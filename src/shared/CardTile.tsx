@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
 import {
   CARD_RARITIES,
-  CARD_TILE_FLAT,
   COLORS_ALL,
   FACE_SPLIT_FULL,
   FACE_ADVENTURE_MAIN,
+  LANDS_HACK,
 } from "./constants";
 import Deck from "./deck";
 import { getRankColorClass } from "./utils/getRankColorClass";
@@ -12,12 +12,12 @@ import { openScryfallCard } from "./utils/openScryfallCard";
 import { getCardArtCrop } from "./utils/getCardArtCrop";
 import { DbCardData, Rarity } from "../types/Metadata";
 import useHoverCard from "../renderer/hooks/useHoverCard";
-import { useSelector } from "react-redux";
-import { AppState } from "../shared/redux/stores/rendererStore";
 import { getWildcardsMissing } from "../renderer/rendererUtil";
 import cardTileCss from "../shared/CardTile.css";
 import sharedCss from "../shared/shared.css";
 import css from "./CardTile.css";
+
+import typeLand from "../assets/images/type_land.png";
 
 const tiles: Record<string, string> = {};
 tiles["w"] = css.tile_w;
@@ -77,6 +77,11 @@ mana["18"] = sharedCss.mana_18;
 mana["19"] = sharedCss.mana_19;
 mana["20"] = sharedCss.mana_20;
 
+export type CardTileQuantity =
+  | { quantity: number; odds: string }
+  | number
+  | string;
+
 export interface CardTileProps {
   card: DbCardData;
   deck?: Deck;
@@ -84,71 +89,12 @@ export interface CardTileProps {
   indent: string;
   isHighlighted: boolean;
   isSideboard: boolean;
-  quantity: { quantity: string; odds: number } | number | string; // TODO clean this up?
+  quantity: CardTileQuantity;
   showWildcards: boolean;
 }
 
 function isNumber(n: number | string): boolean {
   return !isNaN(parseFloat(n as string)) && isFinite(parseFloat(n as string));
-}
-
-function frameClassName(card: DbCardData): string {
-  const frame = card?.frame.concat().sort() ?? [];
-  if (frame.length === 0) {
-    return css.tileC;
-  } else if (frame.length <= 2) {
-    const colorString = frame.map((i: number) => COLORS_ALL[i - 1]).join("");
-    return tiles[colorString];
-  } else {
-    return css.tileMulti;
-  }
-}
-
-function getArenaQuantityDisplay(quantity: any): [number, number, JSX.Element] {
-  let ww, ll, quantityElement;
-  if (typeof quantity === "object") {
-    ww = 64;
-    ll = 48;
-    const rankClass = getRankColorClass(quantity.quantity);
-    quantityElement = (
-      <div className={css.cardTileOdds + " " + rankClass}>
-        <span>{quantity.quantity}</span>
-      </div>
-    );
-  } else if (!isNumber(quantity)) {
-    ww = 64;
-    ll = 48;
-    const rankClass = getRankColorClass(quantity);
-    quantityElement = (
-      <div className={css.cardTileOdds + " " + rankClass}>
-        <span>{quantity}</span>
-      </div>
-    );
-  } else if (quantity === 9999) {
-    ww = 32;
-    ll = 17;
-    quantityElement = (
-      <div
-        className={css.cardTileQuantity}
-        style={{
-          color: "rgba(255, 255, 255, 0)",
-          minWidth: "0px",
-          width: "0px",
-        }}
-      >
-        <span>1</span>
-      </div>
-    );
-  } else {
-    ww = 64;
-    ll = 49;
-    quantityElement = (
-      <div className={css.cardTileQuantity}>
-        <span>{quantity}</span>
-      </div>
-    );
-  }
-  return [ww, ll, quantityElement];
 }
 
 function CostSymbols(props: {
@@ -197,89 +143,9 @@ function CostSymbols(props: {
   return <>{costSymbols}</>;
 }
 
-function ArenaCardTile(props: CardTileProps): JSX.Element {
-  const {
-    card,
-    deck,
-    dfcCard,
-    indent,
-    isHighlighted,
-    isSideboard,
-    quantity,
-    showWildcards,
-  } = props;
-
-  const [isMouseHovering, setMouseHovering] = useState(false);
-  const [hoverIn, hoverOut] = useHoverCard(card.id);
-
-  const handleMouseEnter = useCallback((): void => {
-    setMouseHovering(true);
-    hoverIn();
-  }, [hoverIn]);
-  const handleMouseLeave = useCallback((): void => {
-    setMouseHovering(false);
-    hoverOut();
-  }, [hoverOut]);
-
-  const handleMouseClick = useCallback((): void => {
-    let _card = card;
-    if (card.dfc === FACE_SPLIT_FULL) {
-      _card = dfcCard || card;
-    }
-    openScryfallCard(_card);
-  }, [card, dfcCard]);
-
-  const [ww, ll, quantityElement] = getArenaQuantityDisplay(quantity);
-
-  return (
-    <div
-      className={`${css.card_tile} ${css.card_tile_container} ${sharedCss.clickOn}`}
-      data-grp-id={card.id}
-      data-id={indent}
-      data-quantity={quantity}
-      style={{
-        backgroundColor: isHighlighted ? "rgba(250, 229, 210, 0.66)" : "",
-      }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleMouseClick}
-    >
-      {quantityElement}
-      <div
-        className={`${css.card_tile} ${card.frame ? frameClassName(card) : ""}`}
-        style={{
-          minWidth: `calc(100% - ${ww}px)`,
-          marginTop: isMouseHovering ? 0 : "3px",
-        }}
-      >
-        <div style={{ display: "flex" }}>
-          <div className={css.card_tile_name}>{card.name || "Unknown"}</div>
-        </div>
-        <div style={{ display: "flex", lineHeight: "26px" }}>
-          <CostSymbols card={card} dfcCard={dfcCard} />
-        </div>
-      </div>
-      <div
-        className={css.card_tile_glow}
-        style={{
-          minWidth: `calc(100% - ${ww}px)`,
-          left: `calc(0px - 100% + ${ll}px)`,
-        }}
-      />
-      {showWildcards && deck && (
-        <WildcardsNeeded
-          card={card}
-          deck={deck}
-          isSideboard={isSideboard}
-          listStyle="arena"
-          ww={ww}
-        />
-      )}
-    </div>
-  );
-}
-
-function FlatQuantityDisplay(props: { quantity: any }): JSX.Element {
+function CardQuantityDisplay(props: {
+  quantity: CardTileQuantity;
+}): JSX.Element {
   const { quantity } = props;
   if (typeof quantity === "object") {
     // Mixed quantity (odds and quantity)
@@ -290,8 +156,8 @@ function FlatQuantityDisplay(props: { quantity: any }): JSX.Element {
       </div>
     );
   } else if (!isNumber(quantity)) {
-    // Text quantity
-    const rankClass = getRankColorClass(quantity);
+    // Text quantity, presumably rank
+    const rankClass = getRankColorClass(quantity as string);
     return (
       <div className={css.card_tile_odds_flat + " " + rankClass}>
         {quantity}
@@ -357,7 +223,7 @@ function WildcardsNeeded(props: WildcardsNeededProps): JSX.Element {
   return <div className={css.notOwnedSpriteEmpty}></div>;
 }
 
-function FlatCardTile(props: CardTileProps): JSX.Element {
+export default function CardTile(props: CardTileProps): JSX.Element {
   const {
     card,
     deck,
@@ -434,7 +300,7 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
         onMouseLeave={handleMouseLeave}
         onClick={handleMouseClick}
       >
-        <FlatQuantityDisplay quantity={quantity} />
+        <CardQuantityDisplay quantity={quantity} />
         <div className={css.card_tile_crop_flat} style={cardTileStyle} />
         <div className={css.card_tile_name_flat}>{card.name || "Unknown"}</div>
         <div className={css.cart_tile_mana_flat}>
@@ -453,12 +319,67 @@ function FlatCardTile(props: CardTileProps): JSX.Element {
   );
 }
 
-export default function CardTile(props: CardTileProps): JSX.Element {
-  const style = useSelector(
-    (state: AppState) => state.settings.card_tile_style
-  );
-  if (parseInt(style + "") === CARD_TILE_FLAT) {
-    return FlatCardTile(props);
+interface LandsTileProps {
+  quantity: CardTileQuantity;
+  isHighlighted?: boolean;
+  frame: number[];
+}
+
+export function LandsTile(props: LandsTileProps): JSX.Element {
+  const { quantity, frame, isHighlighted } = props;
+  const [isMouseHovering, setMouseHovering] = useState(false);
+  const [hoverIn, hoverOut] = useHoverCard(LANDS_HACK);
+
+  const handleMouseEnter = useCallback((): void => {
+    setMouseHovering(true);
+    hoverIn();
+  }, [hoverIn]);
+  const handleMouseLeave = useCallback((): void => {
+    setMouseHovering(false);
+    hoverOut();
+  }, [hoverOut]);
+
+  const cardTileStyle = {
+    backgroundImage: `url(${typeLand})`,
+    borderImage: "",
+  };
+
+  let colorA = "c";
+  let colorB = "c";
+
+  if (frame.length == 1) {
+    colorA = COLORS_ALL[frame[0] - 1];
+    colorB = COLORS_ALL[frame[0] - 1];
+  } else if (frame.length == 2) {
+    colorA = COLORS_ALL[frame[0] - 1];
+    colorB = COLORS_ALL[frame[1] - 1];
+  } else if (frame.length > 2) {
+    colorA = "m";
+    colorB = "m";
   }
-  return ArenaCardTile(props);
+
+  cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
+
+  const tileStyle = { backgroundColor: "rgba(0, 0, 0, 0.75)" };
+  if (isHighlighted) {
+    tileStyle.backgroundColor = "rgba(250, 229, 210, 0.66)";
+  } else if (isMouseHovering) {
+    tileStyle.backgroundColor = "rgba(65, 50, 40, 0.75)";
+  }
+
+  return (
+    <div className={css.card_tile_container_outer}>
+      <div
+        className={`${css.card_tile_container_flat} ${sharedCss.clickOn}`}
+        data-quantity={quantity}
+        style={tileStyle}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <CardQuantityDisplay quantity={quantity} />
+        <div className={css.card_tile_crop_flat} style={cardTileStyle} />
+        <div className={css.card_tile_name_flat}>Lands</div>
+      </div>
+    </div>
+  );
 }

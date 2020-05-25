@@ -30,7 +30,6 @@ export interface SettingsData {
   anon_explore: boolean;
   back_color: string;
   back_url: string;
-  card_tile_style: number | string;
   cards_quality: string;
   cards_size: number;
   cards_size_hover_card: number;

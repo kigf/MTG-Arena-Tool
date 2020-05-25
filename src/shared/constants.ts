@@ -644,6 +644,8 @@ export const ENUMS = {
   Color,
 } as const;
 
+export const LANDS_HACK = -100;
+
 export const FACE_NONE = 0;
 export const FACE_DFC_BACK = 1;
 export const FACE_DFC_FRONT = 2;
@@ -810,8 +812,6 @@ export const PACK_SIZES: Record<string, number> = {
 } as const;
 
 export const DEFAULT_TILE = 67003;
-export const CARD_TILE_ARENA = 0;
-export const CARD_TILE_FLAT = 1;
 export const EASING_DEFAULT = "cubicBezier(0.570, 0.165, 0.210, 0.990)";
 
 export const MAIN_OFFLINE = 1;

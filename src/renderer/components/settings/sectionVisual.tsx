@@ -1,12 +1,7 @@
 import React, { useMemo } from "react";
 import _ from "lodash";
 import ReactSelect from "../../../shared/ReactSelect";
-import {
-  CARD_TILE_ARENA,
-  CARD_TILE_FLAT,
-  IPC_ALL,
-  IPC_RENDERER,
-} from "../../../shared/constants";
+import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
 import Input from "../misc/Input";
@@ -19,19 +14,6 @@ import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import css from "./Sections.css";
-
-function getCardStyleName(style: any): string {
-  if (style == CARD_TILE_FLAT) return "Flat";
-  return "Arena";
-}
-
-function setCardStyle(style: string): void {
-  reduxAction(
-    store.dispatch,
-    { type: "SET_SETTINGS", arg: { card_tile_style: style } },
-    IPC_ALL ^ IPC_RENDERER
-  );
-}
 
 function changeBackgroundImage(value: string): void {
   reduxAction(
@@ -148,15 +130,6 @@ export default function SectionVisual(): JSX.Element {
         ></input>
       </label>
       {pickerElement}
-      <div className={css.centered_setting_container}>
-        <label>List style:</label>
-        <ReactSelect
-          options={[CARD_TILE_ARENA, CARD_TILE_FLAT]}
-          current={settings.card_tile_style + ""}
-          optionFormatter={getCardStyleName}
-          callback={setCardStyle}
-        />
-      </div>
       <div className={css.centered_setting_container}>
         {!!card && (
           <CardTile

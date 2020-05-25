@@ -28,7 +28,6 @@ export interface MatchElementsProps {
   match: MatchData;
   setOddsCallback: (sampleSize: number) => void;
   settings: OverlaySettingsData;
-  tileStyle: number;
   turnPriority: number;
 }
 
@@ -43,7 +42,6 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
     match,
     setOddsCallback,
     settings,
-    tileStyle,
     turnPriority,
   } = props;
   let visibleDeck = null;
@@ -148,7 +146,6 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
             deck={visibleDeck}
             subTitle={subTitle}
             settings={settings}
-            tileStyle={tileStyle}
             setOddsCallback={setOddsCallback}
           />
         )}
