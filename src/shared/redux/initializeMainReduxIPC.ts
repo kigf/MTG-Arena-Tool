@@ -24,39 +24,38 @@ export default function initializeMainReduxIPC(
   main: BrowserWindow,
   overlay: BrowserWindow
 ): void {
-  ipc.on("redux-action", function (
-    _event: IpcMainEvent,
-    type: ActionKeys,
-    arg: string,
-    to: number
-  ) {
-    // dispatch action
-    try {
-      if (to & IPC_MAIN) {
-        const action = JSON.parse(arg) as any;
-        if (!actions[type]) {
-          console.log("ERROR: Unknown redux action to main: " + type);
-          console.error(
-            "This action should not be sent to main or the action is missing on the actions list."
-          );
-        } else {
-          store.dispatch(actions[type](action));
+  ipc.on(
+    "redux-action",
+    (_event: IpcMainEvent, type: ActionKeys, arg: string, to: number) => {
+      // dispatch action
+      try {
+        if (to & IPC_MAIN) {
+          const action = JSON.parse(arg) as any;
+          if (!actions[type]) {
+            console.log("ERROR: Unknown redux action to main: " + type);
+            console.error(
+              "This action should not be sent to main or the action is missing on the actions list."
+            );
+          } else {
+            store.dispatch(actions[type](action));
+          }
         }
+        // Relay action
+        // to is binary to allow any number or relays
+        if (to & IPC_BACKGROUND)
+          back?.webContents.send("redux-action", type, arg);
+        if (to & IPC_RENDERER)
+          main?.webContents.send("redux-action", type, arg);
+        if (to & IPC_OVERLAY)
+          overlay?.webContents.send("redux-action", type, arg);
+      } catch (e) {
+        console.error(
+          "Attempted to parse a Redux Action but failed;",
+          type,
+          arg,
+          e
+        );
       }
-      // Relay action
-      // to is binary to allow any number or relays
-      if (to & IPC_BACKGROUND)
-        back?.webContents.send("redux-action", type, arg);
-      if (to & IPC_RENDERER) main?.webContents.send("redux-action", type, arg);
-      if (to & IPC_OVERLAY)
-        overlay?.webContents.send("redux-action", type, arg);
-    } catch (e) {
-      console.error(
-        "Attempted to parse a Redux Action but failed;",
-        type,
-        arg,
-        e
-      );
     }
-  });
+  );
 }
