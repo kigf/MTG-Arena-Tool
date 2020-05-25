@@ -95,7 +95,10 @@ const playerDataSlice = createSlice({
     ): void => {
       Object.assign(state.economy, action.payload);
     },
-    setTagColors: (state: PlayerData, action: PayloadAction<string>): void => {
+    setTagColors: (
+      state: PlayerData,
+      action: PayloadAction<Record<string, string>>
+    ): void => {
       Object.assign(state.tagsColors, action.payload);
     },
     editTagColor: (

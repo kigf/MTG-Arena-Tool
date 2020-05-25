@@ -6,11 +6,8 @@ import {
   IPC_OVERLAY,
   IPC_MAIN,
 } from "../constants";
-import actions, { MainActions } from "./mainActions";
+import { actions, ActionKeys } from "./actions";
 const ipc = electron.ipcMain;
-
-// Not sure why TS triggers here.
-const actionsMain = actions as any;
 
 /**
  * initializeMainReduxIPC
@@ -29,7 +26,7 @@ export default function initializeMainReduxIPC(
 ): void {
   ipc.on("redux-action", function (
     _event: IpcMainEvent,
-    type: MainActions,
+    type: ActionKeys,
     arg: string,
     to: number
   ) {
@@ -43,7 +40,7 @@ export default function initializeMainReduxIPC(
             "This action should not be sent to main or the action is missing on the actions list."
           );
         } else {
-          store.dispatch(actionsMain[type](action));
+          store.dispatch(actions[type](action));
         }
       }
       // Relay action

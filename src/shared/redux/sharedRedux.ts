@@ -1,13 +1,10 @@
 import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 import electron from "electron";
 import { IPC_NONE } from "../constants";
-import actionsMain, { MainActions } from "./mainActions";
-import actionsOther, { OtherActions } from "./otherActions";
+import { actions, ActionKeys } from "./actions";
 const ipcRenderer = electron.ipcRenderer;
 
-const actions = Object.assign({}, actionsMain, actionsOther);
-
-type DispatchParameter<K extends MainActions | OtherActions> = {
+type DispatchParameter<K extends ActionKeys> = {
   type: K;
   arg: Parameters<typeof actions[K]>[0];
 };
@@ -19,12 +16,12 @@ type DispatchParameter<K extends MainActions | OtherActions> = {
  * @param arg argument / object
  * @param to process to relay to
  */
-export function reduxAction<K extends MainActions | OtherActions>(
+export function reduxAction<K extends ActionKeys>(
   dispatch: Dispatch<AnyAction>,
   action: DispatchParameter<K>,
   to: number
 ): void {
-  dispatch(actions[action.type](action.arg as any));
+  dispatch(actions[action.type](action.arg));
   if (to !== IPC_NONE) {
     ipcRenderer.send(
       "redux-action",
