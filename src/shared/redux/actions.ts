@@ -14,6 +14,7 @@ import * as SettingsSlice from "./slices/settingsSlice";
 import * as AppSettingsSlice from "./slices/appSettingsSlice";
 import * as RendererSlice from "./slices/rendererSlice";
 import * as LoginSlice from "./slices/loginSlice";
+import * as OverlaySlice from "./slices/overlaySlice";
 
 export const actions = {
   SET_HOVER_IN: HoverSlice.setHoverIn,
@@ -86,6 +87,7 @@ export const actions = {
   SET_LOGIN_PASSWORD: LoginSlice.setLoginPassword,
   SET_LOGIN_REMEMBER: LoginSlice.setLoginRemember,
   SET_LOGIN_STATE: LoginSlice.setLoginState,
+  SET_OVERVIEW_OPEN: OverlaySlice.setOverviewOpen,
 };
 
 export type ActionKeys = keyof typeof actions;

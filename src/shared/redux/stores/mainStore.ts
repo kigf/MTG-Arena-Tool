@@ -5,12 +5,14 @@ import settingsSlice from "../slices/settingsSlice";
 import appSettingsSlice from "../slices/appSettingsSlice";
 import rendererSlice from "../slices/rendererSlice";
 import loginSlice from "../slices/loginSlice";
+import overlaySlice from "../slices/overlaySlice";
 
 const rootReducer = combineReducers({
   settings: settingsSlice.reducer,
   appsettings: appSettingsSlice.reducer,
   renderer: rendererSlice.reducer,
   login: loginSlice.reducer,
+  overlay: overlaySlice.reducer,
 });
 
 const store = configureStore({

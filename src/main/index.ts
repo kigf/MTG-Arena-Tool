@@ -61,6 +61,7 @@ let arenaState = ARENA_MODE_IDLE;
 let editMode = false;
 
 let oldSettings = {};
+const oldOverlayState = {};
 
 const singleLock = app.requestSingleInstanceLock();
 
@@ -154,6 +155,9 @@ function startApp(): void {
         store.subscribe(() => {
           if (!_.isEqual(oldSettings, store.getState().settings)) {
             setSettings(store.getState().settings);
+          }
+          if (!_.isEqual(oldOverlayState, store.getState().overlay)) {
+            updateOverlayVisibility();
           }
         });
       }
@@ -425,9 +429,9 @@ function setSettings(settings: SettingsData): void {
 let overlayHideTimeout: NodeJS.Timeout | undefined = undefined;
 
 function updateOverlayVisibility(): void {
-  const shouldDisplayOverlay = store
-    .getState()
-    .settings.overlays?.some(getOverlayVisible);
+  const shouldDisplayOverlay =
+    store.getState().overlay.isOverviewOpen ||
+    store.getState().settings.overlays?.some(getOverlayVisible);
   const isOverlayVisible = isEntireOverlayVisible();
 
   //console.log("shouldDisplayOverlay: ", shouldDisplayOverlay, "isOverlayVisible: ", isOverlayVisible);

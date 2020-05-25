@@ -80,6 +80,7 @@ const defaultConfig = {
     skip_firstpass: false,
     overlay_scale: 100,
     overlay_ontop: true,
+    overlay_overview: true,
     overlayHover: { x: 0, y: 0 },
     enable_keyboard_shortcuts: true,
     shortcut_overlay_1: "Alt+Shift+1",

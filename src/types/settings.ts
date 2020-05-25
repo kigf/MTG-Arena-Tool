@@ -54,6 +54,7 @@ export interface SettingsData {
   overlay_back_color: string;
   overlay_ontop: boolean;
   overlay_scale: number;
+  overlay_overview: boolean;
   overlayHover: { x: number; y: number };
   primaryMonitorPos: { x: number; y: number };
   overlays: OverlaySettingsData[];

@@ -5,12 +5,14 @@ import settingsSlice from "../slices/settingsSlice";
 import playerDataSlice from "../slices/playerDataSlice";
 import rendererSlice from "../slices/rendererSlice";
 import hoverSlice from "../slices/hoverSlice";
+import overlaySlice from "../slices/overlaySlice";
 
 const rootReducer = combineReducers({
   settings: settingsSlice.reducer,
   playerdata: playerDataSlice.reducer,
   renderer: rendererSlice.reducer,
   hover: hoverSlice.reducer,
+  overlay: overlaySlice.reducer,
 });
 
 const store = configureStore({

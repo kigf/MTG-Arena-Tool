@@ -1,7 +1,7 @@
 import { ipcRenderer as ipc, webFrame } from "electron";
 import React, { useCallback, useEffect, useState } from "react";
 import { Howl, Howler } from "howler";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import {
   ARENA_MODE_IDLE,
@@ -12,7 +12,7 @@ import {
   IPC_ALL,
 } from "../shared/constants";
 import Deck from "../shared/deck";
-import store, { AppState } from "../shared/redux/stores/overlayStore";
+import { AppState } from "../shared/redux/stores/overlayStore";
 import { MatchData } from "../types/currentMatch";
 import { DraftData } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
@@ -65,6 +65,10 @@ export default function OverlayController(): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
   const [lastBeep, setLastBeep] = useState(Date.now());
   const [matchEnd, setMatchEnd] = useState<any | null>(null);
+  const isOverviewOpen = useSelector(
+    (state: AppState) => state.overlay.isOverviewOpen
+  );
+  const dispatcher = useDispatch();
 
   const {
     overlay_scale: overlayScale,
@@ -130,7 +134,7 @@ export default function OverlayController(): JSX.Element {
         overlayHover;
 
       reduxAction(
-        store.dispatch,
+        dispatcher,
         {
           type: "SET_SETTINGS",
           arg: { overlays: newOverlays, overlayHover: newOverlayHover },
@@ -167,7 +171,7 @@ export default function OverlayController(): JSX.Element {
     };
 
     reduxAction(
-      store.dispatch,
+      dispatcher,
       { type: "SET_SETTINGS", arg: { overlays: newOverlays } },
       IPC_ALL ^ IPC_OVERLAY
     );
@@ -204,14 +208,26 @@ export default function OverlayController(): JSX.Element {
     [handleBeep, soundPriority, turnPriority]
   );
 
-  const handleMatchEnd = useCallback((_event: unknown, arg: string) => {
-    const matchData = JSON.parse(arg);
-    setMatchEnd(matchData);
-  }, []);
+  const handleMatchEnd = useCallback(
+    (_event: unknown, arg: string) => {
+      const matchData = JSON.parse(arg);
+      setMatchEnd(matchData);
+      reduxAction(
+        dispatcher,
+        { type: "SET_OVERVIEW_OPEN", arg: true },
+        IPC_MAIN
+      );
+    },
+    [dispatcher]
+  );
 
   const clearMatchEnd = useCallback(() => {
-    setMatchEnd(null);
-  }, []);
+    reduxAction(
+      dispatcher,
+      { type: "SET_OVERVIEW_OPEN", arg: false },
+      IPC_MAIN
+    );
+  }, [dispatcher]);
 
   // register all IPC listeners
   useEffect(() => {
@@ -287,7 +303,7 @@ export default function OverlayController(): JSX.Element {
             />
           );
         })}
-      {matchEnd ? (
+      {isOverviewOpen && matchEnd ? (
         <Overview closeCallback={clearMatchEnd} matchData={matchEnd} />
       ) : (
         <></>

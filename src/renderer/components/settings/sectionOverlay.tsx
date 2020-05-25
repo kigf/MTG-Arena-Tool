@@ -51,6 +51,14 @@ function setAlwaysOnTop(checked: boolean): void {
   );
 }
 
+function setOverview(checked: boolean): void {
+  reduxAction(
+    store.dispatch,
+    { type: "SET_SETTINGS", arg: { overlay_overview: checked } },
+    IPC_ALL ^ IPC_RENDERER
+  );
+}
+
 function setSoundPriority(checked: boolean): void {
   reduxAction(
     store.dispatch,
@@ -480,6 +488,12 @@ export default function SectionOverlay(): JSX.Element {
         text="Always on top when shown"
         value={settings.overlay_ontop}
         callback={setAlwaysOnTop}
+      />
+
+      <Toggle
+        text="Show post-match overview"
+        value={settings.overlay_overview}
+        callback={setOverview}
       />
 
       <Toggle

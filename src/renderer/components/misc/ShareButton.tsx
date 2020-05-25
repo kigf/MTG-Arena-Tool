@@ -61,7 +61,7 @@ export default function ShareButton({
       );
     }
   };
-  
+
   return !offline ? (
     <div onClick={click} className={indexCss.list_log_share}></div>
   ) : (
