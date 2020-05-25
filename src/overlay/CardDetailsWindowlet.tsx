@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import { ARENA_MODE_DRAFT, LANDS_HACK } from "../shared/constants";
 import db from "../shared/database";
-import { DraftRatings, DraftRatingsLola } from "../shared/DraftRatings";
+import { DraftRatings, DraftRatingsLola } from "./DraftRatings";
 import { getCardImage } from "../shared/utils/getCardArtCrop";
 import { Chances } from "../types/Chances";
 import { SettingsData } from "../types/settings";
