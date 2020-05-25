@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import css from "./Sections.css";
+import { CardQuality } from "../../../types/settings";
 
 function changeBackgroundImage(value: string): void {
   reduxAction(
@@ -31,7 +32,7 @@ function backColorPicker(color: string): void {
   );
 }
 
-function setCardQuality(filter: string): void {
+function setCardQuality(filter: CardQuality): void {
   reduxAction(
     store.dispatch,
     { type: "SET_SETTINGS", arg: { cards_quality: filter } },

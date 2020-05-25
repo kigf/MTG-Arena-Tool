@@ -26,11 +26,13 @@ export interface OverlaySettingsData {
   type_counts: boolean;
 }
 
+export type CardQuality = "small" | "normal" | "large";
+
 export interface SettingsData {
   anon_explore: boolean;
   back_color: string;
   back_url: string;
-  cards_quality: string;
+  cards_quality: CardQuality;
   cards_size: number;
   cards_size_hover_card: number;
   close_on_match: boolean;

@@ -2,29 +2,29 @@ import React from "react";
 import indexCss from "../renderer/index.css";
 import css from "../renderer/select.scss";
 
-export interface ReactSelectProps {
-  optionFormatter?: (option: string) => string | JSX.Element;
-  current: string;
-  callback: (option: string) => void;
-  options: any[];
+export interface ReactSelectProps<K> {
+  optionFormatter?: (option: K | string) => string | JSX.Element;
+  current: K;
+  callback: (option: K) => void;
+  options: K[];
   className?: string;
   style?: React.CSSProperties;
 }
 
-export default function ReactSelect({
+export default function ReactSelect<K>({
   optionFormatter,
   current,
   callback,
   options,
   className,
   style,
-}: ReactSelectProps): JSX.Element {
+}: ReactSelectProps<K>): JSX.Element {
   const formatterFunc =
     typeof optionFormatter === "function"
       ? optionFormatter
-      : (inString: string): string => inString;
+      : (inString: string | K): string | K => inString;
 
-  const [currentOption, setCurrentOption] = React.useState(current);
+  const [currentOption, setCurrentOption] = React.useState<K>(current);
   const [optionsOpen, setOptionsOpen] = React.useState(false);
   React.useEffect(() => setCurrentOption(current), [current]);
 
@@ -48,7 +48,7 @@ export default function ReactSelect({
   return (
     <div className={`${css.selectContainer} ${className}`} style={style}>
       <button
-        key={currentOption}
+        key={currentOption + "-key"}
         className={buttonClassNames}
         onClick={onClickSelect}
       >
@@ -64,8 +64,8 @@ export default function ReactSelect({
             ) : (
               <button
                 className={`${indexCss.buttonReset} ${css.selectOption}`}
-                key={option}
-                value={option}
+                key={option + "-key"}
+                value={option + ""}
                 disabled={option == currentOption}
                 onClick={onClickOption}
               >

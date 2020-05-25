@@ -88,7 +88,7 @@ export default function DateFilter({
   return (
     <>
       {pickerElement}
-      <ReactSelect
+      <ReactSelect<string>
         className={`${className} ${indexCss.filter_panel_select_margin}`}
         current={String(current)}
         options={options}

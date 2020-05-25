@@ -51,7 +51,7 @@ const defaultConfig = {
     last_settings_overlay_section: 0,
     sound_priority: false,
     sound_priority_volume: 1,
-    cards_quality: "small",
+    cards_quality: "normal",
     startup: true,
     close_to_tray: true,
     send_data: true,
