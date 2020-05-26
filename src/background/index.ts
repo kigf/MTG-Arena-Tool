@@ -39,7 +39,7 @@ globals.store.subscribe(() => {
     oldState = newState;
     return;
   }
-  //console.log("Store updated");
+  // console.log("Store updated");
   // Save settings only when they change
   const newSettings = newState.settings;
   if (!_.isEqual(oldState.settings, newSettings)) {
@@ -65,13 +65,18 @@ globals.store.subscribe(() => {
     //console.log(".deck_tags updated");
     playerDb.upsert("", "deck_tags", newDeckTags);
   }
-  oldState = newState;
 
   // Tags colors
   const newColors = newState.playerdata.tagsColors;
   if (!_.isEqual(oldState.playerdata.tagsColors, newColors)) {
     //console.log(".tags_colors updated");
     playerDb.upsert("", "tags_colors", newColors);
+  }
+
+  // Private Decks
+  const privateDecks = newState.decks.privateDecks;
+  if (!_.isEqual(oldState.decks.privateDecks, privateDecks)) {
+    playerDb.upsert("", "private_decks", privateDecks);
   }
   oldState = newState;
 });

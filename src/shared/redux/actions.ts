@@ -52,6 +52,8 @@ export const actions = {
   SET_DECK: DecksSlice.setDeck,
   SET_MANY_DECKS: DecksSlice.setManyDecks,
   SET_MANY_STATIC_DECKS: DecksSlice.setManyStaticDecks,
+  SET_PRIVATE_DECKS: DecksSlice.setPrivateDecks,
+  REMOVE_PRIVATE_DECKS: DecksSlice.removePrivateDecks,
   SET_ECONOMY: EconomySlice.setEconomy,
   SET_MANY_ECONOMY: EconomySlice.setManyEconomy,
   SET_DRAFT: DraftsSlice.setDraft,

@@ -121,6 +121,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
+    "@svgr/webpack": "^5.4.0",
     "@teamsupercell/typings-for-css-modules-loader": "^2.1.1",
     "@types/animejs": "^3.1.0",
     "@types/async": "^3.2.2",

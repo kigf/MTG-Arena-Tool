@@ -464,10 +464,10 @@ a:hover {
 .decklist_top {
     /* opacity: 0.8; */
     width: calc(100% - 48px);
-    height: 32px;
+    /* height: 32px; */
     display: flex;
     margin-top: 24px;
-    padding: 8px 24px;
+    padding: 0 24px;
     justify-content: space-between;
 }
 

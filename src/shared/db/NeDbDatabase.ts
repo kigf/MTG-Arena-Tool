@@ -19,6 +19,7 @@ const nonDocFields = [
   "decks_last_used",
   "static_decks",
   "static_events",
+  "private_decks",
 ];
 
 /**

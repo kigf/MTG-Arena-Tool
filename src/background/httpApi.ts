@@ -40,6 +40,7 @@ import {
   IPC_ALL,
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
+import { InternalMatch } from "../types/match";
 
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
   globals.httpQueue = async.queue(asyncWorker);
@@ -245,12 +246,16 @@ export function httpNotificationsPull(): void {
 }
 
 function handleSync(syncIds: SyncIds): void {
+  const { privateDecks } = globals.store.getState().decks;
   const toPush = {
     courses: Object.keys(globalStore.events).filter(
       (id) => syncIds.courses.indexOf(id) == -1
     ),
     matches: Object.keys(globalStore.matches).filter(
-      (id) => syncIds.matches.indexOf(id) == -1
+      (id) =>
+        syncIds.matches.indexOf(id) == -1 &&
+        globalStore.matches[id] &&
+        privateDecks.indexOf(globalStore.matches[id].id) == -1
     ),
     drafts: Object.keys(globalStore.drafts).filter(
       (id) => syncIds.drafts.indexOf(id) == -1
@@ -539,23 +544,26 @@ export function httpGetCourse(courseId: string): void {
   );
 }
 
-export function httpSetMatch(match: any): void {
+export function httpSetMatch(match: InternalMatch): void {
   const _id = makeId(6);
   const anon = globals.store.getState().settings.anon_explore;
+  const privateDecks = globals.store.getState().decks.privateDecks;
   if (anon == true) {
     match.player.userid = "000000000000000";
     match.player.name = "Anonymous";
   }
-  match = JSON.stringify(match);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "set_match",
-      method_path: "/api/send_match.php",
-      match: match,
-    },
-    handleSetDataResponse
-  );
+  if (privateDecks.indexOf(match.playerDeck.id) == -1) {
+    const matchStr = JSON.stringify(match);
+    globals.httpQueue?.push(
+      {
+        reqId: _id,
+        method: "set_match",
+        method_path: "/api/send_match.php",
+        match: matchStr,
+      },
+      handleSetDataResponse
+    );
+  }
 }
 
 export function httpSetDraft(draft: any): void {

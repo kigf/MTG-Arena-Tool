@@ -36,5 +36,5 @@ export interface LocalDatabase {
   remove(table: string, key: string): Promise<number>;
 }
 
-export const appDb: LocalDatabase = new NeDbDatabase();
-export const playerDb: LocalDatabase = new NeDbDatabase();
+export const appDb: NeDbDatabase = new NeDbDatabase();
+export const playerDb: NeDbDatabase = new NeDbDatabase();

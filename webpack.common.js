@@ -49,6 +49,10 @@ let common_config = {
         ],
       },
       {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+      {
         test: /\.(js|jsx|ts|tsx)$/,
         loader: "ts-loader",
         options: {
@@ -65,7 +69,7 @@ let common_config = {
         loader: "html-loader",
       },
       {
-        test: /\.(mp3|png|jpg|jpeg|gif|svg|webm)$/i,
+        test: /\.(mp3|png|jpg|jpeg|gif|webm)$/i,
         loader: "file-loader",
       },
     ],
@@ -82,6 +86,7 @@ let common_config = {
       ".jpg",
       ".png",
       ".mp3",
+      ".svg",
     ],
   },
 };

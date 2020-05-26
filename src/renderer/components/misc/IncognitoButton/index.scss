@@ -1,0 +1,12 @@
+.incognitoButton {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  opacity: 0.66;
+  margin: auto 16px;
+  -webkit-transition: opacity 0.2s ease-in;
+
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -94,6 +94,16 @@ export async function loadPlayerConfig(): Promise<void> {
     );
   }
 
+  // Private decks
+  if (savedData.private_decks) {
+    console.log(savedData.private_decks);
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_PRIVATE_DECKS", arg: savedData.private_decks },
+      IPC_RENDERER
+    );
+  }
+
   // Get Rank data
   if (savedData.rank) {
     reduxAction(

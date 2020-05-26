@@ -29,6 +29,7 @@ import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
 import ReactSvgPieChart from "react-svg-piechart";
 import timestamp from "../../../shared/utils/timestamp";
+import IncognitoButton from "../misc/IncognitoButton";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -244,6 +245,7 @@ export function DeckView(props: DeckViewProps): JSX.Element {
             ></div>
             <div className={indexCss.deckName}>{deck.getName()}</div>
             <ShareButton type="deck" data={deck.getSave()} />
+            <IncognitoButton id={deck.id} />
             <div className={indexCss.deckTopColors}>
               <ManaCost colors={deck.getColors().get()} />
             </div>
