@@ -39,9 +39,9 @@ export default function IncognitoButton({
     <div
       onClick={click}
       className={css.incognitoButton}
-      title={isPrivate ? "Make deck private" : "Make deck public"}
+      title={isPrivate ? "Make deck public" : "Make deck private"}
     >
-      <Icon fill={isPrivate ? "var(--color-mid)" : "var(--color-r)"} />
+      <Icon fill={isPrivate ? "var(--color-r)" : "var(--color-mid)"} />
     </div>
   );
 }
