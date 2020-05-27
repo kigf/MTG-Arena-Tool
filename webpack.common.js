@@ -1,9 +1,10 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const fixNedbForElectronRenderer = require("./fixNedbForElectronRenderer");
 const merge = require("webpack-merge");
 const path = require("path");
 
 console.log("__dirname: ", __dirname);
-
+ 
 let common_config = {
   node: {
     __dirname: false,
@@ -75,6 +76,7 @@ let common_config = {
     ],
   },
   resolve: {
+    plugins: [fixNedbForElectronRenderer],
     extensions: [
       ".tsx",
       ".ts",
