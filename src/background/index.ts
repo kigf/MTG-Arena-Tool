@@ -28,6 +28,7 @@ import { reduxAction } from "../shared/redux/sharedRedux";
 import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxIPC";
 import { archive, getMatch, deckExists, getDeck } from "../shared/store";
 import store, { AppState } from "../shared/redux/stores/backgroundStore";
+import defaultLogUri from "../shared/utils/defaultLogUri";
 
 initializeRendererReduxIPC(globals.store);
 
@@ -118,23 +119,22 @@ ipc.on("start_background", async function () {
     IPC_RENDERER
   );
 
-  const appSettings = await appDb.find("", "settings");
-  let logUri = appSettings.logUri || undefined;
+  const appSettings =
+    (await appDb.find("", "settings")) || globals.store.getState().appsettings;
+  let logUri = (appSettings && appSettings.logUri) || undefined;
 
   if (typeof process.env.LOGFILE !== "undefined") {
     logUri = process.env.LOGFILE;
   }
   if (!logUri || logUri == "") {
-    logUri = mtgaLog.defaultLogUri();
+    logUri = defaultLogUri();
   }
-  console.log("logUri: " + appSettings.logUri, logUri);
-  appSettings.logUri = logUri;
+  console.log("logUri: " + logUri);
 
   ipcSend("initialize_main", appSettings.launchToTray);
-  //reduxAction(globals.store.dispatch, "SET_SETTINGS", appSettings, IPC_ALL ^ IPC_BACKGROUND);
   reduxAction(
     globals.store.dispatch,
-    { type: "SET_APP_SETTINGS", arg: appSettings },
+    { type: "SET_APP_SETTINGS", arg: { ...appSettings, ...logUri } },
     IPC_ALL ^ IPC_BACKGROUND
   );
 
@@ -383,13 +383,10 @@ async function attemptLogLoop(): Promise<void> {
 // Basic logic for reading the log file
 async function logLoop(): Promise<void> {
   const logUri = globals.store.getState().appsettings.logUri;
-  //console.log("logLoop() start " + logUri);
+  console.log("logLoop() start " + logUri);
   //ipcSend("ipc_log", "logLoop() start");
-  if (
-    logUri.indexOf("output_log") !== -1 &&
-    fs.existsSync(mtgaLog.defaultLogUri())
-  ) {
-    ipcSend("no_log", mtgaLog.defaultLogUri());
+  if (logUri.indexOf("output_log") !== -1 && fs.existsSync(defaultLogUri())) {
+    ipcSend("no_log", defaultLogUri());
     ipcSend("popup", {
       text: "Log file name has changed.",
       time: 1000,
@@ -445,21 +442,17 @@ async function logLoop(): Promise<void> {
   };
 
   let detailedLogs = true;
-  splitString.forEach((value) => {
+  let foundData = 0;
+  let i = 0;
+  while (i < splitString.length - 1 || foundData !== 2) {
+    const value = splitString[i];
     // Check if detailed logs / plugin support is disabled
     // This should be an action rather than a simple popup
     // Renderer should display a special popup with pretty instructions
     let strCheck = "DETAILED LOGS: DISABLED";
     if (value.includes(strCheck)) {
-      ipcSend("popup", {
-        text: `Detailed logs disabled.
-1) Open Arena (the game by WotC)
-2) Go to the settings screen in Arena
-3) Open the View Account screen
-4) Enable Detailed logs.
-5) Restart Arena.`,
-        time: 0,
-      });
+      // PLACEHOLDER
+      // SEND ACTION TO SHOW POPUP , TO ENABLE DETAILED LOGS
       reduxAction(
         globals.store.dispatch,
         { type: "SET_CAN_LOGIN", arg: false },
@@ -473,19 +466,17 @@ async function logLoop(): Promise<void> {
     if (value.includes(strCheck) && parsedData.arenaId == undefined) {
       parsedData.arenaId =
         debugArenaID ?? unleakString(dataChop(value, strCheck, ","));
+      foundData++;
     }
 
     // Get User name
-    strCheck = " DisplayName:";
+    strCheck = "DisplayName:";
     if (value.includes(strCheck) && parsedData.playerName == undefined) {
       parsedData.playerName = unleakString(dataChop(value, strCheck, ","));
+      foundData++;
     }
-    /*
-    if (globals.firstPass) {
-      ipcSend("popup", {"text": "Reading: "+Math.round(100/splitString.length*index)+"%", "time": 1000});
-    }
-    */
-  });
+    i++;
+  }
 
   if (!detailedLogs) return;
 

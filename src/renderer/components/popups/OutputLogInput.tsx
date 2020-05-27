@@ -1,6 +1,5 @@
 import React, { useState, useCallback, ChangeEvent, useEffect } from "react";
-import { remote } from "electron";
-const { dialog } = remote;
+
 import Button from "../misc/Button";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
@@ -9,6 +8,7 @@ import css from "./popups.css";
 import sharedCss from "../../../shared/shared.css";
 import indexCss from "../../index.css";
 import formsCss from "../../forms.css";
+import showOpenLogDialog from "../../../shared/utils/showOpenLogDialog";
 
 interface OutputLogInputProps {
   closeCallback?: (log: string) => void;
@@ -37,24 +37,14 @@ export default function OutputLogInput(
   };
 
   const openPathDialog = useCallback(() => {
-    dialog
-      .showOpenDialog(remote.getCurrentWindow(), {
-        title: "Arena Log Location",
-        defaultPath: logUri,
-        buttonLabel: "Select",
-        filters: [
-          { name: "Log Files", extensions: ["log"] },
-          { name: "Text", extensions: ["txt", "text"] },
-          { name: "All Files", extensions: ["*"] },
-        ],
-        properties: ["openFile"],
-      })
-      .then((value: Electron.OpenDialogReturnValue): void => {
+    showOpenLogDialog(logUri).then(
+      (value: Electron.OpenDialogReturnValue): void => {
         const paths = value.filePaths;
         if (paths && paths.length && paths[0]) {
           setLog(paths[0]);
         }
-      });
+      }
+    );
   }, [logUri]);
 
   useEffect(() => {

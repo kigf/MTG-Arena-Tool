@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
-import { remote, shell } from "electron";
-const { dialog } = remote;
+import { shell } from "electron";
 import Toggle from "../misc/Toggle";
 import Input from "../misc/Input";
 import { ipcSend } from "../../rendererUtil";
@@ -16,6 +15,7 @@ import tabCss from "../../tabs/SettingsTab.css";
 import sharedCss from "../../../shared/shared.css";
 import indexCss from "../../index.css";
 import css from "./Sections.css";
+import showOpenLogDialog from "../../../shared/utils/showOpenLogDialog";
 
 const LANGUAGES = [
   "en",
@@ -123,24 +123,14 @@ export default function SectionData(): JSX.Element {
   );
 
   const openPathDialog = React.useCallback(() => {
-    dialog
-      .showOpenDialog(remote.getCurrentWindow(), {
-        title: "Arena Log Location",
-        defaultPath: appSettings.logUri,
-        buttonLabel: "Select",
-        filters: [
-          { name: "Log Files", extensions: ["log"] },
-          { name: "Text", extensions: ["txt", "text"] },
-          { name: "All Files", extensions: ["*"] },
-        ],
-        properties: ["openFile"],
-      })
-      .then((value: Electron.OpenDialogReturnValue): void => {
+    showOpenLogDialog(appSettings.logUri).then(
+      (value: Electron.OpenDialogReturnValue): void => {
         const paths = value.filePaths;
         if (paths && paths.length && paths[0]) {
           arenaLogCallback(paths[0]);
         }
-      });
+      }
+    );
   }, [arenaLogCallback, appSettings.logUri]);
 
   let parsedOutput = <></>;

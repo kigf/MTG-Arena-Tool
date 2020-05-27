@@ -1049,7 +1049,7 @@ a:hover {
     border: 1px solid var(--color-light-50);
     display: inline-table;
     /*margin-left: 16px;*/
-    border-radius: 5px;
+    border-radius: 3px;
     /* border-style: hidden; */
     color: var(--color-light);
     height: 24px;
@@ -1076,7 +1076,7 @@ a:hover {
     background-color: var(--color-mid-40);
     border: 1px solid var(--color-light-50);
     display: inline-table;
-    border-radius: 5px;
+    border-radius: 3px;
     color: var(--color-light);
     height: 24px;
     width: 100%;
@@ -1588,7 +1588,7 @@ a:hover {
 }
 
 .open_button {
-    margin: auto 0 auto 16px;
+    margin: auto 10px;
     cursor: pointer;
     width: 28px;
     height: 28px;

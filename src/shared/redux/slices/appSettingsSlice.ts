@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import defaultLogUri from "../../utils/defaultLogUri";
 
-const initialAppSettings = {
+export const initialAppSettings = {
   email: "",
   token: "",
   toolVersion: 0,
@@ -12,7 +13,7 @@ const initialAppSettings = {
   logLocaleFormat: "",
   logTimeExample: "",
   logTimeFormat: "",
-  logUri: "",
+  logUri: defaultLogUri(),
 };
 
 type AppSettings = typeof initialAppSettings;

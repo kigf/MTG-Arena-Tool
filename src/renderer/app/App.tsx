@@ -7,6 +7,8 @@ import {
   LOGIN_OK,
   IPC_NONE,
   EASING_DEFAULT,
+  MAIN_SETTINGS,
+  MAIN_HOME,
 } from "../../shared/constants";
 import ErrorBoundary from "./ErrorBoundary";
 import { TopNav } from "../components/main/topNav";
@@ -26,6 +28,7 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import initializeRendererReduxIPC from "../../shared/redux/initializeRendererReduxIPC";
 
 import css from "./app.css";
+import AuthSettings from "../components/auth-settings";
 
 initializeRendererReduxIPC(store);
 
@@ -79,6 +82,12 @@ export function App(): JSX.Element {
     }, 350);
   }, [dispatch]);
 
+  const closeSettings = React.useCallback(() => {
+    setTimeout(() => {
+      reduxAction(dispatch, { type: "SET_TOPNAV", arg: MAIN_HOME }, IPC_NONE);
+    }, 350);
+  }, [dispatch]);
+
   useEffect(() => {
     setTimeout(() => {
       anime({
@@ -119,7 +128,12 @@ export function App(): JSX.Element {
               </div>
             </div>
           ) : (
-            <Auth authForm={authForm} />
+            <>
+              <Auth authForm={authForm} />
+              {topNav == MAIN_SETTINGS && (
+                <AuthSettings closeCallback={closeSettings} />
+              )}
+            </>
           )}
         </ErrorBoundary>
       </div>

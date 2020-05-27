@@ -47,10 +47,10 @@
 .settings_title {
   font-family: var(--main-font-name-it);
   font-size: 20px;
-  border-bottom: solid var(--color-light-20) 2px;
+  border-bottom: solid var(--color-light-20) 1px;
   color: var(--color-light);
   margin: 24px 64px 14px 12px;
-  padding-bottom: 2px;
+  padding-bottom: 3px;
 }
 
 .settingsLeft {

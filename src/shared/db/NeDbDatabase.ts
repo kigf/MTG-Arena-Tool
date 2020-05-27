@@ -2,15 +2,18 @@ import path from "path";
 import Datastore from "nedb";
 import util from "util";
 import { USER_DATA_DIR, showBusy, hideBusyIfDone } from "./databaseUtil";
-import { LocalDatabase, DatabaseNotInitializedError } from "./LocalDatabase";
 import sanitize from "sanitize-filename";
+
+export class DatabaseNotInitializedError extends Error {
+  constructor() {
+    super("LocalDatabase has not been initialized.");
+    this.name = "DatabaseNotInitializedError";
+  }
+}
 
 // manually maintained list of non-document (non-object) fields
 // we need this to migrate to nedb since it can only store documents
 const nonDocFields = [
-  "email",
-  "token",
-  "logUri",
   "economy_index",
   "deck_changes_index",
   "courses_index",
@@ -31,7 +34,7 @@ const nonDocFields = [
  *   - use hacky logic to wrap "bare" values in proper documents
  *   - sanitize certain MongoDb fields (only _id so far)
  */
-export class NeDbDatabase implements LocalDatabase {
+export class NeDbDatabase {
   dbName: string;
   datastore?: Datastore;
   // async wrappers of datastore methods
