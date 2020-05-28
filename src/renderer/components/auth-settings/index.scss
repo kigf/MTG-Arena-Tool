@@ -10,14 +10,16 @@
 
 .popup-div {
   overflow: auto;
-  width: 100%;
-  height: 100%;
-  margin: auto auto 2px auto;
-  background-color: var(--color-back);
+  width: calc(100% - 64px);
+  height: calc(100% - 64px);
+  border-radius: 3px;
+  margin: auto;
+  color: var(--color-back);
+  background-color: var(--color-light);
 }
 
 .popup-inner {
-  margin: 32px auto;
+  margin: 40px auto 32px auto;
   width: calc(100% - 64px);
   max-width: 1000px;
 }
@@ -41,8 +43,32 @@
 .title {
   font-family: var(--main-font-name-it);
   font-size: 20px;
-  border-bottom: solid var(--color-light-20) 1px;
-  color: var(--color-light);
-  margin: 24px 64px 14px 12px;
+  border-bottom: solid var(--color-back-40) 1px;
+  color: var(--color-back-100);
+  margin-bottom: 16px;
   padding-bottom: 3px;
+}
+
+.input-container {
+  min-height: 32px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-family: var(--main-font-name);
+  color: var(--color-back-90);
+  margin: auto 0;
+  white-space: nowrap;
+}
+
+.link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.about {
+  margin: 32px auto auto auto;
+  text-align: center;
 }

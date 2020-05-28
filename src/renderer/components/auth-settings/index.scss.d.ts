@@ -2,8 +2,13 @@
 // GENERATED FILE; DO NOT EDIT
 declare namespace IndexScssModule {
   export interface IIndexScss {
+    about: string;
     "close-button": string;
     closeButton: string;
+    "input-container": string;
+    inputContainer: string;
+    label: string;
+    link: string;
     "popup-background": string;
     "popup-div": string;
     "popup-inner": string;

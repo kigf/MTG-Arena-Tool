@@ -25,7 +25,7 @@ export default function SectionAbout(): JSX.Element {
         }}
       ></div>
       <div className={`${indexCss.messageSub15} ${sharedCss.white}`}>
-        By Manuel Etchegaray, 2019
+        By Manuel Etchegaray, 2020
       </div>
       <div
         className={`${indexCss.messageSub15} ${sharedCss.white} ${css.releaseNotesLink}`}
