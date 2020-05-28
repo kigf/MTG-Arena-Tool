@@ -7,8 +7,6 @@ import {
   LOGIN_OK,
   IPC_NONE,
   EASING_DEFAULT,
-  MAIN_SETTINGS,
-  MAIN_HOME,
 } from "../../shared/constants";
 import ErrorBoundary from "./ErrorBoundary";
 import { TopNav } from "../components/main/topNav";
@@ -34,6 +32,7 @@ initializeRendererReduxIPC(store);
 
 export function App(): JSX.Element {
   const loginState = useSelector((state: AppState) => state.login.loginState);
+  const openAuthSettings = useSelector((state: AppState) => state.renderer.authSettings);
   const topArtist = useSelector((state: AppState) => state.renderer.topArtist);
   const offline = useSelector((state: AppState) => state.renderer.offline);
   const loading = useSelector((state: AppState) => state.renderer.loading);
@@ -84,7 +83,11 @@ export function App(): JSX.Element {
 
   const closeSettings = React.useCallback(() => {
     setTimeout(() => {
-      reduxAction(dispatch, { type: "SET_TOPNAV", arg: MAIN_HOME }, IPC_NONE);
+      reduxAction(
+        dispatch,
+        { type: "SET_AUTH_SETTINGS", arg: false },
+        IPC_NONE
+      );
     }, 350);
   }, [dispatch]);
 
@@ -130,7 +133,7 @@ export function App(): JSX.Element {
           ) : (
             <>
               <Auth authForm={authForm} />
-              {topNav == MAIN_SETTINGS && (
+              {openAuthSettings && (
                 <AuthSettings closeCallback={closeSettings} />
               )}
             </>

@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { SymbolBase } from "./SymbolBase";
+import indexCss from "../../index.css";
 
 const BinarySymbolBase = styled(SymbolBase).attrs<BinarySymbolProps>(
   (props) => ({
-    className: `${props.className ?? ""} rarity_filter ${
-      props.isOn ? "ontheplay" : "onthedraw"
+    className: `${props.className ?? ""} ${indexCss.rarityFilter} ${
+      props.isOn ? indexCss.ontheplay : indexCss.onthedraw
     }`,
   })
 )``;

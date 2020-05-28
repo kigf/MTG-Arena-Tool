@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import ErrorInfo from "../components/popups/ErrorInfo";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../shared/constants";
+import { IPC_NONE, MAIN_HOME } from "../../shared/constants";
 import store from "../../shared/redux/stores/rendererStore";
 
 interface ErrorState {
@@ -26,7 +26,7 @@ export default class ErrorBoundary extends React.Component<{}, ErrorState> {
 
   closeErrorDialog = (): void => {
     const dispatcher = store.dispatch;
-    reduxAction(dispatcher, { type: "SET_TOPNAV", arg: 0 }, IPC_NONE);
+    reduxAction(dispatcher, { type: "SET_TOPNAV", arg: MAIN_HOME }, IPC_NONE);
     reduxAction(
       dispatcher,
       {

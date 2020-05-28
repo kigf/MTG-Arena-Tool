@@ -374,20 +374,22 @@ export default class Aggregator {
     // on play vs draw
     const hasPlayDrawData = match && match.toolVersion >= 262400;
     if (hasPlayDrawData) {
-      match.gameStats.forEach((gameStats) => {
-        const onThePlay = match.player.seat == gameStats.onThePlay;
-        let toUpdate;
-        if (onThePlay && gameStats) {
-          toUpdate = this.playStats;
-        } else {
-          toUpdate = this.drawStats;
-        }
+      match.gameStats
+        .filter((gs) => gs)
+        .forEach((gameStats) => {
+          const onThePlay = match.player.seat == gameStats.onThePlay;
+          let toUpdate;
+          if (onThePlay && gameStats) {
+            toUpdate = this.playStats;
+          } else {
+            toUpdate = this.drawStats;
+          }
 
-        toUpdate.wins += gameStats.winner == match.player.seat ? 1 : 0;
-        toUpdate.losses += gameStats.winner == match.player.seat ? 0 : 1;
-        toUpdate.total++;
-        toUpdate.duration += gameStats.time;
-      });
+          toUpdate.wins += gameStats.winner == match.player.seat ? 1 : 0;
+          toUpdate.losses += gameStats.winner == match.player.seat ? 0 : 1;
+          toUpdate.total++;
+          toUpdate.duration += gameStats.time;
+        });
     } else {
       if (match.onThePlay && match.player) {
         statsToUpdate.push(

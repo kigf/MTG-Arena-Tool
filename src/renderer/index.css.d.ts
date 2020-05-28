@@ -46,7 +46,6 @@ declare namespace IndexCssModule {
     check_container_but: string;
     check_container_centered: string;
     checkmark: string;
-    common: string;
     copyButton: string;
     copy_button: string;
     dateCont: string;
@@ -212,7 +211,6 @@ declare namespace IndexCssModule {
     message_sub: string;
     message_sub_15: string;
     message_updates: string;
-    mythic: string;
     notification: string;
     notplayed: string;
     notplayedtext: string;
@@ -266,11 +264,18 @@ declare namespace IndexCssModule {
     ranks_history: string;
     ranks_history_badge: string;
     ranks_history_title: string;
-    rare: string;
     "rarity-overlay": string;
+    "rarity-overlay-common": string;
+    "rarity-overlay-mythic": string;
+    "rarity-overlay-rare": string;
+    "rarity-overlay-uncommon": string;
     rarityFilter: string;
     rarityFilterOn: string;
     rarityOverlay: string;
+    rarityOverlayCommon: string;
+    rarityOverlayMythic: string;
+    rarityOverlayRare: string;
+    rarityOverlayUncommon: string;
     rarity_filter: string;
     rarity_filter_on: string;
     "react-autosuggest__container": string;
@@ -411,7 +416,6 @@ declare namespace IndexCssModule {
     tou_top_status: string;
     tourneyPwdContainer: string;
     tourney_pwd_container: string;
-    uncommon: string;
     versionNumber: string;
     version_number: string;
     visualView: string;

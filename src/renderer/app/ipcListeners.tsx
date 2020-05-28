@@ -7,6 +7,7 @@ import {
   MAIN_SETTINGS,
   SETTINGS_OVERLAY,
   IPC_NONE,
+  LOGIN_OK,
 } from "../../shared/constants";
 import { ipcSend } from "../rendererUtil";
 import {
@@ -18,6 +19,7 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore from "../../shared/store";
 import { ArenaV3Deck } from "../../types/Deck";
 import { AnyAction, Dispatch } from "redux";
+import store from "../../shared/redux/stores/rendererStore";
 
 export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   console.log("Set up IPC listeners.");
@@ -122,19 +124,28 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   ipc.on(
     "force_open_settings",
     (_event: IpcRendererEvent, arg?: number): void => {
-      reduxAction(
-        dispatcher,
-        { type: "SET_TOPNAV", arg: MAIN_SETTINGS },
-        IPC_NONE
-      );
-      reduxAction(dispatcher, { type: "SET_NAV_INDEX", arg: 0 }, IPC_NONE);
-      if (arg === -1) {
-        ipcSend("save_user_settings", { last_open_tab: MAIN_SETTINGS });
+      const loginState = store.getState().login.loginState;
+      if (loginState == LOGIN_OK) {
+        reduxAction(
+          dispatcher,
+          { type: "SET_TOPNAV", arg: MAIN_SETTINGS },
+          IPC_NONE
+        );
+        reduxAction(dispatcher, { type: "SET_NAV_INDEX", arg: 0 }, IPC_NONE);
+        if (arg === -1) {
+          ipcSend("save_user_settings", { last_open_tab: MAIN_SETTINGS });
+        } else {
+          ipcSend("save_user_settings", {
+            last_open_tab: MAIN_SETTINGS,
+            last_settings_section: arg,
+          });
+        }
       } else {
-        ipcSend("save_user_settings", {
-          last_open_tab: MAIN_SETTINGS,
-          last_settings_section: arg,
-        });
+        reduxAction(
+          dispatcher,
+          { type: "SET_AUTH_SETTINGS", arg: true },
+          IPC_NONE
+        );
       }
     }
   );

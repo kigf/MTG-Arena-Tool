@@ -110,8 +110,9 @@ export function setOppCardsUsed(arg: number[]): void {
 }
 
 export function resetCurrentMatch(): void {
+  globalStore.currentMatch = Object.assign({}, matchStateObject);
   globalStore.currentMatch = {
-    ...matchStateObject,
+    ...globalStore.currentMatch,
     playerStats: {
       lifeLost: 0,
       lifeGained: 0,

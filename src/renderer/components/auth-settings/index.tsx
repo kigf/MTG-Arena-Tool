@@ -65,13 +65,15 @@ export default function AuthSettings<F extends Function>(
   }, [appSettings.logUri, arenaLogCallback]);
 
   // Animation springs
+  const springConfig = { mass: 2, tension: 1000, friction: 100 };
   const alphaSpring = useSpring({
     opacity: open ? 1 : 0,
+    config: springConfig,
     onRest: () => handleClose(),
   });
   const scaleSpring = useSpring({
-    transform: `scale(${open ? 1 : 0.75})`,
-    config: { mass: 2, tension: 1000, friction: 100 },
+    transform: `scale(${open ? 1 : 0.8})`,
+    config: springConfig,
   });
 
   return (

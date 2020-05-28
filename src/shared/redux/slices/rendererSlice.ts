@@ -39,6 +39,7 @@ const initialRendererState = {
     time: 0,
     duration: 0,
   },
+  authSettings: false,
   shareDialog: {
     open: false,
     url: "",
@@ -151,6 +152,12 @@ const rendererSlice = createSlice({
     ): void => {
       state.navIndex = action.payload;
     },
+    setAuthSettings: (
+      state: RendererState,
+      action: PayloadAction<boolean>
+    ): void => {
+      state.authSettings = action.payload;
+    },
     setUpdateState: (
       state: RendererState,
       action: PayloadAction<string>
@@ -195,6 +202,7 @@ export const {
   setShareDialogOpen,
   setShareDialogUrl,
   setNavIndex,
+  setAuthSettings,
   setSubNav,
   setTopNav,
   setTopArtist,
