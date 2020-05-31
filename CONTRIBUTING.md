@@ -111,13 +111,26 @@ MTG Arena Tool is developed using Electron JS, To get started simply clone this 
 git clone https://github.com/Manuel-777/MTG-Arena-Tool
 cd MTG-Arena-Tool
 npm install
-npm start
+npm start:all
 ```
+
+Once webpack builds, after the initial `start:all` command, you can make builds faster by invoking
+the build process for the process you modified only;
+```
+npm start:renderer
+npm start:background
+npm start:overlay
+npm start:updater
+npm start:main
+```
+
+If you modify shared code, it is recommended to use the `start:all` command again.
+
 
 ### Electron Developer Tools
 
-You can toggle developer tools for debugging using `Shift+Alt+D`, or using `F12` if you run from source for specific windows (like a single overlay or just for main window).
-Use `Shift+Alt+O` to toggle all overlays developer tools at once.
+You can toggle developer tools for debugging using `Shift+Alt+D`, or use `F12` to view the renderer process's tools if you run from source.
+Use `Shift+Alt+O` to open the developer tools for the overlay process.
 
 ### Available Scripts
 
@@ -141,7 +154,7 @@ Convenience script to remove `package-lock.json`.
 
 Installs all required dependencies.
 
-#### `npm run format`
+#### `npm run eslint:fix`
 
 Automatically formats all source code to match project guidelines. We currently use
 `prettier` and `eslint` to keep things looking tidy.
@@ -153,14 +166,9 @@ enforced by `eslint` and `prettier`.
 
 ##### `npm run test:eslint`
 
-Tests all source code against project `eslint` style guidelines.
+Tests all source code against project `eslint` and `prettier` style guidelines.
 
 See https://eslint.org/
-
-##### `npm run test:prettier`
-
-Tests all source code against project `prettier` style guidelines.
-
 See https://prettier.io/
 
 ##### `npm run test:jest`
@@ -168,12 +176,6 @@ See https://prettier.io/
 Runs all project unit tests via `jest`.
 
 See https://jestjs.io/
-
-#### `npm start`
-
-Launches electron and runs the app in the development mode.
-
-You will also see output from the main electron process in the console.
 
 #### `npm run dist`
 

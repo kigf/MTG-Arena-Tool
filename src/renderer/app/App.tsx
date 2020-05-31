@@ -32,7 +32,9 @@ initializeRendererReduxIPC(store);
 
 export function App(): JSX.Element {
   const loginState = useSelector((state: AppState) => state.login.loginState);
-  const openAuthSettings = useSelector((state: AppState) => state.renderer.authSettings);
+  const openAuthSettings = useSelector(
+    (state: AppState) => state.renderer.authSettings
+  );
   const topArtist = useSelector((state: AppState) => state.renderer.topArtist);
   const offline = useSelector((state: AppState) => state.renderer.offline);
   const loading = useSelector((state: AppState) => state.renderer.loading);
