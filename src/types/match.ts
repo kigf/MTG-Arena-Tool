@@ -106,7 +106,7 @@ export interface InternalMatch {
   playerDeck: InternalDeck;
   oppDeck: InternalDeck;
   tags: any;
-  date: number;
+  date: string;
   onThePlay: number;
   eventId: string;
   bestOf: number;
