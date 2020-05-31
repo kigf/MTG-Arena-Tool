@@ -132,13 +132,12 @@ export function getCollectionStats(
   Object.keys(db.sets).forEach((setName) => {
     const setStats = new SetStats(setName);
     setStats.boosters = playerEconomy.boosters
-      .filter(
-        ({ collationId }: { collationId: number }) =>
-          db.sets[setName]?.collation === collationId
-      )
+      .filter(({ collationId }) => db.sets[setName]?.collation === collationId)
       .reduce(
-        (accumulator: number, booster: { count: number }) =>
-          accumulator + booster.count,
+        (
+          accumulator: number,
+          booster: { collationId: number; count: number }
+        ) => accumulator + booster.count,
         0
       );
     setStats.boosterRares = estimateBoosterRares(setStats.boosters);

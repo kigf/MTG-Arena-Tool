@@ -13,7 +13,7 @@ export function EconomyHeader(): JSX.Element {
     (state: AppState) => state.playerdata.economy
   );
   const total = playerEconomy.boosters.reduce(
-    (accumulator: number, booster: { count: number }) =>
+    (accumulator: number, booster: { collationId: number; count: number }) =>
       accumulator + booster.count,
     0
   );
