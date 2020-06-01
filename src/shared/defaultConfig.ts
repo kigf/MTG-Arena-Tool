@@ -8,11 +8,11 @@ import {
   DECKS_ART_MODE,
   COLLECTION_CARD_MODE,
   MATCHES_LIST_MODE,
-  OVERLAY_LEFT,
   OVERLAY_SEEN,
   OVERLAY_DRAFT,
   OVERLAY_FULL,
   OVERLAY_LOG,
+  OVERLAY_ODDS,
 } from "./constants";
 import { SettingsData } from "../types/settings";
 
@@ -42,7 +42,7 @@ const primaryBounds: Electron.Rectangle = remote
   : { width: 800, height: 600, x: 0, y: 0 };
 
 const defaultConfig = {
-  windowBounds: { width: 800, height: 600, x: 0, y: 0 },
+  windowBounds: { width: 900, height: 700, x: 0, y: 0 },
   cards: { cards_time: 0, cards_before: {}, cards: {} },
   cardsNew: {},
   settings: {
@@ -62,7 +62,7 @@ const defaultConfig = {
     export_format: "$Name,$Count,$Rarity,$SetName,$Collector",
     back_color: "rgba(0,0,0,0.3)",
     back_shadow: true,
-    overlay_back_color: "rgba(0,0,0,1)",
+    overlay_back_color: "#000000ff",
     back_url: "",
     right_panel_width: 300,
     right_panel_width_sub: 300,
@@ -98,24 +98,29 @@ const defaultConfig = {
         ...overlayCfg,
         bounds: {
           ...primaryBounds,
-          width: 300,
+          width: 280,
           height: 600,
         },
-        mode: OVERLAY_LEFT,
+        mode: OVERLAY_ODDS,
         autosize: true,
-        clock: true,
+        clock: false,
+        alpha: 1,
+        alpha_back: 0.4,
+        lands: true,
       },
       {
         ...overlayCfg,
         bounds: {
           ...primaryBounds,
-          width: 300,
+          width: 280,
           height: 600,
-          x: primaryBounds.x + 310,
+          x: primaryBounds.x + 300,
         },
         mode: OVERLAY_SEEN,
         autosize: true,
         clock: false,
+        alpha: 1,
+        alpha_back: 0.4,
       },
       {
         ...overlayCfg,

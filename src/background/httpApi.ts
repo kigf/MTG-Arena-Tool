@@ -245,9 +245,28 @@ export function httpNotificationsPull(): void {
   );
 }
 
+function handlePush(toPush: SyncIds): void {
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_TO_PUSH", arg: toPush },
+    IPC_RENDERER
+  );
+  if (
+    toPush.courses.length == 0 &&
+    toPush.matches.length == 0 &&
+    toPush.drafts.length == 0 &&
+    toPush.economy.length == 0 &&
+    toPush.seasonal.length == 0
+  ) {
+    setSyncState(SYNC_OK);
+  } else {
+    setSyncState(SYNC_IDLE);
+  }
+}
+
 function handleSync(syncIds: SyncIds): void {
   const { privateDecks } = globals.store.getState().decks;
-  const toPush = {
+  const toPush: SyncIds = {
     courses: Object.keys(globalStore.events).filter(
       (id) => syncIds.courses.indexOf(id) == -1
     ),
@@ -267,22 +286,29 @@ function handleSync(syncIds: SyncIds): void {
       (id) => syncIds.seasonal.indexOf(id) == -1
     ),
   };
-  reduxAction(
-    globals.store.dispatch,
-    { type: "SET_TO_PUSH", arg: toPush },
-    IPC_RENDERER
-  );
-  if (
-    toPush.courses.length == 0 &&
-    toPush.matches.length == 0 &&
-    toPush.drafts.length == 0 &&
-    toPush.economy.length == 0 &&
-    toPush.seasonal.length == 0
-  ) {
-    setSyncState(SYNC_OK);
-  } else {
-    setSyncState(SYNC_IDLE);
-  }
+  handlePush(toPush);
+}
+
+function handleRePushLostMatchData(): void {
+  const shufflerDataCollectionStart = "2019-01-28T00:00:00.000Z";
+  const dataLostEnd = "2019-05-01T00:00:00.000Z";
+  const toPush: SyncIds = {
+    courses: [],
+    matches: Object.keys(globalStore.matches).filter((id) => {
+      const match = globalStore.matches[id];
+      return (
+        !match.lastPushedDate &&
+        shufflerDataCollectionStart < match.date &&
+        match.date < dataLostEnd
+      );
+    }),
+    drafts: [],
+    economy: [],
+    seasonal: [],
+  };
+  handlePush(toPush);
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  httpSyncPush();
 }
 
 export interface SyncRequestData {
@@ -390,6 +416,8 @@ function handleAuthResponse(
     ipcLog("Checking local data without remote copies");
     if (parsedResult && data.patreon) {
       handleSync(parsedResult);
+    } else {
+      handleRePushLostMatchData();
     }
     ipcLog("Checking for sync requests...");
     const requestSync = {
@@ -437,17 +465,27 @@ export function httpAuth(userName: string, pass: string): void {
 
 function handleSetDataResponse(
   error?: Error | null,
-  _task?: HttpTask,
+  task?: HttpTask,
   _results?: string,
   parsedResult?: any
 ): void {
   const mongoDbDuplicateKeyErrorCode = 11000;
   finishSync();
-  if (parsedResult && parsedResult.error === mongoDbDuplicateKeyErrorCode) {
-    return; // idempotent success case, just return
-  } else if (error) {
+  // duplicate key is idempotent success case, don't count it as error
+  if (parsedResult?.error !== mongoDbDuplicateKeyErrorCode && error) {
     // handle all other errors
     handleError(error);
+    return;
+  }
+  if (task && task.match) {
+    const match: InternalMatch = JSON.parse(task.match);
+    match.lastPushedDate = new Date().toISOString();
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_MATCH", arg: match },
+      IPC_RENDERER
+    );
+    playerDb.upsert(match.id, "lastPushedDate", match.lastPushedDate);
   }
 }
 
@@ -820,7 +858,7 @@ export function httpSetDeckTag(
   );
 }
 
-export function httSyncPush(): void {
+export function httpSyncPush(): void {
   const syncIds: SyncIds = globals.store.getState().renderer.syncToPush;
   syncIds.courses.map((id: string) => {
     const obj = getEvent(id);

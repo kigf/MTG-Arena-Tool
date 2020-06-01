@@ -114,30 +114,22 @@ export async function loadPlayerConfig(): Promise<void> {
   }
 
   // Get Matches data
-  const newMatchesIndex: string[] = [];
-  Object.keys(savedData).forEach((k) => {
-    if (k.indexOf("-" + arenaId) !== -1) {
-      newMatchesIndex.push(k);
+  const newMatchesIndex: string[] = Object.keys(savedData).filter(
+    (id) =>
+      (id.endsWith(arenaId) || savedData[id]?.player?.userid === arenaId) &&
+      savedData[id]?.gameStats?.[0] !== undefined
+  );
+
+  const matchesList: InternalMatch[] = newMatchesIndex.map((id: string) => {
+    // Calculate player deck hash
+    if (savedData[id].playerDeck && !savedData[id].playerDeckHash) {
+      const playerDeck = new Deck(savedData[id].playerDeck);
+      savedData[id].playerDeckHash = playerDeck.getHash();
     }
+
+    savedData[id].date = new Date(savedData[id].date ?? 0).toISOString();
+    return savedData[id];
   });
-
-  const matchesList: InternalMatch[] = newMatchesIndex
-    .filter(
-      (id: string) =>
-        savedData[id] &&
-        savedData[id].gameStats?.length > 0 &&
-        savedData[id]?.gameStats[0] !== undefined
-    )
-    .map((id: string) => {
-      // Calculate player deck hash
-      if (savedData[id].playerDeck && !savedData[id].playerDeckHash) {
-        const playerDeck = new Deck(savedData[id].playerDeck);
-        savedData[id].playerDeckHash = playerDeck.getHash();
-      }
-
-      savedData[id].date = new Date(savedData[id].date ?? 0).toISOString();
-      return savedData[id];
-    });
 
   reduxAction(
     globals.store.dispatch,
