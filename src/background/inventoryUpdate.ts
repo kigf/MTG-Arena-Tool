@@ -41,6 +41,7 @@ export default function inventoryUpdate(
     date: globals.logTime.toISOString(),
     delta: update.delta,
     context,
+    arenaId: globals.store.getState().playerdata.playerName,
     subContext: update.context, // preserve sub-context object data
   };
   // Construct a unique ID

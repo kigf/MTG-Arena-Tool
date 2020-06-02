@@ -7,6 +7,7 @@ import { HttpTask } from "./httpWorker";
 
 export const InternalDraftDefault: InternalDraft = {
   PlayerId: null,
+  arenaId: "",
   InternalEventName: "",
   eventId: "",
   id: "",

@@ -33,6 +33,7 @@ export interface PickPack {
 export interface InternalDraft {
   eventId: string;
   draftId: string;
+  arenaId: string;
   id: string;
   owner: string;
   player: string;

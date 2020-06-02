@@ -14,6 +14,7 @@ export default function startDraft(): void {
   const appSettings = globals.store.getState().appsettings;
   const newDraft = {
     ...InternalDraftDefault,
+    arenaId: playerData.playerName,
     player: playerData.playerName,
     owner: appSettings.email,
   };

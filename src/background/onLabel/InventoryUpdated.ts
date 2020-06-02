@@ -27,6 +27,7 @@ export default function InventoryUpdated(entry: Entry): void {
     // preserve sub-context object data
     const newDelta: InternalEconomyTransaction = {
       ...update,
+      arenaId: globals.store.getState().playerdata.playerName,
       subContext: update.context,
       context: transaction.context + "." + update.context.source,
       id: sha1(JSON.stringify(update) + entry.hash),

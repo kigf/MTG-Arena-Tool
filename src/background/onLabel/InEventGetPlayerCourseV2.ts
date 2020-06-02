@@ -61,7 +61,8 @@ export default function InEventGetPlayerCourseV2(entry: Entry): void {
     ModuleInstanceData: json.ModuleInstanceData,
     type: "Event",
     id: json.Id,
-    date: globals.logTime.getTime(),
+    arenaId: globals.store.getState().playerdata.playerName,
+    date: globals.logTime.toISOString(),
   };
 
   if (v2Deck) {

@@ -103,6 +103,7 @@ export interface InternalPlayer {
 
 export interface InternalMatch {
   draws: number;
+  arenaId: string;
   playerDeck: InternalDeck;
   oppDeck: InternalDeck;
   tags: any;

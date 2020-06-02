@@ -53,6 +53,7 @@ export interface InventoryUpdate extends InventoryUpdateBase {
 export interface InternalEconomyTransaction
   extends Partial<InventoryUpdateBase> {
   id: string;
+  arenaId: string;
   date: string;
   context: string;
   originalContext?: string;

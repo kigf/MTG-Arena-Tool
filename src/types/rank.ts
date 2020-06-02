@@ -29,6 +29,7 @@ export interface InternalRankUpdate extends RankBase {
   timestamp: number;
   date: string;
   lastMatchId: string;
+  arenaId: string;
   eventId: string;
 }
 
