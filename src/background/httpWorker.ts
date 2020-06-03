@@ -1,21 +1,15 @@
-import qs from "qs";
-import http, { RequestOptions } from "https";
-import { IncomingMessage } from "http";
+//import http from "https";
+import http from "http";
+import { IncomingMessage, RequestOptions } from "http";
 
 import globals from "./globals";
 import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { IPC_RENDERER, SYNC_PUSH } from "../shared/constants";
 import { setSyncState } from "./httpApi";
+import { HttpMethod, HttpTask } from "./ApiTypes";
 
-const serverAddress = "mtgatool.com";
-
-export interface HttpTask {
-  reqId: string;
-  method: string;
-  method_path: string;
-  [key: string]: string;
-}
+const serverAddress = "127.0.0.1";
 
 export interface HttpTaskCallback {
   (
@@ -58,64 +52,13 @@ export function makeSimpleResponseHandler(
   };
 }
 
-export function getRequestOptions(task: HttpTask): RequestOptions {
-  let options: RequestOptions;
-  switch (task.method) {
-    case "get_database":
-      options = {
-        protocol: "https:",
-        port: 443,
-        hostname: serverAddress,
-        path: "/database/" + task.lang,
-        method: "GET",
-      };
-      // TODO why is this side-effect here?
-      ipcPop({
-        text: "Downloading metadata...",
-        time: 0,
-        progress: 2,
-      });
-      break;
-
-    case "get_ladder_decks":
-      options = {
-        protocol: "https:",
-        port: 443,
-        hostname: serverAddress,
-        path: "/top_ladder.json",
-        method: "GET",
-      };
-      break;
-
-    case "get_ladder_traditional_decks":
-      options = {
-        protocol: "https:",
-        port: 443,
-        hostname: serverAddress,
-        path: "/top_ladder_traditional.json",
-        method: "GET",
-      };
-      break;
-
-    default:
-      options = {
-        protocol: "https:",
-        port: 443,
-        hostname: serverAddress,
-        path: task.method_path ? task.method_path : "/api.php",
-        method: "POST",
-      };
-  }
-  return options;
-}
-
 export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   // list of requests that must always be sent, regardless of privacy settings
-  const nonPrivacyMethods = [
-    "auth",
-    "delete_data",
-    "get_database",
-    "get_database_version",
+  const nonPrivacyMethods: HttpMethod[] = [
+    "authLogin",
+    "clearData",
+    "getDatabase",
+    "getDatabaseVersion",
   ];
   const sendData = globals.store.getState().settings.send_data;
   const offline = globals.store.getState().renderer.offline;
@@ -132,30 +75,36 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     callback(undefined, task, undefined, undefined);
     return;
   }
-  const _headers: any = { ...task };
-  _headers.token = globals.store.getState().appsettings.token;
-  const options = getRequestOptions(task);
-  if (globals.debugNet && task.method !== "notifications") {
-    ipcLog(
-      "SEND >> " + task.method + ", " + _headers.reqId + ", " + _headers.token
-    );
-    console.log("SEND", _headers);
+  const token = globals.store.getState().appsettings.token;
+  const options = {
+    method: "POST",
+    ...task.options,
+    headers: {} as Record<string, string>,
+  } as RequestOptions;
+  if (globals.debugNet) {
+    ipcLog("SEND >> " + task.method + ", " + task.reqId);
+    console.log("SEND", task.method, task.reqId);
   }
   if (
-    task.method == "submit_course" ||
-    task.method == "set_match" ||
-    task.method == "set_draft" ||
-    task.method == "set_economy" ||
-    task.method == "set_seasonal"
+    task.method == "postCourse" ||
+    task.method == "postMatch" ||
+    task.method == "postDraft" ||
+    task.method == "postEconomy" ||
+    task.method == "postSeasonal"
   ) {
     setSyncState(SYNC_PUSH);
   }
-  // console.log("POST", _headers);
-  const postData = qs.stringify(_headers);
+
+  const postData = JSON.stringify(task.data || {});
+  options.hostname = serverAddress;
+  options.path = task.method_path;
   options.headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Type": "application/json; charset=utf-8",
     "Content-Length": postData.length,
   };
+  if (token !== "") {
+    options.headers["access-token"] = token;
+  }
   let results = "";
   const req = http.request(options, function (res: IncomingMessage) {
     if (res.statusCode && (res.statusCode < 200 || res.statusCode > 299)) {
@@ -168,13 +117,13 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
       });
       res.on("end", function () {
         try {
-          if (globals.debugNet && task.method !== "notifications") {
+          if (globals.debugNet) {
             ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
             console.log("RECV", results);
           }
           const parsedResult = JSON.parse(results);
           // TODO remove this hack for get_database_version
-          if (parsedResult && task.method === "get_database_version") {
+          if (parsedResult && task.method === "getDatabaseVersion") {
             parsedResult.ok = true;
           }
           if (parsedResult && parsedResult.ok) {

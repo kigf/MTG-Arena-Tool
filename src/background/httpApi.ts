@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
-import electron from "electron";
 import async from "async";
 
 import makeId from "../shared/utils/makeId";
@@ -12,7 +11,6 @@ import { ipcSend } from "./backgroundUtil";
 import { loadPlayerConfig, syncSettings } from "./loadPlayerConfig";
 import {
   asyncWorker,
-  HttpTask,
   handleError,
   ipcLog,
   ipcPop,
@@ -41,6 +39,13 @@ import {
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { InternalMatch } from "../types/match";
+import { HttpTask } from "./ApiTypes";
+import { InternalEvent } from "../types/event";
+import { InternalEconomyTransaction } from "../types/inventory";
+import { InternalDraft } from "../types/draft";
+import { InternalDeck } from "../types/Deck";
+import { SeasonalRankData } from "../types/Season";
+import { ExploreQuery } from "../shared/redux/slices/exploreSlice";
 
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
   globals.httpQueue = async.queue(asyncWorker);
@@ -196,55 +201,6 @@ function syncUserData(data: any): void {
   finishSync();
 }
 
-function handleNotificationsResponse(
-  error?: Error | null,
-  _task?: HttpTask,
-  _results?: string,
-  parsedResult?: any
-): void {
-  // TODO Here we should probably do some "smarter" pull
-  // Like, check if arena is open at all, if we are in a tourney, if we
-  // just submitted some data that requires notification pull, etc
-  // Based on that adjust the timeout for the next pull.
-  //setTimeout(httpNotificationsPull, 10000);
-
-  if (error) {
-    handleError(error);
-    return;
-  }
-
-  if (!parsedResult || !parsedResult.notifications) return;
-  parsedResult.notifications.forEach((str: any) => {
-    console.log("notifications message:", str);
-    if (typeof str == "string") {
-      //console.log("Notification string:", str);
-      new Notification("MTG Arena Tool", {
-        body: str,
-      });
-    } else if (typeof str == "object") {
-      if (str.task) {
-        if (str.task == "sync") {
-          syncUserData(str.value);
-        } else {
-          ipcSend(str.task, str.value);
-        }
-      }
-    }
-  });
-}
-
-export function httpNotificationsPull(): void {
-  const _id = makeId(6);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "notifications",
-      method_path: "/api/pull.php",
-    },
-    handleNotificationsResponse
-  );
-}
-
 function handlePush(toPush: SyncIds): void {
   reduxAction(
     globals.store.dispatch,
@@ -333,9 +289,9 @@ export function httpSyncRequest(data: SyncRequestData): void {
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "get_sync",
+      method: "getSync",
       method_path: "/api/get_sync.php",
-      data: JSON.stringify(data),
+      data,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       syncUserData(parsedResult.data);
@@ -439,25 +395,26 @@ function handleAuthResponse(
     } else {
       ipcLog("No need to fetch remote player items.");
     }
-    //httpNotificationsPull();
   });
 }
 
 export function httpAuth(userName: string, pass: string): void {
   const _id = makeId(6);
-  const playerData = globals.store.getState().playerdata;
+  //const playerData = globals.store.getState().playerdata;
   setSyncState(SYNC_CHECK);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "auth",
-      method_path: "/api/login.php",
-      email: userName,
-      password: pass,
-      playerid: playerData.arenaId,
-      playername: encodeURIComponent(playerData.playerName),
-      mtgaversion: playerData.arenaVersion,
-      version: electron.remote.app.getVersion(),
+      method: "authLogin",
+      method_path: "/auth/login",
+      data: {
+        email: userName,
+        password: pass,
+      },
+      //playerid: playerData.arenaId,
+      //playername: encodeURIComponent(playerData.playerName),
+      //mtgaversion: playerData.arenaVersion,
+      //version: electron.remote.app.getVersion(),
     },
     handleAuthResponse
   );
@@ -467,18 +424,15 @@ function handleSetDataResponse(
   error?: Error | null,
   task?: HttpTask,
   _results?: string,
-  parsedResult?: any
+  _parsedResult?: any
 ): void {
-  const mongoDbDuplicateKeyErrorCode = 11000;
   finishSync();
-  // duplicate key is idempotent success case, don't count it as error
-  if (parsedResult?.error !== mongoDbDuplicateKeyErrorCode && error) {
-    // handle all other errors
+  if (error) {
     handleError(error);
     return;
   }
-  if (task && task.match) {
-    const match: InternalMatch = JSON.parse(task.match);
+  if (task && task.method == "postMatch") {
+    const match: InternalMatch = task.data;
     match.lastPushedDate = new Date().toISOString();
     reduxAction(
       globals.store.dispatch,
@@ -489,80 +443,41 @@ function handleSetDataResponse(
   }
 }
 
-export function httpSubmitCourse(course: any): void {
+export function httpSubmitCourse(course: InternalEvent): void {
   const _id = makeId(6);
   const anon = globals.store.getState().settings.anon_explore;
   if (anon == true) {
-    course.PlayerId = "000000000000000";
-    course.PlayerName = "Anonymous";
+    course.arenaId = "Anonymous";
   }
 
-  const playerData = globals.store.getState().playerdata;
-  course.playerRank = playerData.rank.limited.rank;
-  course = JSON.stringify(course);
+  //const playerData = globals.store.getState().playerdata;
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "submit_course",
-      method_path: "/api/send_course.php",
-      course: course,
+      method: "postCourse",
+      method_path: "/courses/" + course.id,
+      data: course,
     },
     handleSetDataResponse
   );
 }
 
-export function httpGetExplore(query: any): void {
+export function httpGetExplore(query: ExploreQuery): void {
   const _id = makeId(6);
   const playerData = globals.store.getState().playerdata;
   globals.httpQueue?.unshift(
     {
       reqId: _id,
-      method: "get_explore",
-      method_path: "/api/get_explore_v2.php",
-      filter_wcc: query.filterWCC,
-      filter_wcu: query.filterWCU,
-      filter_wcr: query.filterWCR,
-      filter_wcm: query.filterWCM,
-      filter_owned: query.onlyOwned,
-      filter_type: query.filterType,
-      filter_event: query.filterEvent,
-      filter_sort: query.filterSort,
-      filter_sortdir: query.filterSortDir,
-      filter_mana: query.filteredMana,
-      filter_ranks: query.filteredRanks,
-      filter_skip: query.filterSkip,
+      method: "getExplore",
+      method_path: "/explore",
+      ...query,
       collection: JSON.stringify(playerData.cards.cards),
+      options: {
+        method: "GET",
+      },
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_explore_decks", parsedResult);
-    })
-  );
-}
-
-export function httpGetTopLadderDecks(): void {
-  const _id = makeId(6);
-  globals.httpQueue?.unshift(
-    {
-      reqId: _id,
-      method: "get_ladder_decks",
-      method_path: "/top_ladder.json",
-    },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      ipcSend("set_ladder_decks", parsedResult);
-    })
-  );
-}
-
-export function httpGetTopLadderTraditionalDecks(): void {
-  const _id = makeId(6);
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "get_ladder_traditional_decks",
-      method_path: "/top_ladder_traditional.json",
-    },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      ipcSend("set_ladder_traditional_decks", parsedResult);
     })
   );
 }
@@ -572,9 +487,11 @@ export function httpGetCourse(courseId: string): void {
   globals.httpQueue?.unshift(
     {
       reqId: _id,
-      method: "get_course",
-      method_path: "/api/get_course.php",
-      courseid: courseId,
+      method: "getCourse",
+      method_path: "/courses/" + courseId,
+      options: {
+        method: "GET",
+      },
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("open_course_deck", parsedResult.result);
@@ -587,60 +504,55 @@ export function httpSetMatch(match: InternalMatch): void {
   const anon = globals.store.getState().settings.anon_explore;
   const privateDecks = globals.store.getState().decks.privateDecks;
   if (anon == true) {
-    match.player.userid = "000000000000000";
-    match.player.name = "Anonymous";
+    match.arenaId = "Anonymous";
   }
   if (privateDecks.indexOf(match.playerDeck.id) == -1) {
-    const matchStr = JSON.stringify(match);
     globals.httpQueue?.push(
       {
         reqId: _id,
-        method: "set_match",
-        method_path: "/api/send_match.php",
-        match: matchStr,
+        method: "postMatch",
+        method_path: "/matches/" + match.id,
+        data: match,
       },
       handleSetDataResponse
     );
   }
 }
 
-export function httpSetDraft(draft: any): void {
+export function httpSetDraft(draft: InternalDraft): void {
   const _id = makeId(6);
-  draft = JSON.stringify(draft);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "set_draft",
-      method_path: "/api/send_draft.php",
-      draft: draft,
+      method: "postDraft",
+      method_path: "/drafts/" + draft.id,
+      data: draft,
     },
     handleSetDataResponse
   );
 }
 
-export function httpSetEconomy(change: any): void {
+export function httpSetEconomy(change: InternalEconomyTransaction): void {
   const _id = makeId(6);
-  change = JSON.stringify(change);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "set_economy",
-      method_path: "/api/send_economy.php",
-      change: change,
+      method: "postEconomy",
+      method_path: "/economy/" + change.id,
+      data: change,
     },
     handleSetDataResponse
   );
 }
 
-export function httpSetSeasonal(change: any): void {
+export function httpSetSeasonal(change: SeasonalRankData): void {
   const _id = makeId(6);
-  change = JSON.stringify(change);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "set_seasonal",
-      method_path: "/api/send_seasonal.php",
-      change: change,
+      method: "postSeasonal",
+      method_path: "/seasonal/" + change.id,
+      data: change,
     },
     handleSetDataResponse
   );
@@ -648,13 +560,12 @@ export function httpSetSeasonal(change: any): void {
 
 export function httpSetSettings(settings: any): void {
   const _id = makeId(6);
-  settings = JSON.stringify(settings);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "set_settings",
-      method_path: "/api/send_settings.php",
-      settings: settings,
+      method: "postSettings",
+      method_path: "/user/settings",
+      data: settings,
     },
     handleSetDataResponse
   );
@@ -665,8 +576,8 @@ export function httpDeleteData(): void {
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "delete_data",
-      method_path: "/api/delete_data.php",
+      method: "clearData",
+      method_path: "/user/clear",
     },
     makeSimpleResponseHandler()
   );
@@ -696,9 +607,12 @@ export function httpGetDatabase(lang: string): void {
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "get_database",
+      method: "getDatabase",
       method_path: "/database/" + lang,
       lang: lang,
+      options: {
+        method: "GET",
+      },
     },
     handleGetDatabaseResponse
   );
@@ -709,8 +623,11 @@ export function httpGetDatabaseVersion(lang: string): void {
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "get_database_version",
+      method: "getDatabaseVersion",
       method_path: "/database/latest/" + lang,
+      options: {
+        method: "GET",
+      },
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       const lang = globals.store.getState().appsettings.metadataLang;
@@ -751,18 +668,20 @@ export function httpGetDatabaseVersion(lang: string): void {
 
 export function httpDraftShareLink(
   did: string,
-  exp: any,
-  draftData: any
+  exp: number,
+  draftData: InternalDraft
 ): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "share_draft",
-      method_path: "/api/get_share_draft.php",
-      id: did,
-      draft: draftData,
-      expire: exp,
+      method: "shareDraft",
+      method_path: "/share/draft",
+      data: {
+        id: did,
+        draft: draftData,
+        expire: exp,
+      },
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_draft_link", parsedResult.url);
@@ -770,16 +689,18 @@ export function httpDraftShareLink(
   );
 }
 
-export function httpLogShareLink(lid: string, log: any, exp: any): void {
+export function httpLogShareLink(lid: string, log: string, exp: number): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "share_log",
-      method_path: "/api/get_share_log.php",
-      id: lid,
-      log: log,
-      expire: exp,
+      method: "shareLog",
+      method_path: "/share/log",
+      data: {
+        id: lid,
+        log: log,
+        expire: exp,
+      },
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_log_link", parsedResult.url);
@@ -787,15 +708,17 @@ export function httpLogShareLink(lid: string, log: any, exp: any): void {
   );
 }
 
-export function httpDeckShareLink(deck: any, exp: any): void {
+export function httpDeckShareLink(deck: InternalDeck, exp: number): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "share_deck",
-      method_path: "/api/get_share_deck.php",
-      deck: deck,
-      expire: exp,
+      method: "shareDeck",
+      method_path: "/share/deck",
+      data: {
+        deck: deck,
+        expire: exp,
+      },
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_deck_link", parsedResult.url);
@@ -808,9 +731,9 @@ export function httpHomeGet(set: string): void {
   globals.httpQueue?.unshift(
     {
       reqId: _id,
-      method: "home_get",
+      method: "getHome",
+      method_path: "/home",
       set: set,
-      method_path: "/api/get_home.php",
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_home", parsedResult);
@@ -823,36 +746,12 @@ export function httpSetMythicRank(opp: string, rank: string): void {
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "mythicrank",
+      method: "postMythicRank",
       method_path: "/api/send_mythic_rank.php",
-      opp: opp,
-      rank: rank,
-    },
-    handleSetDataResponse
-  );
-}
-
-export function httpSetDeckTag(
-  tag: string,
-  deck: any, // TODO should be RawArenaDeck
-  format: string
-): void {
-  const _id = makeId(6);
-  // TODO what is this hack?
-  const cards = deck.mainDeck.map((card: any) => {
-    return {
-      ...card,
-      quantity: 1,
-    };
-  });
-  globals.httpQueue?.push(
-    {
-      reqId: _id,
-      method: "set_deck_tag",
-      method_path: "/api/send_deck_tag.php",
-      tag: tag,
-      cards: JSON.stringify(cards),
-      format: format,
+      data: {
+        opp: opp,
+        rank: rank,
+      },
     },
     handleSetDataResponse
   );

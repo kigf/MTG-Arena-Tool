@@ -143,7 +143,7 @@ ipc.on("start_background", async function () {
 
   // start http
   httpApi.initHttpQueue();
-  httpApi.httpGetDatabaseVersion(appSettings.metadataLang);
+  //httpApi.httpGetDatabaseVersion(appSettings.metadataLang);
   ipcSend("ipc_log", `Downloading metadata ${appSettings.metadataLang}`);
 });
 
@@ -344,7 +344,6 @@ ipc.on("add_matches_tag", (_event, arg) => {
     IPC_RENDERER
   );
   playerDb.upsert(matchid, "tags", tags);
-  httpApi.httpSetDeckTag(tag, match.oppDeck, match.eventId);
 });
 
 ipc.on("set_odds_samplesize", function (_event, state) {
