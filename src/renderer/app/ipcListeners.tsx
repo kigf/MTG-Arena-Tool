@@ -78,7 +78,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
             type: "SET_PATREON",
             arg: {
               patreon: arg.patreon,
-              patreonTier: arg.patreon_tier,
+              patreonTier: arg.patreonTier,
             },
           },
           IPC_NONE

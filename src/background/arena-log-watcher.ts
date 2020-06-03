@@ -25,6 +25,7 @@ import {
 import updateDeck from "./updateDeck";
 import globals from "./globals";
 import { reduxAction } from "../shared/redux/sharedRedux";
+import { httpSyncRequest } from "./httpApi";
 
 const debugLogSpeed = 0.001;
 let logReadEnd = null;
@@ -433,7 +434,7 @@ function finishLoading(): void {
       { type: "SET_LOGIN_STATE", arg: LOGIN_OK },
       IPC_RENDERER
     );
-
+    httpSyncRequest();
     ipcSend("popup", {
       text: "Initialized successfully!",
       time: 3000,

@@ -24,7 +24,7 @@ export default function RankUpdated(entry: Entry): void {
   const newJson: SeasonalRankData = {
     ...json,
     owner,
-    player: playerData.playerName,
+    arenaId: playerData.playerName,
     id: entry.hash,
     //date: globals.logTime.toISOString(),
     timestamp: globals.logTime.getTime(),

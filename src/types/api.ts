@@ -22,21 +22,20 @@ export interface ExploreQuery {
   filterSkip: number;
 }
 
-export interface SyncRequestData {
-  arenaId: string;
-  courses?: any[];
-  matches?: any[];
-  drafts?: any[];
-  economy?: any[];
-  seasonal?: any[];
-}
-
 export interface SyncIds {
   courses: string[];
   matches: string[];
   drafts: string[];
   economy: string[];
   seasonal: string[];
+}
+
+export interface SyncRequestData extends SyncIds {
+  arenaId: string;
+}
+
+export interface ArenaIdData {
+  arenaid: string;
 }
 
 export type HttpMethod =
@@ -52,6 +51,11 @@ export type HttpMethod =
   | "getEconomy"
   | "getSeasonal"
   | "getDraft"
+  | "getBulkCourse"
+  | "getBulkMatch"
+  | "getBulkEconomy"
+  | "getBulkSeasonal"
+  | "getBulkDraft"
   | "postSettings"
   | "clearData"
   | "getDatabase"
@@ -79,9 +83,34 @@ export interface HttpLogin extends BaseHttpTask {
   };
 }
 
+interface BulkResponse {
+  page: number;
+  ids: string[];
+}
+
+export interface BulkCourses extends BulkResponse {
+  result: InternalEvent[];
+}
+
+export interface BulkMatches extends BulkResponse {
+  result: InternalMatch[];
+}
+
+export interface BulkDrafts extends BulkResponse {
+  result: InternalDraft[];
+}
+
+export interface BulkEconomy extends BulkResponse {
+  result: InternalEconomyTransaction[];
+}
+
+export interface BulkSeasonal extends BulkResponse {
+  result: SeasonalRankData[];
+}
+
 export interface HttpGetSync extends BaseHttpTask {
   method: "getSync";
-  data: SyncRequestData;
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpPostCourse extends BaseHttpTask {
@@ -131,6 +160,31 @@ export interface HttpGetSeasonal extends BaseHttpTask {
 
 export interface HttpGetDraft extends BaseHttpTask {
   method: "getDraft";
+  options: RequestOptions & { method: "GET" };
+}
+
+export interface HttpGetBulkCourse extends BaseHttpTask {
+  method: "getBulkCourse";
+  options: RequestOptions & { method: "GET" };
+}
+
+export interface HttpGetBulkMatch extends BaseHttpTask {
+  method: "getBulkMatch";
+  options: RequestOptions & { method: "GET" };
+}
+
+export interface HttpGetBulkEconomy extends BaseHttpTask {
+  method: "getBulkEconomy";
+  options: RequestOptions & { method: "GET" };
+}
+
+export interface HttpGetBulkSeasonal extends BaseHttpTask {
+  method: "getBulkSeasonal";
+  options: RequestOptions & { method: "GET" };
+}
+
+export interface HttpGetBulkDraft extends BaseHttpTask {
+  method: "getBulkDraft";
   options: RequestOptions & { method: "GET" };
 }
 
@@ -213,6 +267,11 @@ export type HttpTask =
   | HttpGetEconomy
   | HttpGetSeasonal
   | HttpGetDraft
+  | HttpGetBulkCourse
+  | HttpGetBulkMatch
+  | HttpGetBulkEconomy
+  | HttpGetBulkSeasonal
+  | HttpGetBulkDraft
   | HttpPostSettings
   | HttpClearData
   | HttpGetDatabase

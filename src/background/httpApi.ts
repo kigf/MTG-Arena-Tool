@@ -39,7 +39,17 @@ import {
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { InternalMatch } from "../types/match";
-import { HttpTask, SyncRequestData, SyncIds, ExploreQuery } from "../types/api";
+import {
+  HttpTask,
+  SyncRequestData,
+  SyncIds,
+  ExploreQuery,
+  BulkCourses,
+  BulkMatches,
+  BulkDrafts,
+  BulkEconomy,
+  BulkSeasonal,
+} from "../types/api";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import { InternalDraft } from "../types/draft";
@@ -84,12 +94,10 @@ export function finishSync(): void {
   }
 }
 
-function syncUserData(data: any): void {
-  //console.log("syncUserData: ", data);
-  // Sync Events
+function saveCourses(data: InternalEvent[]): void {
   const courses_index = [...globals.store.getState().events.eventsIndex];
-  const coursesList = data.courses
-    .filter((doc: any) => !eventExists(doc._id))
+  data
+    .filter((doc: InternalEvent) => !eventExists(doc.id))
     .map((doc: any) => {
       const id = doc._id;
       doc.id = id;
@@ -101,15 +109,17 @@ function syncUserData(data: any): void {
     });
   reduxAction(
     globals.store.dispatch,
-    { type: "SET_MANY_EVENTS", arg: coursesList },
+    { type: "SET_MANY_EVENTS", arg: data },
     IPC_RENDERER
   );
   playerDb.upsert("", "courses_index", courses_index);
+}
 
+function saveMatches(data: InternalMatch[]): void {
   // Sync Matches (updated)
   const matches_index = [...globals.store.getState().matches.matchesIndex];
-  const matchesList = data.matches
-    .filter((doc: any) => !matchExists(doc._id))
+  data
+    .filter((doc: any) => !matchExists(doc.id))
     .map((doc: any) => {
       const id = doc._id;
       doc.id = id;
@@ -120,14 +130,36 @@ function syncUserData(data: any): void {
     });
   reduxAction(
     globals.store.dispatch,
-    { type: "SET_MANY_MATCHES", arg: matchesList },
+    { type: "SET_MANY_MATCHES", arg: data },
     IPC_RENDERER
   );
   playerDb.upsert("", "matches_index", matches_index);
+}
 
-  // Sync Economy
+function saveDrafts(data: InternalDraft[]): void {
+  const draft_index = [...globals.store.getState().drafts.draftsIndex];
+  data
+    .filter((doc: any) => !draftExists(doc._id))
+    .map((doc: any) => {
+      const id = doc._id;
+      doc.id = id;
+      delete doc._id;
+      playerDb.upsert("", id, doc);
+      draft_index.push(id);
+      return doc;
+    });
+
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_MANY_DRAFT", arg: data },
+    IPC_RENDERER
+  );
+  playerDb.upsert("", "draft_index", draft_index);
+}
+
+function saveEconomy(data: InternalEconomyTransaction[]): void {
   const economy_index = [...globals.store.getState().economy.economyIndex];
-  const transactionsList = data.economy
+  data
     .filter((doc: any) => !transactionExists(doc._id))
     .map((doc: any) => {
       const id = doc._id;
@@ -142,41 +174,19 @@ function syncUserData(data: any): void {
     });
   reduxAction(
     globals.store.dispatch,
-    { type: "SET_MANY_ECONOMY", arg: transactionsList },
+    { type: "SET_MANY_ECONOMY", arg: data },
     IPC_RENDERER
   );
   playerDb.upsert("", "economy_index", economy_index);
+}
 
-  // Sync Drafts
-  const draft_index = [...globals.store.getState().drafts.draftsIndex];
-  const draftsList = data.drafts
-    .filter((doc: any) => !draftExists(doc._id))
-    .map((doc: any) => {
-      const id = doc._id;
-      doc.id = id;
-      delete doc._id;
-      playerDb.upsert("", id, doc);
-      draft_index.push(id);
-      return doc;
-    });
-
-  reduxAction(
-    globals.store.dispatch,
-    { type: "SET_MANY_DRAFT", arg: draftsList },
-    IPC_RENDERER
-  );
-  playerDb.upsert("", "draft_index", draft_index);
-
-  // Sync seasonal
+function saveSeasonal(data: SeasonalRankData[]): void {
   const newSeasonal = [...seasonalList()];
-  const seasonalAdd = data.seasonal.map((doc: any) => {
-    const id = doc._id;
-    doc.id = id;
-    delete doc._id;
+  const seasonalAdd = data.map((doc: SeasonalRankData) => {
     // This was my problem!
     doc.timestamp = doc.timestamp * 1000;
     newSeasonal.push(doc);
-    playerDb.upsert("seasonal", id, doc);
+    playerDb.upsert("seasonal", doc.id, doc);
     return doc;
   });
 
@@ -184,10 +194,16 @@ function syncUserData(data: any): void {
 
   reduxAction(
     globals.store.dispatch,
-    { type: "SET_MANY_SEASONAL", arg: seasonalAdd },
+    {
+      type: "SET_MANY_SEASONAL",
+      arg: seasonalAdd,
+    },
     IPC_RENDERER
   );
+}
 
+/*
+function syncUserData(data: any): void {
   if (data.settings.tags_colors) {
     const newTags = data.settings.tags_colors;
     reduxAction(
@@ -200,6 +216,7 @@ function syncUserData(data: any): void {
 
   finishSync();
 }
+*/
 
 function handlePush(toPush: SyncIds): void {
   reduxAction(
@@ -220,7 +237,112 @@ function handlePush(toPush: SyncIds): void {
   }
 }
 
-function handleSync(syncIds: SyncIds): void {
+function httpGetCoursesBulk(page: number, ids: string[]): void {
+  setSyncState(SYNC_FETCH);
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "getBulkCourse",
+      method_path: `/courses/bulk?page=${page}&id=${ids.join("&id=")}`,
+      options: {
+        method: "GET",
+      },
+    },
+    makeSimpleResponseHandler((parsedResult: BulkCourses) => {
+      saveCourses(parsedResult.result);
+      if (parsedResult.result.length == 20) {
+        httpGetCoursesBulk(parsedResult.page + 1, parsedResult.ids);
+      }
+    })
+  );
+}
+
+function httpGetMatchesBulk(page: number, ids: string[]): void {
+  setSyncState(SYNC_FETCH);
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "getBulkMatch",
+      method_path: `/matches/bulk?page=${page}&id=${ids.join("&id=")}`,
+      options: {
+        method: "GET",
+      },
+    },
+    makeSimpleResponseHandler((parsedResult: BulkMatches) => {
+      saveMatches(parsedResult.result);
+      if (parsedResult.result.length == 20) {
+        httpGetMatchesBulk(parsedResult.page + 1, parsedResult.ids);
+      }
+    })
+  );
+}
+
+function httpGetDraftsBulk(page: number, ids: string[]): void {
+  setSyncState(SYNC_FETCH);
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "getBulkDraft",
+      method_path: `/drafts/bulk?page=${page}&id=${ids.join("&id=")}`,
+      options: {
+        method: "GET",
+      },
+    },
+    makeSimpleResponseHandler((parsedResult: BulkDrafts) => {
+      saveDrafts(parsedResult.result);
+      if (parsedResult.result.length == 20) {
+        httpGetDraftsBulk(parsedResult.page + 1, parsedResult.ids);
+      }
+    })
+  );
+}
+
+function httpGetEconomyBulk(page: number, ids: string[]): void {
+  setSyncState(SYNC_FETCH);
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "getBulkEconomy",
+      method_path: `/economies/bulk?page=${page}&id=${ids.join("&id=")}`,
+      options: {
+        method: "GET",
+      },
+    },
+    makeSimpleResponseHandler((parsedResult: BulkEconomy) => {
+      saveEconomy(parsedResult.result);
+      if (parsedResult.result.length == 20) {
+        httpGetEconomyBulk(parsedResult.page + 1, parsedResult.ids);
+      }
+    })
+  );
+}
+
+function httpGetSeasonalBulk(page: number, ids: string[]): void {
+  setSyncState(SYNC_FETCH);
+  const _id = makeId(6);
+  globals.httpQueue?.push(
+    {
+      reqId: _id,
+      method: "getBulkSeasonal",
+      method_path: `/seasonals/bulk?page=${page}&id=${ids.join("&id=")}`,
+      options: {
+        method: "GET",
+      },
+    },
+    makeSimpleResponseHandler((parsedResult: BulkSeasonal) => {
+      saveSeasonal(parsedResult.result);
+      if (parsedResult.result.length == 20) {
+        httpGetSeasonalBulk(parsedResult.page + 1, parsedResult.ids);
+      }
+    })
+  );
+}
+
+function handlePushSync(syncIds: SyncIds): void {
   const { privateDecks } = globals.store.getState().decks;
   const toPush: SyncIds = {
     courses: Object.keys(globalStore.events).filter(
@@ -244,7 +366,7 @@ function handleSync(syncIds: SyncIds): void {
   };
   handlePush(toPush);
 }
-
+/*
 function handleRePushLostMatchData(): void {
   const shufflerDataCollectionStart = "2019-01-28T00:00:00.000Z";
   const dataLostEnd = "2019-05-01T00:00:00.000Z";
@@ -266,19 +388,53 @@ function handleRePushLostMatchData(): void {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   httpSyncPush();
 }
+*/
 
-export function httpSyncRequest(data: SyncRequestData): void {
+function handleSyncRequest(sync: SyncRequestData): void {
+  ipcLog("Handle Sync request response");
+
+  const gs = globalStore;
+  const toGetSync = {
+    courses: sync.courses.filter((id) => !(id in gs.events)) || [],
+    matches: sync.matches.filter((id) => !(id in gs.matches)) || [],
+    drafts: sync.drafts.filter((id) => !(id in gs.drafts)) || [],
+    economy: sync.economy.filter((id) => !(id in gs.transactions)) || [],
+    seasonal: sync.seasonal.filter((id) => !(id in gs.seasonal)) || [],
+  };
+
+  const total =
+    toGetSync.courses.length +
+    toGetSync.matches.length +
+    toGetSync.drafts.length +
+    toGetSync.economy.length +
+    toGetSync.seasonal.length;
+  ipcLog(`Got ${total} remote documents to pull.`);
+
+  toGetSync.courses.length > 0 && httpGetCoursesBulk(0, toGetSync.courses);
+  toGetSync.matches.length > 0 && httpGetMatchesBulk(0, toGetSync.matches);
+  toGetSync.drafts.length > 0 && httpGetDraftsBulk(0, toGetSync.drafts);
+  toGetSync.economy.length > 0 && httpGetEconomyBulk(0, toGetSync.economy);
+  toGetSync.seasonal.length > 0 && httpGetSeasonalBulk(0, toGetSync.seasonal);
+
+  handlePushSync(sync);
+}
+
+export function httpSyncRequest(): void {
   setSyncState(SYNC_FETCH);
   const _id = makeId(6);
+  const arenaId = globals.store.getState().playerdata.playerName;
+  ipcLog("Begin Sync request");
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "getSync",
-      method_path: "/api/get_sync.php",
-      data,
+      method_path: "/user/sync?arenaid=" + encodeURIComponent(arenaId),
+      options: {
+        method: "GET",
+      },
     },
-    makeSimpleResponseHandler((parsedResult: any) => {
-      syncUserData(parsedResult.data);
+    makeSimpleResponseHandler((parsedResult: SyncRequestData) => {
+      handleSyncRequest(parsedResult);
     })
   );
 }
@@ -333,54 +489,9 @@ function handleAuthResponse(
   }
   const data: any = {};
   data.patreon = parsedResult.patreon;
-  data.patreon_tier = parsedResult.patreon_tier;
+  data.patreonTier = parsedResult.patreonTier;
 
-  const serverData: SyncIds = {
-    matches: [],
-    courses: [],
-    drafts: [],
-    economy: [],
-    seasonal: [],
-  };
-
-  if (parsedResult && data.patreon) {
-    serverData.matches = parsedResult.matches;
-    serverData.courses = parsedResult.courses;
-    serverData.drafts = parsedResult.drafts;
-    serverData.economy = parsedResult.economy;
-    serverData.seasonal = parsedResult.seasonal;
-  }
-
-  loadPlayerConfig().then(() => {
-    ipcLog("...called back to http-api.");
-    ipcLog("Checking local data without remote copies");
-    if (parsedResult && data.patreon) {
-      handleSync(parsedResult);
-    } else {
-      handleRePushLostMatchData();
-    }
-    ipcLog("Checking for sync requests...");
-    const requestSync = {
-      arenaId: globals.store.getState().playerdata.playerName,
-      courses: serverData.courses.filter((id) => !(id in globalStore.events)),
-      matches: serverData.matches.filter((id) => !(id in globalStore.matches)),
-      drafts: serverData.drafts.filter((id) => !(id in globalStore.drafts)),
-      economy: serverData.economy.filter(
-        (id) => !(id in globalStore.transactions)
-      ),
-      seasonal: serverData.seasonal.filter(
-        (id) => !(id in globalStore.seasonal)
-      ),
-    };
-
-    if (requestSync) {
-      ipcLog("Fetch remote player items");
-      // console.log(requestSync);
-      httpSyncRequest(requestSync);
-    } else {
-      ipcLog("No need to fetch remote player items.");
-    }
-  });
+  loadPlayerConfig();
 }
 
 export function httpAuth(userName: string, pass: string): void {
@@ -396,10 +507,6 @@ export function httpAuth(userName: string, pass: string): void {
         email: userName,
         password: pass,
       },
-      //playerid: playerData.arenaId,
-      //playername: encodeURIComponent(playerData.playerName),
-      //mtgaversion: playerData.arenaVersion,
-      //version: electron.remote.app.getVersion(),
     },
     handleAuthResponse
   );
@@ -431,9 +538,10 @@ function handleSetDataResponse(
 export function httpSubmitCourse(course: InternalEvent): void {
   const _id = makeId(6);
   const anon = globals.store.getState().settings.anon_explore;
-  if (anon == true) {
-    course.arenaId = "Anonymous";
-  }
+  course.arenaId =
+    anon == true
+      ? "Anonymous"
+      : course.arenaId || globals.store.getState().playerdata.playerName;
 
   //const playerData = globals.store.getState().playerdata;
   globals.httpQueue?.push(
@@ -469,6 +577,7 @@ export function httpGetExplore(query: ExploreQuery): void {
 
 export function httpGetCourse(courseId: string): void {
   const _id = makeId(6);
+  
   globals.httpQueue?.unshift(
     {
       reqId: _id,
@@ -486,11 +595,12 @@ export function httpGetCourse(courseId: string): void {
 
 export function httpSetMatch(match: InternalMatch): void {
   const _id = makeId(6);
-  const anon = globals.store.getState().settings.anon_explore;
   const privateDecks = globals.store.getState().decks.privateDecks;
-  if (anon == true) {
-    match.arenaId = "Anonymous";
-  }
+  const anon = globals.store.getState().settings.anon_explore;
+  match.arenaId =
+    anon == true
+      ? "Anonymous"
+      : match.arenaId || globals.store.getState().playerdata.playerName;
   if (privateDecks.indexOf(match.playerDeck.id) == -1) {
     globals.httpQueue?.push(
       {
@@ -506,6 +616,11 @@ export function httpSetMatch(match: InternalMatch): void {
 
 export function httpSetDraft(draft: InternalDraft): void {
   const _id = makeId(6);
+  const anon = globals.store.getState().settings.anon_explore;
+  draft.arenaId =
+    anon == true
+      ? "Anonymous"
+      : draft.arenaId || globals.store.getState().playerdata.playerName;
   globals.httpQueue?.push(
     {
       reqId: _id,
@@ -519,11 +634,16 @@ export function httpSetDraft(draft: InternalDraft): void {
 
 export function httpSetEconomy(change: InternalEconomyTransaction): void {
   const _id = makeId(6);
+  const anon = globals.store.getState().settings.anon_explore;
+  change.arenaId =
+    anon == true
+      ? "Anonymous"
+      : change.arenaId || globals.store.getState().playerdata.playerName;
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "postEconomy",
-      method_path: "/economy/" + change.id,
+      method_path: "/economies/" + change.id,
       data: change,
     },
     handleSetDataResponse
@@ -532,11 +652,16 @@ export function httpSetEconomy(change: InternalEconomyTransaction): void {
 
 export function httpSetSeasonal(change: SeasonalRankData): void {
   const _id = makeId(6);
+  const anon = globals.store.getState().settings.anon_explore;
+  change.arenaId =
+    anon == true
+      ? "Anonymous"
+      : change.arenaId || globals.store.getState().playerdata.playerName;
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "postSeasonal",
-      method_path: "/seasonal/" + change.id,
+      method_path: "/seasonals/" + change.id,
       data: change,
     },
     handleSetDataResponse
@@ -558,11 +683,12 @@ export function httpSetSettings(settings: SettingsData): void {
 
 export function httpDeleteData(): void {
   const _id = makeId(6);
+  const arenaId = globals.store.getState().playerdata.playerName;
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "clearData",
-      method_path: "/user/clear",
+      method_path: "/user/clear?arenaid=" + encodeURIComponent(arenaId),
       options: {
         method: "DELETE",
       },

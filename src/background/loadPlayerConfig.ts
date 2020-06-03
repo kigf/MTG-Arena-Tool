@@ -221,7 +221,9 @@ export async function loadPlayerConfig(): Promise<void> {
     const newSeasonal = { ...savedData.seasonal };
     const seasonalAdd = Object.keys(newSeasonal)
       .map((id: string) => {
-        const update = savedData.seasonal[id] as any;
+        const update = savedData.seasonal[id] as SeasonalRankData & {
+          timestamp: any;
+        };
         // Ugh.. some timestamps are stored as Date and string!
         if (typeof update.timestamp == "string") {
           update.timestamp = new Date(update.timestamp).getTime();
@@ -229,12 +231,9 @@ export async function loadPlayerConfig(): Promise<void> {
         if (update.timestamp instanceof Date) {
           update.timestamp = update.timestamp.getTime();
         }
-        return update;
+        return update as SeasonalRankData;
       })
-      .filter((update: any) => update?.rankUpdateType) as Record<
-      number,
-      SeasonalRankData
-    >;
+      .filter((update) => update?.rankUpdateType);
     reduxAction(
       globals.store.dispatch,
       { type: "SET_MANY_SEASONAL", arg: seasonalAdd },

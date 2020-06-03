@@ -43,6 +43,7 @@ export function makeSimpleResponseHandler(
     parsedResult?: any
   ): void {
     if (error) {
+      console.log(parsedResult);
       handleError(error);
       return;
     }
@@ -83,7 +84,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   } as RequestOptions;
   if (globals.debugNet) {
     ipcLog("SEND >> " + task.method + ", " + task.reqId);
-    console.log("SEND", task.method, task.reqId);
+    console.log("SEND", task.method, task.method_path, task.data);
   }
   if (
     task.method == "postCourse" ||

@@ -29,11 +29,10 @@ const seasonalSlice = createSlice({
     },
     setManySeasonal: (
       state: Seasonal,
-      action: PayloadAction<Record<string, SeasonalRankData>>
+      action: PayloadAction<SeasonalRankData[]>
     ): void => {
       const newSeasonal = { ...state.seasonal };
-      Object.keys(action.payload).forEach((id: string) => {
-        const update = action.payload[id];
+      action.payload.forEach((update) => {
         // Add to global store
         globalStore.seasonal[update.id] = update;
         const season = `${update.rankUpdateType.toLowerCase()}_${
