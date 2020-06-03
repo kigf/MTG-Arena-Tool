@@ -1,19 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface ExploreQuery {
-  filterWCC: string;
-  filterWCU: string;
-  filterWCR: string;
-  filterWCM: string;
-  onlyOwned: boolean;
-  filterType: string;
-  filterEvent: string;
-  filterSort: string;
-  filterSortDir: -1 | 1;
-  filteredMana: number[];
-  filteredRanks: string[];
-  filterSkip: number;
-}
+import { ExploreQuery } from "../../../types/api";
 
 const initialExploreState = {
   activeEvents: [] as string[],

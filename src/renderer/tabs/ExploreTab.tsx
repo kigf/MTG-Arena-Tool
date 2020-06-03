@@ -20,13 +20,13 @@ import Checkbox from "../components/misc/Checkbox";
 import Input from "../components/misc/Input";
 import { ipcSend } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { ExploreQuery } from "../../shared/redux/slices/exploreSlice";
 
 import ranks16 from "../../assets/images/ranks_16.png";
 import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import appCss from "../app/app.css";
 import css from "./ExploreTab.css";
+import { ExploreQuery } from "../../types/api";
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;

@@ -39,13 +39,13 @@ import {
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { InternalMatch } from "../types/match";
-import { HttpTask } from "./ApiTypes";
+import { HttpTask, SyncRequestData, SyncIds, ExploreQuery } from "../types/api";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import { InternalDraft } from "../types/draft";
 import { InternalDeck } from "../types/Deck";
 import { SeasonalRankData } from "../types/Season";
-import { ExploreQuery } from "../shared/redux/slices/exploreSlice";
+import { SettingsData } from "../types/settings";
 
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
   globals.httpQueue = async.queue(asyncWorker);
@@ -267,22 +267,6 @@ function handleRePushLostMatchData(): void {
   httpSyncPush();
 }
 
-export interface SyncRequestData {
-  courses?: any[];
-  matches?: any[];
-  drafts?: any[];
-  economy?: any[];
-  seasonal?: any[];
-}
-
-interface SyncIds {
-  courses: string[];
-  matches: string[];
-  drafts: string[];
-  economy: string[];
-  seasonal: string[];
-}
-
 export function httpSyncRequest(data: SyncRequestData): void {
   setSyncState(SYNC_FETCH);
   const _id = makeId(6);
@@ -377,6 +361,7 @@ function handleAuthResponse(
     }
     ipcLog("Checking for sync requests...");
     const requestSync = {
+      arenaId: globals.store.getState().playerdata.playerName,
       courses: serverData.courses.filter((id) => !(id in globalStore.events)),
       matches: serverData.matches.filter((id) => !(id in globalStore.matches)),
       drafts: serverData.drafts.filter((id) => !(id in globalStore.drafts)),
@@ -558,7 +543,7 @@ export function httpSetSeasonal(change: SeasonalRankData): void {
   );
 }
 
-export function httpSetSettings(settings: any): void {
+export function httpSetSettings(settings: SettingsData): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
@@ -578,6 +563,9 @@ export function httpDeleteData(): void {
       reqId: _id,
       method: "clearData",
       method_path: "/user/clear",
+      options: {
+        method: "DELETE",
+      },
     },
     makeSimpleResponseHandler()
   );

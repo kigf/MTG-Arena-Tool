@@ -1,12 +1,43 @@
 import { RequestOptions } from "http";
-import { InternalDeck } from "../types/Deck";
-import { InternalDraft } from "../types/draft";
-import { ExploreQuery } from "../shared/redux/slices/exploreSlice";
-import { SyncRequestData } from "./httpApi";
-import { InternalEvent } from "../types/event";
-import { InternalMatch } from "../types/match";
-import { InternalEconomyTransaction } from "../types/inventory";
-import { SeasonalRankData } from "../types/Season";
+import { InternalDeck } from "./Deck";
+import { InternalDraft } from "./draft";
+import { InternalEvent } from "./event";
+import { InternalMatch } from "./match";
+import { InternalEconomyTransaction } from "./inventory";
+import { SeasonalRankData } from "./Season";
+import { SettingsData } from "./settings";
+
+export interface ExploreQuery {
+  filterWCC: string;
+  filterWCU: string;
+  filterWCR: string;
+  filterWCM: string;
+  onlyOwned: boolean;
+  filterType: string;
+  filterEvent: string;
+  filterSort: string;
+  filterSortDir: -1 | 1;
+  filteredMana: number[];
+  filteredRanks: string[];
+  filterSkip: number;
+}
+
+export interface SyncRequestData {
+  arenaId: string;
+  courses?: any[];
+  matches?: any[];
+  drafts?: any[];
+  economy?: any[];
+  seasonal?: any[];
+}
+
+export interface SyncIds {
+  courses: string[];
+  matches: string[];
+  drafts: string[];
+  economy: string[];
+  seasonal: string[];
+}
 
 export type HttpMethod =
   | "authLogin"
@@ -80,40 +111,48 @@ export interface HttpPostDraft extends BaseHttpTask {
 
 export interface HttpGetCourse extends BaseHttpTask {
   method: "getCourse";
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpGetMatch extends BaseHttpTask {
   method: "getMatch";
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpGetEconomy extends BaseHttpTask {
   method: "getEconomy";
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpGetSeasonal extends BaseHttpTask {
   method: "getSeasonal";
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpGetDraft extends BaseHttpTask {
   method: "getDraft";
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpPostSettings extends BaseHttpTask {
   method: "postSettings";
-  data: any;
+  data: SettingsData;
 }
 
 export interface HttpClearData extends BaseHttpTask {
   method: "clearData";
+  options: RequestOptions & { method: "DELETE" };
 }
 
 export interface HttpGetDatabase extends BaseHttpTask {
   method: "getDatabase";
   lang: string;
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpGetDatabaseVersion extends BaseHttpTask {
   method: "getDatabaseVersion";
+  options: RequestOptions & { method: "GET" };
 }
 
 export interface HttpShareDraft extends BaseHttpTask {
@@ -158,6 +197,7 @@ export interface HttpPostMythicRank extends BaseHttpTask {
 export interface HttpGetExplore extends BaseHttpTask, ExploreQuery {
   method: "getExplore";
   collection: string;
+  options: RequestOptions & { method: "GET" };
 }
 
 export type HttpTask =

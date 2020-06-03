@@ -3,7 +3,7 @@ import { ZoneData } from "../types/greInterpreter";
 import { InternalDraft } from "../types/draft";
 import store from "../shared/redux/stores/backgroundStore";
 import async from "async";
-import { HttpTask } from "./ApiTypes";
+import { HttpTask } from "../types/api";
 
 export const InternalDraftDefault: InternalDraft = {
   PlayerId: null,

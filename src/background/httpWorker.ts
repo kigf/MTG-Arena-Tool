@@ -7,7 +7,7 @@ import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { IPC_RENDERER, SYNC_PUSH } from "../shared/constants";
 import { setSyncState } from "./httpApi";
-import { HttpMethod, HttpTask } from "./ApiTypes";
+import { HttpMethod, HttpTask } from "../types/api";
 
 const serverAddress = "127.0.0.1";
 
