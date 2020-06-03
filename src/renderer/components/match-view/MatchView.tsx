@@ -163,7 +163,7 @@ function Seat(props: SeatProps): JSX.Element {
   const { player, eventId, won, match } = props;
 
   // v4.1.0: Introduced by-game cards seen
-  const gameDetails = match && match.toolVersion >= 262400; // 262164 for debug
+  const gameDetails = match && match.toolVersion >= 262400;
   const [gameSeen, setGameSeen] = useState(0);
 
   let combinedList: number[] = [];
@@ -179,7 +179,7 @@ function Seat(props: SeatProps): JSX.Element {
     gameDetails && match
       ? new Deck(
           {},
-          gameSeen == match.gameStats.length
+          gameSeen == match?.gameStats?.length
             ? combinedList
             : match.gameStats[gameSeen].cardsSeen
         )

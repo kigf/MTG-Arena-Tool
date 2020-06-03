@@ -84,7 +84,7 @@ export function completeMatch(
   // Convert string "2.2.19" into number for easy comparison, 1 byte per part, allowing for versions up to 255.255.255
   match.toolVersion = globals.toolVersion;
   match.toolRunFromSource = !electron.remote.app.isPackaged;
-
+  match.arenaId = globals.store.getState().playerdata.playerName;
   return match;
 }
 

@@ -1,7 +1,7 @@
 import { InternalRank } from "../types/rank";
 import globals from "./globals";
 import { SeasonalRankData } from "../types/Season";
-import globalStore, { seasonalList } from "../shared/store";
+import globalStore, { seasonalList, seasonalExists } from "../shared/store";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { IPC_RENDERER } from "../shared/constants";
 import { playerDb } from "../shared/db/LocalDatabase";
@@ -50,14 +50,15 @@ export default function setSeasonalRankFromCombinedRank(
   }
 
   //console.log("SeasonalRankData", newJson);
-
-  const newSeasonal = [...seasonalList(), newJson];
-  reduxAction(
-    globals.store.dispatch,
-    { type: "SET_SEASONAL", arg: newJson },
-    IPC_RENDERER
-  );
-  playerDb.upsert("", "seasonal_rank", newSeasonal);
+  if (!seasonalExists(currentMatch.matchId)) {
+    const newSeasonal = [...seasonalList(), newJson];
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_SEASONAL", arg: newJson },
+      IPC_RENDERER
+    );
+    playerDb.upsert("", "seasonal_rank", newSeasonal);
+  }
 
   httpSetSeasonal(newJson);
 }
