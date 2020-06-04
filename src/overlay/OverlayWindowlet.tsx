@@ -17,6 +17,7 @@ import { AppState } from "../shared/redux/stores/overlayStore";
 
 import css from "./index.css";
 import sharedCss from "../shared/shared.css";
+import ResizeIcon from "../assets/images/resize.svg";
 import DEFAULT_BACKGROUND from "../assets/images/Bedevil-Art.jpg";
 
 export interface OverlayWindowletProps {
@@ -184,14 +185,13 @@ export default function OverlayWindowlet(
       </div>
       {overlaySettings.top && (
         <div className={`${css.outerWrapper} ${css.topNavWrapper}`}>
-          <div
-            className={`${css.button} ${css.overlayIcon} ${css.clickOn}`}
+          <ResizeIcon
+            fill={`var(--color-${COLORS_ALL[index]})`}
+            className={`${sharedCss.button} ${css.overlayIcon} ${css.clickOn}`}
             onClick={handleToggleEditMode}
             style={{
-              backgroundColor: `var(--color-${COLORS_ALL[index]})`,
               marginRight: "auto",
             }}
-            title={settings.shortcut_editmode}
           />
           <div
             className={`${sharedCss.button} ${sharedCss.settings} ${css.clickOn}`}

@@ -714,6 +714,11 @@ function handleGetDatabaseResponse(
     db.updateCache(results);
     ipcSend("set_db", results);
   }
+  ipcPop({
+    text: "Metadata OK",
+    time: 1000,
+    progress: -1,
+  });
 }
 
 export function httpGetDatabase(lang: string): void {

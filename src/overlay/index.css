@@ -452,10 +452,9 @@ body {
     margin: auto auto auto 8px;
     border-radius: 50%;
     cursor: pointer;
-    -webkit-mask: url(../assets/images/resize.svg);
 }
 
-.button.overlay_icon {
+.overlay_icon {
     width: 16px;
     height: 16px;
     background-repeat: no-repeat;

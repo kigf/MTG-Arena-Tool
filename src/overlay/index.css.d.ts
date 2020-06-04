@@ -4,7 +4,6 @@ declare namespace IndexCssModule {
   export interface IIndexCss {
     afterHidden: string;
     after_hidden: string;
-    button: string;
     chanceTitle: string;
     chance_title: string;
     "click-on": string;
