@@ -12,7 +12,7 @@ import {
   OVERLAY_DRAFT,
   OVERLAY_FULL,
   OVERLAY_LOG,
-  OVERLAY_ODDS,
+  OVERLAY_MIXED,
 } from "./constants";
 import { SettingsData } from "../types/settings";
 
@@ -101,7 +101,7 @@ const defaultConfig = {
           width: 280,
           height: 600,
         },
-        mode: OVERLAY_ODDS,
+        mode: OVERLAY_MIXED,
         autosize: true,
         clock: false,
         alpha: 1,
