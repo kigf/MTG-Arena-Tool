@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
 import {
@@ -34,7 +34,7 @@ interface SettingsNavProps {
   id: number;
   title: string;
   currentTab: number;
-  callback: React.Dispatch<React.SetStateAction<number>>;
+  callback: (id: number) => void;
 }
 
 function SettingsNav(props: SettingsNavProps): JSX.Element {
@@ -54,35 +54,26 @@ function SettingsNav(props: SettingsNavProps): JSX.Element {
   );
 }
 
-interface SettingsProps {
-  openSection?: number;
-}
-
 /**
  * Settings
  * @param props openSection: number
  */
-export default function SettingsTab(props: SettingsProps): JSX.Element {
+export default function SettingsTab(): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
-  const openSection =
-    (props.openSection === -1
-      ? settings.last_settings_section
-      : props.openSection) ?? settings.last_settings_section;
-  const [currentTab, setCurrentTab] = React.useState(openSection);
-  React.useEffect(() => setCurrentTab(openSection), [openSection]);
+  const currentTab = settings.settings_section;
+
+  const setCurrentTab = useCallback((tab: number) => {
+    reduxAction(
+      store.dispatch,
+      { type: "SET_SETTINGS", arg: { settings_section: tab } },
+      IPC_ALL ^ IPC_RENDERER
+    );
+  }, []);
 
   const defaultTab = {
     currentTab: currentTab,
     callback: setCurrentTab,
   };
-
-  React.useEffect(() => {
-    reduxAction(
-      store.dispatch,
-      { type: "SET_SETTINGS", arg: { last_settings_section: currentTab } },
-      IPC_ALL ^ IPC_RENDERER
-    );
-  }, [currentTab]);
 
   const tabs: SettingsNavProps[] = [];
   tabs[SETTINGS_BEHAVIOUR] = {

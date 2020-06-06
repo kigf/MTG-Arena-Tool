@@ -181,7 +181,7 @@ function Seat(props: SeatProps): JSX.Element {
           {},
           gameSeen == match?.gameStats?.length
             ? combinedList
-            : match.gameStats[gameSeen].cardsSeen
+            : match.gameStats[gameSeen]?.cardsSeen || combinedList
         )
       : props.deck;
 

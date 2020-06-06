@@ -3,12 +3,7 @@
 /* eslint-disable no-console */
 import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
 import timestamp from "../../shared/utils/timestamp";
-import {
-  MAIN_SETTINGS,
-  SETTINGS_OVERLAY,
-  IPC_NONE,
-  LOGIN_OK,
-} from "../../shared/constants";
+import { MAIN_SETTINGS, IPC_NONE, LOGIN_OK } from "../../shared/constants";
 import { ipcSend } from "../rendererUtil";
 import {
   LOGIN_FAILED,
@@ -137,7 +132,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
         } else {
           ipcSend("save_user_settings", {
             last_open_tab: MAIN_SETTINGS,
-            last_settings_section: arg,
+            settings_section: arg,
           });
         }
       } else {
@@ -153,17 +148,24 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   ipc.on(
     "force_open_overlay_settings",
     (_event: IpcRendererEvent, arg: number): void => {
-      reduxAction(dispatcher, { type: "SET_NAV_INDEX", arg: 0 }, IPC_NONE);
       reduxAction(
         dispatcher,
         { type: "SET_TOPNAV", arg: MAIN_SETTINGS },
         IPC_NONE
       );
-      ipcSend("save_user_settings", {
-        last_open_tab: MAIN_SETTINGS,
-        last_settings_section: SETTINGS_OVERLAY,
-        last_settings_overlay_section: arg,
-      });
+      reduxAction(dispatcher, { type: "SET_NAV_INDEX", arg: 0 }, IPC_NONE);
+      reduxAction(
+        dispatcher,
+        {
+          type: "SET_SETTINGS",
+          arg: {
+            last_open_tab: MAIN_SETTINGS,
+            settings_section: 3,
+            settings_overlay_section: arg,
+          },
+        },
+        IPC_NONE
+      );
     }
   );
 
@@ -176,7 +178,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
     );
     ipcSend("save_user_settings", {
       last_open_tab: MAIN_SETTINGS,
-      last_settings_section: SETTINGS_ABOUT,
+      settings_section: SETTINGS_ABOUT,
     });
   });
 

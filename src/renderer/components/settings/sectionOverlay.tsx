@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
 import Toggle from "../misc/Toggle";
@@ -70,14 +70,14 @@ function setSoundPriority(checked: boolean): void {
 export function setCurrentOverlaySettings(current: number): void {
   reduxAction(
     store.dispatch,
-    { type: "SET_SETTINGS", arg: { last_settings_overlay_section: current } },
+    { type: "SET_SETTINGS", arg: { settings_overlay_section: current } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
 
 interface OverlaysTopNavProps {
   current: number;
-  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+  setCurrent: (overlay: number) => void;
 }
 
 function OverlaysTopNav(props: OverlaysTopNavProps): JSX.Element {
@@ -388,9 +388,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
 
 export default function SectionOverlay(): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
-  const [currentOverlay, setCurrentOverlay] = React.useState(
-    settings.last_settings_overlay_section
-  );
+  const currentOverlay = settings.settings_overlay_section;
   const [currentOverlaySettings, setCurrentOverlaySettings] = React.useState(
     settings.overlays[currentOverlay]
   );
@@ -404,6 +402,17 @@ export default function SectionOverlay(): JSX.Element {
     null
   );
 
+  const setCurrentOverlay = useCallback((overlay: number) => {
+    reduxAction(
+      store.dispatch,
+      {
+        type: "SET_SETTINGS",
+        arg: { settings_overlay_section: overlay },
+      },
+      IPC_ALL ^ IPC_RENDERER
+    );
+  }, []);
+
   const [pickerColor, pickerDoShow, pickerElement] = useColorPicker(
     settings.overlay_back_color,
     undefined,
@@ -412,9 +421,25 @@ export default function SectionOverlay(): JSX.Element {
 
   const overlayScaleDebouce = useMemo(() => {
     return _.debounce((value: number) => {
+      const oldScale = store.getState().settings.overlay_scale;
+      const multiplier = oldScale / value;
+      const oldOverlays = store.getState().settings.overlays;
+      const newOverlays = oldOverlays.map((o) => {
+        return {
+          ...o,
+          bounds: {
+            ...o.bounds,
+            x: o.bounds.x * multiplier,
+            y: o.bounds.y * multiplier,
+          },
+        };
+      });
       reduxAction(
         store.dispatch,
-        { type: "SET_SETTINGS", arg: { overlay_scale: value } },
+        {
+          type: "SET_SETTINGS",
+          arg: { overlay_scale: value, overlays: newOverlays },
+        },
         IPC_ALL ^ IPC_RENDERER
       );
     }, 1000);

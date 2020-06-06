@@ -49,8 +49,8 @@ export interface SettingsData {
   export_format: string;
   last_date_filter: string;
   last_open_tab: number;
-  last_settings_overlay_section: number;
-  last_settings_section: number;
+  settings_overlay_section: number;
+  settings_section: number;
   matchesTableMode: string;
   matchesTableState?: TableState<MatchTableData>;
   overlay_back_color: string;

@@ -12,7 +12,7 @@ import {
   OVERLAY_DRAFT,
   OVERLAY_FULL,
   OVERLAY_LOG,
-  OVERLAY_ODDS,
+  OVERLAY_MIXED,
 } from "./constants";
 import { SettingsData } from "../types/settings";
 
@@ -47,8 +47,8 @@ const defaultConfig = {
   cardsNew: {},
   settings: {
     last_open_tab: MAIN_HOME,
-    last_settings_section: 1,
-    last_settings_overlay_section: 0,
+    settings_section: 1,
+    settings_overlay_section: 0,
     sound_priority: false,
     sound_priority_volume: 1,
     cards_quality: "normal",
@@ -101,7 +101,7 @@ const defaultConfig = {
           width: 280,
           height: 600,
         },
-        mode: OVERLAY_ODDS,
+        mode: OVERLAY_MIXED,
         autosize: true,
         clock: false,
         alpha: 1,

@@ -52,14 +52,19 @@ interface OverviewProps {
 
 export default function Overview(props: OverviewProps): JSX.Element {
   const { matchData, closeCallback } = props;
-  const { primaryMonitorPos } = store.getState().settings;
+  const { primaryMonitorPos, overlay_scale } = store.getState().settings;
   const pSeat = matchData.playerSeat;
 
   // Should constrain if monitor is smaller or fits oddly
   const width = 540;
   const height = 620;
-  const left = primaryMonitorPos.x + primaryBounds.width / 2 - width / 2;
-  const top = primaryMonitorPos.y + primaryBounds.height / 2 - height / 2;
+  const scaleMultiplier = overlay_scale / 100;
+  const left =
+    primaryMonitorPos.x + primaryBounds.width / 2 / scaleMultiplier - width / 2;
+  const top =
+    primaryMonitorPos.y +
+    primaryBounds.height / 2 / scaleMultiplier -
+    height / 2;
 
   const format =
     matchData.gameInfo.superFormat == "SuperFormat_Constructed"

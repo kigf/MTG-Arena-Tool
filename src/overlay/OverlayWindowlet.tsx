@@ -155,7 +155,7 @@ export default function OverlayWindowlet(
     bgStyle.backgroundColor = backgroundColor;
   }
 
-  const borderAlpha = (overlaySettings.alpha_back * 1.5).toString();
+  const borderAlpha = Math.pow(overlaySettings.alpha_back, 2).toString();
   return (
     <div
       className={`${css.overlayContainer} ${getEditModeClass(editMode)}`}
