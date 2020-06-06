@@ -577,7 +577,6 @@ export function httpGetExplore(query: ExploreQuery): void {
 
 export function httpGetCourse(courseId: string): void {
   const _id = makeId(6);
-  
   globals.httpQueue?.unshift(
     {
       reqId: _id,

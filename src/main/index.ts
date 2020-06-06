@@ -97,7 +97,7 @@ function startUpdater(): void {
   if (!app.isPackaged) return;
   appDb.init("application");
   appDb.find("", "settings").then((doc) => {
-    const allowBeta = doc.betaChannel || false;
+    const allowBeta = doc?.betaChannel || false;
     updaterWindow = createUpdaterWindow();
 
     updaterWindow.webContents.on("did-finish-load", function () {
