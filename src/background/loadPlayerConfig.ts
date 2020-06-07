@@ -20,7 +20,7 @@ import store from "../shared/redux/stores/backgroundStore";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import Deck from "../shared/deck";
-import { InternalDraft } from "../types/draft";
+import { InternalDraftv2 } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
@@ -204,8 +204,8 @@ export async function loadPlayerConfig(): Promise<void> {
   }
 
   // Get Drafts data
-  if (savedData.draft_index) {
-    const draftsList: InternalDraft[] = savedData.draft_index
+  if (savedData.draftv2_index) {
+    const draftsList: InternalDraftv2[] = savedData.draftv2_index
       .filter((id: string) => savedData[id])
       .map((id: string) => savedData[id]);
 
@@ -281,8 +281,8 @@ export async function loadPlayerConfig(): Promise<void> {
   syncSettings(settings, true);
 
   // populate draft overlays with last draft if possible
-  if (savedData.draft_index && savedData.draft_index.length) {
-    const draftsList: InternalEconomyTransaction[] = savedData.draft_index
+  if (savedData.draftv2_index && savedData.draftv2_index.length) {
+    const draftsList: InternalEconomyTransaction[] = savedData.draftv2_index
       .filter((id: string) => savedData[id])
       .map((id: string) => savedData[id]);
 

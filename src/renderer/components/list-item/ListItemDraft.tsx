@@ -16,11 +16,11 @@ import { DEFAULT_TILE } from "../../../shared/constants";
 import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
 import { toggleArchived } from "../../rendererUtil";
-import { InternalDraft } from "../../../types/draft";
+import { InternalDraftv2 } from "../../../types/draft";
 import css from "./ListItem.css";
 
 interface ListItemDraftProps {
-  draft: InternalDraft;
+  draft: InternalDraftv2;
   openDraftCallback: (id: string) => void;
 }
 
@@ -50,16 +50,18 @@ export default function ListItemDraft({
     >
       <HoverTile
         hover={hover}
-        grpId={db.sets[draft.set]?.tile || DEFAULT_TILE}
+        grpId={db.sets[draft.draftSet]?.tile || DEFAULT_TILE}
       />
 
       <Column class={css.listItemLeft}>
         <FlexTop>
-          <div className={css.listDeckName}>{draft.set + " Draft" || ""}</div>
+          <div className={css.listDeckName}>
+            {draft.draftSet + " Draft" || ""}
+          </div>
         </FlexTop>
         <FlexBottom>
           <div className={css.listDeckNameIt}>
-            {getReadableEvent(draft.InternalEventName)}
+            {getReadableEvent(draft.eventId)}
           </div>
         </FlexBottom>
       </Column>
@@ -68,8 +70,8 @@ export default function ListItemDraft({
         style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
         className={css.listItemCenter}
       >
-        {draft.CardPool
-          ? [...draft.CardPool]
+        {draft.pickedCards
+          ? [...draft.pickedCards]
               .map((cardId: number | string) => db.card(cardId))
               .filter(
                 (card: DbCardData | undefined) =>

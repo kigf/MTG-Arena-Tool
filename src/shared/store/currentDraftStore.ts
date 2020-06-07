@@ -1,14 +1,17 @@
 import globalStore from ".";
+import { InternalDraftv2 } from "../../types/draft";
 
 export const draftStateObject = {
+  archived: false,
+  type: "draft",
   owner: "",
   arenaId: "",
   date: "",
   eventId: "",
-  id: "",
+  id: undefined,
   draftSet: "",
-  currentPack: 1,
-  currentPick: 1,
+  currentPack: 0,
+  currentPick: 0,
   pickedCards: [] as number[],
   packs: [
     Array(16).fill([]) as number[][],
@@ -20,15 +23,13 @@ export const draftStateObject = {
     Array(16).fill(0) as number[],
     Array(16).fill(0) as number[],
   ],
-};
-
-export type DraftState = typeof draftStateObject;
+} as InternalDraftv2;
 
 export function setDraftId(arg: string): void {
   globalStore.currentDraft.id = arg;
 }
 
-export function setDraftData(arg: Partial<DraftState>): void {
+export function setDraftData(arg: Partial<InternalDraftv2>): void {
   globalStore.currentDraft = { ...globalStore.currentDraft, ...arg };
 }
 

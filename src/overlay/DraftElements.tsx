@@ -5,8 +5,7 @@ import {
   PACK_SIZES,
 } from "../shared/constants";
 import Deck from "../shared/deck";
-import { DraftState } from "../types/draft";
-import { DraftState as CurrentDraftState } from "../shared/store/currentDraftStore";
+import { DraftState, InternalDraftv2 } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import DeckList from "./DeckList";
 
@@ -16,7 +15,7 @@ import ManaCost from "../renderer/components/misc/ManaCost";
 const packSizeMap: { [key: string]: number } = PACK_SIZES;
 
 export interface DraftElementsProps {
-  draft: CurrentDraftState;
+  draft: InternalDraftv2;
   draftState: DraftState;
   index: number;
   settings: OverlaySettingsData;

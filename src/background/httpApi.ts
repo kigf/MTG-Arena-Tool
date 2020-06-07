@@ -143,7 +143,9 @@ function syncUserData(data: any): void {
   playerDb.upsert("", "economy_index", economy_index);
 
   // Sync Drafts
-  const draft_index = [...globals.store.getState().drafts.draftsIndex];
+  // Disabled until new api lands
+  /*
+  const draftv2_index = [...globals.store.getState().drafts.draftsIndex];
   const draftsList = data.drafts
     .filter((doc: any) => !draftExists(doc._id))
     .map((doc: any) => {
@@ -151,7 +153,7 @@ function syncUserData(data: any): void {
       doc.id = id;
       delete doc._id;
       playerDb.upsert("", id, doc);
-      draft_index.push(id);
+      draftv2_index.push(id);
       return doc;
     });
 
@@ -160,7 +162,8 @@ function syncUserData(data: any): void {
     { type: "SET_MANY_DRAFT", arg: draftsList },
     IPC_RENDERER
   );
-  playerDb.upsert("", "draft_index", draft_index);
+  playerDb.upsert("", "draftv2_index", draftv2_index);
+  */
 
   // Sync seasonal
   const newSeasonal = [...seasonalList()];
@@ -276,7 +279,7 @@ function handleSync(syncIds: SyncIds): void {
         globalStore.matches[id] &&
         privateDecks.indexOf(globalStore.matches[id].id) == -1
     ),
-    drafts: Object.keys(globalStore.drafts).filter(
+    drafts: Object.keys(globalStore.draftsv2).filter(
       (id) => syncIds.drafts.indexOf(id) == -1
     ),
     economy: Object.keys(globalStore.transactions).filter(
@@ -423,7 +426,7 @@ function handleAuthResponse(
     const requestSync = {
       courses: serverData.courses.filter((id) => !(id in globalStore.events)),
       matches: serverData.matches.filter((id) => !(id in globalStore.matches)),
-      drafts: serverData.drafts.filter((id) => !(id in globalStore.drafts)),
+      drafts: serverData.drafts.filter((id) => !(id in globalStore.draftsv2)),
       economy: serverData.economy.filter(
         (id) => !(id in globalStore.transactions)
       ),

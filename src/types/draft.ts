@@ -31,6 +31,22 @@ export interface PickPack {
   pack: string;
 }
 
+export interface InternalDraftv2 {
+  archived: boolean;
+  owner: string;
+  arenaId: string;
+  date: string;
+  eventId: string;
+  id: string | undefined;
+  draftSet: string;
+  currentPack: number;
+  currentPick: number;
+  pickedCards: number[];
+  packs: [number[][], number[][], number[][]];
+  picks: [number[], number[], number[]];
+  type: "draft";
+}
+
 export interface InternalDraft {
   eventId: string;
   draftId: string;

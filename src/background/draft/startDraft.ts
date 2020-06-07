@@ -3,9 +3,9 @@ import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
 import {
   setDraftData,
-  DraftState,
   resetCurrentDraft,
 } from "../../shared/store/currentDraftStore";
+import { InternalDraftv2 } from "../../types/draft";
 
 export default function startDraft(): void {
   if (globals.debugLog || !globals.firstPass) {
@@ -21,7 +21,7 @@ export default function startDraft(): void {
     arenaId: playerData.playerName,
     owner: appSettings.email,
     date: globals.logTime.toISOString(),
-  } as Partial<DraftState>;
+  } as Partial<InternalDraftv2>;
 
   resetCurrentDraft();
   setDraftData(add);

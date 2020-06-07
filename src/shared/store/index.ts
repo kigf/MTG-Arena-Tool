@@ -2,7 +2,7 @@ import { InternalMatch } from "../../types/match";
 import { InternalEvent } from "../../types/event";
 import { InternalDeck, ArenaV3Deck } from "../../types/Deck";
 import { InternalEconomyTransaction } from "../../types/inventory";
-import { InternalDraft } from "../../types/draft";
+import { InternalDraftv2 } from "../../types/draft";
 import { SeasonalRankData } from "../../types/Season";
 import { matchStateObject } from "./currentMatchStore";
 import { draftStateObject } from "./currentDraftStore";
@@ -26,7 +26,7 @@ const globalStore = {
   decks: {} as Record<string, InternalDeck>,
   staticDecks: [] as string[],
   transactions: {} as Record<string, InternalEconomyTransaction>,
-  drafts: {} as Record<string, InternalDraft>,
+  draftsv2: {} as Record<string, InternalDraftv2>,
   seasonal: {} as Record<string, SeasonalRankData>,
   deckChanges: {} as Record<string, DeckChange>,
   currentMatch: matchStateObject,
@@ -185,18 +185,18 @@ export function transactionsList(): InternalEconomyTransaction[] {
 //
 // Draft utility functions
 //
-export function getDraft(id: string): InternalDraft | undefined {
-  if (!id || !globalStore.drafts[id]) return undefined;
-  return globalStore.drafts[id];
+export function getDraft(id: string): InternalDraftv2 | undefined {
+  if (!id || !globalStore.draftsv2[id]) return undefined;
+  return globalStore.draftsv2[id];
 }
 
 export function draftExists(id: string): boolean {
-  return globalStore.drafts[id] ? true : false;
+  return globalStore.draftsv2[id] ? true : false;
 }
 
-export function draftsList(): InternalDraft[] {
-  return Object.keys(globalStore.drafts).map(
-    (key: string) => globalStore.drafts[key]
+export function draftsList(): InternalDraftv2[] {
+  return Object.keys(globalStore.draftsv2).map(
+    (key: string) => globalStore.draftsv2[key]
   );
 }
 

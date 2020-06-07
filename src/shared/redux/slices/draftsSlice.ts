@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalDraft } from "../../../types/draft";
+import { InternalDraftv2 } from "../../../types/draft";
 
 const initialDraftsState = {
   draftsIndex: [] as string[],
@@ -14,21 +14,21 @@ const draftsSlice = createSlice({
     draftsIndex: [] as string[],
   },
   reducers: {
-    setDraft: (state: Drafts, action: PayloadAction<InternalDraft>): void => {
-      const draft = action.payload as InternalDraft;
-      globalStore.drafts[draft.id] = { ...draft };
+    setDraft: (state: Drafts, action: PayloadAction<InternalDraftv2>): void => {
+      const draft = action.payload as InternalDraftv2;
+      globalStore.draftsv2[draft.id] = { ...draft };
       if (state.draftsIndex.indexOf(draft.id) === -1) {
         state.draftsIndex.push(draft.id);
       }
     },
     setManyDrafts: (
       state: Drafts,
-      action: PayloadAction<InternalDraft[]>
+      action: PayloadAction<InternalDraftv2[]>
     ): void => {
       const newList: string[] = [];
-      action.payload.map((draft: InternalDraft) => {
+      action.payload.map((draft: InternalDraftv2) => {
         if (state.draftsIndex.indexOf(draft.id) === -1) {
-          globalStore.drafts[draft.id] = draft;
+          globalStore.draftsv2[draft.id] = draft;
           newList.push(draft.id);
         }
       });
