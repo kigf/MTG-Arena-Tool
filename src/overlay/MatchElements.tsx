@@ -10,6 +10,8 @@ import {
   OVERLAY_ODDS,
   OVERLAY_SEEN,
   IPC_ALL,
+  OVERLAY_DRAFT,
+  OVERLAY_DRAFT_BREW,
 } from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";
@@ -55,6 +57,9 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
   if (
     settings &&
     settings.show &&
+    settings.mode !== OVERLAY_DRAFT &&
+    settings.mode !== OVERLAY_DRAFT_BREW &&
+    settings.mode !== OVERLAY_LOG &&
     bounds &&
     bounds.height > 0 &&
     bounds.height !== settings.bounds.height
