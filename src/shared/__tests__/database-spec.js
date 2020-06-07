@@ -5,7 +5,7 @@ import * as httpApi from "../../background/httpApi";
 const distributedVersion = db.version;
 const httpQueue = httpApi.initHttpQueue();
 httpApi.httpGetDatabaseVersion("en");
-jest.setTimeout(30000);
+jest.setTimeout(1000);
 
 describe("database", () => {
   it("updates database properly", () => {

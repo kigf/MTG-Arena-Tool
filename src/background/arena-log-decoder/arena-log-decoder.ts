@@ -14,7 +14,7 @@ const LABEL_JSON_PATTERNS = [
 
 const LABEL_ARROW_JSON_PATTERN = /\[UnityCrossThreadLogger\](?<arrow>[<=]=[=>]) (?<label>.*?) /;
 
-const ALL_PATTERNS = [...LABEL_JSON_PATTERNS, LABEL_ARROW_JSON_PATTERN];
+const ALL_PATTERNS = [LABEL_ARROW_JSON_PATTERN, ...LABEL_JSON_PATTERNS];
 
 const maxLinesOfAnyPattern = Math.max(
   ...ALL_PATTERNS.map((regex) => occurrences(regex.source, /\\n/g))
@@ -123,7 +123,7 @@ function parseLogEntry(
         hash: sha1(jsonString + absPosition),
         json: (): void => {
           try {
-            // console.log(jsonString, jsonStart, jsonLen);
+            //console.log(jsonString, jsonStart, jsonLen);
             const json = JSON.parse(jsonString);
             return (
               json.payload || (json.request && JSON.parse(json.request)) || json
