@@ -266,6 +266,28 @@ function entrySwitch(entry: LogEntry): void {
       break;
     */
 
+    case "Draft.Notify":
+      Labels.InDraftNotify(entry);
+      break;
+
+    case "Draft.MakeHumanDraftPick":
+      if (entry.arrow == "==>") {
+        Labels.outMakeHumanDraftPick(entry);
+      } else if (entry.arrow == "<==") {
+        Labels.InMakeHumanDraftPick(entry);
+      }
+      break;
+
+    case "Client.SceneChange":
+      Labels.onClientSceneChange(entry);
+      break;
+
+    case "Event.JoinPodmaking":
+      if (entry.arrow == "==>") {
+        Labels.InEventJoinPodMaking(entry);
+      }
+      break;
+
     case "Event.GetPlayerCoursesV2":
       if (entry.arrow == "<==") {
         Labels.InEventGetPlayerCoursesV2(entry);

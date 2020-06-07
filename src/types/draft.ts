@@ -10,6 +10,17 @@ export interface DraftStatus {
   DraftPack: string[];
 }
 
+export interface DraftMakePick {
+  jsonrpc: string;
+  method: string;
+  params: {
+    draftId: string;
+    cardId: string;
+    packNumber: string;
+    pickNumber: string;
+  };
+}
+
 export interface DraftData {
   id: string;
   pickNumber: number;
@@ -56,4 +67,40 @@ export interface InternalDraft {
   CurrentEventState?: string;
   CurrentModule?: string;
   PreviousOpponents?: string[];
+}
+
+export interface DraftNotify {
+  draftId: string;
+  SelfPick: number;
+  SelfPack: number;
+  PackCards: string;
+}
+
+export interface OutMakeHumanDraftPick {
+  jsonrpc: string;
+  method: string;
+  params: {
+    draftId: string;
+    cardId: string;
+    packNumber: string;
+    pickNumber: string;
+  };
+  id: string;
+}
+
+export interface EventJoinPodmaking {
+  jsonrpc: string;
+  method: string;
+  params: {
+    queueId: string;
+  };
+  id: string;
+}
+
+export interface InMakeHumanDraftPick {
+  IsPickingCompleted: boolean;
+  IsPickSuccessful: boolean;
+  TableInfo: null | unknown;
+  PickInfo: null | unknown;
+  PackInfo: null | unknown;
 }
