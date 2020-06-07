@@ -5,6 +5,7 @@ import { InternalEconomyTransaction } from "../../types/inventory";
 import { InternalDraft } from "../../types/draft";
 import { SeasonalRankData } from "../../types/Season";
 import { matchStateObject } from "./currentMatchStore";
+import { draftStateObject } from "./currentDraftStore";
 import { DEFAULT_TILE } from "../constants";
 
 import isValid from "date-fns/isValid";
@@ -29,6 +30,7 @@ const globalStore = {
   seasonal: {} as Record<string, SeasonalRankData>,
   deckChanges: {} as Record<string, DeckChange>,
   currentMatch: matchStateObject,
+  currentDraft: draftStateObject,
   preconDecks: {} as { [id: string]: ArenaV3Deck },
 };
 
