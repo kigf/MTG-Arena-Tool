@@ -1,6 +1,5 @@
-import { IPC_OVERLAY, IPC_RENDERER } from "../../shared/constants";
+import { IPC_RENDERER } from "../../shared/constants";
 import { playerDb } from "../../shared/db/LocalDatabase";
-import { ipcSend } from "../backgroundUtil";
 import { InternalDraft } from "../../types/draft";
 import globals from "../globals";
 import { reduxAction } from "../../shared/redux/sharedRedux";

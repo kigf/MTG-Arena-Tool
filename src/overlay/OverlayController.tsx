@@ -14,7 +14,6 @@ import {
 import Deck from "../shared/deck";
 import { AppState } from "../shared/redux/stores/overlayStore";
 import { MatchData } from "../types/currentMatch";
-import { DraftData } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
@@ -22,6 +21,7 @@ import Overview from "./overview";
 import css from "./index.css";
 
 import blipSound from "../assets/sounds/blip.mp3";
+import { DraftState } from "../shared/store/currentDraftStore";
 const sound = new Howl({ src: [blipSound] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);
@@ -59,7 +59,7 @@ export default function OverlayController(): JSX.Element {
   const [arenaState, setArenaState] = useState(ARENA_MODE_IDLE);
   const [editMode, setEditMode] = useState(false);
   const [match, setMatch] = useState<undefined | MatchData>(undefined);
-  const [draft, setDraft] = useState<undefined | DraftData>(undefined);
+  const [draft, setDraft] = useState<undefined | DraftState>(undefined);
   const [draftState, setDraftState] = useState({ packN: 0, pickN: 0 });
   const [turnPriority, setTurnPriority] = useState(1);
   const settings = useSelector((state: AppState) => state.settings);
@@ -178,9 +178,9 @@ export default function OverlayController(): JSX.Element {
   };
 
   const handleSetDraftCards = useCallback(
-    (_event: unknown, draft: DraftData): void => {
+    (_event: unknown, draft: DraftState): void => {
       setDraft(draft);
-      setDraftState({ packN: draft.packNumber, pickN: draft.pickNumber });
+      setDraftState({ packN: draft.currentPack, pickN: draft.currentPick });
     },
     []
   );

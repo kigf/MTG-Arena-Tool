@@ -2,6 +2,7 @@ import * as React from "react";
 import { DRAFT_RANKS, DRAFT_RANKS_LOLA } from "../shared/constants";
 import { DbCardData } from "../types/Metadata";
 import { getRankColorClass } from "../shared/utils/getRankColorClass";
+import css from "./index.css";
 
 interface DraftRankValueProps {
   index: number;
@@ -15,7 +16,7 @@ function DraftRankValue(props: DraftRankValueProps): JSX.Element {
   const rank = DRAFT_RANKS[rv];
   const colorClass = getRankColorClass(rank);
   return (
-    <div className="rank_value_container">
+    <div className={css.rankValueContainer}>
       <div className={"rank_value_title " + colorClass}>{rank}</div>
       <div
         className="rank_value_bar"
@@ -33,11 +34,13 @@ export function DraftRatings(props: { card: DbCardData }): JSX.Element {
   const maxValue = Math.max(...rankValues);
 
   return (
-    <div className="rank_values_main_container">
-      <div className="rank_value_container">
+    <div className={css.rankValuesMainContainer}>
+      <div className={css.rankValueContainer}>
         Rank: {DRAFT_RANKS[Math.round(rank)]}
       </div>
-      <div className="rank_value_container">Controversy: {rankControversy}</div>
+      <div className={css.rankValueContainer}>
+        Controversy: {rankControversy}
+      </div>
       {rankValues.map((rankValue, index) => (
         <DraftRankValue
           index={index}
@@ -64,9 +67,9 @@ function DraftRankOpinion(props: DraftRankOpinionProps): JSX.Element {
 
   const colorClass = getRankColorClass(rank);
   return (
-    <div className="rank_value_container">
+    <div className={css.rankValueContainer}>
       <div>{byName}</div>
-      <div className={"rank_value_title " + colorClass}>{rank}</div>
+      <div className={`${css.rankValueTitle} ${colorClass}`}>{rank}</div>
     </div>
   );
 }
@@ -78,14 +81,18 @@ export function DraftRatingsLola(props: { card: DbCardData }): JSX.Element {
   const rankStr = DRAFT_RANKS_LOLA[Math.round(rank)];
   const ceilStr = DRAFT_RANKS_LOLA[ceil || 13];
   return (
-    <div className="rank_values_main_container">
-      <div className={"rank_value_container " + getRankColorClass(rankStr)}>
+    <div className={css.rankValuesMainContainer}>
+      <div
+        className={`${css.rankValueContainer} ${getRankColorClass(rankStr)}`}
+      >
         Rank: {rankStr}
       </div>
-      <div className={"rank_value_container " + getRankColorClass(ceilStr)}>
+      <div
+        className={`${css.rankValueContainer} ${getRankColorClass(ceilStr)}`}
+      >
         Rank in Color: {ceilStr}
       </div>
-      <div className="rank_value_container">
+      <div className={css.rankValueContainer}>
         Is Sideboard: {side ? "Yes" : "No"}
       </div>
       {rankValues.map((rankValue, index) => (

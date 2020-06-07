@@ -21,16 +21,6 @@ export interface DraftMakePick {
   };
 }
 
-export interface DraftData {
-  id: string;
-  pickNumber: number;
-  packNumber: number;
-  set: string;
-  pickedCards: any;
-  currentPack?: any;
-  [key: string]: any;
-}
-
 export interface DraftState {
   packN: number;
   pickN: number;

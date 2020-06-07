@@ -4,6 +4,7 @@ import { setDraftPack } from "../../shared/store/currentDraftStore";
 import { ipcSend } from "../backgroundUtil";
 import globalStore from "../../shared/store";
 import { IPC_OVERLAY } from "../../shared/constants";
+import globals from "../globals";
 
 interface Entry extends LogEntry {
   json: () => DraftNotify;
@@ -17,5 +18,7 @@ export default function onLabelInDraftNotify(entry: Entry): void {
   const currentPack = json.PackCards.split(",").map((c) => parseInt(c));
   // packs and picks start at 1;
   setDraftPack(currentPack, json.SelfPack - 1, json.SelfPick - 1);
-  ipcSend("set_draft", globalStore.currentDraft, IPC_OVERLAY);
+  if (globals.debugLog || !globals.firstPass) {
+    ipcSend("set_draft", globalStore.currentDraft, IPC_OVERLAY);
+  }
 }

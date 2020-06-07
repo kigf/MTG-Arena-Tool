@@ -15,6 +15,11 @@ export const draftStateObject = {
     Array(16).fill([]) as number[][],
     Array(16).fill([]) as number[][],
   ],
+  picks: [
+    Array(16).fill(0) as number[],
+    Array(16).fill(0) as number[],
+    Array(16).fill(0) as number[],
+  ],
 };
 
 export type DraftState = typeof draftStateObject;
@@ -38,6 +43,11 @@ export function resetCurrentDraft(): void {
     Array(16).fill([]) as number[][],
     Array(16).fill([]) as number[][],
     Array(16).fill([]) as number[][],
+  ];
+  globalStore.currentDraft.picks = [
+    Array(16).fill([]) as number[],
+    Array(16).fill([]) as number[],
+    Array(16).fill([]) as number[],
   ];
 }
 
@@ -67,4 +77,5 @@ export function addDraftPick(
   globalStore.currentDraft.currentPack = pack;
   globalStore.currentDraft.currentPick = pick;
   globalStore.currentDraft.pickedCards.push(grpId);
+  globalStore.currentDraft.picks[pack][pick] = grpId;
 }
