@@ -23,7 +23,6 @@ import globalStore, {
   matchExists,
   eventExists,
   transactionExists,
-  draftExists,
   seasonalList,
   getEvent,
   getDraft,
