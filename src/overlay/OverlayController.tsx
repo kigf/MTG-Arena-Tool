@@ -235,7 +235,7 @@ export default function OverlayController(): JSX.Element {
     ipc.on("set_edit_mode", handleSetEditMode);
     ipc.on("close", handleClose);
     ipc.on("set_arena_state", handleSetArenaState);
-    ipc.on("set_draft_cards", handleSetDraftCards);
+    ipc.on("set_draft", handleSetDraftCards);
     ipc.on("set_match", handleSetMatch);
     ipc.on("set_turn", handleSetTurn);
     ipc.on("match_end", handleMatchEnd);
@@ -246,7 +246,7 @@ export default function OverlayController(): JSX.Element {
       ipc.removeListener("set_edit_mode", handleSetEditMode);
       ipc.removeListener("close", handleClose);
       ipc.removeListener("set_arena_state", handleSetArenaState);
-      ipc.removeListener("set_draft_cards", handleSetDraftCards);
+      ipc.removeListener("set_draft", handleSetDraftCards);
       ipc.removeListener("set_match", handleSetMatch);
       ipc.removeListener("set_turn", handleSetTurn);
       ipc.removeListener("match_end", handleMatchEnd);

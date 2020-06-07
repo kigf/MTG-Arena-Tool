@@ -1,11 +1,12 @@
-import getDraftSet from "../draft/getDraftSet";
-import setDraftData from "../draft/setDraftData";
-import endDraft from "../draft/endDraft";
-
 import LogEntry from "../../types/logDecoder";
 import { PlayerCourse } from "../../types/event";
-import convertDeckFromV3 from "../convertDeckFromV3";
+import { setDraftId, setDraftData } from "../../shared/store/currentDraftStore";
+import getSetCodeInEventId from "../../shared/utils/getSetInEventId";
+import { ARENA_MODE_IDLE } from "../../shared/constants";
+import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
+import { httpSetDraft } from "../httpApi";
+import globalStore from "../../shared/store";
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;
@@ -14,17 +15,14 @@ export default function InEventCompleteDraft(entry: Entry): void {
   const json = entry.json();
   console.log("LABEL:  Complete draft ", json);
   if (!json) return;
-  const toolId = json.Id + "-draft";
+  if (globals.debugLog || !globals.firstPass) {
+    ipcSend("set_arena_state", ARENA_MODE_IDLE);
+  }
 
-  //const draftId = json.ModuleInstanceData.DraftInfo?.DraftId || "";
-  const data = {
-    ...globals.currentDraft,
-    ...json,
-    CourseDeck: json.CourseDeck ? convertDeckFromV3(json.CourseDeck) : null,
-  };
-  data.set = getDraftSet(json.InternalEventName) || data.set;
-  data.id = toolId;
-  // save final version of draft
-  setDraftData(data, true);
-  endDraft(data);
+  const set = getSetCodeInEventId(json.InternalEventName);
+  setDraftData({ draftSet: set, eventId: json.InternalEventName });
+  setDraftId(json.Id);
+  httpSetDraft(globalStore.currentDraft);
+  ipcSend("popup", { text: "Draft saved!", time: 3000 });
+  console.log(globalStore.currentDraft);
 }

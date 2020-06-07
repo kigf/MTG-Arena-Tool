@@ -287,7 +287,7 @@ export async function loadPlayerConfig(): Promise<void> {
       .map((id: string) => savedData[id]);
 
     const lastDraft = draftsList[draftsList.length - 1];
-    ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
+    ipcSend("set_draft", lastDraft, IPC_OVERLAY);
 
     ipcLog("...found all documents in player database.");
     ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });

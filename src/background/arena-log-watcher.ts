@@ -227,7 +227,7 @@ function onLogEntryFound(entry: any): void {
 // (in my testing)
 /* eslint-disable-next-line complexity */
 function entrySwitch(entry: LogEntry): void {
-  // console.log(entry, entry.json());
+  //console.log(entry, entry.json());
   switch (entry.label) {
     case "GreToClientEvent":
       Labels.GreToClient(entry);

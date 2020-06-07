@@ -33,6 +33,4 @@ export default function setDraftData(
     console.log("Couldnt save draft without id:", data);
     return;
   }
-
-  ipcSend("set_draft_cards", data, IPC_OVERLAY);
 }
