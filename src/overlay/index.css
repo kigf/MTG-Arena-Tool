@@ -372,7 +372,9 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 8px;
+    overflow: hidden;
+    margin: 4px auto 0px auto;
+    max-width: 160px;
 }
 
 .inventory_card_quantity_blue {
