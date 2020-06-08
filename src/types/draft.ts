@@ -37,7 +37,7 @@ export interface InternalDraftv2 {
   arenaId: string;
   date: string;
   eventId: string;
-  id: string | undefined;
+  id?: string;
   draftSet: string;
   currentPack: number;
   currentPick: number;
