@@ -186,8 +186,7 @@ export function transactionsList(): InternalEconomyTransaction[] {
 // Draft utility functions
 //
 export function getDraft(id: string): InternalDraftv2 | undefined {
-  if (!id || !globalStore.draftsv2[id]) return undefined;
-  return globalStore.draftsv2[id];
+return id ? globalStore.draftsv2[id] : undefined;
 }
 
 export function draftExists(id: string): boolean {
