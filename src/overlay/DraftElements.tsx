@@ -72,7 +72,7 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
   let cardsCount = 0;
   let mainTitle = "Overlay " + (index + 1);
   let subTitle = "";
-  let pack = [] as number[];
+    let pack: number[] = [];
   let pick = 0;
   let pickName = "Pack " + (packN + 1) + " - Pick " + (pickN + 1);
   if (isCurrent) {
