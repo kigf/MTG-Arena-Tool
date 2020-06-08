@@ -3,6 +3,7 @@ import {
   OVERLAY_DRAFT,
   OVERLAY_DRAFT_BREW,
   PACK_SIZES,
+  DEFAULT_PACK_SIZE,
 } from "../shared/constants";
 import Deck from "../shared/deck";
 import { DraftState, InternalDraftv2 } from "../types/draft";
@@ -28,7 +29,7 @@ export interface DraftElementsProps {
  */
 export default function DraftElements(props: DraftElementsProps): JSX.Element {
   const { draft, draftState, index, setDraftStateCallback, settings } = props;
-  const packSize = packSizeMap[draft.draftSet] || 14;
+  const packSize = packSizeMap[draft.draftSet] || DEFAULT_PACK_SIZE;
 
   const handleDraftPrev = useCallback((): void => {
     let { packN, pickN } = draftState;

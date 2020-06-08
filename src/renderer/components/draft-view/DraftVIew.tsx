@@ -7,6 +7,7 @@ import {
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,
   IPC_NONE,
+  DEFAULT_PACK_SIZE,
 } from "../../../shared/constants";
 import useHoverCard from "../../hooks/useHoverCard";
 import db from "../../../shared/database";
@@ -26,8 +27,6 @@ interface PickPack {
   pack: number;
   pick: number;
 }
-
-const DEFAULT_PACK_SIZE = 14;
 
 function positionFromPickPack(pp: PickPack, set: string): number {
   const packSize = PACK_SIZES[set] ?? DEFAULT_PACK_SIZE;
