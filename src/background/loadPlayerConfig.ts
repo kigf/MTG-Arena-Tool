@@ -20,8 +20,9 @@ import store from "../shared/redux/stores/backgroundStore";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import Deck from "../shared/deck";
-import { InternalDraftv2 } from "../types/draft";
+import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
+import convertDraftToV2 from "../shared/utils/convertDraftToV2";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {
@@ -201,6 +202,20 @@ export async function loadPlayerConfig(): Promise<void> {
       { type: "SET_MANY_ECONOMY", arg: economyList },
       IPC_RENDERER
     );
+  }
+
+  // Get old drafts data and convert
+  if (savedData.draft_index) {
+    const draftsList: InternalDraftv2[] = savedData.draft_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => convertDraftToV2(savedData[id] as InternalDraft));
+
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_MANY_DRAFT", arg: draftsList },
+      IPC_RENDERER
+    );
+    // should clear previous index after this.
   }
 
   // Get Drafts data

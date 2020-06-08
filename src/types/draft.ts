@@ -47,6 +47,11 @@ export interface InternalDraftv2 {
   type: "draft";
 }
 
+export interface InternalDraftPackPick {
+  pack: string[];
+  pick: string;
+}
+
 export interface InternalDraft {
   eventId: string;
   draftId: string;
@@ -59,7 +64,7 @@ export interface InternalDraft {
   InternalEventName: string;
   date: string;
   type: string;
-  CardPool: null | string[] | number[];
+  CardPool: null | string[];
   CourseDeck: null | InternalDeck;
   pickedCards: string[];
   currentPack: string[];
