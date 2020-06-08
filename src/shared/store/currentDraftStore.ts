@@ -52,17 +52,19 @@ export function resetCurrentDraft(): void {
   ];
 }
 
+export function setDraftPackPick(pack: number, pick: number): void {
+  globalStore.currentDraft.currentPack = pack;
+  globalStore.currentDraft.currentPick = pick;
+}
+
 export function setDraftPack(
   cards: number[],
   argPack: number | undefined,
   argPick: number | undefined
 ): void {
-  const pack =
-    argPack == undefined ? globalStore.currentDraft.currentPack : argPack;
-  const pick =
-    argPick == undefined ? globalStore.currentDraft.currentPick : argPick;
-  globalStore.currentDraft.currentPack = pack;
-  globalStore.currentDraft.currentPick = pick;
+  const pack = argPack ?? globalStore.currentDraft.currentPack;
+  const pick = argPick ?? globalStore.currentDraft.currentPick;
+  setDraftPackPick(pack, pick);
   globalStore.currentDraft.packs[pack][pick] = cards;
 }
 
@@ -71,12 +73,9 @@ export function addDraftPick(
   argPack: number | undefined,
   argPick: number | undefined
 ): void {
-  const pack =
-    argPack == undefined ? globalStore.currentDraft.currentPack : argPack;
-  const pick =
-    argPick == undefined ? globalStore.currentDraft.currentPick : argPick;
-  globalStore.currentDraft.currentPack = pack;
-  globalStore.currentDraft.currentPick = pick;
+  const pack = argPack ?? globalStore.currentDraft.currentPack;
+  const pick = argPick ?? globalStore.currentDraft.currentPick;
+  setDraftPackPick(pack, pick);
   globalStore.currentDraft.pickedCards.push(grpId);
   globalStore.currentDraft.picks[pack][pick] = grpId;
 }
