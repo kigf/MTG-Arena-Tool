@@ -16,9 +16,11 @@ const draftsSlice = createSlice({
   reducers: {
     setDraft: (state: Drafts, action: PayloadAction<InternalDraftv2>): void => {
       const draft = action.payload as InternalDraftv2;
-      globalStore.draftsv2[draft.id] = { ...draft };
-      if (state.draftsIndex.indexOf(draft.id) === -1) {
-        state.draftsIndex.push(draft.id);
+      if (draft.id) {
+        globalStore.draftsv2[draft.id] = { ...draft };
+        if (state.draftsIndex.indexOf(draft.id) === -1) {
+          state.draftsIndex.push(draft.id);
+        }
       }
     },
     setManyDrafts: (
@@ -27,7 +29,7 @@ const draftsSlice = createSlice({
     ): void => {
       const newList: string[] = [];
       action.payload.map((draft: InternalDraftv2) => {
-        if (state.draftsIndex.indexOf(draft.id) === -1) {
+        if (draft.id && state.draftsIndex.indexOf(draft.id) === -1) {
           globalStore.draftsv2[draft.id] = draft;
           newList.push(draft.id);
         }
