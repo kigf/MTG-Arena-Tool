@@ -3,7 +3,11 @@ import { InternalDeck } from "../../types/Deck";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";
 import selectDeck from "../selectDeck";
-import { setDraftId, setDraftData, resetCurrentDraft } from "../../shared/store/currentDraftStore";
+import {
+  setDraftId,
+  setDraftData,
+  resetCurrentDraft,
+} from "../../shared/store/currentDraftStore";
 import { ModuleInstanceData } from "../../types/event";
 import getSetCodeInEventId from "../../shared/utils/getSetInEventId";
 
