@@ -42,21 +42,24 @@ export default function ListItemDraft({
     setHover(false);
   }, []);
 
+  const draftSetName =
+    Object.keys(db.sets).filter(
+      (name) => db.sets[name].arenacode == draft.draftSet
+    )[0] || "";
+  const draftSet = db.sets[draftSetName];
+
   return (
     <ListItem
       click={onRowClick}
       mouseEnter={mouseEnter}
       mouseLeave={mouseLeave}
     >
-      <HoverTile
-        hover={hover}
-        grpId={db.sets[draft.draftSet]?.tile || DEFAULT_TILE}
-      />
+      <HoverTile hover={hover} grpId={draftSet?.tile || DEFAULT_TILE} />
 
       <Column class={css.listItemLeft}>
         <FlexTop>
           <div className={css.listDeckName}>
-            {draft.draftSet + " Draft" || ""}
+            {draftSetName + " Draft" || ""}
           </div>
         </FlexTop>
         <FlexBottom>

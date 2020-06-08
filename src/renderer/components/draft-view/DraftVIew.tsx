@@ -136,15 +136,15 @@ export function DraftView(props: DraftViewProps): JSX.Element {
     [draft.draftSet]
   );
 
-  const getCurrentPick = useCallback(() => {
+  const getCurrentPick = useCallback((): { pack: number[]; pick: number } => {
     const pack = draft.packs[pickpack.pack][pickpack.pick];
-    const pick = draft.packs[pickpack.pack][pickpack.pick];
+    const pick = draft.picks[pickpack.pack][pickpack.pick];
     return pack && pick ? { pack, pick } : { pick: 0, pack: [] as number[] };
   }, [draft, pickpack.pack, pickpack.pick]);
 
   const getCurrentDeck = useCallback((): Deck => {
     const pos = positionFromPickPack(pickpack, draft.draftSet);
-    const list = draft.pickedCards.slice(0, pos);
+    const list = draft.pickedCards.slice(0, pos + 1);
     const decklist = new Deck({}, list);
     decklist.getMainboard().removeDuplicates();
     return decklist;

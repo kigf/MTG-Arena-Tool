@@ -31,6 +31,7 @@ import { getMatch, draftExists, getDraft } from "../../../shared/store";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 import { InternalDraftv2 } from "../../../types/draft";
+import { useSpring, animated } from "react-spring";
 
 function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   const draftId = event.id + "-draft";
@@ -206,10 +207,14 @@ function EventSubRows({
     return matchRows;
   }, [draftId, event.stats.matchIds, expanded, initialDraft]);
 
-  const style = expanded ? { height: matchRows.length * 64 + "px" } : {};
+  const style = useSpring({
+    height: expanded
+      ? (matchRows.length + (initialDraft.current ? 1 : 0)) * 64 + "px"
+      : "0px",
+  });
 
   return (
-    <div style={style} className={css.listEventExpand}>
+    <animated.div style={style} className={css.listEventExpand}>
       {initialDraft.current ? (
         <ListItemDraft
           key={initialDraft.current.id}
@@ -227,7 +232,7 @@ function EventSubRows({
           />
         ) : null;
       })}
-    </div>
+    </animated.div>
   );
 }
 

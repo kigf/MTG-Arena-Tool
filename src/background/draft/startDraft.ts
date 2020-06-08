@@ -1,10 +1,7 @@
 import { ARENA_MODE_DRAFT } from "../../shared/constants";
 import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
-import {
-  setDraftData,
-  resetCurrentDraft,
-} from "../../shared/store/currentDraftStore";
+import { setDraftData } from "../../shared/store/currentDraftStore";
 import { InternalDraftv2 } from "../../types/draft";
 
 export default function startDraft(): void {
@@ -23,7 +20,6 @@ export default function startDraft(): void {
     date: globals.logTime.toISOString(),
   } as Partial<InternalDraftv2>;
 
-  resetCurrentDraft();
   setDraftData(add);
   globals.duringDraft = true;
 }

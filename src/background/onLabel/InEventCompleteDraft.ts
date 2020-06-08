@@ -21,7 +21,7 @@ export default function InEventCompleteDraft(entry: Entry): void {
 
   const set = getSetCodeInEventId(json.InternalEventName);
   setDraftData({ draftSet: set, eventId: json.InternalEventName });
-  setDraftId(json.Id);
+  setDraftId(json.Id + "-draft");
   httpSetDraft(globalStore.currentDraft);
   ipcSend("popup", { text: "Draft saved!", time: 3000 });
   console.log(globalStore.currentDraft);

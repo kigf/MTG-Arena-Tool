@@ -1,6 +1,6 @@
 import LogEntry from "../../types/logDecoder";
 import { InMakeHumanDraftPick } from "../../types/draft";
-import globalStore from "../../shared/store";
+import completeDraft from "../draft/completeDraft";
 
 interface Entry extends LogEntry {
   json: () => InMakeHumanDraftPick;
@@ -12,6 +12,6 @@ export default function onLabelInMakeHumanDraftPick(entry: Entry): void {
   if (!json) return;
 
   if (json.IsPickingCompleted) {
-    console.log(globalStore.currentDraft);
+    completeDraft();
   }
 }

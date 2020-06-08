@@ -22,6 +22,7 @@ export default function completeDraft(): void {
         IPC_RENDERER
       );
     }
+    console.log("Compelte draft: ", draft);
     playerDb.upsert("", draft.id, draft);
   } else {
     console.log("Couldnt save draft without id:", draft);
