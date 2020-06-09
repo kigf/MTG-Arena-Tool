@@ -7,3 +7,10 @@ export default interface LogEntry {
   jsonString?: string;
   json: () => any;
 }
+
+export interface ClientSceneChange {
+  fromSceneName: string;
+  toSceneName: string;
+  initiator: string;
+  context: string;
+}

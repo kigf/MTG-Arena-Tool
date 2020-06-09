@@ -21,7 +21,6 @@ import globalStore, {
   matchExists,
   eventExists,
   transactionExists,
-  draftExists,
   seasonalList,
   getEvent,
   getDraft,
@@ -52,7 +51,7 @@ import {
 } from "../types/api";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
-import { InternalDraft } from "../types/draft";
+import { InternalDraft, InternalDraftv2 } from "../types/draft";
 import { InternalDeck } from "../types/Deck";
 import { SeasonalRankData } from "../types/Season";
 import { SettingsData } from "../types/settings";
@@ -154,7 +153,7 @@ function saveDrafts(data: InternalDraft[]): void {
     { type: "SET_MANY_DRAFT", arg: data },
     IPC_RENDERER
   );
-  playerDb.upsert("", "draft_index", draft_index);
+  playerDb.upsert("", "draftv2_index", draft_index);
 }
 
 function saveEconomy(data: InternalEconomyTransaction[]): void {
@@ -354,7 +353,7 @@ function handlePushSync(syncIds: SyncIds): void {
         globalStore.matches[id] &&
         privateDecks.indexOf(globalStore.matches[id].id) == -1
     ),
-    drafts: Object.keys(globalStore.drafts).filter(
+    drafts: Object.keys(globalStore.draftsv2).filter(
       (id) => syncIds.drafts.indexOf(id) == -1
     ),
     economy: Object.keys(globalStore.transactions).filter(
@@ -613,7 +612,7 @@ export function httpSetMatch(match: InternalMatch): void {
   }
 }
 
-export function httpSetDraft(draft: InternalDraft): void {
+export function httpSetDraft(draft: InternalDraftv2): void {
   const _id = makeId(6);
   const anon = globals.store.getState().settings.anon_explore;
   draft.arenaId =
@@ -787,7 +786,7 @@ export function httpGetDatabaseVersion(lang: string): void {
 export function httpDraftShareLink(
   did: string,
   exp: number,
-  draftData: InternalDraft
+  draftData: InternalDraftv2
 ): void {
   const _id = makeId(6);
   globals.httpQueue?.push(

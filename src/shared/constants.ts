@@ -805,6 +805,8 @@ export const RANKS_SORT: Record<string, number> = {
   Mythic: 6,
 } as const;
 
+export const DEFAULT_PACK_SIZE = 14;
+
 export const PACK_SIZES: Record<string, number> = {
   "Ravnica Allegiance": 14,
   "Guilds of Ravnica": 14,

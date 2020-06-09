@@ -7,9 +7,9 @@ import {
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,
   IPC_NONE,
+  DEFAULT_PACK_SIZE,
 } from "../../../shared/constants";
 import useHoverCard from "../../hooks/useHoverCard";
-import { DraftData } from "../../../types/draft";
 import db from "../../../shared/database";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
@@ -21,13 +21,12 @@ import sharedCss from "../../../shared/shared.css";
 import css from "./DraftView.css";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import { getRankColorClass } from "../../../shared/utils/getRankColorClass";
+import { InternalDraftv2 } from "../../../types/draft";
 
 interface PickPack {
   pack: number;
   pick: number;
 }
-
-const DEFAULT_PACK_SIZE = 14;
 
 function positionFromPickPack(pp: PickPack, set: string): number {
   const packSize = PACK_SIZES[set] ?? DEFAULT_PACK_SIZE;
@@ -87,7 +86,7 @@ function DraftCard(props: DraftCardProps): JSX.Element {
 }
 
 interface DraftViewProps {
-  draft: DraftData;
+  draft: InternalDraftv2;
 }
 
 export function DraftView(props: DraftViewProps): JSX.Element {
@@ -96,12 +95,12 @@ export function DraftView(props: DraftViewProps): JSX.Element {
   const [pickpack, setPickPack] = React.useState({ pick: 0, pack: 0 });
   const cardSize =
     100 + useSelector((state: AppState) => state.settings.cards_size) * 15;
-  const maxPosition = (PACK_SIZES[draft.set] ?? DEFAULT_PACK_SIZE) * 3 - 1;
+  const maxPosition = (PACK_SIZES[draft.draftSet] ?? DEFAULT_PACK_SIZE) * 3 - 1;
 
   const downHandler = React.useCallback(
     (event: KeyboardEvent): void => {
       const key = event.key;
-      let position = positionFromPickPack(pickpack, draft.set);
+      let position = positionFromPickPack(pickpack, draft.draftSet);
       if (key === "ArrowLeft") {
         position -= 1;
       } else if (key === "ArrowRight") {
@@ -112,9 +111,9 @@ export function DraftView(props: DraftViewProps): JSX.Element {
       } else if (position > maxPosition) {
         position = 0;
       }
-      setPickPack(pickPackFromPosition(position, draft.set));
+      setPickPack(pickPackFromPosition(position, draft.draftSet));
     },
-    [maxPosition, pickpack, draft.set]
+    [maxPosition, pickpack, draft.draftSet]
   );
 
   React.useEffect(() => {
@@ -131,38 +130,34 @@ export function DraftView(props: DraftViewProps): JSX.Element {
 
   const onSliderChange = useCallback(
     (value: number) => {
-      setPickPack(pickPackFromPosition(value, draft.set));
+      setPickPack(pickPackFromPosition(value, draft.draftSet));
     },
-    [draft.set]
+    [draft.draftSet]
   );
 
-  const getCurrentPick = useCallback(() => {
-    const key = `pack_${pickpack.pack}pick_${pickpack.pick}`;
-    return draft[key] ? draft[key] : { pick: 0, pack: [] };
+  const getCurrentPick = useCallback((): { pack: number[]; pick: number } => {
+    const pack = draft.packs[pickpack.pack][pickpack.pick];
+    const pick = draft.picks[pickpack.pack][pickpack.pick];
+    return pack && pick ? { pack, pick } : { pick: 0, pack: [] as number[] };
   }, [draft, pickpack.pack, pickpack.pick]);
 
   const getCurrentDeck = useCallback((): Deck => {
-    const pos = positionFromPickPack(pickpack, draft.set);
-    const decklist = new Deck();
-
-    for (let i = 0; i < pos; i++) {
-      const pp = pickPackFromPosition(i, draft.set);
-      const key = `pack_${pp.pack}pick_${pp.pick}`;
-      decklist.getMainboard().add(draft[key].pick);
-    }
+    const pos = positionFromPickPack(pickpack, draft.draftSet);
+    const list = draft.pickedCards.slice(0, pos + 1);
+    const decklist = new Deck({}, list);
     decklist.getMainboard().removeDuplicates();
     return decklist;
   }, [draft, pickpack]);
 
   const sliderPositions = Array(maxPosition + 1).fill(new SliderPosition());
   sliderPositions[
-    positionFromPickPack({ pick: 0, pack: 0 }, draft.set)
+    positionFromPickPack({ pick: 0, pack: 0 }, draft.draftSet)
   ] = new SliderPosition("Pack 1");
   sliderPositions[
-    positionFromPickPack({ pick: 0, pack: 1 }, draft.set)
+    positionFromPickPack({ pick: 0, pack: 1 }, draft.draftSet)
   ] = new SliderPosition("Pack 2");
   sliderPositions[
-    positionFromPickPack({ pick: 0, pack: 2 }, draft.set)
+    positionFromPickPack({ pick: 0, pack: 2 }, draft.draftSet)
   ] = new SliderPosition("Pack 3");
 
   return (
@@ -172,7 +167,7 @@ export function DraftView(props: DraftViewProps): JSX.Element {
           className={`${sharedCss.button} ${sharedCss.back}`}
           onClick={goBack}
         ></div>
-        <div className={indexCss.deckName}>{draft.set + " Draft"}</div>
+        <div className={indexCss.deckName}>{draft.draftSet + " Draft"}</div>
       </div>
       <div
         className={indexCss.flexItem}
@@ -183,7 +178,7 @@ export function DraftView(props: DraftViewProps): JSX.Element {
         </div>
         <Slider
           containerStyle={{ margin: "8px 0 30px 0" }}
-          value={positionFromPickPack(pickpack, draft.set)}
+          value={positionFromPickPack(pickpack, draft.draftSet)}
           onChange={onSliderChange}
           max={maxPosition}
           positions={sliderPositions}

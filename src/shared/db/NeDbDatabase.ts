@@ -19,6 +19,7 @@ const nonDocFields = [
   "courses_index",
   "matches_index",
   "draft_index",
+  "draftv2_index",
   "decks_last_used",
   "static_decks",
   "static_events",

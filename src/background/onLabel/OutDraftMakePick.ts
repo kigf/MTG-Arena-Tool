@@ -1,34 +1,19 @@
 import LogEntry from "../../types/logDecoder";
-import setDraftData from "../draft/setDraftData";
-import globals from "../globals";
-
-interface EntryJson {
-  params: {
-    draftId: string;
-    packNumber: string;
-    pickNumber: string;
-    cardId: string;
-  };
-}
+import { addDraftPick } from "../../shared/store/currentDraftStore";
+import { DraftMakePick } from "../../types/draft";
 
 interface Entry extends LogEntry {
-  json: () => EntryJson;
+  json: () => DraftMakePick;
 }
 
 export default function onLabelOutDraftMakePick(entry: Entry): void {
   const json = entry.json();
   if (!json || !json.params) return;
   const { packNumber, pickNumber, cardId } = json.params;
-  const key = "pack_" + packNumber + "pick_" + pickNumber;
-  const draftData = globals.currentDraft;
-  const data = {
-    ...draftData,
-    [key]: {
-      pick: cardId,
-      pack: draftData.currentPack,
-    },
-  };
 
+  const grpId = parseInt(cardId);
+  const pack = parseInt(packNumber);
+  const pick = parseInt(pickNumber);
   //console.log("LABEL:  Make pick > ", json, data);
-  setDraftData(data);
+  addDraftPick(grpId, pack, pick);
 }

@@ -7,7 +7,7 @@ import {
   OVERLAY_DRAFT_MODES,
 } from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
-import { DraftData, DraftState } from "../types/draft";
+import { DraftState, InternalDraftv2 } from "../types/draft";
 import { SettingsData } from "../types/settings";
 import DraftElements from "./DraftElements";
 import MatchElements from "./MatchElements";
@@ -23,7 +23,7 @@ import DEFAULT_BACKGROUND from "../assets/images/Bedevil-Art.jpg";
 export interface OverlayWindowletProps {
   arenaState: number;
   actionLog: string;
-  draft?: DraftData;
+  draft?: InternalDraftv2;
   draftState: DraftState;
   editMode: boolean;
   handleClickClose: () => void;

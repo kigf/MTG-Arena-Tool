@@ -3,9 +3,10 @@ import {
   OVERLAY_DRAFT,
   OVERLAY_DRAFT_BREW,
   PACK_SIZES,
+  DEFAULT_PACK_SIZE,
 } from "../shared/constants";
 import Deck from "../shared/deck";
-import { DraftData, DraftState } from "../types/draft";
+import { DraftState, InternalDraftv2 } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import DeckList from "./DeckList";
 
@@ -15,7 +16,7 @@ import ManaCost from "../renderer/components/misc/ManaCost";
 const packSizeMap: { [key: string]: number } = PACK_SIZES;
 
 export interface DraftElementsProps {
-  draft: DraftData;
+  draft: InternalDraftv2;
   draftState: DraftState;
   index: number;
   settings: OverlaySettingsData;
@@ -28,7 +29,7 @@ export interface DraftElementsProps {
  */
 export default function DraftElements(props: DraftElementsProps): JSX.Element {
   const { draft, draftState, index, setDraftStateCallback, settings } = props;
-  const packSize = packSizeMap[draft.set] || 14;
+  const packSize = packSizeMap[draft.draftSet] || DEFAULT_PACK_SIZE;
 
   const handleDraftPrev = useCallback((): void => {
     let { packN, pickN } = draftState;
@@ -38,8 +39,8 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
       packN -= 1;
     }
     if (packN < 0) {
-      pickN = draft.pickNumber;
-      packN = draft.packNumber;
+      pickN = draft.currentPick;
+      packN = draft.currentPack;
     }
     setDraftStateCallback({ packN, pickN });
   }, [draftState, draft, packSize, setDraftStateCallback]);
@@ -51,40 +52,35 @@ export default function DraftElements(props: DraftElementsProps): JSX.Element {
       pickN = 0;
       packN += 1;
     }
-    if (pickN > draft.pickNumber && packN == draft.packNumber) {
+    if (pickN > draft.currentPick && packN == draft.currentPack) {
       pickN = 0;
       packN = 0;
     }
     if (
-      packN > draft.packNumber ||
-      (pickN == draft.pickNumber && packN == draft.packNumber)
+      packN > draft.currentPack ||
+      (pickN == draft.currentPick && packN == draft.currentPack)
     ) {
-      packN = draft.packNumber;
-      pickN = draft.pickNumber;
+      packN = draft.currentPack;
+      pickN = draft.currentPick;
     }
     setDraftStateCallback({ packN, pickN });
   }, [draftState, draft, packSize, setDraftStateCallback]);
 
   const { packN, pickN } = draftState;
-  const isCurrent = packN === draft.packNumber && pickN === draft.pickNumber;
+  const isCurrent = packN === draft.currentPack && pickN === draft.currentPick;
   let visibleDeck = null;
   let cardsCount = 0;
   let mainTitle = "Overlay " + (index + 1);
   let subTitle = "";
-  let pack = [];
+  let pack: number[] = [];
   let pick = 0;
   let pickName = "Pack " + (packN + 1) + " - Pick " + (pickN + 1);
   if (isCurrent) {
     pickName += " - Current";
   }
-  const key = "pack_" + packN + "pick_" + pickN;
-  if (key in draft) {
-    pack = draft[key].pack;
-    pick = draft[key].pick;
-  } else if (isCurrent) {
-    pack = draft.currentPack;
-    pick = 0;
-  }
+
+  pack = draft.packs[packN][pickN];
+  pick = draft.picks[packN][pickN];
   if (settings.mode === OVERLAY_DRAFT) {
     visibleDeck = new Deck({ name: pickName }, pack);
     cardsCount = visibleDeck.getMainboard().count();

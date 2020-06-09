@@ -14,7 +14,6 @@ import {
 import Deck from "../shared/deck";
 import { AppState } from "../shared/redux/stores/overlayStore";
 import { MatchData } from "../types/currentMatch";
-import { DraftData } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
@@ -22,6 +21,7 @@ import Overview from "./overview";
 import css from "./index.css";
 
 import blipSound from "../assets/sounds/blip.mp3";
+import { InternalDraftv2 } from "../types/draft";
 const sound = new Howl({ src: [blipSound] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);
@@ -59,7 +59,7 @@ export default function OverlayController(): JSX.Element {
   const [arenaState, setArenaState] = useState(ARENA_MODE_IDLE);
   const [editMode, setEditMode] = useState(false);
   const [match, setMatch] = useState<undefined | MatchData>(undefined);
-  const [draft, setDraft] = useState<undefined | DraftData>(undefined);
+  const [draft, setDraft] = useState<undefined | InternalDraftv2>(undefined);
   const [draftState, setDraftState] = useState({ packN: 0, pickN: 0 });
   const [turnPriority, setTurnPriority] = useState(1);
   const settings = useSelector((state: AppState) => state.settings);
@@ -178,9 +178,9 @@ export default function OverlayController(): JSX.Element {
   };
 
   const handleSetDraftCards = useCallback(
-    (_event: unknown, draft: DraftData): void => {
+    (_event: unknown, draft: InternalDraftv2): void => {
       setDraft(draft);
-      setDraftState({ packN: draft.packNumber, pickN: draft.pickNumber });
+      setDraftState({ packN: draft.currentPack, pickN: draft.currentPick });
     },
     []
   );
@@ -235,7 +235,7 @@ export default function OverlayController(): JSX.Element {
     ipc.on("set_edit_mode", handleSetEditMode);
     ipc.on("close", handleClose);
     ipc.on("set_arena_state", handleSetArenaState);
-    ipc.on("set_draft_cards", handleSetDraftCards);
+    ipc.on("set_draft", handleSetDraftCards);
     ipc.on("set_match", handleSetMatch);
     ipc.on("set_turn", handleSetTurn);
     ipc.on("match_end", handleMatchEnd);
@@ -246,7 +246,7 @@ export default function OverlayController(): JSX.Element {
       ipc.removeListener("set_edit_mode", handleSetEditMode);
       ipc.removeListener("close", handleClose);
       ipc.removeListener("set_arena_state", handleSetArenaState);
-      ipc.removeListener("set_draft_cards", handleSetDraftCards);
+      ipc.removeListener("set_draft", handleSetDraftCards);
       ipc.removeListener("set_match", handleSetMatch);
       ipc.removeListener("set_turn", handleSetTurn);
       ipc.removeListener("match_end", handleMatchEnd);

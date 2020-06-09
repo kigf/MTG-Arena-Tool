@@ -27,3 +27,8 @@ export { default as InEventGetActiveEventsV2 } from "./InEventGetActiveEventsV2"
 export { default as MatchGameRoomStateChangedEvent } from "./MatchGameRoomStateChangedEvent";
 export { default as InEventGetSeasonAndRankDetail } from "./InEventGetSeasonAndRankDetail";
 export { default as GetPlayerInventoryGetRewardSchedule } from "./GetPlayerInventoryGetRewardSchedule";
+export { default as InDraftNotify } from "./InDraftNotify";
+export { default as InMakeHumanDraftPick } from "./InMakeHumanDraftPick";
+export { default as outMakeHumanDraftPick } from "./OutMakeHumanDraftPick";
+export { default as onClientSceneChange } from "./onClientSceneChange";
+export { default as InEventJoinPodMaking } from "./InEventJoinPodMaking";

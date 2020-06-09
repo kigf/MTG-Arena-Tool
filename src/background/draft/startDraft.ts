@@ -1,6 +1,8 @@
 import { ARENA_MODE_DRAFT } from "../../shared/constants";
 import { ipcSend } from "../backgroundUtil";
-import globals, { InternalDraftDefault } from "../globals";
+import globals from "../globals";
+import { setDraftData } from "../../shared/store/currentDraftStore";
+import { InternalDraftv2 } from "../../types/draft";
 
 export default function startDraft(): void {
   if (globals.debugLog || !globals.firstPass) {
@@ -12,13 +14,12 @@ export default function startDraft(): void {
 
   const playerData = globals.store.getState().playerdata;
   const appSettings = globals.store.getState().appsettings;
-  const newDraft = {
-    ...InternalDraftDefault,
+  const add = {
     arenaId: playerData.playerName,
-    player: playerData.playerName,
     owner: appSettings.email,
-  };
+    date: globals.logTime.toISOString(),
+  } as Partial<InternalDraftv2>;
 
-  globals.currentDraft = newDraft;
+  setDraftData(add);
   globals.duringDraft = true;
 }

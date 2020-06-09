@@ -20,7 +20,7 @@ import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
 import database from "../shared/database";
 import Colors from "../shared/colors";
-import { InternalDraft } from "../types/draft";
+import { InternalDraftv2 } from "../types/draft";
 import Deck from "../shared/deck";
 
 export interface CardWinrateData {
@@ -149,7 +149,7 @@ export default class Aggregator {
     };
   }
 
-  public static isDraftMatch(match: InternalDraft | InternalMatch): boolean {
+  public static isDraftMatch(match: InternalDraftv2 | InternalMatch): boolean {
     if (
       (match.eventId && match.eventId.includes("Draft")) ||
       (match.type && match.type === "draft")

@@ -242,7 +242,6 @@
 
 .list_event_expand {
   width: calc(100% - 32px);
-  height: 0px;
   overflow: hidden;
   margin-left: 16px;
   -webkit-transition: all .2s ease-in;

@@ -222,13 +222,11 @@ declare namespace IndexCssModule {
     openDeck: string;
     openMatches: string;
     open_button: string;
-    overlayCardQuantity: string;
     overlayCurrent: string;
     overlayIcon: string;
     overlayLabel: string;
     overlayNext: string;
     overlayPrev: string;
-    overlay_card_quantity: string;
     overlay_current: string;
     overlay_icon: string;
     overlay_label: string;

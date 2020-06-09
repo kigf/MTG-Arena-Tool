@@ -20,8 +20,9 @@ import store from "../shared/redux/stores/backgroundStore";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
 import Deck from "../shared/deck";
-import { InternalDraft } from "../types/draft";
+import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
+import convertDraftToV2 from "../shared/utils/convertDraftToV2";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {
@@ -203,9 +204,23 @@ export async function loadPlayerConfig(): Promise<void> {
     );
   }
 
-  // Get Drafts data
+  // Get old drafts data and convert
   if (savedData.draft_index) {
-    const draftsList: InternalDraft[] = savedData.draft_index
+    const draftsList: InternalDraftv2[] = savedData.draft_index
+      .filter((id: string) => savedData[id])
+      .map((id: string) => convertDraftToV2(savedData[id] as InternalDraft));
+
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_MANY_DRAFT", arg: draftsList },
+      IPC_RENDERER
+    );
+    // should clear previous index after this.
+  }
+
+  // Get Drafts data
+  if (savedData.draftv2_index) {
+    const draftsList: InternalDraftv2[] = savedData.draftv2_index
       .filter((id: string) => savedData[id])
       .map((id: string) => savedData[id]);
 
@@ -280,13 +295,13 @@ export async function loadPlayerConfig(): Promise<void> {
   syncSettings(settings, true);
 
   // populate draft overlays with last draft if possible
-  if (savedData.draft_index && savedData.draft_index.length) {
-    const draftsList: InternalEconomyTransaction[] = savedData.draft_index
+  if (savedData.draftv2_index && savedData.draftv2_index.length) {
+    const draftsList: InternalEconomyTransaction[] = savedData.draftv2_index
       .filter((id: string) => savedData[id])
       .map((id: string) => savedData[id]);
 
     const lastDraft = draftsList[draftsList.length - 1];
-    ipcSend("set_draft_cards", lastDraft, IPC_OVERLAY);
+    ipcSend("set_draft", lastDraft, IPC_OVERLAY);
 
     ipcLog("...found all documents in player database.");
     ipcPop({ text: "Player history loaded.", time: 3000, progress: -1 });

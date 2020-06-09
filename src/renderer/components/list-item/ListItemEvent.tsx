@@ -26,19 +26,20 @@ import RoundCard from "../misc/RoundCard";
 import { compareDesc } from "date-fns";
 import { useDispatch } from "react-redux";
 import { InternalMatch } from "../../../types/match";
-import { InternalDraft } from "../../../types/draft";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { getMatch, draftExists, getDraft } from "../../../shared/store";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
+import { InternalDraftv2 } from "../../../types/draft";
+import { useSpring, animated } from "react-spring";
 
 function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   const draftId = event.id + "-draft";
   let draftRares: JSX.Element[] = [];
   if (draftExists(draftId)) {
     const draft = getDraft(draftId);
-    if (draft && draft.CardPool) {
-      const pool = [...draft.CardPool];
+    if (draft?.pickedCards) {
+      const pool = [...draft.pickedCards];
       draftRares = pool
         .map((cardId: string | number) => db.card(cardId))
         .filter(
@@ -189,7 +190,7 @@ function EventSubRows({
   );
 
   // This will be set on first render, no need to update state again
-  const initialDraft = useRef<InternalDraft | undefined>(undefined);
+  const initialDraft = useRef<InternalDraftv2 | undefined>(undefined);
   const matchRows: InternalMatch[] = React.useMemo(() => {
     if (!expanded) {
       return [];
@@ -206,10 +207,14 @@ function EventSubRows({
     return matchRows;
   }, [draftId, event.stats.matchIds, expanded, initialDraft]);
 
-  const style = expanded ? { height: matchRows.length * 64 + "px" } : {};
+  const style = useSpring({
+    height: expanded
+      ? (matchRows.length + (initialDraft.current ? 1 : 0)) * 64 + "px"
+      : "0px",
+  });
 
   return (
-    <div style={style} className={css.listEventExpand}>
+    <animated.div style={style} className={css.listEventExpand}>
       {initialDraft.current ? (
         <ListItemDraft
           key={initialDraft.current.id}
@@ -227,7 +232,7 @@ function EventSubRows({
           />
         ) : null;
       })}
-    </div>
+    </animated.div>
   );
 }
 
