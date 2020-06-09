@@ -1,6 +1,6 @@
 import { RequestOptions } from "http";
 import { InternalDeck } from "./Deck";
-import { InternalDraft } from "./draft";
+import { InternalDraftv2 } from "./draft";
 import { InternalEvent } from "./event";
 import { InternalMatch } from "./match";
 import { InternalEconomyTransaction } from "./inventory";
@@ -97,7 +97,7 @@ export interface BulkMatches extends BulkResponse {
 }
 
 export interface BulkDrafts extends BulkResponse {
-  result: InternalDraft[];
+  result: InternalDraftv2[];
 }
 
 export interface BulkEconomy extends BulkResponse {
@@ -135,7 +135,7 @@ export interface HttpPostSeasonal extends BaseHttpTask {
 
 export interface HttpPostDraft extends BaseHttpTask {
   method: "postDraft";
-  data: InternalDraft;
+  data: InternalDraftv2;
 }
 
 export interface HttpGetCourse extends BaseHttpTask {
@@ -213,7 +213,7 @@ export interface HttpShareDraft extends BaseHttpTask {
   method: "shareDraft";
   data: {
     id: string;
-    draft: InternalDraft;
+    draft: InternalDraftv2;
     expire: number;
   };
 }
