@@ -47,9 +47,8 @@ export default function convertDraftToV2(
     // removed number from the original CardPool to make this work
     // Basically we cant map a string[] | number[] array and get it
     // typed as a number[] automatically based on the map fn
-    pickedCards: original.CardPool?.map((n: string | number) =>
-      parseInt(n + "")
-    ) as number[],
+    pickedCards:
+      original.CardPool?.map((n: string | number) => parseInt(n + "")) || [],
     packs,
     picks,
     type: "draft",
