@@ -47,6 +47,7 @@ function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
  */
 function getRankY(rank: string, tier: number, steps: number): number {
   let value = 0;
+  // Number of "shards" (levels) in each rank * the number of tiers
   const regularSteps = 4 * 6;
   switch (rank) {
     case "Bronze":
@@ -123,6 +124,7 @@ function getSeasonData(
 
   return newData
     .sort(sortByTimestamp)
+    .filter((data: SeasonalRankData) => matchExists(data.lastMatchId))
     .map((data: SeasonalRankData, i: number) =>
       morphData(data, i > 0 ? newData[i - 1] : undefined)
     );

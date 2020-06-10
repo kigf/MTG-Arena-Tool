@@ -56,6 +56,7 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
   // Auto adjust
   if (
     settings &&
+    settings.autosize &&
     settings.show &&
     settings.mode !== OVERLAY_DRAFT &&
     settings.mode !== OVERLAY_DRAFT_BREW &&

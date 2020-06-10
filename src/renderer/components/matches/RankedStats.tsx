@@ -22,39 +22,39 @@ function getStepsUntilNextRank(mode: boolean, winrate: number): string {
     : playerRank.constructed;
 
   // TODO extract rank tier/level props into constants
-  let st = 1;
-  let stw = 1;
-  let stl = 0;
+  let stepsNeeded = 1;
+  let stepsWin = 1;
+  let stepsLoss = 0;
   if (rank == "Bronze") {
-    st = 4;
-    stw = 2;
-    stl = 0;
+    stepsNeeded = 6;
+    stepsWin = 2;
+    stepsLoss = 0;
   }
   if (rank == "Silver") {
-    st = 5;
-    stw = 2;
-    stl = 1;
+    stepsNeeded = 6;
+    stepsWin = 2;
+    stepsLoss = 1;
   }
   if (rank == "Gold") {
-    st = 6;
-    stw = 1;
-    stl = 1;
+    stepsNeeded = 6;
+    stepsWin = 2;
+    stepsLoss = 1;
   }
   if (rank == "Platinum") {
-    st = 7;
-    stw = 1;
-    stl = 1;
+    stepsNeeded = 6;
+    stepsWin = 1;
+    stepsLoss = 1;
   }
   if (rank == "Diamond") {
-    st = 7;
-    stw = 1;
-    stl = 1;
+    stepsNeeded = 6;
+    stepsWin = 1;
+    stepsLoss = 1;
   }
 
-  const expectedValue = winrate * stw - (1 - winrate) * stl;
+  const expectedValue = winrate * stepsWin - (1 - winrate) * stepsLoss;
   if (expectedValue <= 0) return "∞";
-  const stepsNeeded = st * tier - step;
-  return "~" + Math.ceil(stepsNeeded / expectedValue);
+  const totalStepsNeeded = stepsNeeded * tier - step;
+  return "~" + Math.ceil(totalStepsNeeded / expectedValue);
 }
 
 export default function RankedStats({

@@ -183,7 +183,9 @@ function saveSeasonal(data: SeasonalRankData[]): void {
   const newSeasonal = [...seasonalList()];
   const seasonalAdd = data.map((doc: SeasonalRankData) => {
     // This was my problem!
-    doc.timestamp = doc.timestamp * 1000;
+    if (!isEpochTimestamp(doc.timestamp)) {
+      doc.timestamp = doc.timestamp * 1000;
+    }
     newSeasonal.push(doc);
     playerDb.upsert("seasonal", doc.id, doc);
     return doc;

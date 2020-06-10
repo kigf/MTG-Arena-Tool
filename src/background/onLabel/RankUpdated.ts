@@ -44,13 +44,12 @@ export default function RankUpdated(entry: Entry): void {
   rank[updateType].seasonOrdinal = newJson.seasonOrdinal;
 
   // Rank update / seasonal
-  const newSeasonal = [...seasonalList(), newJson];
   reduxAction(
     globals.store.dispatch,
     { type: "SET_SEASONAL", arg: newJson },
     IPC_RENDERER
   );
-  playerDb.upsert("", "seasonal_rank", newSeasonal);
+  playerDb.upsert("", "seasonal", seasonalList());
 
   httpSetSeasonal(newJson);
 

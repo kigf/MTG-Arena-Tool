@@ -51,13 +51,12 @@ export default function MythicRatingUpdated(entry: Entry): void {
   rank[type].leaderboardPlace = json.newMythicLeaderboardPlacement;
 
   // Rank update / seasonal
-  const newSeasonal = [...seasonalList(), newJson];
   reduxAction(
     globals.store.dispatch,
     { type: "SET_SEASONAL", arg: newJson },
     IPC_RENDERER
   );
-  playerDb.upsert("", "seasonal", newSeasonal);
+  playerDb.upsert("", "seasonal", seasonalList());
 
   // New rank data
   reduxAction(

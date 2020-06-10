@@ -4,7 +4,7 @@ const merge = require("webpack-merge");
 const path = require("path");
 
 console.log("__dirname: ", __dirname);
- 
+
 let common_config = {
   node: {
     __dirname: false,
@@ -30,7 +30,7 @@ let common_config = {
           {
             loader: "@teamsupercell/typings-for-css-modules-loader",
             options: {
-              banner: "/* eslint-disable */\n// GENERATED FILE; DO NOT EDIT"
+              banner: "/* eslint-disable */\n// GENERATED FILE; DO NOT EDIT",
             },
           },
           MiniCssExtractPlugin.loader,
@@ -51,7 +51,7 @@ let common_config = {
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack'],
+        use: ["@svgr/webpack"],
       },
       {
         test: /\.(js|jsx|ts|tsx)$/,

@@ -127,8 +127,10 @@ export async function loadPlayerConfig(): Promise<void> {
       const playerDeck = new Deck(savedData[id].playerDeck);
       savedData[id].playerDeckHash = playerDeck.getHash();
     }
-
-    savedData[id].date = new Date(savedData[id].date ?? 0).toISOString();
+    // Send it to the beggining of time if no proper date is found
+    savedData[id].date = new Date(
+      (savedData[id].date === "Invalid Date" ? 0 : savedData[id].date) ?? 0
+    ).toISOString();
     return savedData[id];
   });
 
