@@ -36,7 +36,6 @@
 
 .react_table_body {
   background-color: var(--color-mid-20);
-  width: fit-content;
   margin: 0 auto;
 }
 

@@ -23,7 +23,7 @@ import { decksList } from "../../shared/store";
 import { useSelector } from "react-redux";
 
 import appCss from "../app/app.css";
-import { openScryfallCard } from "../../shared/utils/openScryfallCard";
+import { PlayerData } from "../../shared/redux/slices/playerDataSlice";
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
@@ -99,10 +99,11 @@ function saveTableMode(collectionTableMode: string): void {
   );
 }
 
-function getCollectionData(): CardsData[] {
+function getCollectionData(
+  cards: PlayerData["cards"],
+  cardsNew: PlayerData["cardsNew"]
+): CardsData[] {
   const wantedCards: CardCounts = {};
-  const cards = store.getState().playerdata.cards;
-  const cardsNew = store.getState().playerdata.cardsNew;
   decksList()
     .filter((deck) => deck && !deck.archived)
     .forEach((deck) => {
@@ -138,15 +139,14 @@ function getCollectionData(): CardsData[] {
 }
 
 export default function CollectionTab(): JSX.Element {
-  const {
-    collectionTableMode,
-    collectionTableState,
-  } = store.getState().settings;
-  const cardsNew = useSelector((state: AppState) => state.playerdata.cardsNew);
+  const { cards, cardsNew } = useSelector(
+    (state: AppState) => state.playerdata
+  );
+  const settings = useSelector((state: AppState) => state.settings);
+  const { collectionTableMode, collectionTableState } = settings;
   const data = React.useMemo(() => {
-    cardsNew;
-    return getCollectionData();
-  }, [cardsNew]);
+    return getCollectionData(cards, cardsNew);
+  }, [cards, cardsNew]);
   return (
     <div className={appCss.uxItem}>
       <CollectionTable
@@ -155,7 +155,6 @@ export default function CollectionTab(): JSX.Element {
         contextMenuCallback={addCardMenu}
         data={data}
         exportCallback={exportCards}
-        openCardCallback={openScryfallCard}
         tableModeCallback={saveTableMode}
         tableStateCallback={saveTableState}
       />

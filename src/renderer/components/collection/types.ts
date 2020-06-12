@@ -17,7 +17,6 @@ export interface CollectionTableProps {
   contextMenuCallback: (cardDiv: HTMLElement, card: DbCardData) => void;
   data: CardsData[];
   exportCallback: (cardIds: string[]) => void;
-  openCardCallback: (cardObj: DbCardData) => void;
   tableModeCallback: (tableMode: string) => void;
   tableStateCallback: (state: TableState<CardsData>) => void;
 }
@@ -30,7 +29,6 @@ export interface CollectionTableControlsProps
 
 export interface CollectionTableRowProps extends TableViewRowProps<CardsData> {
   contextMenuCallback: (cardDiv: HTMLElement, card: DbCardData) => void;
-  openCardCallback: (cardObj: DbCardData) => void;
 }
 
 export type CollectionTableCellProps = CellProps<CardsData>;

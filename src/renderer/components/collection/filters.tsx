@@ -235,8 +235,8 @@ const allSearchKeys = [...new Set(Object.values(searchKeyMap))];
 
 type ParsedToken = [string, string, string];
 
-function parseFilterValue(filterValue: string): ParsedToken[] {
-  const exp = /(?<normal>(?<tok>[^\s"]+)(?<sep>\b[>=|<=|:|=|<|<]{1,2})(?<val>[^\s"]+))|(?<quoted>(?<qtok>[^\s"]+)(?<qsep>\b[>=|<=|:|=|<|<]{1,2})(?<qval>"[^"]*"))/;
+export function parseFilterValue(filterValue: string): ParsedToken[] {
+  const exp = /(?<normal>(?<tok>[^\s"]+)(?<sep>\b[>=|<=|:|=|<|<]{1})(?<val>[^\s"]+))|(?<quoted>(?<qtok>[^\s"]+)(?<qsep>\b[>=|<=|:|=|<|<]{1})(?<qval>"[^"]*"))/;
   const filterPattern = new RegExp(exp, "g");
   let match;
   const results: ParsedToken[] = [];

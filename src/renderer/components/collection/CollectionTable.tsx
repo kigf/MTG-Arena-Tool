@@ -1,45 +1,19 @@
 import React, { useMemo } from "react";
-import { Column, Filters, FilterValue, IdType, Row } from "react-table";
-import {
-  COLLECTION_CARD_MODE,
-  COLLECTION_CHART_MODE,
-  COLLECTION_SETS_MODE,
-  COLLECTION_TABLE_MODE,
-  DRAFT_RANKS,
-} from "../../../shared/constants";
+import { Column, IdType, Row } from "react-table";
 import db from "../../../shared/database";
-import { ColorsCell, MetricCell, ShortTextCell } from "../tables/cells";
-import {
-  ColorColumnFilter,
-  NumberRangeColumnFilter,
-  TextBoxFilter,
-} from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
 import { BaseTableProps } from "../tables/types";
 import { useBaseReactTable } from "../tables/useBaseReactTable";
-import {
-  InBoostersCell,
-  InBoostersHeader,
-  RarityCell,
-  SetCell,
-  TypeCell,
-} from "./cells";
-import ChartView from "./ChartView";
-import { getCollectionStats } from "./collectionStats";
-import { CollectionStatsPanel } from "./CollectionStatsPanel";
+import { InBoostersHeader } from "./cells";
 import CollectionTableControls from "./CollectionTableControls";
 import {
-  cardSearchFilterFn,
-  InBoostersColumnFilter,
   inBoostersFilterFn,
-  RarityColumnFilter,
   rarityFilterFn,
-  SetColumnFilter,
   setFilterFn,
+  cardSearchFilterFn,
 } from "./filters";
-import { CardTableViewRow, CardTileRow } from "./rows";
-import { SetsView } from "./SetCompletionView";
+import { CardTileRow } from "./rows";
 import {
   CardsData,
   CollectionTableControlsProps,
@@ -47,29 +21,10 @@ import {
 } from "./types";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
-import useResizePanel from "../../hooks/useResizePanel";
-import { animated } from "react-spring";
 
 import indexCss from "../../index.css";
 import tablesCss from "../tables/tables.css";
 import sharedCss from "../../../shared/shared.css";
-
-function isBoosterMathValid(filters: Filters<CardsData>): boolean {
-  let hasCorrectBoosterFilter = false;
-  let hasCorrectRarityFilter = true;
-  for (const filter of filters) {
-    if (filter.id === "booster") {
-      hasCorrectBoosterFilter = filter.value?.true && !filter.value?.false;
-    } else if (filter.id === "rarity") {
-      hasCorrectRarityFilter = filter.value?.mythic && filter.value?.rare;
-    } else if (filter.id === "set") {
-      continue; // this is fine
-    } else {
-      return false; // no other filters allowed
-    }
-  }
-  return hasCorrectBoosterFilter && hasCorrectRarityFilter;
-}
 
 export default function CollectionTable({
   data,
@@ -79,7 +34,6 @@ export default function CollectionTable({
   cachedState,
   cachedTableMode,
   exportCallback,
-  openCardCallback,
 }: CollectionTableProps): JSX.Element {
   const [tableMode, setTableMode] = React.useState(cachedTableMode);
   const cardSize = useSelector((state: AppState) => state.settings.cards_size);
@@ -110,20 +64,6 @@ export default function CollectionTable({
     [sortedSetCodes]
   );
 
-  const rankSortType = React.useCallback(
-    (
-      rowA: Row<CardsData>,
-      rowB: Row<CardsData>,
-      columnId: IdType<CardsData>
-    ): 0 | 1 | -1 => {
-      const indexDiff =
-        DRAFT_RANKS.indexOf(rowA.values[columnId]) -
-        DRAFT_RANKS.indexOf(rowB.values[columnId]);
-      return indexDiff < 0 ? -1 : indexDiff > 0 ? 1 : 0;
-    },
-    []
-  );
-
   const raritySortType = React.useCallback(
     (
       rowA: Row<CardsData>,
@@ -148,107 +88,72 @@ export default function CollectionTable({
       {
         Header: "Name",
         accessor: "name",
-        disableFilters: false,
-        filter: "fuzzyText",
-        Filter: TextBoxFilter,
-        Cell: ShortTextCell,
-        gridWidth: "210px",
+        canFilter: false,
         defaultVisible: true,
       },
       { accessor: "colors" },
       {
         Header: "Colors",
-        disableFilters: false,
+        canFilter: false,
         accessor: "colorSortVal",
-        Filter: ColorColumnFilter,
-        filter: "colors",
-        Cell: ColorsCell,
-        gridWidth: "150px",
         mayToggle: true,
         defaultVisible: true,
       },
       {
         Header: "CMC",
         accessor: "cmc",
-        Cell: MetricCell,
-        disableFilters: false,
-        Filter: NumberRangeColumnFilter,
-        filter: "between",
+        canFilter: false,
         mayToggle: true,
         defaultVisible: true,
       },
       {
         Header: "Type",
         accessor: "type",
-        disableFilters: false,
-        filter: "fuzzyText",
-        Filter: TextBoxFilter,
-        Cell: TypeCell,
-        gridWidth: "230px",
+        canFilter: false,
         mayToggle: true,
       },
       {
         Header: "Set",
         accessor: "set",
-        disableFilters: false,
-        filter: "set",
-        Filter: SetColumnFilter,
+        canFilter: false,
         sortType: setSortType,
         sortInverted: true,
         sortDescFirst: true,
-        Cell: SetCell,
-        gridWidth: "230px",
         mayToggle: true,
         defaultVisible: true,
       },
       {
         Header: "Rarity",
-        disableFilters: false,
+        canFilter: false,
         accessor: "rarity",
-        Filter: RarityColumnFilter,
-        filter: "rarity",
         sortType: raritySortType,
         sortDescFirst: true,
-        Cell: RarityCell,
         mayToggle: true,
         defaultVisible: true,
       },
       {
         Header: "Owned",
         accessor: "owned",
-        Cell: MetricCell,
-        disableFilters: false,
-        Filter: NumberRangeColumnFilter,
-        filter: "between",
+        canFilter: false,
         mayToggle: true,
         defaultVisible: true,
       },
       {
         Header: "Acquired",
         accessor: "acquired",
-        Cell: MetricCell,
-        disableFilters: false,
-        Filter: NumberRangeColumnFilter,
-        filter: "between",
+        canFilter: false,
         mayToggle: true,
       },
       {
         Header: "Wanted",
         accessor: "wanted",
-        Cell: MetricCell,
-        disableFilters: false,
-        Filter: NumberRangeColumnFilter,
-        filter: "between",
+        canFilter: false,
         mayToggle: true,
       },
       {
         Header: "Artist",
         accessor: "artist",
-        disableFilters: false,
-        filter: "fuzzyText",
-        Filter: TextBoxFilter,
-        Cell: ShortTextCell,
-        gridWidth: "200px",
+        canFilter: false,
         mayToggle: true,
       },
       { accessor: "collectible" },
@@ -256,48 +161,19 @@ export default function CollectionTable({
       {
         Header: InBoostersHeader,
         accessor: "booster",
-        disableFilters: false,
-        filter: "inBoosters",
-        Filter: InBoostersColumnFilter,
-        Cell: InBoostersCell,
-        gridWidth: "100px",
+        canFilter: false,
         mayToggle: true,
       },
-      {
-        Header: "Rank",
-        accessor: "rankSortVal",
-        disableFilters: false,
-        filter: "fuzzyText",
-        Filter: TextBoxFilter,
-        sortType: rankSortType,
-        sortDescFirst: true,
-        gridWidth: "100px",
-        mayToggle: true,
-      },
-      { accessor: "rank" },
-      { accessor: "rank_controversy" },
       { accessor: "images" },
       { accessor: "reprints" },
     ],
-    [rankSortType, raritySortType, setSortType]
+    [raritySortType, setSortType]
   );
   const tableProps: BaseTableProps<CardsData> = {
     cachedState,
     columns,
     customFilterTypes,
     data,
-    defaultState: {
-      filters: [
-        {
-          id: "booster",
-          value: {
-            true: true,
-            false: true,
-          },
-        },
-      ],
-      sortBy: [{ id: "grpId", desc: true }],
-    },
     globalFilter: cardSearchFilterFn,
     setTableMode,
     tableMode,
@@ -310,133 +186,51 @@ export default function CollectionTable({
     pagingProps,
     tableControlsProps,
   } = useBaseReactTable(tableProps);
-  const {
-    getTableBodyProps,
-    page,
-    prepareRow,
-    rows,
-    setAllFilters,
-    setFilter,
-    toggleHideColumn,
-  } = table;
-  const setClickCallback = React.useCallback(
-    (set: string) => {
-      setTableMode(COLLECTION_CHART_MODE);
-      setFilter("set", { [set]: true });
-      toggleHideColumn("set", false);
-    },
-    [setFilter, toggleHideColumn]
-  );
-  const cardIds = rows.map((row) => row.values.id);
-  const stats = getCollectionStats(cardIds);
-  const boosterMath =
-    isBoosterMathValid(table.state.filters) &&
-    tableMode === COLLECTION_SETS_MODE;
+  const { getTableBodyProps, page, prepareRow, rows } = table;
 
   const collectionTableControlsProps: CollectionTableControlsProps = {
     exportCallback,
     rows,
     ...tableControlsProps,
   };
-  const isTableMode = tableMode === COLLECTION_TABLE_MODE;
-  const tableBody =
-    tableMode === COLLECTION_CHART_MODE ? (
-      <ChartView stats={stats} />
-    ) : tableMode === COLLECTION_SETS_MODE ? (
-      <SetsView
-        stats={stats}
-        boosterMath={boosterMath}
-        setClickCallback={setClickCallback}
-      />
-    ) : (
-      <div
-        style={
-          isTableMode
-            ? {}
-            : {
-                display: "grid",
-                gridTemplateColumns: `repeat(auto-fit, minmax(${
-                  100 + cardSize * 15 + 12
-                }px, 1fr))`,
-              }
-        }
-        className={
-          isTableMode
-            ? tablesCss.reactTableBody
-            : tablesCss.reactTableBodyNoAdjust
-        }
-        {...getTableBodyProps()}
-      >
-        {page.map((row, index) => {
-          prepareRow(row);
-          const RowRenderer = isTableMode ? CardTableViewRow : CardTileRow;
-          return (
-            <RowRenderer
-              key={row.index}
-              row={row}
-              index={index}
-              contextMenuCallback={contextMenuCallback}
-              openCardCallback={openCardCallback}
-              gridTemplateColumns={gridTemplateColumns}
-            />
-          );
-        })}
-      </div>
-    );
-
-  const clickCompletionCallback = React.useCallback((): void => {
-    setTableMode(COLLECTION_SETS_MODE);
-    setAllFilters((): FilterValue[] => [
-      { id: "booster", value: { true: true, false: false } },
-    ]);
-  }, [setAllFilters]);
-
-  const [width, bind] = useResizePanel();
 
   return (
     <>
       <div className={indexCss.wrapperColumn}>
         <div className={tablesCss.reactTableWrap}>
           <CollectionTableControls {...collectionTableControlsProps} />
-          <div
-            className={sharedCss.medScroll}
-            style={isTableMode ? { overflowX: "auto" } : undefined}
-          >
+          <div className={sharedCss.medScroll}>
             <TableHeaders
               {...headersProps}
-              style={
-                isTableMode
-                  ? { width: "fit-content" }
-                  : { overflowX: "auto", overflowY: "hidden" }
-              }
+              style={{ overflowX: "auto", overflowY: "hidden" }}
             />
-            {tableBody}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(auto-fit, minmax(${
+                  100 + cardSize * 15 + 12
+                }px, 1fr))`,
+              }}
+              className={tablesCss.reactTableBodyNoAdjust}
+              {...getTableBodyProps()}
+            >
+              {page.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <CardTileRow
+                    key={row.original.id}
+                    row={row}
+                    index={index}
+                    contextMenuCallback={contextMenuCallback}
+                    gridTemplateColumns={gridTemplateColumns}
+                  />
+                );
+              })}
+            </div>
           </div>
-          {[COLLECTION_CARD_MODE, COLLECTION_TABLE_MODE].includes(
-            tableMode
-          ) && <PagingControls {...pagingProps} />}
+          <PagingControls {...pagingProps} />
         </div>
       </div>
-      <animated.div
-        {...bind()}
-        className={tablesCss.sidebarDragger}
-      ></animated.div>
-      <animated.div
-        className={tablesCss.sidebarMain}
-        style={{
-          width,
-          minWidth: width,
-          maxWidth: width,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <CollectionStatsPanel
-          stats={stats}
-          boosterMath={boosterMath}
-          clickCompletionCallback={clickCompletionCallback}
-        />
-      </animated.div>
     </>
   );
 }

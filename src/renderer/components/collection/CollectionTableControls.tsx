@@ -1,65 +1,78 @@
 import React from "react";
-import { FilterValue } from "react-table";
-import {
-  COLLECTION_CHART_MODE,
-  COLLECTION_SETS_MODE,
-  COLLECTION_TABLE_MODES,
-} from "../../../shared/constants";
-import db from "../../../shared/database";
-import ReactSelect from "../../../shared/ReactSelect";
 import { MediumTextButton } from "../misc/MediumTextButton";
-import { SmallTextButton } from "../misc/SmallTextButton";
 import ColumnToggles from "../tables/ColumnToggles";
-import { GlobalFilter } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
-import { defaultRarity } from "./filters";
-import { CollectionTableControlsProps } from "./types";
-
-import indexCss from "../../index.css";
+import { CollectionTableControlsProps, CardsData } from "./types";
+import { parseFilterValue } from "../collection/filters";
 import tableCss from "../tables/tables.css";
+import { InputContainer } from "../misc/InputContainer";
+import { Filters } from "react-table";
 
-const boostersFilters = (): FilterValue[] => [
-  { id: "booster", value: { true: true, false: false } },
-];
-const standardSetsFilter: FilterValue = {};
-db.standardSetCodes.forEach((code) => (standardSetsFilter[code] = true));
-const standardFilters = (): FilterValue[] => [
-  { id: "set", value: standardSetsFilter },
-];
-const ownedFilters = (): FilterValue[] => [
-  { id: "owned", value: [1, undefined] },
-];
-const wantedFilters = (): FilterValue[] => [
-  { id: "wanted", value: [1, undefined] },
-  { id: "rarity", value: { ...defaultRarity, land: false } },
-];
+const tokenToKeys: Record<string, string> = {
+  name: "name",
+  t: "type",
+  type: "type",
+  m: "cost",
+  c: "cost",
+  mana: "cost",
+  cmc: "cmc",
+  s: "set",
+  set: "set",
+};
 
-const legacyModes = [COLLECTION_CHART_MODE, COLLECTION_SETS_MODE];
+function getFiltersFromQuery(query: string): Filters<CardsData> {
+  const tokens = query.split(" ").filter((token) => token.length > 2);
+  const filters: Filters<CardsData> = [];
+  tokens.map((token) => {
+    const results = parseFilterValue(token);
+    if (results.length) {
+      const [[tokenKey, _separator, tokenVal]] = results;
+      const key = tokenToKeys[tokenKey] || undefined;
+      if (key) {
+        filters.push({
+          id: key,
+          value: tokenVal,
+        });
+      }
+    }
+  });
+
+  if (filters.length == 0) {
+    filters.push({
+      id: "name",
+      value: query,
+    });
+  }
+
+  return filters;
+}
 
 export default function CollectionTableControls(
   props: CollectionTableControlsProps
 ): JSX.Element {
   const {
     exportCallback,
-    globalFilter,
-    initialFiltersVisible,
-    pagingProps,
-    preGlobalFilteredRows,
-    rows,
     setAllFilters,
-    setFiltersVisible,
-    setGlobalFilter,
-    setTableMode,
-    setTogglesVisible,
-    tableMode,
-    toggleableColumns,
-    toggleHideColumn,
     toggleSortBy,
+    toggleHideColumn,
+    globalFilter,
+    pagingProps,
+    rows,
+    setTogglesVisible,
+    toggleableColumns,
     togglesVisible,
   } = props;
   const exportRows = React.useCallback(() => {
     exportCallback(rows.map((row) => row.values.id));
   }, [exportCallback, rows]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === "Enter") {
+      const filters = getFiltersFromQuery(e.currentTarget.value || "");
+      setAllFilters(filters);
+    }
+  };
+
   return (
     <div
       style={{
@@ -70,79 +83,20 @@ export default function CollectionTableControls(
       }}
     >
       <div className={tableCss.reactTableToggles}>
-        <SmallTextButton onClick={exportRows}>Export</SmallTextButton>
-        <span style={{ paddingBottom: "8px", marginLeft: "12px" }}>
-          Presets:
-        </span>
-        <SmallTextButton
+        <MediumTextButton onClick={exportRows}>Export</MediumTextButton>
+        <MediumTextButton
           onClick={(): void => {
-            setAllFilters(boostersFilters);
-            setFiltersVisible({
-              ...initialFiltersVisible,
-              booster: true,
-            });
-            toggleSortBy("grpId", true, false);
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
-            }
-            toggleHideColumn("booster", false);
-            toggleHideColumn("cmc", true);
-          }}
-        >
-          Boosters
-        </SmallTextButton>
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(standardFilters);
-            setFiltersVisible({
-              ...initialFiltersVisible,
-              set: true,
-            });
+            setAllFilters([]);
             toggleSortBy("grpId", true, false);
             for (const column of toggleableColumns) {
               toggleHideColumn(column.id, !column.defaultVisible);
             }
           }}
         >
-          Standard
-        </SmallTextButton>
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(ownedFilters);
-            setFiltersVisible({
-              ...initialFiltersVisible,
-              owned: true,
-            });
-            toggleSortBy("grpId", true, false);
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
-            }
-          }}
-        >
-          Owned
-        </SmallTextButton>
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(wantedFilters);
-            setFiltersVisible({
-              ...initialFiltersVisible,
-              rarity: true,
-              wanted: true,
-            });
-            toggleSortBy("grpId", true, false);
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
-            }
-            toggleHideColumn("wanted", false);
-            toggleHideColumn("cmc", true);
-          }}
-        >
-          Wanted
-        </SmallTextButton>
+          Reset
+        </MediumTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
-          className={indexCss.buttonSimple}
-          style={{ margin: "0 0 5px 12px" }}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>
@@ -152,33 +106,14 @@ export default function CollectionTableControls(
         togglesVisible={togglesVisible}
       />
       <div className={tableCss.react_table_search_cont}>
-        <ReactSelect
-          key={tableMode}
-          current={tableMode}
-          options={COLLECTION_TABLE_MODES}
-          callback={setTableMode}
-          className={"collection_table_mode"}
-        />
-        <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          countLabel={"cards"}
-        />
-        {globalFilter && (
-          <div
-            style={{ marginRight: 0, minWidth: "24px" }}
-            className={"button close"}
-            onClick={(e): void => {
-              e.stopPropagation();
-              setGlobalFilter(undefined);
-            }}
-            title={"clear column filter"}
+        <InputContainer title="Search">
+          <input
+            defaultValue={globalFilter ?? ""}
+            placeholder={"Search.."}
+            onKeyDown={handleKeyDown}
           />
-        )}
-        {!legacyModes.includes(tableMode) && (
-          <PagingControls {...pagingProps} />
-        )}
+        </InputContainer>
+        <PagingControls {...pagingProps} />
       </div>
     </div>
   );
