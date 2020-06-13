@@ -7,12 +7,7 @@ import { BaseTableProps } from "../tables/types";
 import { useBaseReactTable } from "../tables/useBaseReactTable";
 import { InBoostersHeader } from "./cells";
 import CollectionTableControls from "./CollectionTableControls";
-import {
-  inBoostersFilterFn,
-  rarityFilterFn,
-  setFilterFn,
-  cardSearchFilterFn,
-} from "./filters";
+import { inBoostersFilterFn, rarityFilterFn, setFilterFn } from "./filters";
 import { CardTileRow } from "./rows";
 import {
   CardsData,
@@ -174,7 +169,7 @@ export default function CollectionTable({
     columns,
     customFilterTypes,
     data,
-    globalFilter: cardSearchFilterFn,
+    globalFilter: undefined,
     setTableMode,
     tableMode,
     tableStateCallback,
