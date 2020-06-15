@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Row } from "react-table";
 import db from "../../../shared/database";
-import { BinaryFilterValue } from "../tables/filters";
+import { BinaryFilterValue, StringFilter } from "../tables/filters";
 import { MultiSelectFilterProps, TableData } from "../tables/types";
 import {
   CardsData,
@@ -34,19 +34,17 @@ db.standardSetCodes.forEach((code: string) => (defaultSetFilter[code] = true));
 
 export type SetFilterProps = MultiSelectFilterProps<SetFilterValue>;
 
-export function setFilterFn(
-  rows: Row<CardsData>[],
+export function setFilterFn<D extends TableData>(
+  rows: Row<D>[],
   _id: string,
-  filterValue: SetFilterValue
-): Row<CardsData>[] {
-  const standardSets = new Set(db.standardSetCodes);
-  return rows.filter(
-    (row) =>
-      Object.entries(filterValue).some(
-        ([code, value]) => value && row.values.set === code
-      ) ||
-      (filterValue.other && !standardSets.has(row.values.set))
-  );
+  filterValue: StringFilter
+): Row<D>[] {
+  return rows.filter((row) => {
+    const res =
+      row.original.setCode.indexOf(filterValue.string) !== -1 ||
+      row.original.set.indexOf(filterValue.string) !== -1;
+    return filterValue.not ? !res : res;
+  });
 }
 
 export function colorsBitsFilterFn<D extends TableData>(

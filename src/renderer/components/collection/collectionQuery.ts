@@ -70,6 +70,10 @@ const defaultFilters = {
     string: "",
     not: false,
   } as StringFilter,
+  set: {
+    string: "",
+    not: false,
+  } as StringFilter,
   cmc: [undefined, undefined] as [undefined | number, undefined | number],
   colors: {
     color: 0,
@@ -97,6 +101,8 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   rarity: "rarity",
   a: "artist",
   artist: "artist",
+  s: "set",
+  set: "set",
 };
 
 /**
@@ -126,6 +132,10 @@ function getTokenVal(
     case "artist":
       if (separator === "=" || separator === ":") filters.artist.string = val;
       filters.artist.not = isNegative;
+      break;
+    case "set":
+      if (separator === "=" || separator === ":") filters.set.string = val;
+      filters.set.not = isNegative;
       break;
     case "rarity":
       filters.rarity.not = isNegative;

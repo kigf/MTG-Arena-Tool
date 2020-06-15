@@ -7,6 +7,7 @@ export interface CardsData extends DbCardData {
   colorSortVal: string;
   rankSortVal: string;
   rarityVal: number;
+  setCode: string;
   owned: number;
   acquired: number;
   wanted: number;
@@ -41,6 +42,7 @@ export type QueryKeys =
   | "cmc"
   | "name"
   | "rarity"
+  | "set"
   | "type";
 export type ParsedToken = [string, QuerySeparators, string];
 

@@ -121,6 +121,8 @@ function getCollectionData(
         const rarityVal = getRarityFilterVal(card.rarity);
         const name = card.name.toLowerCase();
         const type = card.type.toLowerCase();
+        const artist = card.artist.toLowerCase();
+        const set = card.set.toLowerCase();
         const owned = cards.cards[card.id] ?? 0;
         const acquired = cardsNew[card.id] ?? 0;
         const wanted = wantedCards[card.id] ?? 0;
@@ -129,10 +131,13 @@ function getCollectionData(
         const colorSortVal = colorsObj.get().join("");
         const colors = colorsObj.getBits();
         const rankSortVal = RANK_SOURCE[card.rank] ?? "?";
+        const setCode = db.sets[card.set]?.scryfall ?? card.set;
         return {
           ...card,
           name,
           type,
+          artist,
+          set,
           owned,
           acquired,
           colors,
@@ -140,6 +145,7 @@ function getCollectionData(
           wanted,
           rankSortVal,
           rarityVal,
+          setCode,
         };
       }
     );
