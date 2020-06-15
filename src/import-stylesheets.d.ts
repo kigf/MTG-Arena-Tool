@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unused-modules */
 declare module "*.css" {
   const content: { [className: string]: string };
   export default content;

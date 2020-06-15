@@ -1,4 +1,6 @@
+/* eslint-disable complexity */
 import React from "react";
+import _ from "lodash";
 import { MediumTextButton } from "../misc/MediumTextButton";
 import ColumnToggles from "../tables/ColumnToggles";
 import PagingControls from "../tables/PagingControls";
@@ -6,13 +8,18 @@ import { CollectionTableControlsProps, CardsData } from "./types";
 import tableCss from "../tables/tables.css";
 import { InputContainer } from "../misc/InputContainer";
 import { Filters } from "react-table";
+import { ColorBitsFilter } from "../misc/ManaFilter";
+import { RarityFilterValue } from "./filters";
+import Colors from "../../../shared/colors";
+import { WHITE, BLUE, RED, BLACK, GREEN } from "../../../shared/constants";
+import { objectClone } from "../../../shared/utils/objectClone";
 
-type QuerySeparators = ">=" | "<=" | ":" | "=" | "<" | ">";
-type QueryKeys = "name" | "type" | "colors" | "cmc" | "set";
+type QuerySeparators = ">=" | "<=" | ":" | "=" | "!=" | "<" | ">";
+type QueryKeys = "name" | "rarity" | "type" | "colors" | "cmc";
 type ParsedToken = [string, QuerySeparators, string];
 
-export function parseFilterValue(filterValue: string): ParsedToken[] {
-  const exp = /(?<normal>(?<tok>[^\s"]+)(?<sep>\b[>=|<=|:|=|<|<]{1,2})(?<val>[^\s"]+))|(?<quoted>(?<qtok>[^\s"]+)(?<qsep>\b[>=|<=|:|=|<|<]{1,2})(?<qval>"[^"]*"))/;
+function parseFilterValue(filterValue: string): ParsedToken[] {
+  const exp = /(?<normal>(?<tok>[^\s"]+)(?<sep>\b[>=|<=|:|=|!=|>|<]{1,2})(?<val>[^\s"]+))|(?<quoted>(?<qtok>[^\s"]+)(?<qsep>\b[>=|<=|:|=|!=|>|<]{1,2})(?<qval>"[^"]*"))|(?<name>([^\s"]+))|(?<qname>("[^"]*"+))/;
   const filterPattern = new RegExp(exp, "g");
 
   let match;
@@ -23,11 +30,19 @@ export function parseFilterValue(filterValue: string): ParsedToken[] {
     if (match.groups?.normal) {
       token = match.groups.tok;
       separator = match.groups.sep as QuerySeparators;
-      value = match.groups.val; // should remove quotes too
+      value = match.groups.val;
     } else if (match.groups?.quoted) {
       token = match.groups.qtok;
       separator = match.groups.qsep as QuerySeparators;
-      value = match.groups.qval; // should remove quotes too
+      value = match.groups.qval.slice(1, -1);
+    } else if (match.groups?.name) {
+      token = "name";
+      separator = ":";
+      value = match.groups.name;
+    } else if (match.groups?.qname) {
+      token = "name";
+      separator = ":";
+      value = match.groups.qname.slice(1, -1);
     }
     if (token && separator && value) {
       results.push([token, separator, value]);
@@ -35,6 +50,33 @@ export function parseFilterValue(filterValue: string): ParsedToken[] {
   }
   return results;
 }
+
+const defaultFilters = {
+  name: {
+    string: "",
+    not: false,
+  } as StringFilter,
+  type: {
+    string: "",
+    not: false,
+  } as StringFilter,
+  cmc: [undefined, undefined] as [undefined | number, undefined | number],
+  colors: {
+    color: 0,
+    not: false,
+    mode: "or",
+  } as ColorBitsFilter,
+  rarity: {
+    token: false,
+    land: false,
+    common: false,
+    uncommon: false,
+    rare: false,
+    mythic: false,
+  } as RarityFilterValue,
+};
+
+type DefaultFilters = typeof defaultFilters;
 
 const tokenToKeys: Record<string, QueryKeys | undefined> = {
   name: "name",
@@ -44,130 +86,202 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   c: "colors",
   mana: "colors",
   cmc: "cmc",
-  s: "set",
-  set: "set",
+  r: "rarity",
+  rarity: "rarity",
 };
 
 function getTokenVal(
   key: QueryKeys,
+  isNegative: boolean,
   separator: QuerySeparators,
-  val: any
-): any {
+  val: string
+): DefaultFilters {
+  const filters = objectClone(defaultFilters);
+  val = val.toLowerCase();
   switch (key) {
     case "name":
-      if (separator === ":") return val;
+      if (separator === "=" || separator === ":") filters.name = val;
+      break;
+    case "type":
+      if (separator === "=" || separator === ":") filters.type = val;
+      break;
+    case "rarity":
+      if (val in filters.rarity) {
+        filters.rarity[val as "land"] = !isNegative;
+      }
       break;
     case "cmc":
-      let min: number | undefined = parseInt(val);
-      let max: number | undefined = parseInt(val);
-      if (separator === ">") max = undefined;
-      if (separator === "<") min = undefined;
+      const intVal = parseInt(val);
+      if (separator === "=" || separator === ":") {
+        filters.cmc[0] = intVal;
+        filters.cmc[1] = intVal;
+      }
+      if (separator === ">") {
+        filters.cmc[0] = intVal + 1;
+        filters.cmc[1] = undefined;
+      }
+      if (separator === "<") {
+        filters.cmc[0] = undefined;
+        filters.cmc[1] = intVal - 1;
+      }
       if (separator === ">=") {
-        min = parseInt(val) - 1;
-        max = undefined;
+        filters.cmc[0] = intVal;
+        filters.cmc[1] = undefined;
       }
       if (separator === "<=") {
-        min = undefined;
-        max = parseInt(val) + 1;
+        filters.cmc[0] = undefined;
+        filters.cmc[1] = intVal;
       }
-      return [min, max];
       break;
     case "colors":
-      const str = val.toLowerCase();
-      let colors = {
-        w: false,
-        u: false,
-        b: false,
-        r: false,
-        g: false,
-        multi: false,
-      };
-      if (separator == ">=") colors.multi = true;
+      const str = val;
+      let addW = false;
+      let addU = false;
+      let addB = false;
+      let addR = false;
+      let addG = false;
 
-      colors.w = str.indexOf("w") !== -1;
-      colors.u = str.indexOf("u") !== -1;
-      colors.b = str.indexOf("b") !== -1;
-      colors.r = str.indexOf("r") !== -1;
-      colors.g = str.indexOf("g") !== -1;
-      if (str == "white")
-        colors = { ...colors, w: true, u: false, b: false, r: false, g: false };
-      if (str == "blue")
-        colors = { ...colors, w: false, u: true, b: false, r: false, g: false };
-      if (str == "black")
-        colors = { ...colors, w: false, u: false, b: true, r: false, g: false };
-      if (str == "red")
-        colors = { ...colors, w: false, u: false, b: false, r: true, g: false };
-      if (str == "green")
-        colors = { ...colors, w: false, u: false, b: false, r: false, g: true };
-      if (str == "azorious")
-        colors = { ...colors, w: true, u: true, b: false, r: false, g: false };
-      if (str == "dimir")
-        colors = { ...colors, w: false, u: true, b: true, r: false, g: false };
-      if (str == "rakdos")
-        colors = { ...colors, w: false, u: false, b: true, r: true, g: false };
-      if (str == "gruul")
-        colors = { ...colors, w: false, u: false, b: false, r: true, g: true };
-      if (str == "selesnya")
-        colors = { ...colors, w: true, u: false, b: false, r: false, g: true };
-      if (str == "orzhov")
-        colors = { ...colors, w: true, u: false, b: true, r: false, g: false };
-      if (str == "izzet")
-        colors = { ...colors, w: false, u: true, b: false, r: true, g: false };
-      if (str == "golgari")
-        colors = { ...colors, w: false, u: false, b: true, r: false, g: true };
-      if (str == "boros")
-        colors = { ...colors, w: true, u: false, b: false, r: true, g: false };
-      if (str == "simic")
-        colors = { ...colors, w: false, u: true, b: false, r: false, g: true };
-      if (str == "esper")
-        colors = { ...colors, w: true, u: true, b: true, r: false, g: false };
-      if (str == "grixis")
-        colors = { ...colors, w: false, u: true, b: true, r: true, g: false };
-      if (str == "jund")
-        colors = { ...colors, w: false, u: false, b: true, r: true, g: true };
-      if (str == "naya")
-        colors = { ...colors, w: true, u: false, b: false, r: true, g: true };
-      if (str == "bant")
-        colors = { ...colors, w: true, u: true, b: false, r: false, g: true };
-      if (str == "mardu")
-        colors = { ...colors, w: true, u: false, b: true, r: true, g: false };
-      if (str == "temur")
-        colors = { ...colors, w: false, u: true, b: false, r: true, g: true };
-      if (str == "abzan")
-        colors = { ...colors, w: true, u: false, b: true, r: false, g: true };
-      if (str == "jeskai")
-        colors = { ...colors, w: true, u: true, b: false, r: true, g: false };
-      if (str == "sultai")
-        colors = { ...colors, w: false, u: true, b: true, r: false, g: true };
+      if (str == "azorious") {
+        addW = true;
+        addU = true;
+      } else if (str == "dimir") {
+        addU = true;
+        addB = true;
+      } else if (str == "rakdos") {
+        addB = true;
+        addR = true;
+      } else if (str == "gruul") {
+        addR = true;
+        addG = true;
+      } else if (str == "selesnya") {
+        addW = true;
+        addG = true;
+      } else if (str == "orzhov") {
+        addW = true;
+        addB = true;
+      } else if (str == "izzet") {
+        addU = true;
+        addR = true;
+      } else if (str == "golgari") {
+        addB = true;
+        addG = true;
+      } else if (str == "boros") {
+        addW = true;
+        addR = true;
+      } else if (str == "simic") {
+        addU = true;
+        addG = true;
+      } else if (str == "esper") {
+        addW = true;
+        addU = true;
+        addB = true;
+      } else if (str == "grixis") {
+        addU = true;
+        addB = true;
+        addR = true;
+      } else if (str == "jund") {
+        addB = true;
+        addR = true;
+        addG = true;
+      } else if (str == "naya") {
+        addW = true;
+        addR = true;
+        addG = true;
+      } else if (str == "bant") {
+        addW = true;
+        addU = true;
+        addG = true;
+      } else if (str == "mardu") {
+        addW = true;
+        addB = true;
+        addR = true;
+      } else if (str == "temur") {
+        addU = true;
+        addR = true;
+        addG = true;
+      } else if (str == "abzan") {
+        addW = true;
+        addB = true;
+        addG = true;
+      } else if (str == "jeskai") {
+        addW = true;
+        addU = true;
+        addR = true;
+      } else if (str == "sultai") {
+        addU = true;
+        addB = true;
+        addG = true;
+      } else if (str == "white") addW = true;
+      else if (str == "blue") addU = true;
+      else if (str == "black") addB = true;
+      else if (str == "red") addR = true;
+      else if (str == "green") addG = true;
+      else {
+        if (str.indexOf("w") !== -1) addW = true;
+        if (str.indexOf("u") !== -1) addU = true;
+        if (str.indexOf("b") !== -1) addB = true;
+        if (str.indexOf("r") !== -1) addR = true;
+        if (str.indexOf("g") !== -1) addG = true;
+      }
 
-      return colors;
+      const col = new Colors();
+      const arr = [];
+      addW && arr.push(WHITE);
+      addU && arr.push(BLUE);
+      addB && arr.push(BLACK);
+      addR && arr.push(RED);
+      addG && arr.push(GREEN);
+      col.addFromArray(arr);
+      filters.colors.color = col.getBits();
+      if (isNegative) filters.colors.not = true; // heh, the irony
+      if (separator == "=") filters.colors.mode = "strict";
+      if (separator == "!=") filters.colors.mode = "strictNot";
+      if (separator == ":") filters.colors.mode = "and";
+      if (separator == "<") filters.colors.mode = "subset";
+      if (separator == "<=") filters.colors.mode = "strictSubset";
+      if (separator == ">") filters.colors.mode = "superset";
+      if (separator == ">=") filters.colors.mode = "strictSuperset";
       break;
   }
+
+  return filters;
 }
 
 function getFiltersFromQuery(query: string): Filters<CardsData> {
   const filters: Filters<CardsData> = [];
   const results = parseFilterValue(query);
   console.log(results);
+  let keysAdded = 0;
   results.map((match: any) => {
     const [tokenKey, separator, tokenVal] = match;
-    const key = tokenToKeys[tokenKey] || undefined;
+    const isNeg = tokenKey.startsWith("-");
+    const nKey = tokenKey.startsWith("-") ? tokenKey.slice(1) : tokenKey;
+    const key = tokenToKeys[nKey] || undefined;
     if (key) {
-      const value = getTokenVal(key, separator, tokenVal);
-      if (value) {
-        filters.push({
-          id: key,
-          value: value,
+      const defaultModified = getTokenVal(
+        key as QueryKeys,
+        isNeg,
+        separator,
+        tokenVal
+      );
+      console.log(defaultModified);
+      Object.keys(defaultModified)
+        .filter((id) => {
+          return !_.isEqual(
+            defaultModified[id as QueryKeys],
+            defaultFilters[id as QueryKeys]
+          );
+        })
+        .map((id) => {
+          const newValue = defaultModified[id as QueryKeys];
+          keysAdded++;
+          filters.push({ id, value: newValue });
         });
-      }
     }
   });
 
-  if (filters.length == 0) {
-    filters.push({
-      id: "name",
-      value: query,
-    });
+  if (keysAdded == 0) {
+    filters.push({ id: "name", value: query });
   }
 
   return filters;

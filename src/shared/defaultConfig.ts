@@ -16,7 +16,7 @@ import {
 } from "./constants";
 import { SettingsData } from "../types/settings";
 
-export const overlayCfg = {
+const overlayCfg = {
   alpha: 1,
   alpha_back: 0.7,
   bounds: { width: 300, height: 600, x: 0, y: 0 },

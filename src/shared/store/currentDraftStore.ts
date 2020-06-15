@@ -33,10 +33,6 @@ export function setDraftData(arg: Partial<InternalDraftv2>): void {
   globalStore.currentDraft = { ...globalStore.currentDraft, ...arg };
 }
 
-export function setDraftSet(arg: string): void {
-  globalStore.currentDraft.draftSet = arg;
-}
-
 export function resetCurrentDraft(): void {
   globalStore.currentDraft = Object.assign({}, draftStateObject);
   globalStore.currentDraft.pickedCards = [];
@@ -52,7 +48,7 @@ export function resetCurrentDraft(): void {
   ];
 }
 
-export function setDraftPackPick(pack: number, pick: number): void {
+function setDraftPackPick(pack: number, pick: number): void {
   globalStore.currentDraft.currentPack = pack;
   globalStore.currentDraft.currentPick = pick;
 }

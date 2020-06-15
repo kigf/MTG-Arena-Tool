@@ -631,7 +631,7 @@ const Color: Record<string, string> = {
   "5": "Green",
 } as const;
 
-export const ENUMS = {
+const _ENUMS = {
   CounterType,
   SuperType,
   ResultCode,
@@ -646,12 +646,12 @@ export const ENUMS = {
 
 export const LANDS_HACK = -100;
 
-export const FACE_NONE = 0;
+//export const FACE_NONE = 0;
 export const FACE_DFC_BACK = 1;
 export const FACE_DFC_FRONT = 2;
 export const FACE_SPLIT_FULL = 6;
-export const FACE_SPLIT = 5;
-export const FACE_ADVENTURE = 7;
+//export const FACE_SPLIT = 5;
+//export const FACE_ADVENTURE = 7;
 export const FACE_ADVENTURE_MAIN = 8;
 
 export const FORMATS: Record<string, string> = {
@@ -697,7 +697,6 @@ export const RANKS = [
   "Diamond",
   "Mythic",
 ] as const;
-export const CONSTRUCTED_EVENTS = ["Ladder", "Traditional_Ladder"] as const;
 export const OVERLAY_FULL = 0;
 export const OVERLAY_LEFT = 1;
 export const OVERLAY_ODDS = 2;
@@ -795,7 +794,7 @@ export const MANA: { [key: number]: string } = {
   8: "x",
 } as const;
 
-export const RANKS_SORT: Record<string, number> = {
+const _RANKS_SORT: Record<string, number> = {
   Begginer: 0,
   Bronze: 1,
   Silver: 2,
@@ -816,8 +815,8 @@ export const PACK_SIZES: Record<string, number> = {
 export const DEFAULT_TILE = 67003;
 export const EASING_DEFAULT = "cubicBezier(0.570, 0.165, 0.210, 0.990)";
 
-export const MAIN_OFFLINE = 1;
-export const MAIN_LOGIN = 2;
+//export const MAIN_OFFLINE = 1;
+//export const MAIN_LOGIN = 2;
 export const MAIN_HOME = 3;
 export const MAIN_DECKS = 4;
 export const MAIN_MATCHES = 5;
@@ -827,7 +826,7 @@ export const MAIN_ECONOMY = 8;
 export const MAIN_COLLECTION = 9;
 export const MAIN_SETTINGS = 10;
 export const MAIN_TIMELINE = 11;
-export const MAIN_UPDATE = 12;
+//export const MAIN_UPDATE = 12;
 export const MAIN_CONSTRUCTED = 13;
 export const MAIN_LIMITED = 14;
 
@@ -875,7 +874,7 @@ export const MATCHES_TABLE_MODE = "Table View";
 export const MATCHES_TABLE_MODES = [MATCHES_LIST_MODE, MATCHES_TABLE_MODE];
 
 export const DECKS_ART_MODE = "Deck Art View";
-export const DECKS_LIST_MODE = "List View";
+const DECKS_LIST_MODE = "List View";
 export const DECKS_TABLE_MODE = "Table View";
 export const DECKS_TABLE_MODES = [
   DECKS_LIST_MODE,
@@ -884,10 +883,10 @@ export const DECKS_TABLE_MODES = [
 ];
 
 export const COLLECTION_CARD_MODE = "Card View";
-export const COLLECTION_CHART_MODE = "Chart View";
-export const COLLECTION_TABLE_MODE = "Table View";
-export const COLLECTION_SETS_MODE = "Sets View";
-export const COLLECTION_TABLE_MODES = [
+const COLLECTION_CHART_MODE = "Chart View";
+const COLLECTION_TABLE_MODE = "Table View";
+const COLLECTION_SETS_MODE = "Sets View";
+const _COLLECTION_TABLE_MODES = [
   COLLECTION_CARD_MODE,
   COLLECTION_CHART_MODE,
   COLLECTION_TABLE_MODE,

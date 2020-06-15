@@ -3,7 +3,7 @@ import { DbCardData } from "../../../types/Metadata";
 import { TableControlsProps, TableViewRowProps } from "../tables/types";
 
 export interface CardsData extends DbCardData {
-  colors: number[];
+  colors: number;
   colorSortVal: string;
   rankSortVal: string;
   owned: number;

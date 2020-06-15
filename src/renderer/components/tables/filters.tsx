@@ -7,7 +7,11 @@ import { InternalDeck } from "../../../types/Deck";
 import { BinarySymbol } from "../misc/BinarySymbol";
 import { CheckboxContainer } from "../misc/CheckboxContainer";
 import { InputContainer } from "../misc/InputContainer";
-import ManaFilter, { ColorFilter, ManaFilterKeys } from "../misc/ManaFilter";
+import ManaFilter, {
+  ColorFilter,
+  ManaFilterKeys,
+  ColorBitsFilter,
+} from "../misc/ManaFilter";
 import { MetricText } from "../misc/MetricText";
 import { useMultiSelectFilter } from "./useMultiSelectFilter";
 import { MultiSelectFilterProps, TableData } from "./types";
@@ -102,6 +106,14 @@ export function fuzzyTextFilterFn<D extends TableData>(
   return matchSorter(rows, filterValue, { keys: ["values." + id] });
 }
 
+export function textFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  id: string,
+  filterValue: string
+): Row<D>[] {
+  return rows.filter((row) => row.original[id].indexOf(filterValue) !== -1);
+}
+
 export function GlobalFilter<D extends TableData>({
   preGlobalFilteredRows,
   globalFilter,
@@ -143,7 +155,7 @@ export interface BinaryFilterProps
   falseSymbol?: string;
 }
 
-export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
+function BinaryFilter(props: BinaryFilterProps): JSX.Element {
   const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);
   const { trueLabel, falseLabel, trueSymbol, falseSymbol } = props;
   const symbolStyle = {
@@ -230,13 +242,13 @@ export function BinaryColumnFilter<D extends TableData>({
   );
 }
 
-export function getDefaultColorFilter(): ColorFilter {
+function getDefaultColorFilter(): ColorFilter {
   const colorFilters: any = {};
   COLORS_BRIEF.forEach((code) => (colorFilters[code] = false));
   return { ...colorFilters, multi: true };
 }
 
-export function filterDeckByColors(
+function filterDeckByColors(
   deck: Partial<InternalDeck> | null,
   _colors: ColorFilter
 ): boolean {
@@ -290,6 +302,28 @@ export function colorsFilterFn<D extends TableData>(
   return rows.filter((row) =>
     filterDeckByColors({ colors: row.original[key] }, filterValue)
   );
+}
+
+export function colorsBitsFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: ColorBitsFilter
+): Row<D>[] {
+  const F = filterValue.color;
+  return rows.filter((row) => {
+    const C = row.original.colors;
+    let ret: number | boolean = true;
+    if (filterValue.mode == "strict") ret = F == C;
+    if (filterValue.mode == "and") ret = F & C;
+    if (filterValue.mode == "or") ret = F | C;
+    if (filterValue.mode == "not") ret = ~F;
+    if (filterValue.mode == "strictNot") ret = F !== C;
+    if (filterValue.mode == "strictSubset") ret = (F | C) == F;
+    if (filterValue.mode == "subset") ret = (F | C) == F && C !== F;
+    if (filterValue.mode == "strictSuperset") ret = (F & C) == F;
+    if (filterValue.mode == "superset") ret = (F & C) == F && C !== F;
+    return filterValue.not ? !ret : ret;
+  });
 }
 
 export function ArchiveColumnFilter<D extends TableData>({

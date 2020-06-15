@@ -58,7 +58,7 @@ export function makeSimpleResponseHandler(
   };
 }
 
-export function getRequestOptions(task: HttpTask): RequestOptions {
+function getRequestOptions(task: HttpTask): RequestOptions {
   let options: RequestOptions;
   switch (task.method) {
     case "get_database":

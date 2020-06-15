@@ -35,7 +35,8 @@ const getRarityKey = (
   return undefined;
 };
 
-export function CollectionStatsPanel({
+// TAG FOR LATER
+function _CollectionStatsPanel({
   stats,
   boosterMath,
   clickCompletionCallback,

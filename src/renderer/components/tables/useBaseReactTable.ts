@@ -12,7 +12,9 @@ import {
 import {
   archivedFilterFn,
   colorsFilterFn,
+  colorsBitsFilterFn,
   fuzzyTextFilterFn,
+  textFilterFn,
 } from "../tables/filters";
 import {
   BaseTableProps,
@@ -54,8 +56,10 @@ export function useBaseReactTable<D extends TableData>({
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
+      text: textFilterFn,
       showArchived: archivedFilterFn,
       colors: colorsFilterFn,
+      colorBits: colorsBitsFilterFn,
       ...customFilterTypes,
     }),
     [customFilterTypes]

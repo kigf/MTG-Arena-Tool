@@ -5,11 +5,7 @@ import CompletionHeatMap from "./CompletionHeatMap";
 
 import indexCss from "../../index.css";
 
-export default function ChartView({
-  stats,
-}: {
-  stats: CollectionStats;
-}): JSX.Element {
+function _ChartView({ stats }: { stats: CollectionStats }): JSX.Element {
   const collectibleSets = db.sortedSetCodes.filter((set) => {
     // ensure metadata populated
     const setStats = stats[set];

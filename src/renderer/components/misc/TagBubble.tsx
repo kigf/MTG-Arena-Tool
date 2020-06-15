@@ -11,7 +11,7 @@ interface TagBubbleDivProps {
   fontStyle: string;
 }
 
-export const TagBubbleDiv = styled.div<TagBubbleDivProps>`
+const TagBubbleDiv = styled.div<TagBubbleDivProps>`
   font-family: var(--sub-font-name);
   cursor: pointer;
   color: black;

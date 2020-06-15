@@ -33,7 +33,7 @@ function matchResults(results: ResultSpec[]): number[] {
 
 // Given match data calculates derived data for storage.
 // This is called when a match is complete.
-export function completeMatch(
+function completeMatch(
   match: any,
   matchEndTime: number
 ): InternalMatch | undefined {

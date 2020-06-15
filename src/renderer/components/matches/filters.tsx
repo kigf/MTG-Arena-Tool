@@ -58,7 +58,7 @@ const defaultRank: RankFilterValue = {
 
 export type RankFilterProps = MultiSelectFilterProps<RankFilterValue>;
 
-export function RankFilter(props: RankFilterProps): JSX.Element {
+function RankFilter(props: RankFilterProps): JSX.Element {
   const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);
   return (
     <div

@@ -65,7 +65,7 @@ export function getDateFormat(dateStr: string): string | undefined {
 // Calling code should notify user or fallback as requested.
 // The original date string should always be kept as backup.
 // Use parseWotcTimeFallback for non-important dates.
-export function parseWotcTime(dateStr: string): Date {
+function parseWotcTime(dateStr: string): Date {
   // This must throw an error if it fails
 
   const dateFormat = getDateFormat(dateStr);

@@ -5,13 +5,11 @@ interface PagingButtonProps {
   selected?: boolean;
 }
 
-export const PagingButtonBase = styled.button.attrs<PagingButtonProps>(
-  (props) => ({
-    className: `${props.className ?? ""} ${
-      props.disabled ? indexCss.pagingButtonDisabled : indexCss.pagingButton
-    } ${props.selected ? indexCss.pagingActive : ""}`,
-  })
-)`
+const PagingButtonBase = styled.button.attrs<PagingButtonProps>((props) => ({
+  className: `${props.className ?? ""} ${
+    props.disabled ? indexCss.pagingButtonDisabled : indexCss.pagingButton
+  } ${props.selected ? indexCss.pagingActive : ""}`,
+}))`
   width: initial;
   height: initial;
   minwidth: 30px;

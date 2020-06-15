@@ -124,7 +124,7 @@ interface ArchiveButtonProps {
   dataId: string;
 }
 
-export function ArchiveArtViewButton(props: ArchiveButtonProps): JSX.Element {
+function ArchiveArtViewButton(props: ArchiveButtonProps): JSX.Element {
   const { isArchived, archiveCallback, dataId } = props;
   const dispatcher = useDispatch();
   const onClick = React.useCallback(

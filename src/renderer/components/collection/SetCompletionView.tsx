@@ -12,7 +12,8 @@ import indexCss from "../../index.css";
 // based on card count (e.g. "Ixalan" vs "Gatecrash")
 const STATS_CUTOFF = 100;
 
-export function SetsView({
+// TAG FOR LATER
+function _SetsView({
   stats,
   boosterMath,
   setClickCallback,

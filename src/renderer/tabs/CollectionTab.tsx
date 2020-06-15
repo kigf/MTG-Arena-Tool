@@ -117,16 +117,20 @@ function getCollectionData(
     .map(
       (card): CardsData => {
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
+        const name = card.name.toLowerCase();
+        const type = card.type.toLowerCase();
         const owned = cards.cards[card.id] ?? 0;
         const acquired = cardsNew[card.id] ?? 0;
         const wanted = wantedCards[card.id] ?? 0;
         const colorsObj = new Colors();
         colorsObj.addFromCost(card.cost);
-        const colors = colorsObj.get();
-        const colorSortVal = colors.join("");
+        const colorSortVal = colorsObj.get().join("");
+        const colors = colorsObj.getBits();
         const rankSortVal = RANK_SOURCE[card.rank] ?? "?";
         return {
           ...card,
+          name,
+          type,
           owned,
           acquired,
           colors,

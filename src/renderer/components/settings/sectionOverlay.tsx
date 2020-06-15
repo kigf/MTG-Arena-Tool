@@ -67,7 +67,7 @@ function setSoundPriority(checked: boolean): void {
   );
 }
 
-export function setCurrentOverlaySettings(current: number): void {
+function setCurrentOverlaySettings(current: number): void {
   reduxAction(
     store.dispatch,
     { type: "SET_SETTINGS", arg: { settings_overlay_section: current } },

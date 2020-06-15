@@ -100,7 +100,7 @@ export function compareWinrates(a: Winrate, b: Winrate): -1 | 0 | 1 {
   return compareColorWinrates(a, b);
 }
 
-export function compareColorWinrates(winA: Winrate, winB: Winrate): -1 | 0 | 1 {
+function compareColorWinrates(winA: Winrate, winB: Winrate): -1 | 0 | 1 {
   const a = winA.colors ?? [];
   const b = winB.colors ?? [];
 
@@ -208,7 +208,7 @@ export function getWildcardsMissing(
   return Math.max(0, needed - copiesLeft);
 }
 
-export function getCardsMissingCount(deck: Deck, grpid: number): number {
+function getCardsMissingCount(deck: Deck, grpid: number): number {
   const mainMissing = getWildcardsMissing(deck, grpid, false);
   const sideboardMissing = getWildcardsMissing(deck, grpid, true);
   return mainMissing + sideboardMissing;

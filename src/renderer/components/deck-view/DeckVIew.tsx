@@ -139,7 +139,7 @@ function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
   return colors;
 }
 
-export function DeckView(props: DeckViewProps): JSX.Element {
+function DeckView(props: DeckViewProps): JSX.Element {
   const deck = new Deck(props.deck);
   const [deckView, setDeckView] = useState(VIEW_REGULAR);
   const dispatcher = useDispatch();

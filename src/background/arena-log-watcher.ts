@@ -45,7 +45,7 @@ interface StartProps {
   onFinish: () => void;
 }
 
-export function start({
+function start({
   path,
   chunkSize,
   onLogEntry,

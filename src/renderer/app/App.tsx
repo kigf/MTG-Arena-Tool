@@ -30,7 +30,7 @@ import AuthSettings from "../components/auth-settings";
 
 initializeRendererReduxIPC(store);
 
-export function App(): JSX.Element {
+function App(): JSX.Element {
   const loginState = useSelector((state: AppState) => state.login.loginState);
   const openAuthSettings = useSelector(
     (state: AppState) => state.renderer.authSettings

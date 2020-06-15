@@ -18,7 +18,6 @@ import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
-import database from "../shared/database";
 import Colors from "../shared/colors";
 import { InternalDraftv2 } from "../types/draft";
 import Deck from "../shared/deck";
@@ -41,9 +40,9 @@ export interface CardWinrateData {
   colors: { [key: number]: { wins: number; losses: number } };
 }
 
-export function newCardWinrate(grpId: number): CardWinrateData {
+function newCardWinrate(grpId: number): CardWinrateData {
   return {
-    name: database.card(grpId)?.name || "",
+    name: db.card(grpId)?.name || "",
     wins: 0,
     losses: 0,
     turnsUsed: [],

@@ -12,7 +12,7 @@ interface SetSymbolProps extends React.HTMLAttributes<HTMLDivElement> {
   set: string;
 }
 
-export function SetSymbol({
+function _SetSymbol({
   set,
   style,
   ...otherProps

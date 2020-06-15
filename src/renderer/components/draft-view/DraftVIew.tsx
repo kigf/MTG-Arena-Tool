@@ -89,7 +89,7 @@ interface DraftViewProps {
   draft: InternalDraftv2;
 }
 
-export function DraftView(props: DraftViewProps): JSX.Element {
+function DraftView(props: DraftViewProps): JSX.Element {
   const dispatcher = useDispatch();
   const { draft } = props;
   const [pickpack, setPickPack] = React.useState({ pick: 0, pack: 0 });

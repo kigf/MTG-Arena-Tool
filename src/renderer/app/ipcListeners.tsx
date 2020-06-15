@@ -3,13 +3,15 @@
 /* eslint-disable no-console */
 import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
 import timestamp from "../../shared/utils/timestamp";
-import { MAIN_SETTINGS, IPC_NONE, LOGIN_OK } from "../../shared/constants";
-import { ipcSend } from "../rendererUtil";
 import {
+  MAIN_SETTINGS,
+  IPC_NONE,
+  LOGIN_OK,
   LOGIN_FAILED,
   LOGIN_WAITING,
   SETTINGS_ABOUT,
 } from "../../shared/constants";
+import { ipcSend } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore from "../../shared/store";
 import { ArenaV3Deck } from "../../types/Deck";

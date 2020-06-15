@@ -32,7 +32,7 @@ interface MatchViewProps {
 const VIEW_MATCH = 1;
 const VIEW_LOG = 2;
 
-export function MatchView(props: MatchViewProps): JSX.Element {
+function MatchView(props: MatchViewProps): JSX.Element {
   const { match } = props;
   const dispatcher = useDispatch();
   const [view, setView] = useState(VIEW_MATCH);
