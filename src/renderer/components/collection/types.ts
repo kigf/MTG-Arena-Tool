@@ -32,3 +32,37 @@ export interface CollectionTableRowProps extends TableViewRowProps<CardsData> {
 }
 
 export type CollectionTableCellProps = CellProps<CardsData>;
+
+export type QuerySeparators = ">=" | "<=" | ":" | "=" | "!=" | "<" | ">";
+export type QueryKeys = "name" | "rarity" | "type" | "colors" | "cmc";
+export type ParsedToken = [string, QuerySeparators, string];
+
+export type FilterModes =
+  | "strict"
+  | "and"
+  | "or"
+  | "not"
+  | "strictNot"
+  | "subset"
+  | "superset"
+  | "strictSubset"
+  | "strictSuperset";
+
+export const RARITY_TOKEN = 1;
+export const RARITY_LAND = 2;
+export const RARITY_COMMON = 4;
+export const RARITY_UNCOMMON = 8;
+export const RARITY_RARE = 16;
+export const RARITY_MYTHIC = 32;
+
+export type ColorBitsFilter = {
+  color: number;
+  not: boolean;
+  mode: FilterModes;
+};
+
+export type RarityBitsFilter = {
+  not: boolean;
+  mode: QuerySeparators;
+  rarity: number;
+};

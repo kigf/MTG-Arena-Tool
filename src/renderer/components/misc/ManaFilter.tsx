@@ -7,20 +7,6 @@ export type ManaFilterKeys = "w" | "u" | "b" | "r" | "g" | "multi";
 export type ManaBitsFilterKeys = ManaFilterKeys | "mode";
 
 export type ColorFilter = { [key in ManaFilterKeys]: boolean };
-export type ColorBitsFilter = {
-  color: number;
-  not: boolean;
-  mode:
-    | "strict"
-    | "and"
-    | "or"
-    | "not"
-    | "strictNot"
-    | "subset"
-    | "superset"
-    | "strictSubset"
-    | "strictSuperset";
-};
 
 export interface ManaFilterProps {
   filterKey: string;

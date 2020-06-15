@@ -7,7 +7,7 @@ import { BaseTableProps } from "../tables/types";
 import { useBaseReactTable } from "../tables/useBaseReactTable";
 import { InBoostersHeader } from "./cells";
 import CollectionTableControls from "./CollectionTableControls";
-import { inBoostersFilterFn, rarityFilterFn, setFilterFn } from "./filters";
+import { inBoostersFilterFn, setFilterFn } from "./filters";
 import { CardTileRow } from "./rows";
 import {
   CardsData,
@@ -40,7 +40,6 @@ export default function CollectionTable({
 
   const customFilterTypes = {
     inBoosters: inBoostersFilterFn,
-    rarity: rarityFilterFn,
     set: setFilterFn,
   };
 
@@ -65,7 +64,14 @@ export default function CollectionTable({
       rowB: Row<CardsData>,
       columnId: IdType<CardsData>
     ): 0 | 1 | -1 => {
-      const orderedRarity = ["land", "common", "uncommon", "rare", "mythic"];
+      const orderedRarity = [
+        "token",
+        "land",
+        "common",
+        "uncommon",
+        "rare",
+        "mythic",
+      ];
       const indexDiff =
         orderedRarity.indexOf(rowA.values[columnId]) -
         orderedRarity.indexOf(rowB.values[columnId]);
@@ -162,7 +168,7 @@ export default function CollectionTable({
         Header: "Artist",
         accessor: "artist",
         disableFilters: false,
-        filter: "fuzzyText",
+        filter: "text",
         mayToggle: true,
       },
       { accessor: "collectible" },
@@ -212,6 +218,7 @@ export default function CollectionTable({
           <div className={sharedCss.medScroll}>
             <TableHeaders
               {...headersProps}
+              filtersVisible={{}}
               style={{ overflowX: "auto", overflowY: "hidden" }}
             />
             <div

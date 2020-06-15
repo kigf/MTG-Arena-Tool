@@ -12,7 +12,6 @@ import {
 import {
   archivedFilterFn,
   colorsFilterFn,
-  colorsBitsFilterFn,
   fuzzyTextFilterFn,
   textFilterFn,
 } from "../tables/filters";
@@ -24,6 +23,7 @@ import {
   TableData,
   TableHeadersProps,
 } from "../tables/types";
+import { rarityFilterFn, colorsBitsFilterFn } from "../collection/filters";
 
 export function useBaseReactTable<D extends TableData>({
   columns,
@@ -59,6 +59,7 @@ export function useBaseReactTable<D extends TableData>({
       text: textFilterFn,
       showArchived: archivedFilterFn,
       colors: colorsFilterFn,
+      rarity: rarityFilterFn,
       colorBits: colorsBitsFilterFn,
       ...customFilterTypes,
     }),
@@ -87,9 +88,9 @@ export function useBaseReactTable<D extends TableData>({
   }, [cachedState, columns, defaultState]);
   const table = useTable<D>(
     {
+      defaultColumn,
       columns: React.useMemo(() => columns, [columns]),
       data: React.useMemo(() => data, [data]),
-      defaultColumn,
       filterTypes,
       globalFilter: React.useMemo(() => globalFilter, [globalFilter]),
       initialState,

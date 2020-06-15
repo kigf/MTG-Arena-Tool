@@ -9,9 +9,12 @@ export default function TableHeaders<D extends TableData>({
   filtersVisible,
   getTableProps,
   gridTemplateColumns,
+  setFilter,
+  setFiltersVisible,
   style,
   visibleHeaders,
 }: TableHeadersProps<D>): JSX.Element {
+  console.log("visibleHeaders", visibleHeaders);
   return (
     <div
       className={
@@ -41,6 +44,34 @@ export default function TableHeaders<D extends TableData>({
               style={{ marginRight: "4px", width: "16px" }}
             />
             <div className={indexCss.flexItem}>{column.render("Header")}</div>
+            {column.canFilter && column.Filter && (
+              <div
+                style={{ marginRight: 0 }}
+                className={sharedCss.button + " " + sharedCss.settings}
+                onClick={(e): void => {
+                  e.stopPropagation();
+                  setFiltersVisible({
+                    ...filtersVisible,
+                    [column.id]: !filtersVisible[column.id],
+                  });
+                }}
+                title={
+                  (filtersVisible[column.id] ? "hide" : "show") +
+                  " column filter"
+                }
+              />
+            )}
+            {column.filterValue && (
+              <div
+                style={{ marginRight: 0 }}
+                className={sharedCss.button + " " + sharedCss.close}
+                onClick={(e): void => {
+                  e.stopPropagation();
+                  setFilter(column.id, undefined);
+                }}
+                title={"clear column filter"}
+              />
+            )}
           </div>
           {column.canFilter && filtersVisible[column.id] && (
             <div
