@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 
 import appCss from "../app/app.css";
 import { PlayerData } from "../../shared/redux/slices/playerDataSlice";
+import { getRarityFilterVal } from "../components/collection/filters";
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
@@ -117,6 +118,7 @@ function getCollectionData(
     .map(
       (card): CardsData => {
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
+        const rarityVal = getRarityFilterVal(card.rarity);
         const name = card.name.toLowerCase();
         const type = card.type.toLowerCase();
         const owned = cards.cards[card.id] ?? 0;
@@ -137,6 +139,7 @@ function getCollectionData(
           colorSortVal,
           wanted,
           rankSortVal,
+          rarityVal,
         };
       }
     );

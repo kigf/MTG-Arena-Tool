@@ -21,7 +21,7 @@ import {
 } from "./types";
 
 /**
- * Matches a query string and returns an array to be used in the filters converter 
+ * Matches a query string and returns an array to be used in the filters converter
  * @param filterValue Query string
  */
 function parseFilterValue(filterValue: string): ParsedToken[] {
@@ -66,6 +66,10 @@ const defaultFilters = {
     string: "",
     not: false,
   } as StringFilter,
+  artist: {
+    string: "",
+    not: false,
+  } as StringFilter,
   cmc: [undefined, undefined] as [undefined | number, undefined | number],
   colors: {
     color: 0,
@@ -91,6 +95,8 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   cmc: "cmc",
   r: "rarity",
   rarity: "rarity",
+  a: "artist",
+  artist: "artist",
 };
 
 /**
@@ -117,6 +123,10 @@ function getTokenVal(
       if (separator === "=" || separator === ":") filters.type.string = val;
       filters.type.not = isNegative;
       break;
+    case "artist":
+      if (separator === "=" || separator === ":") filters.artist.string = val;
+      filters.artist.not = isNegative;
+      break;
     case "rarity":
       filters.rarity.not = isNegative;
       let rarity = 0;
@@ -142,6 +152,7 @@ function getTokenVal(
       }
       filters.rarity.mode = separator;
       filters.rarity.rarity = rarity;
+      break;
     case "cmc":
       const intVal = parseInt(val);
       if (separator === "=" || separator === ":") {

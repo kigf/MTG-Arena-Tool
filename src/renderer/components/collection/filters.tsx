@@ -71,6 +71,34 @@ export function colorsBitsFilterFn<D extends TableData>(
   });
 }
 
+export function getRarityFilterVal(rarity: string): number {
+  let ret = 0;
+  switch (rarity) {
+    case "token":
+      ret = RARITY_TOKEN;
+      break;
+    case "land":
+      ret = RARITY_LAND;
+      break;
+    case "common":
+      ret = RARITY_COMMON;
+      break;
+    case "uncommon":
+      ret = RARITY_UNCOMMON;
+      break;
+    case "rare":
+      ret = RARITY_RARE;
+      break;
+    case "mythic":
+      ret = RARITY_MYTHIC;
+      break;
+    default:
+      ret = 0;
+      break;
+  }
+  return ret;
+}
+
 export function rarityFilterFn<D extends TableData>(
   rows: Row<D>[],
   _columnIds: string[],
@@ -78,35 +106,15 @@ export function rarityFilterFn<D extends TableData>(
 ): Row<D>[] {
   const F = filterValue.rarity;
   return rows.filter((row) => {
-    let R = 0;
-    switch (row.original.rarity) {
-      case "token":
-        R = RARITY_TOKEN;
-        break;
-      case "land":
-        R = RARITY_LAND;
-        break;
-      case "common":
-        R = RARITY_COMMON;
-        break;
-      case "uncommon":
-        R = RARITY_UNCOMMON;
-        break;
-      case "rare":
-        R = RARITY_RARE;
-        break;
-      case "mythic":
-        R = RARITY_MYTHIC;
-        break;
-    }
+    const R = row.original.rarityVal;
     let ret: number | boolean = true;
-    if (filterValue.mode == "=") ret = F === R;
-    if (filterValue.mode == ":") ret = F & R;
-    if (filterValue.mode == "!=") ret = F !== R;
-    if (filterValue.mode == "<=") ret = F <= R;
-    if (filterValue.mode == "<") ret = F <= R;
-    if (filterValue.mode == ">=") ret = F >= R;
-    if (filterValue.mode == ">") ret = F > R;
+    if (filterValue.mode == "=") ret = R === F;
+    if (filterValue.mode == ":") ret = R & F;
+    if (filterValue.mode == "!=") ret = R !== F;
+    if (filterValue.mode == "<=") ret = R <= F;
+    if (filterValue.mode == "<") ret = R <= F;
+    if (filterValue.mode == ">=") ret = R >= F;
+    if (filterValue.mode == ">") ret = R > F;
     return filterValue.not ? !ret : ret;
   });
 }

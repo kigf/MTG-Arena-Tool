@@ -6,6 +6,7 @@ export interface CardsData extends DbCardData {
   colors: number;
   colorSortVal: string;
   rankSortVal: string;
+  rarityVal: number;
   owned: number;
   acquired: number;
   wanted: number;
@@ -34,7 +35,13 @@ export interface CollectionTableRowProps extends TableViewRowProps<CardsData> {
 export type CollectionTableCellProps = CellProps<CardsData>;
 
 export type QuerySeparators = ">=" | "<=" | ":" | "=" | "!=" | "<" | ">";
-export type QueryKeys = "name" | "rarity" | "type" | "colors" | "cmc";
+export type QueryKeys =
+  | "artist"
+  | "colors"
+  | "cmc"
+  | "name"
+  | "rarity"
+  | "type";
 export type ParsedToken = [string, QuerySeparators, string];
 
 export type FilterModes =
