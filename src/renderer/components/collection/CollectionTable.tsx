@@ -99,6 +99,18 @@ export default function CollectionTable({
         filter: "colorBits",
       },
       {
+        accessor: "format",
+        filter: "format",
+      },
+      {
+        accessor: "banned",
+        filter: "inArray",
+      },
+      {
+        accessor: "suspended",
+        filter: "inArray",
+      },
+      {
         Header: "Colors",
         disableFilters: false,
         accessor: "colorSortVal",

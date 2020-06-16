@@ -14,7 +14,13 @@ import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
 
-import { ipcSend, getMissingCardCounts } from "../rendererUtil";
+import {
+  ipcSend,
+  getMissingCardCounts,
+  getCardFormats,
+  getCardBanned,
+  getCardSuspended,
+} from "../rendererUtil";
 import { CardCounts } from "../components/decks/types";
 import Deck from "../../shared/deck";
 import { reduxAction } from "../../shared/redux/sharedRedux";
@@ -132,6 +138,9 @@ function getCollectionData(
         const colors = colorsObj.getBits();
         const rankSortVal = RANK_SOURCE[card.rank] ?? "?";
         const setCode = db.sets[card.set]?.scryfall ?? card.set;
+        const format = getCardFormats(card);
+        const banned = getCardBanned(card);
+        const suspended = getCardSuspended(card);
         return {
           ...card,
           name,
@@ -146,6 +155,9 @@ function getCollectionData(
           rankSortVal,
           rarityVal,
           setCode,
+          format,
+          banned,
+          suspended,
         };
       }
     );

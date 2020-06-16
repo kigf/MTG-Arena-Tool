@@ -14,6 +14,7 @@ import {
   ColorBitsFilter,
   RarityBitsFilter,
 } from "./types";
+import { usedFormats } from "../../rendererUtil";
 
 export function inBoostersFilterFn(
   rows: Row<CardsData>[],
@@ -113,6 +114,37 @@ export function rarityFilterFn<D extends TableData>(
     if (filterValue.mode == "<") ret = R <= F;
     if (filterValue.mode == ">=") ret = R >= F;
     if (filterValue.mode == ">") ret = R > F;
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function formatFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: StringFilter
+): Row<D>[] {
+  const F: string = Object.keys(usedFormats)
+    .filter((f) => f.toLowerCase() == filterValue.string.toLowerCase())
+    ?.map((f) => usedFormats[f])[0];
+
+  return rows.filter((row) => {
+    const ret = row.original.format.includes(F);
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function inArrayFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  columnIds: string[],
+  filterValue: StringFilter
+): Row<D>[] {
+  const [id] = columnIds;
+  const F: string = Object.keys(usedFormats)
+    .filter((f) => f.toLowerCase() == filterValue.string.toLowerCase())
+    ?.map((f) => usedFormats[f])[0];
+
+  return rows.filter((row) => {
+    const ret = row.original[id].includes(F);
     return filterValue.not ? !ret : ret;
   });
 }

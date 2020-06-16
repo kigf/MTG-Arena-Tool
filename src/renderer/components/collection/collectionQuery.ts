@@ -74,6 +74,18 @@ const defaultFilters = {
     string: "",
     not: false,
   } as StringFilter,
+  format: {
+    string: "",
+    not: false,
+  } as StringFilter,
+  banned: {
+    string: "",
+    not: false,
+  } as StringFilter,
+  suspended: {
+    string: "",
+    not: false,
+  } as StringFilter,
   cmc: [undefined, undefined] as [undefined | number, undefined | number],
   colors: {
     color: 0,
@@ -103,6 +115,11 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   artist: "artist",
   s: "set",
   set: "set",
+  f: "format",
+  legal: "legal",
+  format: "format",
+  banned: "banned",
+  suspended: "suspended",
 };
 
 /**
@@ -136,6 +153,28 @@ function getTokenVal(
     case "set":
       if (separator === "=" || separator === ":") filters.set.string = val;
       filters.set.not = isNegative;
+      break;
+    case "format":
+      if (separator === "=" || separator === ":") filters.format.string = val;
+      filters.format.not = isNegative;
+      break;
+    case "banned":
+      if (separator === "=" || separator === ":") filters.banned.string = val;
+      filters.banned.not = isNegative;
+      break;
+    case "suspended":
+      if (separator === "=" || separator === ":")
+        filters.suspended.string = val;
+      filters.suspended.not = isNegative;
+      break;
+    case "legal":
+      if (separator === "=" || separator === ":") {
+        filters.format.string = val;
+        filters.suspended.string = val;
+        filters.suspended.not = true;
+        filters.banned.string = val;
+        filters.banned.not = true;
+      }
       break;
     case "rarity":
       filters.rarity.not = isNegative;

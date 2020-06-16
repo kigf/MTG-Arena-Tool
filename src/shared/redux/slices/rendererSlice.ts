@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Format } from "../../../types/Metadata";
 
 interface ShareDialog {
   open: boolean;
@@ -39,6 +40,7 @@ const initialRendererState = {
     time: 0,
     duration: 0,
   },
+  formats: {} as Record<string, Format>,
   authSettings: false,
   shareDialog: {
     open: false,
@@ -158,6 +160,12 @@ const rendererSlice = createSlice({
     ): void => {
       state.authSettings = action.payload;
     },
+    setFormats: (
+      state: RendererState,
+      action: PayloadAction<Record<string, Format>>
+    ): void => {
+      state.formats = action.payload;
+    },
     setUpdateState: (
       state: RendererState,
       action: PayloadAction<string>
@@ -202,6 +210,7 @@ export const {
   setShareDialogOpen,
   setShareDialogUrl,
   setNavIndex,
+  setFormats,
   setAuthSettings,
   setSubNav,
   setTopNav,

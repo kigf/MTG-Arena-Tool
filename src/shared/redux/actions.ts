@@ -81,6 +81,7 @@ export const actions = {
   SET_TOPARTIST: RendererSlice.setTopArtist,
   SET_TOPNAV: RendererSlice.setTopNav,
   SET_AUTH_SETTINGS: RendererSlice.setAuthSettings,
+  SET_FORMATS: RendererSlice.setFormats,
   SET_UPDATE_STATE: RendererSlice.setUpdateState,
   SET_SYNC_STATE: RendererSlice.setSyncState,
   SET_TO_PUSH: RendererSlice.setSyncToPush,

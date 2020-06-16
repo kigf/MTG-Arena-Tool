@@ -11,6 +11,9 @@ export interface CardsData extends DbCardData {
   owned: number;
   acquired: number;
   wanted: number;
+  format: string[];
+  banned: string[];
+  suspended: string[];
 }
 
 export interface CollectionTableProps {
@@ -43,7 +46,11 @@ export type QueryKeys =
   | "name"
   | "rarity"
   | "set"
-  | "type";
+  | "type"
+  | "format"
+  | "legal"
+  | "banned"
+  | "suspended";
 export type ParsedToken = [string, QuerySeparators, string];
 
 export type FilterModes =

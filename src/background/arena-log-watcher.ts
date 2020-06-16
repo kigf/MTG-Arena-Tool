@@ -411,6 +411,12 @@ function entrySwitch(entry: LogEntry): void {
       }
       break;
 
+    case "PlayerInventory.GetFormats":
+      if (entry.arrow == "<==") {
+        Labels.GetPlayerInventoryGetFormats(entry);
+      }
+      break;
+
     default:
       break;
   }
