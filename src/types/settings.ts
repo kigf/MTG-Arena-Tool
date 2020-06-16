@@ -38,7 +38,8 @@ export interface SettingsData {
   close_on_match: boolean;
   close_to_tray: boolean;
   collectionTableState?: TableState<CardsData>;
-  collectionTableMode: string;
+  collectionQuery: string;
+  collectionMode: string;
   decksTableMode: string;
   decksTableState?: TableState<DecksData>;
   economyTableMode: string;

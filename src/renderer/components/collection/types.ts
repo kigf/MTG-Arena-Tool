@@ -22,7 +22,7 @@ export interface CollectionTableProps {
   contextMenuCallback: (cardDiv: HTMLElement, card: DbCardData) => void;
   data: CardsData[];
   exportCallback: (cardIds: string[]) => void;
-  tableModeCallback: (tableMode: string) => void;
+  modeCallback: (tableMode: string) => void;
   tableStateCallback: (state: TableState<CardsData>) => void;
 }
 

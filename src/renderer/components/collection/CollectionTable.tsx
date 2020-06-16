@@ -24,7 +24,7 @@ import sharedCss from "../../../shared/shared.css";
 export default function CollectionTable({
   data,
   contextMenuCallback,
-  tableModeCallback,
+  modeCallback,
   tableStateCallback,
   cachedState,
   cachedTableMode,
@@ -33,10 +33,7 @@ export default function CollectionTable({
   const [tableMode, setTableMode] = React.useState(cachedTableMode);
   const cardSize = useSelector((state: AppState) => state.settings.cards_size);
   const sortedSetCodes = useMemo(() => db.sortedSetCodes, []);
-  React.useEffect(() => tableModeCallback(tableMode), [
-    tableMode,
-    tableModeCallback,
-  ]);
+  React.useEffect(() => modeCallback(tableMode), [tableMode, modeCallback]);
 
   const customFilterTypes = {
     inBoosters: inBoostersFilterFn,

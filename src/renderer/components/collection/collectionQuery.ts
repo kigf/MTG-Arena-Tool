@@ -82,6 +82,10 @@ const defaultFilters = {
     string: "",
     not: false,
   } as StringFilter,
+  legal: {
+    string: "",
+    not: false,
+  } as StringFilter,
   suspended: {
     string: "",
     not: false,
@@ -348,7 +352,7 @@ function getTokenVal(
 export default function getFiltersFromQuery(query: string): Filters<CardsData> {
   const filters: Filters<CardsData> = [];
   const results = parseFilterValue(query);
-  console.log(results);
+  //console.log(results);
   let keysAdded = 0;
   results.map((match: any) => {
     const [tokenKey, separator, tokenVal] = match;
@@ -362,7 +366,7 @@ export default function getFiltersFromQuery(query: string): Filters<CardsData> {
         separator,
         tokenVal
       );
-      console.log(defaultModified);
+      //console.log(defaultModified);
       Object.keys(defaultModified)
         .filter((id) => {
           return !_.isEqual(

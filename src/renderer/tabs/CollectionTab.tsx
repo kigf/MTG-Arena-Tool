@@ -98,10 +98,10 @@ function saveTableState(collectionTableState: TableState<CardsData>): void {
   );
 }
 
-function saveTableMode(collectionTableMode: string): void {
+function saveMode(collectionMode: string): void {
   reduxAction(
     store.dispatch,
-    { type: "SET_SETTINGS", arg: { collectionTableMode } },
+    { type: "SET_SETTINGS", arg: { collectionMode } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
@@ -168,7 +168,7 @@ export default function CollectionTab(): JSX.Element {
     (state: AppState) => state.playerdata
   );
   const settings = useSelector((state: AppState) => state.settings);
-  const { collectionTableMode, collectionTableState } = settings;
+  const { collectionMode, collectionTableState } = settings;
   const data = React.useMemo(() => {
     return getCollectionData(cards, cardsNew);
   }, [cards, cardsNew]);
@@ -176,11 +176,11 @@ export default function CollectionTab(): JSX.Element {
     <div className={appCss.uxItem}>
       <CollectionTable
         cachedState={collectionTableState}
-        cachedTableMode={collectionTableMode}
+        cachedTableMode={collectionMode}
         contextMenuCallback={addCardMenu}
         data={data}
         exportCallback={exportCards}
-        tableModeCallback={saveTableMode}
+        modeCallback={saveMode}
         tableStateCallback={saveTableState}
       />
     </div>

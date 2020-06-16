@@ -8,6 +8,10 @@ import { CollectionTableControlsProps } from "./types";
 import tableCss from "../tables/tables.css";
 import { InputContainer } from "../misc/InputContainer";
 import getFiltersFromQuery from "./collectionQuery";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import { useDispatch, useSelector } from "react-redux";
+import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
+import { AppState } from "../../../shared/redux/stores/rendererStore";
 
 export default function CollectionTableControls(
   props: CollectionTableControlsProps
@@ -17,7 +21,6 @@ export default function CollectionTableControls(
     setAllFilters,
     toggleSortBy,
     toggleHideColumn,
-    globalFilter,
     setGlobalFilter,
     pagingProps,
     rows,
@@ -28,10 +31,20 @@ export default function CollectionTableControls(
   const exportRows = React.useCallback(() => {
     exportCallback(rows.map((row) => row.values.id));
   }, [exportCallback, rows]);
+  const dispatcher = useDispatch();
+  const collectionQuery = useSelector(
+    (state: AppState) => state.settings.collectionQuery
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
-      const filters = getFiltersFromQuery(e.currentTarget.value || "");
+      const query = e.currentTarget.value;
+      reduxAction(
+        dispatcher,
+        { type: "SET_SETTINGS", arg: { collectionQuery: query } },
+        IPC_ALL ^ IPC_RENDERER
+      );
+      const filters = getFiltersFromQuery(query || "");
       setGlobalFilter(undefined);
       setAllFilters(filters);
     }
@@ -72,7 +85,7 @@ export default function CollectionTableControls(
       <div className={tableCss.react_table_search_cont}>
         <InputContainer title="Search">
           <input
-            defaultValue={globalFilter ?? ""}
+            defaultValue={collectionQuery || ""}
             placeholder={"Search.."}
             onKeyDown={handleKeyDown}
           />
