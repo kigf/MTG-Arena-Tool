@@ -41,16 +41,17 @@ export type CollectionTableCellProps = CellProps<CardsData>;
 export type QuerySeparators = ">=" | "<=" | ":" | "=" | "!=" | "<" | ">";
 export type QueryKeys =
   | "artist"
+  | "banned"
   | "colors"
   | "cmc"
+  | "format"
+  | "is"
   | "name"
   | "rarity"
   | "set"
   | "type"
-  | "format"
-  | "legal"
-  | "banned"
-  | "suspended";
+  | "suspended"
+  | "legal";
 export type ParsedToken = [string, QuerySeparators, string];
 
 export type FilterModes =

@@ -57,39 +57,21 @@ function parseFilterValue(filterValue: string): ParsedToken[] {
   return results;
 }
 
+const defaultStringFilter: StringFilter = {
+  string: "",
+  not: false,
+};
+
 const defaultFilters = {
-  name: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  type: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  artist: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  set: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  format: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  banned: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  legal: {
-    string: "",
-    not: false,
-  } as StringFilter,
-  suspended: {
-    string: "",
-    not: false,
-  } as StringFilter,
+  name: { ...defaultStringFilter },
+  type: { ...defaultStringFilter },
+  artist: { ...defaultStringFilter },
+  set: { ...defaultStringFilter },
+  format: { ...defaultStringFilter },
+  banned: { ...defaultStringFilter },
+  legal: { ...defaultStringFilter },
+  is: { ...defaultStringFilter },
+  suspended: { ...defaultStringFilter },
   cmc: [undefined, undefined] as [undefined | number, undefined | number],
   colors: {
     color: 0,
@@ -120,6 +102,7 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   s: "set",
   set: "set",
   f: "format",
+  is: "is",
   legal: "legal",
   format: "format",
   banned: "banned",
@@ -170,6 +153,10 @@ function getTokenVal(
       if (separator === "=" || separator === ":")
         filters.suspended.string = val;
       filters.suspended.not = isNegative;
+      break;
+    case "is":
+      if (separator === "=" || separator === ":") filters.is.string = val;
+      filters.is.not = isNegative;
       break;
     case "legal":
       if (separator === "=" || separator === ":") {

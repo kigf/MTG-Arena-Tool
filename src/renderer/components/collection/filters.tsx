@@ -15,6 +15,11 @@ import {
   RarityBitsFilter,
 } from "./types";
 import { usedFormats } from "../../rendererUtil";
+import {
+  historicAnthology,
+  historicAnthology2,
+  historicAnthology3,
+} from "./customSets";
 
 export function inBoostersFilterFn(
   rows: Row<CardsData>[],
@@ -41,9 +46,16 @@ export function setFilterFn<D extends TableData>(
   filterValue: StringFilter
 ): Row<D>[] {
   return rows.filter((row) => {
-    const res =
-      row.original.setCode.indexOf(filterValue.string) !== -1 ||
-      row.original.set.indexOf(filterValue.string) !== -1;
+    const F = filterValue.string;
+    let res = false;
+    if (F == "ha1" && historicAnthology.includes(row.original.id)) res = true;
+    if (F == "ha2" && historicAnthology2.includes(row.original.id)) res = true;
+    if (F == "ha3" && historicAnthology3.includes(row.original.id)) res = true;
+
+    res =
+      res ||
+      row.original.setCode.indexOf(F) !== -1 ||
+      row.original.set.indexOf(F) !== -1;
     return filterValue.not ? !res : res;
   });
 }

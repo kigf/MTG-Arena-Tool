@@ -108,6 +108,10 @@ export default function CollectionTable({
         filter: "inArray",
       },
       {
+        accessor: "is",
+        filter: "is",
+      },
+      {
         Header: "Colors",
         disableFilters: false,
         accessor: "colorSortVal",
