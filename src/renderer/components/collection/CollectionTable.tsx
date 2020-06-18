@@ -6,7 +6,9 @@ import TableHeaders from "../tables/TableHeaders";
 import { BaseTableProps } from "../tables/types";
 import { useBaseReactTable } from "../tables/useBaseReactTable";
 import { InBoostersHeader } from "./cells";
-import CollectionTableControls from "./CollectionTableControls";
+import CollectionTableControls, {
+  collectionModes,
+} from "./CollectionTableControls";
 import { inBoostersFilterFn, setFilterFn } from "./filters";
 import { CardTileRow } from "./rows";
 import {
@@ -32,6 +34,9 @@ export default function CollectionTable({
 }: CollectionTableProps): JSX.Element {
   const [tableMode, setTableMode] = React.useState(cachedTableMode);
   const cardSize = useSelector((state: AppState) => state.settings.cards_size);
+  const collectionMode = useSelector(
+    (state: AppState) => state.settings.collectionMode
+  );
   const sortedSetCodes = useMemo(() => db.sortedSetCodes, []);
   React.useEffect(() => modeCallback(tableMode), [tableMode, modeCallback]);
 
@@ -228,37 +233,43 @@ export default function CollectionTable({
       <div className={indexCss.wrapperColumn}>
         <div className={tablesCss.reactTableWrap}>
           <CollectionTableControls {...collectionTableControlsProps} />
-          <div className={sharedCss.medScroll}>
-            <TableHeaders
-              {...headersProps}
-              filtersVisible={{}}
-              style={{ overflowX: "auto", overflowY: "hidden" }}
-            />
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: `repeat(auto-fit, minmax(${
-                  100 + cardSize * 15 + 12
-                }px, 1fr))`,
-              }}
-              className={tablesCss.reactTableBodyNoAdjust}
-              {...getTableBodyProps()}
-            >
-              {page.map((row, index) => {
-                prepareRow(row);
-                return (
-                  <CardTileRow
-                    key={row.original.id}
-                    row={row}
-                    index={index}
-                    contextMenuCallback={contextMenuCallback}
-                    gridTemplateColumns={gridTemplateColumns}
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <PagingControls {...pagingProps} />
+          {collectionMode === collectionModes[1] ? (
+            <></>
+          ) : (
+            <>
+              <div className={sharedCss.medScroll}>
+                <TableHeaders
+                  {...headersProps}
+                  filtersVisible={{}}
+                  style={{ overflowX: "auto", overflowY: "hidden" }}
+                />
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(auto-fit, minmax(${
+                      100 + cardSize * 15 + 12
+                    }px, 1fr))`,
+                  }}
+                  className={tablesCss.reactTableBodyNoAdjust}
+                  {...getTableBodyProps()}
+                >
+                  {page.map((row, index) => {
+                    prepareRow(row);
+                    return (
+                      <CardTileRow
+                        key={row.original.id}
+                        row={row}
+                        index={index}
+                        contextMenuCallback={contextMenuCallback}
+                        gridTemplateColumns={gridTemplateColumns}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+              <PagingControls {...pagingProps} />
+            </>
+          )}
         </div>
       </div>
     </>

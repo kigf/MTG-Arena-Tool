@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import React from "react";
+import React, { useCallback } from "react";
 import _ from "lodash";
 import { MediumTextButton } from "../misc/MediumTextButton";
 import ColumnToggles from "../tables/ColumnToggles";
@@ -12,6 +12,9 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
+import ReactSelect from "../../../shared/ReactSelect";
+
+export const collectionModes: string[] = ["By Cards View", "By Sets View"];
 
 export default function CollectionTableControls(
   props: CollectionTableControlsProps
@@ -35,6 +38,9 @@ export default function CollectionTableControls(
   const collectionQuery = useSelector(
     (state: AppState) => state.settings.collectionQuery
   );
+  const collectionMode = useSelector(
+    (state: AppState) => state.settings.collectionMode
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
@@ -50,6 +56,17 @@ export default function CollectionTableControls(
     }
   };
 
+  const setCollectionMode = useCallback(
+    (mode: string) => {
+      reduxAction(
+        dispatcher,
+        { type: "SET_SETTINGS", arg: { collectionMode: mode } },
+        IPC_ALL ^ IPC_RENDERER
+      );
+    },
+    [dispatcher]
+  );
+
   return (
     <div
       style={{
@@ -60,6 +77,11 @@ export default function CollectionTableControls(
       }}
     >
       <div className={tableCss.reactTableToggles}>
+        <ReactSelect
+          options={collectionModes}
+          current={collectionMode}
+          callback={setCollectionMode}
+        />
         <MediumTextButton onClick={exportRows}>Export</MediumTextButton>
         <MediumTextButton
           onClick={(): void => {
@@ -90,7 +112,11 @@ export default function CollectionTableControls(
             onKeyDown={handleKeyDown}
           />
         </InputContainer>
-        <PagingControls {...pagingProps} />
+        {collectionMode == collectionModes[0] ? (
+          <PagingControls {...pagingProps} />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
