@@ -11,6 +11,7 @@ import CollectionTableControls, {
 } from "./CollectionTableControls";
 import { inBoostersFilterFn, setFilterFn } from "./filters";
 import { CardTileRow } from "./rows";
+import { getCollectionStats } from "./collectionStats";
 import {
   CardsData,
   CollectionTableControlsProps,
@@ -221,6 +222,11 @@ export default function CollectionTable({
     tableControlsProps,
   } = useBaseReactTable(tableProps);
   const { getTableBodyProps, page, prepareRow, rows } = table;
+
+  const _stats = useMemo(() => {
+    const cardIds = rows.map((row) => row.values.id);
+    return getCollectionStats(cardIds);
+  }, [rows]);
 
   const collectionTableControlsProps: CollectionTableControlsProps = {
     exportCallback,

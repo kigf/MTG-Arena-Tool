@@ -120,12 +120,17 @@ function getCollectionData(
       });
     });
   return db.cardList
-    .filter((card) => card.collectible && card.dfc !== 7 && card.dfc !== 5)
+    .filter(
+      (card) =>
+        card.collectible && card.dfc !== 1 && card.dfc !== 7 && card.dfc !== 5
+    )
     .map(
       (card): CardsData => {
+        const dfc = db.card(card.dfcId || 0);
+        const dfcName = dfc?.name.toLowerCase() || "";
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
         const rarityVal = getRarityFilterVal(card.rarity);
-        const name = card.name.toLowerCase();
+        const name = card.name.toLowerCase() + " " + dfcName;
         const type = card.type.toLowerCase();
         const artist = card.artist.toLowerCase();
         const set = card.set.toLowerCase();

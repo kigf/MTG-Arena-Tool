@@ -33,7 +33,7 @@ export interface DbCardData {
   collectible: boolean;
   craftable: boolean;
   booster: boolean;
-  dfcId?: boolean | number;
+  dfcId?: number;
   rank: number;
   rank_values: string[] | number[] | number;
   rank_controversy?: number[] | number;

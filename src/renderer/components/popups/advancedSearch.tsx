@@ -78,15 +78,22 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
     defaultColorFilter
   );
 
-  const handleClose = useCallback(() => {
-    if (!open) return;
-    setOpen(0);
-    setTimeout(() => {
-      if (closeCallback) {
-        closeCallback(query);
-      }
-    }, 300);
-  }, [closeCallback, query, open]);
+  const handleClose = useCallback(
+    (q: string) => {
+      if (!open) return;
+      setOpen(0);
+      setTimeout(() => {
+        if (closeCallback) {
+          closeCallback(q);
+        }
+      }, 300);
+    },
+    [closeCallback, open]
+  );
+
+  const handleSearch = useCallback(() => {
+    handleClose(query);
+  }, [handleClose, query]);
 
   useEffect(() => {
     // React doesnt give css time to know there was a change
@@ -116,7 +123,9 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
         opacity: open * 2,
         backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`,
       }}
-      onClick={handleClose}
+      onClick={(): void => {
+        handleClose("");
+      }}
     >
       <div
         className={css.popupDiv}
@@ -143,7 +152,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
             }}
           />
         </div>
-        <Button text="Search" onClick={handleClose} />
+        <Button text="Search" onClick={handleSearch} />
       </div>
     </div>
   );

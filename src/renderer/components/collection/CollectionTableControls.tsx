@@ -97,6 +97,25 @@ export default function CollectionTableControls(
     [dispatcher]
   );
 
+  const resetFilters = useCallback((): void => {
+    reduxAction(
+      dispatcher,
+      { type: "SET_SETTINGS", arg: { collectionQuery: "" } },
+      IPC_ALL ^ IPC_RENDERER
+    );
+    setAllFilters([]);
+    toggleSortBy("name", false, false);
+    for (const column of toggleableColumns) {
+      toggleHideColumn(column.id, !column.defaultVisible);
+    }
+  }, [
+    dispatcher,
+    setAllFilters,
+    toggleableColumns,
+    toggleSortBy,
+    toggleHideColumn,
+  ]);
+
   return (
     <div
       style={{
@@ -113,17 +132,7 @@ export default function CollectionTableControls(
           callback={setCollectionMode}
         />
         <MediumTextButton onClick={exportRows}>Export</MediumTextButton>
-        <MediumTextButton
-          onClick={(): void => {
-            setAllFilters([]);
-            toggleSortBy("grpId", true, false);
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
-            }
-          }}
-        >
-          Reset
-        </MediumTextButton>
+        <MediumTextButton onClick={resetFilters}>Reset</MediumTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
         >
@@ -139,7 +148,9 @@ export default function CollectionTableControls(
             defaultQuery={collectionQuery}
             closeCallback={(query: string): void => {
               setAdvancedFiltersOpen(false);
-              setQuery(query);
+              if (query !== "") {
+                setQuery(query);
+              }
             }}
           />
         ) : (
