@@ -234,7 +234,7 @@ export default function CollectionTable({
         <div className={tablesCss.reactTableWrap}>
           <CollectionTableControls {...collectionTableControlsProps} />
           {collectionMode === collectionModes[1] ? (
-            <></>
+            <div className={sharedCss.medScroll}></div>
           ) : (
             <>
               <div className={sharedCss.medScroll}>

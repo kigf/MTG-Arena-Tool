@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import _ from "lodash";
 import { MediumTextButton } from "../misc/MediumTextButton";
 import ColumnToggles from "../tables/ColumnToggles";
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import ReactSelect from "../../../shared/ReactSelect";
+import AdvancedSearch from "../popups/advancedSearch";
 
 export const collectionModes: string[] = ["By Cards View", "By Sets View"];
 
@@ -42,9 +43,10 @@ export default function CollectionTableControls(
     (state: AppState) => state.settings.collectionMode
   );
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") {
-      const query = e.currentTarget.value;
+  const [advancedFiltersOpen, setAdvancedFiltersOpen] = useState(false);
+
+  const setQuery = useCallback(
+    (query: string) => {
       reduxAction(
         dispatcher,
         { type: "SET_SETTINGS", arg: { collectionQuery: query } },
@@ -53,8 +55,36 @@ export default function CollectionTableControls(
       const filters = getFiltersFromQuery(query || "");
       setGlobalFilter(undefined);
       setAllFilters(filters);
-    }
-  };
+    },
+    [dispatcher, setGlobalFilter, setAllFilters]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>): void => {
+      if (e.key === "Enter") {
+        const query = e.currentTarget.value;
+        reduxAction(
+          dispatcher,
+          { type: "SET_SETTINGS", arg: { collectionQuery: query } },
+          IPC_ALL ^ IPC_RENDERER
+        );
+        setQuery(query);
+      }
+    },
+    [dispatcher, setQuery]
+  );
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
+      const query = e.currentTarget.value;
+      reduxAction(
+        dispatcher,
+        { type: "SET_SETTINGS", arg: { collectionQuery: query } },
+        IPC_ALL ^ IPC_RENDERER
+      );
+    },
+    [dispatcher]
+  );
 
   const setCollectionMode = useCallback(
     (mode: string) => {
@@ -99,6 +129,22 @@ export default function CollectionTableControls(
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>
+        <MediumTextButton
+          onClick={(): void => setAdvancedFiltersOpen(!advancedFiltersOpen)}
+        >
+          Advanced Filters
+        </MediumTextButton>
+        {advancedFiltersOpen ? (
+          <AdvancedSearch
+            defaultQuery={collectionQuery}
+            closeCallback={(query: string): void => {
+              setAdvancedFiltersOpen(false);
+              setQuery(query);
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
       <ColumnToggles
         toggleableColumns={toggleableColumns}
@@ -107,8 +153,9 @@ export default function CollectionTableControls(
       <div className={tableCss.react_table_search_cont}>
         <InputContainer title="Search">
           <input
-            defaultValue={collectionQuery || ""}
+            value={collectionQuery || ""}
             placeholder={"Search.."}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
         </InputContainer>
