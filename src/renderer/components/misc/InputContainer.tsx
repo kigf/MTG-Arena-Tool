@@ -5,7 +5,6 @@ export const InputContainer = styled.div.attrs((props) => ({
   className: (props.className ?? "") + " " + indexCss.input_container,
 }))`
   display: inline-flex;
-  margin: inherit;
   position: relative;
   width: 100%;
   height: 26px;

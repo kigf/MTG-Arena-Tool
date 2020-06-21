@@ -818,7 +818,7 @@ a:hover {
 
 .paging_button {
     cursor: pointer;
-    margin: 0 4px;
+    margin: auto 4px;
     width: 24px;
     height: 24px;
     text-align: center;
@@ -831,7 +831,7 @@ a:hover {
 }
 
 .paging_button_disabled {
-    margin: 0 4px;
+    margin: auto 4px;
     width: 24px;
     height: 24px;
     text-align: center;

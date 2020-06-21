@@ -384,7 +384,9 @@ export default function DecksTable({
               })}
             </div>
           </div>
-          <PagingControls {...pagingProps} />
+          <div style={{ marginTop: "10px" }}>
+            <PagingControls {...pagingProps} />
+          </div>
         </div>
       </div>
       <animated.div

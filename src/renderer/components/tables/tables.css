@@ -13,7 +13,7 @@
 
 .react_table_search_cont {
   display: flex;
-  margin: 4px auto;
+  margin: 8px auto 0px auto;
   width: -webkit-fill-available;
   justify-content: space-between;
   align-items: center;

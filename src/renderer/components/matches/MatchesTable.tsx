@@ -448,7 +448,9 @@ export default function MatchesTable({
               })}
             </div>
           </div>
-          <PagingControls {...pagingProps} />
+          <div style={{ marginTop: "10px" }}>
+            <PagingControls {...pagingProps} />
+          </div>
         </div>
       </div>
 

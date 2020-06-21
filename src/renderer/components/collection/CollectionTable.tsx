@@ -273,7 +273,9 @@ export default function CollectionTable({
                   })}
                 </div>
               </div>
-              <PagingControls {...pagingProps} />
+              <div style={{ marginTop: "10px" }}>
+                <PagingControls {...pagingProps} />
+              </div>
             </>
           )}
         </div>
