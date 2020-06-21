@@ -59,6 +59,8 @@ import {
   setCardsBottom,
   addCardFromSideboard,
 } from "../shared/store/currentMatchStore";
+import countValues from "../shared/utils/countValues";
+import useSet from "../shared/utils/useSet";
 
 function changePriority(previous: number, current: number, time: number): void {
   const priorityTimers = objectClone(globalStore.currentMatch.priorityTimers);
@@ -613,6 +615,10 @@ const AnnotationType_ManaPaid = function (ann: Annotations): void {
   }
 };
 
+const AnnotationType_LayeredEffect = function (ann: Annotations): void {
+  if (ann.type !== "AnnotationType_LayeredEffect") return;
+};
+
 function annotationsSwitch(ann: Annotations, type: AnnotationType): void {
   //console.log(type, ann);
   switch (type) {
@@ -645,6 +651,9 @@ function annotationsSwitch(ann: Annotations, type: AnnotationType): void {
       break;
     case "AnnotationType_ManaPaid":
       AnnotationType_ManaPaid(ann);
+      break;
+    case "AnnotationType_LayeredEffect":
+      AnnotationType_LayeredEffect(ann);
       break;
     default:
       break;
@@ -699,6 +708,7 @@ function extractStringArrayFromKVP(obj: KeyValuePairInfo): string[] {
 function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
   const aggregate: AggregatedDetailsType = {
     abilityGrpId: 0,
+    abilityGRPIDs: [0],
     id: 0,
     color: 0,
     bottomIds: undefined,
@@ -714,6 +724,7 @@ function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
     step: 0,
     topIds: undefined,
     type: 0,
+    isTop: 0,
     zone_dest: 0,
     zone_src: 0,
   };
@@ -738,7 +749,11 @@ function keyValuePair(kvp: KeyValuePairInfo[]): AggregatedDetailsType {
       case "type":
       case "zone_dest":
       case "zone_src":
+      case "isTop":
         aggregate[key] = extractNumberValueFromKVP(obj) ?? 0;
+        break;
+      case "abilityGRPIDs":
+        aggregate[key] = extractNumberArrayFromKVP(obj) ?? [0];
         break;
       case "bottomIds":
       case "topIds":
@@ -865,17 +880,44 @@ function getPlayerUsedCards(): number[] {
     ];
     if (zone.objectInstanceIds && !ignoreZones.includes(zoneType)) {
       zone.objectInstanceIds.forEach((id: number) => {
-        let grpId;
+        let grpId: number;
         try {
           const obj = getGameObject(id);
           if (
             obj.ownerSeatId == playerSeat &&
             isObjectACard(obj) &&
-            obj.grpId
+            obj.grpId &&
+            obj.type == "GameObjectType_Card"
           ) {
             grpId = obj.grpId;
-            // console.log(zone.type, db.card(grpId).name, obj);
-            if (grpId !== FACE_DOWN_CARD) cardsUsed.push(grpId);
+            if (grpId !== FACE_DOWN_CARD) {
+              // If this card has mutations (or inherited abilities)
+              if (obj.abilityOriginalCardGrpIds && obj.abilities) {
+                // For each original grpId (no duplicates)
+                const origCards = useSet(obj.abilityOriginalCardGrpIds);
+                console.log("set: ", origCards);
+                origCards.forEach((setCardId) => {
+                  const cardObj = db.card(setCardId);
+                  console.log("> " + setCardId, cardObj);
+                  if (cardObj) {
+                    // Count the number of times this card is in the parent
+                    // This assumes abilities appear just once per card, so
+                    // abilities will apear as many times as this card exists
+                    const count = countValues(
+                      obj.abilities,
+                      cardObj.abilities[0] || -1
+                    );
+                    // Add these to the list of cards used
+                    for (let ii = 0; ii < count; ii++) {
+                      cardsUsed.push(setCardId);
+                    }
+                  }
+                });
+              } else {
+                // Else its jsut a card, add it
+                cardsUsed.push(grpId);
+              }
+            }
           }
         } catch (e) {
           //

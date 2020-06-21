@@ -40,6 +40,12 @@ export interface DetailsScry {
   bottomIds: number | undefined;
 }
 
+export interface DetailsLayeredEffect {
+  abilityGRPIDs: number[];
+  isTop: number;
+  abilityGrpId: number;
+}
+
 export type DetailsSrcDestCategoryType =
   | "PlayLand"
   | "Draw"
@@ -67,7 +73,8 @@ export type DetailsType =
   | DetailsLife
   | DetailsPhaseStep
   | DetailsAbilityGrpId
-  | DetailsScry;
+  | DetailsScry
+  | DetailsLayeredEffect;
 
 export type AggregatedDetailsType = DetailsSrcDest &
   DetailsSourceZone &
@@ -78,7 +85,8 @@ export type AggregatedDetailsType = DetailsSrcDest &
   DetailsPhaseStep &
   DetailsAbilityGrpId &
   DetailsScry &
-  DetailsManaPaid;
+  DetailsManaPaid &
+  DetailsLayeredEffect;
 
 export type DetailsKeyType = keyof AggregatedDetailsType;
 
@@ -196,6 +204,14 @@ interface AnnotationManaPaid {
   type: "AnnotationType_ManaPaid";
 }
 
+interface AnnotationLayeredEffect {
+  id: number;
+  affectorId: number;
+  affectedIds: number[];
+  details: DetailsLayeredEffect;
+  type: "AnnotationType_LayeredEffect";
+}
+
 export type Annotations =
   | AnnotationZoneTransfer
   | AnnotationAbilityInstanceCreated
@@ -210,7 +226,8 @@ export type Annotations =
   | AnnotationResolutionComplete
   | AnnotationScry
   | AnnotationCardRevealed
-  | AnnotationManaPaid;
+  | AnnotationManaPaid
+  | AnnotationLayeredEffect;
 
 export interface GameObjectType {
   type: string;
@@ -237,6 +254,7 @@ interface GameObjectTypeCard extends GameObjectType {
   name: number;
   abilities: number[];
   overlayGrpId: number;
+  abilityOriginalCardGrpIds?: number[];
 }
 
 interface GameObjectTypeToken extends GameObjectType {

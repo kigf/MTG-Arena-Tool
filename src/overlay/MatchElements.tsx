@@ -130,7 +130,7 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
       className={`${css.outerWrapper} elements_wrapper`}
       style={{ opacity: settings.alpha.toString() }}
     >
-      <div ref={ref}>
+      <div ref={ref} style={{ height: `inherit` }}>
         {!!settings.title && (
           <div className={css.overlayDeckname}>{mainTitle}</div>
         )}
@@ -143,7 +143,13 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
           </div>
         )}
         {settings.mode === OVERLAY_LOG && (
-          <div className={css.clickOn} style={{ overflowY: "auto" }}>
+          <div
+            className={css.clickOn}
+            style={{
+              overflowY: "auto",
+              height: !!settings.title ? `calc(100% - 32px)` : `100%`,
+            }}
+          >
             <ActionLog logStr={actionLog} />
           </div>
         )}

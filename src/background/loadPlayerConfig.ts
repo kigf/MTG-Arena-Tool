@@ -210,7 +210,28 @@ export async function loadPlayerConfig(): Promise<void> {
   if (savedData.draft_index) {
     const draftsList: InternalDraftv2[] = savedData.draft_index
       .filter((id: string) => savedData[id])
-      .map((id: string) => convertDraftToV2(savedData[id] as InternalDraft));
+      .map((id: string) => {
+        const original = savedData[id] as InternalDraft;
+        if (!original.InternalEventName || !original.CardPool) {
+          // 2020-06-14 discoverd that some old InternalDraft entries might not contain
+          // all the fields required for conversion to InternalDraftv2. This logic
+          // will combine the InternalDraft with Pick data and data from the associated
+          // type: "event" data. This fix is associated with issue #1117.
+          ipcLog(
+            "Issue 1117: fixing draft data prior to conversion to InternalDraftv2 for id: " +
+              id
+          );
+          const metadataId = id.replace(/-draft$/, "");
+          const metadata = savedData[metadataId] as InternalDraft;
+          if (!original.InternalEventName && metadata?.InternalEventName) {
+            original.internalEventName = metadata.InternalEventName;
+          }
+          if (!original.CardPool && metadata?.CardPool) {
+            original.CardPool = metadata.CardPool;
+          }
+        }
+        return convertDraftToV2(original);
+      });
 
     reduxAction(
       globals.store.dispatch,

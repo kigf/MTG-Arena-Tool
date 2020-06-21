@@ -42,6 +42,7 @@ export interface DbCardData {
   side?: boolean;
   ceil?: number | null;
   source?: number;
+  abilities: number[];
 }
 
 export type Rarity = typeof CARD_RARITIES[number];
