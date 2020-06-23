@@ -137,9 +137,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   _headers.token = globals.store.getState().appsettings.token;
   const options = getRequestOptions(task);
   if (globals.debugNet && task.method !== "notifications") {
-    ipcLog(
-      "SEND >> " + task.method + ", " + _headers.reqId + ", " + _headers.token
-    );
+    //ipcLog("SEND >> " + task.method + ", " + _headers.reqId + ", " + _headers.token);
     debugLog("SEND", _headers);
   }
   if (
@@ -170,7 +168,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
       res.on("end", function () {
         try {
           if (globals.debugNet && task.method !== "notifications") {
-            ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
+            //ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
             debugLog("RECV > " + results);
           }
           const parsedResult = JSON.parse(results);
