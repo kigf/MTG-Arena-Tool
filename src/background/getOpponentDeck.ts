@@ -26,9 +26,9 @@ function getBestArchetype(deck: Deck): string {
   const highest = lowestDeviation; //err..
 
   // Test for each archetype
-  //console.log("highest", highest);
+  //debugLog("highest", highest);
   db.archetypes.forEach((arch: Archetype) => {
-    //console.log(arch.name);
+    //debugLog(arch.name);
     mainDeviations = [];
     deck
       .getMainboard()
@@ -41,7 +41,7 @@ function getBestArchetype(deck: Deck): string {
         const archMain = arch.average.mainDeck;
         const deviation = 1 - (archMain[name] ? 1 : 0); // archMain[name] ? archMain[name] : 0 // for full data
         mainDeviations.push(deviation * deviation);
-        //console.log(name, deviation, archMain[name]);
+        //debugLog(name, deviation, archMain[name]);
       });
     const finalDeviation = calculateDeviation(mainDeviations);
 
@@ -49,7 +49,7 @@ function getBestArchetype(deck: Deck): string {
       lowestDeviation = finalDeviation;
       bestMatch = arch.name;
     }
-    //console.log(">>", finalDeviation, lowestDeviation, bestMatch);
+    //debugLog(">>", finalDeviation, lowestDeviation, bestMatch);
   });
 
   if (lowestDeviation > highest * 0.5) {

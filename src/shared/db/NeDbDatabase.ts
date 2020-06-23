@@ -3,6 +3,7 @@ import Datastore from "nedb";
 import util from "util";
 import { USER_DATA_DIR, showBusy, hideBusyIfDone } from "./databaseUtil";
 import sanitize from "sanitize-filename";
+import debugLog from "../debugLog";
 
 export class DatabaseNotInitializedError extends Error {
   constructor() {
@@ -70,7 +71,7 @@ export class NeDbDatabase {
   init(dbName: string, arenaName?: string): void {
     this.dbName = sanitize(arenaName ? arenaName : dbName);
     const dbPath = path.join(USER_DATA_DIR, this.dbName + ".db");
-    console.log("Db path: " + dbPath);
+    debugLog("Db path: " + dbPath);
     this.datastore = new Datastore({
       filename: dbPath,
     });

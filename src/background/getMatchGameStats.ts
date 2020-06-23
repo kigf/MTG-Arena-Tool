@@ -83,7 +83,7 @@ export default function getMatchGameStats(): void {
       originalDeck,
       currentMatch.matchGameStats.slice(0, gameNumberCompleted - 1)
     );
-    //console.log("Sideboard: " + gameNumberCompleted, currentMatch.gameInfo.results, newDeck.getSideboard(), originalDeck.getSideboard(), sideboardChanges);
+    //debugLog("Sideboard: " + gameNumberCompleted, currentMatch.gameInfo.results, newDeck.getSideboard(), originalDeck.getSideboard(), sideboardChanges);
     game.sideboardChanges = sideboardChanges;
     game.deck = newDeck.clone().getSave(true);
   }

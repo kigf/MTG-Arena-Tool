@@ -23,6 +23,7 @@ import Deck from "../shared/deck";
 import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
 import convertDraftToV2 from "../shared/utils/convertDraftToV2";
+import debugLog from "../shared/debugLog";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {
@@ -97,7 +98,7 @@ export async function loadPlayerConfig(): Promise<void> {
 
   // Private decks
   if (savedData.private_decks) {
-    console.log(savedData.private_decks);
+    debugLog(savedData.private_decks);
     reduxAction(
       globals.store.dispatch,
       { type: "SET_PRIVATE_DECKS", arg: savedData.private_decks },

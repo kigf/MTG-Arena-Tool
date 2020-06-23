@@ -114,7 +114,7 @@ function getSeasonData(
     }
     data.newRankNumeric = getRankY(data.newClass, data.newLevel, data.newStep);
     data.date = new Date(data.timestamp);
-    //console.log(data);
+    //debugLog(data);
     return data;
   }
 
@@ -396,8 +396,8 @@ export default function TimelineTab(): JSX.Element {
             <div className={css.timelineBox} ref={boxRef}>
               {data.length > 0 ? (
                 data.map((value: SeasonalRankData, index: number) => {
-                  //console.log("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
-                  //console.log("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
+                  //debugLog("From: ", value.oldClass, value.oldLevel, "step", value.oldStep, value.oldRankNumeric);
+                  //debugLog("To:   ", value.newClass, value.newLevel, "step", value.newStep, value.newRankNumeric);
                   return (
                     <TimeLinePart
                       height={dimensions.height}

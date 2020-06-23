@@ -15,9 +15,10 @@ import globalStore from "../../shared/store";
 import { ArenaV3Deck } from "../../types/Deck";
 import { AnyAction, Dispatch } from "redux";
 import store from "../../shared/redux/stores/rendererStore";
+import debugLog from "../../shared/debugLog";
 
 export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
-  console.log("Set up IPC listeners.");
+  debugLog("Set up IPC listeners.");
 
   ipc.on("prefill_auth_form", (_event: IpcRendererEvent, arg: any): void => {
     reduxAction(
@@ -196,11 +197,12 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
       },
       IPC_NONE
     );
-    console.log("Home", arg);
+    debugLog("Home", arg);
   });
 
   ipc.on("set_explore_decks", (_event: IpcRendererEvent, arg: any): void => {
-    console.log("Explore", arg);
+    debugLog("Explore");
+    debugLog(arg, "info");
     reduxAction(dispatcher, { type: "SET_LOADING", arg: false }, IPC_NONE);
     reduxAction(dispatcher, { type: "SET_EXPLORE_DATA", arg: arg }, IPC_NONE);
     reduxAction(
@@ -262,7 +264,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
         IPC_NONE
       );
     } catch (e) {
-      console.log("(set_active_events) Error parsing JSON:", arg);
+      debugLog(`(set_active_events) Error parsing JSON: ${arg}`);
     }
   });
 
@@ -273,7 +275,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
         (deck: ArenaV3Deck) => (globalStore.preconDecks[deck.id] = deck)
       );
     } catch (e) {
-      console.log("Error parsing JSON:", arg);
+      debugLog(`Error parsing JSON: ${arg}`);
     }
   });
 }

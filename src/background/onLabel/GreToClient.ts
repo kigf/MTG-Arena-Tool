@@ -3,6 +3,7 @@ import LogEntry from "../../types/logDecoder";
 import * as greToClientInterpreter from "../greToClientInterpreter";
 import { parseLogTimestamp } from "../backgroundUtil";
 import { GREToClientMessage } from "../../assets/proto/GreTypes";
+import debugLog from "../../shared/debugLog";
 
 // timestamp example : "637130091622772767"
 interface EntryJson {
@@ -23,7 +24,7 @@ export default function GreToClient(entry: Entry): void {
     entry.jsonString ==
       "[Message summarized because one or more GameStateMessages exceeded the 50 GameObject or 50 Annotation limit.]"
   ) {
-    console.log("GRE Message summarized");
+    debugLog("GRE Message summarized", "info");
     return;
   }
   const json = entry.json();

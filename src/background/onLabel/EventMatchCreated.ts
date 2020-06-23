@@ -13,6 +13,7 @@ import {
   resetCurrentMatch,
 } from "../../shared/store/currentMatchStore";
 import globalStore from "../../shared/store";
+import debugLog from "../../shared/debugLog";
 
 export interface EntryJson {
   controllerFabricUri: string;
@@ -78,7 +79,7 @@ export default function EventMatchCreated(entry: Entry): void {
       commanderGrpIds: json.commanderGrpIds,
     };
     setPlayer(player);
-    console.log(">", globalStore.currentMatch);
+    debugLog(globalStore.currentMatch);
     setEventId(json.eventId);
   }
 }

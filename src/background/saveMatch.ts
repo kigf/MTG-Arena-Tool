@@ -9,6 +9,7 @@ import { InternalMatch } from "../types/match";
 import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
+import debugLog from "../shared/debugLog";
 
 function matchResults(results: ResultSpec[]): number[] {
   let playerWins = 0;
@@ -90,7 +91,7 @@ export function completeMatch(
 
 export default function saveMatch(id: string, matchEndTime: number): void {
   const currentMatch = globalStore.currentMatch;
-  console.log(currentMatch, id);
+  debugLog(`${id}: ${currentMatch}`);
   if (currentMatch.matchId !== id) {
     return;
   }
@@ -101,7 +102,7 @@ export default function saveMatch(id: string, matchEndTime: number): void {
     return;
   }
 
-  console.log("Save match:", match);
+  debugLog(`Save match: ${match}`);
   const matches_index = [...globals.store.getState().matches.matchesIndex];
   reduxAction(
     globals.store.dispatch,

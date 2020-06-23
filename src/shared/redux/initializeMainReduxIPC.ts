@@ -7,6 +7,7 @@ import {
   IPC_MAIN,
 } from "../constants";
 import { actions, ActionKeys } from "./actions";
+import debugLog from "../debugLog";
 const ipc = electron.ipcMain;
 
 /**
@@ -32,7 +33,7 @@ export default function initializeMainReduxIPC(
         if (to & IPC_MAIN) {
           const action = JSON.parse(arg) as any;
           if (!actions[type]) {
-            console.log("ERROR: Unknown redux action to main: " + type);
+            debugLog("ERROR: Unknown redux action to main: " + type, "error");
             console.error(
               "This action should not be sent to main or the action is missing on the actions list."
             );

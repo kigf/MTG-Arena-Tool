@@ -44,7 +44,7 @@ const actionLog = function (
     grpId: grpId
   };
   */
-  //console.log("action_log", { seat: seat, time: time }, str);
+  //debugLog("action_log", { seat: seat, time: time }, str);
   ipcSend("action_log", currentActionLog, IPC_OVERLAY);
 };
 

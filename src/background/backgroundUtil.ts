@@ -17,7 +17,7 @@ export function ipcSend(method: string, arg?: any, to = IPC_RENDERER): void {
   if (method == "ipc_log") {
     //
   }
-  //console.log("IPC SEND", method, arg, to);
+  //debugLog("IPC SEND", method, arg, to);
   ipc.send("ipc_switch", method, IPC_BACKGROUND, arg, to);
 }
 

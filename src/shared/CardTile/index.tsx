@@ -17,6 +17,7 @@ import sharedCss from "../shared.css";
 import css from "./CardTile.css";
 
 import typeLand from "../../assets/images/type_land.png";
+import debugLog from "../debugLog";
 
 const mana: Record<string, string> = {};
 mana["w"] = sharedCss.mana_w;
@@ -243,7 +244,7 @@ export default function CardTile(props: CardTileProps): JSX.Element {
       cardTileStyle.backgroundImage = `url(${getCardArtCrop(card)})`;
     }
   } catch (e) {
-    console.log(e);
+    debugLog(e, "error");
   }
 
   let colorA = "c";

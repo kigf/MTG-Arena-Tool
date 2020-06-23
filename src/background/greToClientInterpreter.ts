@@ -61,6 +61,7 @@ import {
 } from "../shared/store/currentMatchStore";
 import countValues from "../shared/utils/countValues";
 import useSet from "../shared/utils/useSet";
+import debugLog from "../shared/debugLog";
 
 function changePriority(previous: number, current: number, time: number): void {
   const priorityTimers = objectClone(globalStore.currentMatch.priorityTimers);
@@ -158,16 +159,19 @@ function isObjectACard(card: GameObject): boolean {
 }
 
 class NoInstanceException {
-  private message: string;
+  //private message: string;
   private instanceID: number;
   private instance: GameObjectInfo;
 
   constructor(orig: number, instanceID: number, instance: GameObjectInfo) {
-    this.message = `No instance with ID ${orig} found.`;
     this.instanceID = instanceID;
     this.instance = instance;
     if (!app.isPackaged) {
-      console.log(this.message, this.instanceID, this.instance);
+      debugLog(
+        `No instance with ID ${orig} found. (${this.instanceID})`,
+        "info"
+      );
+      debugLog(this.instance, "info");
     }
   }
 }
@@ -620,7 +624,7 @@ const AnnotationType_LayeredEffect = function (ann: Annotations): void {
 };
 
 function annotationsSwitch(ann: Annotations, type: AnnotationType): void {
-  //console.log(type, ann);
+  //debugLog(type, ann);
   switch (type) {
     case "AnnotationType_ObjectIdChanged":
       AnnotationType_ObjectIdChanged(ann);
@@ -788,10 +792,10 @@ function processAnnotations(): void {
         removeIds.push(ann.id || 0);
       });
     } catch (e) {
-      //console.log(ann, e);
+      //debugLog(ann, e);
     }
   });
-  //console.log(anns.length, removeIds.length);
+  //debugLog(anns.length, removeIds.length);
   if (removeIds.length > 0) {
     removeAnnotations(removeIds);
   }
@@ -810,7 +814,7 @@ function getOppUsedCards(): number[] {
           const obj = getGameObject(id);
           if (obj.ownerSeatId == oppSeat && isObjectACard(obj)) {
             grpId = obj.grpId;
-            // console.log(zone.type, db.card(grpId).name, obj);
+            // debugLog(zone.type, db.card(grpId).name, obj);
             if (grpId !== FACE_DOWN_CARD) cardsUsed.push(grpId);
           }
         } catch (e) {
@@ -895,10 +899,10 @@ function getPlayerUsedCards(): number[] {
               if (obj.abilityOriginalCardGrpIds && obj.abilities) {
                 // For each original grpId (no duplicates)
                 const origCards = useSet(obj.abilityOriginalCardGrpIds);
-                //console.log("set: ", origCards);
+                //debugLog("set: ", origCards);
                 origCards.forEach((setCardId) => {
                   const cardObj = db.card(setCardId);
-                  //console.log("> " + setCardId, cardObj);
+                  //debugLog("> " + setCardId, cardObj);
                   if (cardObj) {
                     // Count the number of times this card is in the parent
                     // This assumes abilities appear just once per card, so
@@ -984,7 +988,7 @@ function checkForStartingLibrary(gameState?: GameStateMessage): boolean {
       if (mull > 0 || currentMatch.handsDrawn.length == 0) {
         const drawn = hand.map((n) => getGameObject(n).grpId);
         setHandDrawn(mull, drawn);
-        console.log("Mulligan: " + mull, drawn);
+        debugLog(`Mulligan: ${mull}, ${drawn}`);
       }
     }
   });
@@ -1164,7 +1168,7 @@ function GREMessagesSwitch(
   message: GREToClientMessage,
   type: GREMessageType | undefined
 ): void {
-  //console.log(`Process: ${message.type} (${message.msgId})`);
+  //debugLog(`Process: ${message.type} (${message.msgId})`);
   switch (type) {
     case "GREMessageType_QueuedGameStateMessage":
       GREMessageType_QueuedGameStateMessage(message);
