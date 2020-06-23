@@ -23,7 +23,7 @@ export function getCardImage(
     return "https://img.scryfall.com/cards" + cardObj?.images[quality];
   } catch (e) {
     // eslint-disable-next-line no-console
-    // console.error(e);
+    // debugLog(e, "error");
     debugLog(`Cant find card image: ${cardObj}, ${typeof cardObj}`, "info");
     return notFound;
   }

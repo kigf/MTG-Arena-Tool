@@ -377,7 +377,7 @@ async function attemptLogLoop(): Promise<void> {
     await logLoop();
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error(err);
+    debugLog(err, "error");
   }
 }
 

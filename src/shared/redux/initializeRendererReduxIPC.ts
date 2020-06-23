@@ -1,6 +1,7 @@
 import { EnhancedStore } from "@reduxjs/toolkit";
 import electron, { IpcRendererEvent } from "electron";
 import { actions, ActionKeys } from "./actions";
+import debugLog from "../debugLog";
 const ipcRenderer = electron.ipcRenderer;
 
 /**
@@ -18,7 +19,7 @@ export default function initializeRendererReduxIPC(store: EnhancedStore): void {
         const action = JSON.parse(arg);
         store.dispatch(actions[type](action));
       } catch (e) {
-        console.error("Attempted to parse a Redux Action but failed;", type, e);
+        debugLog(`Attempted to parse a Redux Action but failed; ${type}, ${e}`);
       }
     }
   );

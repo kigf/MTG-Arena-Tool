@@ -166,7 +166,7 @@ function startWatchingLog(path: fs.PathLike): () => void {
     path,
     chunkSize: 268435440,
     onLogEntry: onLogEntryFound,
-    onError: (err: any) => console.error(err),
+    onError: (err: any) => debugLog(err, "error"),
     onFinish: finishLoading,
   });
 }
