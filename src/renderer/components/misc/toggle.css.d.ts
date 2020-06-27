@@ -4,8 +4,10 @@ declare namespace ToggleCssModule {
   export interface IToggleCss {
     switch: string;
     "switch-container": string;
+    "switch-container-margin": string;
     "switch-label": string;
     switchContainer: string;
+    switchContainerMargin: string;
     switchLabel: string;
     switchslider: string;
   }

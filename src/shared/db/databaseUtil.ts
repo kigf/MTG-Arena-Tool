@@ -1,5 +1,6 @@
 import { app, remote, ipcRenderer as ipc } from "electron";
 import { IPC_RENDERER, IPC_BACKGROUND } from "../constants";
+import debugLog from "../debugLog";
 
 export const USER_DATA_DIR = (app || remote.app).getPath("userData");
 
@@ -17,7 +18,7 @@ function ipcSend(
 }
 
 function logInfo(message: string): void {
-  console.log(`Local DB: ${message}`);
+  debugLog(`Local DB: ${message}`, "info");
 }
 
 let blockingQueriesInFlight = 0;

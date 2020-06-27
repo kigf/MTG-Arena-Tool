@@ -10,6 +10,7 @@ import { SettingsData } from "../types/settings";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 
+import notFound from "../assets/images/notfound.png";
 import sharedCss from "../shared/shared.css";
 import css from "./index.css";
 
@@ -99,11 +100,11 @@ export default function CardDetailsWindowlet(
   const imgProps = {
     alt: card?.name ?? "",
     className: css.mainHover,
-    src: getCardImage(card, cardQuality),
+    src: editMode ? notFound : getCardImage(card, cardQuality),
     style: {
       width: size + "px",
       height: size / SCALAR + "px",
-      opacity,
+      opacity: editMode ? 1 : opacity,
     },
   };
   const containerRef = useRef(null);

@@ -14,6 +14,11 @@ body {
 .click-on      {pointer-events: all}
 .click-through {pointer-events: none}
 
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
 .overlay_master_wrapper {
     /* Debug;
     background-color: rgba(255, 0, 0, 0.11);

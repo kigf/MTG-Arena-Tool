@@ -27,6 +27,7 @@ import initializeRendererReduxIPC from "../../shared/redux/initializeRendererRed
 
 import css from "./app.css";
 import AuthSettings from "../components/auth-settings";
+import DetailedLogs from "../components/popups/DetailedLogs";
 
 initializeRendererReduxIPC(store);
 
@@ -50,6 +51,9 @@ function App(): JSX.Element {
   const authForm = useSelector((state: AppState) => state.login.loginForm);
   const noLog = useSelector((state: AppState) => state.renderer.noLog);
   const share = useSelector((state: AppState) => state.renderer.shareDialog);
+  const detailedLogsDialog = useSelector(
+    (state: AppState) => state.renderer.detailedLogsDialog
+  );
   const movingUxRef = useRef<HTMLDivElement | null>(null);
   /*
     Set up IPC listeners.
@@ -72,6 +76,16 @@ function App(): JSX.Element {
     },
     [dispatch]
   );
+
+  const closeDetailedLogs = React.useCallback(() => {
+    setTimeout(() => {
+      reduxAction(
+        dispatch,
+        { type: "SET_DETAILED_LOGS_DIALOG", arg: false },
+        IPC_NONE
+      );
+    }, 350);
+  }, [dispatch]);
 
   const closeShare = React.useCallback(() => {
     setTimeout(() => {
@@ -112,6 +126,11 @@ function App(): JSX.Element {
         <Popup />
         {noLog ? <OutputLogInput closeCallback={closeNoLog} /> : <></>}
         {share.open ? <Share closeCallback={closeShare} /> : <></>}
+        {detailedLogsDialog ? (
+          <DetailedLogs closeCallback={closeDetailedLogs} />
+        ) : (
+          <></>
+        )}
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (

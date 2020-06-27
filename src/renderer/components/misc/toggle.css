@@ -60,14 +60,17 @@
 
 .switch-container {
   min-height: 32px;
-  width: calc(100% - 76px);
-  margin: 12px;
   align-items: center;
   display: flex;
   justify-content: space-between;
 }
 
+.switch-container-margin {
+  margin: 12px;
+  width: calc(100% - 76px);
+}
+
 .switch-label {
   cursor: pointer;
-  color: var(--color-light);
+  /*color: var(--color-light);*/
 }

@@ -12,7 +12,7 @@ interface Entry extends LogEntry {
 
 export default function onLabelInDraftMakePick(entry: Entry): void {
   const json = entry.json();
-  //console.log("LABEL:  Make pick < ", json);
+  //debugLog("LABEL:  Make pick < ", json);
   if (!json) return;
 
   const cards = (json.DraftPack || []).map((n) => parseInt(n));

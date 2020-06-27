@@ -70,7 +70,7 @@ export default function WildcardsCostPreset(
                 <div
                   key={cardRarity + "-" + missing}
                   className={`${indexCss.wcExploreCost} ${wcIcon[cardRarity]}`}
-                  title={_.capitalize(cardRarity) + " wildcards needed."}
+                  title={_.capitalize(cardRarity)}
                 >
                   {missing}
                 </div>

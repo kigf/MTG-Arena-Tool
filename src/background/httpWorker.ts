@@ -7,6 +7,7 @@ import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { IPC_RENDERER, SYNC_PUSH } from "../shared/constants";
 import { setSyncState } from "./httpApi";
+import debugLog from "../shared/debugLog";
 
 const serverAddress = "mtgatool.com";
 
@@ -29,12 +30,12 @@ export interface HttpTaskCallback {
 export const ipcPop = (args: any): void => ipcSend("popup", args);
 
 export const ipcLog = (message: string): void => {
-  console.log(message);
+  debugLog(message);
   ipcSend("ipc_log", message);
 };
 
 export function handleError(error: Error): void {
-  console.error(error);
+  debugLog(error, "error");
   ipcLog(`!!!ERROR >> ${error.message}`);
   ipcPop({ text: error.message, time: 2000, progress: -1 });
 }
@@ -135,11 +136,9 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   const _headers: any = { ...task };
   _headers.token = globals.store.getState().appsettings.token;
   const options = getRequestOptions(task);
-  if (globals.debugNet && task.method !== "notifications") {
-    ipcLog(
-      "SEND >> " + task.method + ", " + _headers.reqId + ", " + _headers.token
-    );
-    console.log("SEND", _headers);
+  if (task.method !== "notifications") {
+    //ipcLog("SEND >> " + task.method + ", " + _headers.reqId + ", " + _headers.token);
+    debugLog("SEND", _headers);
   }
   if (
     task.method == "submit_course" ||
@@ -150,7 +149,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
   ) {
     setSyncState(SYNC_PUSH);
   }
-  // console.log("POST", _headers);
+  // debugLog("POST", _headers);
   const postData = qs.stringify(_headers);
   options.headers = {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -168,11 +167,15 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
       });
       res.on("end", function () {
         try {
-          if (globals.debugNet && task.method !== "notifications") {
-            ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
-            console.log("RECV", results);
-          }
           const parsedResult = JSON.parse(results);
+          if (
+            (globals.debugNet && task.method !== "notifications") ||
+            (parsedResult && parsedResult.error) ||
+            (parsedResult && parsedResult.ok == false)
+          ) {
+            //ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
+            debugLog("RECV > " + results);
+          }
           // TODO remove this hack for get_database_version
           if (parsedResult && task.method === "get_database_version") {
             parsedResult.ok = true;

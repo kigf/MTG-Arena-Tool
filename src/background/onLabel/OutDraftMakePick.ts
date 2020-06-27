@@ -14,6 +14,6 @@ export default function onLabelOutDraftMakePick(entry: Entry): void {
   const grpId = parseInt(cardId);
   const pack = parseInt(packNumber);
   const pick = parseInt(pickNumber);
-  //console.log("LABEL:  Make pick > ", json, data);
+  //debugLog("LABEL:  Make pick > ", json, data);
   addDraftPick(grpId, pack, pick);
 }

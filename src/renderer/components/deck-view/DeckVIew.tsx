@@ -30,6 +30,8 @@ import indexCss from "../../index.css";
 import ReactSvgPieChart from "react-svg-piechart";
 import timestamp from "../../../shared/utils/timestamp";
 import IncognitoButton from "../misc/IncognitoButton";
+import WildcardsCostPreset from "../misc/WildcardsCostPreset";
+import Separator from "../misc/Separator";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -139,7 +141,34 @@ function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
   return colors;
 }
 
-function DeckView(props: DeckViewProps): JSX.Element {
+interface RaritiesCount {
+  c: number;
+  u: number;
+  r: number;
+  m: number;
+}
+
+function getDeckRaritiesCount(deck: Deck): RaritiesCount {
+  const rarities: RaritiesCount = { c: 0, u: 0, r: 0, m: 0 };
+
+  deck
+    .getMainboard()
+    .get()
+    .forEach(function (c: CardObject) {
+      const quantity = c.quantity;
+      const card = db.card(c.id);
+      if (quantity > 0 && card) {
+        if (card.rarity == "common") rarities.c += quantity;
+        else if (card.rarity == "uncommon") rarities.u += quantity;
+        else if (card.rarity == "rare") rarities.r += quantity;
+        else if (card.rarity == "mythic") rarities.m += quantity;
+      }
+    });
+
+  return rarities;
+}
+
+export function DeckView(props: DeckViewProps): JSX.Element {
   const deck = new Deck(props.deck);
   const [deckView, setDeckView] = useState(VIEW_REGULAR);
   const dispatcher = useDispatch();
@@ -210,6 +239,8 @@ function DeckView(props: DeckViewProps): JSX.Element {
     { title: "Green", value: landCounts.g, color: MANA_COLORS[4] },
   ];
 
+  const wildcardsCost = getDeckRaritiesCount(deck);
+
   const [width, bind] = useResizePanel();
 
   const dateFilter = useSelector(
@@ -252,7 +283,7 @@ function DeckView(props: DeckViewProps): JSX.Element {
           </div>
           <div
             className={indexCss.flexItem}
-            style={deckView !== VIEW_REGULAR ? { flexDirection: "column" } : {}}
+            style={{ flexDirection: "column" }}
           >
             {deckView == VIEW_VISUAL && (
               <VisualDeckView deck={deck} setRegularView={regularView} />
@@ -271,10 +302,7 @@ function DeckView(props: DeckViewProps): JSX.Element {
             )}
             {deckView == VIEW_REGULAR && (
               <>
-                <div className={indexCss.decklist}>
-                  <DeckList deck={deck} showWildcards={true} />
-                </div>
-                <div className={indexCss.stats}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <Button
                     className={
                       indexCss.buttonSimple + " " + indexCss.exportDeck
@@ -310,19 +338,35 @@ function DeckView(props: DeckViewProps): JSX.Element {
                     text="Export to .txt"
                     onClick={txtExport}
                   />
-                  <DeckTypesStats deck={deck} />
-                  <DeckManaCurve deck={deck} />
-                  <div className={sharedCss.pieContainerOuter}>
-                    <div className={sharedCss.pieContainer}>
-                      <span>Mana Symbols</span>
-                      <ReactSvgPieChart strokeWidth={0} data={colorsPie} />
-                    </div>
-                    <div className={sharedCss.pieContainer}>
-                      <span>Mana Sources</span>
-                      <ReactSvgPieChart strokeWidth={0} data={landsPie} />
-                    </div>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <div className={indexCss.decklist}>
+                    <DeckList deck={deck} showWildcards={true} />
                   </div>
-                  <CraftingCost deck={deck} />
+                  <div className={indexCss.stats}>
+                    <Separator>Types</Separator>
+                    <DeckTypesStats deck={deck} />
+                    <Separator>Mana Curve</Separator>
+                    <DeckManaCurve deck={deck} />
+                    <Separator>Color Pie</Separator>
+                    <div className={sharedCss.pieContainerOuter}>
+                      <div className={sharedCss.pieContainer}>
+                        <span>Mana Symbols</span>
+                        <ReactSvgPieChart strokeWidth={0} data={colorsPie} />
+                      </div>
+                      <div className={sharedCss.pieContainer}>
+                        <span>Mana Sources</span>
+                        <ReactSvgPieChart strokeWidth={0} data={landsPie} />
+                      </div>
+                    </div>
+                    <Separator>Rarities</Separator>
+                    <WildcardsCostPreset
+                      wildcards={wildcardsCost}
+                      showComplete={true}
+                    />
+                    <Separator>Wildcards Needed</Separator>
+                    <CraftingCost deck={deck} />
+                  </div>
                 </div>
               </>
             )}

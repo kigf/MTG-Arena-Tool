@@ -1,5 +1,5 @@
 import { ipcRenderer as ipc } from "electron";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import useMeasure from "react-use-measure";
 
 import {
@@ -52,8 +52,10 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
   let subTitle = "";
   const [ref, bounds] = useMeasure();
   const fullSettings = useSelector((state: AppState) => state.settings);
+  const scrollBottom = useRef<null | HTMLDivElement>(null);
 
   // Auto adjust
+  let doAutoSize = false;
   if (
     settings &&
     settings.autosize &&
@@ -62,26 +64,42 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
     settings.mode !== OVERLAY_DRAFT_BREW &&
     settings.mode !== OVERLAY_LOG &&
     bounds &&
-    bounds.height > 0 &&
-    bounds.height !== settings.bounds.height
+    bounds.height > 0
   ) {
-    const newOverlays = [...fullSettings.overlays];
-    newOverlays[index] = {
-      ...fullSettings.overlays[index], // old overlay
-      bounds: {
-        ...settings.bounds,
-        height: bounds.height,
-      },
-    };
+    doAutoSize = true;
+    if (bounds.height !== settings.bounds.height) {
+      const newOverlays = [...fullSettings.overlays];
+      newOverlays[index] = {
+        ...fullSettings.overlays[index], // old overlay
+        bounds: {
+          ...settings.bounds,
+          height: bounds.height,
+        },
+      };
 
-    // Send to ipc, dispatching here creates an overflow.
-    ipc.send(
-      "redux-action",
-      "SET_SETTINGS",
-      JSON.stringify({ overlays: newOverlays }),
-      IPC_ALL
-    );
+      // Send to ipc, dispatching here creates an overflow.
+      ipc.send(
+        "redux-action",
+        "SET_SETTINGS",
+        JSON.stringify({ overlays: newOverlays }),
+        IPC_ALL
+      );
+    }
   }
+
+  useEffect(() => {
+    const scrollDiv = scrollBottom?.current;
+    // Autoscroll if the div is on bottom only
+    if (
+      scrollDiv &&
+      scrollDiv.scrollTop + scrollDiv.clientHeight > scrollDiv.scrollHeight - 56
+    ) {
+      const scrollHeight = scrollDiv.scrollHeight;
+      const height = scrollDiv.clientHeight;
+      const maxScrollTop = scrollHeight - height;
+      scrollDiv.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+    }
+  }, [scrollBottom, actionLog]);
 
   let cleanName = match.opponent && match.opponent.name;
   if (cleanName && cleanName !== "Sparky") {
@@ -130,7 +148,11 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
       className={`${css.outerWrapper} elements_wrapper`}
       style={{ opacity: settings.alpha.toString() }}
     >
-      <div ref={ref} style={{ height: `inherit` }}>
+      <div
+        ref={ref}
+        className={css.flexColumn}
+        style={doAutoSize ? {} : { height: `inherit` }}
+      >
         {!!settings.title && (
           <div className={css.overlayDeckname}>{mainTitle}</div>
         )}
@@ -144,22 +166,24 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
         )}
         {settings.mode === OVERLAY_LOG && (
           <div
+            ref={scrollBottom}
             className={css.clickOn}
             style={{
               overflowY: "auto",
-              height: !!settings.title ? `calc(100% - 32px)` : `100%`,
             }}
           >
             <ActionLog logStr={actionLog} />
           </div>
         )}
         {!!visibleDeck && (
-          <DeckList
-            deck={visibleDeck}
-            subTitle={subTitle}
-            settings={settings}
-            setOddsCallback={setOddsCallback}
-          />
+          <div className={css.clickOn} style={{ overflow: "auto" }}>
+            <DeckList
+              deck={visibleDeck}
+              subTitle={subTitle}
+              settings={settings}
+              setOddsCallback={setOddsCallback}
+            />
+          </div>
         )}
         {!!settings.clock && (
           <Clock

@@ -39,6 +39,8 @@ declare namespace IndexCssModule {
     draft_prev: string;
     draft_title: string;
     editable: string;
+    "flex-column": string;
+    flexColumn: string;
     flexEnd: string;
     flex_end: string;
     hoverFadeEnter: string;

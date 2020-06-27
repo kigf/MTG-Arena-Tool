@@ -13,7 +13,7 @@ interface Entry extends LogEntry {
 
 export default function InDraftDraftStatus(entry: Entry): void {
   const json = entry.json();
-  // console.log("LABEL:  Draft status ", json);
+  // debugLog("LABEL:  Draft status ", json);
   if (!json) return;
 
   startDraft();

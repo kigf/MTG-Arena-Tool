@@ -32,23 +32,68 @@ import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 import { InternalDraftv2 } from "../../../types/draft";
 import { useSpring, animated } from "react-spring";
+import { RaritySymbol } from "../misc/RaritySymbol";
+import { LabelText } from "../misc/LabelText";
+
+export function CardPoolRares(props: { pool: number[] }): JSX.Element {
+  const { pool } = props;
+  const draftCards = pool.map((cardId: string | number) => db.card(cardId));
+  const draftRares = draftCards.filter(
+    (card: DbCardData | undefined) => card && card.rarity == "rare"
+  );
+  const draftMythics = draftCards.filter(
+    (card: DbCardData | undefined) => card && card.rarity == "mythic"
+  );
+
+  let element: JSX.Element | JSX.Element[] = <></>;
+  if (pool.length < 6) {
+    element = pool
+      .map((cardId: string | number) => db.card(cardId))
+      .filter(
+        (card: DbCardData | undefined) =>
+          card && (card.rarity == "rare" || card.rarity == "mythic")
+      )
+      .map((card: DbCardData | undefined, index: number) => {
+        return card ? <RoundCard key={index} card={card}></RoundCard> : <></>;
+      });
+  } else {
+    element = (
+      <div style={{ margin: "auto" }}>
+        {draftRares.length > 0 ? (
+          <>
+            <RaritySymbol rarity="rare" />
+            <LabelText
+              style={{ margin: "auto 4px" }}
+            >{`x${draftRares.length}`}</LabelText>
+          </>
+        ) : (
+          <></>
+        )}
+        {draftMythics.length > 0 ? (
+          <>
+            <RaritySymbol rarity="mythic" />
+            <LabelText
+              style={{ margin: "auto 4px" }}
+            >{`x${draftMythics.length}`}</LabelText>
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+  }
+
+  return <>{element}</>;
+}
 
 function DraftRares({ event }: { event: EventTableData }): JSX.Element {
   const draftId = event.id + "-draft";
-  let draftRares: JSX.Element[] = [];
+  let draftRares: JSX.Element = <></>;
   if (draftExists(draftId)) {
     const draft = getDraft(draftId);
     if (draft?.pickedCards) {
       const pool = [...draft.pickedCards];
-      draftRares = pool
-        .map((cardId: string | number) => db.card(cardId))
-        .filter(
-          (card: DbCardData | undefined) =>
-            card && (card.rarity == "rare" || card.rarity == "mythic")
-        )
-        .map((card: DbCardData | undefined, index: number) => {
-          return card ? <RoundCard key={index} card={card}></RoundCard> : <></>;
-        });
+      draftRares = <CardPoolRares pool={pool} />;
     }
   }
   return (

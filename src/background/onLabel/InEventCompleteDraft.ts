@@ -7,13 +7,14 @@ import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
 import { httpSetDraft } from "../httpApi";
 import globalStore from "../../shared/store";
+import debugLog from "../../shared/debugLog";
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;
 }
 export default function InEventCompleteDraft(entry: Entry): void {
   const json = entry.json();
-  console.log("LABEL:  Complete draft ", json);
+  debugLog(`LABEL:  Complete draft ${json}`);
   if (!json) return;
   if (globals.debugLog || !globals.firstPass) {
     ipcSend("set_arena_state", ARENA_MODE_IDLE);
@@ -24,5 +25,5 @@ export default function InEventCompleteDraft(entry: Entry): void {
   setDraftId(json.Id + "-draft");
   httpSetDraft(globalStore.currentDraft);
   ipcSend("popup", { text: "Draft saved!", time: 3000 });
-  console.log(globalStore.currentDraft);
+  debugLog(globalStore.currentDraft);
 }

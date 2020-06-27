@@ -10,13 +10,6 @@ Common paths:
 Refer to this issue, the solution is in the comments:
 [github.com/Manuel-777/MTG-Arena-Tool/issues/112](https://github.com/Manuel-777/MTG-Arena-Tool/issues/112)
 
-### "No log file found" error or "Output log contains no user data"
-
-Close MTG Arena (MTGA) and Mtgatool, then start MTGA. Once MTGA is loaded run Mtgatool again.
-
-If that does not work, go to `%APPDATA%/mtg-arena-tool/` and delete `settings.json`, then load Mtgatool again.
-You might be asked to point at the path of the output log again.
-
 ### Screen does not respond to mouse events (overlay covers)
 
 Toggle Edit mode (default `Alt + Shift + E`) or toggle an overlay.
@@ -60,6 +53,11 @@ Otherwise, with a large amount of bad data, it's best to rename the *user-data f
   - leave the replace field empty
 - save the edited files
 - in the tool go to `Settings > Arena Data` and point the `Arena Log` to the previously modified files one by one
+
+### App does not load / cant see login screen
+
+You can try clearing the application data settings, to do so go to `%APPDATA%/mtg-arena-tool/` and delete `application.db`, then load Mtgatool again.
+You might be asked to point at the path of the output log again.
 
 ### If you have any other unexpected behaviour
 

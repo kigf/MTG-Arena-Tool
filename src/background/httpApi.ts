@@ -40,6 +40,7 @@ import {
 } from "../shared/constants";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { InternalMatch } from "../types/match";
+import debugLog from "../shared/debugLog";
 
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
   globals.httpQueue = async.queue(asyncWorker);
@@ -79,7 +80,7 @@ export function finishSync(): void {
 }
 
 function syncUserData(data: any): void {
-  //console.log("syncUserData: ", data);
+  //debugLog("syncUserData: ", data);
   // Sync Events
   const courses_index = [...globals.store.getState().events.eventsIndex];
   const coursesList = data.courses
@@ -219,9 +220,9 @@ function handleNotificationsResponse(
 
   if (!parsedResult || !parsedResult.notifications) return;
   parsedResult.notifications.forEach((str: any) => {
-    console.log("notifications message:", str);
+    debugLog("notifications message: " + str);
     if (typeof str == "string") {
-      //console.log("Notification string:", str);
+      //debugLog("Notification string:", str);
       new Notification("MTG Arena Tool", {
         body: str,
       });
@@ -438,7 +439,7 @@ function handleAuthResponse(
 
     if (requestSync) {
       ipcLog("Fetch remote player items");
-      // console.log(requestSync);
+      // debugLog(requestSync);
       httpSyncRequest(requestSync);
     } else {
       ipcLog("No need to fetch remote player items.");

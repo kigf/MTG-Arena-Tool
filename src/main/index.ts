@@ -39,10 +39,11 @@ import iconTray8x from "../assets/icons/icon-tray@8x.png";
 import icon256 from "../assets/icons/icon-256.png";
 import getNewBounds from "./getNewBounds";
 import getPrimaryPos from "./getPrimaryPos";
+import debugLog from "../shared/debugLog";
 
 app.setAppUserModelId("com.github.manuel777.mtgatool");
 
-console.log(process.platform);
+debugLog(process.platform);
 
 const debugBack = false;
 const debugIPC = false;
@@ -80,7 +81,7 @@ app.on("second-instance", () => {
 });
 
 if (!singleLock) {
-  console.log("We dont have single instance lock! quitting the app.");
+  debugLog("We dont have single instance lock! quitting the app.");
   app.quit();
 }
 
@@ -112,7 +113,8 @@ function startUpdater(): void {
 }
 
 autoUpdater.on("update-not-available", (info) => {
-  console.log("Update not available", info);
+  debugLog("Update not available");
+  debugLog(info, "info");
   if (mainWindow) {
     mainWindow.webContents.send("set_update_state", "Client up to date!");
   }
@@ -122,14 +124,16 @@ autoUpdater.on("error", (err) => {
   if (mainWindow) {
     mainWindow.webContents.send("set_update_state", "Update error.");
   }
-  console.log("Update error: ", err);
+  debugLog("Update error: ");
+  debugLog(err, "error");
   startApp();
 });
 autoUpdater.on("download-progress", (progressObj) => {
   updaterWindow?.webContents.send("update_progress", progressObj);
 });
 autoUpdater.on("update-downloaded", (info) => {
-  console.log("Update downloaded: ", info);
+  debugLog("Update downloaded: ");
+  debugLog(info, "info");
   installUpdate();
 });
 
@@ -199,18 +203,18 @@ function startApp(): void {
   ipc.on("ipc_switch", function (_event, method, from, arg, to) {
     if (debugIPC && method != "log_read") {
       if (debugIPC == 2 && method != "set_status" && method != "set_db") {
-        console.log("IPC ", method + ": " + JSON.stringify(arg));
+        debugLog(`IPC ${method}: ${arg}`);
       } else {
-        console.log("IPC ", method, "From:", from, "To:", to);
+        debugLog(`IPC ${method} from ${from} to ${to}`);
       }
     }
     switch (method) {
       case "ipc_log":
-        console.log("IPC LOG: ", arg);
+        debugLog(`IPC LOG: ${arg}`);
         break;
 
       case "ipc_error":
-        console.log("IPC ERROR: ", arg);
+        debugLog(`IPC ERROR: ${arg}`, "error");
         break;
 
       case "initialize_main":
@@ -339,6 +343,9 @@ function startApp(): void {
         break;
 
       default:
+        if (method == "match_end") {
+          updateOverlayVisibility();
+        }
         if (to & IPC_BACKGROUND) background?.webContents.send(method, arg);
         if (to & IPC_RENDERER) mainWindow?.webContents.send(method, arg);
         if (to & IPC_OVERLAY) overlay?.webContents.send(method, arg);
@@ -348,7 +355,7 @@ function startApp(): void {
 }
 
 function initialize(launchToTray: boolean): void {
-  console.log("MAIN:  Initializing");
+  debugLog("MAIN:  Initializing");
   if (!launchToTray) showWindow();
 }
 
@@ -394,7 +401,7 @@ function toggleEditMode(): void {
 
 function setSettings(settings: SettingsData): void {
   oldSettings = JSON.parse(JSON.stringify(settings));
-  console.log("MAIN:  Updating settings");
+  debugLog("MAIN:  Updating settings");
 
   // update keyboard shortcuts
   globalShortcut.unregisterAll();
@@ -431,12 +438,21 @@ function setSettings(settings: SettingsData): void {
 let overlayHideTimeout: NodeJS.Timeout | undefined = undefined;
 
 function updateOverlayVisibility(): void {
+  const overiewOpen = store.getState().overlay.isOverviewOpen;
   const shouldDisplayOverlay =
-    store.getState().overlay.isOverviewOpen ||
-    store.getState().settings.overlays?.some(getOverlayVisible);
+    overiewOpen || store.getState().settings.overlays?.some(getOverlayVisible);
   const isOverlayVisible = isEntireOverlayVisible();
-
-  //console.log("shouldDisplayOverlay: ", shouldDisplayOverlay, "isOverlayVisible: ", isOverlayVisible);
+  /*
+  debugLog(
+    "shouldDisplayOverlay: " +
+      shouldDisplayOverlay +
+      ", isOverlayVisible: " +
+      isOverlayVisible +
+      ", overiewOpen: " +
+      overiewOpen,
+    "debug"
+  );
+  */
   if (!shouldDisplayOverlay && isOverlayVisible) {
     // hide entire overlay window
     // Add a 1 second timeout for animations
@@ -484,13 +500,7 @@ function overlaySetBounds(): void {
   const newBounds = getNewBounds();
   const primaryPos = getPrimaryPos(newBounds);
 
-  console.log(
-    "Overlay bounds: ",
-    newBounds.x,
-    newBounds.y,
-    newBounds.width,
-    newBounds.height
-  );
+  debugLog(`Overlay bounds: ${newBounds}`);
 
   const windows = [overlay, mainWindow, background];
   windows
@@ -511,9 +521,9 @@ function overlaySetBounds(): void {
 
 // Catch exceptions
 process.on("uncaughtException", function (err) {
-  console.log("Uncaught exception;");
-  console.log(err.stack);
-  //console.log('Current chunk:',  currentChunk);
+  debugLog("Uncaught exception;");
+  debugLog(err.stack, "error");
+  //debugLog('Current chunk:',  currentChunk);
 });
 
 function onBackClosed(): void {
@@ -601,7 +611,7 @@ function createUpdaterWindow(): BrowserWindow {
       nodeIntegration: true,
     },
   });
-  win.loadURL(path.join(__dirname, "updater/index.html"));
+  win.loadURL("file://" + path.join(__dirname, "updater", "index.html"));
 
   return win;
 }
@@ -620,7 +630,7 @@ function createBackgroundWindow(): BrowserWindow {
       nodeIntegration: true,
     },
   });
-  win.loadURL(path.join(__dirname, "background/index.html"));
+  win.loadURL("file://" + path.join(__dirname, "background", "index.html"));
   win.on("closed", onBackClosed);
 
   return win;
@@ -644,7 +654,7 @@ function createOverlayWindow(): BrowserWindow {
       nodeIntegration: true,
     },
   });
-  overlay.loadURL(path.join(__dirname, "overlay/index.html"));
+  overlay.loadURL("file://" + path.join(__dirname, "overlay", "index.html"));
 
   if (process.platform !== "linux") {
     // https://electronjs.org/docs/api/browser-window#winsetignoremouseeventsignore-options
@@ -668,7 +678,7 @@ function createMainWindow(): BrowserWindow {
       nodeIntegration: true,
     },
   });
-  win.loadURL(path.join(__dirname, "renderer/index.html"));
+  win.loadURL("file://" + path.join(__dirname, "renderer", "index.html"));
   win.on("closed", onMainClosed);
 
   let iconPath = iconTray;

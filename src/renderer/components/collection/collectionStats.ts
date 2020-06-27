@@ -155,7 +155,7 @@ export function getCollectionStats(cardIds: (string | number)[]): CollectionStat
     };
     // add to totals
     if (stats[card.set][card.rarity] == undefined) {
-      console.log(card, card.set, card.rarity);
+      //debugLog(card, card.set, card.rarity);
       return;
     }
     stats[card.set][card.rarity].total += 4;

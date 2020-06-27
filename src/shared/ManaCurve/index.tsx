@@ -63,7 +63,7 @@ function getDeckCurve(deck: Deck): number[][] {
         curve[cmc][0] += card.quantity;
       }
     });
-  //console.log(curve);
+  //debugLog(curve);
   return curve;
 }
 
@@ -71,7 +71,7 @@ export default function DeckManaCurve(props: { deck: Deck }): JSX.Element {
   const { deck } = props;
   const manaCounts = getDeckCurve(deck);
   const curveMax = Math.max(...manaCounts.map((v) => v[0]));
-  // console.log("deckManaCurve", manaCounts, curveMax);
+  // debugLog("deckManaCurve", manaCounts, curveMax);
 
   return (
     <div className={css.mana_curve_container}>

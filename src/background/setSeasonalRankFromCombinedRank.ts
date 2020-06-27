@@ -49,7 +49,7 @@ export default function setSeasonalRankFromCombinedRank(
     newJson.newStep = rank[type].leaderboardPlace;
   }
 
-  //console.log("SeasonalRankData", newJson);
+  //debugLog("SeasonalRankData", newJson);
   if (!seasonalExists(currentMatch.matchId)) {
     reduxAction(
       globals.store.dispatch,

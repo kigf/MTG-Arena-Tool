@@ -7,6 +7,7 @@ import {
   IPC_MAIN,
 } from "../constants";
 import { actions, ActionKeys } from "./actions";
+import debugLog from "../debugLog";
 const ipc = electron.ipcMain;
 
 /**
@@ -32,9 +33,10 @@ export default function initializeMainReduxIPC(
         if (to & IPC_MAIN) {
           const action = JSON.parse(arg) as any;
           if (!actions[type]) {
-            console.log("ERROR: Unknown redux action to main: " + type);
-            console.error(
-              "This action should not be sent to main or the action is missing on the actions list."
+            debugLog("ERROR: Unknown redux action to main: " + type, "error");
+            debugLog(
+              "This action should not be sent to main or the action is missing on the actions list.",
+              "error"
             );
           } else {
             store.dispatch(actions[type](action));
@@ -49,11 +51,12 @@ export default function initializeMainReduxIPC(
         if (to & IPC_OVERLAY)
           overlay?.webContents.send("redux-action", type, arg);
       } catch (e) {
-        console.error(
-          "Attempted to parse a Redux Action but failed;",
-          type,
-          arg,
-          e
+        debugLog(
+          `Attempted to parse a Redux Action but failed; 
+          ${type},
+          ${arg},
+          ${e}`,
+          "error"
         );
       }
     }

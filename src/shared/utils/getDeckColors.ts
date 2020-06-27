@@ -1,6 +1,7 @@
 import { InternalDeck } from "../../types/Deck";
 import { WHITE, BLUE, BLACK, RED, GREEN } from "../constants";
 import database from "../database";
+import debugLog from "../debugLog";
 
 export default function getDeckColors(deck: InternalDeck): number[] {
   let colorIndices: number[] = [];
@@ -44,7 +45,7 @@ export default function getDeckColors(deck: InternalDeck): number[] {
   } catch (e) {
     // FIXME: Errors shouldn't be caught silently. If this is an
     //        expected error then there should be a test to catch only that error.
-    console.error(e);
+    debugLog(e, "error");
     colorIndices = [];
   }
 

@@ -111,17 +111,17 @@ MTG Arena Tool is developed using Electron JS, To get started simply clone this 
 git clone https://github.com/Manuel-777/MTG-Arena-Tool
 cd MTG-Arena-Tool
 npm install
-npm start:all
+npm run start:all
 ```
 
 Once webpack builds, after the initial `start:all` command, you can make builds faster by invoking
 the build process for the process you modified only;
 ```
-npm start:renderer
-npm start:background
-npm start:overlay
-npm start:updater
-npm start:main
+npm run start:renderer
+npm run start:background
+npm run start:overlay
+npm run start:updater
+npm run start:main
 ```
 
 If you modify shared code, it is recommended to use the `start:all` command again.
@@ -159,7 +159,7 @@ Installs all required dependencies.
 Automatically formats all source code to match project guidelines. We currently use
 `prettier` and `eslint` to keep things looking tidy.
 
-#### `npm test`
+#### `npm run test`
 
 Runs all project tests. This includes unit tests run via `jest` and style guidelines
 enforced by `eslint` and `prettier`.

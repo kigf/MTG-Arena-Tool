@@ -72,7 +72,7 @@ body {
 
 label {
   font-family: var(--main-font-name);
-  color: var(--color-light);
+  /*color: var(--color-light);*/
   margin: auto 0;
   white-space: nowrap;
 }

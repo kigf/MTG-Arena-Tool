@@ -21,7 +21,7 @@ export default function TrackRewardTierUpdated(_entry: Entry): void {
   /*
   const json = entry.json();
   if (!json) return;
-  console.log(json);
+  debugLog(json);
   const economy = { ...playerData.economy };
 
   const transaction: InternalEconomyTransaction = {
@@ -51,7 +51,7 @@ export default function TrackRewardTierUpdated(_entry: Entry): void {
 
   saveEconomyTransaction(transaction);
 
-  // console.log(economy);
+  // debugLog(economy);
   playerDb.upsert("", "economy", economy);
   */
 }

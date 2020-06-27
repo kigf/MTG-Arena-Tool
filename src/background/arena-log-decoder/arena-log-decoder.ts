@@ -5,6 +5,7 @@ import _ from "lodash";
 import nthLastIndexOf from "./nthLastIndexOf";
 import * as jsonText from "./jsonText";
 import sha1 from "js-sha1";
+import debugLog from "../../shared/debugLog";
 
 const LABEL_JSON_PATTERNS = [
   /\[UnityCrossThreadLogger\](?<timestamp>.*): (?:Match to )?(?<playerId>\w*)(?: to Match)?: (?<label>.*)(?:\r\n|\n)/,
@@ -123,16 +124,20 @@ function parseLogEntry(
         hash: sha1(jsonString + absPosition),
         json: (): void => {
           try {
-            //console.log(jsonString, jsonStart, jsonLen);
+            //debugLog(jsonString, jsonStart, jsonLen);
             const json = JSON.parse(jsonString);
             return (
               json.payload || (json.request && JSON.parse(json.request)) || json
             );
           } catch (e) {
-            console.log(e, {
-              input: rematches?.input,
-              string: jsonString,
-            });
+            debugLog(e, "error");
+            debugLog(
+              {
+                input: rematches?.input,
+                string: jsonString,
+              },
+              "info"
+            );
           }
         },
       },
@@ -175,16 +180,20 @@ function parseLogEntry(
         text: jsonString,
         json: (): void => {
           try {
-            // console.log(jsonString, jsonStart, jsonLen);
+            // debugLog(jsonString, jsonStart, jsonLen);
             const json = JSON.parse(jsonString);
             return (
               json.payload || (json.request && JSON.parse(json.request)) || json
             );
           } catch (e) {
-            console.log(e, {
-              input: rematches?.input,
-              string: jsonString,
-            });
+            debugLog(e, "error");
+            debugLog(
+              {
+                input: rematches?.input,
+                string: jsonString,
+              },
+              "error"
+            );
           }
         },
       },

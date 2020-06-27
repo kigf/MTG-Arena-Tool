@@ -5,6 +5,7 @@ import { ClientToGREMessage } from "../../assets/proto/GreTypes";
 import Deck from "../../shared/deck";
 import { setOnThePlay } from "../../shared/store/currentMatchStore";
 import globalStore from "../../shared/store";
+import debugLog from "../../shared/debugLog";
 
 interface Entry extends LogEntry {
   json: () => ClientToGREMessage;
@@ -36,7 +37,7 @@ function decodePayload(payload: any, msgType: string): any {
     const msg = msgDeserialiser.deserializeBinary(binaryMsg);
     return msg.toObject();
   } catch (e) {
-    console.log(e.message);
+    debugLog(e.message, "error");
   }
 
   return;
@@ -66,7 +67,7 @@ export default function ClientToMatchServiceMessageTypeClientToGREMessage(
   payload = normaliseFields(payload);
 
   if (payload.submitDeckResp) {
-    //console.log("Client To GRE: ", payload);
+    //debugLog("Client To GRE: ", payload);
     // Get sideboard changes
     const deckResp = payload.submitDeckResp?.deck || {
       deckCards: [],

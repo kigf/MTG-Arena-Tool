@@ -9,7 +9,7 @@ interface Entry extends LogEntry {
 
 export default function InEventJoinPodMaking(entry: Entry): void {
   const json = entry.json();
-  //console.log("LABEL:  Make pick < ", json);
+  //debugLog("LABEL:  Make pick < ", json);
   if (!json) return;
 
   if (json.params) {

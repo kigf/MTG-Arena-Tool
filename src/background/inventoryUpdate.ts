@@ -14,7 +14,7 @@ export default function inventoryUpdate(
   update: Partial<InventoryUpdate>
 ): void {
   // combine sub-context with parent context
-  // console.log("inventoryUpdate", entry, update);
+  // debugLog("inventoryUpdate", entry, update);
   let context = "PostMatch.Update";
   if (update.context?.source) {
     // combine sub-context with parent context
