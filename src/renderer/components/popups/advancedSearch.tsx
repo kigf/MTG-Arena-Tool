@@ -16,6 +16,7 @@ import ReactSelect from "../../../shared/ReactSelect";
 import getFiltersFromQuery from "../collection/collectionQuery";
 import Colors from "../../../shared/colors";
 import { ColorBitsFilter } from "../collection/types";
+import SetsFilter from "../misc/SetsFilter";
 
 const colorsToKey: Record<number, string> = {
   [WHITE]: "w",
@@ -49,6 +50,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
 
   // Default filters
   let defaultCol: number[] = [WHITE, BLUE, BLACK, RED, GREEN];
+  let defaultSets: string[] = [];
   let defaultColorFilter = "Any of these colors";
   // Loop trough the setted filters to adjust defaults
   defaultFilters.map((f: any) => {
@@ -74,6 +76,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
 
   // Set filters state
   const [filterColors, setFilterColors] = useState<number[]>(defaultCol);
+  const [filterSets, setFilterSets] = useState<string[]>(defaultSets);
   const [colorFilterOption, setColorFilterOption] = useState(
     defaultColorFilter
   );
@@ -152,6 +155,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
             }}
           />
         </div>
+        <SetsFilter filtered={filterSets} callback={setFilterSets} />
         <Button text="Search" onClick={handleSearch} />
       </div>
     </div>
