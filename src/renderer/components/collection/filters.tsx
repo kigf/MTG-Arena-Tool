@@ -1,8 +1,8 @@
-import _ from "lodash";
-import { Row } from "react-table";
+import _, {isEqual, includes} from "lodash";
+import {Row} from "react-table";
 import db from "../../../shared/database";
-import { BinaryFilterValue, StringFilter } from "../tables/filters";
-import { MultiSelectFilterProps, TableData } from "../tables/types";
+import {BinaryFilterValue, StringFilter} from "../tables/filters";
+import {MultiSelectFilterProps, TableData} from "../tables/types";
 import {
   CardsData,
   RARITY_TOKEN,
@@ -13,8 +13,9 @@ import {
   RARITY_MYTHIC,
   ColorBitsFilter,
   RarityBitsFilter,
+  ArrayFilter,
 } from "./types";
-import { usedFormats } from "../../rendererUtil";
+import {usedFormats} from "../../rendererUtil";
 import {
   historicAnthology,
   historicAnthology2,
@@ -33,9 +34,9 @@ export function inBoostersFilterFn(
   );
 }
 
-export type SetFilterValue = { [set: string]: boolean };
+export type SetFilterValue = {[set: string]: boolean};
 
-const defaultSetFilter: SetFilterValue = { other: true };
+const defaultSetFilter: SetFilterValue = {other: true};
 db.standardSetCodes.forEach((code: string) => (defaultSetFilter[code] = true));
 
 export type SetFilterProps = MultiSelectFilterProps<SetFilterValue>;
@@ -123,7 +124,7 @@ export function rarityFilterFn<D extends TableData>(
     if (filterValue.mode == ":") ret = R & F;
     if (filterValue.mode == "!=") ret = R !== F;
     if (filterValue.mode == "<=") ret = R <= F;
-    if (filterValue.mode == "<") ret = R <= F;
+    if (filterValue.mode == "<") ret = R < F;
     if (filterValue.mode == ">=") ret = R >= F;
     if (filterValue.mode == ">") ret = R > F;
     return filterValue.not ? !ret : ret;
@@ -158,5 +159,32 @@ export function inArrayFilterFn<D extends TableData>(
   return rows.filter((row) => {
     const ret = row.original[id].includes(F);
     return filterValue.not ? !ret : ret;
+  });
+}
+
+export function arrayFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: ArrayFilter
+): Row<D>[] {
+  const {arr, mode, not} = filterValue;
+  const F = arr?.map((s) => s.toLowerCase()) || [];
+  return rows.filter((row) => {
+    const S: string[] = [row.original.setCode];
+    if (historicAnthology.includes(row.original.id)) S.push("ha1");
+    if (historicAnthology2.includes(row.original.id)) S.push("ha2");
+    if (historicAnthology3.includes(row.original.id)) S.push("ha3");
+
+    let ret: number | boolean = true;
+    if (mode == "=") ret = isEqual(S, F);
+    if (mode == ":") ret = _.intersection(S, F).length !== 0;
+    if (mode == "!=") ret = !isEqual(S, F);
+    /*
+    if (mode == "<=") ret = R <= F;
+    if (mode == "<") ret = R <= F;
+    if (mode == ">=") ret = R >= F;
+    if (mode == ">") ret = R > F;
+    */
+    return not ? !ret : ret;
   });
 }

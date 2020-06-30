@@ -144,7 +144,7 @@ export default function CollectionTable({
         Header: "Set",
         accessor: "set",
         disableFilters: false,
-        filter: "set",
+        filter: "array",
         sortType: setSortType,
         sortInverted: true,
         sortDescFirst: true,

@@ -83,3 +83,9 @@ export type RarityBitsFilter = {
   mode: QuerySeparators;
   rarity: number;
 };
+
+export type ArrayFilter = {
+  not: boolean;
+  mode: QuerySeparators;
+  arr: string[];
+};

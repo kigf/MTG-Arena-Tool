@@ -18,6 +18,7 @@ import {
   RARITY_MYTHIC,
   CardsData,
   ColorBitsFilter,
+  ArrayFilter,
 } from "./types";
 
 /**
@@ -66,7 +67,6 @@ const defaultFilters = {
   name: { ...defaultStringFilter },
   type: { ...defaultStringFilter },
   artist: { ...defaultStringFilter },
-  set: { ...defaultStringFilter },
   format: { ...defaultStringFilter },
   banned: { ...defaultStringFilter },
   legal: { ...defaultStringFilter },
@@ -83,6 +83,11 @@ const defaultFilters = {
     mode: ":",
     rarity: 0,
   } as RarityBitsFilter,
+  set: {
+    arr: [],
+    not: false,
+    mode: ":",
+  } as ArrayFilter,
 };
 
 type DefaultFilters = typeof defaultFilters;
@@ -137,10 +142,6 @@ function getTokenVal(
       if (separator === "=" || separator === ":") filters.artist.string = val;
       filters.artist.not = isNegative;
       break;
-    case "set":
-      if (separator === "=" || separator === ":") filters.set.string = val;
-      filters.set.not = isNegative;
-      break;
     case "format":
       if (separator === "=" || separator === ":") filters.format.string = val;
       filters.format.not = isNegative;
@@ -157,6 +158,11 @@ function getTokenVal(
     case "is":
       if (separator === "=" || separator === ":") filters.is.string = val;
       filters.is.not = isNegative;
+      break;
+    case "set":
+      filters.set.arr = val.split(",");
+      filters.set.mode = separator;
+      filters.set.not = isNegative;
       break;
     case "legal":
       if (separator === "=" || separator === ":") {

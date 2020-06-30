@@ -28,6 +28,7 @@ import {
   colorsBitsFilterFn,
   formatFilterFn,
   inArrayFilterFn,
+  arrayFilterFn,
 } from "../collection/filters";
 
 export function useBaseReactTable<D extends TableData>({
@@ -68,6 +69,7 @@ export function useBaseReactTable<D extends TableData>({
       rarity: rarityFilterFn,
       format: formatFilterFn,
       inArray: inArrayFilterFn,
+      array: arrayFilterFn,
       ...customFilterTypes,
     }),
     [customFilterTypes]
