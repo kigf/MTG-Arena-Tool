@@ -55,7 +55,7 @@ function GroupedLandsDetails(props: { odds: Chances }): JSX.Element {
 // This is the ratio of width/height of a magic card
 const SCALAR = 0.71808510638;
 
-export interface CardDetailsWindowletProps {
+interface CardDetailsWindowletProps {
   arenaState: number;
   editMode: boolean;
   handleToggleEditMode: () => void;

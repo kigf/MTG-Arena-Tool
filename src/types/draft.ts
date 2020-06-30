@@ -26,7 +26,7 @@ export interface DraftState {
   pickN: number;
 }
 
-export interface PickPack {
+interface PickPack {
   pick: string;
   pack: string;
 }

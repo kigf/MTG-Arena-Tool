@@ -142,7 +142,7 @@ export function GlobalFilter<D extends TableData>({
   );
 }
 
-export type BinaryFilterKeys = "true" | "false";
+type BinaryFilterKeys = "true" | "false";
 
 export type BinaryFilterValue = { [key in BinaryFilterKeys]: boolean };
 
@@ -151,8 +151,7 @@ const defaultBinary: BinaryFilterValue = {
   false: true,
 };
 
-export interface BinaryFilterProps
-  extends MultiSelectFilterProps<BinaryFilterValue> {
+interface BinaryFilterProps extends MultiSelectFilterProps<BinaryFilterValue> {
   trueLabel: string;
   falseLabel: string;
   trueSymbol?: string;

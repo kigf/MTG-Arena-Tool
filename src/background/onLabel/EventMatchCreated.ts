@@ -15,7 +15,7 @@ import {
 import globalStore from "../../shared/store";
 import debugLog from "../../shared/debugLog";
 
-export interface EntryJson {
+interface EntryJson {
   controllerFabricUri: string;
   matchEndpointHost: string;
   matchEndpointPort: number;

@@ -72,7 +72,7 @@ function compareDraftPicks(a: CardObject, b: CardObject): -1 | 0 | 1 {
   return 0;
 }
 
-export interface DeckListProps {
+interface DeckListProps {
   deck: Deck;
   subTitle: string;
   highlightCardId?: number;

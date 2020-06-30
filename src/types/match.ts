@@ -1,4 +1,3 @@
-import Deck from "../shared/deck";
 import { InternalDeck } from "./Deck";
 import { Result } from "./greInterpreter";
 import { MatchGameStats } from "./currentMatch";
@@ -68,22 +67,6 @@ interface MatchGameRoomStateTypeMatchCompleted extends GameRoomInfo {
     matchCompletedReason: string;
     resultList: Result[];
   };
-}
-
-export interface PlayerMatchData {
-  seat: number;
-  deck: Deck;
-  life: number;
-  turn: number;
-  name: string;
-  id: string;
-  rank: string;
-  tier: number;
-  originalDeck?: Deck;
-  percentile?: number;
-  leaderboardPlace?: number;
-  cards?: any[];
-  commanderGrpIds: number[];
 }
 
 export interface InternalPlayer {

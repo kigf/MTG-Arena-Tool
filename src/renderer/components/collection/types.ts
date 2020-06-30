@@ -1,4 +1,4 @@
-import { CellProps, Row, TableState } from "react-table";
+import { Row, TableState } from "react-table";
 import { DbCardData } from "../../../types/Metadata";
 import { TableControlsProps, TableViewRowProps } from "../tables/types";
 
@@ -36,8 +36,6 @@ export interface CollectionTableRowProps extends TableViewRowProps<CardsData> {
   contextMenuCallback: (cardDiv: HTMLElement, card: DbCardData) => void;
 }
 
-export type CollectionTableCellProps = CellProps<CardsData>;
-
 export type QuerySeparators = ">=" | "<=" | ":" | "=" | "!=" | "<" | ">";
 export type QueryKeys =
   | "artist"
@@ -54,7 +52,7 @@ export type QueryKeys =
   | "legal";
 export type ParsedToken = [string, QuerySeparators, string];
 
-export type FilterModes =
+type FilterModes =
   | "strict"
   | "and"
   | "or"

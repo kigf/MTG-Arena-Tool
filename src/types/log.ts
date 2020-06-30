@@ -7,7 +7,7 @@ type LogParams =
   | Connected
   | SceneChange;
 
-export interface LogInfo {
+interface LogInfo {
   jsonrpc: string;
   method: string;
   params: LogParams;

@@ -10,7 +10,7 @@ import indexCss from "../../index.css";
 import css from "./CompletionTableHeatMap.css";
 
 type ColorData = { [key: string]: CardStats[] };
-export type CardData = ColorData[];
+type CardData = ColorData[];
 
 const compCard: string[] = [];
 compCard[0] = css.completionTableCardN0;

@@ -165,7 +165,7 @@ function getDeckRaritiesCount(deck: Deck): RaritiesCount {
   return rarities;
 }
 
-export function DeckView(props: DeckViewProps): JSX.Element {
+function DeckView(props: DeckViewProps): JSX.Element {
   const deck = new Deck(props.deck);
   const [deckView, setDeckView] = useState(VIEW_REGULAR);
   const dispatcher = useDispatch();

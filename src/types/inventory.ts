@@ -1,4 +1,4 @@
-export interface AetherizedCard {
+interface AetherizedCard {
   grpId: number;
   goldAwarded: number;
   gemsAwarded: number;
@@ -65,17 +65,17 @@ export interface InternalEconomyTransaction
   archived?: boolean;
 }
 
-export interface Pet {
+interface Pet {
   name: string;
   variants: string[];
 }
 
-export interface Avatar {
+interface Avatar {
   name: string;
   mods: string[];
 }
 
-export interface CardBack {
+interface CardBack {
   name: string;
   mods: string[];
 }

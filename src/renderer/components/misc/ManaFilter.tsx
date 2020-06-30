@@ -4,11 +4,11 @@ import { ManaSymbol } from "./ManaSymbol";
 import indexCss from "../../index.css";
 
 export type ManaFilterKeys = "w" | "u" | "b" | "r" | "g" | "multi";
-export type ManaBitsFilterKeys = ManaFilterKeys | "mode";
+type ManaBitsFilterKeys = ManaFilterKeys | "mode";
 
 export type ColorFilter = { [key in ManaFilterKeys]: boolean };
 
-export interface ManaFilterProps {
+interface ManaFilterProps {
   filterKey: string;
   prefixId: string;
   filters: { [key: string]: ColorFilter };

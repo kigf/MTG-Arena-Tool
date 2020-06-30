@@ -111,7 +111,9 @@ export interface CollectionStats {
   [set: string]: SetStats;
 }
 
-export function getCollectionStats(cardIds: (string | number)[]): CollectionStats {
+export function getCollectionStats(
+  cardIds: (string | number)[]
+): CollectionStats {
   const playerEconomy = store.getState().playerdata.economy;
   const wantedCards: { [key: string]: number } = {};
   decksList()

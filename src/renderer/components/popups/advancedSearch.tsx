@@ -118,7 +118,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       "c" +
       (colorFilterOptions[colorFilterOption] || "=") +
       filterColors.map((c) => colorsToKey[c] || "").join("");
-    
+
     const sets = "s:" + filterSets.join(",");
 
     filterColors.length !== 5 && filters.push(colors);

@@ -15,7 +15,7 @@ import ManaCost from "../renderer/components/misc/ManaCost";
 
 const packSizeMap: { [key: string]: number } = PACK_SIZES;
 
-export interface DraftElementsProps {
+interface DraftElementsProps {
   draft: InternalDraftv2;
   draftState: DraftState;
   index: number;

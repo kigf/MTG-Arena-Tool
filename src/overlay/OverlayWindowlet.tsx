@@ -20,7 +20,7 @@ import sharedCss from "../shared/shared.css";
 import ResizeIcon from "../assets/images/resize.svg";
 import DEFAULT_BACKGROUND from "../assets/images/Bedevil-Art.jpg";
 
-export interface OverlayWindowletProps {
+interface OverlayWindowletProps {
   arenaState: number;
   actionLog: string;
   draft?: InternalDraftv2;

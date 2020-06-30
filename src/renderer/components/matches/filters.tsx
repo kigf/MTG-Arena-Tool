@@ -37,7 +37,7 @@ export function onPlayFilterFn(
   );
 }
 
-export type RankFilterKeys =
+type RankFilterKeys =
   | "Bronze"
   | "Silver"
   | "Gold"
@@ -45,7 +45,7 @@ export type RankFilterKeys =
   | "Diamond"
   | "Mythic";
 
-export type RankFilterValue = { [key in RankFilterKeys]: boolean };
+type RankFilterValue = { [key in RankFilterKeys]: boolean };
 
 const defaultRank: RankFilterValue = {
   Bronze: true,
@@ -56,7 +56,7 @@ const defaultRank: RankFilterValue = {
   Mythic: true,
 };
 
-export type RankFilterProps = MultiSelectFilterProps<RankFilterValue>;
+type RankFilterProps = MultiSelectFilterProps<RankFilterValue>;
 
 function RankFilter(props: RankFilterProps): JSX.Element {
   const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);

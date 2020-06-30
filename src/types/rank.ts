@@ -4,7 +4,7 @@ export interface MythicRatingUpdate {
   newMythicLeaderboardPlacement: number;
 }
 
-export interface RankBase {
+interface RankBase {
   id: string;
   playerId: string;
   seasonOrdinal: number;
@@ -23,14 +23,6 @@ export interface RankBase {
 
 export interface RankUpdate extends RankBase {
   timestamp: string;
-}
-
-export interface InternalRankUpdate extends RankBase {
-  timestamp: number;
-  date: string;
-  lastMatchId: string;
-  arenaId: string;
-  eventId: string;
 }
 
 export interface InternalRankData {

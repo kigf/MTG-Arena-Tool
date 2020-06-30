@@ -2,7 +2,7 @@ import React from "react";
 import indexCss from "../renderer/index.css";
 import css from "../renderer/select.scss";
 
-export interface ReactSelectProps<K> {
+interface ReactSelectProps<K> {
   optionFormatter?: (option: K | string) => string | JSX.Element;
   current: K;
   callback: (option: K) => void;

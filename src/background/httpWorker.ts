@@ -18,7 +18,7 @@ export interface HttpTask {
   [key: string]: string;
 }
 
-export interface HttpTaskCallback {
+interface HttpTaskCallback {
   (
     error?: Error | null,
     task?: HttpTask,

@@ -24,7 +24,7 @@ import ManaCost from "../renderer/components/misc/ManaCost";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/backgroundStore";
 
-export interface MatchElementsProps {
+interface MatchElementsProps {
   actionLog: string;
   index: number;
   match: MatchData;

@@ -64,7 +64,7 @@ export type CardTileQuantity =
   | number
   | string;
 
-export interface CardTileProps {
+interface CardTileProps {
   card: DbCardData;
   deck?: Deck;
   dfcCard?: DbCardData;

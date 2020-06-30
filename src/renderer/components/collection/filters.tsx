@@ -1,8 +1,8 @@
-import _, {isEqual, includes} from "lodash";
-import {Row} from "react-table";
+import _, { isEqual } from "lodash";
+import { Row } from "react-table";
 import db from "../../../shared/database";
-import {BinaryFilterValue, StringFilter} from "../tables/filters";
-import {MultiSelectFilterProps, TableData} from "../tables/types";
+import { BinaryFilterValue, StringFilter } from "../tables/filters";
+import { TableData } from "../tables/types";
 import {
   CardsData,
   RARITY_TOKEN,
@@ -15,7 +15,7 @@ import {
   RarityBitsFilter,
   ArrayFilter,
 } from "./types";
-import {usedFormats} from "../../rendererUtil";
+import { usedFormats } from "../../rendererUtil";
 import {
   historicAnthology,
   historicAnthology2,
@@ -34,12 +34,10 @@ export function inBoostersFilterFn(
   );
 }
 
-export type SetFilterValue = {[set: string]: boolean};
+type SetFilterValue = { [set: string]: boolean };
 
-const defaultSetFilter: SetFilterValue = {other: true};
+const defaultSetFilter: SetFilterValue = { other: true };
 db.standardSetCodes.forEach((code: string) => (defaultSetFilter[code] = true));
-
-export type SetFilterProps = MultiSelectFilterProps<SetFilterValue>;
 
 export function setFilterFn<D extends TableData>(
   rows: Row<D>[],
@@ -167,7 +165,7 @@ export function arrayFilterFn<D extends TableData>(
   _columnIds: string[],
   filterValue: ArrayFilter
 ): Row<D>[] {
-  const {arr, mode, not} = filterValue;
+  const { arr, mode, not } = filterValue;
   const F = arr?.map((s) => s.toLowerCase()) || [];
   return rows.filter((row) => {
     const S: string[] = [row.original.setCode];

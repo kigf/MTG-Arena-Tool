@@ -1,4 +1,4 @@
-import { CellProps, Row, TableState } from "react-table";
+import { Row, TableState } from "react-table";
 import { InternalEconomyTransaction } from "../../../types/inventory";
 import { TableControlsProps, TableViewRowProps } from "../tables/types";
 
@@ -49,8 +49,4 @@ export interface EconomyTableRowProps
   isExpanded: boolean;
   tableMode: string;
   prepareRow: (row: Row<TransactionData>) => void;
-}
-
-export interface EconomyTableCellProps extends CellProps<TransactionData> {
-  archiveCallback: (id: string) => void;
 }
