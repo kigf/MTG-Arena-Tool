@@ -23,6 +23,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   debugLog("Set up IPC listeners.");
 
   ipc.on("prefill_auth_form", (_event: IpcRendererEvent, arg: any): void => {
+    debugLog("ipc prefill_auth_form", "debug");
     reduxAction(
       dispatcher,
       {
@@ -38,10 +39,12 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("clear_pwd", (): void => {
+    debugLog("ipc clear_pwd", "debug");
     reduxAction(dispatcher, { type: "SET_LOGIN_PASSWORD", arg: "" }, IPC_NONE);
   });
 
   ipc.on("login_failed", (): void => {
+    debugLog("ipc login_failed", "debug");
     reduxAction(
       dispatcher,
       { type: "SET_LOGIN_STATE", arg: LOGIN_FAILED },
@@ -50,6 +53,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("begin_login", (): void => {
+    debugLog("ipc begin_login", "debug");
     reduxAction(dispatcher, { type: "SET_LOADING", arg: true }, IPC_NONE);
     reduxAction(
       dispatcher,
@@ -59,6 +63,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("auth", (_event: IpcRendererEvent, arg: any): void => {
+    debugLog("ipc auth", "debug");
     reduxAction(dispatcher, { type: "SET_LOADING", arg: true }, IPC_NONE);
     if (arg.ok) {
       reduxAction(
@@ -93,6 +98,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("offline", (): void => {
+    debugLog("ipc offline", "debug");
     reduxAction(dispatcher, { type: "SET_OFFLINE", arg: true }, IPC_NONE);
   });
 

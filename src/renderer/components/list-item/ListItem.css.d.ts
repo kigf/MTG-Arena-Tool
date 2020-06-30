@@ -2,6 +2,8 @@
 // GENERATED FILE; DO NOT EDIT
 declare namespace ListItemCssModule {
   export interface IListItemCss {
+    copyButton: string;
+    copy_button: string;
     deckTagsContainer: string;
     deck_tags_container: string;
     listDeckLast: string;

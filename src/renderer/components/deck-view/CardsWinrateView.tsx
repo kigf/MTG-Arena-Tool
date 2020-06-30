@@ -26,6 +26,7 @@ function getWinrateValue(wins: number, losses: number): number {
 }
 
 interface LineData {
+  wr: CardWinrateData;
   cardObj: DbCardData;
   quantity: number;
   name: string;
@@ -59,6 +60,7 @@ function cardWinrateLineData(
   const avgFirstTurn = firstSum / wr.turnsFirstUsed.length || 0;
 
   return {
+    wr,
     cardObj,
     quantity,
     name,
@@ -76,6 +78,7 @@ function cardWinrateLineData(
 
 function cardWinrateLine(line: LineData): JSX.Element {
   const {
+    wr,
     cardObj,
     quantity,
     name,
@@ -104,6 +107,7 @@ function cardWinrateLine(line: LineData): JSX.Element {
         />
       </div>
       <div
+        title={`sample size: ${wr.wins + wr.losses}`}
         className={`${getWinrateClass(winrate / 100, true)} ${css.cardWrItem} ${
           css.cardWrLineWr
         }`}
@@ -111,6 +115,7 @@ function cardWinrateLine(line: LineData): JSX.Element {
         {winrate >= 0 ? winrate + "%" : "-"}
       </div>
       <div
+        title={`sample size: ${wr.initHandWins + wr.initHandsLosses}`}
         className={`${getWinrateClass(initHandWinrate / 100, true)} ${
           css.cardWrItem
         } ${css.cardWrLineHandWr}`}
@@ -127,6 +132,7 @@ function cardWinrateLine(line: LineData): JSX.Element {
         {sidedOut}
       </div>
       <div
+        title={`sample size: ${wr.sideInWins + wr.sideInLosses}`}
         className={`${getWinrateClass(sideInWinrate / 100, true)} ${
           css.cardWrItem
         } ${css.cardWrLineSidedInWr}`}
@@ -134,16 +140,23 @@ function cardWinrateLine(line: LineData): JSX.Element {
         {sideInWinrate >= 0 ? sideInWinrate + "%" : "-"}
       </div>
       <div
+        title={`sample size: ${wr.sideOutWins + wr.sideOutLosses}`}
         className={`${getWinrateClass(sideOutWinrate / 100, true)} ${
           css.cardWrItem
         } ${css.cardWrLineSidedOutWr}`}
       >
         {sideOutWinrate >= 0 ? sideOutWinrate + "%" : "-"}
       </div>
-      <div className={`${css.cardWrItem} ${css.cardWrLineAvgTurn}`}>
+      <div
+        title={`sample size: ${wr.turnsUsed.length}`}
+        className={`${css.cardWrItem} ${css.cardWrLineAvgTurn}`}
+      >
         {avgTurn.toFixed(2)}
       </div>
-      <div className={`${css.cardWrItem} ${css.cardWrLineAvgFirst}`}>
+      <div
+        title={`sample size: ${wr.turnsFirstUsed.length}`}
+        className={`${css.cardWrItem} ${css.cardWrLineAvgFirst}`}
+      >
         {avgFirstTurn.toFixed(2)}
       </div>
     </div>

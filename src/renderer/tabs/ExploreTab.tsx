@@ -76,12 +76,14 @@ export default function ExploreTab(): JSX.Element {
 
   const openRow = useCallback(
     (row: any): void => {
+      // we change the type so DeckView can infer its not our deck
       const deck = {
         mainDeck: row.mainDeck,
         sideboard: row.sideboard,
         deckTileId: row.tile,
         name: row.name,
         id: row._id,
+        type: "exploreDeck",
       };
       reduxAction(
         dispatcher,

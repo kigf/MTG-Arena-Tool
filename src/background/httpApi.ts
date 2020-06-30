@@ -370,6 +370,7 @@ function handleAuthResponse(
     ipcSend("toggle_login", true);
     ipcSend("login_failed", true);
     ipcSend("clear_pwd", 1);
+    debugLog(error?.message, "error");
     ipcPop({
       text: error?.message,
       time: 3000,

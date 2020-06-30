@@ -151,6 +151,7 @@ ipc.on("start_background", async function () {
 function offlineLogin(): void {
   ipcSend("auth", { ok: true, user: -1 });
   loadPlayerConfig();
+  debugLog("offlineLogin", "debug");
   reduxAction(
     globals.store.dispatch,
     { type: "SET_APP_SETTINGS", arg: { email: "" } },
@@ -166,6 +167,7 @@ function offlineLogin(): void {
 //
 ipc.on("login", function (_event, arg) {
   ipcSend("begin_login", {});
+  debugLog("ipc login", "debug");
   if (arg.password == HIDDEN_PW) {
     httpApi.httpAuth(arg.username, arg.password);
   } else if (arg.username === "" && arg.password === "") {
