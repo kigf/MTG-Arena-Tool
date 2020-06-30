@@ -15,7 +15,7 @@ import {
 import ReactSelect from "../../../shared/ReactSelect";
 import getFiltersFromQuery from "../collection/collectionQuery";
 import Colors from "../../../shared/colors";
-import { ColorBitsFilter } from "../collection/types";
+import { ColorBitsFilter, ArrayFilter } from "../collection/types";
 import SetsFilter from "../misc/SetsFilter";
 
 const colorsToKey: Record<number, string> = {
@@ -72,6 +72,10 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       )[0];
       defaultCol = col.get();
     }
+    if (f.id == "set") {
+      const filter: ArrayFilter = f.value;
+      defaultSets = filter.arr;
+    }
   });
 
   // Set filters state
@@ -114,10 +118,13 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       "c" +
       (colorFilterOptions[colorFilterOption] || "=") +
       filterColors.map((c) => colorsToKey[c] || "").join("");
+    
+    const sets = "s:" + filterSets.join(",");
 
-    filters.push(colors);
+    filterColors.length !== 5 && filters.push(colors);
+    filterSets.length > 0 && filters.push(sets);
     setQuery(filters.join(" "));
-  }, [filterColors, colorFilterOption]);
+  }, [filterSets, filterColors, colorFilterOption]);
 
   return (
     <div

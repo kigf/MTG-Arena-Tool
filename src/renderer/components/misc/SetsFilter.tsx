@@ -33,18 +33,18 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
       {stadardSets.map((set) => {
         const svgData = set.svg;
         const setClass = `${index.setFilter} ${
-          filtered.indexOf(set.arenacode) == -1 ? index.setFilterOn : ""
+          filtered.indexOf(set.arenacode.toLowerCase()) == -1 ? index.setFilterOn : ""
         }`;
         return (
           <div
-            key={set.arenacode}
+            key={set.arenacode.toLowerCase()}
             style={{
               filter: "invert(1)",
               backgroundImage: `url(data:image/svg+xml;base64,${svgData})`,
             }}
             title={set.name}
             className={setClass}
-            onClick={() => setFilteredSet(set.arenacode)}
+            onClick={() => setFilteredSet(set.arenacode.toLowerCase())}
           ></div>
         );
       })}
