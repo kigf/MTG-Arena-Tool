@@ -36,7 +36,13 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
   };
 
   return (
-    <div style={{ display: "flex", marginTop: "16px" }}>
+    <div
+      style={{
+        display: "flex",
+        marginTop: "16px",
+        justifyContent: "space-between",
+      }}
+    >
       {filterSets.map((set) => {
         const svgData = set.svg;
         const setClass = `${index.setFilter} ${
@@ -52,7 +58,7 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
               backgroundImage: `url(data:image/svg+xml;base64,${svgData})`,
               width: "24px",
               height: "24px",
-              margin: "auto",
+              margin: "0",
             }}
             title={set.name}
             className={setClass}

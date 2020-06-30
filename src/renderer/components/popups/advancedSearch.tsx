@@ -17,6 +17,7 @@ import getFiltersFromQuery from "../collection/collectionQuery";
 import Colors from "../../../shared/colors";
 import { ColorBitsFilter, ArrayFilter } from "../collection/types";
 import SetsFilter from "../misc/SetsFilter";
+import { StringFilter } from "../tables/filters";
 
 const colorsToKey: Record<number, string> = {
   [WHITE]: "w",
@@ -37,6 +38,14 @@ const colorFilterOptions: Record<string, string> = {
   "Not these colors": "!=",
 };
 
+const formatFilterOptions = [
+  "Not set",
+  "Standard",
+  "Historic",
+  "Singleton",
+  "Brawl",
+];
+
 interface EditKeyProps {
   defaultQuery: string;
   closeCallback?: (query: string) => void;
@@ -52,6 +61,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   let defaultCol: number[] = [WHITE, BLUE, BLACK, RED, GREEN];
   let defaultSets: string[] = [];
   let defaultColorFilter = "Any of these colors";
+  let defaultFormat = "Not set";
   // Loop trough the setted filters to adjust defaults
   defaultFilters.map((f: any) => {
     // Guess color filter
@@ -76,6 +86,10 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       const filter: ArrayFilter = f.value;
       defaultSets = filter.arr;
     }
+    if (f.id == "format") {
+      const filter: StringFilter = f.value;
+      defaultFormat = filter.string;
+    }
   });
 
   // Set filters state
@@ -83,6 +97,9 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   const [filterSets, setFilterSets] = useState<string[]>(defaultSets);
   const [colorFilterOption, setColorFilterOption] = useState(
     defaultColorFilter
+  );
+  const [formatFilterOption, setFormatFilterOption] = useState<string>(
+    defaultFormat
   );
 
   const handleClose = useCallback(
@@ -121,10 +138,13 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
 
     const sets = "s:" + filterSets.join(",");
 
+    const formats = "f:" + formatFilterOption.toLocaleLowerCase();
+
     filterColors.length !== 5 && filters.push(colors);
     filterSets.length > 0 && filters.push(sets);
+    formatFilterOption !== "Not set" && filters.push(formats);
     setQuery(filters.join(" "));
-  }, [filterSets, filterColors, colorFilterOption]);
+  }, [formatFilterOption, filterSets, filterColors, colorFilterOption]);
 
   return (
     <div
@@ -140,8 +160,8 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       <div
         className={css.popupDiv}
         style={{
-          height: `${open * 320}px`,
-          width: `${open * 640}px`,
+          height: `${open * 400}px`,
+          width: `${open * 700}px`,
           color: "var(--color-back)",
         }}
         onClick={(e): void => {
@@ -163,6 +183,22 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
           />
         </div>
         <SetsFilter filtered={filterSets} callback={setFilterSets} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "16px",
+          }}
+        >
+          <div style={{ lineHeight: "32px" }}>Format: </div>
+          <ReactSelect
+            options={formatFilterOptions}
+            current={formatFilterOption}
+            callback={(opt: string): void => {
+              setFormatFilterOption(opt);
+            }}
+          />
+        </div>
         <Button text="Search" onClick={handleSearch} />
       </div>
     </div>

@@ -178,6 +178,7 @@ export function arrayFilterFn<D extends TableData>(
     if (mode == ":") ret = _.intersection(S, F).length !== 0;
     if (mode == "!=") ret = !isEqual(S, F);
     /*
+    // Not sure how to implement these
     if (mode == "<=") ret = R <= F;
     if (mode == "<") ret = R <= F;
     if (mode == ">=") ret = R >= F;
