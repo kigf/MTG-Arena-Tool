@@ -678,8 +678,8 @@ function createMainWindow(): BrowserWindow {
     backgroundColor: "#000",
     frame: false,
     show: false,
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 700,
     title: "MTG Arena Tool",
     icon: path.join(__dirname, iconNormal),
     webPreferences: {
