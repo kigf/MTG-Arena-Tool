@@ -4,6 +4,7 @@
 }
 
 .react_table_toggles {
+  margin-bottom: 4px;
   display: flex;
   flex-wrap: wrap;
   width: -webkit-fill-available;
@@ -13,7 +14,7 @@
 
 .react_table_search_cont {
   display: flex;
-  margin: 4px auto;
+  margin-bottom: 4px;
   width: -webkit-fill-available;
   justify-content: space-between;
   align-items: center;
@@ -22,9 +23,9 @@
 .react_table_head {
   display: grid;
   min-height: 64px;
-  color: var(--color-light);
-  border-bottom: 1px solid var(--color-light);
-  background-color: var(--color-mid-20);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-line-sep);
+  background-color: var(--color-section);
   margin: 0 auto;
 }
 

@@ -6,11 +6,9 @@ declare namespace SharedCssModule {
     autoWidth: string;
     auto_width: string;
     back: string;
-    "back-white": string;
     backBlue: string;
     backGreen: string;
     backRed: string;
-    backWhite: string;
     back_blue: string;
     back_green: string;
     back_red: string;

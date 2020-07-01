@@ -45,17 +45,18 @@ time, local-time, relative-time {
     width: 80px;
     text-align: center;
     font-family: var(--main-font-name);
-    color: var(--color-light-75);
+    color: var(--color-text);
     line-height: 24px;
     font-size: 14px;
     height: 24px;
     position: absolute;
     left: calc(100% - 82px);
     top: calc(100% - 26px);
-    background-color: var(--color-back);
+    background-color: var(--color-section);
     z-index: 100;
     border-radius: 4px 0 0 0;
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .version_number {
@@ -131,35 +132,30 @@ time, local-time, relative-time {
 
 .button_simple {
     align-self: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
     cursor: pointer;
     width: 200px;
-    height: 32px;
+    height: 30px;
+    line-height: 30px;
     border-radius: 2px;
-    color: var(--color-light) !important;
+    color: var(--color-text-button);
     font-size: 16px;
     text-align: center;
-    line-height: 32px;
-    border: 1px solid var(--color-dark-20);
-    background-color: var(--color-light-solid);
-    /* box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.8); */
+    margin: auto 4px;
+    border: 1px solid var(--color-dark);
+    background-color: var(--color-button);
     font-family: var(--main-font-name);
     transform: translateY(0);
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,0);
-    -webkit-transition: all .3s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
 }
 
 .button_simple:active {
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--color-back-50);
-    background-color: var(--color-light-solid-active);
+    border: 1px solid var(--color-dark-hover);
+    background-color: var(--color-button);
 }
 
 .button_simple:hover {
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--color-back-50);
-    background-color: var(--color-light-solid-active);
+    border: 1px solid var(--color-dark-hover);
+    background-color: var(--color-button-hover);
 }
 
 .disabled {
@@ -808,40 +804,45 @@ a:hover {
     cursor: pointer;
     margin: 0 4px;
     width: 24px;
-    height: 24px;
+    height: 32px;
     text-align: center;
-    line-height: 24px;
-    border-radius: 4px;
+    line-height: 29px;
+    border-radius: 2px;
     color: var(--color-light-50);
-    border: 1px solid var(--color-light-50);
-    background-color: var(--color-mid-40);
+    border: 1px solid var(--color-dark);
+    background-color: var(--color-section);
     -webkit-transition: all .2s ease-in;
 }
 
 .paging_button_disabled {
     margin: 0 4px;
     width: 24px;
-    height: 24px;
+    height: 32px;
     text-align: center;
-    line-height: 24px;
-    border-radius: 4px;
+    line-height: 29px;
+    border-radius: 2px;
     border: none;
-    color: var(--color-light-20);
-    background-color: var(--color-mid-40);
+    color: var(--color-text-disabled);
+    background-color: var(--color-section);
 }
 
 .paging_button:hover {
-    background-color: var(--color-mid);
-    border: 1px solid var(--color-light);
-    color: var(--color-light);
+    background-color: var(--color-section-hover);
+    border: 1px solid var(--color-dark-hover);
+    color: var(--color-text-hover);
+    outline: none;
+}
+
+.paging_button:active {
+    color: var(--color-text-hover);
+    outline: none;
 }
 
 .paging_active {
-    background-color: var(--color-mid);
-    border: 1px solid var(--color-light);
+    background-color: var(--color-section);
+    border: 1px solid var(--color-dark);
     color: var(--color-light);
 }
-
 
 .main_stats {
     padding: 12px;
@@ -877,7 +878,7 @@ a:hover {
     font-size: 15px;
     position: relative;
     margin-left: 36px;
-    color: var(--color-light);
+    color: var(--color-text);
     -webkit-transition: all .2s ease-in;
 }
 
@@ -897,7 +898,7 @@ a:hover {
     font-size: 15px;
     position: relative;
     margin-left: 36px;
-    color: var(--color-light);
+    color: var(--color-text);
 }
 
 .sets_container {
@@ -908,7 +909,7 @@ a:hover {
 }
 
 .buttons_container {
-    padding-bottom: 8px;
+    padding-bottom: 4px;
     margin: 0 24px;
     display: flex;
     flex-direction: column;
@@ -1003,47 +1004,33 @@ a:hover {
     -webkit-transition: all .3s ease-in-out;
 }
 
-.input_container_explore {
-    display: flex;
-    height: 24px;
-    width: 100%;
-    margin: 8px;
-    align-self: center;
-}
-
-.input_container_explore label {
-    white-space: pre;
-}
-
 .input_container {
-    /*
-    display: flex;
-    height: 24px;
-    margin: 8px 16px;
-    */
-    width: 80%;
+    padding: 0;
+    display: inline-flex;
+    margin: 0;
+    position: relative;
+    width: 100%;
+    height: 32px;
 }
 
-.input_container input, .input_container_explore input {
-    background-color: var(--color-mid-40);
-    border: 1px solid var(--color-light-50);
+.input_container input {
+    background-color: var(--color-section);
+    border: 1px solid var(--color-dark);
     display: inline-table;
-    /*margin-left: 16px;*/
-    border-radius: 3px;
-    /* border-style: hidden; */
-    color: var(--color-light);
-    height: 24px;
-    width: calc(100% - 22px);
+    border-radius: 2px;
+    color: var(--color-text);
+    width: 100%;
     font-size: 14px;
     user-select: none;
-    font-family:  var(--main-font-name);
-    padding-left: 4px;
+    font-family: var(--main-font-name);
+    padding-left: 8px;
+    -webkit-transition: all .1s cubic-bezier(0.2, 0.5, 0.35, 1);
 }
 
-.input_container input:focus, .input_container_explore input:focus {
+.input_container input:focus, input:focus {
     outline-style: none;
+    border: 1px solid var(--color-button);
 }
-
 
 .input_login_container {
     display: flex;
@@ -1128,20 +1115,20 @@ a:hover {
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid var(--color-light-50);
+    background-color: var(--color-section);
+    border: 1px solid var(--color-dark);
     -webkit-transition: all .15s ease-in-out;
 }
 
 /* On mouse-over, add a grey background color */
 .check_container:hover input:enabled ~ .checkmark {
-    background-color: var(--color-mid-50);
-    border: 1px solid var(--color-light);
+    background-color: var(--color-section-hover);
+    border: 1px solid var(--color-dark-hover);
 }
 
 /* When the checkbox is checked, add a blue background */
 .check_container input:checked ~ .checkmark {
-    background-color: var(--color-mid);
+    background-color: var(--color-section-hover);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

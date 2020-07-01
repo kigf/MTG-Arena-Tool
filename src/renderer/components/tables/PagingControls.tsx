@@ -94,7 +94,7 @@ export default function PagingControls({
       </PagingButton>
       {!expandButtons && (
         <PagingButton
-          style={{ width: "initial", height: "initial", minWidth: "30px" }}
+          style={{ minWidth: "30px" }}
           onClick={(): void => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
           selected={!canNextPage}

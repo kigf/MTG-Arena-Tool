@@ -59,8 +59,8 @@ export default function DecksTableControls(
       style={{
         display: "flex",
         flexWrap: "wrap",
-        color: "var(--color-light)",
-        paddingBottom: "8px",
+        color: "var(--color-text)",
+        paddingBottom: "4px",
       }}
     >
       <div className={tableCss.reactTableToggles}>
@@ -79,7 +79,7 @@ export default function DecksTableControls(
           }
           optionFormatter={getReadableEvent}
         />
-        <span style={{ paddingBottom: "8px" }}>Presets:</span>
+        <span>Presets:</span>
         <SmallTextButton
           onClick={(): void => {
             setAllFilters(defaultFilters);

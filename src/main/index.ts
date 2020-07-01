@@ -244,7 +244,11 @@ function startApp(): void {
         break;
 
       case "renderer_window_maximize":
-        mainWindow?.maximize();
+        if (mainWindow?.isMaximized()) {
+          mainWindow.restore();
+        } else {
+          mainWindow?.maximize();
+        }
         break;
 
       case "set_arena_state":

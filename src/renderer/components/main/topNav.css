@@ -6,9 +6,9 @@
   height: 64px;
   display: flex;
   z-index: 10;
-  background-color: var(--color-mid-20);
+  background-color: var(--color-section);
   box-shadow: 0px 6px 20px 6px rgba(0, 0, 0, 0.2);
-  border-bottom: solid 1px var(--color-light-50);
+  border-bottom: solid 1px var(--color-line-sep);
   -webkit-transition: all .5s ease-in-out;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .top_username {
-  color: var(--color-light);
+  color: var(--color-text);
   font-size: 20px;
   margin-left: 8px;
   align-self: center;
@@ -27,7 +27,7 @@
 }
 
 .top_username_id {
-  color: var(--color-light-40);
+  color: var(--color-text-disabled);
   font-size: 20px;
   margin-right: 32px;
   align-self: center;
@@ -89,14 +89,13 @@ span.item_text {
   line-height: 64px;
   white-space: nowrap;
   text-align: center;
-  color: var(--color-light);
+  color: var(--color-text);
   background-position-y: 64px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-image: url(../../../assets/images/nav_hover.png);
   -webkit-transition: all .2s ease-in-out;
   border-bottom: solid 1px rgba(210, 231, 250, 0);
-  opacity: 0.5;
   overflow: hidden;
   flex-grow: 2;
   width: auto;
@@ -105,13 +104,13 @@ span.item_text {
 }
 
 .item:hover {
+  color: var(--color-text-hover); 
   background-position-y: 4px;
-  opacity: 1;
 }
 
 .item_selected {
   background-position-y: 4px;
-  opacity: 1;
+  color: var(--color-text-hover);
   border-bottom: solid 1px rgba(210, 231, 250, 1);
 }
 

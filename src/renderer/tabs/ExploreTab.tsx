@@ -344,7 +344,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         <div className={`${indexCss.wcCommon} ${indexCss.wcSearchIcon}`}></div>
         <Input
           type="number"
-          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
+          containerClassName={`${indexCss.inputContainer} ${css.exploreWcInput}`}
           value={filters.filterWCC}
           placeholder=""
           validate={validateWildcardValues}
@@ -360,7 +360,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         ></div>
         <Input
           type="number"
-          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
+          containerClassName={`${indexCss.inputContainer} ${css.exploreWcInput}`}
           value={filters.filterWCU}
           placeholder=""
           validate={validateWildcardValues}
@@ -374,7 +374,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         <div className={`${indexCss.wcRare} ${indexCss.wcSearchIcon}`}></div>
         <Input
           type="number"
-          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
+          containerClassName={`${indexCss.inputContainer} ${css.exploreWcInput}`}
           value={filters.filterWCR}
           placeholder=""
           validate={validateWildcardValues}
@@ -388,7 +388,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         <div className={`${indexCss.wcMythic} ${indexCss.wcSearchIcon}`}></div>
         <Input
           type="number"
-          containerClassName={`${indexCss.inputContainerExplore} ${css.exploreWcInput}`}
+          containerClassName={`${indexCss.inputContainer} ${css.exploreWcInput}`}
           value={filters.filterWCM}
           placeholder=""
           validate={validateWildcardValues}
@@ -405,7 +405,6 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
         <RanksFilter callback={setRanksFilter} filter={filters.filteredRanks} />
         <Button
           className={indexCss.buttonSimple}
-          style={{ margin: "0px" }}
           text="Search"
           onClick={doSearch}
         />

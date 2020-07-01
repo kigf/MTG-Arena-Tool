@@ -120,8 +120,9 @@ export function App(): JSX.Element {
   return (
     <>
       <TopBar artist={topArtist} offline={offline} />
-      <div className={css.appWrapper}>
-        <Popup />
+      <div
+        className={loginState == LOGIN_OK ? css.appWrapper : css.appWrapperBack}
+      >
         {noLog ? <OutputLogInput closeCallback={closeNoLog} /> : <></>}
         {share.open ? <Share closeCallback={closeShare} /> : <></>}
         {detailedLogsDialog ? (
@@ -132,7 +133,7 @@ export function App(): JSX.Element {
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (
-          <LoadingBar style={loginState == LOGIN_OK ? { top: "99px" } : {}} />
+          <LoadingBar style={loginState == LOGIN_OK ? { top: "64px" } : {}} />
         ) : (
           <></>
         )}
@@ -159,6 +160,7 @@ export function App(): JSX.Element {
           )}
         </ErrorBoundary>
       </div>
+      <Popup />
       <div className={css.version_number} onClick={forceOpenAbout}>
         v{remote.app.getVersion()}
       </div>

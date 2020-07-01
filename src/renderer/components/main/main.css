@@ -7,11 +7,12 @@
   font-family: var(--sub-font-name);
   font-size: 15px;
   position: absolute;
-  background: rgba(0, 0, 0, 0.7);
-  color: var(--color-light);
+  background: var(--color-section);
+  color: var(--color-text);
   text-align: center;
   padding: 4px 4px;
   width: 392px;
+  left: calc(50% - 200px);
   margin-top: auto;
   border-radius: 2px;
   z-index: 900;

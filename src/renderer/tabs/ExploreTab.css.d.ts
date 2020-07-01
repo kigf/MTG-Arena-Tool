@@ -10,8 +10,6 @@ declare namespace ExploreTabCssModule {
     explore_buttons_row: string;
     explore_buttons_top: string;
     explore_wc_input: string;
-    inputContainerExplore: string;
-    input_container_explore: string;
   }
 }
 

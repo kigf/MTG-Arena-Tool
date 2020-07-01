@@ -117,11 +117,9 @@ declare namespace IndexCssModule {
     icon_search_new: string;
     icon_search_unowned: string;
     inputContainer: string;
-    inputContainerExplore: string;
     inputLock: string;
     inputLoginContainer: string;
     input_container: string;
-    input_container_explore: string;
     input_lock: string;
     input_login_container: string;
     inventoryCard: string;
