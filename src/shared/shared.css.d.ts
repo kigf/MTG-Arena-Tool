@@ -47,11 +47,9 @@ declare namespace SharedCssModule {
     mainHover: string;
     mainHoverContainer: string;
     mainHoverDfc: string;
-    mainWrapper: string;
     main_hover: string;
     main_hover_container: string;
     main_hover_dfc: string;
-    main_wrapper: string;
     mana0: string;
     mana1: string;
     mana10: string;
@@ -146,6 +144,7 @@ declare namespace SharedCssModule {
     mana_white: string;
     mana_wu: string;
     mana_x: string;
+    maximize: string;
     medScroll: string;
     med_scroll: string;
     minimize: string;
@@ -154,8 +153,6 @@ declare namespace SharedCssModule {
     orangeBrightBg: string;
     orange_bright: string;
     orange_bright_bg: string;
-    outerWrapper: string;
-    outer_wrapper: string;
     "ownership-stars-container": string;
     ownershipStarsContainer: string;
     pieContainer: string;
@@ -169,8 +166,12 @@ declare namespace SharedCssModule {
     red_bright_bg: string;
     settings: string;
     top: string;
+    "top-button": string;
+    "top-buttons-container": string;
+    "top-logo": string;
+    topButton: string;
+    topButtonsContainer: string;
     topLogo: string;
-    top_logo: string;
     typeArt: string;
     typeCre: string;
     typeEnc: string;
@@ -196,11 +197,6 @@ declare namespace SharedCssModule {
     white_bright_bg: string;
     wildcardsCost: string;
     wildcards_cost: string;
-    wrapper: string;
-    wrapperAfter: string;
-    wrapperMain: string;
-    wrapper_after: string;
-    wrapper_main: string;
     yellowBright: string;
     yellowBrightBg: string;
     yellow_bright: string;

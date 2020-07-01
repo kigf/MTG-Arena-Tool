@@ -81,7 +81,6 @@ export default function MatchesTableControls(
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
           className={indexCss.buttonSimple}
-          style={{ margin: "0 0 5px 12px" }}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>

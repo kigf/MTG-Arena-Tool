@@ -243,6 +243,10 @@ function startApp(): void {
         mainWindow?.minimize();
         break;
 
+      case "renderer_window_maximize":
+        mainWindow?.maximize();
+        break;
+
       case "set_arena_state":
         setArenaState(arg);
         break;

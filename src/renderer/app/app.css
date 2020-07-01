@@ -1,28 +1,9 @@
-.outer_wrapper {
-  padding: 2px;
-  overflow: hidden;
-  height: calc(100vh - 4px);
-  width: calc(100% - 4px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  -webkit-backface-visibility: hidden;
-}
-
-.wrapper {
+.app-wrapper {
   position: relative;
-  opacity: 1;
-  display: flex;
-  height: calc(100% - 97px);
-  z-index: 5;
-}
-
-.wrapper_main {
-  position: relative;
-  opacity: 1;
-  display: flex;
-  height: -webkit-fill-available;
-  z-index: 5;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  z-index: auto;
 }
 
 .overflow_ux_main {

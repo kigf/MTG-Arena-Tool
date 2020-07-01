@@ -15,8 +15,12 @@ function clickMinimize(): void {
   ipcSend("renderer_window_minimize", 1);
 }
 
-function clickSettings(): void {
+function _clickSettings(): void {
   forceOpenSettings();
+}
+
+function clickMaximize(): void {
+  ipcSend("renderer_window_maximize", 1);
 }
 
 function clickClose(): void {
@@ -28,9 +32,8 @@ export default function TopBar(props: TopBarProps): JSX.Element {
     <div className={sharedCss.top}>
       <div className={indexCss.flexItem}>
         <div className={sharedCss.topLogo}></div>
-        <div className={mainCss.topArtist}>{props.artist}</div>
       </div>
-      <div className={indexCss.flexItem}>
+      <div className={sharedCss.topButtonsContainer}>
         {props.offline ? (
           <div className={mainCss.unlink} title="You are not logged-in."></div>
         ) : (
@@ -38,15 +41,15 @@ export default function TopBar(props: TopBarProps): JSX.Element {
         )}
         <div
           onClick={clickMinimize}
-          className={sharedCss.minimize + " " + sharedCss.button}
+          className={sharedCss.minimize + " " + sharedCss.topButton}
         ></div>
         <div
-          onClick={clickSettings}
-          className={sharedCss.settings + " " + sharedCss.button}
+          onClick={clickMaximize}
+          className={sharedCss.maximize + " " + sharedCss.topButton}
         ></div>
         <div
           onClick={clickClose}
-          className={sharedCss.close + " " + sharedCss.button}
+          className={sharedCss.close + " " + sharedCss.topButton}
         ></div>
       </div>
     </div>

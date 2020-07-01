@@ -11,7 +11,6 @@ import {
 import ErrorBoundary from "./ErrorBoundary";
 import { TopNav } from "../components/main/topNav";
 import { forceOpenAbout, getOpenNav, getOpenSub } from "../tabControl";
-import BackgroundImage from "../components/main/BackgroundImage";
 import TopBar from "../components/main/TopBar";
 import LoadingBar from "../components/main/LoadingBar";
 import Auth from "../components/main/Auth";
@@ -120,9 +119,8 @@ export function App(): JSX.Element {
 
   return (
     <>
-      <BackgroundImage />
-      <div className={css.outer_wrapper}>
-        <TopBar artist={topArtist} offline={offline} />
+      <TopBar artist={topArtist} offline={offline} />
+      <div className={css.appWrapper}>
         <Popup />
         {noLog ? <OutputLogInput closeCallback={closeNoLog} /> : <></>}
         {share.open ? <Share closeCallback={closeShare} /> : <></>}

@@ -76,7 +76,6 @@ export default function EconomyTableControls(
         </SmallTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
-          style={{ margin: "0 0 5px 12px" }}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>

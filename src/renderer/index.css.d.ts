@@ -21,13 +21,11 @@ declare namespace IndexCssModule {
     buttonLong: string;
     buttonReset: string;
     buttonSimple: string;
-    buttonSimpleDisabled: string;
     buttonThin: string;
     button_edit: string;
     button_long: string;
     button_reset: string;
     button_simple: string;
-    button_simple_disabled: string;
     button_thin: string;
     buttonsContainer: string;
     buttons_container: string;

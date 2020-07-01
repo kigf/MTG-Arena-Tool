@@ -136,39 +136,39 @@ time, local-time, relative-time {
     cursor: pointer;
     width: 200px;
     height: 32px;
-    border-radius: 3px;
+    border-radius: 2px;
     color: var(--color-light) !important;
     font-size: 16px;
     text-align: center;
     line-height: 32px;
-    border: 1px solid var(--color-light-50);
-    background-color: var(--color-mid-40);
+    border: 1px solid var(--color-dark-20);
+    background-color: var(--color-light-solid);
     /* box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.8); */
-    -webkit-transition: all .1s ease-in;
     font-family: var(--main-font-name);
+    transform: translateY(0);
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0);
+    -webkit-transition: all .3s ease-in-out;
 }
 
-.button_simple_disabled {
-    align-self: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    width: 200px;
-    height: 32px;
-    border-radius: 3px;
-    font-size: 16px;
-    text-align: center;
-    line-height: 32px;
-    border: 1px solid var(--color-light-50);
-    background-color: var(--color-mid-40);
-    -webkit-transition: all .1s ease-in;
+.button_simple:active {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-back-50);
+    background-color: var(--color-light-solid-active);
+}
+
+.button_simple:hover {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-back-50);
+    background-color: var(--color-light-solid-active);
+}
+
+.disabled {
     color: var(--color-light-40);
-    font-family: var(--main-font-name);
 }
 
 .disabled:hover {
-    background-color: var(--color-mid-40) !important;
-    box-shadow: 0px 6px 15px 0px rgba(0, 0, 0, 0) !important;
-    border: 1px solid var(--color-light-50) !important;
+    box-shadow: none !important;
+    transform: translateY(0) !important;
 }
 
 .button_thin {
@@ -187,18 +187,6 @@ time, local-time, relative-time {
     height: 28px !important;
     line-height: 28px !important;
     font-size: 14px !important;
-}
-
-.button_simple:hover {
-    background-color: var(--color-mid);
-    box-shadow: 0px 6px 15px 0px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--color-light);
-}
-
-.button_simple:active {
-    background-color: var(--color-mid);
-    line-height: 34px;
-    box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.6);
 }
 
 .button_edit {

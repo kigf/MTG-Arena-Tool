@@ -132,7 +132,6 @@ export default function DecksTableControls(
         </SmallTextButton>
         <MediumTextButton
           onClick={(): void => setTogglesVisible(!togglesVisible)}
-          style={{ margin: "8px" }}
         >
           {togglesVisible ? "Hide" : "Show"} Column Toggles
         </MediumTextButton>
