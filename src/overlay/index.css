@@ -184,7 +184,7 @@ body {
 .rank_value_container {
     display: flex;
     background-color: var(--color-back);
-    color: var(--color-light);
+    color: var(--color-base);
     font-family: var(--main-font-name-it);
     font-size: 14px;
     line-height: 22px;
@@ -202,7 +202,7 @@ body {
 }
 
 .rank_value_bar {
-    background-color: var(--color-light-75);
+    background-color: var(--color-section);
 }
 
 .overlay_clock_spacer {
@@ -500,7 +500,7 @@ body {
     text-align: center;
     font-family:  var(--main-font-name-it);
     font-size: 20px;
-    color: var(--color-light);
+    color: var(--color-text);
 }
 
 .after_hidden:after {

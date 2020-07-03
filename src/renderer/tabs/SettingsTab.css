@@ -1,18 +1,23 @@
 .settings_nav {
   cursor: pointer;
-  color: var(--color-light-50);
-  font-size: 18px;
-  line-height: 40px;
-  height: 40px;
-  font-family: "belerenbold";
-  margin-left: 24px;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 30px;
+  margin: 4px;
+  height: 30px;
+  font-family: var(--main-font-name);
+  padding-left: 6px;
+  border-radius: 2px;
   -webkit-transition: all 0.25s cubic-bezier(0.2, 0.5, 0.35, 1);
 }
 
-.settings_nav:hover,
+.settings_nav:hover {
+  background-color: var(--color-section-hover);
+}
+
 .nav_selected {
-  color: var(--color-light);
-  margin-left: 32px;
+  color: var(--color-text-hover);
+  background-color: var(--color-section-active) !important;
 }
 
 .settings_section {
@@ -24,55 +29,41 @@
   margin-left: 16px;
 }
 
-.sidebar_column_r {
-  margin: 16px 0 auto auto;
-  height: auto;
-  width: 30% !important;
-  max-width: 220px;
-  border-width: 2px;
-  border-style: none solid none none;
-  border-image: linear-gradient(
-      to bottom,
-      rgba(250, 229, 210, 0) 10px,
-      var(--color-light-50) 10px,
-      rgba(250, 229, 210, 0)
-    )
-    1 100%;
-}
-
 .settings_page {
+  width: -webkit-fill-available;
+  max-width: 900px;
   height: max-content;
+  margin: 0 16px 16px 16px;;
 }
 
 .settings_title {
   font-family: var(--main-font-name-it);
   font-size: 20px;
-  border-bottom: solid var(--color-light-20) 1px;
-  color: var(--color-light);
-  margin: 24px 64px 14px 12px;
+  border-bottom: solid var(--color-line-sep) 1px;
+  color: var(--color-text);
+  margin: 24px 0px 14px 0px;
   padding-bottom: 3px;
 }
 
 .settingsLeft {
-  border-width: 2px;
-  top: 0;
-  position: sticky;
-  border-style: none solid none none;
-  border-image: linear-gradient(
-      to bottom,
-      rgba(250, 229, 210, 0) 10px,
-      var(--color-light-50) 10px,
-      rgba(250, 229, 210, 0)
-    )
-    1 100%;
-  margin-left: auto;
-  height: calc(100% - 16px);
-  width: 200px;
-  min-width: 200px;
+  flex: 1 0 auto;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  background-color: var(--color-section);
+  border-right: 1px solid var(--color-line-sep);
 }
 
 .settingsRight {
-  margin-right: auto;
-  max-width: 1000px;
-  width: -webkit-fill-available;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  -webkit-box-flex: 1;
+  flex: 1 1 800px;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  height: 100%;
+  overflow: auto;
 }

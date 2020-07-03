@@ -195,6 +195,7 @@ declare namespace SharedCssModule {
     white_bright_bg: string;
     wildcardsCost: string;
     wildcards_cost: string;
+    wrapper: string;
     yellowBright: string;
     yellowBrightBg: string;
     yellow_bright: string;

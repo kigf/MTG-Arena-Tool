@@ -41,10 +41,15 @@
   --color-text-button: #333333;
   --color-button: #AABEDF;
   --color-button-hover: #8AA5D1;
+  --color-button-shade-20: rgba(170, 190, 223, 0.2);
+  --color-button-shade-40: rgba(170, 190, 223, 0.4);
   --color-line-sep: #333333;
   --color-shade-75: rgba(0, 0, 0, .75);
   --color-shade-50: rgba(0, 0, 0, .5);
   --color-shade-25: rgba(0, 0, 0, .25);
+  --color-card-tile: rgba(0, 0, 0, 0.75);
+  --color-card-tile-hover: #3a424ebf;
+  --color-card-tile-active: #c2d9ffc0;
 }
 
 html {
@@ -54,6 +59,14 @@ html {
   font-family: var(--main-font-name);
   -webkit-font-smoothing: antialiased !important;
   text-rendering: optimizeLegibility !important;
+}
+
+.wrapper {
+  position: relative;
+  opacity: 1;
+  display: flex;
+  height: calc(100% - 65px);
+  z-index: 5;
 }
 
 body {
@@ -69,7 +82,6 @@ body {
 
 label {
   font-family: var(--main-font-name);
-  /*color: var(--color-light);*/
   margin: auto 0;
   white-space: nowrap;
 }
@@ -148,7 +160,7 @@ label {
 
 ::-webkit-scrollbar-track {
   border-radius: 8px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.15);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -157,7 +169,7 @@ label {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-dark-hover);
+  background: var(--color-dark);
 }
 
 .med_scroll {
@@ -179,7 +191,7 @@ label {
 }
 
 .med_scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--color-dark-hover);
+  background: var(--color-dark);
 }
 
 .black_bright {

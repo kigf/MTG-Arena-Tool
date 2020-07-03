@@ -82,7 +82,7 @@ export function CollectionStatsPanel({
         style={{
           margin: "12px",
           padding: "0",
-          color: "var(--color-light)",
+          color: "var(--color-text)",
           display: "flex",
           alignItems: "center",
         }}

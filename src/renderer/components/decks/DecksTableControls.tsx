@@ -12,8 +12,10 @@ import PagingControls from "../tables/PagingControls";
 import { DecksTableControlsProps } from "./types";
 
 import sharedCss from "../../../shared/shared.css";
+import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "./deckTable.css";
+import { LabelText } from "../misc/LabelText";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },
@@ -64,77 +66,81 @@ export default function DecksTableControls(
       }}
     >
       <div className={tableCss.reactTableToggles}>
-        <DateFilter
-          prefixId={deckTableCss.decksTop}
-          current={aggFilters.date}
-          callback={(date): void =>
-            setAggFiltersCallback({ ...aggFilters, date })
-          }
-        />
-        <ReactSelect
-          options={events}
-          current={aggFilters.eventId ?? ""}
-          callback={(eventId): void =>
-            setAggFiltersCallback({ ...aggFilters, eventId })
-          }
-          optionFormatter={getReadableEvent}
-        />
-        <span>Presets:</span>
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(defaultFilters);
-            setFiltersVisible(initialFiltersVisible);
-            toggleSortBy("timeTouched", true, false);
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
+        <div className={indexCss.flexItem}>
+          <DateFilter
+            prefixId={deckTableCss.decksTop}
+            current={aggFilters.date}
+            callback={(date): void =>
+              setAggFiltersCallback({ ...aggFilters, date })
             }
-            toggleHideColumn("total", false);
-            toggleHideColumn("lastEditWinrate", false);
-          }}
-        >
-          Recent
-        </SmallTextButton>
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(bestFilters);
-            setFiltersVisible({
-              ...initialFiltersVisible,
-              wins: true,
-              winrate100: true,
-            });
-            toggleSortBy("winrate100", true, false);
-            toggleSortBy("wins", true, true);
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
+          />
+          <ReactSelect
+            options={events}
+            current={aggFilters.eventId ?? ""}
+            callback={(eventId): void =>
+              setAggFiltersCallback({ ...aggFilters, eventId })
             }
-            toggleHideColumn("wins", false);
-            toggleHideColumn("losses", false);
-            toggleHideColumn("winrate100", false);
-            toggleHideColumn("archivedCol", true);
-          }}
-        >
-          Best
-        </SmallTextButton>
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(defaultFilters);
-            setFiltersVisible(initialFiltersVisible);
-            toggleSortBy("boosterCost", true, false);
-            toggleSortBy("mythic", true, true);
-            toggleSortBy("rare", true, true);
-            for (const column of toggleableColumns) {
-              const isVisible = craftColumns.has(column.id);
-              toggleHideColumn(column.id, !isVisible);
-            }
-          }}
-        >
-          Wanted
-        </SmallTextButton>
-        <MediumTextButton
-          onClick={(): void => setTogglesVisible(!togglesVisible)}
-        >
-          {togglesVisible ? "Hide" : "Show"} Column Toggles
-        </MediumTextButton>
+            optionFormatter={getReadableEvent}
+          />
+        </div>
+        <div className={indexCss.flexItem}>
+          <LabelText>Presets:</LabelText>
+          <SmallTextButton
+            onClick={(): void => {
+              setAllFilters(defaultFilters);
+              setFiltersVisible(initialFiltersVisible);
+              toggleSortBy("timeTouched", true, false);
+              for (const column of toggleableColumns) {
+                toggleHideColumn(column.id, !column.defaultVisible);
+              }
+              toggleHideColumn("total", false);
+              toggleHideColumn("lastEditWinrate", false);
+            }}
+          >
+            Recent
+          </SmallTextButton>
+          <SmallTextButton
+            onClick={(): void => {
+              setAllFilters(bestFilters);
+              setFiltersVisible({
+                ...initialFiltersVisible,
+                wins: true,
+                winrate100: true,
+              });
+              toggleSortBy("winrate100", true, false);
+              toggleSortBy("wins", true, true);
+              for (const column of toggleableColumns) {
+                toggleHideColumn(column.id, !column.defaultVisible);
+              }
+              toggleHideColumn("wins", false);
+              toggleHideColumn("losses", false);
+              toggleHideColumn("winrate100", false);
+              toggleHideColumn("archivedCol", true);
+            }}
+          >
+            Best
+          </SmallTextButton>
+          <SmallTextButton
+            onClick={(): void => {
+              setAllFilters(defaultFilters);
+              setFiltersVisible(initialFiltersVisible);
+              toggleSortBy("boosterCost", true, false);
+              toggleSortBy("mythic", true, true);
+              toggleSortBy("rare", true, true);
+              for (const column of toggleableColumns) {
+                const isVisible = craftColumns.has(column.id);
+                toggleHideColumn(column.id, !isVisible);
+              }
+            }}
+          >
+            Wanted
+          </SmallTextButton>
+          <MediumTextButton
+            onClick={(): void => setTogglesVisible(!togglesVisible)}
+          >
+            {togglesVisible ? "Hide" : "Show"} Column Toggles
+          </MediumTextButton>
+        </div>
       </div>
       <ColumnToggles
         toggleableColumns={toggleableColumns}

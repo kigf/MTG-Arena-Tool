@@ -14,6 +14,7 @@ declare namespace AppCssModule {
     ux_item: string;
     versionNumber: string;
     version_number: string;
+    wrapper: string;
   }
 }
 

@@ -1,7 +1,7 @@
 .app-wrapper {
-  flex: 1 1 auto;
   z-index: auto;
-  background-color: var(--color-back);
+  height: calc(100% - 24px);
+  background-color: var(--color-base);
 }
 
 .app-wrapper-back {
@@ -10,6 +10,11 @@
   background-image: url(http://www.artofmtg.com/wp-content/uploads/2020/06/Sublime-Epiphany-Core-Set-2021-MtG-Art.jpg);
   background-position: center;
   background-size: cover;
+}
+
+.wrapper {
+  width: 100%;
+  height: calc(100% - 65px);
 }
 
 .overflow_ux_main {

@@ -191,7 +191,7 @@ function TimeLinePart(props: TimelinePartProps): JSX.Element {
             <polyline
               key={"poly-" + h}
               points={`0 ${hpos} ${width} ${hpos}`}
-              stroke="var(--color-light)"
+              stroke="var(--color-text)"
               strokeWidth="0.25"
             />
           );
