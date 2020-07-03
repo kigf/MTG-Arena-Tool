@@ -7,11 +7,7 @@ export class SliderPosition {
   public hide: boolean;
   public color: string;
 
-  constructor(
-    _text = "",
-    _hide = false,
-    _color = "var(--color-text-disabled)"
-  ) {
+  constructor(_text = "", _hide = false, _color = "var(--color-text-dark)") {
     this.text = _text;
     this.hide = _hide;
     this.color = _color;

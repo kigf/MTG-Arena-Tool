@@ -54,7 +54,7 @@
 
 .subTitle {
   margin: 4px 0px;
-  color: var(--color-text-disabled);
+  color: var(--color-text-dark);
 }
 
 .bottom {
@@ -76,6 +76,6 @@
 }
 
 .footer {
-  color: var(--color-text-disabled);
+  color: var(--color-text-dark);
   font-family: var(--main-font-name-it);
 }

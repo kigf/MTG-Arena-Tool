@@ -29,14 +29,14 @@
   --color-base: #282829;
   --color-hover-base: #252527;
   --color-section: #202021;
-  --color-section-hover: #252527;
+  --color-section-hover: #29292b;
   --color-section-active: #2E3136;
   --color-dark: #141516;
   --color-dark-hover: #000000;
   --color-text: #CCCCCC;
   --color-text-hover: #ffffff;
-  --color-text-dark: #CCCCCC;
-  --color-text-disabled: #808080;
+  --color-text-dark: #929292;
+  --color-text-disabled: #505050;
   --color-text-link: #AABEDF;
   --color-text-button: #333333;
   --color-button: #AABEDF;

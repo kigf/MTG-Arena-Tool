@@ -63,7 +63,7 @@
 .card_tile_odds_flat_half_dark {
   font-size: 12px;
   min-width: 32px;
-  color: var(--color-text-disabled);
+  color: var(--color-text-dark);
   line-height: 14px;
   height: 50%;
   text-align: center;

@@ -821,7 +821,7 @@ a:hover {
     text-align: center;
     line-height: 29px;
     border-radius: 2px;
-    border: none;
+    border: none !important;
     color: var(--color-text-disabled) !important;
     background-color: var(--color-section) !important;
 }
