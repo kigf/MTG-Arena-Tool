@@ -45,9 +45,11 @@ declare namespace SharedCssModule {
     mainHover: string;
     mainHoverContainer: string;
     mainHoverDfc: string;
+    mainWrapper: string;
     main_hover: string;
     main_hover_container: string;
     main_hover_dfc: string;
+    main_wrapper: string;
     mana0: string;
     mana1: string;
     mana10: string;
@@ -196,6 +198,8 @@ declare namespace SharedCssModule {
     wildcardsCost: string;
     wildcards_cost: string;
     wrapper: string;
+    wrapperAfter: string;
+    wrapper_after: string;
     yellowBright: string;
     yellowBrightBg: string;
     yellow_bright: string;
