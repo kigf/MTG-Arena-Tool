@@ -64,7 +64,19 @@
   top: calc(100% - 26px);
   background-color: var(--color-section);
   z-index: 100;
-  border-radius: 4px 0 0 0;
+  border-radius: 4px;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.app_settings {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 2px;
+  top: calc(100% - 34px);
+  background-color: var(--color-section);
+  z-index: 100;
+  border-radius: 4px;
 }

@@ -41,28 +41,6 @@ time, local-time, relative-time {
   color: var(--color-text);
 }
 
-.version_number {
-    width: 80px;
-    text-align: center;
-    font-family: var(--main-font-name);
-    color: var(--color-text);
-    line-height: 24px;
-    font-size: 14px;
-    height: 24px;
-    position: absolute;
-    left: calc(100% - 82px);
-    top: calc(100% - 26px);
-    background-color: var(--color-section);
-    z-index: 100;
-    border-radius: 4px 0 0 0;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.version_number {
-    text-decoration: underline;
-}
-
 .top_status, .top_status_span {
     width: 24px;
     height: 24px;
@@ -587,7 +565,7 @@ a:hover {
     line-height: 65px;
     height: 40px;
     text-align: center;
-    background-position: center 0px;
+    background-position: center -4px;
     background-repeat: no-repeat;
     background-image: url(../assets/images/booster.png);
 }

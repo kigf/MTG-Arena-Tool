@@ -4,8 +4,10 @@ declare namespace AppCssModule {
   export interface IAppCss {
     "app-wrapper": string;
     "app-wrapper-back": string;
+    appSettings: string;
     appWrapper: string;
     appWrapperBack: string;
+    app_settings: string;
     movingUx: string;
     moving_ux: string;
     overflowUxMain: string;

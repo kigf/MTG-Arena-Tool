@@ -102,7 +102,7 @@ export default function AuthSettings<F extends Function>(
         }}
       >
         <Close
-          fill="var(--color-back)"
+          fill="var(--color-text-hover)"
           className={css.closeButton}
           onClick={(): void => setOpen(0)}
         />
@@ -118,11 +118,7 @@ export default function AuthSettings<F extends Function>(
                 justifyContent: "flex-end",
               }}
             >
-              <div
-                style={{ filter: "brightness(0.2)" }}
-                className={indexCss.open_button}
-                onClick={openPathDialog}
-              />
+              <div className={indexCss.open_button} onClick={openPathDialog} />
               <div className={formsCss.formInputContainer}>
                 <input autoComplete="off" value={appSettings.logUri} />
               </div>

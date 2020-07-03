@@ -368,8 +368,6 @@ declare namespace IndexCssModule {
     tou_top_status: string;
     tourneyPwdContainer: string;
     tourney_pwd_container: string;
-    versionNumber: string;
-    version_number: string;
     visualView: string;
     wcBooster: string;
     wcCommon: string;
