@@ -1,0 +1,13 @@
+.icon-button {
+  cursor: pointer;
+  border-radius: 4px;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 32px;
+  height: 32px;
+}
+
+.icon-button:hover {
+  background-color: var(--color-section-hover);
+}

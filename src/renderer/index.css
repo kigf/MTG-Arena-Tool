@@ -1012,6 +1012,7 @@ a:hover {
     position: relative;
     width: 100%;
     height: 32px;
+    margin: auto 4px;
 }
 
 .input_container input {

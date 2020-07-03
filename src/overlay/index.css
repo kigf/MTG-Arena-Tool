@@ -102,12 +102,6 @@ body {
     margin: 0 0 1px 0;
 }
 
-.overlay_separator {
-    padding: 4px;
-    height: 16px;
-    background: url(../assets/images/separator_spr.png) center no-repeat;
-}
-
 .hover_fade-enter {
   opacity: 0;
 }

@@ -3,7 +3,7 @@
   position: relative;
   align-items: stretch;
   width: 100%;
-  height: 64px;
+  height: 48px;
   display: flex;
   z-index: 10;
   background-color: var(--color-section);
@@ -29,7 +29,6 @@
 .top_username_id {
   color: var(--color-text-disabled);
   font-size: 20px;
-  margin-right: 32px;
   align-self: center;
   font-family: "belerenbold";
   cursor: default;
@@ -45,7 +44,7 @@
   opacity: 1;
   position: absolute;
   left: calc(50% - 16px);
-  top: 16px;
+  top: 8px;
   margin: auto 0;
   width: 32px;
   height: 32px;
@@ -82,11 +81,11 @@ span.item_text {
 .item {
   max-width: 100px;
   min-width: 48px;
-  /*height: 64px;*/
+  /*height: 48px;*/
   cursor: pointer;
   font-family: "belerenbold";
   font-size: 16px;
-  line-height: 64px;
+  line-height: 48px;
   white-space: nowrap;
   text-align: center;
   color: var(--color-text);

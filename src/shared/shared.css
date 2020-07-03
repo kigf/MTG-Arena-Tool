@@ -736,3 +736,34 @@ span {
   display: flex;
   flex-direction: column;
 }
+
+.main_wrapper {
+  position: absolute;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.25);
+  background-blend-mode: darken;
+  background-size: cover;
+  background-position: center;
+  left: 2px;
+  top: 2px;
+  opacity: 1;
+  z-index: 5;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  transition: all 0.25s ease-in;
+}
+
+.wrapper_after {
+  background: url(../assets/images/background_overlay.png);
+  content: " ";
+  top: 0;
+  left: 0;
+  width: calc(100% - 0px);
+  height: calc(100% - 0px);
+  position: absolute;
+  /* background-color: red; */
+  background-size: 100% 100%;
+  /* opacity: 0.9; */
+  z-index: -4;
+  /* filter: hue-rotate(200deg); */
+}

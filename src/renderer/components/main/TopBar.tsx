@@ -1,6 +1,5 @@
 import React from "react";
 import { ipcSend } from "../../rendererUtil";
-import { forceOpenSettings } from "../../tabControl";
 
 import mainCss from "./main.css";
 import indexCss from "../../index.css";
@@ -13,10 +12,6 @@ interface TopBarProps {
 
 function clickMinimize(): void {
   ipcSend("renderer_window_minimize", 1);
-}
-
-function _clickSettings(): void {
-  forceOpenSettings();
 }
 
 function clickMaximize(): void {

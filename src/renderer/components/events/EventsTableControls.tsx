@@ -50,40 +50,44 @@ export default function EventsTableControls(
       }}
     >
       <div className={tableCss.reactTableToggles}>
-        <DateFilter
-          prefixId={deckTableCss.decksTop}
-          current={aggFilters.date}
-          callback={(date): void =>
-            setAggFiltersCallback({ ...aggFilters, date })
-          }
-        />
-        <ReactSelect
-          options={events}
-          current={aggFilters.eventId ?? ""}
-          callback={(eventId): void =>
-            setAggFiltersCallback({ ...aggFilters, eventId })
-          }
-          optionFormatter={getReadableEvent}
-          style={{ marginBottom: "auto" }}
-        />
-        <SmallTextButton
-          onClick={(): void => {
-            setAllFilters(defaultFilters);
-            setFiltersVisible({});
-            for (const column of toggleableColumns) {
-              toggleHideColumn(column.id, !column.defaultVisible);
+        <div className={indexCss.flexItem}>
+          <DateFilter
+            prefixId={deckTableCss.decksTop}
+            current={aggFilters.date}
+            callback={(date): void =>
+              setAggFiltersCallback({ ...aggFilters, date })
             }
-            toggleSortBy("timestamp", true, false);
-          }}
-        >
-          Reset
-        </SmallTextButton>
-        <MediumTextButton
-          onClick={(): void => setTogglesVisible(!togglesVisible)}
-          className={indexCss.buttonSimple}
-        >
-          {togglesVisible ? "Hide" : "Show"} Column Toggles
-        </MediumTextButton>
+          />
+          <ReactSelect
+            options={events}
+            current={aggFilters.eventId ?? ""}
+            callback={(eventId): void =>
+              setAggFiltersCallback({ ...aggFilters, eventId })
+            }
+            optionFormatter={getReadableEvent}
+            style={{ marginBottom: "auto" }}
+          />
+        </div>
+        <div className={indexCss.flexItem}>
+          <SmallTextButton
+            onClick={(): void => {
+              setAllFilters(defaultFilters);
+              setFiltersVisible({});
+              for (const column of toggleableColumns) {
+                toggleHideColumn(column.id, !column.defaultVisible);
+              }
+              toggleSortBy("timestamp", true, false);
+            }}
+          >
+            Reset
+          </SmallTextButton>
+          <MediumTextButton
+            onClick={(): void => setTogglesVisible(!togglesVisible)}
+            className={indexCss.buttonSimple}
+          >
+            {togglesVisible ? "Hide" : "Show"} Column Toggles
+          </MediumTextButton>
+        </div>
       </div>
       <ColumnToggles
         toggleableColumns={toggleableColumns}

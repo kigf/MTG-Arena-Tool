@@ -30,12 +30,15 @@ import { ipcSend } from "../../rendererUtil";
 
 import topNavCss from "./topNav.css";
 
+import settingsIcon from "../../../assets/images/cog.png";
 import syncOk from "../../../assets/images/sync_ok.png";
 import syncError from "../../../assets/images/sync_error.png";
 import syncForce from "../../../assets/images/sync_force.png";
 import syncPull from "../../../assets/images/sync_pull.png";
 import syncPush from "../../../assets/images/sync_push.png";
 import syncPatreon from "../../../assets/images/sync_patreon.png";
+import IconButton from "../misc/IconButton";
+import { forceOpenSettings } from "../../tabControl";
 
 const topNavClasses: string[] = [];
 topNavClasses[MAIN_HOME] = topNavCss.iconHome;
@@ -344,6 +347,11 @@ export function TopNav(): JSX.Element {
           <div className={topNavCss.topUsernameId} title={"Arena user ID"}>
             {userNumerical}
           </div>
+          <IconButton
+            style={{ margin: `auto 8px` }}
+            onClick={(): void => forceOpenSettings()}
+            icon={settingsIcon}
+          />
         </div>
       </div>
     </div>
