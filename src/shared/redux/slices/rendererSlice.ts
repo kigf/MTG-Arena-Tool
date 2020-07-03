@@ -14,7 +14,7 @@ interface SubNav {
   data?: any;
 }
 
-const initialRendererState = {
+export const initialRendererState = {
   archivedCache: {} as Record<string, boolean>,
   backgroundColor: "rgba(0, 0, 0, 0.25)",
   backgroundGrpId: 0,
@@ -53,7 +53,7 @@ const initialRendererState = {
     id: "",
     data: null,
   } as SubNav,
-  topArtist: "Bedevil by Seb McKinnon",
+  topArtist: "Sublime Epiphany by Lindsey Look",
   topNav: 0,
   navIndex: 0,
   updateState: "",

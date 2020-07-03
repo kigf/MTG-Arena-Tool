@@ -7,9 +7,20 @@
 .app-wrapper-back {
   flex: 1 1 auto;
   z-index: auto;
-  background-image: url(http://www.artofmtg.com/wp-content/uploads/2020/06/Sublime-Epiphany-Core-Set-2021-MtG-Art.jpg);
+  background-image: url(../../assets/images/main-background.jpg);
   background-position: center;
   background-size: cover;
+}
+
+.app-wrapper-back:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 1;
+  top: 4px;
+  left: 0;
+  background: url(../../assets/images/background_overlay.png);
 }
 
 .wrapper {

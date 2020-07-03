@@ -21,9 +21,12 @@
 }
 
 .top_artist {
-  line-height: 32px;
+  line-height: 24px;
+  font-size: 14px;
+  margin-top: -4px;
   font-family: var(--main-font-name-it);
-  color: var(--color-light-40);
+  opacity: 0.3;
+  color: var(--color-text);
 }
 
 .unlink {

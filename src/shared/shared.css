@@ -306,19 +306,19 @@ label {
   background-color: var(--color-dark);
   display: flex;
   justify-content: space-between;
+  z-index: 1;
 }
 
 .top-logo {
-  width: 200px;
+  width: 120px;
   position: relative;
   top: -4px;
-  left: -24px;
   height: 24px;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: auto;
   background-position: center;
+  opacity: 0.66;
   background-image: url(../assets/images/logo_top.png);
-  opacity: 0.33;
 }
 
 .top-buttons-container {
@@ -376,13 +376,13 @@ label {
 
 .button.minimize:hover {
   opacity: 1;
-  background-color: rgba(231, 202, 142, 0.25);
+  background-color: var(--color-section-hover);
   -webkit-transform: rotate(0deg);
 }
 
 .button.settings:hover {
   opacity: 1;
-  background-color: rgba(231, 202, 142, 0.25);
+  background-color: var(--color-section-hover);
   -webkit-transform: rotate(0deg);
 }
 

@@ -18,7 +18,7 @@ import { AppState } from "../shared/redux/stores/overlayStore";
 import css from "./index.css";
 import sharedCss from "../shared/shared.css";
 import ResizeIcon from "../assets/images/resize.svg";
-import DEFAULT_BACKGROUND from "../assets/images/Bedevil-Art.jpg";
+import DEFAULT_BACKGROUND from "../assets/images/main-background.jpg";
 
 export interface OverlayWindowletProps {
   arenaState: number;
