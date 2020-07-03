@@ -33,7 +33,8 @@ export function toggleArchived(id: string | number): void {
 
 export function getTagColor(tag?: string): string {
   return (
-    (tag ? store.getState().playerdata.tagsColors[tag] : undefined) ?? "#FAE5D2"
+    (tag ? store.getState().playerdata.tagsColors[tag] : undefined) ??
+    "var(--color-text)"
   );
 }
 

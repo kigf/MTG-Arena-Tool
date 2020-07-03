@@ -15,7 +15,7 @@
   line-height: 32px;
   text-align: center;
   font-size: 1.33em;
-  color: #fae5d2;
+  color: var(--color-text);
   padding: 8px;
   font-family: var(--sub-font-name-it);
 }

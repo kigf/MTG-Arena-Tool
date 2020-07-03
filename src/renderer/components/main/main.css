@@ -29,11 +29,12 @@
 .unlink {
   -webkit-app-region: no-drag;
   background: url(../../../assets/images/unlink.png) no-repeat center;
-  width: 24px;
-  height: 24px;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
   align-self: center;
   position: relative;
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
 .message_center {

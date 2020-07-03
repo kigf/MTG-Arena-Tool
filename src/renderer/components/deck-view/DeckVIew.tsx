@@ -32,6 +32,8 @@ import timestamp from "../../../shared/utils/timestamp";
 import IncognitoButton from "../misc/IncognitoButton";
 import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import Separator from "../misc/Separator";
+import getDeckColorsAmmount from "../misc/getDeckColorsAmmount";
+import getDeckLandsAmmount from "../misc/getDeckLandsAmmount";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -40,105 +42,6 @@ const VIEW_WINRATES = 3;
 
 interface DeckViewProps {
   deck: InternalDeck;
-}
-
-interface ColorsAmmount {
-  total: number;
-  w: number;
-  u: number;
-  b: number;
-  r: number;
-  g: number;
-  c: number;
-}
-
-function getDeckColorsAmmount(deck: Deck): ColorsAmmount {
-  const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };
-
-  deck
-    .getMainboard()
-    .get()
-    .forEach(function (card: CardObject) {
-      if (card.quantity > 0) {
-        db.card(card.id)?.cost.forEach((c: string) => {
-          if (c.indexOf("w") !== -1) {
-            colors.w += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("u") !== -1) {
-            colors.u += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("b") !== -1) {
-            colors.b += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("r") !== -1) {
-            colors.r += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("g") !== -1) {
-            colors.g += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("c") !== -1) {
-            colors.c += card.quantity;
-            colors.total += card.quantity;
-          }
-        });
-      }
-    });
-
-  return colors;
-}
-
-function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
-  const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };
-
-  deck
-    .getMainboard()
-    .get()
-    .forEach(function (c: CardObject) {
-      const quantity = c.quantity;
-      const card = db.card(c.id);
-      if (quantity > 0 && card) {
-        if (
-          card.type.indexOf("Land") != -1 ||
-          card.type.indexOf("land") != -1
-        ) {
-          if (card.frame.length < 5) {
-            card.frame.forEach(function (c) {
-              if (c == 1) {
-                colors.w += quantity;
-                colors.total += quantity;
-              }
-              if (c == 2) {
-                colors.u += quantity;
-                colors.total += quantity;
-              }
-              if (c == 3) {
-                colors.b += quantity;
-                colors.total += quantity;
-              }
-              if (c == 4) {
-                colors.r += quantity;
-                colors.total += quantity;
-              }
-              if (c == 5) {
-                colors.g += quantity;
-                colors.total += quantity;
-              }
-              if (c == 6) {
-                colors.c += quantity;
-                colors.total += quantity;
-              }
-            });
-          }
-        }
-      }
-    });
-
-  return colors;
 }
 
 interface RaritiesCount {

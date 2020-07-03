@@ -18,7 +18,7 @@
 }
 
 .mana_curve_column {
-  color: #fae5d2;
+  color: var(--color-text);
   justify-content: space-around;
   width: -webkit-fill-available;
   flex-direction: column;
@@ -58,7 +58,7 @@
   font-size: 12px;
   line-height: 20px;
   text-align: center;
-  color: #FAE5D2;
+  color: var(--color-text);
   width: 100%;
   font-family: "belerenbold";
 }

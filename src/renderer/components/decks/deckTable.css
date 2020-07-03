@@ -1,5 +1,6 @@
 
 .decks-table-deck-tile {
+  overflow: hidden;
   border-radius: 4px;
   margin: auto;
   width: 210px;

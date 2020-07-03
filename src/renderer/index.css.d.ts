@@ -324,8 +324,6 @@ declare namespace IndexCssModule {
     status_locked: string;
     status_red: string;
     status_yellow: string;
-    swapIcon: string;
-    swap_icon: string;
     topStatus: string;
     topStatusPop: string;
     topStatusSpan: string;
