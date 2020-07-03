@@ -56,10 +56,14 @@ export default function Slider(props: SliderProps): JSX.Element {
     setValue(props.value);
   }, [props.value]);
 
+  const percent = (100 / (max - min)) * ((value || 0) - min);
+
   return (
     <div style={props.containerStyle} className={css.slidecontainer}>
       <input
-        className={css.slider}
+        style={{
+          background: `linear-gradient(90deg, var(--color-button) ${percent}%, var(--color-section) ${percent}%)`,
+        }}
         type="range"
         value={value || 0}
         min={min}
