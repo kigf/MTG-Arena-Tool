@@ -140,19 +140,14 @@
 .card_tile_separator {
   color: var(--color-text);
   max-width: 800px;
-  margin: auto;
+  margin: 0 auto;
   height: 32px;
+  max-height: 32px;
   vertical-align: middle;
   line-height: 32px;
   text-align: center;
   font-family: "belerenbold";
   align-self: center;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0)
-  );
 }
 
 .card_tile_name {

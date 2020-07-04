@@ -1,17 +1,19 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reduxAction } from "../../../../shared/redux/sharedRedux";
 import { IPC_BACKGROUND } from "../../../../shared/constants";
-import css from "./index.scss";
 import { AppState } from "../../../../shared/redux/stores/rendererStore";
 
 import Icon from "./incognito.svg";
+import SvgButton from "../SvgButton";
 
 interface IncognitoButtonProps {
+  style?: CSSProperties;
   id: string;
 }
 
 export default function IncognitoButton({
+  style,
   id,
 }: IncognitoButtonProps): JSX.Element {
   const dispatcher = useDispatch();
@@ -35,13 +37,19 @@ export default function IncognitoButton({
     [dispatcher, id, isPrivate]
   );
 
+  const svg = (
+    <Icon
+      style={{ width: "28px", height: "28px", marginTop: "5px" }}
+      fill={isPrivate ? "var(--color-r)" : "var(--color-text-hover)"}
+    />
+  );
+
   return (
-    <div
-      onClick={click}
-      className={css.incognitoButton}
+    <SvgButton
+      style={{ ...style }}
       title={isPrivate ? "Make deck public" : "Make deck private"}
-    >
-      <Icon fill={isPrivate ? "var(--color-r)" : "var(--color-text)"} />
-    </div>
+      onClick={click}
+      svg={svg}
+    />
   );
 }

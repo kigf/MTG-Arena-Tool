@@ -10,8 +10,8 @@ import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 
-import indexCss from "../../index.css";
 import css from "./VisualDeckView.css";
+import Section from "../misc/Section";
 
 interface VisualDeckViewProps {
   deck: Deck;
@@ -83,13 +83,14 @@ export default function VisualDeckView(
     });
 
   return (
-    <>
-      <DeckTypesStats deck={deck} />
-      <Button text="Normal View" onClick={setRegularView} />
-      <div
-        className={indexCss.decklist}
-        style={{ display: "flex", width: "auto", margin: "0 auto" }}
-      >
+    <div className={css.visualViewGrid}>
+      <Section style={{ gridArea: "controls" }}>
+        <Button text="Normal View" onClick={setRegularView} />
+      </Section>
+      <Section style={{ gridArea: "types" }}>
+        <DeckTypesStats deck={deck} />
+      </Section>
+      <Section style={{ padding: "16px", gridArea: "main" }}>
         <div className={css.visualMainboard}>
           {splitDeck.map((idsList: SplitIds, index: number) => {
             const cards = idsList.map((grpId: number, cindex: number) => {
@@ -127,47 +128,39 @@ export default function VisualDeckView(
             );
           })}
         </div>
-        <div
-          style={{
-            maxWidth: (sz + 6) * 1.5 + "px",
-          }}
-          className={css.visualSideboard}
-        >
-          <div
-            style={{ width: (sz + 6) * 5 + "px" }}
-            className={css.deckVisualTileSide}
-          >
-            {newSideboard.map((grpId: number, _n: number) => {
-              const cardObj = db.card(grpId);
-              if (cardObj) {
-                return (
-                  <div
-                    key={"visual-side-" + _n}
-                    style={{
-                      width: sz + "px",
-                      height: sz * 0.166 + "px",
-                      marginLeft: _n % 2 == 0 ? "60px" : "",
+      </Section>
+      <Section style={{ padding: "16px", gridArea: "side" }}>
+        <div className={css.deckVisualTileSide}>
+          {newSideboard.map((grpId: number, _n: number) => {
+            const cardObj = db.card(grpId);
+            if (cardObj) {
+              return (
+                <div
+                  key={"visual-side-" + _n}
+                  style={{
+                    width: sz + "px",
+                    height: sz * 0.166 + "px",
+                    marginLeft: _n % 2 == 0 ? "60px" : "",
+                  }}
+                  className={css.deckVisualCardSide}
+                >
+                  <img
+                    onMouseEnter={(): void => {
+                      hoverCard(grpId, true);
                     }}
-                    className={css.deckVisualCardSide}
-                  >
-                    <img
-                      onMouseEnter={(): void => {
-                        hoverCard(grpId, true);
-                      }}
-                      onMouseLeave={(): void => {
-                        hoverCard(grpId, false);
-                      }}
-                      style={{ width: sz + "px" }}
-                      src={getCardImage(cardObj, cardQuality)}
-                      className={css.deckVisualCardImg}
-                    ></img>
-                  </div>
-                );
-              }
-            })}
-          </div>
+                    onMouseLeave={(): void => {
+                      hoverCard(grpId, false);
+                    }}
+                    style={{ width: sz + "px" }}
+                    src={getCardImage(cardObj, cardQuality)}
+                    className={css.deckVisualCardImg}
+                  ></img>
+                </div>
+              );
+            }
+          })}
         </div>
-      </div>
-    </>
+      </Section>
+    </div>
   );
 }

@@ -18,6 +18,7 @@ import { useTable, useSortBy } from "react-table";
 import sectionCss from "../settings/Sections.css";
 import indexCss from "../../index.css";
 import css from "./CardsWinrateView.css";
+import Section from "../misc/Section";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);
@@ -311,12 +312,11 @@ export default function CardsWinratesView(
   );
 
   return (
-    <>
-      <Button text="Normal View" onClick={setRegularView} />
-      <div style={{ display: "flex", flexDirection: "column" }}>
+    <div className={css.cardsWrViewGrid}>
+      <Section style={{ gridArea: "controls" }}>
         <div
           className={sectionCss.centered_setting_container}
-          style={{ justifyContent: "center" }}
+          style={{ width: "auto", justifyContent: "center" }}
         >
           <label>Deck Version:</label>
           <ReactSelect
@@ -326,14 +326,19 @@ export default function CardsWinratesView(
             callback={setDeckVersionFilter}
           />
         </div>
+        <Button text="Normal View" onClick={setRegularView} />
+      </Section>
+      <Section style={{ gridArea: "desc" }}>
         <div
           className={sectionCss.settingsNote}
-          style={{ textAlign: "center" }}
+          style={{ margin: "auto", padding: "16px", textAlign: "center" }}
         >
           All winrates shown correspond to the times when the card in question
           was cast during a game, except for the &quot;Sided out WR&quot;
           column.
         </div>
+      </Section>
+      <Section style={{ padding: "16px", gridArea: "table" }}>
         <div className={css.cardWrStats}>
           <div className={css.cardWrLine}>
             {headerGroups.map((headerGroup: any) => {
@@ -402,7 +407,7 @@ export default function CardsWinratesView(
             }
           })}
         </div>
-      </div>
-    </>
+      </Section>
+    </div>
   );
 }

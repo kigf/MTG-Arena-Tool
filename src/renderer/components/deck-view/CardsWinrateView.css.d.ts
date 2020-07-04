@@ -28,6 +28,8 @@ declare namespace CardsWinrateViewCssModule {
     cardWrLineSidedOutWr: string;
     cardWrLineWr: string;
     cardWrStats: string;
+    "cards-wr-view-grid": string;
+    cardsWrViewGrid: string;
   }
 }
 

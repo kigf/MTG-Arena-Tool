@@ -1,16 +1,19 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector, useDispatch } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
-import indexCss from "../../index.css";
+import shareIcon from "../../../assets/images/share.png";
+import IconButton from "./IconButton";
 
 interface ShareButtonProps {
+  style?: CSSProperties;
   type: "draft" | "deck" | "actionlog";
   data: any;
 }
 
 export default function ShareButton({
+  style,
   type,
   data,
 }: ShareButtonProps): JSX.Element {
@@ -62,12 +65,12 @@ export default function ShareButton({
     }
   };
 
-  return !offline ? (
-    <div onClick={click} className={indexCss.list_log_share}></div>
-  ) : (
-    <div
-      title="You need to be logged in to share!"
-      className={indexCss.list_log_cant_share}
-    ></div>
+  return (
+    <IconButton
+      style={style}
+      title={offline ? "You need to be logged in to share!" : ""}
+      onClick={click}
+      icon={shareIcon}
+    />
   );
 }

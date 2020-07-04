@@ -14,8 +14,10 @@ declare namespace VisualDeckViewCssModule {
     deck_visual_stats: string;
     deck_visual_tile: string;
     deck_visual_tile_side: string;
+    "visual-view-grid": string;
     visualMainboard: string;
     visualSideboard: string;
+    visualViewGrid: string;
     visual_mainboard: string;
     visual_sideboard: string;
   }

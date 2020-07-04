@@ -27,6 +27,7 @@ import CardsWinratesView from "./CardsWinrateView";
 import sharedCss from "../../../shared/shared.css";
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
+import css from "./DeckView.css";
 import ReactSvgPieChart from "react-svg-piechart";
 import timestamp from "../../../shared/utils/timestamp";
 import IncognitoButton from "../misc/IncognitoButton";
@@ -34,6 +35,9 @@ import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import Separator from "../misc/Separator";
 import getDeckColorsAmmount from "../misc/getDeckColorsAmmount";
 import getDeckLandsAmmount from "../misc/getDeckLandsAmmount";
+import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
+import DeckColorsBar from "../misc/DeckColorsBar";
+import Section from "../misc/Section";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -169,26 +173,33 @@ export function DeckView(props: DeckViewProps): JSX.Element {
     <>
       <div className={indexCss.wrapperColumn}>
         <div className={indexCss.centeredUx}>
-          <div className={indexCss.decklistTop}>
-            <div
-              className={sharedCss.button + " " + sharedCss.back}
-              onClick={goBack}
-            ></div>
-            <div className={indexCss.deckName}>{deck.getName()}</div>
-            <ShareButton type="deck" data={deck.getSave()} />
-            {props.deck.type == "InternalDeck" ? (
-              <IncognitoButton id={deck.id} />
-            ) : (
-              <></>
-            )}
-            <div className={indexCss.deckTopColors}>
-              <ManaCost colors={deck.getColors().get()} />
+          <div
+            className={css.top}
+            style={{
+              backgroundImage: `url(${getCardArtCrop(deck.tile)})`,
+            }}
+            onClick={goBack}
+          >
+            <DeckColorsBar deck={deck} />
+            <div className={css.topInner}>
+              <div
+                style={{
+                  color: "var(--color-text-hover)",
+                  textShadow: "3px 3px 6px #000000",
+                }}
+              >
+                {deck.getName()}
+              </div>
+              <div className={indexCss.flexItem}>
+                <ManaCost
+                  class={sharedCss.manaS20}
+                  colors={deck.getColors().get()}
+                />
+              </div>
             </div>
           </div>
-          <div
-            className={indexCss.flexItem}
-            style={{ flexDirection: "column" }}
-          >
+
+          <>
             {deckView == VIEW_VISUAL && (
               <VisualDeckView deck={deck} setRegularView={regularView} />
             )}
@@ -205,8 +216,21 @@ export function DeckView(props: DeckViewProps): JSX.Element {
               />
             )}
             {deckView == VIEW_REGULAR && (
-              <>
-                <div style={{ display: "flex", justifyContent: "center" }}>
+              <div className={css.regularViewGrid}>
+                <Section style={{ gridArea: "controls" }}>
+                  <ShareButton
+                    style={{ margin: "auto 4px auto 16px" }}
+                    type="deck"
+                    data={deck.getSave()}
+                  />
+                  {props.deck.type == "InternalDeck" ? (
+                    <IncognitoButton
+                      style={{ margin: "auto 0" }}
+                      id={deck.id}
+                    />
+                  ) : (
+                    <></>
+                  )}
                   {props.deck.type == "InternalDeck" ? (
                     <>
                       <Button
@@ -243,39 +267,54 @@ export function DeckView(props: DeckViewProps): JSX.Element {
                     text="Export to .txt"
                     onClick={txtExport}
                   />
-                </div>
-                <div style={{ display: "flex" }}>
-                  <div className={indexCss.decklist}>
-                    <DeckList deck={deck} showWildcards={true} />
-                  </div>
-                  <div className={indexCss.stats}>
-                    <Separator>Types</Separator>
-                    <DeckTypesStats deck={deck} />
-                    <Separator>Mana Curve</Separator>
-                    <DeckManaCurve deck={deck} />
-                    <Separator>Color Pie</Separator>
-                    <div className={sharedCss.pieContainerOuter}>
-                      <div className={sharedCss.pieContainer}>
-                        <span>Mana Symbols</span>
-                        <ReactSvgPieChart strokeWidth={0} data={colorsPie} />
-                      </div>
-                      <div className={sharedCss.pieContainer}>
-                        <span>Mana Sources</span>
-                        <ReactSvgPieChart strokeWidth={0} data={landsPie} />
-                      </div>
+                </Section>
+                <Section
+                  style={{
+                    flexDirection: "column",
+                    gridArea: "deck",
+                    paddingBottom: "16px",
+                    paddingLeft: "24px",
+                  }}
+                >
+                  <DeckList deck={deck} showWildcards={true} />
+                </Section>
+                <Section style={{ flexDirection: "column", gridArea: "types" }}>
+                  <Separator>Types</Separator>
+                  <DeckTypesStats deck={deck} />
+                </Section>
+                <Section
+                  style={{ flexDirection: "column", gridArea: "curves" }}
+                >
+                  <Separator>Mana Curve</Separator>
+                  <DeckManaCurve deck={deck} />
+                </Section>
+                <Section style={{ flexDirection: "column", gridArea: "pies" }}>
+                  <Separator>Color Pie</Separator>
+                  <div className={sharedCss.pieContainerOuter}>
+                    <div className={sharedCss.pieContainer}>
+                      <span>Mana Symbols</span>
+                      <ReactSvgPieChart strokeWidth={0} data={colorsPie} />
                     </div>
-                    <Separator>Rarities</Separator>
-                    <WildcardsCostPreset
-                      wildcards={wildcardsCost}
-                      showComplete={true}
-                    />
-                    <Separator>Wildcards Needed</Separator>
-                    <CraftingCost deck={deck} />
+                    <div className={sharedCss.pieContainer}>
+                      <span>Mana Sources</span>
+                      <ReactSvgPieChart strokeWidth={0} data={landsPie} />
+                    </div>
                   </div>
-                </div>
-              </>
+                </Section>
+                <Section
+                  style={{ flexDirection: "column", gridArea: "rarities" }}
+                >
+                  <Separator>Rarities</Separator>
+                  <WildcardsCostPreset
+                    wildcards={wildcardsCost}
+                    showComplete={true}
+                  />
+                  <Separator>Wildcards Needed</Separator>
+                  <CraftingCost deck={deck} />
+                </Section>
+              </div>
             )}
-          </div>
+          </>
         </div>
       </div>
       <animated.div

@@ -4,6 +4,8 @@ declare namespace IconButtonCssModule {
   export interface IIconButtonCss {
     "icon-button": string;
     iconButton: string;
+    "svg-button": string;
+    svgButton: string;
   }
 }
 
