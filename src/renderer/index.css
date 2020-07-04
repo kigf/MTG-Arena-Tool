@@ -1079,7 +1079,7 @@ a:hover {
 
 /* When the checkbox is checked, add a blue background */
 .check_container input:checked ~ .checkmark {
-    background-color: var(--color-section-hover);
+    background-color: var(--color-button-hover) !important;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
