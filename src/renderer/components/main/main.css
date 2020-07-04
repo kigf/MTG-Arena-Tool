@@ -37,7 +37,8 @@
   height: 20px;
   align-self: center;
   position: relative;
-  margin-right: 8px;
+  margin-right: 4px;
+  top: -2px;
 }
 
 .message_center {

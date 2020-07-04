@@ -25,12 +25,11 @@
 
 .wrapper {
   width: 100%;
-  height: calc(100% - 65px);
+  height: calc(100% - 49px);
 }
 
 .overflow_ux_main {
   width: calc(100%);
-  height: calc(100vh - 101px);
   height: 100%;
   overflow: hidden;
 }

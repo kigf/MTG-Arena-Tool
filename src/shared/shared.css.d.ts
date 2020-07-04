@@ -167,10 +167,14 @@ declare namespace SharedCssModule {
     settings: string;
     top: string;
     "top-button": string;
+    "top-button-mac": string;
     "top-buttons-container": string;
+    "top-buttons-container-mac": string;
     "top-logo": string;
     topButton: string;
+    topButtonMac: string;
     topButtonsContainer: string;
+    topButtonsContainerMac: string;
     topLogo: string;
     typeArt: string;
     typeCre: string;
