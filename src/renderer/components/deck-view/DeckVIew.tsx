@@ -217,7 +217,12 @@ export function DeckView(props: DeckViewProps): JSX.Element {
             )}
             {deckView == VIEW_REGULAR && (
               <div className={css.regularViewGrid}>
-                <Section style={{ gridArea: "controls" }}>
+                <Section
+                  style={{
+                    justifyContent: "space-between",
+                    gridArea: "controls",
+                  }}
+                >
                   <ShareButton
                     style={{ margin: "auto 4px auto 16px" }}
                     type="deck"

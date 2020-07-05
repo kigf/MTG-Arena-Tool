@@ -3,7 +3,7 @@ import { remote, shell } from "electron";
 import css from "./index.scss";
 import indexCss from "../../index.css";
 import formsCss from "../../forms.css";
-import Close from "./close.svg";
+import Close from "../../../assets/images/svg/close.svg";
 import { animated, useSpring } from "react-spring";
 import { ipcSend } from "../../rendererUtil";
 import { useSelector } from "react-redux";

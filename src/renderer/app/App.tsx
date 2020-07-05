@@ -140,7 +140,7 @@ export function App(): JSX.Element {
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (
-          <LoadingBar style={loginState == LOGIN_OK ? { top: "90px" } : {}} />
+          <LoadingBar style={loginState == LOGIN_OK ? { top: "72px" } : {}} />
         ) : (
           <></>
         )}

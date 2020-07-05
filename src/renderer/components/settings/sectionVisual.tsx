@@ -4,9 +4,9 @@ import ReactSelect from "../../../shared/ReactSelect";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
-import Input from "../misc/Input";
-import Toggle from "../misc/Toggle";
-import useColorPicker from "../../hooks/useColorPicker";
+//import Input from "../misc/Input";
+//import Toggle from "../misc/Toggle";
+//import useColorPicker from "../../hooks/useColorPicker";
 import Slider from "../misc/Slider";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
@@ -15,7 +15,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import css from "./Sections.css";
 import { CardQuality } from "../../../types/settings";
-
+/*
 function changeBackgroundImage(value: string): void {
   reduxAction(
     store.dispatch,
@@ -31,7 +31,7 @@ function backColorPicker(color: string): void {
     IPC_ALL ^ IPC_RENDERER
   );
 }
-
+*/
 function setCardQuality(filter: CardQuality): void {
   reduxAction(
     store.dispatch,
@@ -39,7 +39,7 @@ function setCardQuality(filter: CardQuality): void {
     IPC_ALL ^ IPC_RENDERER
   );
 }
-
+/*
 function backShadowCallback(checked: boolean): void {
   reduxAction(
     store.dispatch,
@@ -47,21 +47,23 @@ function backShadowCallback(checked: boolean): void {
     IPC_ALL
   );
 }
-
+*/
 const card = db.card(70344);
 
 export default function SectionVisual(): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
   const cardSize = 100 + settings.cards_size * 15;
+  /*
   const containerRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(
     null
   );
-
+  
   const [pickerColor, pickerDoShow, pickerElement] = useColorPicker(
     settings.back_color,
     undefined,
     backColorPicker
   );
+  */
 
   // Hover card size slider
   const [hoverCardSize, setHoverCardSize] = React.useState(
@@ -105,6 +107,7 @@ export default function SectionVisual(): JSX.Element {
 
   return (
     <>
+      {/*
       <div className={css.centered_setting_container}>
         <label>Background URL:</label>
         <Input
@@ -131,6 +134,7 @@ export default function SectionVisual(): JSX.Element {
         ></input>
       </label>
       {pickerElement}
+      */}
       <div className={css.centered_setting_container}>
         {!!card && (
           <CardTile
