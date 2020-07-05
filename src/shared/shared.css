@@ -13,43 +13,51 @@
   --sub-font-name-bold: "roboto-bold", sans-serif;
   --sub-font-name-bold-it: "roboto-bold-italic", sans-serif;
   --main-font-style-it: normal;
-  --color-w: #e7ca8e;
-  --color-u: #aabedf;
-  --color-b: #a18e87;
-  --color-r: #dd8263;
-  --color-g: #b7c89e;
-  --color-c: #b6a59e;
-  --color-m: #ffcd70;
+  /*
+  // Leaving this here for ease of edit
+  --color-w: #e7ca8e,
+  --color-u: #aabedf,
+  --color-b: #a18e87,
+  --color-r: #dd8263,
+  --color-g: #b7c89e,
+  --color-c: #b6a59e,
+  --color-m: #ffcd70,
 
-  --color-common: #e6e6e6;
-  --color-uncommon: #bedbff;
-  --color-rare: #fed71d;
-  --color-mythic: #dd8263;
+  --color-common: #e6e6e6,
+  --color-uncommon: #bedbff,
+  --color-rare: #fed71d,
+  --color-mythic: #dd8263,
 
-  --color-base: #282829;
-  --color-hover-base: #252527;
-  --color-section: #202021;
-  --color-section-hover: #29292b;
-  --color-section-active: #2E3136;
-  --color-dark: #141516;
-  --color-dark-hover: #000000;
-  --color-text: #CCCCCC;
-  --color-text-hover: #ffffff;
-  --color-text-dark: #929292;
-  --color-text-disabled: #505050;
-  --color-text-link: #AABEDF;
-  --color-text-button: #333333;
-  --color-button: #AABEDF;
-  --color-button-hover: #8AA5D1;
-  --color-button-shade-20: rgba(170, 190, 223, 0.2);
-  --color-button-shade-40: rgba(170, 190, 223, 0.4);
-  --color-line-sep: #333333;
-  --color-shade-75: rgba(0, 0, 0, .75);
-  --color-shade-50: rgba(0, 0, 0, .5);
-  --color-shade-25: rgba(0, 0, 0, .25);
-  --color-card-tile: rgba(0, 0, 0, 0.75);
-  --color-card-tile-hover: #3a424ebf;
-  --color-card-tile-active: #c2d9ffc0;
+  --color-base: #282829,
+  --color-hover-base: #252527,
+  --color-dark: #141516,
+  --color-dark-hover: #000000,
+
+  --color-line-sep: #333333,
+  --color-section: #202021,
+  --color-section-hover: #29292b,
+  --color-section-active: #2E3136,
+
+  --color-text: #CCCCCC,
+  --color-text-hover: #ffffff,
+  --color-text-dark: #929292,
+  --color-text-disabled: #505050,
+  --color-text-link: #AABEDF,
+
+  --color-text-button: #333333,
+  --color-button: #AABEDF,
+  --color-button-hover: #8AA5D1,
+  --color-button-shade-20: rgba(170, 190, 223, 0.2),
+  --color-button-shade-40: rgba(170, 190, 223, 0.4),
+
+  --color-shade-75: rgba(0, 0, 0, .75),
+  --color-shade-50: rgba(0, 0, 0, .5),
+  --color-shade-25: rgba(0, 0, 0, .25),
+
+  --color-card-tile: rgba(0, 0, 0, 0.75),
+  --color-card-tile-hover: #3a424ebf,
+  --color-card-tile-active: #c2d9ffc0
+  */
 }
 
 html {

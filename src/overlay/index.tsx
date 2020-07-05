@@ -6,6 +6,7 @@ import TransparencyFix from "./electron-transparency-mouse-fix";
 
 import store from "../shared/redux/stores/overlayStore";
 import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxIPC";
+import reloadTheme from "../shared/utils/reloadTheme";
 
 initializeRendererReduxIPC(store);
 
@@ -23,6 +24,7 @@ function ready(fn: () => void): void {
 }
 
 ready(function () {
+  reloadTheme();
   const wrap = document.createElement("div");
   ReactDOM.render(
     <Provider store={store}>
