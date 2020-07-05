@@ -43,9 +43,9 @@ const primaryBounds: Electron.Rectangle = remote
   ? remote.screen.getPrimaryDisplay().bounds
   : { width: 800, height: 600, x: 0, y: 0 };
 
-const defaultThemePath: string | null = remote
+const defaultThemePath: string = remote
   ? path.join(remote.app.getPath("userData"), "theme.json")
-  : null;
+  : "";
 
 const defaultConfig = {
   windowBounds: { width: 900, height: 700, x: 0, y: 0 },
