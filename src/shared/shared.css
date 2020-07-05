@@ -318,18 +318,6 @@ label {
   z-index: 1;
 }
 
-.top-logo {
-  width: 110px;
-  position: relative;
-  top: -4px;
-  height: 24px;
-  background-repeat: no-repeat;
-  background-size: auto;
-  background-position: center;
-  opacity: 0.66;
-  background-image: url(../assets/images/logo_top.png);
-}
-
 .top-buttons-container {
   display: flex;
   position: relative;

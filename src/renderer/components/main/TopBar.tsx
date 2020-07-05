@@ -16,6 +16,8 @@ import WinMinimize from "../../../assets/images/svg/win-minimize.svg";
 import WinMaximize from "../../../assets/images/svg/win-maximize.svg";
 import WinClose from "../../../assets/images/svg/win-close.svg";
 
+import Logo from "../../../assets/images/svg/logo.svg";
+
 interface TopBarProps {
   artist: string;
   offline: boolean;
@@ -99,7 +101,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
         className={indexCss.flexItem}
         style={{ flexDirection: isReverse ? "row-reverse" : "row" }}
       >
-        <div className={sharedCss.topLogo}></div>
+        <Logo style={{ margin: "2px 6px", opacity: 0.6 }} />
         {loginState !== LOGIN_OK ? (
           <div className={mainCss.topArtist}>{props.artist}</div>
         ) : (
