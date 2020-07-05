@@ -118,7 +118,7 @@ export default function EventsTableControls(
             title={"clear column filter"}
           />
         )}
-        <PagingControls {...pagingProps} />
+        <PagingControls align={"flex-end"} {...pagingProps} />
       </div>
     </div>
   );

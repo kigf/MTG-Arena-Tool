@@ -176,7 +176,7 @@ export default function CollectionTableControls(
           />
         )}
         {!legacyModes.includes(tableMode) && (
-          <PagingControls {...pagingProps} />
+          <PagingControls align={"flex-end"} {...pagingProps} />
         )}
       </div>
     </div>

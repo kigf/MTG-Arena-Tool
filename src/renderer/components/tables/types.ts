@@ -11,6 +11,7 @@ import {
   TableState,
   PluginHook,
 } from "react-table";
+import { CSSProperties } from "react";
 
 export type TagCount = { tag: string; q: number };
 
@@ -61,6 +62,7 @@ export interface PagingControlsProps {
   pageLabel?: string;
   pageSize: number;
   pageSizeOptions?: string[];
+  align?: string;
 }
 
 export interface TableControlsProps<D extends TableData> {

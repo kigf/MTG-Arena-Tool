@@ -108,7 +108,7 @@ export default function EconomyTableControls(
             title={"clear column filter"}
           />
         )}
-        <PagingControls {...pagingProps} />
+        <PagingControls align={"flex-end"} {...pagingProps} />
       </div>
     </div>
   );
