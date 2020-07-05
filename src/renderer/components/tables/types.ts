@@ -11,7 +11,6 @@ import {
   TableState,
   PluginHook,
 } from "react-table";
-import { CSSProperties } from "react";
 
 export type TagCount = { tag: string; q: number };
 
