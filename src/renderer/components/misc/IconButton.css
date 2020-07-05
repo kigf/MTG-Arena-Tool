@@ -22,5 +22,5 @@
 }
 
 .icon-button:hover, .svg-button:hover {
-  background-color: var(--color-section-hover);
+  background-color: var(--color-section-hover) !important;
 }

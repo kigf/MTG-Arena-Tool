@@ -38,6 +38,8 @@ import getDeckLandsAmmount from "../misc/getDeckLandsAmmount";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import DeckColorsBar from "../misc/DeckColorsBar";
 import Section from "../misc/Section";
+import BackIcon from "../../../assets/images/svg/back.svg";
+import SvgButton from "../misc/SvgButton";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -178,17 +180,27 @@ export function DeckView(props: DeckViewProps): JSX.Element {
             style={{
               backgroundImage: `url(${getCardArtCrop(deck.tile)})`,
             }}
-            onClick={goBack}
           >
             <DeckColorsBar deck={deck} />
             <div className={css.topInner}>
-              <div
-                style={{
-                  color: "var(--color-text-hover)",
-                  textShadow: "3px 3px 6px #000000",
-                }}
-              >
-                {deck.getName()}
+              <div className={indexCss.flexItem}>
+                <SvgButton
+                  style={{
+                    marginRight: "8px",
+                    backgroundColor: "var(--color-section)",
+                  }}
+                  svg={BackIcon}
+                  onClick={goBack}
+                />
+                <div
+                  style={{
+                    lineHeight: "32px",
+                    color: "var(--color-text-hover)",
+                    textShadow: "3px 3px 6px #000000",
+                  }}
+                >
+                  {deck.getName()}
+                </div>
               </div>
               <div className={indexCss.flexItem}>
                 <ManaCost
