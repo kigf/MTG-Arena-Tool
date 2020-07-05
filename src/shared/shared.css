@@ -350,9 +350,8 @@ label {
 
 .top-button {
   width: 28px;
-  background-position: center;
-  background-repeat: no-repeat;
   opacity: 0.75;
+  display: flex;
 }
 
 .top-button:hover {
@@ -360,15 +359,6 @@ label {
   opacity: 1;
 }
 
-.top-button.maximize {
-  background-image: url(../assets/images/maximize.png);
-}
-.top-button.minimize {
-  background-image: url(../assets/images/minimize.png);
-}
-.top-button.close {
-  background-image: url(../assets/images/close.png);
-}
 .top-button.close:hover {
   background-color: var(--color-r) !important;
 }
@@ -377,15 +367,11 @@ label {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
 }
 
 .top-button-mac.maximize {
   background-color: #34c749
-}
-.top-button-mac.maximize:hover {
-  background-image: url(../assets/images/mac-maximize.png);
 }
 .top-button-mac.maximize:active {
   background-color: #2a9f3a
@@ -393,17 +379,11 @@ label {
 .top-button-mac.minimize {
   background-color: #fdbc40
 }
-.top-button-mac.minimize:hover {
-  background-image: url(../assets/images/mac-minimize.png);
-}
 .top-button-mac.minimize:active {
   background-color: #ca9633
 }
 .top-button-mac.close {
   background-color: #fc615d
-}
-.top-button-mac.close:hover {
-  background-image: url(../assets/images/mac-close.png);
 }
 .top-button-mac.close:active {
   background-color: #ca4e4a

@@ -23,10 +23,13 @@
   "--color-section-active": "#2E3136",
 
   "--color-text": "#CCCCCC",
-  "--color-text-hover": "#ffffff",
+  "--color-text-hover": "#FFFFFF",
   "--color-text-dark": "#929292",
   "--color-text-disabled": "#505050",
   "--color-text-link": "#AABEDF",
+
+  "--color-icon": "#FFFFFF",
+  "--color-icon-subtle": "#CCCCCC",
 
   "--color-text-button": "#333333",
   "--color-button": "#AABEDF",
