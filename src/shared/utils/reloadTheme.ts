@@ -10,20 +10,21 @@ const themePath: string | null =
     ? path.join((app || remote.app).getPath("userData"), "theme.json")
     : null;
 
-export default function reloadTheme(): void {
+export default function reloadTheme(overridePath = themePath): void {
   let themeUse = defaultTheme;
-  if (themePath) {
-    if (fs.existsSync(themePath)) {
-      const themeString = fs.readFileSync(themePath, "utf8");
+  if (overridePath && overridePath !== "") {
+    if (fs.existsSync(overridePath)) {
+      const themeString = fs.readFileSync(overridePath, "utf8");
       try {
         themeUse = JSON.parse(themeString);
       } catch (e) {
         debugLog(e, "error");
       }
-    } else {
-      // write it so people can see it
-      fs.writeFileSync(themePath, JSON.stringify(defaultTheme));
     }
+  }
+  if (themePath && !fs.existsSync(themePath)) {
+    // write the default theme so people can see it
+    fs.writeFileSync(themePath, JSON.stringify(defaultTheme));
   }
 
   type VarKeys = keyof typeof themeUse;

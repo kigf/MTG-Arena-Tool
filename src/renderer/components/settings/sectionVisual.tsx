@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import _ from "lodash";
 import ReactSelect from "../../../shared/ReactSelect";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
-//import Input from "../misc/Input";
+import Input from "../misc/Input";
 //import Toggle from "../misc/Toggle";
 //import useColorPicker from "../../hooks/useColorPicker";
 import Slider from "../misc/Slider";
@@ -14,7 +14,11 @@ import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import css from "./Sections.css";
+import indexCss from "../../index.css";
 import { CardQuality } from "../../../types/settings";
+import showOpenThemeDialog from "../../../shared/utils/showOpenThemeDialog";
+import reloadTheme from "../../../shared/utils/reloadTheme";
+import { ipcSend } from "../../../background/backgroundUtil";
 /*
 function changeBackgroundImage(value: string): void {
   reduxAction(
@@ -105,8 +109,47 @@ export default function SectionVisual(): JSX.Element {
     collectionCardSizeDebouce(value);
   };
 
+  const setThemeCallback = useCallback((uri: string) => {
+    ipcSend("reload_theme", uri);
+    reloadTheme(uri);
+    reduxAction(
+      store.dispatch,
+      { type: "SET_SETTINGS", arg: { themeUri: uri } },
+      IPC_ALL ^ IPC_RENDERER
+    );
+  }, []);
+
+  const openPathDialog = React.useCallback(() => {
+    showOpenThemeDialog(settings.themeUri).then(
+      (value: Electron.OpenDialogReturnValue): void => {
+        const paths = value.filePaths;
+        if (paths && paths.length && paths[0]) {
+          setThemeCallback(paths[0]);
+        }
+      }
+    );
+  }, [settings.themeUri, setThemeCallback]);
+
   return (
     <>
+      <div className={css.centered_setting_container}>
+        <label>Theme:</label>
+        <div
+          style={{
+            display: "flex",
+            width: "-webkit-fill-available",
+            justifyContent: "flex-end",
+          }}
+        >
+          <div className={indexCss.open_button} onClick={openPathDialog} />
+          <Input
+            key={settings.themeUri}
+            callback={setThemeCallback}
+            placeholder={"default"}
+            value={settings.themeUri}
+          />
+        </div>
+      </div>
       {/*
       <div className={css.centered_setting_container}>
         <label>Background URL:</label>

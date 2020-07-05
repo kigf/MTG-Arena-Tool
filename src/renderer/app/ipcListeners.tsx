@@ -16,6 +16,7 @@ import { ArenaV3Deck } from "../../types/Deck";
 import { AnyAction, Dispatch } from "redux";
 import store from "../../shared/redux/stores/rendererStore";
 import debugLog from "../../shared/debugLog";
+import reloadTheme from "../../shared/utils/reloadTheme";
 
 export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   debugLog("Set up IPC listeners.");
@@ -291,5 +292,9 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
       { type: "SET_DETAILED_LOGS_DIALOG", arg: true },
       IPC_NONE
     );
+  });
+
+  ipc.on("reload_theme", function (_event: IpcRendererEvent, arg: string) {
+    reloadTheme(arg);
   });
 }
