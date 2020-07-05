@@ -37,7 +37,7 @@
 }
 
 .switch input:checked + .switchslider {
-  background-color: var(--color-button-hover);
+  background-color: var(--color-button);
 }
 
 .switch input:focus + .switchslider {

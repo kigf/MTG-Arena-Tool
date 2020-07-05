@@ -3,12 +3,14 @@ import css from "./IconButton.css";
 interface SvgButtonProps {
   style?: React.CSSProperties;
   title?: string;
-  svg: JSX.Element; //React.StatelessComponent<React.SVGAttributes<SVGElement>>;
+  svg: React.StatelessComponent<React.SVGAttributes<SVGElement>>;
+  element?: JSX.Element;
   onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 export default function SvgButton(props: SvgButtonProps): JSX.Element {
-  const { onClick, style, title, svg } = props;
+  const { onClick, style, title, svg, element } = props;
+  const Svg = svg;
   return (
     <div
       title={title}
@@ -16,7 +18,7 @@ export default function SvgButton(props: SvgButtonProps): JSX.Element {
       onClick={onClick}
       style={{ ...style }}
     >
-      {svg}
+      {element ? element : <Svg fill={`var(--color-icon)`} />}
     </div>
   );
 }

@@ -15,6 +15,7 @@ export default function DeckColorsBar(props: DeckColorsBarProps): JSX.Element {
       if (key !== "c" && key !== "total" && val && val > 0) {
         return (
           <div
+            key={key}
             style={{
               backgroundColor: `var(--color-${key})`,
               width: `${(100 / colors.total) * val}%`,

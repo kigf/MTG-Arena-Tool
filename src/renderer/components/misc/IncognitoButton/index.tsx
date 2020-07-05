@@ -40,7 +40,7 @@ export default function IncognitoButton({
   const svg = (
     <Icon
       style={{ width: "28px", height: "28px", marginTop: "5px" }}
-      fill={isPrivate ? "var(--color-r)" : "var(--color-text-hover)"}
+      fill={isPrivate ? "var(--color-r)" : "var(--color-icon)"}
     />
   );
 
@@ -49,7 +49,8 @@ export default function IncognitoButton({
       style={{ ...style }}
       title={isPrivate ? "Make deck public" : "Make deck private"}
       onClick={click}
-      svg={svg}
+      svg={Icon}
+      element={svg}
     />
   );
 }

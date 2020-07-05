@@ -26,16 +26,17 @@
   "--color-text-hover": "#FFFFFF",
   "--color-text-dark": "#929292",
   "--color-text-disabled": "#505050",
-  "--color-text-link": "#AABEDF",
+  "--color-text-link": "#94a8ca",
 
   "--color-icon": "#FFFFFF",
   "--color-icon-subtle": "#CCCCCC",
 
   "--color-text-button": "#333333",
-  "--color-button": "#AABEDF",
-  "--color-button-hover": "#8AA5D1",
-  "--color-button-shade-20": "rgba(170, 190, 223, 0.2)",
-  "--color-button-shade-40": "rgba(170, 190, 223, 0.4)",
+  "--color-text-button-hover": "#111111",
+  "--color-button": "#94a8ca",
+  "--color-button-hover": "rgba(175, 205, 255, 1)",
+  "--color-button-shade-20": "rgba(175, 205, 255, 0.)",
+  "--color-button-shade-40": "rgba(175, 205, 255, 0.4)",
 
   "--color-shade-75": "rgba(0, 0, 0, .75)",
   "--color-shade-50": "rgba(0, 0, 0, .5)",

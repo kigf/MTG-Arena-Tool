@@ -400,6 +400,7 @@ label {
   margin-right: 12px;
   width: 24px;
   height: 24px;
+  display: flex;
   opacity: 0.8;
   background-size: contain;
   -webkit-transition: all 0.33s ease-in-out;
@@ -434,15 +435,6 @@ label {
   -webkit-transform: rotate(-90deg);
 }
 
-.button.settings {
-  background-image: url(../assets/images/icon_settings.png);
-}
-.button.minimize {
-  background-image: url(../assets/images/icon_minimize.png);
-}
-.button.close {
-  background-image: url(../assets/images/icon_close.png);
-}
 .button.back {
   background-repeat: no-repeat;
   background-position: center;
