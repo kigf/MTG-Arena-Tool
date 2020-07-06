@@ -144,7 +144,6 @@ declare namespace SharedCssModule {
     mana_white: string;
     mana_wu: string;
     mana_x: string;
-    maximize: string;
     medScroll: string;
     med_scroll: string;
     minimize: string;
@@ -165,15 +164,6 @@ declare namespace SharedCssModule {
     red_bright: string;
     red_bright_bg: string;
     settings: string;
-    top: string;
-    "top-button": string;
-    "top-button-mac": string;
-    "top-buttons-container": string;
-    "top-buttons-container-mac": string;
-    topButton: string;
-    topButtonMac: string;
-    topButtonsContainer: string;
-    topButtonsContainerMac: string;
     typeArt: string;
     typeCre: string;
     typeEnc: string;

@@ -1,9 +1,8 @@
 import React, { CSSProperties, useState } from "react";
 import { ipcSend } from "../../rendererUtil";
 
+import css from "./TopBar.css";
 import mainCss from "./main.css";
-import indexCss from "../../index.css";
-import sharedCss from "../../../shared/shared.css";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { LOGIN_OK } from "../../../shared/constants";
@@ -17,6 +16,7 @@ import WinMaximize from "../../../assets/images/svg/win-maximize.svg";
 import WinClose from "../../../assets/images/svg/win-close.svg";
 
 import Logo from "../../../assets/images/svg/logo.svg";
+import Flex from "../misc/Flex";
 
 interface TopBarProps {
   artist: string;
@@ -39,15 +39,12 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   const loginState = useSelector((state: AppState) => state.login.loginState);
   const [hoverControls, setHoverControls] = useState(false);
 
-  const os = process.platform;
+  const os = "darwin"; //process.platform;
 
-  const topButtonClass =
-    os == "darwin" ? sharedCss.topButtonMac : sharedCss.topButton;
+  const topButtonClass = os == "darwin" ? css.topButtonMac : css.topButton;
 
   const topButtonsContainerClass =
-    os == "darwin"
-      ? sharedCss.topButtonsContainerMac
-      : sharedCss.topButtonsContainer;
+    os == "darwin" ? css.topButtonsContainerMac : css.topButtonsContainer;
 
   const isReverse = os == "darwin";
 
@@ -64,7 +61,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   const minimize = (
     <div
       onClick={clickMinimize}
-      className={`${sharedCss.minimize} ${topButtonClass}`}
+      className={`${css.minimize} ${topButtonClass}`}
     >
       <MinimizeSVG style={iconStyle} />
     </div>
@@ -73,17 +70,14 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   const maximize = (
     <div
       onClick={clickMaximize}
-      className={`${sharedCss.maximize} ${topButtonClass}`}
+      className={`${css.maximize} ${topButtonClass}`}
     >
       <MaximizeSVG style={iconStyle} />
     </div>
   );
 
   const close = (
-    <div
-      onClick={clickClose}
-      className={`${sharedCss.close} ${topButtonClass}`}
-    >
+    <div onClick={clickClose} className={`${css.close} ${topButtonClass}`}>
       <CloseSVG style={iconStyle} />
     </div>
   );
@@ -94,21 +88,18 @@ export default function TopBar(props: TopBarProps): JSX.Element {
 
   return (
     <div
-      className={sharedCss.top}
+      className={css.top}
       style={{ flexDirection: isReverse ? "row-reverse" : "row" }}
     >
-      <div
-        className={indexCss.flexItem}
-        style={{ flexDirection: isReverse ? "row-reverse" : "row" }}
-      >
+      <Flex style={{ flexDirection: isReverse ? "row-reverse" : "row" }}>
         <Logo fill={"#FFF"} style={{ margin: "2px 8px", opacity: 0.6 }} />
         {loginState !== LOGIN_OK ? (
-          <div className={mainCss.topArtist}>{props.artist}</div>
+          <div className={css.topArtist}>{props.artist}</div>
         ) : (
           <></>
         )}
         {props.offline && isReverse && offline}
-      </div>
+      </Flex>
       <div
         onMouseEnter={(): void => setHoverControls(true)}
         onMouseLeave={(): void => setHoverControls(false)}

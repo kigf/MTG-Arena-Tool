@@ -20,15 +20,6 @@
   -webkit-transition: all 0.3s cubic-bezier(0.2, 0.5, 0.35, 1);
 }
 
-.top_artist {
-  line-height: 24px;
-  font-size: 14px;
-  margin-top: -4px;
-  font-family: var(--main-font-name-it);
-  opacity: 0.3;
-  color: var(--color-text);
-}
-
 .unlink {
   -webkit-app-region: no-drag;
   background: url(../../../assets/images/unlink.png) no-repeat center;
