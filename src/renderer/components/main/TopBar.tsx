@@ -57,7 +57,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
 
   // Define components for simple ordering later
   const iconStyle: CSSProperties = {
-    fill: os == "darwin" ? (hoverControls ? "#000000bf" : "#00000000") : "#FFF",
+    fill: os == "darwin" ? (hoverControls ? "#000000bf" : "#00000000") : "",
     margin: "auto",
   };
 
@@ -101,7 +101,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
         className={indexCss.flexItem}
         style={{ flexDirection: isReverse ? "row-reverse" : "row" }}
       >
-        <Logo style={{ margin: "2px 6px", opacity: 0.6 }} />
+        <Logo fill={"#FFF"} style={{ margin: "2px 8px", opacity: 0.6 }} />
         {loginState !== LOGIN_OK ? (
           <div className={mainCss.topArtist}>{props.artist}</div>
         ) : (

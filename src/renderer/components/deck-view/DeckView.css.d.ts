@@ -4,9 +4,6 @@ declare namespace DeckViewCssModule {
   export interface IDeckViewCss {
     "regular-view-grid": string;
     regularViewGrid: string;
-    top: string;
-    "top-inner": string;
-    topInner: string;
   }
 }
 

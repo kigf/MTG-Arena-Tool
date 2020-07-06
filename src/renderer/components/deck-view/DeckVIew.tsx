@@ -176,13 +176,13 @@ export function DeckView(props: DeckViewProps): JSX.Element {
       <div className={indexCss.wrapperColumn}>
         <div className={indexCss.centeredUx}>
           <div
-            className={css.top}
+            className={indexCss.top}
             style={{
               backgroundImage: `url(${getCardArtCrop(deck.tile)})`,
             }}
           >
             <DeckColorsBar deck={deck} />
-            <div className={css.topInner}>
+            <div className={indexCss.topInner}>
               <div className={indexCss.flexItem}>
                 <SvgButton
                   style={{

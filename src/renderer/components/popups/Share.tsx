@@ -110,7 +110,7 @@ export default function Share(props: ShareProps): JSX.Element {
     >
       <div
         className={css.popupDiv}
-        style={{ height: `${open * 200}px`, width: `${open * 400}px` }}
+        style={{ height: `${open * 240}px`, width: `${open * 420}px` }}
         onClick={(e): void => {
           e.stopPropagation();
         }}
