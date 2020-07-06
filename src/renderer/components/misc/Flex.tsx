@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 
 export default function Flex(props: PropsWithChildren<any>): JSX.Element {
   return (
-    <div style={{ display: "flex" }} {...props}>
+    <div {...props} style={{ ...props.style, display: "flex" }}>
       {props.children}
     </div>
   );

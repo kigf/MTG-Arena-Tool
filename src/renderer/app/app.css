@@ -59,8 +59,8 @@
   font-size: 14px;
   height: 24px;
   position: absolute;
-  left: calc(100% - 83px);
-  top: calc(100% - 27px);
+  left: calc(100% - 84px);
+  top: calc(100% - 28px);
   background-color: var(--color-section);
   z-index: 100;
   border-radius: 4px;
@@ -73,8 +73,8 @@
   width: 32px;
   height: 32px;
   position: absolute;
-  left: 3px;
-  top: calc(100% - 35px);
+  left: 4px;
+  top: calc(100% - 36px);
   background-color: var(--color-section);
   z-index: 100;
   border-radius: 4px;

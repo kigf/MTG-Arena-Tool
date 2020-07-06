@@ -91,7 +91,12 @@ export default function TopBar(props: TopBarProps): JSX.Element {
       className={css.top}
       style={{ flexDirection: isReverse ? "row-reverse" : "row" }}
     >
-      <Flex style={{ flexDirection: isReverse ? "row-reverse" : "row" }}>
+      <Flex
+        style={{
+          margin: isReverse ? "auto" : "",
+          flexDirection: isReverse ? "row-reverse" : "row",
+        }}
+      >
         <Logo fill={"#FFF"} style={{ margin: "2px 8px", opacity: 0.6 }} />
         {loginState !== LOGIN_OK ? (
           <div className={css.topArtist}>{props.artist}</div>
