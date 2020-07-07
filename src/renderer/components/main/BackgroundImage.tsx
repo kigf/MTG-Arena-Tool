@@ -10,7 +10,8 @@ import DEFAULT_BACKGROUND from "../../../assets/images/main-background.jpg";
 import sharedCss from "../../../shared/shared.css";
 import { initialRendererState } from "../../../shared/redux/slices/rendererSlice";
 
-export default function BackgroundImage(): JSX.Element {
+// deprecated, Keeping it around the source just in case
+function _BackgroundImage(): JSX.Element {
   const dispatcher = useDispatch();
   const backgroundImage = useSelector(
     (state: AppState) => state.settings.back_url

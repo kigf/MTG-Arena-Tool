@@ -4,7 +4,6 @@ import { ManaSymbol } from "./ManaSymbol";
 import indexCss from "../../index.css";
 
 export type ManaFilterKeys = "w" | "u" | "b" | "r" | "g" | "multi";
-type ManaBitsFilterKeys = ManaFilterKeys | "mode";
 
 export type ColorFilter = { [key in ManaFilterKeys]: boolean };
 

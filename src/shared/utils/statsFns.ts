@@ -89,13 +89,6 @@ function hypergeometric(
   );
 }
 
-export function hypergeometricSignificance(
-  value: number,
-  population: number,
-  sample: number,
-  hitsInPop: number
-): number;
-
 function _hypergeometricSignificance(
   value: number,
   population: number,

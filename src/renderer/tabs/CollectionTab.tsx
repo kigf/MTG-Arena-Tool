@@ -126,7 +126,7 @@ function getCollectionData(
     )
     .map(
       (card): CardsData => {
-        const dfc = db.card(card.dfcId || 0);
+        const dfc = db.card(card.dfcId !== true ? card.dfcId || 0 : 0);
         const dfcName = dfc?.name.toLowerCase() || "";
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
         const rarityVal = getRarityFilterVal(card.rarity);
