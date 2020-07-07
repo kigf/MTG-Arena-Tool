@@ -126,9 +126,12 @@ export function App(): JSX.Element {
 
   return (
     <>
-      <TopBar artist={topArtist} offline={offline} />
+      {process.platform !== "linux" && (
+        <TopBar artist={topArtist} offline={offline} />
+      )}
       <div
         className={loginState == LOGIN_OK ? css.appWrapper : css.appWrapperBack}
+        style={{ top: process.platform == "linux" ? "0px" : "4px" }}
       >
         {noLog ? <OutputLogInput closeCallback={closeNoLog} /> : <></>}
         {share.open ? <Share closeCallback={closeShare} /> : <></>}

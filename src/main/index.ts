@@ -141,6 +141,14 @@ function installUpdate(): void {
   autoUpdater.quitAndInstall(true, true);
 }
 
+function rendererClose(): void {
+  if (store.getState().settings.close_to_tray) {
+    hideWindow();
+  } else {
+    quit();
+  }
+}
+
 let appStarted = false;
 
 function startApp(): void {
@@ -272,11 +280,7 @@ function startApp(): void {
         break;
 
       case "renderer_window_close":
-        if (store.getState().settings.close_to_tray) {
-          hideWindow();
-        } else {
-          quit();
-        }
+        rendererClose();
         break;
 
       case "set_clipboard":
@@ -681,7 +685,7 @@ function createOverlayWindow(): BrowserWindow {
 function createMainWindow(): BrowserWindow {
   const win = new BrowserWindow({
     backgroundColor: "#000",
-    frame: false,
+    frame: process.platform == "linux" ? true : false,
     show: false,
     width: 1000,
     height: 700,
@@ -693,10 +697,15 @@ function createMainWindow(): BrowserWindow {
   });
   win.loadURL("file://" + path.join(__dirname, "renderer", "index.html"));
   win.on("closed", onMainClosed);
+  win.on("close", (e): void => {
+    rendererClose();
+    e.preventDefault();
+  });
 
   let iconPath = iconTray;
   if (process.platform == "linux") {
     iconPath = iconTray8x;
+    win.removeMenu();
   }
   if (process.platform == "win32") {
     iconPath = icon256;
