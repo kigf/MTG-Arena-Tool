@@ -39,7 +39,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   const loginState = useSelector((state: AppState) => state.login.loginState);
   const [hoverControls, setHoverControls] = useState(false);
 
-  const os = "darwin"; //process.platform;
+  const os = process.platform;
 
   const topButtonClass = os == "darwin" ? css.topButtonMac : css.topButton;
 
