@@ -54,7 +54,6 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
           <div
             key={set.arenacode.toLowerCase()}
             style={{
-              filter: "invert(1)",
               backgroundImage: `url(data:image/svg+xml;base64,${svgData})`,
               width: "24px",
               height: "24px",

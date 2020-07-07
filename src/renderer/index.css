@@ -949,11 +949,11 @@ a:hover {
 }
 
 .set_filter:hover {
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .set_filter_on {
-    opacity: 0.3;
+    opacity: 0.66;
 }
 
 .mana_filter {

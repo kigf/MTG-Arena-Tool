@@ -195,6 +195,9 @@ function getTokenVal(
         case "mythic":
           rarity = RARITY_MYTHIC;
           break;
+        default:
+          rarity = parseInt(val);
+          break;
       }
       filters.rarity.mode = separator;
       filters.rarity.rarity = rarity;

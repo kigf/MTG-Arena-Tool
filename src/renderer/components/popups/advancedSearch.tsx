@@ -15,7 +15,17 @@ import {
 import ReactSelect from "../../../shared/ReactSelect";
 import getFiltersFromQuery from "../collection/collectionQuery";
 import Colors from "../../../shared/colors";
-import { ColorBitsFilter, ArrayFilter } from "../collection/types";
+import {
+  ColorBitsFilter,
+  ArrayFilter,
+  RarityBitsFilter,
+  RARITY_COMMON,
+  RARITY_TOKEN,
+  RARITY_LAND,
+  RARITY_UNCOMMON,
+  RARITY_RARE,
+  RARITY_MYTHIC,
+} from "../collection/types";
 import SetsFilter from "../misc/SetsFilter";
 import { StringFilter } from "../tables/filters";
 
@@ -46,6 +56,25 @@ const formatFilterOptions = [
   "Brawl",
 ];
 
+const raritySeparatorOptions: Record<string, string> = {
+  "Equal to": ":",
+  Not: "!=",
+  Above: ">",
+  "Equal or above": ">=",
+  "Lower than": "<",
+  "Lower or equal to": "<=",
+};
+
+const rarityFilterOptions = [
+  "Any",
+  "Token",
+  "Land",
+  "Common",
+  "Uncommon",
+  "Rare",
+  "Mythic",
+];
+
 interface EditKeyProps {
   defaultQuery: string;
   closeCallback?: (query: string) => void;
@@ -62,6 +91,8 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   let defaultSets: string[] = [];
   let defaultColorFilter = "Any of these colors";
   let defaultFormat = "Not set";
+  let defaultRarity = "Any";
+  let defaultRaritySeparator = ":";
   // Loop trough the setted filters to adjust defaults
   defaultFilters.map((f: any) => {
     // Guess color filter
@@ -90,6 +121,22 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       const filter: StringFilter = f.value;
       defaultFormat = filter.string;
     }
+    if (f.id == "rarity") {
+      const filter: RarityBitsFilter = f.value;
+      if (filter.rarity == RARITY_TOKEN) defaultRarity = "Token";
+      if (filter.rarity == RARITY_LAND) defaultRarity = "Land";
+      if (filter.rarity == RARITY_COMMON) defaultRarity = "Common";
+      if (filter.rarity == RARITY_UNCOMMON) defaultRarity = "Uncommon";
+      if (filter.rarity == RARITY_RARE) defaultRarity = "Rare";
+      if (filter.rarity == RARITY_MYTHIC) defaultRarity = "Mythic";
+      if (filter.mode == "=") defaultRaritySeparator = "Equal to";
+      if (filter.mode == "!=") defaultRaritySeparator = "Not";
+      if (filter.mode == ":") defaultRaritySeparator = "Equal to";
+      if (filter.mode == ">") defaultRaritySeparator = "Above";
+      if (filter.mode == ">=") defaultRaritySeparator = "Equal or above";
+      if (filter.mode == "<") defaultRaritySeparator = "Lower than";
+      if (filter.mode == "<=") defaultRaritySeparator = "Lower or equal to";
+    }
   });
 
   // Set filters state
@@ -100,6 +147,12 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   );
   const [formatFilterOption, setFormatFilterOption] = useState<string>(
     defaultFormat
+  );
+  const [rarityFilterOption, setRarityFilterOption] = useState<string>(
+    defaultRarity
+  );
+  const [raritySeparatorOption, setRaritySeparatorOption] = useState<string>(
+    defaultRaritySeparator
   );
 
   const handleClose = useCallback(
@@ -140,11 +193,24 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
 
     const formats = "f:" + formatFilterOption.toLocaleLowerCase();
 
+    const rarity =
+      "r" +
+      (raritySeparatorOptions[raritySeparatorOption] || ":") +
+      rarityFilterOption.toLocaleLowerCase();
+
     filterColors.length !== 5 && filters.push(colors);
     filterSets.length > 0 && filters.push(sets);
     formatFilterOption !== "Not set" && filters.push(formats);
+    rarityFilterOption !== "Any" && filters.push(rarity);
     setQuery(filters.join(" "));
-  }, [formatFilterOption, filterSets, filterColors, colorFilterOption]);
+  }, [
+    rarityFilterOption,
+    raritySeparatorOption,
+    formatFilterOption,
+    filterSets,
+    filterColors,
+    colorFilterOption,
+  ]);
 
   return (
     <div
@@ -160,8 +226,10 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       <div
         className={css.popupDiv}
         style={{
-          height: `${open * 400}px`,
-          width: `${open * 700}px`,
+          overflowY: `auto`,
+          maxHeight: `calc(100vh - 80px)`,
+          height: `min(${open * 450}px, calc(100vh - 64px))`,
+          maxWidth: `${open * 800}px`,
           color: "var(--color-back)",
         }}
         onClick={(e): void => {
@@ -199,7 +267,34 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
             }}
           />
         </div>
-        <Button text="Search" onClick={handleSearch} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "16px",
+          }}
+        >
+          <div style={{ lineHeight: "32px" }}>Rarity: </div>
+          <ReactSelect
+            options={Object.keys(raritySeparatorOptions)}
+            current={raritySeparatorOption}
+            callback={(opt: string): void => {
+              setRaritySeparatorOption(opt);
+            }}
+          />
+          <ReactSelect
+            options={rarityFilterOptions}
+            current={rarityFilterOption}
+            callback={(opt: string): void => {
+              setRarityFilterOption(opt);
+            }}
+          />
+        </div>
+        <Button
+          style={{ margin: "16px auto" }}
+          text="Search"
+          onClick={handleSearch}
+        />
       </div>
     </div>
   );
