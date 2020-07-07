@@ -133,7 +133,7 @@ function getCollectionData(
         const name = card.name.toLowerCase() + " " + dfcName;
         const type = card.type.toLowerCase();
         const artist = card.artist.toLowerCase();
-        const set = card.set.toLowerCase();
+        const set = card.set;
         const owned = cards.cards[card.id] ?? 0;
         const acquired = cardsNew[card.id] ?? 0;
         const wanted = wantedCards[card.id] ?? 0;

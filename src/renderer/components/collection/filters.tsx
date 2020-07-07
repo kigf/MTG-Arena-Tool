@@ -54,7 +54,7 @@ export function setFilterFn<D extends TableData>(
     res =
       res ||
       row.original.setCode.indexOf(F) !== -1 ||
-      row.original.set.indexOf(F) !== -1;
+      row.original.set.toLowerCase().indexOf(F) !== -1;
     return filterValue.not ? !res : res;
   });
 }
