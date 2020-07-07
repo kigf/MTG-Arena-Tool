@@ -372,6 +372,7 @@ ipc.on("set_log", function (_event, arg) {
 // Read the log
 // Set variables to default first
 let prevLogSize = 0;
+let logLoops = -1;
 
 // Old parser
 async function attemptLogLoop(): Promise<void> {
@@ -385,15 +386,20 @@ async function attemptLogLoop(): Promise<void> {
 
 // Basic logic for reading the log file
 async function logLoop(): Promise<void> {
+  logLoops++;
   const logUri = globals.store.getState().appsettings.logUri;
-  debugLog("logLoop() start " + logUri);
+  if (logLoops == 0) {
+    debugLog("logLoop() start " + logUri);
+  }
   if (logUri.indexOf("output_log") !== -1 && fs.existsSync(defaultLogUri())) {
     ipcSend("no_log", defaultLogUri());
     ipcSend("popup", {
       text: "Log file name has changed.",
       time: 1000,
     });
-    debugLog("Log file name has changed.");
+    if (logLoops == 0) {
+      debugLog("Log file name has changed.");
+    }
     return;
   }
   if (fs.existsSync(logUri)) {
@@ -403,13 +409,17 @@ async function logLoop(): Promise<void> {
         text: "No log file found. Please include the file name too.",
         time: 1000,
       });
-      debugLog("No log file found. Please include the file name too.");
+      if (logLoops == 0) {
+        debugLog("No log file found. Please include the file name too.");
+      }
       return;
     }
   } else {
     ipcSend("no_log", logUri);
     ipcSend("popup", { text: "No log file found.", time: 1000 });
-    debugLog("No log file found.");
+    if (logLoops == 0) {
+      debugLog("No log file found.");
+    }
     return;
   }
 
@@ -451,10 +461,10 @@ async function logLoop(): Promise<void> {
   let foundData = 0;
   let i = 0;
   while (i < splitString.length - 1 || foundData !== 2) {
-    const value = splitString[i];
+    const value: string | undefined = splitString[i];
     // Check if detailed logs / plugin support is disabled
     let strCheck = "DETAILED LOGS: DISABLED";
-    if (value.includes(strCheck)) {
+    if (value?.includes(strCheck)) {
       debugLog("LogLoop(): Detailed logs disabled!");
       reduxAction(
         globals.store.dispatch,
@@ -467,7 +477,7 @@ async function logLoop(): Promise<void> {
 
     // Get player Id
     strCheck = "AccountID:";
-    if (value.includes(strCheck) && parsedData.arenaId == undefined) {
+    if (value?.includes(strCheck) && parsedData.arenaId == undefined) {
       parsedData.arenaId =
         debugArenaID ?? unleakString(dataChop(value, strCheck, ","));
       foundData++;
@@ -475,7 +485,7 @@ async function logLoop(): Promise<void> {
 
     // Get User name
     strCheck = "DisplayName:";
-    if (value.includes(strCheck) && parsedData.playerName == undefined) {
+    if (value?.includes(strCheck) && parsedData.playerName == undefined) {
       parsedData.playerName = unleakString(dataChop(value, strCheck, ","));
       foundData++;
     }

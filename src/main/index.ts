@@ -82,7 +82,7 @@ app.on("second-instance", () => {
 
 if (!singleLock) {
   debugLog("We dont have single instance lock! quitting the app.");
-  app.quit();
+  quit();
 }
 
 app.on("ready", () => {
@@ -586,6 +586,7 @@ function showWindow(): void {
 
 function quit(): void {
   app.quit();
+  app.exit();
 }
 
 function saveWindowPos(): void {
@@ -733,6 +734,7 @@ function createMainWindow(): BrowserWindow {
     {
       label: "Quit",
       click: (): void => {
+        console.log("Bye bye!");
         quit();
       },
     },
