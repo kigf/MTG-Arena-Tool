@@ -10,9 +10,7 @@ const PagingButtonBase = styled.button.attrs<PagingButtonProps>((props) => ({
     props.disabled ? indexCss.pagingButtonDisabled : indexCss.pagingButton
   } ${props.selected ? indexCss.pagingActive : ""}`,
 }))`
-  width: initial;
-  height: initial;
-  minwidth: 30px;
+  min-width: 30px;
 `;
 
 export const PagingButton = styled(PagingButtonBase)<PagingButtonProps>``;

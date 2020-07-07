@@ -1,61 +1,58 @@
-
-
 .economy_day_stats {
-  font-family:  var(--main-font-name);
-    font-size: 16px;
-    margin: auto 16px auto auto;
+  font-family: var(--main-font-name);
+  font-size: 16px;
+  margin: auto 16px auto auto;
   align-items: center;
   justify-content: flex-end;
 }
 
 .economy_metric {
-    align-items: center;
-    display: flex;
-    justify-content: flex-end;
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .economy_delta {
-    align-items: center;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 6px;
-    line-height: 64px;
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 6px;
+  line-height: 64px;
 }
 
 .economy_up {
-    background-repeat: no-repeat;
-    margin: 4px;
-    width: 24px;
-    height: 24px;
-    background-image: url(../../../assets/images/up_green.png);
-    background-size: contain;
+  background-repeat: no-repeat;
+  margin: 4px;
+  width: 24px;
+  height: 24px;
+  background-image: url(../../../assets/images/up_green.png);
+  background-size: contain;
 }
 
 .economy_down {
-    background-repeat: no-repeat;
-    margin: 4px;
-    width: 24px;
-    height: 24px;
-    background-image: url(../../../assets/images/down_red.png);
-    background-size: contain;
+  background-repeat: no-repeat;
+  margin: 4px;
+  width: 24px;
+  height: 24px;
+  background-image: url(../../../assets/images/down_red.png);
+  background-size: contain;
 }
 
 .economy_title {
-    display: grid;
-    padding: 0px 16px;
-    grid-template-columns: auto 10% 15% 20% 20% 15%;
-    margin-left: 2px;
-    color: var(--color-light);
-    line-height: 64px;
-    font-family: 'belerenbold' !important;
-    font-size: 16px;
-    background-color: var(--color-mid-20);
+  display: grid;
+  padding: 0px 16px;
+  grid-template-columns: auto 10% 15% 20% 20% 15%;
+  color: var(--color-text);
+  line-height: 64px;
+  font-family: "belerenbold" !important;
+  font-size: 16px;
+  background-color: var(--color-section-active);
 }
 
 .economy_sub {
   margin-left: 2px;
   font-family: var(--sub-font-name);
-  color: var(--color-light);
+  color: var(--color-text);
   white-space: nowrap;
   text-overflow: clip;
   margin: auto 0;
@@ -123,13 +120,13 @@
 }
 
 .economy_mastery_med {
-background-repeat: no-repeat;
-margin: auto 4px;
-margin-left: 16px;
-width: 28px;
-height: 28px;
-background-image: url(../../../assets/images/mastery.png);
-background-size: contain;
+  background-repeat: no-repeat;
+  margin: auto 4px;
+  margin-left: 16px;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../../assets/images/mastery.png);
+  background-size: contain;
 }
 
 .economy_vault {
@@ -200,6 +197,7 @@ background-size: contain;
 }
 
 .tiny_scroll::-webkit-scrollbar {
+  background: rgba(0, 0, 0, 0.1);
   height: 2px;
 }
 
@@ -209,10 +207,10 @@ background-size: contain;
 }
 
 .tiny_scroll::-webkit-scrollbar-thumb {
-  background: #c3a485;
+  background: var(--color-dark);
   border-radius: 2px;
 }
 
 .tiny_scroll::-webkit-scrollbar-thumb:hover {
-  background: #ffe9d3;
+  background: var(--color-dark);
 }

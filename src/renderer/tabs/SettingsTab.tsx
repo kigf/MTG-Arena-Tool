@@ -129,7 +129,9 @@ export default function SettingsTab(): JSX.Element {
   return (
     <div className={appCss.uxItem}>
       <div className={css.settingsLeft}>
-        <div style={{ marginTop: "16px" }}>
+        <div
+          style={{ marginTop: "16px", marginLeft: "auto", maxWidth: "200px" }}
+        >
           <SettingsNav {...tabs[SETTINGS_BEHAVIOUR]} />
           <SettingsNav {...tabs[SETTINGS_ARENA_DATA]} />
           <SettingsNav {...tabs[SETTINGS_OVERLAY]} />

@@ -121,8 +121,8 @@ export default function CollectionTableControls(
       style={{
         display: "flex",
         flexWrap: "wrap",
-        color: "var(--color-light)",
-        paddingBottom: "8px",
+        color: "var(--color-text)",
+        paddingBottom: "4px",
       }}
     >
       <div className={tableCss.reactTableToggles}>

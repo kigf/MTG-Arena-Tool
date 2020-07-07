@@ -19,6 +19,7 @@ export default function PagingControls({
   pageIndex,
   pageSize,
   pageSizeOptions,
+  align,
 }: PagingControlsProps): JSX.Element {
   pageSizeOptions = pageSizeOptions ?? ["10", "25", "50", "100"];
   const expandButtons = pageCount < 10;
@@ -72,7 +73,10 @@ export default function PagingControls({
   }
 
   return (
-    <div className={css.pagingContainer}>
+    <div
+      className={css.pagingContainer}
+      style={{ justifyContent: align ? align : "center" }}
+    >
       {!expandButtons && (
         <PagingButton
           onClick={(): void => gotoPage(0)}
@@ -94,7 +98,7 @@ export default function PagingControls({
       </PagingButton>
       {!expandButtons && (
         <PagingButton
-          style={{ width: "initial", height: "initial", minWidth: "30px" }}
+          style={{ minWidth: "30px" }}
           onClick={(): void => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
           selected={!canNextPage}

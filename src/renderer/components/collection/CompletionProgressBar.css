@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   height: 32px;
-  color: var(--color-light);
+  color: var(--color-text);
 }
 
 .stats_set_completion.stats_sidebar {
@@ -29,7 +29,7 @@
   line-height: 24px;
   margin: 0 6px;
   font-size: 13px;
-  color: var(--color-light);
+  color: var(--color-text);
   -webkit-transition: all .2s ease-in;
 }
 

@@ -6,11 +6,9 @@ declare namespace SharedCssModule {
     autoWidth: string;
     auto_width: string;
     back: string;
-    "back-white": string;
     backBlue: string;
     backGreen: string;
     backRed: string;
-    backWhite: string;
     back_blue: string;
     back_green: string;
     back_red: string;
@@ -154,8 +152,6 @@ declare namespace SharedCssModule {
     orangeBrightBg: string;
     orange_bright: string;
     orange_bright_bg: string;
-    outerWrapper: string;
-    outer_wrapper: string;
     "ownership-stars-container": string;
     ownershipStarsContainer: string;
     pieContainer: string;
@@ -168,9 +164,6 @@ declare namespace SharedCssModule {
     red_bright: string;
     red_bright_bg: string;
     settings: string;
-    top: string;
-    topLogo: string;
-    top_logo: string;
     typeArt: string;
     typeCre: string;
     typeEnc: string;
@@ -198,9 +191,7 @@ declare namespace SharedCssModule {
     wildcards_cost: string;
     wrapper: string;
     wrapperAfter: string;
-    wrapperMain: string;
     wrapper_after: string;
-    wrapper_main: string;
     yellowBright: string;
     yellowBrightBg: string;
     yellow_bright: string;

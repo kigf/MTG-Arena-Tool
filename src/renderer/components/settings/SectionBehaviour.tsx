@@ -114,12 +114,15 @@ export default function SectionBehaviour(): JSX.Element {
         value={settings.close_to_tray}
         callback={clickCloseToTray}
       />
-      <Input
-        label="Export Format:"
-        value={settings.export_format}
-        placeholder="$Name,$Count,$SetName,$SetCode,$Rarity,$Type"
-        callback={changeExportFormat}
-      />
+      <div className={css.centered_setting_container}>
+        <label>Export Format:</label>
+        <Input
+          value={settings.export_format}
+          placeholder="$Name,$Count,$SetName,$SetCode,$Rarity,$Type"
+          callback={changeExportFormat}
+        />
+      </div>
+
       <div className={css.settings_note}>
         <i>
           Possible variables: $Name, $Count, $SetName, $SetCode, $Collector,

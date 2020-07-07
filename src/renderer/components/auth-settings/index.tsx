@@ -3,7 +3,7 @@ import { remote, shell } from "electron";
 import css from "./index.scss";
 import indexCss from "../../index.css";
 import formsCss from "../../forms.css";
-import Close from "./close.svg";
+import Close from "../../../assets/images/svg/close.svg";
 import { animated, useSpring } from "react-spring";
 import { ipcSend } from "../../rendererUtil";
 import { useSelector } from "react-redux";
@@ -102,7 +102,7 @@ export default function AuthSettings<F extends Function>(
         }}
       >
         <Close
-          fill="var(--color-back)"
+          fill="var(--color-text-hover)"
           className={css.closeButton}
           onClick={(): void => setOpen(0)}
         />
@@ -118,11 +118,7 @@ export default function AuthSettings<F extends Function>(
                 justifyContent: "flex-end",
               }}
             >
-              <div
-                style={{ filter: "brightness(0.2)" }}
-                className={indexCss.open_button}
-                onClick={openPathDialog}
-              />
+              <div className={indexCss.open_button} onClick={openPathDialog} />
               <div className={formsCss.formInputContainer}>
                 <input autoComplete="off" value={appSettings.logUri} />
               </div>

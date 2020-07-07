@@ -22,6 +22,7 @@ import css from "./index.css";
 
 import blipSound from "../assets/sounds/blip.mp3";
 import { InternalDraftv2 } from "../types/draft";
+import reloadTheme from "../shared/utils/reloadTheme";
 const sound = new Howl({ src: [blipSound] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);
@@ -221,6 +222,10 @@ export default function OverlayController(): JSX.Element {
     [dispatcher]
   );
 
+  const handleReloadTheme = useCallback((_event: unknown, arg: string) => {
+    reloadTheme(arg);
+  }, []);
+
   const clearMatchEnd = useCallback(() => {
     reduxAction(
       dispatcher,
@@ -239,6 +244,7 @@ export default function OverlayController(): JSX.Element {
     ipc.on("set_match", handleSetMatch);
     ipc.on("set_turn", handleSetTurn);
     ipc.on("match_end", handleMatchEnd);
+    ipc.on("reload_theme", handleReloadTheme);
 
     return (): void => {
       // unregister all IPC listeners
@@ -250,6 +256,7 @@ export default function OverlayController(): JSX.Element {
       ipc.removeListener("set_match", handleSetMatch);
       ipc.removeListener("set_turn", handleSetTurn);
       ipc.removeListener("match_end", handleMatchEnd);
+      ipc.removeListener("reload_theme", handleReloadTheme);
     };
   });
 

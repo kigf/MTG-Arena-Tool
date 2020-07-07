@@ -24,11 +24,11 @@ export default function SectionAbout(): JSX.Element {
           shell.openExternal("https://mtgatool.com");
         }}
       ></div>
-      <div className={`${indexCss.messageSub15} ${sharedCss.white}`}>
+      <div className={`${indexCss.messageSub15}`}>
         By Manuel Etchegaray, 2020
       </div>
       <div
-        className={`${indexCss.messageSub15} ${sharedCss.white} ${css.releaseNotesLink}`}
+        className={`${indexCss.messageSub15} ${css.releaseNotesLink}`}
         onClick={(): void => {
           shell.openExternal("https://mtgatool.com/release-notes/");
         }}
@@ -36,7 +36,7 @@ export default function SectionAbout(): JSX.Element {
         {"Version " + remote.app.getVersion()}
       </div>
       {db.metadata ? (
-        <div className={`${indexCss.messageSub15} ${sharedCss.white}`}>
+        <div className={`${indexCss.messageSub15}`}>
           Metadata: version {db.metadata.version || "???"}, updated{" "}
           {db.metadata.updated
             ? format(fromUnixTime(db.metadata.updated / 1000), "Pp")
@@ -55,7 +55,7 @@ export default function SectionAbout(): JSX.Element {
         }}
       />
       <div
-        className={`${indexCss.messageSub15} ${sharedCss.white} ${css.releaseNotesLink}`}
+        className={`${indexCss.messageSub15} ${css.releaseNotesLink}`}
         onClick={(): void => {
           shell.openExternal("https://mtgatool.com/release-notes");
         }}
@@ -63,7 +63,7 @@ export default function SectionAbout(): JSX.Element {
         Release Notes
       </div>
       <div
-        style={{ margin: "40px auto 0px auto" }}
+        style={{ margin: "16px auto 0px auto" }}
         className={indexCss.flexItem}
       >
         <div
@@ -86,7 +86,7 @@ export default function SectionAbout(): JSX.Element {
         />
       </div>
       <div
-        style={{ margin: "24px 0 12px 0" }}
+        style={{ margin: "16px 0px 16px" }}
         className={`${indexCss.messageSub15} ${sharedCss.white}`}
       >
         Support my work!

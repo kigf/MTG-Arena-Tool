@@ -11,7 +11,6 @@ declare namespace SelectScssModule {
     aSsuggestionHighlighted: string;
     aSsuggestionsList: string;
     active: string;
-    light: string;
     select: string;
     "select-hidden": string;
     "select-options": string;

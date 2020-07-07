@@ -3,7 +3,6 @@
 declare namespace SliderCssModule {
   export interface ISliderCss {
     slidecontainer: string;
-    slider: string;
     sliderMarkHor: string;
     sliderMarkOuter: string;
     sliderMarkText: string;

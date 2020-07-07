@@ -5,6 +5,9 @@ import sharedCss from "../../../shared/shared.css";
 import indexCss from "../../index.css";
 import css from "./tables.css";
 
+import Settings from "../../../assets/images/svg/icon-settings.svg";
+import SvgButton from "../misc/SvgButton";
+
 export default function TableHeaders<D extends TableData>({
   filtersVisible,
   getTableProps,
@@ -44,10 +47,10 @@ export default function TableHeaders<D extends TableData>({
               style={{ marginRight: "4px", width: "16px" }}
             />
             <div className={indexCss.flexItem}>{column.render("Header")}</div>
-            {column.canFilter && column.Filter && (
-              <div
-                style={{ marginRight: 0 }}
-                className={sharedCss.button + " " + sharedCss.settings}
+            {column.canFilter && (
+              <SvgButton
+                svg={Settings}
+                style={{ width: "24px", height: "24px", marginLeft: "4px" }}
                 onClick={(e): void => {
                   e.stopPropagation();
                   setFiltersVisible({
@@ -55,10 +58,6 @@ export default function TableHeaders<D extends TableData>({
                     [column.id]: !filtersVisible[column.id],
                   });
                 }}
-                title={
-                  (filtersVisible[column.id] ? "hide" : "show") +
-                  " column filter"
-                }
               />
             )}
             {column.filterValue && (

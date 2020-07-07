@@ -20,6 +20,8 @@ import { useTable, useSortBy } from "react-table";
 import sectionCss from "../settings/Sections.css";
 import indexCss from "../../index.css";
 import css from "./CardsWinrateView.css";
+import Section from "../misc/Section";
+import Flex from "../misc/Flex";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);
@@ -313,12 +315,21 @@ export default function CardsWinratesView(
   );
 
   return (
-    <>
-      <Button text="Normal View" onClick={setRegularView} />
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
+    <div className={css.cardsWrViewGrid}>
+      <Section
+        style={{
+          padding: "16px",
+          gridArea: "controls",
+          justifyContent: "center",
+        }}
+      >
+        <Flex
           className={sectionCss.centered_setting_container}
-          style={{ justifyContent: "center" }}
+          style={{
+            margin: "0px 8px 0px 0px",
+            width: "auto",
+            justifyContent: "center",
+          }}
         >
           <label>Deck Version:</label>
           <ReactSelect
@@ -327,15 +338,20 @@ export default function CardsWinratesView(
             current={deckVersions[0]}
             callback={setDeckVersionFilter}
           />
-        </div>
+        </Flex>
+        <Button text="Normal View" onClick={setRegularView} />
+      </Section>
+      <Section style={{ gridArea: "desc" }}>
         <div
           className={sectionCss.settingsNote}
-          style={{ textAlign: "center" }}
+          style={{ margin: "auto", padding: "16px", textAlign: "center" }}
         >
           All winrates shown correspond to the times when the card in question
           was cast during a game, except for the &quot;Sided out WR&quot;
           column.
         </div>
+      </Section>
+      <Section style={{ padding: "16px", gridArea: "table" }}>
         <div className={css.cardWrStats}>
           <div className={css.cardWrLine}>
             {headerGroups.map((headerGroup: any) => {
@@ -404,7 +420,7 @@ export default function CardsWinratesView(
             }
           })}
         </div>
-      </div>
-    </>
+      </Section>
+    </div>
   );
 }

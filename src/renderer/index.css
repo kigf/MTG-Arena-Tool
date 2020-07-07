@@ -38,28 +38,7 @@ time, local-time, relative-time {
   font-family: var(--main-font-name-it);
   white-space: nowrap;
   font-weight: 300;
-  color: var(--color-light-66);
-}
-
-.version_number {
-    width: 80px;
-    text-align: center;
-    font-family: var(--main-font-name);
-    color: var(--color-light-75);
-    line-height: 24px;
-    font-size: 14px;
-    height: 24px;
-    position: absolute;
-    left: calc(100% - 82px);
-    top: calc(100% - 26px);
-    background-color: var(--color-back);
-    z-index: 100;
-    border-radius: 4px 0 0 0;
-    cursor: pointer;
-}
-
-.version_number {
-    text-decoration: underline;
+  color: var(--color-text);
 }
 
 .top_status, .top_status_span {
@@ -131,44 +110,59 @@ time, local-time, relative-time {
 
 .button_simple {
     align-self: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
     cursor: pointer;
     width: 200px;
-    height: 32px;
-    border-radius: 3px;
-    color: var(--color-light) !important;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    color: var(--color-text-button);
     font-size: 16px;
     text-align: center;
-    line-height: 32px;
-    border: 1px solid var(--color-light-50);
-    background-color: var(--color-mid-40);
-    /* box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.8); */
-    -webkit-transition: all .1s ease-in;
+    margin: auto 4px;
+    border: 1px solid var(--color-dark);
+    background-color: var(--color-button);
     font-family: var(--main-font-name);
+    transform: translateY(0);
+    -webkit-transition: all .2s ease-in-out;
+}
+
+.button_simple:active {
+    border: 1px solid var(--color-dark-hover);
+    background-color: var(--color-button);
+}
+
+.button_simple:hover {
+    border: 1px solid var(--color-dark-hover);
+    color: var(--color-text-button-hover);
+    background-color: var(--color-button-hover);
 }
 
 .button_simple_disabled {
     align-self: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    cursor: pointer;
     width: 200px;
-    height: 32px;
-    border-radius: 3px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    color: var(--color-text-button-disabled);
     font-size: 16px;
     text-align: center;
-    line-height: 32px;
-    border: 1px solid var(--color-light-50);
-    background-color: var(--color-mid-40);
-    -webkit-transition: all .1s ease-in;
-    color: var(--color-light-40);
+    margin: auto 4px;
+    border: 1px solid var(--color-dark);
+    background-color: var(--color-button);
     font-family: var(--main-font-name);
+    transform: translateY(0);
+    -webkit-transition: all .2s ease-in-out;
+}
+
+
+.disabled {
+    color: var(--color-text-disabled) !important; 
 }
 
 .disabled:hover {
-    background-color: var(--color-mid-40) !important;
-    box-shadow: 0px 6px 15px 0px rgba(0, 0, 0, 0) !important;
-    border: 1px solid var(--color-light-50) !important;
+    box-shadow: none !important;
+    transform: translateY(0) !important;
 }
 
 .button_thin {
@@ -189,18 +183,6 @@ time, local-time, relative-time {
     font-size: 14px !important;
 }
 
-.button_simple:hover {
-    background-color: var(--color-mid);
-    box-shadow: 0px 6px 15px 0px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--color-light);
-}
-
-.button_simple:active {
-    background-color: var(--color-mid);
-    line-height: 34px;
-    box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.6);
-}
-
 .button_edit {
     height: 20px;
     line-height: 20px;
@@ -208,7 +190,7 @@ time, local-time, relative-time {
 }
 
 .button_edit:active {
-    background-color: var(--color-mid);
+    background-color: var(--color-text);
     line-height: 22px;
     box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.6);
 }
@@ -267,7 +249,6 @@ time, local-time, relative-time {
     width: 200px;
 }
 
-
 .visualView, .openDeck, .openMatches, .exportDeck, .exportDeckStandard, .centered {
     display: block;
     margin: 16px auto !important;
@@ -318,6 +299,7 @@ time, local-time, relative-time {
 .ontheplaytext {
     color: var(--color-g);
     font-size: 16px;
+    line-height: 16px;
     margin: auto auto 2px auto;
     font-family: var(--sub-font-name-bold);
 }
@@ -332,6 +314,7 @@ time, local-time, relative-time {
 .onthedrawtext {
     color: var(--color-r);
     font-size: 16px;
+    line-height: 16px;
     margin: auto auto 2px auto;
     font-family: var(--sub-font-name-bold);
 }
@@ -346,6 +329,7 @@ time, local-time, relative-time {
 .notplayedtext {
     color: var(--color-b);
     font-size: 16px;
+    line-height: 16px;
     margin: auto auto 2px auto;
     font-family: var(--sub-font-name-bold);
 }
@@ -603,7 +587,7 @@ a:hover {
     line-height: 65px;
     height: 40px;
     text-align: center;
-    background-position: center 0px;
+    background-position: center -4px;
     background-repeat: no-repeat;
     background-image: url(../assets/images/booster.png);
 }
@@ -648,7 +632,7 @@ a:hover {
 }
 
 .inventory_card_img:hover {
-    border: 2px solid var(--color-light-66);
+    border: 2px solid var(--color-button-hover);
     margin: -2px 0 -2px -2px;
 }
 
@@ -820,46 +804,52 @@ a:hover {
     cursor: pointer;
     margin: auto 4px;
     width: 24px;
-    height: 24px;
+    height: 32px;
     text-align: center;
-    line-height: 24px;
-    border-radius: 4px;
+    line-height: 29px;
+    border-radius: 2px;
     color: var(--color-light-50);
-    border: 1px solid var(--color-light-50);
-    background-color: var(--color-mid-40);
+    border: 1px solid var(--color-dark);
+    background-color: var(--color-section);
     -webkit-transition: all .2s ease-in;
 }
 
 .paging_button_disabled {
     margin: auto 4px;
     width: 24px;
-    height: 24px;
+    height: 32px;
     text-align: center;
-    line-height: 24px;
-    border-radius: 4px;
-    border: none;
-    color: var(--color-light-20);
-    background-color: var(--color-mid-40);
+    line-height: 29px;
+    border-radius: 2px;
+    border: none !important;
+    color: var(--color-text-disabled) !important;
+    background-color: var(--color-section) !important;
 }
 
 .paging_button:hover {
-    background-color: var(--color-mid);
-    border: 1px solid var(--color-light);
-    color: var(--color-light);
+    background-color: var(--color-section-hover);
+    border: 1px solid var(--color-dark-hover);
+    color: var(--color-text-hover);
+    outline: none;
+}
+
+.paging_button:active {
+    color: var(--color-text-hover);
+    outline: none;
 }
 
 .paging_active {
-    background-color: var(--color-mid);
-    border: 1px solid var(--color-light);
+    background-color: var(--color-section);
+    border: 1px solid var(--color-dark);
     color: var(--color-light);
 }
-
 
 .main_stats {
     padding: 12px;
     min-width: 240px;
     display: block;
     text-align: center;
+    background-color: var(--color-section);
 }
 
 .set_stats {
@@ -889,7 +879,7 @@ a:hover {
     font-size: 15px;
     position: relative;
     margin-left: 36px;
-    color: var(--color-light);
+    color: var(--color-text);
     -webkit-transition: all .2s ease-in;
 }
 
@@ -909,7 +899,7 @@ a:hover {
     font-size: 15px;
     position: relative;
     margin-left: 36px;
-    color: var(--color-light);
+    color: var(--color-text);
 }
 
 .sets_container {
@@ -920,7 +910,7 @@ a:hover {
 }
 
 .buttons_container {
-    padding-bottom: 8px;
+    padding-bottom: 4px;
     margin: 0 24px;
     display: flex;
     flex-direction: column;
@@ -1015,75 +1005,33 @@ a:hover {
     -webkit-transition: all .3s ease-in-out;
 }
 
-.input_container_explore {
-    display: flex;
-    height: 24px;
-    width: 100%;
-    margin: 8px;
-    align-self: center;
-}
-
-.input_container_explore label {
-    white-space: pre;
-}
-
 .input_container {
-    /*
-    display: flex;
-    height: 24px;
-    margin: 8px 16px;
-    */
-    width: 80%;
-}
-
-.input_container input, .input_container_explore input {
-    background-color: var(--color-mid-40);
-    border: 1px solid var(--color-light-50);
-    display: inline-table;
-    /*margin-left: 16px;*/
-    border-radius: 3px;
-    /* border-style: hidden; */
-    color: var(--color-light);
-    height: 24px;
-    width: calc(100% - 22px);
-    font-size: 14px;
-    user-select: none;
-    font-family:  var(--main-font-name);
-    padding-left: 4px;
-}
-
-.input_container input:focus, .input_container_explore input:focus {
-    outline-style: none;
-}
-
-
-.input_login_container {
-    display: flex;
-    height: 24px;
+    padding: 0;
+    display: inline-flex;
+    margin: 0;
+    position: relative;
     width: 100%;
-    padding: 12px 0;
+    height: 32px;
+    margin: auto 4px;
 }
 
-.input_login_container input {
-    background-color: var(--color-mid-40);
-    border: 1px solid var(--color-light-50);
+.input_container input {
+    background-color: var(--color-section);
+    border: 1px solid var(--color-dark);
     display: inline-table;
-    border-radius: 3px;
-    color: var(--color-light);
-    height: 24px;
+    border-radius: 2px;
+    color: var(--color-text);
     width: 100%;
     font-size: 14px;
     user-select: none;
-    font-family:  var(--main-font-name);
-    padding-left: 4px;
+    font-family: var(--main-font-name);
+    padding-left: 8px;
+    -webkit-transition: all .1s cubic-bezier(0.2, 0.5, 0.35, 1);
 }
 
-.input_login_container input:focus {
+.input_container input:focus, input:focus {
     outline-style: none;
-}
-
-.input_login_container label {
-
+    border: 1px solid var(--color-button);
 }
 
 .check_container {
@@ -1140,20 +1088,20 @@ a:hover {
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid var(--color-light-50);
+    background-color: var(--color-section);
+    border: 1px solid var(--color-dark);
     -webkit-transition: all .15s ease-in-out;
 }
 
 /* On mouse-over, add a grey background color */
 .check_container:hover input:enabled ~ .checkmark {
-    background-color: var(--color-mid-50);
-    border: 1px solid var(--color-light);
+    background-color: var(--color-section-hover);
+    border: 1px solid var(--color-dark-hover);
 }
 
 /* When the checkbox is checked, add a blue background */
 .check_container input:checked ~ .checkmark {
-    background-color: var(--color-mid);
+    background-color: var(--color-button-hover) !important;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -1593,194 +1541,20 @@ a:hover {
     opacity: 1;
 }
 
-.tou_reload {
-    margin: auto;
-    cursor: pointer;
-    width: 28px;
-    height: 28px;
-    opacity: 0.5;
-    background: url(../assets/images/refresh.png) no-repeat center;
-    -webkit-transition: all .2s ease-in-out;
-}
-
-.tou_reload:hover {
-    opacity: 1;
-}
-
-.tou_tabs_cont {
-    width: 100%;
-    height: 32px;
-    justify-content: center;
-    display: flex;
-}
-
-.tou_tab {
-    cursor: pointer;
-    color: var(--color-light-50);
-    width: 120px;
-    text-align: center;
-    line-height: 32px;
-    font-family: "belerenbold";
-    font-size: 19px;
-    height: 32px;
-    margin: auto 32px;
-
-    -webkit-transition: all .2s ease-in-out;
-}
-
-.tou_tab:hover, .tou_tab_selected {
-    border-bottom: solid 1px rgba(210, 231, 250, 1);
-    color: var(--color-light);
-}
-
-.tou_round_cont {
-    margin: 0 auto;
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: space-around;
-    max-width: 800px;
-    margin-bottom: 42px;
-}
-
-.tou_round_title {
-    max-width: 800px;
-    height: 32px;
-    line-height: 32px;
-    margin: 20px auto;
-    color: var(--color-light-75);
-    font-size: 20px;
-    font-family: "belerenbold";
-    text-align: center;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
-}
-
-.tou_match_cont {
-    display: inline-flex;
-    flex-direction: column;
-    width: 240px;
-    height: 80px;
-    margin: 4px;
-    overflow: hidden;
-    border-radius: 5px;
-}
-
-.tou_match_p {
-	display: flex;
-	height: 40px;
-	font-family: "belerenbold";
-	color: var(--color-light);
-	line-height: 40px;
-	text-align: left;
-	text-indent: 16px;
-	background-color: rgba(0, 0, 0, 0.5);
-	margin: 1px 0;
-}
-
-.tou_match_score {
-    color: var(--color-light);
-    text-align: center;
-    line-height: 40px;
-    margin-left: auto;
-    width: 40px;
-    text-indent: 0px;
-    background-color: var(--color-mid-40);
-}
-
-.tou_cont_b, .tou_cont_a {
-	overflow: hidden;
-	-webkit-transition: height .2s ease-in-out;
-}
-
-.tou_cont_b {
-    margin-bottom: 48px;
-}
-
-.tou_score_win {
-    background-color: var(--color-mid);
-}
-
-.tou_stand_line {
-    display: grid;
-    justify-content: start;
-    font-size: 14px;
-    height: 28px;
-    max-width: 800px;
-    margin: 0 auto;
-    color: var(--color-light);
-    background-color: var(--color-mid-40);
-    grid-template-columns: 5% 5% 20% 7% 1fr 9% 1fr 1fr 1fr 1fr 1fr;
-}
-
-.tou_stand_line_title {
-    display: grid;
-    justify-content: start;
-    height: 32px;
-    max-width: 800px;
-    margin: 0 auto;
-    color: var(--color-light);
-    background-color: var(--color-mid-40);
-    margin-top: 32px;
-    border-bottom: solid 1px var(--color-light-75);
-    grid-template-columns: 5% 5% 20% 7% 1fr 9% 1fr 1fr 1fr 1fr 1fr;
-}
-
-.tou_top_cont {
-    width: 33%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.tou_top {
-    width: -webkit-fill-available;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 16px;
-}
-
-.tou_list_player_name_title {
-    font-size: 16px !important;
-    color: var(--color-light) !important;
-    margin-bottom: 4px !important;
-}
-
-.tou_list_player_name {
-    color: var(--color-light-75);
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 2px;
-}
-
-.tou_flag {
-    margin-left: 6px;
-    align-self: center;
-    width: 16px !important;
-}
-
-.swap_icon {
-    align-self: center;
-    width: 28px;
-    height: 72px;
-    opacity: 0.8;
-    background: url(../assets/images/swap.png) no-repeat center;
-}
-
 .line_lighter {
     background-color: var(--color-mid-66);
 }
 
 .line_light {
-    background-color: var(--color-mid-40);
+    /*background-color: var(--color-shade-25);*/
 }
 
 .line_dark {
-    background-color: var(--color-mid-20);
+    background-color: var(--color-shade-25);
 }
 
 .line_bottom_border {
-    border-bottom: 1px solid var(--color-light);
+    border-bottom: 1px solid var(--color-line-sep);
 }
 
 .tou_stand_name {
@@ -2196,4 +1970,24 @@ a:hover {
 
 .flex_item {
     display: flex;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    margin: 16px 0;
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 4px;
+    background-position: center;
+    background-size: cover;
+}
+
+.top-inner {
+    display: flex;
+    justify-content: space-between;
+    margin: auto 16px;
+    font-size: 18px;
+    font-family: var(--main-font-name-bold);
 }

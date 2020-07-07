@@ -93,7 +93,6 @@ declare namespace IndexCssModule {
     overlayIcon: string;
     overlayMasterWrapper: string;
     overlaySamplesizeContainer: string;
-    overlaySeparator: string;
     overlayText: string;
     overlay_archetype: string;
     overlay_card_quantity: string;
@@ -111,7 +110,6 @@ declare namespace IndexCssModule {
     overlay_icon: string;
     overlay_master_wrapper: string;
     overlay_samplesize_container: string;
-    overlay_separator: string;
     overlay_text: string;
     pie: string;
     pnamePriority: string;

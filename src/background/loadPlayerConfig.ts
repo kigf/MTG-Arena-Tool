@@ -94,6 +94,9 @@ export async function loadPlayerConfig(): Promise<void> {
       { type: "SET_TOPNAV", arg: settings.last_open_tab },
       IPC_RENDERER
     );
+    if (settings.themeUri) {
+      ipcSend("reload_theme", settings.themeUri);
+    }
   }
 
   // Private decks

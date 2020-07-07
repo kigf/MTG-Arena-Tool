@@ -100,7 +100,7 @@ export default function Auth(props: AuthProps): JSX.Element {
           </div>
           <div
             style={{
-              color: "var(--color-mid-75)",
+              color: "var(--color-text-link)",
               cursor: "pointer",
               marginBottom: "16px",
             }}
@@ -124,40 +124,40 @@ export default function Auth(props: AuthProps): JSX.Element {
             Login
           </button>
           <div className={formsCss.formError}>{errorMessage}</div>
-        </div>
-      </div>
-      <div className={formsCss.formOptions}>
-        <Checkbox
-          style={{ width: "max-content", margin: "auto auto 12px auto" }}
-          text="Remember me?"
-          value={authForm.rememberme}
-          callback={clickRememberMe}
-        />
-        <div className={css.messageSmall}>
-          Dont have an account?{" "}
-          <a
-            onClick={(): void => {
-              shell.openExternal("https://mtgatool.com/signup/");
-            }}
-            className={css.signupLink}
-          >
-            Sign up!
-          </a>
-        </div>
-        <div className={css.messageSmall}>
-          You can also{" "}
-          {canLogin ? (
-            <a
-              onClick={(): void => {
-                ipcSend("login", { username: "", password: "" });
-              }}
-              className={"offline_link"}
-            >
-              continue offline
-            </a>
-          ) : (
-            "continue offline"
-          )}
+          <div className={formsCss.formOptions}>
+            <Checkbox
+              style={{ width: "max-content", margin: "auto auto 12px auto" }}
+              text="Remember me?"
+              value={authForm.rememberme}
+              callback={clickRememberMe}
+            />
+            <div className={css.messageSmall}>
+              Dont have an account?{" "}
+              <a
+                onClick={(): void => {
+                  shell.openExternal("https://mtgatool.com/signup/");
+                }}
+                className={css.signupLink}
+              >
+                Sign up!
+              </a>
+            </div>
+            <div className={css.messageSmall}>
+              You can also{" "}
+              {canLogin ? (
+                <a
+                  onClick={(): void => {
+                    ipcSend("login", { username: "", password: "" });
+                  }}
+                  className={"offline_link"}
+                >
+                  continue offline
+                </a>
+              ) : (
+                "continue offline"
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

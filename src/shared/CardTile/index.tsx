@@ -263,11 +263,11 @@ export default function CardTile(props: CardTileProps): JSX.Element {
   }
   cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
 
-  const tileStyle = { backgroundColor: "rgba(0, 0, 0, 0.75)" };
+  const tileStyle = { backgroundColor: "var(--color-card-tile)" };
   if (isHighlighted) {
-    tileStyle.backgroundColor = "rgba(250, 229, 210, 0.66)";
+    tileStyle.backgroundColor = "var(--color-card-tile-active)";
   } else if (isMouseHovering) {
-    tileStyle.backgroundColor = "rgba(65, 50, 40, 0.75)";
+    tileStyle.backgroundColor = "var(--color-card-tile-hover)";
   }
 
   return (
@@ -342,11 +342,11 @@ export function LandsTile(props: LandsTileProps): JSX.Element {
 
   cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
 
-  const tileStyle = { backgroundColor: "rgba(0, 0, 0, 0.75)" };
+  const tileStyle = { backgroundColor: "var(--color-card-tile)" };
   if (isHighlighted) {
-    tileStyle.backgroundColor = "rgba(250, 229, 210, 0.66)";
+    tileStyle.backgroundColor = "var(--color-card-tile-active)";
   } else if (isMouseHovering) {
-    tileStyle.backgroundColor = "rgba(65, 50, 40, 0.75)";
+    tileStyle.backgroundColor = "var(--color-card-tile-hover)";
   }
 
   return (

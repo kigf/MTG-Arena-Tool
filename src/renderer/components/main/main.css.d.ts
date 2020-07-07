@@ -11,8 +11,6 @@ declare namespace MainCssModule {
     message_sub_16: string;
     message_unlink: string;
     popup: string;
-    topArtist: string;
-    top_artist: string;
     unlink: string;
   }
 }

@@ -76,6 +76,16 @@ export interface DeckChange {
   newDeckHash: string;
 }
 
+export interface ColorsAmmount {
+  total: number;
+  w: number;
+  u: number;
+  b: number;
+  r: number;
+  g: number;
+  c: number;
+}
+
 // Formats can be added to the logs cosntantly
 // and there are more than just these
 //export type Format = "" | "Standard" | "Draft" | "precon" | "Brawl";

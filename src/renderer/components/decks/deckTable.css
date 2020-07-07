@@ -1,16 +1,17 @@
 
 .decks-table-deck-tile {
+  overflow: hidden;
   border-radius: 4px;
   margin: auto;
   width: 210px;
   height: 170px;
-  background-color: var(--color-back-100);
-  color: var(--color-light);
+  background-color: var(--color-section);
+  color: var(--color-text);
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 14px 5px;
+  justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 14px 5px;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -46,7 +47,7 @@
 .decks-table-deck-inner {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-back);
+  background-color: var(--color-shade-75);
   padding: 2px;
   height: 60%;
   justify-content: space-between;

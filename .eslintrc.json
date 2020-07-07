@@ -21,6 +21,11 @@
     "node": true,
     "browser": true
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     "allowEmptyCatch": 0,
     "no-cond-assign": 0,

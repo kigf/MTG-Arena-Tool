@@ -32,6 +32,7 @@ export interface SettingsData {
   anon_explore: boolean;
   back_color: string;
   back_url: string;
+  themeUri: string;
   cards_quality: CardQuality;
   cards_size: number;
   cards_size_hover_card: number;

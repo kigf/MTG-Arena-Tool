@@ -1,12 +1,12 @@
 .signup_link, .privacy_link, .launch_login_link {
-  color: rgb(220, 195, 150);
+  color: var(--color-text-link);
   cursor: pointer;
 }
 
 .message_small {
   text-align: center;
   margin-bottom: 6;
-  color: var(--color-light);
+  color: var(--color-text);
   font-family: "Lato";
 }
 
@@ -14,5 +14,5 @@
   cursor: pointer;
   text-align: center;
   margin: 4px;
-  color: rgb(220, 195, 150);
+  color: var(--color-text-link);
 }

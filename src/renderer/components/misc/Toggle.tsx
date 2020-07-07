@@ -37,7 +37,7 @@ export default function Switch(props: SwitchProps): JSX.Element {
   const disabledStyle = disabled
     ? {
         cursor: "default",
-        color: "var(--color-light-50)",
+        color: "var(--color-text-disabled)",
       }
     : {};
 

@@ -196,7 +196,7 @@ export default function SectionData(): JSX.Element {
         value={settings.skip_firstpass}
         callback={firstPassCallback}
       />
-      <div style={{ paddingLeft: "35px" }} className={css.settings_note}>
+      <div className={css.settings_note}>
         <i>
           <p>
             Disabling this ensures that mtgatool will not miss any data still
@@ -242,7 +242,7 @@ export default function SectionData(): JSX.Element {
           </p>
         </i>
       </div>
-      <div style={{ paddingLeft: "35px" }} className={css.settings_note}>
+      <div className={css.settings_note}>
         <p>
           Example time read: <b>{appSettings.logTimeExample}</b>
         </p>

@@ -98,7 +98,7 @@ export default function SectionShortcuts(): JSX.Element {
       <div className={css.shortcuts_grid}>
         <div
           className={`${indexCss.lineDark} ${indexCss.line_bottom_border} ${css.shortcuts_line}`}
-          style={{ gridArea: "1 / 1 / auto / 3" }}
+          style={{ gridArea: "1 / 0 / auto / 3" }}
         >
           Action
         </div>

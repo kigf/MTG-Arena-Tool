@@ -12,8 +12,12 @@ declare namespace MatchViewCssModule {
     gamestatsSubtitle: string;
     gamestats_side: string;
     gamestats_subtitle: string;
+    "match-top-result": string;
+    "match-view-grid": string;
     matchPlayerName: string;
     matchPlayerWin: string;
+    matchTopResult: string;
+    matchViewGrid: string;
     match_player_name: string;
     match_player_win: string;
   }

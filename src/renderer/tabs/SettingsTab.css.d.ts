@@ -16,8 +16,6 @@ declare namespace SettingsTabCssModule {
     settings_row: string;
     settings_section: string;
     settings_title: string;
-    sidebarColumnR: string;
-    sidebar_column_r: string;
   }
 }
 

@@ -10,8 +10,12 @@ import {
 } from "../../shared/constants";
 import ErrorBoundary from "./ErrorBoundary";
 import { TopNav } from "../components/main/topNav";
-import { forceOpenAbout, getOpenNav, getOpenSub } from "../tabControl";
-import BackgroundImage from "../components/main/BackgroundImage";
+import {
+  forceOpenAbout,
+  getOpenNav,
+  getOpenSub,
+  forceOpenSettings,
+} from "../tabControl";
 import TopBar from "../components/main/TopBar";
 import LoadingBar from "../components/main/LoadingBar";
 import Auth from "../components/main/Auth";
@@ -25,9 +29,11 @@ import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import initializeRendererReduxIPC from "../../shared/redux/initializeRendererReduxIPC";
 
+import settingsIcon from "../../assets/images/cog.png";
 import css from "./app.css";
 import AuthSettings from "../components/auth-settings";
 import DetailedLogs from "../components/popups/DetailedLogs";
+import IconButton from "../components/misc/IconButton";
 
 initializeRendererReduxIPC(store);
 
@@ -120,10 +126,10 @@ function App(): JSX.Element {
 
   return (
     <>
-      <BackgroundImage />
-      <div className={css.outer_wrapper}>
-        <TopBar artist={topArtist} offline={offline} />
-        <Popup />
+      <TopBar artist={topArtist} offline={offline} />
+      <div
+        className={loginState == LOGIN_OK ? css.appWrapper : css.appWrapperBack}
+      >
         {noLog ? <OutputLogInput closeCallback={closeNoLog} /> : <></>}
         {share.open ? <Share closeCallback={closeShare} /> : <></>}
         {detailedLogsDialog ? (
@@ -134,7 +140,7 @@ function App(): JSX.Element {
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (
-          <LoadingBar style={loginState == LOGIN_OK ? { top: "99px" } : {}} />
+          <LoadingBar style={loginState == LOGIN_OK ? { top: "72px" } : {}} />
         ) : (
           <></>
         )}
@@ -161,7 +167,19 @@ function App(): JSX.Element {
           )}
         </ErrorBoundary>
       </div>
-      <div className={css.version_number} onClick={forceOpenAbout}>
+      {loginState == LOGIN_OK ? (
+        <></>
+      ) : (
+        <div className={css.appSettings}>
+          <IconButton
+            style={{ margin: "auto" }}
+            icon={settingsIcon}
+            onClick={(): void => forceOpenSettings()}
+          />
+        </div>
+      )}
+      <Popup />
+      <div className={css.versionNumber} onClick={forceOpenAbout}>
         v{remote.app.getVersion()}
       </div>
     </>
