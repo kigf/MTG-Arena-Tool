@@ -155,7 +155,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
     "Content-Type": "application/x-www-form-urlencoded",
     "Content-Length": postData.length,
   };
-  options.rejectUnauthorized = false;
+  options.rejectUnauthorized = true;
   let results = "";
   const req = http.request(options, function (res: IncomingMessage) {
     if (res.statusCode && (res.statusCode < 200 || res.statusCode > 299)) {

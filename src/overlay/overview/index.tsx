@@ -11,6 +11,7 @@ import { ComparisonBar, ComparisonBarArray } from "../comparisonBar";
 import HeatMap from "../HeatpMap";
 import OverviewCard from "../overviewCard";
 import { CardCast } from "../../types/currentMatch";
+import CloseIcon from "../../assets/images/svg/win-close.svg";
 
 const primaryBounds = remote.screen.getPrimaryDisplay().bounds;
 
@@ -132,7 +133,9 @@ export default function Overview(props: OverviewProps): JSX.Element {
             className={`${sharedCss.button} ${sharedCss.close} ${OverlayCss.clickOn}`}
             style={{ marginRight: "0px", top: "20px" }}
             onClick={closeCallback}
-          />
+          >
+            <CloseIcon style={{ margin: "auto" }} />
+          </div>
         </div>
         <div className={css.top}>
           <div className={css.topPlayer}>
