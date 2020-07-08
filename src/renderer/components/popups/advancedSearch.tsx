@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import Button from "../misc/Button";
 
 import mainCss from "../../index.css";
-import css from "./popups.css";
+import popupCss from "./popups.css";
+import css from "./advancedSearch.css";
 import ManaFilterExt from "../misc/ManaFilterExt";
 import {
   WHITE,
@@ -95,10 +96,12 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   let defaultFormat = "Not set";
   let defaultRarity = "Any";
   let defaultRaritySeparator = ":";
-  let defaultCmcMin = undefined;
-  let defaultCmcMax = undefined;
+  let defaultCmcMin = null;
+  let defaultCmcMax = null;
+  let defaultOwnedMin = null;
+  let defaultOwnedMax = null;
   // Loop trough the setted filters to adjust defaults
-  // console.log(defaultFilters);
+  console.log(defaultFilters);
   defaultFilters.map((f: any) => {
     // Guess color filter
     if (f.id == "colors") {
@@ -143,17 +146,23 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       if (filter.mode == "<=") defaultRaritySeparator = "Lower or equal to";
     }
     if (f.id == "cmc") {
-      const filter: [undefined | number, undefined | number] = f.value;
-      // !== undefined is to allow for zero values
-      if (filter[0] !== undefined && filter[1] == undefined) {
-        defaultCmcMin = filter[0];
-      }
-      if (filter[0] == undefined && filter[1] !== undefined) {
-        defaultCmcMax = filter[1];
-      }
-      if (filter[0] !== undefined && filter[1] !== undefined) {
+      const filter: [null | number, null | number] = f.value;
+      // !== null is to allow for zero values
+      if (filter[0] !== null && filter[1] == null) defaultCmcMin = filter[0];
+      if (filter[0] == null && filter[1] !== null) defaultCmcMax = filter[1];
+      if (filter[0] !== null && filter[1] !== null) {
         defaultCmcMin = filter[0];
         defaultCmcMax = filter[1];
+      }
+    }
+    if (f.id == "owned") {
+      const filter: [null | number, null | number] = f.value;
+      // !== null is to allow for zero values
+      if (filter[0] !== null && filter[1] == null) defaultOwnedMin = filter[0];
+      if (filter[0] == null && filter[1] !== null) defaultOwnedMax = filter[1];
+      if (filter[0] !== null && filter[1] !== null) {
+        defaultOwnedMin = filter[0];
+        defaultOwnedMax = filter[1];
       }
     }
   });
@@ -174,11 +183,17 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
     defaultRaritySeparator
   );
 
-  const [cmcMinFilter, setCmcMinFilter] = useState<number | undefined>(
+  const [cmcMinFilter, setCmcMinFilter] = useState<number | null>(
     defaultCmcMin
   );
-  const [cmcMaxFilter, setCmcMaxFilter] = useState<number | undefined>(
+  const [cmcMaxFilter, setCmcMaxFilter] = useState<number | null>(
     defaultCmcMax
+  );
+  const [ownedMinFilter, setOwnedMinFilter] = useState<number | null>(
+    defaultOwnedMin
+  );
+  const [ownedMaxFilter, setOwnedMaxFilter] = useState<number | null>(
+    defaultOwnedMax
   );
 
   const handleClose = useCallback(
@@ -224,35 +239,50 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       (raritySeparatorOptions[raritySeparatorOption] || ":") +
       rarityFilterOption.toLocaleLowerCase();
 
-    let cmc = "cmc";
-    if (cmcMinFilter == undefined && cmcMaxFilter !== undefined) {
-      cmc += "<=" + cmcMaxFilter;
-    }
-    if (cmcMinFilter !== undefined && cmcMaxFilter == undefined) {
-      cmc += ">=" + cmcMinFilter;
-    }
-    if (cmcMinFilter !== undefined && cmcMinFilter == cmcMaxFilter) {
-      cmc += ":" + cmcMinFilter;
-    }
+    let cmc = "";
+    if (cmcMinFilter == null && cmcMaxFilter !== null)
+      cmc = "cmc<=" + cmcMaxFilter;
+    if (cmcMinFilter !== null && cmcMaxFilter == null)
+      cmc = "cmc>=" + cmcMinFilter;
+    if (cmcMinFilter !== null && cmcMinFilter == cmcMaxFilter)
+      cmc = "cmc:" + cmcMinFilter;
     if (
-      cmcMinFilter !== undefined &&
-      cmcMaxFilter !== undefined &&
+      cmcMinFilter !== null &&
+      cmcMaxFilter !== null &&
       cmcMinFilter !== cmcMaxFilter
     ) {
       filters.push("cmc>=" + cmcMinFilter);
-      cmc += "<=" + cmcMaxFilter;
+      cmc = "cmc<=" + cmcMaxFilter;
+    }
+    // ditto cmc
+    let owned = "";
+    if (ownedMinFilter == null && ownedMaxFilter !== null)
+      owned = "owned<=" + ownedMaxFilter;
+    if (ownedMinFilter !== null && ownedMaxFilter == null)
+      owned = "owned>=" + ownedMinFilter;
+    if (ownedMinFilter !== null && ownedMinFilter == ownedMaxFilter)
+      owned = "owned:" + ownedMinFilter;
+    if (
+      ownedMinFilter !== null &&
+      ownedMaxFilter !== null &&
+      ownedMinFilter !== ownedMaxFilter
+    ) {
+      filters.push("owned>=" + ownedMinFilter);
+      owned = "cmc<=" + ownedMaxFilter;
     }
 
     filterColors.length !== 5 && filters.push(colors);
     filterSets.length > 0 && filters.push(sets);
     formatFilterOption !== "Not set" && filters.push(formats);
     rarityFilterOption !== "Any" && filters.push(rarity);
-    (cmcMinFilter !== undefined || cmcMaxFilter !== undefined) &&
-      filters.push(cmc);
+    (cmcMinFilter !== null || cmcMaxFilter !== null) && filters.push(cmc);
+    (ownedMinFilter !== null || ownedMaxFilter !== null) && filters.push(owned);
     setQuery(filters.join(" "));
   }, [
     cmcMinFilter,
     cmcMaxFilter,
+    ownedMinFilter,
+    ownedMaxFilter,
     rarityFilterOption,
     raritySeparatorOption,
     formatFilterOption,
@@ -263,7 +293,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
 
   return (
     <div
-      className={css.popupBackground}
+      className={popupCss.popupBackground}
       style={{
         opacity: open * 2,
         backgroundColor: `rgba(0, 0, 0, ${0.5 * open})`,
@@ -273,7 +303,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       }}
     >
       <div
-        className={css.popupDiv}
+        className={popupCss.popupDiv}
         style={{
           overflowY: `auto`,
           maxHeight: `calc(100vh - 80px)`,
@@ -311,13 +341,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
           />
         </div>
         <SetsFilter filtered={filterSets} callback={setFilterSets} />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "16px",
-          }}
-        >
+        <div className={css.searchLine}>
           <div style={{ lineHeight: "32px" }}>Format: </div>
           <ReactSelect
             options={formatFilterOptions}
@@ -327,13 +351,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
             }}
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "16px",
-          }}
-        >
+        <div className={css.searchLine}>
           <div style={{ lineHeight: "32px" }}>Rarity: </div>
           <ReactSelect
             options={Object.keys(raritySeparatorOptions)}
@@ -350,13 +368,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
             }}
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "16px",
-          }}
-        >
+        <div className={css.searchLine}>
           <div style={{ lineHeight: "32px" }}>CMC: </div>
           <Flex style={{ maxWidth: "248px" }}>
             <InputContainer title="Min CMC">
@@ -364,7 +376,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
                 value={cmcMinFilter ?? ""}
                 onChange={(e): void =>
                   setCmcMinFilter(
-                    e.target.value !== "" ? parseInt(e.target.value) : undefined
+                    e.target.value !== "" ? parseInt(e.target.value) : null
                   )
                 }
                 placeholder={"min"}
@@ -375,7 +387,34 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
                 value={cmcMaxFilter ?? ""}
                 onChange={(e): void =>
                   setCmcMaxFilter(
-                    e.target.value !== "" ? parseInt(e.target.value) : undefined
+                    e.target.value !== "" ? parseInt(e.target.value) : null
+                  )
+                }
+                placeholder={"max"}
+              />
+            </InputContainer>
+          </Flex>
+        </div>
+        <div className={css.searchLine}>
+          <div style={{ lineHeight: "32px" }}>Owned: </div>
+          <Flex style={{ maxWidth: "248px" }}>
+            <InputContainer title="Min">
+              <input
+                value={ownedMinFilter ?? ""}
+                onChange={(e): void =>
+                  setOwnedMinFilter(
+                    e.target.value !== "" ? parseInt(e.target.value) : null
+                  )
+                }
+                placeholder={"min"}
+              />
+            </InputContainer>
+            <InputContainer title="Max">
+              <input
+                value={ownedMaxFilter ?? ""}
+                onChange={(e): void =>
+                  setOwnedMaxFilter(
+                    e.target.value !== "" ? parseInt(e.target.value) : null
                   )
                 }
                 placeholder={"max"}

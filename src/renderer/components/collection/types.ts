@@ -43,6 +43,7 @@ export type QueryKeys =
   | "colors"
   | "cmc"
   | "owned"
+  | "wanted"
   | "format"
   | "is"
   | "name"

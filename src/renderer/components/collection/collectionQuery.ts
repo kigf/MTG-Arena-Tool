@@ -3,7 +3,6 @@ import _ from "lodash";
 import { Filters } from "react-table";
 import Colors from "../../../shared/colors";
 import { WHITE, BLUE, RED, BLACK, GREEN } from "../../../shared/constants";
-import { objectClone } from "../../../shared/utils/objectClone";
 import { StringFilter } from "../tables/filters";
 import {
   ParsedToken,
@@ -72,8 +71,9 @@ const defaultFilters = {
   legal: { ...defaultStringFilter },
   is: { ...defaultStringFilter },
   suspended: { ...defaultStringFilter },
-  cmc: [undefined, undefined] as [undefined | number, undefined | number],
-  owned: [undefined, undefined] as [undefined | number, undefined | number],
+  cmc: [null, null] as [null | number, null | number],
+  owned: [null, null] as [null | number, null | number],
+  wanted: [null, null] as [null | number, null | number],
   colors: {
     color: 0,
     not: false,
@@ -102,6 +102,7 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   mana: "colors",
   cmc: "cmc",
   owned: "owned",
+  wanted: "wanted",
   r: "rarity",
   rarity: "rarity",
   a: "artist",
@@ -129,7 +130,7 @@ function getTokenVal(
   separator: QuerySeparators,
   val: string
 ): DefaultFilters {
-  const filters = objectClone(defaultFilters);
+  const filters = _.cloneDeep(defaultFilters);
   val = val.toLowerCase();
   switch (key) {
     case "name":
@@ -206,8 +207,8 @@ function getTokenVal(
       break;
     case "cmc":
       const intVal = parseInt(val);
-      filters.cmc[0] = undefined;
-      filters.cmc[1] = undefined;
+      filters.cmc[0] = null;
+      filters.cmc[1] = null;
       if (separator === "=" || separator === ":") {
         filters.cmc[0] = intVal;
         filters.cmc[1] = intVal;
@@ -219,8 +220,8 @@ function getTokenVal(
       break;
     case "owned":
       const ownedVal = parseInt(val);
-      filters.owned[0] = undefined;
-      filters.owned[1] = undefined;
+      filters.owned[0] = null;
+      filters.owned[1] = null;
       if (separator === "=" || separator === ":") {
         filters.owned[0] = ownedVal;
         filters.owned[1] = ownedVal;
@@ -229,6 +230,19 @@ function getTokenVal(
       if (separator === "<") filters.owned[1] = ownedVal - 1;
       if (separator === ">=") filters.owned[0] = ownedVal;
       if (separator === "<=") filters.owned[1] = ownedVal;
+      break;
+    case "wanted":
+      const wantedVal = parseInt(val);
+      filters.wanted[0] = null;
+      filters.wanted[1] = null;
+      if (separator === "=" || separator === ":") {
+        filters.wanted[0] = wantedVal;
+        filters.wanted[1] = wantedVal;
+      }
+      if (separator === ">") filters.wanted[0] = wantedVal + 1;
+      if (separator === "<") filters.wanted[1] = wantedVal - 1;
+      if (separator === ">=") filters.wanted[0] = wantedVal;
+      if (separator === "<=") filters.wanted[1] = wantedVal;
       break;
     case "colors":
       const str = val;
