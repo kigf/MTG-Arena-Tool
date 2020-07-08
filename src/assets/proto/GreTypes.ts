@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // generated file, do not touch!
-import ByteBuffer from "ByteBuffer";
+import ByteBuffer from "bytebuffer";
 
 export interface AIConfig {
   matchConfig?: MatchConfig;
