@@ -14,6 +14,7 @@ import {
   ColorBitsFilter,
   RarityBitsFilter,
   ArrayFilter,
+  MinMaxFilter,
 } from "./types";
 import { usedFormats } from "../../rendererUtil";
 import {
@@ -185,5 +186,25 @@ export function arrayFilterFn<D extends TableData>(
     if (mode == ">") ret = R > F;
     */
     return not ? !ret : ret;
+  });
+}
+
+export function minMaxFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  column: string[],
+  filterValue: MinMaxFilter
+): Row<D>[] {
+  const F = filterValue.value;
+  return rows.filter((row) => {
+    const R = row.original[column[0]];
+    let ret: number | boolean = true;
+    if (filterValue.mode == "=") ret = R === F;
+    if (filterValue.mode == ":") ret = R & F;
+    if (filterValue.mode == "!=") ret = R !== F;
+    if (filterValue.mode == "<=") ret = R <= F;
+    if (filterValue.mode == "<") ret = R < F;
+    if (filterValue.mode == ">=") ret = R >= F;
+    if (filterValue.mode == ">") ret = R > F;
+    return filterValue.not ? !ret : ret;
   });
 }

@@ -29,6 +29,7 @@ import {
   formatFilterFn,
   inArrayFilterFn,
   arrayFilterFn,
+  minMaxFilterFn,
 } from "../collection/filters";
 
 export function useBaseReactTable<D extends TableData>({
@@ -70,6 +71,7 @@ export function useBaseReactTable<D extends TableData>({
       format: formatFilterFn,
       inArray: inArrayFilterFn,
       array: arrayFilterFn,
+      minmax: minMaxFilterFn,
       ...customFilterTypes,
     }),
     [customFilterTypes]

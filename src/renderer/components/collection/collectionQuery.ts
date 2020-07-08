@@ -18,6 +18,7 @@ import {
   CardsData,
   ColorBitsFilter,
   ArrayFilter,
+  MinMaxFilter,
 } from "./types";
 
 /**
@@ -71,9 +72,21 @@ const defaultFilters = {
   legal: { ...defaultStringFilter },
   is: { ...defaultStringFilter },
   suspended: { ...defaultStringFilter },
-  cmc: [null, null] as [null | number, null | number],
-  owned: [null, null] as [null | number, null | number],
-  wanted: [null, null] as [null | number, null | number],
+  cmc: {
+    not: false,
+    mode: ":",
+    value: 0,
+  } as MinMaxFilter,
+  owned: {
+    not: false,
+    mode: ":",
+    value: 0,
+  } as MinMaxFilter,
+  wanted: {
+    not: false,
+    mode: ":",
+    value: 0,
+  } as MinMaxFilter,
   colors: {
     color: 0,
     not: false,
@@ -207,42 +220,42 @@ function getTokenVal(
       break;
     case "cmc":
       const intVal = parseInt(val);
-      filters.cmc[0] = null;
-      filters.cmc[1] = null;
       if (separator === "=" || separator === ":") {
-        filters.cmc[0] = intVal;
-        filters.cmc[1] = intVal;
+        filters.cmc.value = intVal;
+        filters.cmc.value = intVal;
       }
-      if (separator === ">") filters.cmc[0] = intVal + 1;
-      if (separator === "<") filters.cmc[1] = intVal - 1;
-      if (separator === ">=") filters.cmc[0] = intVal;
-      if (separator === "<=") filters.cmc[1] = intVal;
+      if (separator === ">") filters.cmc.value = intVal + 1;
+      if (separator === "<") filters.cmc.value = intVal - 1;
+      if (separator === ">=") filters.cmc.value = intVal;
+      if (separator === "<=") filters.cmc.value = intVal;
+      filters.cmc.not = isNegative;
+      filters.cmc.mode = separator;
       break;
     case "owned":
       const ownedVal = parseInt(val);
-      filters.owned[0] = null;
-      filters.owned[1] = null;
       if (separator === "=" || separator === ":") {
-        filters.owned[0] = ownedVal;
-        filters.owned[1] = ownedVal;
+        filters.owned.value = ownedVal;
+        filters.owned.value = ownedVal;
       }
-      if (separator === ">") filters.owned[0] = ownedVal + 1;
-      if (separator === "<") filters.owned[1] = ownedVal - 1;
-      if (separator === ">=") filters.owned[0] = ownedVal;
-      if (separator === "<=") filters.owned[1] = ownedVal;
+      if (separator === ">") filters.owned.value = ownedVal + 1;
+      if (separator === "<") filters.owned.value = ownedVal - 1;
+      if (separator === ">=") filters.owned.value = ownedVal;
+      if (separator === "<=") filters.owned.value = ownedVal;
+      filters.owned.not = isNegative;
+      filters.owned.mode = separator;
       break;
     case "wanted":
       const wantedVal = parseInt(val);
-      filters.wanted[0] = null;
-      filters.wanted[1] = null;
       if (separator === "=" || separator === ":") {
-        filters.wanted[0] = wantedVal;
-        filters.wanted[1] = wantedVal;
+        filters.wanted.value = wantedVal;
+        filters.wanted.value = wantedVal;
       }
-      if (separator === ">") filters.wanted[0] = wantedVal + 1;
-      if (separator === "<") filters.wanted[1] = wantedVal - 1;
-      if (separator === ">=") filters.wanted[0] = wantedVal;
-      if (separator === "<=") filters.wanted[1] = wantedVal;
+      if (separator === ">") filters.wanted.value = wantedVal + 1;
+      if (separator === "<") filters.wanted.value = wantedVal - 1;
+      if (separator === ">=") filters.wanted.value = wantedVal;
+      if (separator === "<=") filters.wanted.value = wantedVal;
+      filters.wanted.not = isNegative;
+      filters.wanted.mode = separator;
       break;
     case "colors":
       const str = val;

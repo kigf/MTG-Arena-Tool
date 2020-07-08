@@ -89,3 +89,9 @@ export type ArrayFilter = {
   mode: QuerySeparators;
   arr: string[];
 };
+
+export type MinMaxFilter = {
+  not: boolean;
+  mode: QuerySeparators;
+  value: number;
+};

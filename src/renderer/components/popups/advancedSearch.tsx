@@ -26,6 +26,7 @@ import {
   RARITY_UNCOMMON,
   RARITY_RARE,
   RARITY_MYTHIC,
+  MinMaxFilter,
 } from "../collection/types";
 import SetsFilter from "../misc/SetsFilter";
 import { StringFilter } from "../tables/filters";
@@ -146,24 +147,26 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       if (filter.mode == "<=") defaultRaritySeparator = "Lower or equal to";
     }
     if (f.id == "cmc") {
-      const filter: [null | number, null | number] = f.value;
-      // !== null is to allow for zero values
-      if (filter[0] !== null && filter[1] == null) defaultCmcMin = filter[0];
-      if (filter[0] == null && filter[1] !== null) defaultCmcMax = filter[1];
-      if (filter[0] !== null && filter[1] !== null) {
-        defaultCmcMin = filter[0];
-        defaultCmcMax = filter[1];
+      const filter: MinMaxFilter = f.value;
+      if (filter.mode == ":" || filter.mode == "=") {
+        defaultCmcMax = filter.value;
+        defaultCmcMin = filter.value;
       }
+      if (filter.mode == "<") defaultCmcMax = filter.value;
+      if (filter.mode == "<=") defaultCmcMax = filter.value;
+      if (filter.mode == ">") defaultCmcMin = filter.value;
+      if (filter.mode == ">=") defaultCmcMin = filter.value;
     }
     if (f.id == "owned") {
-      const filter: [null | number, null | number] = f.value;
-      // !== null is to allow for zero values
-      if (filter[0] !== null && filter[1] == null) defaultOwnedMin = filter[0];
-      if (filter[0] == null && filter[1] !== null) defaultOwnedMax = filter[1];
-      if (filter[0] !== null && filter[1] !== null) {
-        defaultOwnedMin = filter[0];
-        defaultOwnedMax = filter[1];
+      const filter: MinMaxFilter = f.value;
+      if (filter.mode == ":" || filter.mode == "=") {
+        defaultOwnedMax = filter.value;
+        defaultCmcMin = filter.value;
       }
+      if (filter.mode == "<") defaultOwnedMax = filter.value;
+      if (filter.mode == "<=") defaultOwnedMax = filter.value;
+      if (filter.mode == ">") defaultOwnedMin = filter.value;
+      if (filter.mode == ">=") defaultOwnedMin = filter.value;
     }
   });
 
@@ -268,7 +271,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       ownedMinFilter !== ownedMaxFilter
     ) {
       filters.push("owned>=" + ownedMinFilter);
-      owned = "cmc<=" + ownedMaxFilter;
+      owned = "owned<=" + ownedMaxFilter;
     }
 
     filterColors.length !== 5 && filters.push(colors);
