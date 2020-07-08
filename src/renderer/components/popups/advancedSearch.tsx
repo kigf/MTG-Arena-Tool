@@ -237,8 +237,19 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
         }}
       >
         <div className={mainCss.messageSub}>Advanced Search</div>
-        <div style={{ marginBottom: "26px" }} className={mainCss.messageSub}>
-          {query}
+        <div
+          style={{
+            height: "24px",
+            lineHeight: "24px",
+            marginBottom: "26px",
+            color: "var(--color-text-dark)",
+            fontSize: "18px",
+          }}
+          className={mainCss.messageSub}
+        >
+          {query == ""
+            ? "Use the filters to generate a query, then search to begin!"
+            : query}
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <ManaFilterExt filter={filterColors} callback={setFilterColors} />
