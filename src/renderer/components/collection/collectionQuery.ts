@@ -73,6 +73,7 @@ const defaultFilters = {
   is: { ...defaultStringFilter },
   suspended: { ...defaultStringFilter },
   cmc: [undefined, undefined] as [undefined | number, undefined | number],
+  owned: [undefined, undefined] as [undefined | number, undefined | number],
   colors: {
     color: 0,
     not: false,
@@ -100,6 +101,7 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   c: "colors",
   mana: "colors",
   cmc: "cmc",
+  owned: "owned",
   r: "rarity",
   rarity: "rarity",
   a: "artist",
@@ -204,26 +206,29 @@ function getTokenVal(
       break;
     case "cmc":
       const intVal = parseInt(val);
+      filters.cmc[0] = undefined;
+      filters.cmc[1] = undefined;
       if (separator === "=" || separator === ":") {
         filters.cmc[0] = intVal;
         filters.cmc[1] = intVal;
       }
-      if (separator === ">") {
-        filters.cmc[0] = intVal + 1;
-        filters.cmc[1] = undefined;
+      if (separator === ">") filters.cmc[0] = intVal + 1;
+      if (separator === "<") filters.cmc[1] = intVal - 1;
+      if (separator === ">=") filters.cmc[0] = intVal;
+      if (separator === "<=") filters.cmc[1] = intVal;
+      break;
+    case "owned":
+      const ownedVal = parseInt(val);
+      filters.owned[0] = undefined;
+      filters.owned[1] = undefined;
+      if (separator === "=" || separator === ":") {
+        filters.owned[0] = ownedVal;
+        filters.owned[1] = ownedVal;
       }
-      if (separator === "<") {
-        filters.cmc[0] = undefined;
-        filters.cmc[1] = intVal - 1;
-      }
-      if (separator === ">=") {
-        filters.cmc[0] = intVal;
-        filters.cmc[1] = undefined;
-      }
-      if (separator === "<=") {
-        filters.cmc[0] = undefined;
-        filters.cmc[1] = intVal;
-      }
+      if (separator === ">") filters.owned[0] = ownedVal + 1;
+      if (separator === "<") filters.owned[1] = ownedVal - 1;
+      if (separator === ">=") filters.owned[0] = ownedVal;
+      if (separator === "<=") filters.owned[1] = ownedVal;
       break;
     case "colors":
       const str = val;

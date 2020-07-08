@@ -42,6 +42,7 @@ export type QueryKeys =
   | "banned"
   | "colors"
   | "cmc"
+  | "owned"
   | "format"
   | "is"
   | "name"
