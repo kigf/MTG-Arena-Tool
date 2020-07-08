@@ -141,7 +141,7 @@ export function getBoosterCountEstimate(
   };
 
   CARD_RARITIES.map((rarity) => {
-    if (rarity !== "land") {
+    if (rarity !== "land" && rarity !== "token") {
       const needed = neededWildcards[rarity] || 0;
       const owned = ownedWildcards[rarity] || 0;
       const missing = Math.max(0, needed - owned);
@@ -230,7 +230,7 @@ export function get_deck_missing(deck: Deck): MissingWildcards {
       return;
     }
     const rarity = db.card(grpid)?.rarity;
-    if (rarity && rarity !== "land") {
+    if (rarity && rarity !== "land" && rarity !== "token") {
       missing[rarity] += getCardsMissingCount(deck, grpid);
       alreadySeenIds.add(grpid); // remember this card
     }

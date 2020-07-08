@@ -766,6 +766,7 @@ export const CARD_TYPES = [
 ] as const;
 
 export const CARD_RARITIES = [
+  "token",
   "common",
   "uncommon",
   "rare",
