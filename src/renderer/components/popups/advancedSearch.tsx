@@ -28,6 +28,8 @@ import {
 } from "../collection/types";
 import SetsFilter from "../misc/SetsFilter";
 import { StringFilter } from "../tables/filters";
+import { InputContainer } from "../misc/InputContainer";
+import Flex from "../misc/Flex";
 
 const colorsToKey: Record<number, string> = {
   [WHITE]: "w",
@@ -93,7 +95,10 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   let defaultFormat = "Not set";
   let defaultRarity = "Any";
   let defaultRaritySeparator = ":";
+  let defaultCmcMin = undefined;
+  let defaultCmcMax = undefined;
   // Loop trough the setted filters to adjust defaults
+  // console.log(defaultFilters);
   defaultFilters.map((f: any) => {
     // Guess color filter
     if (f.id == "colors") {
@@ -137,6 +142,20 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       if (filter.mode == "<") defaultRaritySeparator = "Lower than";
       if (filter.mode == "<=") defaultRaritySeparator = "Lower or equal to";
     }
+    if (f.id == "cmc") {
+      const filter: [undefined | number, undefined | number] = f.value;
+      // !== undefined is to allow for zero values
+      if (filter[0] !== undefined && filter[1] == undefined) {
+        defaultCmcMin = filter[0];
+      }
+      if (filter[0] == undefined && filter[1] !== undefined) {
+        defaultCmcMax = filter[1];
+      }
+      if (filter[0] !== undefined && filter[1] !== undefined) {
+        defaultCmcMin = filter[0];
+        defaultCmcMax = filter[1];
+      }
+    }
   });
 
   // Set filters state
@@ -153,6 +172,13 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   );
   const [raritySeparatorOption, setRaritySeparatorOption] = useState<string>(
     defaultRaritySeparator
+  );
+
+  const [cmcMinFilter, setCmcMinFilter] = useState<number | undefined>(
+    defaultCmcMin
+  );
+  const [cmcMaxFilter, setCmcMaxFilter] = useState<number | undefined>(
+    defaultCmcMax
   );
 
   const handleClose = useCallback(
@@ -198,12 +224,35 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       (raritySeparatorOptions[raritySeparatorOption] || ":") +
       rarityFilterOption.toLocaleLowerCase();
 
+    let cmc = "cmc";
+    if (cmcMinFilter == undefined && cmcMaxFilter !== undefined) {
+      cmc += "<=" + cmcMaxFilter;
+    }
+    if (cmcMinFilter !== undefined && cmcMaxFilter == undefined) {
+      cmc += ">=" + cmcMinFilter;
+    }
+    if (cmcMinFilter !== undefined && cmcMinFilter == cmcMaxFilter) {
+      cmc += ":" + cmcMinFilter;
+    }
+    if (
+      cmcMinFilter !== undefined &&
+      cmcMaxFilter !== undefined &&
+      cmcMinFilter !== cmcMaxFilter
+    ) {
+      filters.push("cmc>=" + cmcMinFilter);
+      cmc += "<=" + cmcMaxFilter;
+    }
+
     filterColors.length !== 5 && filters.push(colors);
     filterSets.length > 0 && filters.push(sets);
     formatFilterOption !== "Not set" && filters.push(formats);
     rarityFilterOption !== "Any" && filters.push(rarity);
+    (cmcMinFilter !== undefined || cmcMaxFilter !== undefined) &&
+      filters.push(cmc);
     setQuery(filters.join(" "));
   }, [
+    cmcMinFilter,
+    cmcMaxFilter,
     rarityFilterOption,
     raritySeparatorOption,
     formatFilterOption,
@@ -300,6 +349,39 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
               setRarityFilterOption(opt);
             }}
           />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "16px",
+          }}
+        >
+          <div style={{ lineHeight: "32px" }}>CMC: </div>
+          <Flex style={{ maxWidth: "248px" }}>
+            <InputContainer title="Min CMC">
+              <input
+                value={cmcMinFilter ?? ""}
+                onChange={(e): void =>
+                  setCmcMinFilter(
+                    e.target.value !== "" ? parseInt(e.target.value) : undefined
+                  )
+                }
+                placeholder={"min"}
+              />
+            </InputContainer>
+            <InputContainer title="Max CMC">
+              <input
+                value={cmcMaxFilter ?? ""}
+                onChange={(e): void =>
+                  setCmcMaxFilter(
+                    e.target.value !== "" ? parseInt(e.target.value) : undefined
+                  )
+                }
+                placeholder={"max"}
+              />
+            </InputContainer>
+          </Flex>
         </div>
         <Button
           style={{ margin: "16px auto" }}

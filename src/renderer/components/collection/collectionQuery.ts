@@ -32,7 +32,7 @@ function parseFilterValue(filterValue: string): ParsedToken[] {
   let match;
   const results: ParsedToken[] = [];
   while ((match = filterPattern.exec(filterValue))) {
-    console.log("filterPattern match: ", match.groups);
+    //console.log("filterPattern match: ", match.groups);
     let token, separator: QuerySeparators | undefined, value;
     if (match.groups?.normal) {
       token = match.groups.tok;
