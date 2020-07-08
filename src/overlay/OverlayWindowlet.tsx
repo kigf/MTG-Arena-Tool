@@ -200,7 +200,7 @@ export default function OverlayWindowlet(
             onClick={handleClickSettings}
             style={{ margin: 0 }}
           >
-            <SettingsIcon style={{ margin: "auto" }} />
+            <SettingsIcon fill="var(--color-icon)" style={{ margin: "auto" }} />
           </div>
           <div
             className={`${sharedCss.button} ${sharedCss.close} ${css.clickOn}`}

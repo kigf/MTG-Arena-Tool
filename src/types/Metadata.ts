@@ -25,7 +25,7 @@ export interface DbCardData {
   type: string;
   cost: string[];
   cmc: number;
-  rarity: Rarity;
+  rarity: Rarity | "token";
   cid: string;
   frame: number[];
   artist: string;
