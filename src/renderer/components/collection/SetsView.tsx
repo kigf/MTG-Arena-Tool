@@ -81,14 +81,20 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
               />
               <div>{currentSetName}</div>
             </Flex>
-            <SetCompletionStats
-              setStats={stats[currentSetName]}
-              boosterMath={true}
-              rareDraftFactor={rareDraftFactor}
-              mythicDraftFactor={mythicDraftFactor}
-              boosterWinFactor={boosterWinFactor}
-              futureBoosters={futureBoosters}
-            />
+            {database.sets[currentSetName]?.collation !== -1 ? (
+              <SetCompletionStats
+                setStats={stats[currentSetName]}
+                boosterMath={true}
+                rareDraftFactor={rareDraftFactor}
+                mythicDraftFactor={mythicDraftFactor}
+                boosterWinFactor={boosterWinFactor}
+                futureBoosters={futureBoosters}
+              />
+            ) : (
+              <div className={css.message}>
+                This set is not available for draft
+              </div>
+            )}
           </Section>
           <Section
             style={{
@@ -105,14 +111,7 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
         </>
       ) : (
         <Section style={{ gridArea: "set" }}>
-          <div
-            style={{
-              color: "var(--color-g)",
-              fontSize: "16px",
-              padding: "16px",
-              margin: "auto",
-            }}
-          >
+          <div className={css.message}>
             Select a set to see detailed statistics
           </div>
         </Section>

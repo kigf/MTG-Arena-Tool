@@ -2,6 +2,7 @@
 // GENERATED FILE; DO NOT EDIT
 declare namespace SetsViewCssNamespace {
   export interface ISetsViewCss {
+    message: string;
     "sets-view-grid": string;
     setsViewGrid: string;
   }

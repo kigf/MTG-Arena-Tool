@@ -1,7 +1,6 @@
 import React from "react";
 import { OwnershipSymbol } from "../../../shared/OwnershipStars";
 import { BoosterSymbol } from "../misc/BoosterSymbol";
-import { CalendarSymbol } from "../misc/CalendarSymbol";
 import { MetricText } from "../misc/MetricText";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { TicketSymbol } from "../misc/TicketSymbol";
@@ -177,8 +176,7 @@ export function SetCompletionStats({
       )}
       <div className={css.statsSetCompletionRow}>
         <MetricText title={"Arena booster w duplicate protection"}>
-          Next booster
-          <BoosterSymbol />:
+          Next booster:
         </MetricText>
         <MetricText>
           <span title={"new copies"}>
@@ -201,8 +199,7 @@ export function SetCompletionStats({
       </div>
       <div className={css.statsSetCompletionRow}>
         <MetricText title={"draft pool first picks (P1P1+P2P1+P3P1)"}>
-          Next draft pool
-          <TicketSymbol />:
+          Next draft pool:
         </MetricText>
         <MetricText>
           <span title={"new copies"}>
@@ -225,7 +222,7 @@ export function SetCompletionStats({
       </div>
       <div className={css.statsSetCompletionRow}>
         <MetricText title={"see estimation inputs on right"}>
-          Completion* <CalendarSymbol />:
+          Completion*:
         </MetricText>
         <MetricText>
           <span title={"additional Arena boosters to complete"}>

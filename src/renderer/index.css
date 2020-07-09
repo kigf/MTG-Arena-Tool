@@ -870,7 +870,6 @@ a:hover {
     background-position: center;
     margin: 0 6px;
     background-size: contain;
-    -webkit-transition: all .2s ease-in;
 }
 
 .stats_set_icon span {
@@ -881,7 +880,6 @@ a:hover {
     position: relative;
     margin-left: 36px;
     color: var(--color-text);
-    -webkit-transition: all .2s ease-in;
 }
 
 
