@@ -6,7 +6,6 @@ import ReactSelect from "../../../shared/ReactSelect";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { formatNumber } from "../../rendererUtil";
 import { BoosterSymbol } from "../misc/BoosterSymbol";
-import { CalendarSymbol } from "../misc/CalendarSymbol";
 import Input from "../misc/Input";
 import { MediumTextButton } from "../misc/MediumTextButton";
 import { RaritySymbol } from "../misc/RaritySymbol";
@@ -22,8 +21,8 @@ import CompletionProgressBar, {
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 
 import indexCss from "../../index.css";
-import sharedCss from "../../../shared/shared.css";
 import economyCss from "../economy/economy.css";
+import Flex from "../misc/Flex";
 
 const getRarityKey = (
   rarity: string
@@ -35,8 +34,7 @@ const getRarityKey = (
   return undefined;
 };
 
-// TAG FOR LATER
-function _CollectionStatsPanel({
+export default function CollectionStatsPanel({
   stats,
   boosterMath,
   clickCompletionCallback,
@@ -79,13 +77,12 @@ function _CollectionStatsPanel({
   return (
     <>
       <div
-        className={indexCss.decklistTop}
         style={{
-          margin: "12px",
-          padding: "0",
-          color: "var(--color-text)",
           display: "flex",
-          alignItems: "center",
+          maxWidth: "400px",
+          width: "-webkit-fill-available",
+          margin: "0px auto 16px auto",
+          justifyContent: "space-between",
         }}
       >
         <div className={`${economyCss.economyWc} ${indexCss.wcCommon}`}></div>
@@ -97,31 +94,26 @@ function _CollectionStatsPanel({
         <div className={`${economyCss.economyWc} ${indexCss.wcMythic}`}></div>
         <div>{formatNumber(playerEconomy.wcMythic)}</div>
       </div>
-      <div className={indexCss.main_stats}>
-        <label>count:</label>
-        <ReactSelect
-          className={"stats_count_select"}
-          style={{
-            margin: "12px auto auto 4px",
-            textAlign: "left",
-            width: "180px",
-            display: "inline-flex",
-          }}
-          options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
-          current={countMode}
-          callback={(mode: string): void => {
-            reduxAction(
-              dispatch,
-              { type: "SET_COUNT_MODE", arg: mode },
-              IPC_NONE
-            );
-          }}
-        />
+      <div style={{ textAlign: "center" }}>
+        <Flex style={{ lineHeight: "32px", justifyContent: "center" }}>
+          <div style={{ marginRight: "8px" }}>Count:</div>
+          <ReactSelect
+            options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
+            current={countMode}
+            callback={(mode: string): void => {
+              reduxAction(
+                dispatch,
+                { type: "SET_COUNT_MODE", arg: mode },
+                IPC_NONE
+              );
+            }}
+          />
+        </Flex>
         <SetCompletionBar
           countMode={countMode}
           setStats={setStats}
           setIconCode={""}
-          setName={"Total Completion"}
+          setName={"Total cards filtered"}
           isSidebar
         />
         {filteredRarities.map((rarityCode) => {
@@ -146,93 +138,125 @@ function _CollectionStatsPanel({
         {boosterMath ? (
           <>
             <div
-              className={indexCss.deck_name}
-              style={{ width: "100%" }}
+              style={{ width: "100%", marginTop: "16px" }}
               title={"set completion estimator"}
             >
-              Completion* <CalendarSymbol />:
+              Completion by draft calculator*:
             </div>
-            <Input
-              label={
-                <>
-                  <RaritySymbol rarity={"rare"} /> rares/draft:
-                </>
-              }
-              value={rareDraftFactor}
-              placeholder={"3"}
-              title={"rare picks per draft"}
-              contStyle={inputStyle}
-              callback={(value: string): void => {
-                reduxAction(
-                  dispatch,
-                  { type: "SET_RARE_DRAFT_FACTOR", arg: parseFloat(value) },
-                  IPC_NONE
-                );
+            <Flex
+              style={{
+                lineHeight: "32px",
+                justifyContent: "space-between",
+                margin: "8px auto 0 auto",
+                maxWidth: "600px",
               }}
-            />
-            <Input
-              label={
-                <>
-                  <RaritySymbol rarity={"mythic"} /> mythics/draft:
-                </>
-              }
-              value={mythicDraftFactor}
-              placeholder={"0.14"}
-              title={"mythic picks per draft"}
-              contStyle={inputStyle}
-              callback={(value: string): void => {
-                reduxAction(
-                  dispatch,
-                  { type: "SET_MYTHIC_DRAFT_FACTOR", arg: parseFloat(value) },
-                  IPC_NONE
-                );
+            >
+              <Flex>
+                <RaritySymbol rarity={"rare"} /> <div>Rares per draft:</div>
+              </Flex>
+              <Input
+                value={rareDraftFactor}
+                placeholder={"3"}
+                title={"rare picks per draft"}
+                contStyle={inputStyle}
+                callback={(value: string): void => {
+                  reduxAction(
+                    dispatch,
+                    { type: "SET_RARE_DRAFT_FACTOR", arg: parseFloat(value) },
+                    IPC_NONE
+                  );
+                }}
+              />
+            </Flex>
+            <Flex
+              style={{
+                lineHeight: "32px",
+                justifyContent: "space-between",
+                margin: "8px auto 0 auto",
+                maxWidth: "600px",
               }}
-            />
-            <Input
-              label={
-                <>
-                  <BoosterSymbol /> boosters/draft:
-                </>
-              }
-              value={boosterWinFactor}
-              placeholder={"1.2"}
-              title={"prize boosters awarded per draft"}
-              contStyle={inputStyle}
-              callback={(value: string): void => {
-                reduxAction(
-                  dispatch,
-                  { type: "SET_BOOSTER_WIN_FACTOR", arg: parseFloat(value) },
-                  IPC_NONE
-                );
+            >
+              <Flex>
+                <RaritySymbol rarity={"mythic"} /> <div>Mythics per draft:</div>
+              </Flex>
+              <Input
+                value={mythicDraftFactor}
+                placeholder={"0.14"}
+                title={"mythic picks per draft"}
+                contStyle={inputStyle}
+                callback={(value: string): void => {
+                  reduxAction(
+                    dispatch,
+                    { type: "SET_MYTHIC_DRAFT_FACTOR", arg: parseFloat(value) },
+                    IPC_NONE
+                  );
+                }}
+              />
+            </Flex>
+            <Flex
+              style={{
+                lineHeight: "32px",
+                justifyContent: "space-between",
+                margin: "8px auto 0 auto",
+                maxWidth: "600px",
               }}
-            />
-            <Input
-              label={
-                <>
-                  <BoosterSymbol /> future boosters:
-                </>
-              }
-              value={futureBoosters}
-              placeholder={"0"}
-              title={"expected additional boosters, e.g. seasonal rewards"}
-              contStyle={inputStyle}
-              callback={(value: string): void => {
-                reduxAction(
-                  dispatch,
-                  { type: "SET_FUTURE_BOOSTERS", arg: parseFloat(value) },
-                  IPC_NONE
-                );
+            >
+              <Flex>
+                <BoosterSymbol /> Boosters per draft:
+              </Flex>
+              <Input
+                value={boosterWinFactor}
+                placeholder={"1.2"}
+                title={"prize boosters awarded per draft"}
+                contStyle={inputStyle}
+                callback={(value: string): void => {
+                  reduxAction(
+                    dispatch,
+                    { type: "SET_BOOSTER_WIN_FACTOR", arg: parseFloat(value) },
+                    IPC_NONE
+                  );
+                }}
+              />
+            </Flex>
+            <Flex
+              style={{
+                lineHeight: "32px",
+                justifyContent: "space-between",
+                margin: "8px auto 0 auto",
+                maxWidth: "600px",
               }}
-            />
+            >
+              <Flex>
+                <BoosterSymbol /> Future boosters:
+              </Flex>
+              <Input
+                value={futureBoosters}
+                placeholder={"0"}
+                title={"expected additional boosters, e.g. seasonal rewards"}
+                contStyle={inputStyle}
+                callback={(value: string): void => {
+                  reduxAction(
+                    dispatch,
+                    { type: "SET_FUTURE_BOOSTERS", arg: parseFloat(value) },
+                    IPC_NONE
+                  );
+                }}
+              />
+            </Flex>
             <div
-              className={`${indexCss.message_sub_15} ${sharedCss.white} ${indexCss.link}`}
+              style={{
+                marginTop: "16px",
+                cursor: "pointer",
+                textDecoration: "underline",
+                color: "var(--color-text-link)",
+              }}
               onClick={(): void => {
                 shell.openExternal(
                   "https://www.mtggoldfish.com/articles/collecting-mtg-arena-part-1-of-2"
                 );
               }}
             >
-              *[original by caliban on mtggoldfish]
+              * original by caliban on mtggoldfish
             </div>
           </>
         ) : (

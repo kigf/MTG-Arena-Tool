@@ -1,12 +1,9 @@
 import React from "react";
 import { CARD_RARITIES, COLORS_LONG } from "../../../shared/constants";
-import db from "../../../shared/database";
 import { CardStats } from "./collectionStats";
 import useHoverCard from "../../hooks/useHoverCard";
 
-import notFound from "../../../assets/images/notfound.png";
 import sharedCss from "../../../shared/shared.css";
-import indexCss from "../../index.css";
 import css from "./CompletionTableHeatMap.css";
 
 type ColorData = { [key: string]: CardStats[] };
@@ -76,7 +73,9 @@ function RarityColumn({
   color: number;
   rarityCode: string;
 }): JSX.Element {
-  const rarityIndex = CARD_RARITIES.indexOf(rarityCode as any);
+  const rarityIndex = CARD_RARITIES.filter(
+    (r) => r !== "token" && r !== "land"
+  ).indexOf(rarityCode as any);
   const rarity = rarityCode.toLowerCase();
   const cardsArray = colorData && colorData[rarity] ? colorData[rarity] : [];
   return (
@@ -124,7 +123,9 @@ function ColorColumn({
           gridArea: `1 / ${color * 5 + 1} / auto / ${color * 5 + 6}`,
         }}
       />
-      {CARD_RARITIES.filter((rarity) => rarity !== "land").map((rarityCode) => {
+      {CARD_RARITIES.filter(
+        (rarity) => rarity !== "land" && rarity !== "token"
+      ).map((rarityCode) => {
         const props = {
           colorData,
           color,
@@ -138,37 +139,21 @@ function ColorColumn({
 
 export default function CompletionHeatMap({
   cardData,
-  setName,
 }: {
   cardData: CardData;
-  setName: string;
 }): JSX.Element {
-  const iconSvg = db.sets[setName]?.svg ?? db.defaultSet?.svg;
-  const setIcon = iconSvg
-    ? `url(data:image/svg+xml;base64,${iconSvg})`
-    : `url(${notFound})`;
   return (
-    <>
-      <div style={{ margin: "auto" }}>
-        <div
-          className={indexCss.statsSetIcon}
-          style={{ backgroundImage: setIcon }}
-        >
-          <span>{setName}</span>
-        </div>
-      </div>
-      <div className={css.completionTable}>
-        {COLORS_LONG.map((code, color) => {
-          return (
-            <ColorColumn
-              key={color}
-              cardData={cardData}
-              colorCode={code}
-              color={color}
-            />
-          );
-        })}
-      </div>
-    </>
+    <div className={css.completionTable}>
+      {COLORS_LONG.map((code, color) => {
+        return (
+          <ColorColumn
+            key={color}
+            cardData={cardData}
+            colorCode={code}
+            color={color}
+          />
+        );
+      })}
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { Column, IdType, Row } from "react-table";
 import db from "../../../shared/database";
 import PagingControls from "../tables/PagingControls";
@@ -17,12 +17,16 @@ import {
   CollectionTableControlsProps,
   CollectionTableProps,
 } from "./types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 
 import indexCss from "../../index.css";
 import tablesCss from "../tables/tables.css";
 import sharedCss from "../../../shared/shared.css";
+import SetsView from "./SetsView";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import getFiltersFromQuery from "./collectionQuery";
+import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 
 export default function CollectionTable({
   data,
@@ -40,6 +44,7 @@ export default function CollectionTable({
   );
   const sortedSetCodes = useMemo(() => db.sortedSetCodes, []);
   React.useEffect(() => modeCallback(tableMode), [tableMode, modeCallback]);
+  const dispatcher = useDispatch();
 
   const customFilterTypes = {
     inBoosters: inBoostersFilterFn,
@@ -221,16 +226,38 @@ export default function CollectionTable({
     pagingProps,
     tableControlsProps,
   } = useBaseReactTable(tableProps);
-  const { getTableBodyProps, page, prepareRow, rows } = table;
+  const {
+    getTableBodyProps,
+    page,
+    prepareRow,
+    rows,
+    setGlobalFilter,
+    setAllFilters,
+  } = table;
 
-  const _stats = useMemo(() => {
+  const stats = useMemo(() => {
     const cardIds = rows.map((row) => row.values.id);
     return getCollectionStats(cardIds);
   }, [rows]);
 
+  const setQuery = useCallback(
+    (query: string) => {
+      reduxAction(
+        dispatcher,
+        { type: "SET_SETTINGS", arg: { collectionQuery: query } },
+        IPC_ALL ^ IPC_RENDERER
+      );
+      const filters = getFiltersFromQuery(query || "");
+      setGlobalFilter(undefined);
+      setAllFilters(filters);
+    },
+    [dispatcher, setGlobalFilter, setAllFilters]
+  );
+
   const collectionTableControlsProps: CollectionTableControlsProps = {
     exportCallback,
     rows,
+    setQuery,
     ...tableControlsProps,
   };
 
@@ -240,7 +267,9 @@ export default function CollectionTable({
         <div className={tablesCss.reactTableWrap}>
           <CollectionTableControls {...collectionTableControlsProps} />
           {collectionMode === collectionModes[1] ? (
-            <div className={sharedCss.medScroll}></div>
+            <div className={sharedCss.medScroll}>
+              <SetsView setQuery={setQuery} stats={stats} />
+            </div>
           ) : (
             <>
               <div className={sharedCss.medScroll}>

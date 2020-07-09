@@ -7,7 +7,6 @@ import PagingControls from "../tables/PagingControls";
 import { CollectionTableControlsProps } from "./types";
 import tableCss from "../tables/tables.css";
 import { InputContainer } from "../misc/InputContainer";
-import getFiltersFromQuery from "./collectionQuery";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
@@ -25,7 +24,7 @@ export default function CollectionTableControls(
     setAllFilters,
     toggleSortBy,
     toggleHideColumn,
-    setGlobalFilter,
+    setQuery,
     pagingProps,
     rows,
     setTogglesVisible,
@@ -44,20 +43,6 @@ export default function CollectionTableControls(
   );
 
   const [advancedFiltersOpen, setAdvancedFiltersOpen] = useState(false);
-
-  const setQuery = useCallback(
-    (query: string) => {
-      reduxAction(
-        dispatcher,
-        { type: "SET_SETTINGS", arg: { collectionQuery: query } },
-        IPC_ALL ^ IPC_RENDERER
-      );
-      const filters = getFiltersFromQuery(query || "");
-      setGlobalFilter(undefined);
-      setAllFilters(filters);
-    },
-    [dispatcher, setGlobalFilter, setAllFilters]
-  );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>): void => {

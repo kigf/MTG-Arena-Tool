@@ -40,7 +40,7 @@
 
 .completion_table_card {
   font-family: var(--sub-font-name-bold);
-  color: var(--color-back);
+  color: var(--color-text-button);
   height: 24px;
   line-height: 24px;
 }

@@ -35,7 +35,7 @@
   "--color-text-button-hover": "#111111",
   "--color-button": "#94a8ca",
   "--color-button-hover": "rgba(175, 205, 255, 1)",
-  "--color-button-shade-20": "rgba(175, 205, 255, 0.)",
+  "--color-button-shade-20": "rgba(175, 205, 255, 0.2)",
   "--color-button-shade-40": "rgba(175, 205, 255, 0.4)",
 
   "--color-shade-75": "rgba(0, 0, 0, .75)",

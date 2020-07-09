@@ -28,6 +28,7 @@ export interface CollectionTableProps {
 
 export interface CollectionTableControlsProps
   extends TableControlsProps<CardsData> {
+  setQuery: (query: string) => void;
   exportCallback: (cardIds: string[]) => void;
   rows: Row<CardsData>[];
 }

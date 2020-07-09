@@ -416,3 +416,23 @@ export default function getFiltersFromQuery(query: string): Filters<CardsData> {
 
   return filters;
 }
+
+/**
+ * Takes a query string and removes all key:value pairs matching the keys
+ * @param query query string
+ * @param key keys to remove from query
+ */
+export function removeFilterFromQuery(query: string, keys: string[]): string {
+  const results = parseFilterValue(query);
+  const newQuery: string[] = [];
+  results.map((match: any) => {
+    const [tokenKey, separator, tokenVal] = match;
+    const nKey = tokenKey.startsWith("-") ? tokenKey.slice(1) : tokenKey;
+    if (!keys.includes(nKey)) {
+      const keyVal = `${tokenKey}${separator}${tokenVal}`;
+      newQuery.push(keyVal);
+    }
+  });
+
+  return newQuery.join(" ");
+}

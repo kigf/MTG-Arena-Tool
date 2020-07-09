@@ -1,0 +1,10 @@
+.sets-view-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "filters filters"
+    "set stats"
+    "chart stats";
+}

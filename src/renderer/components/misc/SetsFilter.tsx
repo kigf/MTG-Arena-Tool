@@ -1,17 +1,20 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 //import { useSelector } from "react-redux";
 //import { AppState } from "../../../shared/redux/stores/rendererStore";
 import db from "../../../shared/database";
 import index from "../../index.css";
 import { CardSet } from "../../../types/Metadata";
+import { isEqual } from "lodash";
 
 interface SetsFilterProps {
+  singleSelection?: boolean;
+  style?: CSSProperties;
   callback: (sets: string[]) => void;
   filtered: string[];
 }
 
 export default function SetsFilter(props: SetsFilterProps): JSX.Element {
-  const { callback, filtered } = props;
+  const { singleSelection, style, callback, filtered } = props;
   //const formats = useSelector((state: AppState) => state.renderer.formats);
   // All sets after Ixalan
   const filterable = Object.keys(db.sets).filter(
@@ -27,11 +30,19 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
   });
 
   const setFilteredSet = (setCode: string): void => {
-    const index = filtered.indexOf(setCode);
-    if (index !== -1) {
-      callback(filtered.filter((s) => s !== setCode));
+    if (singleSelection === true) {
+      if (isEqual([setCode], filtered)) {
+        callback([]);
+      } else {
+        callback([setCode]);
+      }
     } else {
-      callback([...filtered, setCode]);
+      const index = filtered.indexOf(setCode);
+      if (index !== -1) {
+        callback(filtered.filter((s) => s !== setCode));
+      } else {
+        callback([...filtered, setCode]);
+      }
     }
   };
 
@@ -41,6 +52,7 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
         display: "flex",
         marginTop: "16px",
         justifyContent: "space-between",
+        ...style,
       }}
     >
       {filterSets.map((set) => {

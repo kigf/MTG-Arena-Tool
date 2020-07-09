@@ -1,15 +1,15 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace AdvancedSearchCssModule {
+declare namespace AdvancedSearchCssNamespace {
   export interface IAdvancedSearchCss {
     "search-line": string;
     searchLine: string;
   }
 }
 
-declare const AdvancedSearchCssModule: AdvancedSearchCssModule.IAdvancedSearchCss & {
+declare const AdvancedSearchCssModule: AdvancedSearchCssNamespace.IAdvancedSearchCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: AdvancedSearchCssModule.IAdvancedSearchCss;
+  locals: AdvancedSearchCssNamespace.IAdvancedSearchCss;
 };
 
 export = AdvancedSearchCssModule;

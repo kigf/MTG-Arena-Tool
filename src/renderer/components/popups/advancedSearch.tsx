@@ -102,7 +102,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   let defaultOwnedMin = null;
   let defaultOwnedMax = null;
   // Loop trough the setted filters to adjust defaults
-  console.log(defaultFilters);
+  // console.log(defaultFilters);
   defaultFilters.map((f: any) => {
     // Guess color filter
     if (f.id == "colors") {
