@@ -58,13 +58,13 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
       {filterSets.map((set) => {
         const svgData = set.svg;
         const setClass = `${index.setFilter} ${
-          filtered.indexOf(set.arenacode.toLowerCase()) == -1
+          filtered.indexOf(set.code.toLowerCase()) == -1
             ? index.setFilterOn
             : ""
         }`;
         return (
           <div
-            key={set.arenacode.toLowerCase()}
+            key={set.code.toLowerCase()}
             style={{
               backgroundImage: `url(data:image/svg+xml;base64,${svgData})`,
               width: "24px",
@@ -73,7 +73,7 @@ export default function SetsFilter(props: SetsFilterProps): JSX.Element {
             }}
             title={set.name}
             className={setClass}
-            onClick={(): void => setFilteredSet(set.arenacode.toLowerCase())}
+            onClick={(): void => setFilteredSet(set.code.toLowerCase())}
           ></div>
         );
       })}

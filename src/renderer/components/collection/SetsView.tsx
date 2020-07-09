@@ -34,7 +34,7 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
   } = useSelector((state: AppState) => state.collection);
 
   const currentSetName = Object.keys(database.sets).filter(
-    (s) => database.sets[s].arenacode.toLowerCase() == currentSet
+    (s) => database.sets[s].code.toLowerCase() == currentSet
   )[0];
   //const currentSetData = database.sets[currentSetName];
 
