@@ -74,7 +74,7 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
               padding: "16px",
             }}
           >
-            <Flex style={{ margin: "auto", lineHeight: "24px" }}>
+            <Flex style={{ margin: "0 auto", lineHeight: "24px" }}>
               <div
                 className={indexCss.statsSetIcon}
                 style={{ backgroundImage: setIcon }}
@@ -104,17 +104,17 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
           </Section>
         </>
       ) : (
-        <Section
-          style={{
-            color: "var(--color-g)",
-            fontSize: "16px",
-            textAlign: "center",
-            gridArea: "set",
-            padding: "16px",
-            display: "block !important",
-          }}
-        >
-          Select a set to see detailed statistics
+        <Section style={{ gridArea: "set" }}>
+          <div
+            style={{
+              color: "var(--color-g)",
+              fontSize: "16px",
+              padding: "16px",
+              margin: "auto",
+            }}
+          >
+            Select a set to see detailed statistics
+          </div>
         </Section>
       )}
       <Section

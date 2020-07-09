@@ -76,3 +76,9 @@ export const historicAnthology3 = [
   47143,
   53817,
 ];
+
+export const customSets = [
+  { name: "Historic Anthology 1", cards: historicAnthology },
+  { name: "Historic Anthology 2", cards: historicAnthology2 },
+  { name: "Historic Anthology 3", cards: historicAnthology3 },
+];
