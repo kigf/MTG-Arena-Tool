@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace ActionLogCssModule {
+declare namespace ActionLogCssNamespace {
   export interface IActionLogCss {
     actionlog: string;
     "actionlog-div": string;
@@ -28,9 +28,9 @@ declare namespace ActionLogCssModule {
   }
 }
 
-declare const ActionLogCssModule: ActionLogCssModule.IActionLogCss & {
+declare const ActionLogCssModule: ActionLogCssNamespace.IActionLogCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: ActionLogCssModule.IActionLogCss;
+  locals: ActionLogCssNamespace.IActionLogCss;
 };
 
 export = ActionLogCssModule;

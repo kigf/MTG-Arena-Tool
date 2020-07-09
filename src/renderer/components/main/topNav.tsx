@@ -39,6 +39,7 @@ import syncPush from "../../../assets/images/sync_push.png";
 import syncPatreon from "../../../assets/images/sync_patreon.png";
 import IconButton from "../misc/IconButton";
 import { forceOpenSettings } from "../../tabControl";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
 const topNavClasses: string[] = [];
 topNavClasses[MAIN_HOME] = topNavCss.iconHome;
@@ -51,7 +52,7 @@ topNavClasses[MAIN_ECONOMY] = topNavCss.iconEconomy;
 topNavClasses[MAIN_COLLECTION] = topNavCss.iconCollection;
 
 interface TopNavItemProps {
-  dispatcher: any;
+  dispatcher: Dispatch<AnyAction>;
   currentTab: number;
   compact: boolean;
   id: number;

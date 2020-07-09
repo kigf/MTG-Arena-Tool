@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace TopBarCssModule {
+declare namespace TopBarCssNamespace {
   export interface ITopBarCss {
     close: string;
     maximize: string;
@@ -21,9 +21,9 @@ declare namespace TopBarCssModule {
   }
 }
 
-declare const TopBarCssModule: TopBarCssModule.ITopBarCss & {
+declare const TopBarCssModule: TopBarCssNamespace.ITopBarCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: TopBarCssModule.ITopBarCss;
+  locals: TopBarCssNamespace.ITopBarCss;
 };
 
 export = TopBarCssModule;

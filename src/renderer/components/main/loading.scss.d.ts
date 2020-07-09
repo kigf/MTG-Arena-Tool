@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace LoadingScssModule {
+declare namespace LoadingScssNamespace {
   export interface ILoadingScss {
     color: string;
     grow: string;
@@ -23,9 +23,9 @@ declare namespace LoadingScssModule {
   }
 }
 
-declare const LoadingScssModule: LoadingScssModule.ILoadingScss & {
+declare const LoadingScssModule: LoadingScssNamespace.ILoadingScss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: LoadingScssModule.ILoadingScss;
+  locals: LoadingScssNamespace.ILoadingScss;
 };
 
 export = LoadingScssModule;

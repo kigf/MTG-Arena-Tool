@@ -169,7 +169,7 @@ label {
 
 ::-webkit-scrollbar-track {
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--color-section);
 }
 
 ::-webkit-scrollbar-thumb {

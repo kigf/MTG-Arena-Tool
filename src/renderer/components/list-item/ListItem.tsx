@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { useDispatch } from "react-redux";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
@@ -14,7 +14,7 @@ interface ListItemProps extends JSX.ElementChildrenAttribute {
   mouseLeave: VoidFunction;
 }
 
-export function ListItem(props: ListItemProps): JSX.Element {
+export function ListItem(props: PropsWithChildren<ListItemProps>): JSX.Element {
   const { click, mouseEnter, mouseLeave } = props;
   return (
     <div
@@ -55,7 +55,7 @@ interface ColumnProps extends JSX.ElementChildrenAttribute {
   class?: string;
 }
 
-export function Column(props: ColumnProps): JSX.Element {
+export function Column(props: PropsWithChildren<ColumnProps>): JSX.Element {
   const style = props.style || {};
   return (
     <div
@@ -73,7 +73,7 @@ interface FlexProps extends JSX.ElementChildrenAttribute {
   innerClass?: string;
 }
 
-export function FlexTop(props: FlexProps): JSX.Element {
+export function FlexTop(props: PropsWithChildren<FlexProps>): JSX.Element {
   const style = props.style || {};
   return (
     <div style={style} className={indexCss.flexTop}>

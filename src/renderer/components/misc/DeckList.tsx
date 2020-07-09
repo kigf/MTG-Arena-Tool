@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import _ from "lodash";
 import React from "react";
 import db from "../../../shared/database";

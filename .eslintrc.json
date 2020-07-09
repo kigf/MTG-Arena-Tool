@@ -27,6 +27,7 @@
     }
   },
   "rules": {
+    "react/prop-types": 0,
     "allowEmptyCatch": 0,
     "no-cond-assign": 0,
     "no-console": "off",

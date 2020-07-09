@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import styled from "styled-components";
 import db from "../../../shared/database";
 import { SymbolBase } from "./SymbolBase";
@@ -9,6 +9,7 @@ const SetSymbolBase = styled(SymbolBase).attrs((props) => ({
 }))``;
 
 interface SetSymbolProps extends React.HTMLAttributes<HTMLDivElement> {
+  style?: CSSProperties;
   set: string;
 }
 

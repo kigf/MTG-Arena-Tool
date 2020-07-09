@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace IndexScssModule {
+declare namespace IndexScssNamespace {
   export interface IIndexScss {
     about: string;
     "close-button": string;
@@ -19,9 +19,9 @@ declare namespace IndexScssModule {
   }
 }
 
-declare const IndexScssModule: IndexScssModule.IIndexScss & {
+declare const IndexScssModule: IndexScssNamespace.IIndexScss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: IndexScssModule.IIndexScss;
+  locals: IndexScssNamespace.IIndexScss;
 };
 
 export = IndexScssModule;

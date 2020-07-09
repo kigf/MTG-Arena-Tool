@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace IconButtonCssModule {
+declare namespace IconButtonCssNamespace {
   export interface IIconButtonCss {
     "icon-button": string;
     iconButton: string;
@@ -9,9 +9,9 @@ declare namespace IconButtonCssModule {
   }
 }
 
-declare const IconButtonCssModule: IconButtonCssModule.IIconButtonCss & {
+declare const IconButtonCssModule: IconButtonCssNamespace.IIconButtonCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: IconButtonCssModule.IIconButtonCss;
+  locals: IconButtonCssNamespace.IIconButtonCss;
 };
 
 export = IconButtonCssModule;

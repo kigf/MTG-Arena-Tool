@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import db from "../../../shared/database";
