@@ -42,7 +42,7 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
     // Update old query with new set, removing all other sets from it
     (sets: string[]) => {
       let newQuery = removeFilterFromQuery(query, ["s", "set"]);
-      newQuery += sets[0] ? " s:" + sets[0] : "";
+      newQuery += sets[0] ? (sets[0] == "" ? "s:" : " s:") + sets[0] : "";
       setQuery(newQuery);
       setCurrentSet(sets[0] || undefined);
     },

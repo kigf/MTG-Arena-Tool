@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from "react";
-import { Column, IdType, Row } from "react-table";
+import { Column, IdType, Row, Filters } from "react-table";
 import db from "../../../shared/database";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
@@ -247,7 +247,10 @@ export default function CollectionTable({
         { type: "SET_SETTINGS", arg: { collectionQuery: query } },
         IPC_ALL ^ IPC_RENDERER
       );
-      const filters = getFiltersFromQuery(query || "");
+      let filters: Filters<CardsData> = [];
+      if (query !== "") {
+        filters = getFiltersFromQuery(query || "");
+      }
       setGlobalFilter(undefined);
       setAllFilters(filters);
     },
