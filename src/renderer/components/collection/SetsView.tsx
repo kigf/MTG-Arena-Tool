@@ -120,6 +120,7 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
         style={{ flexDirection: "column", gridArea: "stats", padding: "16px" }}
       >
         <CollectionStatsPanel
+          setQuery={setQuery}
           stats={stats}
           boosterMath={true}
           clickCompletionCallback={(): void => {}}

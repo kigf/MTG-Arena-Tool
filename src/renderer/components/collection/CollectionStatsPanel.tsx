@@ -1,5 +1,5 @@
 import { shell } from "electron";
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CARD_RARITIES, IPC_NONE } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
@@ -23,6 +23,8 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import indexCss from "../../index.css";
 import economyCss from "../economy/economy.css";
 import Flex from "../misc/Flex";
+import getFiltersFromQuery, { removeFilterFromQuery } from "./collectionQuery";
+import { InBoolFilter } from "./types";
 
 const getRarityKey = (
   rarity: string
@@ -34,14 +36,18 @@ const getRarityKey = (
   return undefined;
 };
 
+const inBoostersMode = ["All Cards", "In boosters", "Not in boosters"];
+
 export default function CollectionStatsPanel({
   stats,
   boosterMath,
   clickCompletionCallback,
+  setQuery,
 }: {
   stats?: CollectionStats;
   boosterMath: boolean;
   clickCompletionCallback: () => void;
+  setQuery: (query: string) => void;
 }): JSX.Element {
   const {
     countMode,
@@ -54,6 +60,33 @@ export default function CollectionStatsPanel({
   const playerEconomy = useSelector(
     (state: AppState) => state.playerdata.economy
   );
+  const query = useSelector(
+    (state: AppState) => state.settings.collectionQuery
+  );
+
+  let boostersMode = inBoostersMode[0];
+
+  const defaultFilters = getFiltersFromQuery(query);
+  defaultFilters.map((f: any) => {
+    if (f.id == "boosters") {
+      const filter: InBoolFilter = f.value;
+      if (filter.not == false) boostersMode = inBoostersMode[1];
+      if (filter.not == true) boostersMode = inBoostersMode[0];
+    }
+  });
+
+  const setBoostersCallback = useCallback(
+    // Update old query with new set, removing all other sets from it
+    (boosters: boolean | undefined) => {
+      let newQuery = removeFilterFromQuery(query, ["in"]);
+      if (boosters !== undefined) {
+        newQuery += " " + (boosters ? "" : "-") + "in:boosters";
+      }
+      setQuery(newQuery);
+    },
+    [setQuery, query]
+  );
+
   if (!stats) {
     return <></>;
   }
@@ -95,19 +128,41 @@ export default function CollectionStatsPanel({
         <div>{formatNumber(playerEconomy.wcMythic)}</div>
       </div>
       <div style={{ textAlign: "center" }}>
-        <Flex style={{ lineHeight: "32px", justifyContent: "center" }}>
-          <div style={{ marginRight: "8px" }}>Count:</div>
+        <Flex
+          style={{
+            lineHeight: "32px",
+            justifyContent: "space-between",
+            maxWidth: "600px",
+            margin: "8px auto",
+          }}
+        >
           <ReactSelect
-            options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
-            current={countMode}
+            options={inBoostersMode}
+            current={boostersMode}
             callback={(mode: string): void => {
-              reduxAction(
-                dispatch,
-                { type: "SET_COUNT_MODE", arg: mode },
-                IPC_NONE
-              );
+              if (mode == inBoostersMode[1]) {
+                setBoostersCallback(true);
+              } else if (mode == inBoostersMode[2]) {
+                setBoostersCallback(false);
+              } else {
+                setBoostersCallback(undefined);
+              }
             }}
           />
+          <Flex>
+            <div style={{ marginRight: "8px" }}>Count:</div>
+            <ReactSelect
+              options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
+              current={countMode}
+              callback={(mode: string): void => {
+                reduxAction(
+                  dispatch,
+                  { type: "SET_COUNT_MODE", arg: mode },
+                  IPC_NONE
+                );
+              }}
+            />
+          </Flex>
         </Flex>
         <SetCompletionBar
           countMode={countMode}
