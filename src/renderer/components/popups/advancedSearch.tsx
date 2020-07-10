@@ -27,6 +27,7 @@ import {
   RARITY_RARE,
   RARITY_MYTHIC,
   MinMaxFilter,
+  InBoolFilter,
 } from "../collection/types";
 import SetsFilter from "../misc/SetsFilter";
 import { StringFilter } from "../tables/filters";
@@ -79,6 +80,8 @@ const rarityFilterOptions = [
   "Mythic",
 ];
 
+const inBoostersMode = ["All Cards", "In boosters", "Not in boosters"];
+
 interface EditKeyProps {
   defaultQuery: string;
   closeCallback?: (query: string) => void;
@@ -101,6 +104,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   let defaultCmcMax = null;
   let defaultOwnedMin = null;
   let defaultOwnedMax = null;
+  let defaultBoosters = null;
   // Loop trough the setted filters to adjust defaults
   // console.log(defaultFilters);
   defaultFilters.map((f: any) => {
@@ -168,6 +172,10 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       if (filter.mode == ">") defaultOwnedMin = filter.value;
       if (filter.mode == ">=") defaultOwnedMin = filter.value;
     }
+    if (f.id == "boosters") {
+      const filter: InBoolFilter = f.value;
+      defaultBoosters = !filter.not;
+    }
   });
 
   // Set filters state
@@ -197,6 +205,9 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
   );
   const [ownedMaxFilter, setOwnedMaxFilter] = useState<number | null>(
     defaultOwnedMax
+  );
+  const [inBoostersFilter, setInBoostersFilter] = useState<boolean | null>(
+    defaultBoosters
   );
 
   const handleClose = useCallback(
@@ -274,6 +285,10 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
       owned = "owned<=" + ownedMaxFilter;
     }
 
+    if (inBoostersFilter !== null) {
+      filters.push((inBoostersFilter ? "" : "-") + "in:boosters");
+    }
+
     filterColors.length !== 5 && filters.push(colors);
     filterSets.length > 0 && filters.push(sets);
     formatFilterOption !== "Not set" && filters.push(formats);
@@ -282,6 +297,7 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
     (ownedMinFilter !== null || ownedMaxFilter !== null) && filters.push(owned);
     setQuery(filters.join(" "));
   }, [
+    inBoostersFilter,
     cmcMinFilter,
     cmcMaxFilter,
     ownedMinFilter,
@@ -368,6 +384,28 @@ export default function AdvancedSearch(props: EditKeyProps): JSX.Element {
             current={rarityFilterOption}
             callback={(opt: string): void => {
               setRarityFilterOption(opt);
+            }}
+          />
+        </div>
+        <div className={css.searchLine}>
+          <div style={{ lineHeight: "32px" }}>In Boosters: </div>
+          <ReactSelect
+            options={inBoostersMode}
+            current={
+              inBoostersFilter !== null
+                ? inBoostersFilter
+                  ? inBoostersMode[1]
+                  : inBoostersMode[2]
+                : inBoostersMode[0]
+            }
+            callback={(mode: string): void => {
+              if (mode == inBoostersMode[1]) {
+                setInBoostersFilter(true);
+              } else if (mode == inBoostersMode[2]) {
+                setInBoostersFilter(false);
+              } else {
+                setInBoostersFilter(null);
+              }
             }}
           />
         </div>
