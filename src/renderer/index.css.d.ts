@@ -168,11 +168,9 @@ declare namespace IndexCssNamespace {
     library_stat: string;
     lineBottomBorder: string;
     lineDark: string;
-    lineLight: string;
     lineLighter: string;
     line_bottom_border: string;
     line_dark: string;
-    line_light: string;
     line_lighter: string;
     link: string;
     listDeck: string;
