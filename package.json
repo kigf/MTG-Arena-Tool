@@ -40,7 +40,7 @@
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "dist": "npm-run-all build:prod build:final",
-    "build:final": "electron-builder lib --x64",
+    "build:final": "electron-builder --x64",
     "clean": "npm run clean:lib || npm run clean:dist || npm run clean:modules",
     "clean:modules": "rimraf node_modules",
     "clean:lib": "rimraf lib",

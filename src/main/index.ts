@@ -82,7 +82,7 @@ app.on("second-instance", () => {
 
 if (!singleLock) {
   debugLog("We dont have single instance lock! quitting the app.");
-  app.quit();
+  quit();
 }
 
 app.on("ready", () => {
@@ -139,6 +139,14 @@ autoUpdater.on("update-downloaded", (info) => {
 
 function installUpdate(): void {
   autoUpdater.quitAndInstall(true, true);
+}
+
+function rendererClose(): void {
+  if (store.getState().settings.close_to_tray) {
+    hideWindow();
+  } else {
+    quit();
+  }
 }
 
 let appStarted = false;
@@ -272,11 +280,7 @@ function startApp(): void {
         break;
 
       case "renderer_window_close":
-        if (store.getState().settings.close_to_tray) {
-          hideWindow();
-        } else {
-          quit();
-        }
+        rendererClose();
         break;
 
       case "set_clipboard":
@@ -434,13 +438,13 @@ function setSettings(settings: SettingsData): void {
     openAtLogin: settings.startup,
   });
 
+  updateOverlayVisibility();
+
   // Send settings update
   overlay?.setAlwaysOnTop(settings.overlay_ontop, "pop-up-menu");
   if (settings.overlay_ontop && overlay && !overlay.isAlwaysOnTop()) {
     overlay.moveTop();
   }
-
-  updateOverlayVisibility();
 }
 
 let overlayHideTimeout: NodeJS.Timeout | undefined = undefined;
@@ -461,6 +465,7 @@ function updateOverlayVisibility(): void {
     "debug"
   );
   */
+  hideDock();
   if (!shouldDisplayOverlay && isOverlayVisible) {
     // hide entire overlay window
     // Add a 1 second timeout for animations
@@ -475,6 +480,7 @@ function updateOverlayVisibility(): void {
     overlaySetBounds();
     overlay?.show();
   }
+  showDock();
 }
 
 function isEntireOverlayVisible(): boolean {
@@ -551,6 +557,20 @@ function hideWindow(): void {
   }
 }
 
+function hideDock(): void {
+  if (process.platform == "darwin") {
+    app.dock.hide();
+  }
+}
+
+function showDock(): void {
+  if (process.platform == "darwin" && !app.dock.isVisible()) {
+    app.dock.show().then(() => {
+      app.dock.setIcon(path.join(__dirname, icon256));
+    });
+  }
+}
+
 function toggleWindow(): void {
   if (mainWindow && mainWindow.isVisible()) {
     if (!mainWindow.isMinimized()) {
@@ -573,15 +593,12 @@ function showWindow(): void {
       updaterWindow.show();
     else updaterWindow.moveTop();
   }
-  if (process.platform == "darwin" && !app.dock.isVisible()) {
-    app.dock.show().then(() => {
-      app.dock.setIcon(path.join(__dirname, icon256));
-    });
-  }
+  showDock();
 }
 
 function quit(): void {
   app.quit();
+  app.exit();
 }
 
 function saveWindowPos(): void {
@@ -681,7 +698,7 @@ function createOverlayWindow(): BrowserWindow {
 function createMainWindow(): BrowserWindow {
   const win = new BrowserWindow({
     backgroundColor: "#000",
-    frame: false,
+    frame: process.platform == "linux" ? true : false,
     show: false,
     width: 1000,
     height: 700,
@@ -693,10 +710,15 @@ function createMainWindow(): BrowserWindow {
   });
   win.loadURL("file://" + path.join(__dirname, "renderer", "index.html"));
   win.on("closed", onMainClosed);
+  win.on("close", (e): void => {
+    rendererClose();
+    e.preventDefault();
+  });
 
   let iconPath = iconTray;
   if (process.platform == "linux") {
     iconPath = iconTray8x;
+    win.removeMenu();
   }
   if (process.platform == "win32") {
     iconPath = icon256;
@@ -724,6 +746,7 @@ function createMainWindow(): BrowserWindow {
     {
       label: "Quit",
       click: (): void => {
+        console.log("Bye bye!");
         quit();
       },
     },
@@ -732,9 +755,7 @@ function createMainWindow(): BrowserWindow {
   tray.setToolTip("MTG Arena Tool");
   tray.setContextMenu(contextMenu);
 
-  if (process.platform == "darwin") {
-    app.dock.setIcon(path.join(__dirname, icon256));
-  }
+  showDock();
 
   win.on("resize", () => {
     if (mainTimeout) {
