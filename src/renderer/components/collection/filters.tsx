@@ -1,10 +1,9 @@
 import _, { isEqual } from "lodash";
 import { Row } from "react-table";
 import db from "../../../shared/database";
-import { BinaryFilterValue, StringFilter } from "../tables/filters";
+import { StringFilter } from "../tables/filters";
 import { TableData } from "../tables/types";
 import {
-  CardsData,
   RARITY_TOKEN,
   RARITY_LAND,
   RARITY_COMMON,
@@ -15,6 +14,7 @@ import {
   RarityBitsFilter,
   ArrayFilter,
   MinMaxFilter,
+  InBoolFilter,
 } from "./types";
 import { usedFormats } from "../../rendererUtil";
 import {
@@ -22,18 +22,6 @@ import {
   historicAnthology2,
   historicAnthology3,
 } from "./customSets";
-
-export function inBoostersFilterFn(
-  rows: Row<CardsData>[],
-  _id: string,
-  filterValue: BinaryFilterValue
-): Row<CardsData>[] {
-  return rows.filter((row) =>
-    Object.entries(filterValue).some(
-      ([code, value]) => value && String(row.original.booster) === code
-    )
-  );
-}
 
 type SetFilterValue = { [set: string]: boolean };
 
@@ -205,6 +193,21 @@ export function minMaxFilterFn<D extends TableData>(
     if (filterValue.mode == "<") ret = R < F;
     if (filterValue.mode == ">=") ret = R >= F;
     if (filterValue.mode == ">") ret = R > F;
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function inBoolFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _column: string[],
+  filterValue: InBoolFilter
+): Row<D>[] {
+  const F = filterValue.value;
+  return rows.filter((row) => {
+    const R = row.original[filterValue.type];
+    let ret: number | boolean = true;
+    if (filterValue.mode == "=") ret = R === F;
+    if (filterValue.mode == ":") ret = R === F;
     return filterValue.not ? !ret : ret;
   });
 }

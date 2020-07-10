@@ -20,6 +20,8 @@ import {
   getCardFormats,
   getCardBanned,
   getCardSuspended,
+  getCardIsCraftable,
+  getCardInBoosters,
 } from "../rendererUtil";
 import { CardCounts } from "../components/decks/types";
 import Deck from "../../shared/deck";
@@ -146,6 +148,8 @@ function getCollectionData(
         const format = getCardFormats(card);
         const banned = getCardBanned(card);
         const suspended = getCardSuspended(card);
+        const craftable = getCardIsCraftable(card);
+        const booster = getCardInBoosters(card);
         return {
           ...card,
           name,
@@ -163,6 +167,8 @@ function getCollectionData(
           format,
           banned,
           suspended,
+          craftable,
+          booster,
         };
       }
     );

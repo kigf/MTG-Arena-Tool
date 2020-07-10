@@ -19,6 +19,7 @@ import {
   ColorBitsFilter,
   ArrayFilter,
   MinMaxFilter,
+  InBoolFilter,
 } from "./types";
 
 /**
@@ -63,6 +64,19 @@ const defaultStringFilter: StringFilter = {
   not: false,
 };
 
+const defaultInBoolFilter: InBoolFilter = {
+  not: false,
+  mode: ":",
+  type: "",
+  value: true,
+};
+
+const defaultMinMaxFilter: MinMaxFilter = {
+  not: false,
+  mode: ":",
+  value: 0,
+};
+
 const defaultFilters = {
   name: { ...defaultStringFilter },
   type: { ...defaultStringFilter },
@@ -70,23 +84,14 @@ const defaultFilters = {
   format: { ...defaultStringFilter },
   banned: { ...defaultStringFilter },
   legal: { ...defaultStringFilter },
-  is: { ...defaultStringFilter },
   suspended: { ...defaultStringFilter },
-  cmc: {
-    not: false,
-    mode: ":",
-    value: 0,
-  } as MinMaxFilter,
-  owned: {
-    not: false,
-    mode: ":",
-    value: 0,
-  } as MinMaxFilter,
-  wanted: {
-    not: false,
-    mode: ":",
-    value: 0,
-  } as MinMaxFilter,
+  is: { ...defaultInBoolFilter },
+  in: { ...defaultInBoolFilter },
+  boosters: { ...defaultInBoolFilter },
+  craftable: { ...defaultInBoolFilter },
+  cmc: { ...defaultMinMaxFilter },
+  owned: { ...defaultMinMaxFilter },
+  wanted: { ...defaultMinMaxFilter },
   colors: {
     color: 0,
     not: false,
@@ -124,6 +129,9 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   set: "set",
   f: "format",
   is: "is",
+  in: "in",
+  boosters: "boosters",
+  craftable: "craftable",
   legal: "legal",
   format: "format",
   banned: "banned",
@@ -172,8 +180,22 @@ function getTokenVal(
       filters.suspended.not = isNegative;
       break;
     case "is":
-      if (separator === "=" || separator === ":") filters.is.string = val;
-      filters.is.not = isNegative;
+      if (separator === "=" || separator === ":") {
+        if (val == "craftable") {
+          filters.craftable.type = val;
+          filters.craftable.value = val ? true : false;
+          filters.craftable.not = isNegative;
+        }
+      }
+      break;
+    case "in":
+      if (separator === "=" || separator === ":") {
+        if (val == "boosters" || val == "booster") {
+          filters.boosters.type = "booster";
+          filters.boosters.value = val ? true : false;
+          filters.boosters.not = isNegative;
+        }
+      }
       break;
     case "set":
       filters.set.arr = val.split(",");
@@ -380,7 +402,7 @@ function getTokenVal(
 export default function getFiltersFromQuery(query: string): Filters<CardsData> {
   const filters: Filters<CardsData> = [];
   const results = parseFilterValue(query);
-  //console.log(results);
+  console.log(results);
   let keysAdded = 0;
   results.map((match: any) => {
     const [tokenKey, separator, tokenVal] = match;

@@ -5,11 +5,10 @@ import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
 import { BaseTableProps } from "../tables/types";
 import { useBaseReactTable } from "../tables/useBaseReactTable";
-import { InBoostersHeader } from "./cells";
 import CollectionTableControls, {
   collectionModes,
 } from "./CollectionTableControls";
-import { inBoostersFilterFn, setFilterFn } from "./filters";
+import { setFilterFn } from "./filters";
 import { CardTileRow } from "./rows";
 import { getCollectionStats } from "./collectionStats";
 import {
@@ -47,7 +46,6 @@ export default function CollectionTable({
   const dispatcher = useDispatch();
 
   const customFilterTypes = {
-    inBoosters: inBoostersFilterFn,
     set: setFilterFn,
   };
 
@@ -119,8 +117,12 @@ export default function CollectionTable({
         filter: "inArray",
       },
       {
-        accessor: "is",
-        filter: "is",
+        Header: "Craftable",
+        accessor: "craftable",
+        disableFilters: false,
+        filter: "inbool",
+        mayToggle: true,
+        defaultVisible: false,
       },
       {
         Header: "Colors",
@@ -195,14 +197,13 @@ export default function CollectionTable({
         filter: "text",
         mayToggle: true,
       },
-      { accessor: "collectible" },
-      { accessor: "craftable" },
       {
-        Header: InBoostersHeader,
-        accessor: "booster",
+        Header: "Boosters",
+        accessor: "boosters",
         disableFilters: false,
-        filter: "inBoosters",
+        filter: "inbool",
         mayToggle: true,
+        defaultVisible: false,
       },
       { accessor: "images" },
       { accessor: "reprints" },
@@ -251,6 +252,7 @@ export default function CollectionTable({
       if (query !== "") {
         filters = getFiltersFromQuery(query || "");
       }
+      console.log(filters);
       setGlobalFilter(undefined);
       setAllFilters(filters);
     },

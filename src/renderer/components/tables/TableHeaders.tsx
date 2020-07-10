@@ -17,7 +17,7 @@ export default function TableHeaders<D extends TableData>({
   style,
   visibleHeaders,
 }: TableHeadersProps<D>): JSX.Element {
-  console.log("visibleHeaders", visibleHeaders);
+  // console.log("visibleHeaders", visibleHeaders);
   return (
     <div
       className={

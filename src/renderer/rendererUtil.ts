@@ -316,3 +316,23 @@ export function getCardSuspended(card: DbCardData): string[] {
   });
   return suspended;
 }
+
+export function getCardIsCraftable(card: DbCardData): boolean {
+  const formats = getCardFormats(card);
+  if (
+    formats.includes("Standard") ||
+    formats.includes("Historic") ||
+    formats.includes("Singleton")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export function getCardInBoosters(card: DbCardData): boolean {
+  const set = db.sets[card.set];
+  if (set?.collation !== -1 && card.booster) {
+    return true;
+  }
+  return false;
+}

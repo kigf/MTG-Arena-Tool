@@ -14,6 +14,7 @@ export interface CardsData extends DbCardData {
   format: string[];
   banned: string[];
   suspended: string[];
+  craftable: boolean;
 }
 
 export interface CollectionTableProps {
@@ -47,6 +48,9 @@ export type QueryKeys =
   | "wanted"
   | "format"
   | "is"
+  | "in"
+  | "boosters"
+  | "craftable"
   | "name"
   | "rarity"
   | "set"
@@ -95,4 +99,11 @@ export type MinMaxFilter = {
   not: boolean;
   mode: QuerySeparators;
   value: number;
+};
+
+export type InBoolFilter = {
+  not: boolean;
+  mode: QuerySeparators;
+  type: string;
+  value: boolean;
 };
