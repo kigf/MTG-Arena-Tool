@@ -71,7 +71,7 @@
     },
     "mac": {
       "target": "pkg",
-      "icon": "src/assets/icons/icon-512.ico",
+      "icon": "src/assets/icons/icon.icns",
       "artifactName": "${productName}-${version}.${ext}",
       "extendInfo": {
         "LSUIElement": 1

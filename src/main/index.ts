@@ -465,7 +465,7 @@ function updateOverlayVisibility(): void {
     "debug"
   );
   */
-  hideDock();
+  //hideDock();
   if (!shouldDisplayOverlay && isOverlayVisible) {
     // hide entire overlay window
     // Add a 1 second timeout for animations
@@ -480,7 +480,7 @@ function updateOverlayVisibility(): void {
     overlaySetBounds();
     overlay?.show();
   }
-  showDock();
+  //showDock();
 }
 
 function isEntireOverlayVisible(): boolean {
@@ -557,7 +557,7 @@ function hideWindow(): void {
   }
 }
 
-function hideDock(): void {
+function _hideDock(): void {
   if (process.platform == "darwin") {
     app.dock.hide();
   }

@@ -3,3 +3,4 @@ node_modules
 database.json
 dist
 lib
+src/assets/.DS_Store
