@@ -1,5 +1,5 @@
-import http from "https";
-import { IncomingMessage, RequestOptions } from "http";
+//import http from "https";
+import http, { IncomingMessage, RequestOptions } from "http";
 
 import globals from "./globals";
 import { ipcSend } from "./backgroundUtil";

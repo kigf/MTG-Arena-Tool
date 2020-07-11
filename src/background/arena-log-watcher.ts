@@ -25,6 +25,7 @@ import {
 import updateDeck from "./updateDeck";
 import globals from "./globals";
 import { reduxAction } from "../shared/redux/sharedRedux";
+import { httpSyncRequest } from "./httpApi";
 import debugLog from "../shared/debugLog";
 
 const debugLogSpeed = 0.001;
