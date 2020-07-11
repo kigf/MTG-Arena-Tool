@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace ManaCurveCssModule {
+declare namespace ManaCurveCssNamespace {
   export interface IManaCurveCss {
     manaCurve: string;
     manaCurveColumn: string;
@@ -21,9 +21,9 @@ declare namespace ManaCurveCssModule {
   }
 }
 
-declare const ManaCurveCssModule: ManaCurveCssModule.IManaCurveCss & {
+declare const ManaCurveCssModule: ManaCurveCssNamespace.IManaCurveCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: ManaCurveCssModule.IManaCurveCss;
+  locals: ManaCurveCssNamespace.IManaCurveCss;
 };
 
 export = ManaCurveCssModule;

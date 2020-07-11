@@ -4,6 +4,7 @@ import Deck from "../../../shared/deck";
 import { decksList } from "../../../shared/store";
 import store from "../../../shared/redux/stores/rendererStore";
 import { getMissingCardCounts } from "../../rendererUtil";
+import { customSets } from "./customSets";
 
 export const ALL_CARDS = "All cards";
 export const SINGLETONS = "Singletons (at least one)";
@@ -128,6 +129,7 @@ export function getCollectionStats(
   const stats: any = {
     complete: new SetStats("complete"),
   };
+
   const cards = store.getState().playerdata.cards;
   Object.keys(db.sets).forEach((setName) => {
     const setStats = new SetStats(setName);
@@ -144,11 +146,23 @@ export function getCollectionStats(
     setStats.boosterMythics = estimateBoosterMythics(setStats.boosters);
     stats[setName] = setStats;
   });
+
+  // Hardcode cursom sets
+  customSets.map((s) => {
+    stats[s.name] = new SetStats(s.name);
+  });
+
   cardIds.forEach((cardId) => {
     const card = db.card(cardId);
     if (!card) return;
-    if (!card.collectible || card.rarity === "land") return;
+    if (!card.collectible || card.rarity === "land" || card.rarity === "token")
+      return;
     if (!(card.set in stats)) return;
+
+    let cardSet = card.set;
+    customSets.map((s) => {
+      if (s.cards.includes(card.id)) cardSet = s.name;
+    });
 
     const obj: CardStats = {
       id: card.id,
@@ -156,25 +170,25 @@ export function getCollectionStats(
       wanted: 0,
     };
     // add to totals
-    if (stats[card.set][card.rarity] == undefined) {
-      console.log(card, card.set, card.rarity);
+    if (stats[cardSet][card.rarity] == undefined) {
+      //debugLog(card, cardSet, card.rarity);
       return;
     }
-    stats[card.set][card.rarity].total += 4;
-    stats[card.set][card.rarity].unique += 1;
+    stats[cardSet][card.rarity].total += 4;
+    stats[cardSet][card.rarity].unique += 1;
     stats.complete[card.rarity].total += 4;
     stats.complete[card.rarity].unique += 1;
     // add cards we own
     if (cards.cards[card.id] !== undefined) {
       const owned = cards.cards[card.id];
       obj.owned = owned;
-      stats[card.set][card.rarity].owned += owned;
-      stats[card.set][card.rarity].uniqueOwned += 1;
+      stats[cardSet][card.rarity].owned += owned;
+      stats[cardSet][card.rarity].uniqueOwned += 1;
       stats.complete[card.rarity].owned += owned;
       stats.complete[card.rarity].uniqueOwned += 1;
       // count complete sets we own
       if (owned == 4) {
-        stats[card.set][card.rarity].complete += 1;
+        stats[cardSet][card.rarity].complete += 1;
         stats.complete[card.rarity].complete += 1;
       }
     }
@@ -184,18 +198,18 @@ export function getCollectionStats(
     // count cards we know we want across decks
     const wanted = wantedCards[card.id];
     if (wanted) {
-      stats[card.set][card.rarity].wanted += wanted;
+      stats[cardSet][card.rarity].wanted += wanted;
       stats.complete[card.rarity].wanted += wanted;
       // count unique cards we know we want across decks
-      stats[card.set][card.rarity].uniqueWanted += Math.min(1, wanted);
+      stats[cardSet][card.rarity].uniqueWanted += Math.min(1, wanted);
       stats.complete[card.rarity].uniqueWanted += Math.min(1, wanted);
       obj.wanted = wanted;
     }
-    if (!stats[card.set].cards[colorIndex])
-      stats[card.set].cards[colorIndex] = {};
-    if (!stats[card.set].cards[colorIndex][card.rarity])
-      stats[card.set].cards[colorIndex][card.rarity] = [];
-    stats[card.set].cards[colorIndex][card.rarity].push(obj);
+    if (!stats[cardSet].cards[colorIndex])
+      stats[cardSet].cards[colorIndex] = {};
+    if (!stats[cardSet].cards[colorIndex][card.rarity])
+      stats[cardSet].cards[colorIndex][card.rarity] = [];
+    stats[cardSet].cards[colorIndex][card.rarity].push(obj);
   });
   return stats;
 }

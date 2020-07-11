@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Format } from "../../../types/Metadata";
 
 interface ShareDialog {
   open: boolean;
@@ -14,7 +15,7 @@ interface SubNav {
   data?: any;
 }
 
-const initialRendererState = {
+export const initialRendererState = {
   archivedCache: {} as Record<string, boolean>,
   backgroundColor: "rgba(0, 0, 0, 0.25)",
   backgroundGrpId: 0,
@@ -39,6 +40,7 @@ const initialRendererState = {
     time: 0,
     duration: 0,
   },
+  formats: {} as Record<string, Format>,
   authSettings: false,
   shareDialog: {
     open: false,
@@ -47,12 +49,13 @@ const initialRendererState = {
     data: {},
     id: "",
   } as ShareDialog,
+  detailedLogsDialog: false,
   subNav: {
     type: -1,
     id: "",
     data: null,
   } as SubNav,
-  topArtist: "Bedevil by Seb McKinnon",
+  topArtist: "Sublime Epiphany by Lindsey Look",
   topNav: 0,
   navIndex: 0,
   updateState: "",
@@ -81,6 +84,12 @@ const rendererSlice = createSlice({
       action: PayloadAction<string>
     ): void => {
       state.backgroundImage = action.payload;
+    },
+    setDetailedLogsDialog: (
+      state: RendererState,
+      action: PayloadAction<boolean>
+    ): void => {
+      state.detailedLogsDialog = action.payload;
     },
     setLoading: (
       state: RendererState,
@@ -158,6 +167,12 @@ const rendererSlice = createSlice({
     ): void => {
       state.authSettings = action.payload;
     },
+    setFormats: (
+      state: RendererState,
+      action: PayloadAction<Record<string, Format>>
+    ): void => {
+      state.formats = action.payload;
+    },
     setUpdateState: (
       state: RendererState,
       action: PayloadAction<string>
@@ -192,6 +207,7 @@ export const {
   setBackgroundColor,
   setBackgroundGrpId,
   setBackgroundImage,
+  setDetailedLogsDialog,
   setLoading,
   setNoLog,
   setOffline,
@@ -202,6 +218,7 @@ export const {
   setShareDialogOpen,
   setShareDialogUrl,
   setNavIndex,
+  setFormats,
   setAuthSettings,
   setSubNav,
   setTopNav,

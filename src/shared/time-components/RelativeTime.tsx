@@ -3,7 +3,7 @@
 
 import React from "react";
 
-export interface RelativeTimeProps
+interface RelativeTimeProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLElement>,
     HTMLElement

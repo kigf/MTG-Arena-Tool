@@ -4,6 +4,7 @@ import globalStore from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { IPC_RENDERER, ARENA_MODE_IDLE } from "../../shared/constants";
 import { ipcSend } from "../backgroundUtil";
+import debugLog from "../../shared/debugLog";
 
 export default function completeDraft(): void {
   if (globals.debugLog || !globals.firstPass) {
@@ -22,9 +23,9 @@ export default function completeDraft(): void {
         IPC_RENDERER
       );
     }
-    console.log("Compelte draft: ", draft);
+    debugLog(`Compelte draft: ${draft}`);
     playerDb.upsert("", draft.id, draft);
   } else {
-    console.log("Couldnt save draft without id:", draft);
+    debugLog(`Couldnt save draft without id: ${draft}`);
   }
 }

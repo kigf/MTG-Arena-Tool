@@ -9,7 +9,7 @@ const CLOCK_MODE_BOTH = 0;
 const CLOCK_MODE_ELAPSED = 1;
 const CLOCK_MODE_CLOCK = 2;
 
-export interface ClockProps {
+interface ClockProps {
   matchBeginTime: Date;
   priorityTimers: PriorityTimers;
   turnPriority: number;

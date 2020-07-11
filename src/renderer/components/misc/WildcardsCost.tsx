@@ -54,32 +54,32 @@ export default function WildcardsCost(props: {
           : { display: "flex", flexDirection: "row", marginRight: "16px" }
       }
     >
-      {CARD_RARITIES.filter((rarity) => rarity !== "land").map(
-        (cardRarity: string) => {
-          const key = getRarityKey(cardRarity);
-          if (key) {
-            const owned = ownedWildcards[key];
-            const missing = missingWildcards[key];
-            if (missing) {
-              return (
-                <div
-                  key={cardRarity + "-" + owned + "-" + missing}
-                  className={
-                    (shrink
-                      ? indexCss.wc_deckstab_cost
-                      : indexCss.wc_explore_cost) +
-                    " " +
-                    wcIcon[cardRarity]
-                  }
-                  title={_.capitalize(cardRarity) + " wildcards needed."}
-                >
-                  {(owned > 0 ? owned + "/" : "") + missing}
-                </div>
-              );
-            }
+      {CARD_RARITIES.filter(
+        (rarity) => rarity !== "land" && rarity !== "token"
+      ).map((cardRarity: string) => {
+        const key = getRarityKey(cardRarity);
+        if (key) {
+          const owned = ownedWildcards[key];
+          const missing = missingWildcards[key];
+          if (missing) {
+            return (
+              <div
+                key={cardRarity + "-" + owned + "-" + missing}
+                className={
+                  (shrink
+                    ? indexCss.wc_deckstab_cost
+                    : indexCss.wc_explore_cost) +
+                  " " +
+                  wcIcon[cardRarity]
+                }
+                title={_.capitalize(cardRarity) + " wildcards needed."}
+              >
+                {(owned > 0 ? owned + "/" : "") + missing}
+              </div>
+            );
           }
         }
-      )}
+      })}
       {drawCost && (
         <div
           title="Boosters needed (estimated)"

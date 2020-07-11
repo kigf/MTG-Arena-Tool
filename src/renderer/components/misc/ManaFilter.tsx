@@ -7,7 +7,7 @@ export type ManaFilterKeys = "w" | "u" | "b" | "r" | "g" | "multi";
 
 export type ColorFilter = { [key in ManaFilterKeys]: boolean };
 
-export interface ManaFilterProps {
+interface ManaFilterProps {
   filterKey: string;
   prefixId: string;
   filters: { [key: string]: ColorFilter };

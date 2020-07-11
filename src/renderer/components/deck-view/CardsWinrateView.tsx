@@ -2,10 +2,12 @@ import React, { useCallback, useMemo } from "react";
 import getDeckAfterChange from "../../../shared/utils/getDeckAfterChange";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
-import Aggregator, { AggregatorFilters } from "../../aggregator";
+import Aggregator, {
+  AggregatorFilters,
+  CardWinrateData,
+} from "../../aggregator";
 import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database";
-import { CardWinrateData } from "../../aggregator";
 import { getWinrateClass } from "../../rendererUtil";
 import { DbCardData } from "../../../types/Metadata";
 import { getDeckChangesList } from "../../../shared/store";
@@ -18,12 +20,15 @@ import { useTable, useSortBy } from "react-table";
 import sectionCss from "../settings/Sections.css";
 import indexCss from "../../index.css";
 import css from "./CardsWinrateView.css";
+import Section from "../misc/Section";
+import Flex from "../misc/Flex";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);
 }
 
 interface LineData {
+  wr: CardWinrateData;
   cardObj: DbCardData;
   quantity: number;
   name: string;
@@ -57,6 +62,7 @@ function cardWinrateLineData(
   const avgFirstTurn = firstSum / wr.turnsFirstUsed.length || 0;
 
   return {
+    wr,
     cardObj,
     quantity,
     name,
@@ -74,6 +80,7 @@ function cardWinrateLineData(
 
 function cardWinrateLine(line: LineData): JSX.Element {
   const {
+    wr,
     cardObj,
     quantity,
     name,
@@ -102,6 +109,7 @@ function cardWinrateLine(line: LineData): JSX.Element {
         />
       </div>
       <div
+        title={`sample size: ${wr.wins + wr.losses}`}
         className={`${getWinrateClass(winrate / 100, true)} ${css.cardWrItem} ${
           css.cardWrLineWr
         }`}
@@ -109,6 +117,7 @@ function cardWinrateLine(line: LineData): JSX.Element {
         {winrate >= 0 ? winrate + "%" : "-"}
       </div>
       <div
+        title={`sample size: ${wr.initHandWins + wr.initHandsLosses}`}
         className={`${getWinrateClass(initHandWinrate / 100, true)} ${
           css.cardWrItem
         } ${css.cardWrLineHandWr}`}
@@ -125,6 +134,7 @@ function cardWinrateLine(line: LineData): JSX.Element {
         {sidedOut}
       </div>
       <div
+        title={`sample size: ${wr.sideInWins + wr.sideInLosses}`}
         className={`${getWinrateClass(sideInWinrate / 100, true)} ${
           css.cardWrItem
         } ${css.cardWrLineSidedInWr}`}
@@ -132,16 +142,23 @@ function cardWinrateLine(line: LineData): JSX.Element {
         {sideInWinrate >= 0 ? sideInWinrate + "%" : "-"}
       </div>
       <div
+        title={`sample size: ${wr.sideOutWins + wr.sideOutLosses}`}
         className={`${getWinrateClass(sideOutWinrate / 100, true)} ${
           css.cardWrItem
         } ${css.cardWrLineSidedOutWr}`}
       >
         {sideOutWinrate >= 0 ? sideOutWinrate + "%" : "-"}
       </div>
-      <div className={`${css.cardWrItem} ${css.cardWrLineAvgTurn}`}>
+      <div
+        title={`sample size: ${wr.turnsUsed.length}`}
+        className={`${css.cardWrItem} ${css.cardWrLineAvgTurn}`}
+      >
         {avgTurn.toFixed(2)}
       </div>
-      <div className={`${css.cardWrItem} ${css.cardWrLineAvgFirst}`}>
+      <div
+        title={`sample size: ${wr.turnsFirstUsed.length}`}
+        className={`${css.cardWrItem} ${css.cardWrLineAvgFirst}`}
+      >
         {avgFirstTurn.toFixed(2)}
       </div>
     </div>
@@ -298,12 +315,21 @@ export default function CardsWinratesView(
   );
 
   return (
-    <>
-      <Button text="Normal View" onClick={setRegularView} />
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
+    <div className={css.cardsWrViewGrid}>
+      <Section
+        style={{
+          padding: "16px",
+          gridArea: "controls",
+          justifyContent: "center",
+        }}
+      >
+        <Flex
           className={sectionCss.centered_setting_container}
-          style={{ justifyContent: "center" }}
+          style={{
+            margin: "0px 8px 0px 0px",
+            width: "auto",
+            justifyContent: "center",
+          }}
         >
           <label>Deck Version:</label>
           <ReactSelect
@@ -312,15 +338,20 @@ export default function CardsWinratesView(
             current={deckVersions[0]}
             callback={setDeckVersionFilter}
           />
-        </div>
+        </Flex>
+        <Button text="Normal View" onClick={setRegularView} />
+      </Section>
+      <Section style={{ gridArea: "desc" }}>
         <div
           className={sectionCss.settingsNote}
-          style={{ textAlign: "center" }}
+          style={{ margin: "auto", padding: "16px", textAlign: "center" }}
         >
           All winrates shown correspond to the times when the card in question
           was cast during a game, except for the &quot;Sided out WR&quot;
           column.
         </div>
+      </Section>
+      <Section style={{ padding: "16px", gridArea: "table" }}>
         <div className={css.cardWrStats}>
           <div className={css.cardWrLine}>
             {headerGroups.map((headerGroup: any) => {
@@ -389,7 +420,7 @@ export default function CardsWinratesView(
             }
           })}
         </div>
-      </div>
-    </>
+      </Section>
+    </div>
   );
 }

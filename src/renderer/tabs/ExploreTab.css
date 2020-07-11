@@ -19,15 +19,3 @@
 .explore_wc_input {
   max-width: 70px;
 }
-
-.input_container_explore {
-  display: flex;
-  height: 24px;
-  width: 100%;
-  margin: 8px;
-  align-self: center;
-}
-
-.input_container_explore label {
-  white-space: pre;
-}

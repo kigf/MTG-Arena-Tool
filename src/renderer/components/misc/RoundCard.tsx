@@ -12,6 +12,7 @@ const rarityOverlay: Record<Rarity, string> = {
   uncommon: indexCss.rarityOverlayUncommon,
   rare: indexCss.rarityOverlayRare,
   mythic: indexCss.rarityOverlayMythic,
+  token: "",
   land: indexCss.rarityOverlay,
 };
 

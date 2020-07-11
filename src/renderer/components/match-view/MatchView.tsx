@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import fs from "fs";
 import path from "path";
-import { InternalMatch, InternalPlayer } from "../../../types/match";
+import { InternalMatch } from "../../../types/match";
 import ShareButton from "../misc/ShareButton";
 import ManaCost from "../misc/ManaCost";
 import Deck from "../../../shared/deck";
 import { actionLogDir, ipcSend } from "../../rendererUtil";
-import Button from "../misc/Button";
 import DeckList from "../misc/DeckList";
 import RankIcon from "../misc/RankIcon";
 import db from "../../../shared/database";
@@ -22,8 +21,23 @@ import { MatchGameStats } from "../../../types/currentMatch";
 import css from "./MatchView.css";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
-import actionLogCss from "../../../shared/ActionLog/ActionLog.css";
 import cardTileCss from "../../../shared/CardTile/CardTile.css";
+import SvgButton from "../misc/SvgButton";
+import BackIcon from "../../../assets/images/svg/back.svg";
+import CopyButton from "../../../assets/images/svg/copy.svg";
+import IconCrown from "../../../assets/images/svg/crown.svg";
+import IconTime from "../../../assets/images/svg/time.svg";
+import IconEvent from "../../../assets/images/svg/event.svg";
+
+import DeckColorsBar from "../misc/DeckColorsBar";
+import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
+import Section from "../misc/Section";
+import { MediumTextButton } from "../misc/MediumTextButton";
+import Button from "../misc/Button";
+import { toMMSS } from "../../../shared/utils/dateTo";
+import Flex from "../misc/Flex";
+import ResultDetails from "../misc/ResultDetails";
+import getReadableEvent from "../../../shared/utils/getReadableEvent";
 
 interface MatchViewProps {
   match: InternalMatch;
@@ -32,7 +46,7 @@ interface MatchViewProps {
 const VIEW_MATCH = 1;
 const VIEW_LOG = 2;
 
-export function MatchView(props: MatchViewProps): JSX.Element {
+function MatchView(props: MatchViewProps): JSX.Element {
   const { match } = props;
   const dispatcher = useDispatch();
   const [view, setView] = useState(VIEW_MATCH);
@@ -65,102 +79,8 @@ export function MatchView(props: MatchViewProps): JSX.Element {
     match.id;
     setView(VIEW_MATCH);
   }, [match.id]);
-  /*
-  const mulliganType =
-    match.eventId === "Lore_WAR3_Singleton" ||
-    match.date > new Date("2019-07-02T15:00:00.000Z").getTime()
-      ? "london"
-      : "vancouver";
-  */
-  return (
-    <>
-      <div className={indexCss.centeredUx}>
-        <div className={indexCss.decklistTop}>
-          <div
-            className={`${sharedCss.button} ${sharedCss.back}`}
-            onClick={goBack}
-          ></div>
-          <div className={indexCss.deckName}>{playerDeck.getName()}</div>
-          <div className={indexCss.deckTopColors}>
-            <ManaCost colors={playerDeck.getColors().get()} />
-          </div>
-        </div>
-        {view == VIEW_MATCH ? (
-          <>
-            <div className={indexCss.flexItem}>
-              {logExists ? (
-                <>
-                  <Button
-                    style={{ marginLeft: "auto" }}
-                    onClick={openActionLog}
-                    className={indexCss.buttonSimple + " openLog"}
-                    text="Action log"
-                  ></Button>
-                  <ShareButton
-                    type="actionlog"
-                    data={{ log: actionLogDataB64, id: match.id }}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className={indexCss.flexItem}>
-              <Seat
-                player={match.player}
-                deck={playerDeck}
-                eventId={match.eventId}
-                won={match.player.win > match.opponent.win}
-              />
-              <Seat
-                player={match.opponent}
-                deck={oppDeck}
-                eventId={match.eventId}
-                match={match}
-                won={match.opponent.win > match.player.win}
-              />
-            </div>
-            <div>
-              {match.gameStats.map((stats: MatchGameStats, index: number) => {
-                if (stats)
-                  return (
-                    <GameStats
-                      key={"stats-" + index}
-                      index={index}
-                      game={stats}
-                    />
-                  );
-              })}
-            </div>
-          </>
-        ) : (
-          <>
-            <Button
-              style={{ margin: "auto" }}
-              onClick={openMatch}
-              className={indexCss.buttonSimple + " " + indexCss.centered}
-              text="Go back"
-            ></Button>
-            <div className={actionLogCss.actionlogDiv}>
-              <ActionLog logStr={actionLogDataString} />
-            </div>
-          </>
-        )}
-      </div>
-    </>
-  );
-}
 
-interface SeatProps {
-  deck: Deck;
-  eventId: string;
-  player: InternalPlayer;
-  won: boolean;
-  match?: InternalMatch;
-}
-
-function Seat(props: SeatProps): JSX.Element {
-  const { player, eventId, won, match } = props;
+  const isLimited = db.limited_ranked_events.includes(match.eventId);
 
   // v4.1.0: Introduced by-game cards seen
   const gameDetails = match && match.toolVersion >= 262400;
@@ -183,7 +103,7 @@ function Seat(props: SeatProps): JSX.Element {
             ? combinedList
             : match.gameStats[gameSeen]?.cardsSeen || combinedList
         )
-      : props.deck;
+      : oppDeck;
 
   const gamePrev = useCallback(() => {
     if (gameSeen > 0) setGameSeen(gameSeen - 1);
@@ -192,7 +112,6 @@ function Seat(props: SeatProps): JSX.Element {
     if (match && gameSeen < match.gameStats.length) setGameSeen(gameSeen + 1);
   }, [gameSeen, match]);
 
-  const isLimited = db.limited_ranked_events.includes(eventId);
   const clickAdd = (): void => {
     ipcSend("import_custom_deck", JSON.stringify(deck.getSave()));
   };
@@ -206,41 +125,227 @@ function Seat(props: SeatProps): JSX.Element {
     ipcSend("export_txt", { str, name: deck.getName() });
   };
 
+  const copyOppName = useCallback((): void => {
+    ipcSend("set_clipboard", match.opponent.name);
+  }, [match]);
+
+  /*
+  const mulliganType =
+    match.eventId === "Lore_WAR3_Singleton" ||
+    match.date > new Date("2019-07-02T15:00:00.000Z").getTime()
+      ? "london"
+      : "vancouver";
+  */
+  const duration = match.gameStats.reduce((acc, cur) => acc + cur.time, 0);
+
+  const pw = match.player.win;
+  const ow = match.opponent.win;
   return (
     <>
-      <div className={indexCss.decklist}>
-        <div className={indexCss.flexItem} style={{ justifyContent: "center" }}>
-          <RankIcon
-            rank={player.rank}
-            tier={player.tier}
-            percentile={player.percentile || 0}
-            leaderboardPlace={player.leaderboardPlace || 0}
-            format={isLimited ? "limited" : "constructed"}
-          />
-          <div className={css.matchPlayerName}>
-            {player.name.slice(0, -6)} ({player.win})
-          </div>
-          {won ? <div className={css.matchPlayerWin}> Winner</div> : <></>}
-        </div>
-        <Button text="Add to Decks" onClick={clickAdd} />
-        <Button text="Export to Arena" onClick={clickArena} />
-        <Button text="Export to .txt" onClick={clickTxt} />
-        {gameDetails && match ? (
-          <>
-            <div className={css.gameSwap}>
-              <div className={css.gamePrev} onClick={gamePrev} />
-              <div>
-                {gameSeen == match.gameStats.length
-                  ? `Combined`
-                  : `Seen in game ${gameSeen + 1}`}
+      <div className={indexCss.centeredUx}>
+        <div>
+          <div
+            className={indexCss.top}
+            style={{
+              backgroundImage: `url(${getCardArtCrop(playerDeck.tile)})`,
+            }}
+          >
+            <DeckColorsBar deck={playerDeck} />
+            <div className={indexCss.topInner}>
+              <div className={indexCss.flexItem}>
+                <SvgButton
+                  style={{
+                    marginRight: "8px",
+                    backgroundColor: "var(--color-section)",
+                  }}
+                  svg={BackIcon}
+                  onClick={goBack}
+                />
+                <div
+                  style={{
+                    lineHeight: "32px",
+                    color: "var(--color-text-hover)",
+                    textShadow: "3px 3px 6px #000000",
+                  }}
+                >
+                  {playerDeck.getName()}
+                </div>
               </div>
-              <div className={css.gameNext} onClick={gameNext} />
+              <div className={indexCss.flexItem}>
+                <ManaCost
+                  class={sharedCss.manaS20}
+                  colors={playerDeck.getColors().get()}
+                />
+              </div>
             </div>
-            <DeckList deck={deck} showWildcards={true} />
-          </>
-        ) : (
-          <DeckList deck={deck} showWildcards={true} />
-        )}
+          </div>
+          <div className={css.matchViewGrid}>
+            <Section
+              style={{
+                lineHeight: "36px",
+                padding: "16px",
+                gridArea: "controls",
+                justifyContent: "space-between",
+              }}
+            >
+              <Flex>
+                <IconCrown
+                  style={{ margin: "auto 16px auto 8px" }}
+                  fill={"var(--color-icon-subtle)"}
+                />
+                <div
+                  className={css.matchTopResult}
+                  style={{ color: `var(--color-${pw > ow ? "g" : "r"})` }}
+                >{`${pw}-${ow}`}</div>
+                <ResultDetails match={match} />
+              </Flex>
+              <Flex>
+                <IconEvent
+                  style={{ margin: "auto 16px auto 8px" }}
+                  fill={"var(--color-icon-subtle)"}
+                />
+                <div>{getReadableEvent(match.eventId)}</div>
+              </Flex>
+              <Flex>
+                <IconTime
+                  style={{ margin: "auto 16px auto 8px" }}
+                  fill={"var(--color-icon-subtle)"}
+                />
+                <div>{toMMSS(duration)}</div>
+              </Flex>
+              {view == VIEW_MATCH ? (
+                <Button
+                  onClick={openActionLog}
+                  className={indexCss.buttonSimple + " openLog"}
+                  disabled={!logExists}
+                  text="Action log"
+                />
+              ) : (
+                <Button
+                  onClick={openMatch}
+                  className={indexCss.buttonSimple}
+                  text="Match"
+                />
+              )}
+              <ShareButton
+                type="actionlog"
+                data={{ log: actionLogDataB64, id: match.id }}
+              />
+            </Section>
+
+            <Section
+              style={{
+                padding: "16px",
+                justifyContent: "space-between",
+                gridArea: "name",
+              }}
+            >
+              <Flex>
+                <div className={css.matchPlayerName}>
+                  vs {match.opponent.name.slice(0, -6)}
+                </div>
+                <SvgButton
+                  style={{ margin: "auto 2px" }}
+                  svg={CopyButton}
+                  onClick={copyOppName}
+                />
+              </Flex>
+              <RankIcon
+                rank={match.opponent.rank}
+                tier={match.opponent.tier}
+                percentile={match.opponent.percentile || 0}
+                leaderboardPlace={match.opponent.leaderboardPlace || 0}
+                format={isLimited ? "limited" : "constructed"}
+              />
+              <Flex>
+                <ManaCost colors={oppDeck.colors.get()} />
+              </Flex>
+            </Section>
+
+            <Section
+              style={{
+                padding: "16px 10px",
+                flexDirection: "column",
+                gridArea: "buttons",
+              }}
+            >
+              {gameDetails && match && (
+                <div
+                  style={{
+                    display: "flex",
+                    lineHeight: "32px",
+                    marginBottom: "16px",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <SvgButton svg={BackIcon} onClick={gamePrev} />
+                  <div
+                    style={{
+                      maxWidth: "130px",
+                      textAlign: "center",
+                      width: "-webkit-fill-available",
+                    }}
+                  >
+                    {gameSeen == match.gameStats.length
+                      ? `Combined`
+                      : `Seen in game ${gameSeen + 1}`}
+                  </div>
+                  <SvgButton
+                    style={{ transform: "rotate(180deg)" }}
+                    svg={BackIcon}
+                    onClick={gameNext}
+                  />
+                </div>
+              )}
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <MediumTextButton
+                  style={{ width: "auto", padding: "0 10px" }}
+                  onClick={clickAdd}
+                >
+                  Add to Decks
+                </MediumTextButton>
+                <MediumTextButton
+                  style={{ width: "auto", padding: "0 10px" }}
+                  onClick={clickArena}
+                >
+                  Export to Arena
+                </MediumTextButton>
+                <MediumTextButton
+                  style={{ width: "auto", padding: "0 10px" }}
+                  onClick={clickTxt}
+                >
+                  Export to .txt
+                </MediumTextButton>
+              </div>
+            </Section>
+
+            <Section
+              style={{
+                padding: "16px",
+                flexDirection: "column",
+                gridArea: "deck",
+              }}
+            >
+              <DeckList deck={deck} showWildcards={true} />
+            </Section>
+
+            <Section
+              style={{
+                padding: view == VIEW_MATCH ? "16px" : "",
+                gridArea: "right",
+                flexDirection: "column",
+              }}
+            >
+              {view == VIEW_LOG ? (
+                <ActionLog logStr={actionLogDataString} />
+              ) : match.gameStats[gameSeen] ? (
+                <GameStats index={gameSeen} game={match.gameStats[gameSeen]} />
+              ) : (
+                <></>
+              )}
+            </Section>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -264,9 +369,7 @@ function GameStats(props: GameStatsProps): JSX.Element {
   return (
     <div
       style={{
-        marginTop: "24px",
-        marginBottom: "24px",
-        justifyContent: "center",
+        width: "100%",
       }}
     >
       {game.sideboardChanges ? (
@@ -288,7 +391,7 @@ function GameStats(props: GameStatsProps): JSX.Element {
                   >
                     Sideboarded In
                   </div>
-                  <div className={indexCss.cardListsList}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <CardList list={addedCards} />
                   </div>
                 </div>
@@ -296,7 +399,7 @@ function GameStats(props: GameStatsProps): JSX.Element {
                   <div className={`${css.gamestatsSubtitle} ${sharedCss.red}`}>
                     Sideboarded Out
                   </div>
-                  <div className={indexCss.cardListsList}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <CardList list={removedCards} />
                   </div>
                 </div>

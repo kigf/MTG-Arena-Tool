@@ -209,7 +209,7 @@
 
 .list_economy:hover {
   opacity: 1;
-  padding-left: 48px;
+  padding-left: 32px;
   background-color: rgba(0, 0, 0, 0.25);
 }
 .list_economy:hover .list_item_archive, .list_economy:hover .list_item_unarchive {
@@ -257,4 +257,20 @@
   font-family:  var(--main-font-name-it);
   font-size: 16px;
   color: var(--color-light);
+}
+
+.copy_button {
+  margin: auto 4px auto 0;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+  background-image: url(../../../assets/images/copy.png);
+  background-position: center;
+  background-size: cover;
+  -webkit-transition: all .2s ease-in-out;
+}
+
+.copy_button:hover {
+  opacity: 1;
 }

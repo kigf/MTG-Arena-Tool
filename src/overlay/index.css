@@ -14,6 +14,11 @@ body {
 .click-on      {pointer-events: all}
 .click-through {pointer-events: none}
 
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
 .overlay_master_wrapper {
     /* Debug;
     background-color: rgba(255, 0, 0, 0.11);
@@ -75,7 +80,7 @@ body {
     padding: 4px 0 0 0;
     min-height: 28px;
     text-align: center;
-    color: #fae5d2;
+    color: var(--color-text);
 }
 
 .overlay_archetype {
@@ -84,7 +89,7 @@ body {
     opacity: 1;
     padding: 4px 0 0 0;
     text-align: center;
-    color: #fae5d2;
+    color: var(--color-text);
 }
 
 .overlay_deckcolors {
@@ -95,12 +100,6 @@ body {
     padding-top: 4px;
     padding-bottom: 4px;
     margin: 0 0 1px 0;
-}
-
-.overlay_separator {
-    padding: 4px;
-    height: 16px;
-    background: url(../assets/images/separator_spr.png) center no-repeat;
 }
 
 .hover_fade-enter {
@@ -179,7 +178,7 @@ body {
 .rank_value_container {
     display: flex;
     background-color: var(--color-back);
-    color: var(--color-light);
+    color: var(--color-base);
     font-family: var(--main-font-name-it);
     font-size: 14px;
     line-height: 22px;
@@ -197,7 +196,7 @@ body {
 }
 
 .rank_value_bar {
-    background-color: var(--color-light-75);
+    background-color: var(--color-section);
 }
 
 .overlay_clock_spacer {
@@ -495,7 +494,7 @@ body {
     text-align: center;
     font-family:  var(--main-font-name-it);
     font-size: 20px;
-    color: var(--color-light);
+    color: var(--color-text);
 }
 
 .after_hidden:after {

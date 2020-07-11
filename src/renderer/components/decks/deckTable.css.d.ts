@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace DeckTableCssModule {
+declare namespace DeckTableCssNamespace {
   export interface IDeckTableCss {
     "decks-table-deck-archive": string;
     "decks-table-deck-inner": string;
@@ -19,9 +19,9 @@ declare namespace DeckTableCssModule {
   }
 }
 
-declare const DeckTableCssModule: DeckTableCssModule.IDeckTableCss & {
+declare const DeckTableCssModule: DeckTableCssNamespace.IDeckTableCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: DeckTableCssModule.IDeckTableCss;
+  locals: DeckTableCssNamespace.IDeckTableCss;
 };
 
 export = DeckTableCssModule;

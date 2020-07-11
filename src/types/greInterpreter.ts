@@ -1,3 +1,5 @@
+// Disabled because we might not be aware some interfaces here exist
+/* eslint-disable import/no-unused-modules */
 export interface DetailsManaPaid {
   id: number;
   color: number;

@@ -5,7 +5,10 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "prettier/@typescript-eslint",
-    "prettier/react"
+    "prettier/react",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
   ],
   "plugins": ["react-hooks"],
   "parserOptions": {
@@ -18,7 +21,13 @@
     "node": true,
     "browser": true
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
+    "react/prop-types": 0,
     "allowEmptyCatch": 0,
     "no-cond-assign": 0,
     "no-console": "off",
@@ -34,6 +43,7 @@
         "endOfLine": "auto"
       }
     ],
+    "import/no-unused-modules": [1, {"unusedExports": true}],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {"varsIgnorePattern": "^_", "argsIgnorePattern": "^_"}

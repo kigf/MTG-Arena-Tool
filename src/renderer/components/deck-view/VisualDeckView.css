@@ -43,10 +43,20 @@
 
 .deck_visual_tile_side {
   display: grid;
-  padding: 3px;
   margin-bottom: 128px;
 }
 
 .deck_visual_card_side {
   height: 22px;
+}
+
+.visual-view-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "controls controls"
+    "types types"
+    "main side";
 }

@@ -1,7 +1,3 @@
-export default function dummy(): void {
-  return;
-}
-
 export interface SeasonalRankData {
   eventId: string;
   id: string;

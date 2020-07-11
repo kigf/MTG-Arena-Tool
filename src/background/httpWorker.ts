@@ -1,5 +1,4 @@
-//import http from "https";
-import http from "http";
+import http from "https";
 import { IncomingMessage, RequestOptions } from "http";
 
 import globals from "./globals";
@@ -8,10 +7,11 @@ import { reduxAction } from "../shared/redux/sharedRedux";
 import { IPC_RENDERER, SYNC_PUSH } from "../shared/constants";
 import { setSyncState } from "./httpApi";
 import { HttpMethod, HttpTask } from "../types/api";
+import debugLog from "../shared/debugLog";
 
 const serverAddress = "127.0.0.1";
 
-export interface HttpTaskCallback {
+interface HttpTaskCallback {
   (
     error?: Error | null,
     task?: HttpTask,
@@ -23,12 +23,12 @@ export interface HttpTaskCallback {
 export const ipcPop = (args: any): void => ipcSend("popup", args);
 
 export const ipcLog = (message: string): void => {
-  console.log(message);
+  debugLog(message);
   ipcSend("ipc_log", message);
 };
 
 export function handleError(error: Error): void {
-  console.error(error);
+  debugLog(error, "error");
   ipcLog(`!!!ERROR >> ${error.message}`);
   ipcPop({ text: error.message, time: 2000, progress: -1 });
 }
@@ -123,6 +123,14 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
             console.log("RECV", results);
           }
           const parsedResult = JSON.parse(results);
+          if (
+            globals.debugNet ||
+            (parsedResult && parsedResult.error) ||
+            (parsedResult && parsedResult.ok == false)
+          ) {
+            //ipcLog("RECV << " + task.method + ", " + results.slice(0, 100));
+            debugLog("RECV > " + results);
+          }
           // TODO remove this hack for get_database_version
           if (parsedResult && task.method === "getDatabaseVersion") {
             parsedResult.ok = true;

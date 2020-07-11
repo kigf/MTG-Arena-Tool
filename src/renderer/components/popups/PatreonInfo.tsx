@@ -53,7 +53,7 @@ export default function PatreonInfo(props: DialogProps): JSX.Element {
       >
         <div className={css.patreonInfoPopTop}>
           <div
-            style={{ color: "var(--color-light)" }}
+            style={{ color: "var(--color-text-hover)" }}
             className={indexCss.messageSub}
           >
             You discovered a Patreon exclusive feature!

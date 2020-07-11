@@ -18,9 +18,11 @@ import { AppState } from "../shared/redux/stores/overlayStore";
 import css from "./index.css";
 import sharedCss from "../shared/shared.css";
 import ResizeIcon from "../assets/images/resize.svg";
-import DEFAULT_BACKGROUND from "../assets/images/Bedevil-Art.jpg";
+import CloseIcon from "../assets/images/svg/win-close.svg";
+import SettingsIcon from "../assets/images/svg/icon-settings.svg";
+import DEFAULT_BACKGROUND from "../assets/images/main-background.jpg";
 
-export interface OverlayWindowletProps {
+interface OverlayWindowletProps {
   arenaState: number;
   actionLog: string;
   draft?: InternalDraftv2;
@@ -197,12 +199,16 @@ export default function OverlayWindowlet(
             className={`${sharedCss.button} ${sharedCss.settings} ${css.clickOn}`}
             onClick={handleClickSettings}
             style={{ margin: 0 }}
-          />
+          >
+            <SettingsIcon fill="var(--color-icon)" style={{ margin: "auto" }} />
+          </div>
           <div
             className={`${sharedCss.button} ${sharedCss.close} ${css.clickOn}`}
             onClick={handleClickClose}
             style={{ marginRight: "4px" }}
-          />
+          >
+            <CloseIcon style={{ margin: "auto" }} />
+          </div>
         </div>
       )}
       {elements}

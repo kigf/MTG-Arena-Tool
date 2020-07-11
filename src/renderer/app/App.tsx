@@ -10,8 +10,12 @@ import {
 } from "../../shared/constants";
 import ErrorBoundary from "./ErrorBoundary";
 import { TopNav } from "../components/main/topNav";
-import { forceOpenAbout, getOpenNav, getOpenSub } from "../tabControl";
-import BackgroundImage from "../components/main/BackgroundImage";
+import {
+  forceOpenAbout,
+  getOpenNav,
+  getOpenSub,
+  forceOpenSettings,
+} from "../tabControl";
 import TopBar from "../components/main/TopBar";
 import LoadingBar from "../components/main/LoadingBar";
 import Auth from "../components/main/Auth";
@@ -25,12 +29,15 @@ import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import initializeRendererReduxIPC from "../../shared/redux/initializeRendererReduxIPC";
 
+import settingsIcon from "../../assets/images/cog.png";
 import css from "./app.css";
 import AuthSettings from "../components/auth-settings";
+import DetailedLogs from "../components/popups/DetailedLogs";
+import IconButton from "../components/misc/IconButton";
 
 initializeRendererReduxIPC(store);
 
-export function App(): JSX.Element {
+function App(): JSX.Element {
   const loginState = useSelector((state: AppState) => state.login.loginState);
   const openAuthSettings = useSelector(
     (state: AppState) => state.renderer.authSettings
@@ -50,6 +57,9 @@ export function App(): JSX.Element {
   const authForm = useSelector((state: AppState) => state.login.loginForm);
   const noLog = useSelector((state: AppState) => state.renderer.noLog);
   const share = useSelector((state: AppState) => state.renderer.shareDialog);
+  const detailedLogsDialog = useSelector(
+    (state: AppState) => state.renderer.detailedLogsDialog
+  );
   const movingUxRef = useRef<HTMLDivElement | null>(null);
   /*
     Set up IPC listeners.
@@ -72,6 +82,16 @@ export function App(): JSX.Element {
     },
     [dispatch]
   );
+
+  const closeDetailedLogs = React.useCallback(() => {
+    setTimeout(() => {
+      reduxAction(
+        dispatch,
+        { type: "SET_DETAILED_LOGS_DIALOG", arg: false },
+        IPC_NONE
+      );
+    }, 350);
+  }, [dispatch]);
 
   const closeShare = React.useCallback(() => {
     setTimeout(() => {
@@ -106,16 +126,29 @@ export function App(): JSX.Element {
 
   return (
     <>
-      <BackgroundImage />
-      <div className={css.outer_wrapper}>
+      {process.platform !== "linux" && (
         <TopBar artist={topArtist} offline={offline} />
-        <Popup />
+      )}
+      <div
+        className={
+          loginState == LOGIN_OK
+            ? css.appWrapper
+            : process.platform == "linux"
+            ? css.appWrapperBackNoFrame
+            : css.appWrapperBack
+        }
+      >
         {noLog ? <OutputLogInput closeCallback={closeNoLog} /> : <></>}
         {share.open ? <Share closeCallback={closeShare} /> : <></>}
+        {detailedLogsDialog ? (
+          <DetailedLogs closeCallback={closeDetailedLogs} />
+        ) : (
+          <></>
+        )}
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (
-          <LoadingBar style={loginState == LOGIN_OK ? { top: "99px" } : {}} />
+          <LoadingBar style={loginState == LOGIN_OK ? { top: "72px" } : {}} />
         ) : (
           <></>
         )}
@@ -142,7 +175,19 @@ export function App(): JSX.Element {
           )}
         </ErrorBoundary>
       </div>
-      <div className={css.version_number} onClick={forceOpenAbout}>
+      {loginState == LOGIN_OK ? (
+        <></>
+      ) : (
+        <div className={css.appSettings}>
+          <IconButton
+            style={{ margin: "auto" }}
+            icon={settingsIcon}
+            onClick={(): void => forceOpenSettings()}
+          />
+        </div>
+      )}
+      <Popup />
+      <div className={css.versionNumber} onClick={forceOpenAbout}>
         v{remote.app.getVersion()}
       </div>
     </>

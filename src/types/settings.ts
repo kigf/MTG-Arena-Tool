@@ -32,13 +32,15 @@ export interface SettingsData {
   anon_explore: boolean;
   back_color: string;
   back_url: string;
+  themeUri: string;
   cards_quality: CardQuality;
   cards_size: number;
   cards_size_hover_card: number;
   close_on_match: boolean;
   close_to_tray: boolean;
   collectionTableState?: TableState<CardsData>;
-  collectionTableMode: string;
+  collectionQuery: string;
+  collectionMode: string;
   decksTableMode: string;
   decksTableState?: TableState<DecksData>;
   economyTableMode: string;

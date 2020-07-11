@@ -2,12 +2,12 @@
 .completion_table {
   width: 100%;
   max-width: 600px;
-  margin: 16px auto;
+  margin: 0 auto;
   text-align: center;
   display: grid;
   line-height: 24px;
   font-size: 14px;
-  grid-template-columns: repeat(35, 1fr);
+  grid-template-columns: repeat(34, 1fr);
   color: var(--color-light);
 }
 
@@ -40,7 +40,7 @@
 
 .completion_table_card {
   font-family: var(--sub-font-name-bold);
-  color: var(--color-back);
+  color: var(--color-text-button);
   height: 24px;
   line-height: 24px;
 }

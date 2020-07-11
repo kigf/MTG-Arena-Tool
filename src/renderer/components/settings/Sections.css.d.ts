@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace SectionsCssModule {
+declare namespace SectionsCssNamespace {
   export interface ISectionsCss {
     about: string;
     centeredSettingContainer: string;
@@ -44,9 +44,9 @@ declare namespace SectionsCssModule {
   }
 }
 
-declare const SectionsCssModule: SectionsCssModule.ISectionsCss & {
+declare const SectionsCssModule: SectionsCssNamespace.ISectionsCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: SectionsCssModule.ISectionsCss;
+  locals: SectionsCssNamespace.ISectionsCss;
 };
 
 export = SectionsCssModule;

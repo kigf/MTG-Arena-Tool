@@ -6,10 +6,12 @@ import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
-import DEFAULT_BACKGROUND from "../../../assets/images/Bedevil-Art.jpg";
+import DEFAULT_BACKGROUND from "../../../assets/images/main-background.jpg";
 import sharedCss from "../../../shared/shared.css";
+import { initialRendererState } from "../../../shared/redux/slices/rendererSlice";
 
-export default function BackgroundImage(): JSX.Element {
+// deprecated, Keeping it around the source just in case
+function _BackgroundImage(): JSX.Element {
   const dispatcher = useDispatch();
   const backgroundImage = useSelector(
     (state: AppState) => state.settings.back_url
@@ -42,7 +44,7 @@ export default function BackgroundImage(): JSX.Element {
       image = DEFAULT_BACKGROUND;
       reduxAction(
         dispatcher,
-        { type: "SET_TOPARTIST", arg: "Bedevil by Seb McKinnon" },
+        { type: "SET_TOPARTIST", arg: initialRendererState.topArtist },
         IPC_NONE
       );
     } else {

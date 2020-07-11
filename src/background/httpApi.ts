@@ -27,6 +27,7 @@ import globalStore, {
   getTransaction,
   getMatch,
   getSeasonal,
+  draftExists,
 } from "../shared/store";
 import {
   SYNC_CHECK,
@@ -51,10 +52,11 @@ import {
 } from "../types/api";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
-import { InternalDraft, InternalDraftv2 } from "../types/draft";
+import { InternalDraftv2 } from "../types/draft";
 import { InternalDeck } from "../types/Deck";
 import { SeasonalRankData } from "../types/Season";
 import { SettingsData } from "../types/settings";
+import debugLog from "../shared/debugLog";
 
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
   globals.httpQueue = async.queue(asyncWorker);
@@ -135,7 +137,7 @@ function saveMatches(data: InternalMatch[]): void {
   playerDb.upsert("", "matches_index", matches_index);
 }
 
-function saveDrafts(data: InternalDraft[]): void {
+function saveDrafts(data: InternalDraftv2[]): void {
   const draft_index = [...globals.store.getState().drafts.draftsIndex];
   data
     .filter((doc: any) => !draftExists(doc._id))
@@ -398,7 +400,7 @@ function handleSyncRequest(sync: SyncRequestData): void {
   const toGetSync = {
     courses: sync.courses.filter((id) => !(id in gs.events)) || [],
     matches: sync.matches.filter((id) => !(id in gs.matches)) || [],
-    drafts: sync.drafts.filter((id) => !(id in gs.drafts)) || [],
+    drafts: sync.drafts.filter((id) => !(id in gs.draftsv2)) || [],
     economy: sync.economy.filter((id) => !(id in gs.transactions)) || [],
     seasonal: sync.seasonal.filter((id) => !(id in gs.seasonal)) || [],
   };
@@ -462,6 +464,7 @@ function handleAuthResponse(
     ipcSend("toggle_login", true);
     ipcSend("login_failed", true);
     ipcSend("clear_pwd", 1);
+    debugLog(error?.message, "error");
     ipcPop({
       text: error?.message,
       time: 3000,

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React from "react";
+import React, { useCallback } from "react";
 import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DEFAULT_TILE } from "../../../shared/constants";
 import { toMMSS } from "../../../shared/utils/dateTo";
@@ -18,6 +18,7 @@ import {
 } from "./ListItem";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
+import { ipcSend } from "../../rendererUtil";
 
 export default function ListItemMatch({
   match,
@@ -50,6 +51,10 @@ export default function ListItemMatch({
   const onRowClick = (): void => {
     openMatchCallback(match);
   };
+
+  const copy = useCallback((string: string) => {
+    ipcSend("set_clipboard", string);
+  }, []);
 
   const [hover, setHover] = React.useState(false);
   const mouseEnter = React.useCallback(() => {
@@ -96,6 +101,16 @@ export default function ListItemMatch({
           <div className={css.listMatchTitle}>
             {"vs " + match.opponent.name.slice(0, -6)}
           </div>
+          <div
+            onClick={(
+              e: React.MouseEvent<HTMLDivElement, MouseEvent>
+            ): void => {
+              e.stopPropagation();
+              e.nativeEvent.stopImmediatePropagation();
+              copy(match.opponent.name);
+            }}
+            className={css.copyButton}
+          />
           <RankSmall rank={match.opponent}></RankSmall>
         </FlexTop>
         <FlexBottom style={{ alignItems: "center" }}>

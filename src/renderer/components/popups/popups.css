@@ -27,7 +27,7 @@
   height: 160px;
   width: -webkit-fill-available;
   margin: auto;
-  background-color: var(--color-light);
+  background-color: var(--color-base);
   padding: 32px;
   border-radius: 3px;
   box-shadow: 0px 2px 7px 4px rgba(0, 0, 0, 0.3);
@@ -40,7 +40,7 @@
   height: 160px;
   width: -webkit-fill-available;
   margin: auto;
-  background-color: var(--color-light);
+  background-color: var(--color-base);
   border-radius: 3px;
   box-shadow: 0px 2px 7px 4px rgba(0, 0, 0, 0.3);
   -webkit-transition: all .25s cubic-bezier(0.48, 0, 0.48, 1.2);
@@ -53,7 +53,6 @@
 
 .patreon-info-pop-bottom {
   padding: 24px;
-  color: black;
 }
 
 .patreon-info-text {

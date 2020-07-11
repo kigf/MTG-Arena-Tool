@@ -5,6 +5,7 @@ import { ipcSend } from "../backgroundUtil";
 import globalStore from "../../shared/store";
 import { IPC_OVERLAY } from "../../shared/constants";
 import globals from "../globals";
+import debugLog from "../../shared/debugLog";
 
 interface Entry extends LogEntry {
   json: () => DraftNotify;
@@ -12,7 +13,7 @@ interface Entry extends LogEntry {
 
 export default function onLabelInDraftNotify(entry: Entry): void {
   const json = entry.json();
-  console.log("LABEL: Draft Notify > ", json);
+  debugLog(`LABEL: Draft Notify > ${json}`);
   if (!json) return;
 
   const currentPack = json.PackCards.split(",").map((c) => parseInt(c));

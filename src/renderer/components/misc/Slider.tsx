@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import css from "./slider.css";
 
@@ -7,7 +6,7 @@ export class SliderPosition {
   public hide: boolean;
   public color: string;
 
-  constructor(_text = "", _hide = false, _color = "var(--color-light-50)") {
+  constructor(_text = "", _hide = false, _color = "var(--color-text-dark)") {
     this.text = _text;
     this.hide = _hide;
     this.color = _color;
@@ -56,10 +55,14 @@ export default function Slider(props: SliderProps): JSX.Element {
     setValue(props.value);
   }, [props.value]);
 
+  const percent = (100 / (max - min)) * ((value || 0) - min);
+
   return (
     <div style={props.containerStyle} className={css.slidecontainer}>
       <input
-        className={css.slider}
+        style={{
+          background: `linear-gradient(90deg, var(--color-button) ${percent}%, var(--color-section) ${percent}%)`,
+        }}
         type="range"
         value={value || 0}
         min={min}

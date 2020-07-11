@@ -60,25 +60,25 @@ export default function WildcardsCostPreset(
         justifyContent: "center",
       }}
     >
-      {CARD_RARITIES.filter((rarity) => rarity !== "land").map(
-        (cardRarity: string) => {
-          const key = getRarityKey(cardRarity);
-          if (key) {
-            const missing = missingWildcards[key];
-            if (missing) {
-              return (
-                <div
-                  key={cardRarity + "-" + missing}
-                  className={`${indexCss.wcExploreCost} ${wcIcon[cardRarity]}`}
-                  title={_.capitalize(cardRarity) + " wildcards needed."}
-                >
-                  {missing}
-                </div>
-              );
-            }
+      {CARD_RARITIES.filter(
+        (rarity) => rarity !== "land" && rarity !== "token"
+      ).map((cardRarity: string) => {
+        const key = getRarityKey(cardRarity);
+        if (key) {
+          const missing = missingWildcards[key];
+          if (missing) {
+            return (
+              <div
+                key={cardRarity + "-" + missing}
+                className={`${indexCss.wcExploreCost} ${wcIcon[cardRarity]}`}
+                title={_.capitalize(cardRarity)}
+              >
+                {missing}
+              </div>
+            );
           }
         }
-      )}
+      })}
       {showComplete && boostersNeeded == 0 ? (
         <div title="You can build this deck!" className={indexCss.wcComplete} />
       ) : drawCost ? (

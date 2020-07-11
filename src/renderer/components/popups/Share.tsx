@@ -7,7 +7,6 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 
 import css from "./popups.css";
-import selectCss from "../../select.scss";
 import formsCss from "../../forms.css";
 import indexCss from "../../index.css";
 
@@ -111,7 +110,7 @@ export default function Share(props: ShareProps): JSX.Element {
     >
       <div
         className={css.popupDiv}
-        style={{ height: `${open * 200}px`, width: `${open * 400}px` }}
+        style={{ height: `${open * 240}px`, width: `${open * 420}px` }}
         onClick={(e): void => {
           e.stopPropagation();
         }}
@@ -124,7 +123,6 @@ export default function Share(props: ShareProps): JSX.Element {
         </div>
         <ReactSelect
           style={{ width: "-webkit-fill-available", margin: "0 0 16px 0" }}
-          className={selectCss.light}
           options={expireOptions}
           current={"Select..."}
           callback={selectExpire}

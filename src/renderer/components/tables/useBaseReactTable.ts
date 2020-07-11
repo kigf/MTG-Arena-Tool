@@ -13,6 +13,7 @@ import {
   archivedFilterFn,
   colorsFilterFn,
   fuzzyTextFilterFn,
+  textFilterFn,
 } from "../tables/filters";
 import {
   BaseTableProps,
@@ -22,6 +23,15 @@ import {
   TableData,
   TableHeadersProps,
 } from "../tables/types";
+import {
+  rarityFilterFn,
+  colorsBitsFilterFn,
+  formatFilterFn,
+  inArrayFilterFn,
+  arrayFilterFn,
+  minMaxFilterFn,
+  inBoolFilterFn,
+} from "../collection/filters";
 
 export function useBaseReactTable<D extends TableData>({
   columns,
@@ -54,8 +64,16 @@ export function useBaseReactTable<D extends TableData>({
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
+      text: textFilterFn,
       showArchived: archivedFilterFn,
       colors: colorsFilterFn,
+      colorBits: colorsBitsFilterFn,
+      rarity: rarityFilterFn,
+      format: formatFilterFn,
+      inArray: inArrayFilterFn,
+      array: arrayFilterFn,
+      minmax: minMaxFilterFn,
+      inbool: inBoolFilterFn,
       ...customFilterTypes,
     }),
     [customFilterTypes]
@@ -83,9 +101,9 @@ export function useBaseReactTable<D extends TableData>({
   }, [cachedState, columns, defaultState]);
   const table = useTable<D>(
     {
+      defaultColumn,
       columns: React.useMemo(() => columns, [columns]),
       data: React.useMemo(() => data, [data]),
-      defaultColumn,
       filterTypes,
       globalFilter: React.useMemo(() => globalFilter, [globalFilter]),
       initialState,

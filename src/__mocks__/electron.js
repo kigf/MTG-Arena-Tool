@@ -22,12 +22,14 @@ module.exports = {
   require: jest.fn(),
   match: jest.fn(),
   app: {
+    version: "1.0.0",
+    name: "MTG-Arena-Tool",
     getPath: () => "src\\assets\\resources",
   },
   remote: {
     app: {
       getVersion: () => "1.0.0",
-      getPath: jest.fn(),
+      getPath: () => "src\\assets\\resources",
     },
     screen: {
       getPrimaryDisplay: getPrimaryDisplayMock,

@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace FormsCssModule {
+declare namespace FormsCssNamespace {
   export interface IFormsCss {
     "form-authenticate": string;
     "form-button": string;
@@ -21,9 +21,9 @@ declare namespace FormsCssModule {
   }
 }
 
-declare const FormsCssModule: FormsCssModule.IFormsCss & {
+declare const FormsCssModule: FormsCssNamespace.IFormsCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: FormsCssModule.IFormsCss;
+  locals: FormsCssNamespace.IFormsCss;
 };
 
 export = FormsCssModule;

@@ -24,4 +24,4 @@ interface TypeSymbolProps {
   type: string;
 }
 
-export const TypeSymbol = styled(TypeSymbolBase)<TypeSymbolProps>``;
+const _TypeSymbol = styled(TypeSymbolBase)<TypeSymbolProps>``;

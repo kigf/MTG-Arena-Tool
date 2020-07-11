@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace DatePickerScssModule {
+declare namespace DatePickerScssNamespace {
   export interface IDatePickerScss {
     "DayPicker-Day": string;
     dayPickerDay: string;
@@ -16,9 +16,9 @@ declare namespace DatePickerScssModule {
   }
 }
 
-declare const DatePickerScssModule: DatePickerScssModule.IDatePickerScss & {
+declare const DatePickerScssModule: DatePickerScssNamespace.IDatePickerScss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: DatePickerScssModule.IDatePickerScss;
+  locals: DatePickerScssNamespace.IDatePickerScss;
 };
 
 export = DatePickerScssModule;

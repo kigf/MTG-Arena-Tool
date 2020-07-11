@@ -1,7 +1,7 @@
 import React from "react";
 import { LabelText } from "./LabelText";
 
-export interface BriefTextProps extends React.HTMLAttributes<HTMLDivElement> {
+interface BriefTextProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string;
   maxLength?: number;
 }

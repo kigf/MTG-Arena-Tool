@@ -12,20 +12,20 @@ import notFound from "../../../assets/images/notfound.png";
 import indexCss from "../../index.css";
 import css from "./CompletionProgressBar.css";
 
-export default function CompletionProgressBar({
-  countMode,
-  countStats,
-  image,
-  title,
-  isSidebar,
-}: {
+interface CompletionProgressBarProps {
   countMode: string;
   countStats: CountStats;
   image: string;
   title: string;
   isSidebar?: boolean;
-}): JSX.Element {
+}
+
+export default function CompletionProgressBar(
+  props: CompletionProgressBarProps
+): JSX.Element {
+  const { countMode, countStats, image, title, isSidebar } = props;
   if (!countStats) return <></>;
+
   let numerator, denominator;
   switch (countMode) {
     case SINGLETONS:
@@ -42,7 +42,9 @@ export default function CompletionProgressBar({
       denominator = countStats.total;
       break;
   }
+
   const completionRatio = numerator / denominator;
+
   return (
     <div
       className={`${css.statsSetCompletion} ${
@@ -71,10 +73,12 @@ export default function CompletionProgressBar({
           </span>
         </div>
       </div>
-      <div
-        className={css.statsSetBar}
-        style={{ width: Math.round(completionRatio * 100) + "%" }}
-      />
+      <div className={css.statsSetBarContainer}>
+        <div
+          className={css.statsSetBar}
+          style={{ width: Math.round(completionRatio * 100) + "%" }}
+        />
+      </div>
     </div>
   );
 }

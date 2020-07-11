@@ -26,11 +26,6 @@ export interface DraftState {
   pickN: number;
 }
 
-export interface PickPack {
-  pick: string;
-  pack: string;
-}
-
 export interface InternalDraftv2 {
   archived: boolean;
   owner: string;

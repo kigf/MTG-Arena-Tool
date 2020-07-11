@@ -16,6 +16,7 @@ import { STANDARD_CUTOFF_DATE } from "./constants";
 import format from "date-fns/format";
 
 import defaultDatabase from "../assets/resources/database.json";
+import debugLog from "./debugLog";
 
 const cachePath: string | null =
   app || (remote && remote.app)
@@ -77,7 +78,7 @@ class Database {
       const data = fs.readFileSync(scryfallDataPath, "utf8");
       this.scryfallData = JSON.parse(data);
     } catch (e) {
-      console.log("Error parsing scryfall data", e);
+      debugLog("Error parsing scryfall data", e);
     }
     */
   }
@@ -99,18 +100,18 @@ class Database {
         this.metadata.single_match_events.push(event);
       }
     } catch (e) {
-      console.log("Error parsing metadata", e);
+      debugLog(`Error parsing metadata: ${e}`, "error");
     }
   }
 
   updateCache(data: string): void {
     try {
       if (cachePath) {
-        console.log("Saved metadata to " + cachePath);
+        debugLog("Saved metadata to " + cachePath);
         fs.writeFileSync(cachePath, data);
       }
     } catch (e) {
-      console.log("Error saving metadata", e);
+      debugLog(`Error updating cache: ${e}`, "error");
     }
   }
 
@@ -129,7 +130,7 @@ class Database {
     try {
       this.season = season;
     } catch (e) {
-      console.log("Error parsing metadata", e);
+      debugLog(`Error handleSetSeason: ${e}`, "error");
     }
   }
 

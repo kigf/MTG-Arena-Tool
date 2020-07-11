@@ -86,7 +86,6 @@ export default function RankedStats({
         className={
           indexCss.buttonSimple + " " + indexCss.button_thin + " season_toggle"
         }
-        style={{ margin: "8px auto" }}
         onClick={(): void => setAggFiltersCallback(switchSeasonFilters)}
       >
         Show {switchSeasonName}

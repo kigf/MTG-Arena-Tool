@@ -7,7 +7,7 @@ import { ChangeRow } from "./EconomyRow";
 import { EconomyTableRowProps, TransactionData } from "./types";
 import css from "./economy.css";
 
-export function EconomyListViewGroup({
+function EconomyListViewGroup({
   row,
 }: TableViewRowProps<TransactionData>): JSX.Element {
   const props = row.values as EconomyDayHeaderProps;
@@ -18,7 +18,7 @@ export function EconomyListViewGroup({
   );
 }
 
-export function EconomyListViewRow({
+function EconomyListViewRow({
   row,
 }: TableViewRowProps<TransactionData>): JSX.Element {
   return (

@@ -27,9 +27,19 @@ import CardsWinratesView from "./CardsWinrateView";
 import sharedCss from "../../../shared/shared.css";
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
+import css from "./DeckView.css";
 import ReactSvgPieChart from "react-svg-piechart";
 import timestamp from "../../../shared/utils/timestamp";
 import IncognitoButton from "../misc/IncognitoButton";
+import WildcardsCostPreset from "../misc/WildcardsCostPreset";
+import Separator from "../misc/Separator";
+import getDeckColorsAmmount from "../misc/getDeckColorsAmmount";
+import getDeckLandsAmmount from "../misc/getDeckLandsAmmount";
+import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
+import DeckColorsBar from "../misc/DeckColorsBar";
+import Section from "../misc/Section";
+import BackIcon from "../../../assets/images/svg/back.svg";
+import SvgButton from "../misc/SvgButton";
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;
@@ -40,106 +50,31 @@ interface DeckViewProps {
   deck: InternalDeck;
 }
 
-interface ColorsAmmount {
-  total: number;
-  w: number;
-  u: number;
-  b: number;
-  r: number;
-  g: number;
+interface RaritiesCount {
   c: number;
+  u: number;
+  r: number;
+  m: number;
 }
 
-function getDeckColorsAmmount(deck: Deck): ColorsAmmount {
-  const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };
+function getDeckRaritiesCount(deck: Deck): RaritiesCount {
+  const rarities: RaritiesCount = { c: 0, u: 0, r: 0, m: 0 };
+  const cards = [...deck.getMainboard().get(), ...deck.getSideboard().get()];
+  cards.forEach(function (c: CardObject) {
+    const quantity = c.quantity;
+    const card = db.card(c.id);
+    if (quantity > 0 && card) {
+      if (card.rarity == "common") rarities.c += quantity;
+      else if (card.rarity == "uncommon") rarities.u += quantity;
+      else if (card.rarity == "rare") rarities.r += quantity;
+      else if (card.rarity == "mythic") rarities.m += quantity;
+    }
+  });
 
-  deck
-    .getMainboard()
-    .get()
-    .forEach(function (card: CardObject) {
-      if (card.quantity > 0) {
-        db.card(card.id)?.cost.forEach((c: string) => {
-          if (c.indexOf("w") !== -1) {
-            colors.w += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("u") !== -1) {
-            colors.u += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("b") !== -1) {
-            colors.b += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("r") !== -1) {
-            colors.r += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("g") !== -1) {
-            colors.g += card.quantity;
-            colors.total += card.quantity;
-          }
-          if (c.indexOf("c") !== -1) {
-            colors.c += card.quantity;
-            colors.total += card.quantity;
-          }
-        });
-      }
-    });
-
-  return colors;
+  return rarities;
 }
 
-function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
-  const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };
-
-  deck
-    .getMainboard()
-    .get()
-    .forEach(function (c: CardObject) {
-      const quantity = c.quantity;
-      const card = db.card(c.id);
-      if (quantity > 0 && card) {
-        if (
-          card.type.indexOf("Land") != -1 ||
-          card.type.indexOf("land") != -1
-        ) {
-          if (card.frame.length < 5) {
-            card.frame.forEach(function (c) {
-              if (c == 1) {
-                colors.w += quantity;
-                colors.total += quantity;
-              }
-              if (c == 2) {
-                colors.u += quantity;
-                colors.total += quantity;
-              }
-              if (c == 3) {
-                colors.b += quantity;
-                colors.total += quantity;
-              }
-              if (c == 4) {
-                colors.r += quantity;
-                colors.total += quantity;
-              }
-              if (c == 5) {
-                colors.g += quantity;
-                colors.total += quantity;
-              }
-              if (c == 6) {
-                colors.c += quantity;
-                colors.total += quantity;
-              }
-            });
-          }
-        }
-      }
-    });
-
-  return colors;
-}
-
-export function DeckView(props: DeckViewProps): JSX.Element {
+function DeckView(props: DeckViewProps): JSX.Element {
   const deck = new Deck(props.deck);
   const [deckView, setDeckView] = useState(VIEW_REGULAR);
   const dispatcher = useDispatch();
@@ -210,6 +145,8 @@ export function DeckView(props: DeckViewProps): JSX.Element {
     { title: "Green", value: landCounts.g, color: MANA_COLORS[4] },
   ];
 
+  const wildcardsCost = getDeckRaritiesCount(deck);
+
   const [width, bind] = useResizePanel();
 
   const dateFilter = useSelector(
@@ -238,22 +175,43 @@ export function DeckView(props: DeckViewProps): JSX.Element {
     <>
       <div className={indexCss.wrapperColumn}>
         <div className={indexCss.centeredUx}>
-          <div className={indexCss.decklistTop}>
-            <div
-              className={sharedCss.button + " " + sharedCss.back}
-              onClick={goBack}
-            ></div>
-            <div className={indexCss.deckName}>{deck.getName()}</div>
-            <ShareButton type="deck" data={deck.getSave()} />
-            <IncognitoButton id={deck.id} />
-            <div className={indexCss.deckTopColors}>
-              <ManaCost colors={deck.getColors().get()} />
+          <div
+            className={indexCss.top}
+            style={{
+              backgroundImage: `url(${getCardArtCrop(deck.tile)})`,
+            }}
+          >
+            <DeckColorsBar deck={deck} />
+            <div className={indexCss.topInner}>
+              <div className={indexCss.flexItem}>
+                <SvgButton
+                  style={{
+                    marginRight: "8px",
+                    backgroundColor: "var(--color-section)",
+                  }}
+                  svg={BackIcon}
+                  onClick={goBack}
+                />
+                <div
+                  style={{
+                    lineHeight: "32px",
+                    color: "var(--color-text-hover)",
+                    textShadow: "3px 3px 6px #000000",
+                  }}
+                >
+                  {deck.getName()}
+                </div>
+              </div>
+              <div className={indexCss.flexItem}>
+                <ManaCost
+                  class={sharedCss.manaS20}
+                  colors={deck.getColors().get()}
+                />
+              </div>
             </div>
           </div>
-          <div
-            className={indexCss.flexItem}
-            style={deckView !== VIEW_REGULAR ? { flexDirection: "column" } : {}}
-          >
+
+          <>
             {deckView == VIEW_VISUAL && (
               <VisualDeckView deck={deck} setRegularView={regularView} />
             )}
@@ -270,48 +228,85 @@ export function DeckView(props: DeckViewProps): JSX.Element {
               />
             )}
             {deckView == VIEW_REGULAR && (
-              <>
-                <div className={indexCss.decklist}>
-                  <DeckList deck={deck} showWildcards={true} />
-                </div>
-                <div className={indexCss.stats}>
-                  <Button
-                    className={
-                      indexCss.buttonSimple + " " + indexCss.exportDeck
-                    }
-                    text="Deck Changes"
-                    onClick={deckChangesView}
+              <div className={css.regularViewGrid}>
+                <Section
+                  style={{
+                    justifyContent: "space-between",
+                    gridArea: "controls",
+                  }}
+                >
+                  <ShareButton
+                    style={{ margin: "auto 4px auto 16px" }}
+                    type="deck"
+                    data={deck.getSave()}
                   />
+                  {props.deck.type == "InternalDeck" ? (
+                    <IncognitoButton
+                      style={{ margin: "auto 0" }}
+                      id={deck.id}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {props.deck.type == "InternalDeck" ? (
+                    <>
+                      <Button
+                        style={{ margin: "16px" }}
+                        className={indexCss.buttonSimple}
+                        text="Deck Changes"
+                        onClick={deckChangesView}
+                      />
+                      <Button
+                        style={{ margin: "16px" }}
+                        className={indexCss.buttonSimple}
+                        text="Card Winrates"
+                        onClick={deckWinratesView}
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   <Button
-                    className={
-                      indexCss.buttonSimple + " " + indexCss.exportDeck
-                    }
-                    text="Card Winrates"
-                    onClick={deckWinratesView}
-                  />
-                  <Button
-                    className={
-                      indexCss.buttonSimple + " " + indexCss.exportDeck
-                    }
+                    style={{ margin: "16px" }}
+                    className={indexCss.buttonSimple}
                     text="Visual View"
                     onClick={visualView}
                   />
                   <Button
-                    className={
-                      indexCss.buttonSimple + " " + indexCss.exportDeck
-                    }
+                    style={{ margin: "16px" }}
+                    className={indexCss.buttonSimple}
                     text="Export to Arena"
                     onClick={arenaExport}
                   />
                   <Button
-                    className={
-                      indexCss.buttonSimple + " " + indexCss.exportDeck
-                    }
+                    style={{ margin: "16px" }}
+                    className={indexCss.buttonSimple}
                     text="Export to .txt"
                     onClick={txtExport}
                   />
+                </Section>
+                <Section
+                  style={{
+                    flexDirection: "column",
+                    gridArea: "deck",
+                    paddingBottom: "16px",
+                    paddingLeft: "24px",
+                  }}
+                >
+                  <DeckList deck={deck} showWildcards={true} />
+                </Section>
+                <Section style={{ flexDirection: "column", gridArea: "types" }}>
+                  <Separator>Types</Separator>
                   <DeckTypesStats deck={deck} />
+                </Section>
+                <Section
+                  style={{ flexDirection: "column", gridArea: "curves" }}
+                >
+                  <Separator>Mana Curve</Separator>
                   <DeckManaCurve deck={deck} />
+                </Section>
+                <Section style={{ flexDirection: "column", gridArea: "pies" }}>
+                  <Separator>Color Pie</Separator>
                   <div className={sharedCss.pieContainerOuter}>
                     <div className={sharedCss.pieContainer}>
                       <span>Mana Symbols</span>
@@ -322,11 +317,21 @@ export function DeckView(props: DeckViewProps): JSX.Element {
                       <ReactSvgPieChart strokeWidth={0} data={landsPie} />
                     </div>
                   </div>
+                </Section>
+                <Section
+                  style={{ flexDirection: "column", gridArea: "rarities" }}
+                >
+                  <Separator>Rarities</Separator>
+                  <WildcardsCostPreset
+                    wildcards={wildcardsCost}
+                    showComplete={true}
+                  />
+                  <Separator>Wildcards Needed</Separator>
                   <CraftingCost deck={deck} />
-                </div>
-              </>
+                </Section>
+              </div>
             )}
-          </div>
+          </>
         </div>
       </div>
       <animated.div

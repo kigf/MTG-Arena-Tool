@@ -1,11 +1,17 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace AppCssModule {
+declare namespace AppCssNamespace {
   export interface IAppCss {
+    "app-wrapper": string;
+    "app-wrapper-back": string;
+    "app-wrapper-back-no-frame": string;
+    appSettings: string;
+    appWrapper: string;
+    appWrapperBack: string;
+    appWrapperBackNoFrame: string;
+    app_settings: string;
     movingUx: string;
     moving_ux: string;
-    outerWrapper: string;
-    outer_wrapper: string;
     overflowUxMain: string;
     overflow_ux_main: string;
     uxItem: string;
@@ -13,14 +19,12 @@ declare namespace AppCssModule {
     versionNumber: string;
     version_number: string;
     wrapper: string;
-    wrapperMain: string;
-    wrapper_main: string;
   }
 }
 
-declare const AppCssModule: AppCssModule.IAppCss & {
+declare const AppCssModule: AppCssNamespace.IAppCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: AppCssModule.IAppCss;
+  locals: AppCssNamespace.IAppCss;
 };
 
 export = AppCssModule;

@@ -1,7 +1,7 @@
 import electron from "electron";
 import globals from "./globals";
 import { playerDb } from "../shared/db/LocalDatabase";
-import { ipcSend } from "./backgroundUtil";
+import { ipcSend, normalizeISOString } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { IPC_RENDERER, IPC_OVERLAY } from "../shared/constants";
 import globalStore, { getMatch } from "../shared/store";
@@ -9,6 +9,7 @@ import { InternalMatch } from "../types/match";
 import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
+import debugLog from "../shared/debugLog";
 
 function matchResults(results: ResultSpec[]): number[] {
   let playerWins = 0;
@@ -33,7 +34,7 @@ function matchResults(results: ResultSpec[]): number[] {
 
 // Given match data calculates derived data for storage.
 // This is called when a match is complete.
-export function completeMatch(
+function completeMatch(
   match: any,
   matchEndTime: number
 ): InternalMatch | undefined {
@@ -67,7 +68,7 @@ export function completeMatch(
     match.tags = [match.oppDeck.archetype];
   }
   if (matchEndTime) {
-    match.date = new Date(matchEndTime).toISOString();
+    match.date = normalizeISOString(matchEndTime);
   }
   match.bestOf = 1;
   if (currentMatch.gameInfo.matchWinCondition == "MatchWinCondition_Best2of3")
@@ -90,7 +91,7 @@ export function completeMatch(
 
 export default function saveMatch(id: string, matchEndTime: number): void {
   const currentMatch = globalStore.currentMatch;
-  console.log(currentMatch, id);
+  debugLog(`${id}: ${currentMatch}`);
   if (currentMatch.matchId !== id) {
     return;
   }
@@ -101,7 +102,7 @@ export default function saveMatch(id: string, matchEndTime: number): void {
     return;
   }
 
-  console.log("Save match:", match);
+  debugLog(`Save match: ${match}`);
   const matches_index = [...globals.store.getState().matches.matchesIndex];
   reduxAction(
     globals.store.dispatch,

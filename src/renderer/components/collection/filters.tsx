@@ -1,291 +1,213 @@
-import _ from "lodash";
-import matchSorter from "match-sorter";
-import React from "react";
-import { ColumnInstance, Row } from "react-table";
-import { CARD_RARITIES, MANA } from "../../../shared/constants";
+import _, { isEqual } from "lodash";
+import { Row } from "react-table";
 import db from "../../../shared/database";
-import { RaritySymbol } from "../misc/RaritySymbol";
-import { SetSymbol } from "../misc/SetSymbol";
-import { TypeSymbol } from "../misc/TypeSymbol";
-import { BinaryColumnFilter, BinaryFilterValue } from "../tables/filters";
-import { MultiSelectFilterProps } from "../tables/types";
-import { useMultiSelectFilter } from "../tables/useMultiSelectFilter";
-import { CardsData } from "./types";
+import { StringFilter } from "../tables/filters";
+import { TableData } from "../tables/types";
+import {
+  RARITY_TOKEN,
+  RARITY_LAND,
+  RARITY_COMMON,
+  RARITY_UNCOMMON,
+  RARITY_RARE,
+  RARITY_MYTHIC,
+  ColorBitsFilter,
+  RarityBitsFilter,
+  ArrayFilter,
+  MinMaxFilter,
+  InBoolFilter,
+} from "./types";
+import { usedFormats } from "../../rendererUtil";
+import {
+  historicAnthology,
+  historicAnthology2,
+  historicAnthology3,
+} from "./customSets";
 
-import sharedCss from "../../../shared/shared.css";
-import indexCss from "../../index.css";
-
-export function InBoostersColumnFilter(props: {
-  column: ColumnInstance<CardsData>;
-}): JSX.Element {
-  return (
-    <BinaryColumnFilter
-      {...props}
-      trueLabel={"available in boosters"}
-      falseLabel={"not available in boosters"}
-    />
-  );
-}
-
-export function inBoostersFilterFn(
-  rows: Row<CardsData>[],
-  _id: string,
-  filterValue: BinaryFilterValue
-): Row<CardsData>[] {
-  return rows.filter((row) =>
-    Object.entries(filterValue).some(
-      ([code, value]) => value && String(row.original.booster) === code
-    )
-  );
-}
-
-export type RarityFilterKeys =
-  | "common"
-  | "uncommon"
-  | "rare"
-  | "mythic"
-  | "land";
-
-export type RarityFilterValue = { [key in RarityFilterKeys]: boolean };
-
-export const defaultRarity: RarityFilterValue = {
-  common: true,
-  uncommon: true,
-  rare: true,
-  mythic: true,
-  land: true,
-};
-
-export type RarityFilterProps = MultiSelectFilterProps<RarityFilterValue>;
-
-export function RarityFilter(props: RarityFilterProps): JSX.Element {
-  const filterLabels: { [key in RarityFilterKeys]: string } = {
-    common: "Common",
-    uncommon: "Uncommon",
-    rare: "Rare",
-    mythic: "Mythic",
-    land: "Land",
-  };
-  const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);
-  return (
-    <div
-      className={"collection_table_query_rarity"}
-      style={{
-        display: "flex",
-        height: "32px",
-      }}
-    >
-      {CARD_RARITIES.map((code: RarityFilterKeys) => {
-        return code === "land" ? (
-          <div className={sharedCss.typeIconCont} key={code}>
-            <TypeSymbol
-              type={"Land"}
-              onClick={onClickMultiFilter(code)}
-              className={`${indexCss.rarityFilter} ${
-                filterValue[code] ? "" : indexCss.rarityFilterOn
-              }`}
-              title={filterLabels[code]}
-            />
-          </div>
-        ) : (
-          <RaritySymbol
-            rarity={code}
-            key={code}
-            onClick={onClickMultiFilter(code)}
-            className={filterValue[code] ? "" : indexCss.rarityFilterOn}
-            title={filterLabels[code]}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-export function RarityColumnFilter({
-  column: { filterValue = { ...defaultRarity }, setFilter },
-}: {
-  column: ColumnInstance<CardsData>;
-}): JSX.Element {
-  return (
-    <RarityFilter
-      filterKey={"rarity"}
-      filters={{ rarity: filterValue }}
-      onFilterChanged={(filterValue): void => {
-        if (_.isMatch(filterValue, defaultRarity)) {
-          setFilter(undefined); // clear filter
-        } else {
-          setFilter(filterValue);
-        }
-      }}
-    />
-  );
-}
-
-export function rarityFilterFn(
-  rows: Row<CardsData>[],
-  _id: string,
-  filterValue: RarityFilterValue
-): Row<CardsData>[] {
-  return rows.filter((row) =>
-    Object.entries(filterValue).some(
-      ([code, value]) => value && row.values.rarity === code
-    )
-  );
-}
-
-export type SetFilterValue = { [set: string]: boolean };
+type SetFilterValue = { [set: string]: boolean };
 
 const defaultSetFilter: SetFilterValue = { other: true };
 db.standardSetCodes.forEach((code: string) => (defaultSetFilter[code] = true));
 
-export type SetFilterProps = MultiSelectFilterProps<SetFilterValue>;
-
-export function SetFilter(props: SetFilterProps): JSX.Element {
-  const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);
-  return (
-    <div
-      className={"collection_table_query_rarity"}
-      style={{
-        display: "flex",
-        height: "32px",
-      }}
-    >
-      {db.standardSetCodes.map((code) => {
-        return (
-          <SetSymbol
-            key={code}
-            set={code}
-            onClick={onClickMultiFilter(code)}
-            className={filterValue?.[code] ? "" : indexCss.rarityFilterOn}
-            title={code}
-          />
-        );
-      })}
-      <SetSymbol
-        set={"other"}
-        onClick={onClickMultiFilter("other")}
-        className={filterValue?.other ? "" : indexCss.rarityFilterOn}
-        title={"all other sets"}
-      />
-    </div>
-  );
-}
-
-export function SetColumnFilter({
-  column: { filterValue = { ...defaultSetFilter }, setFilter },
-}: {
-  column: ColumnInstance<CardsData>;
-}): JSX.Element {
-  return (
-    <SetFilter
-      filterKey={"set"}
-      filters={{ set: filterValue }}
-      onFilterChanged={(filterValue): void => {
-        if (_.isMatch(filterValue, defaultSetFilter)) {
-          setFilter(undefined); // clear filter
-        } else {
-          setFilter(filterValue);
-        }
-      }}
-    />
-  );
-}
-
-export function setFilterFn(
-  rows: Row<CardsData>[],
+export function setFilterFn<D extends TableData>(
+  rows: Row<D>[],
   _id: string,
-  filterValue: SetFilterValue
-): Row<CardsData>[] {
-  const standardSets = new Set(db.standardSetCodes);
-  return rows.filter(
-    (row) =>
-      Object.entries(filterValue).some(
-        ([code, value]) => value && row.values.set === code
-      ) ||
-      (filterValue.other && !standardSets.has(row.values.set))
-  );
-}
+  filterValue: StringFilter
+): Row<D>[] {
+  return rows.filter((row) => {
+    const F = filterValue.string;
+    let res = false;
+    if (F == "ha1" && historicAnthology.includes(row.original.id)) res = true;
+    if (F == "ha2" && historicAnthology2.includes(row.original.id)) res = true;
+    if (F == "ha3" && historicAnthology3.includes(row.original.id)) res = true;
 
-type SearchKeyFn = (row: Row<CardsData>) => string;
-const colorSearchKey: SearchKeyFn = (row) => {
-  const { colors } = row.values;
-  return colors.map((color: number): string => MANA[color]).join(" ");
-};
-
-// inspired by https://scryfall.com/docs/syntax
-type SearchKeyValue = string | SearchKeyFn;
-const searchKeyMap: { [key: string]: SearchKeyValue } = {
-  id: "values.id",
-  n: "values.name",
-  name: "values.name",
-  t: "values.type",
-  type: "values.type",
-  s: "values.set",
-  set: "values.set",
-  r: "values.rarity",
-  rarity: "values.rarity",
-  a: "values.artist",
-  art: "values.artist",
-  artist: "values.artist",
-  c: colorSearchKey,
-  color: colorSearchKey,
-};
-
-const allSearchKeys = [...new Set(Object.values(searchKeyMap))];
-
-type ParsedToken = [string, string, string];
-
-function parseFilterValue(filterValue: string): ParsedToken[] {
-  const exp = /(?<normal>(?<tok>[^\s"]+)(?<sep>\b[>=|<=|:|=|<|<]{1,2})(?<val>[^\s"]+))|(?<quoted>(?<qtok>[^\s"]+)(?<qsep>\b[>=|<=|:|=|<|<]{1,2})(?<qval>"[^"]*"))/;
-  const filterPattern = new RegExp(exp, "g");
-  let match;
-  const results: ParsedToken[] = [];
-  while ((match = filterPattern.exec(filterValue))) {
-    // console.log("filterPattern match: ", match.groups);
-    let token, separator, value;
-    if (match.groups?.normal) {
-      token = match.groups.tok;
-      separator = match.groups.sep;
-      value = match.groups.val; // should remove quotes too
-    } else if (match.groups?.quoted) {
-      token = match.groups.qtok;
-      separator = match.groups.qsep;
-      value = match.groups.qval; // should remove quotes too
-    }
-    if (token && separator && value) {
-      results.push([token, separator, value]);
-    }
-  }
-  return results;
-}
-
-export function cardSearchFilterFn(
-  rows: Row<CardsData>[],
-  _columnIds: string[],
-  filterValue: string
-): Row<CardsData>[] {
-  const tokens = filterValue.split(" ").filter((token) => token.length > 2);
-  if (tokens.length === 0) {
-    return rows;
-  }
-  const matches = tokens.map((token) => {
-    let keys = allSearchKeys;
-    let finalToken = token;
-    let threshold;
-    if (token.includes(":") || token.includes("=")) {
-      const results = parseFilterValue(token);
-      if (results.length) {
-        const [[tokenKey, separator, tokenVal]] = results;
-        if (tokenKey in searchKeyMap) {
-          keys = [searchKeyMap[tokenKey]];
-          finalToken = tokenVal;
-          if (separator === "=") {
-            threshold = matchSorter.rankings.EQUAL;
-          }
-        }
-      }
-    }
-    return matchSorter(rows, finalToken, { keys, threshold });
+    res =
+      res ||
+      row.original.setCode.indexOf(F) !== -1 ||
+      row.original.set.toLowerCase().indexOf(F) !== -1;
+    return filterValue.not ? !res : res;
   });
-  return _.intersection(...matches);
+}
+
+export function colorsBitsFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: ColorBitsFilter
+): Row<D>[] {
+  const F = filterValue.color;
+  return rows.filter((row) => {
+    const C = row.original.colors;
+    let ret: number | boolean = true;
+    if (filterValue.mode == "strict") ret = F == C;
+    if (filterValue.mode == "and") ret = F & C;
+    if (filterValue.mode == "or") ret = F | C;
+    if (filterValue.mode == "not") ret = ~F;
+    if (filterValue.mode == "strictNot") ret = F !== C;
+    if (filterValue.mode == "subset") ret = (F | C) == F;
+    if (filterValue.mode == "strictSubset") ret = (F | C) == F && C !== F;
+    if (filterValue.mode == "superset") ret = (F & C) == F;
+    if (filterValue.mode == "strictSuperset") ret = (F & C) == F && C !== F;
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function getRarityFilterVal(rarity: string): number {
+  let ret = 0;
+  switch (rarity) {
+    case "token":
+      ret = RARITY_TOKEN;
+      break;
+    case "land":
+      ret = RARITY_LAND;
+      break;
+    case "common":
+      ret = RARITY_COMMON;
+      break;
+    case "uncommon":
+      ret = RARITY_UNCOMMON;
+      break;
+    case "rare":
+      ret = RARITY_RARE;
+      break;
+    case "mythic":
+      ret = RARITY_MYTHIC;
+      break;
+    default:
+      ret = 0;
+      break;
+  }
+  return ret;
+}
+
+export function rarityFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: RarityBitsFilter
+): Row<D>[] {
+  const F = filterValue.rarity;
+  return rows.filter((row) => {
+    const R = row.original.rarityVal;
+    let ret: number | boolean = true;
+    if (filterValue.mode == "=") ret = R === F;
+    if (filterValue.mode == ":") ret = R & F;
+    if (filterValue.mode == "!=") ret = R !== F;
+    if (filterValue.mode == "<=") ret = R <= F;
+    if (filterValue.mode == "<") ret = R < F;
+    if (filterValue.mode == ">=") ret = R >= F;
+    if (filterValue.mode == ">") ret = R > F;
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function formatFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: StringFilter
+): Row<D>[] {
+  const F: string = Object.keys(usedFormats)
+    .filter((f) => f.toLowerCase() == filterValue.string.toLowerCase())
+    ?.map((f) => usedFormats[f])[0];
+
+  return rows.filter((row) => {
+    const ret = row.original.format.includes(F);
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function inArrayFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  columnIds: string[],
+  filterValue: StringFilter
+): Row<D>[] {
+  const [id] = columnIds;
+  const F: string = Object.keys(usedFormats)
+    .filter((f) => f.toLowerCase() == filterValue.string.toLowerCase())
+    ?.map((f) => usedFormats[f])[0];
+
+  return rows.filter((row) => {
+    const ret = row.original[id].includes(F);
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function arrayFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _columnIds: string[],
+  filterValue: ArrayFilter
+): Row<D>[] {
+  const { arr, mode, not } = filterValue;
+  const F = arr?.map((s) => s.toLowerCase()) || [];
+  return rows.filter((row) => {
+    const S: string[] = [row.original.setCode];
+    if (historicAnthology.includes(row.original.id)) S.push("ha1");
+    if (historicAnthology2.includes(row.original.id)) S.push("ha2");
+    if (historicAnthology3.includes(row.original.id)) S.push("ha3");
+
+    let ret: number | boolean = true;
+    if (mode == "=") ret = isEqual(S, F);
+    if (mode == ":") ret = _.intersection(S, F).length !== 0;
+    if (mode == "!=") ret = !isEqual(S, F);
+    /*
+    // Not sure how to implement these
+    if (mode == "<=") ret = R <= F;
+    if (mode == "<") ret = R <= F;
+    if (mode == ">=") ret = R >= F;
+    if (mode == ">") ret = R > F;
+    */
+    return not ? !ret : ret;
+  });
+}
+
+export function minMaxFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  column: string[],
+  filterValue: MinMaxFilter
+): Row<D>[] {
+  const F = filterValue.value;
+  return rows.filter((row) => {
+    const R = row.original[column[0]];
+    let ret: number | boolean = true;
+    if (filterValue.mode == "=") ret = R === F;
+    if (filterValue.mode == ":") ret = R & F;
+    if (filterValue.mode == "!=") ret = R !== F;
+    if (filterValue.mode == "<=") ret = R <= F;
+    if (filterValue.mode == "<") ret = R < F;
+    if (filterValue.mode == ">=") ret = R >= F;
+    if (filterValue.mode == ">") ret = R > F;
+    return filterValue.not ? !ret : ret;
+  });
+}
+
+export function inBoolFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  _column: string[],
+  filterValue: InBoolFilter
+): Row<D>[] {
+  const F = filterValue.value;
+  return rows.filter((row) => {
+    const R = row.original[filterValue.type];
+    let ret: number | boolean = true;
+    if (filterValue.mode == "=") ret = R === F;
+    if (filterValue.mode == ":") ret = R === F;
+    return filterValue.not ? !ret : ret;
+  });
 }

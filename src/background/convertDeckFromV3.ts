@@ -6,7 +6,7 @@ import {
 } from "../types/Deck";
 import Deck from "../shared/deck";
 
-export function convertV3ListToV2(orig: v3cardsList): v2cardsList {
+function convertV3ListToV2(orig: v3cardsList): v2cardsList {
   const newList: v2cardsList = [];
 
   for (let i = 0; i < orig.length; i += 2) {

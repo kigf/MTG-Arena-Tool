@@ -1,8 +1,18 @@
+.cards-wr-view-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "controls"
+      "desc"
+      "table";
+}
 
 .card-wr-stats {
   display: flex;
-  margin: 0 32px 32px 32px;
-  width: calc(100% - 64px);
+  margin: 0 auto;
+  width: 100%;
   flex-direction: column;
 }
 

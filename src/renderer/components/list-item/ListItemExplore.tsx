@@ -9,7 +9,7 @@ import RankSmall from "../misc/RankSmall";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 
-export interface ExploreDeck {
+interface ExploreDeck {
   _id: string;
   eventId: string;
   name: string;

@@ -19,6 +19,7 @@ export interface Metadata {
 export interface DbCardData {
   id: number;
   name: string;
+  titleId: number;
   set: string;
   artid: number;
   type: string;
@@ -32,7 +33,7 @@ export interface DbCardData {
   collectible: boolean;
   craftable: boolean;
   booster: boolean;
-  dfcId?: boolean | number;
+  dfcId: boolean | number;
   rank: number;
   rank_values: string[] | number[] | number;
   rank_controversy?: number[] | number;
@@ -75,4 +76,13 @@ interface ArchetypeAverage {
 export interface RewardsDate {
   daily: string;
   weekly: string;
+}
+
+export interface Format {
+  name: string;
+  sets: string[];
+  bannedTitleIds: number[];
+  suspendedTitleIds: number[];
+  allowedTitleIds: number[];
+  cardCountRestriction: string;
 }

@@ -14,6 +14,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
 import { useDispatch } from "react-redux";
 import deckTableCss from "./deckTable.css";
+import DeckColorsBar from "../misc/DeckColorsBar";
 
 export default function DecksArtViewRow({
   row,
@@ -77,6 +78,7 @@ export default function DecksArtViewRow({
         backgroundImage: `url(${getCardArtCrop(row.values["deckTileId"])})`,
       }}
     >
+      <DeckColorsBar deck={new Deck(deck)} />
       {!!deck.custom && (
         <ArchiveArtViewButton
           archiveCallback={archiveCallback}
@@ -124,7 +126,7 @@ interface ArchiveButtonProps {
   dataId: string;
 }
 
-export function ArchiveArtViewButton(props: ArchiveButtonProps): JSX.Element {
+function ArchiveArtViewButton(props: ArchiveButtonProps): JSX.Element {
   const { isArchived, archiveCallback, dataId } = props;
   const dispatcher = useDispatch();
   const onClick = React.useCallback(

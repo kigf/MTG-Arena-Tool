@@ -6,7 +6,7 @@ import React from "react";
 // https://github.com/github/time-elements#options
 type numericOptions = "2-digit" | "numeric";
 type textOptions = "short" | "long";
-export interface LocalTimeProps
+interface LocalTimeProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLElement>,
     HTMLElement

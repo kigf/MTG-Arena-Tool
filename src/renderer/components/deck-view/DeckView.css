@@ -1,0 +1,13 @@
+.regular-view-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-areas:
+    "controls controls"
+    "deck types"
+    "deck curves"
+    "deck pies"
+    "deck rarities"
+    "deck .";
+}

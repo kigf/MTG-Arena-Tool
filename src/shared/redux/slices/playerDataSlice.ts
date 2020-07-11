@@ -60,7 +60,7 @@ const playerDataState = {
   },
 };
 
-type PlayerData = typeof playerDataState;
+export type PlayerData = typeof playerDataState;
 
 const incrementCardCount = (state: PlayerData, grpId: number): void => {
   state.cards.cards[grpId] = state.cards.cards[grpId] + 1 || 1;

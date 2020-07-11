@@ -1,9 +1,8 @@
-import { CardObject, DeckChange } from "../../types/Deck";
+import { CardObject, DeckChange, ArenaV3Deck } from "../../types/Deck";
 import convertDeckFromV3 from "../convertDeckFromV3";
 import db from "../../shared/database";
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
-import { ArenaV3Deck } from "../../types/Deck";
 import { getDeck, deckChangeExists } from "../../shared/store";
 import { IPC_RENDERER } from "../../shared/constants";
 import { reduxAction } from "../../shared/redux/sharedRedux";

@@ -3,23 +3,28 @@
 /* eslint-disable no-console */
 import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
 import timestamp from "../../shared/utils/timestamp";
-import { MAIN_SETTINGS, IPC_NONE, LOGIN_OK } from "../../shared/constants";
-import { ipcSend } from "../rendererUtil";
 import {
+  MAIN_SETTINGS,
+  IPC_NONE,
+  LOGIN_OK,
   LOGIN_FAILED,
   LOGIN_WAITING,
   SETTINGS_ABOUT,
 } from "../../shared/constants";
+import { ipcSend } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore from "../../shared/store";
 import { ArenaV3Deck } from "../../types/Deck";
 import { AnyAction, Dispatch } from "redux";
 import store from "../../shared/redux/stores/rendererStore";
+import debugLog from "../../shared/debugLog";
+import reloadTheme from "../../shared/utils/reloadTheme";
 
 export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
-  console.log("Set up IPC listeners.");
+  debugLog("Set up IPC listeners.");
 
   ipc.on("prefill_auth_form", (_event: IpcRendererEvent, arg: any): void => {
+    debugLog("ipc prefill_auth_form", "debug");
     reduxAction(
       dispatcher,
       {
@@ -35,10 +40,12 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("clear_pwd", (): void => {
+    debugLog("ipc clear_pwd", "debug");
     reduxAction(dispatcher, { type: "SET_LOGIN_PASSWORD", arg: "" }, IPC_NONE);
   });
 
   ipc.on("login_failed", (): void => {
+    debugLog("ipc login_failed", "debug");
     reduxAction(
       dispatcher,
       { type: "SET_LOGIN_STATE", arg: LOGIN_FAILED },
@@ -47,6 +54,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("begin_login", (): void => {
+    debugLog("ipc begin_login", "debug");
     reduxAction(dispatcher, { type: "SET_LOADING", arg: true }, IPC_NONE);
     reduxAction(
       dispatcher,
@@ -56,6 +64,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("auth", (_event: IpcRendererEvent, arg: any): void => {
+    debugLog("ipc auth", "debug");
     reduxAction(dispatcher, { type: "SET_LOADING", arg: true }, IPC_NONE);
     if (arg.ok) {
       reduxAction(
@@ -90,6 +99,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   });
 
   ipc.on("offline", (): void => {
+    debugLog("ipc offline", "debug");
     reduxAction(dispatcher, { type: "SET_OFFLINE", arg: true }, IPC_NONE);
   });
 
@@ -196,11 +206,12 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
       },
       IPC_NONE
     );
-    console.log("Home", arg);
+    debugLog("Home", arg);
   });
 
   ipc.on("set_explore_decks", (_event: IpcRendererEvent, arg: any): void => {
-    console.log("Explore", arg);
+    debugLog("Explore");
+    debugLog(arg, "info");
     reduxAction(dispatcher, { type: "SET_LOADING", arg: false }, IPC_NONE);
     reduxAction(dispatcher, { type: "SET_EXPLORE_DATA", arg: arg }, IPC_NONE);
     reduxAction(
@@ -262,7 +273,7 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
         IPC_NONE
       );
     } catch (e) {
-      console.log("(set_active_events) Error parsing JSON:", arg);
+      debugLog(`(set_active_events) Error parsing JSON: ${arg}`);
     }
   });
 
@@ -273,7 +284,19 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
         (deck: ArenaV3Deck) => (globalStore.preconDecks[deck.id] = deck)
       );
     } catch (e) {
-      console.log("Error parsing JSON:", arg);
+      debugLog(`Error parsing JSON: ${arg}`);
     }
+  });
+
+  ipc.on("detailed_logs", function (_event: IpcRendererEvent) {
+    reduxAction(
+      dispatcher,
+      { type: "SET_DETAILED_LOGS_DIALOG", arg: true },
+      IPC_NONE
+    );
+  });
+
+  ipc.on("reload_theme", function (_event: IpcRendererEvent, arg: string) {
+    reloadTheme(arg);
   });
 }

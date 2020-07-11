@@ -13,11 +13,10 @@ import db from "../../../shared/database";
 
 import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DEFAULT_TILE } from "../../../shared/constants";
-import { DbCardData } from "../../../types/Metadata";
-import RoundCard from "../misc/RoundCard";
 import { toggleArchived } from "../../rendererUtil";
 import { InternalDraftv2 } from "../../../types/draft";
 import css from "./ListItem.css";
+import { CardPoolRares } from "./ListItemEvent";
 
 interface ListItemDraftProps {
   draft: InternalDraftv2;
@@ -73,21 +72,11 @@ export default function ListItemDraft({
         style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
         className={css.listItemCenter}
       >
-        {draft.pickedCards
-          ? [...draft.pickedCards]
-              .map((cardId: number | string) => db.card(cardId))
-              .filter(
-                (card: DbCardData | undefined) =>
-                  card && (card.rarity == "rare" || card.rarity == "mythic")
-              )
-              .map((card: DbCardData | undefined, index: number) => {
-                return card ? (
-                  <RoundCard key={index} card={card}></RoundCard>
-                ) : (
-                  <></>
-                );
-              })
-          : []}
+        {draft.pickedCards ? (
+          <CardPoolRares pool={[...draft.pickedCards]} />
+        ) : (
+          []
+        )}
       </div>
 
       <Column class={css.listEventPhase}>

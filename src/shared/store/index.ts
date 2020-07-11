@@ -1,6 +1,6 @@
 import { InternalMatch } from "../../types/match";
 import { InternalEvent } from "../../types/event";
-import { InternalDeck, ArenaV3Deck } from "../../types/Deck";
+import { DeckChange, InternalDeck, ArenaV3Deck } from "../../types/Deck";
 import { InternalEconomyTransaction } from "../../types/inventory";
 import { InternalDraftv2 } from "../../types/draft";
 import { SeasonalRankData } from "../../types/Season";
@@ -10,7 +10,6 @@ import { DEFAULT_TILE } from "../constants";
 
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
-import { DeckChange } from "../../types/Deck";
 import prettierDeckData from "../utils/prettierDeckData";
 import getDeckColors from "../utils/getDeckColors";
 
@@ -141,10 +140,12 @@ export function decksList(): InternalDeck[] {
 //
 // Deck Changes utility functions
 //
+/*
 export function getDeckChange(id: string): DeckChange | undefined {
   if (!id || !globalStore.deckChanges[id]) return undefined;
   return globalStore.deckChanges[id];
 }
+*/
 
 export function deckChangeExists(id: string): boolean {
   return globalStore.deckChanges[id] ? true : false;
@@ -192,12 +193,13 @@ export function getDraft(id: string): InternalDraftv2 | undefined {
 export function draftExists(id: string): boolean {
   return globalStore.draftsv2[id] ? true : false;
 }
-
+/*
 export function draftsList(): InternalDraftv2[] {
   return Object.keys(globalStore.draftsv2).map(
     (key: string) => globalStore.draftsv2[key]
   );
 }
+*/
 
 //
 // Seasonal utility functions

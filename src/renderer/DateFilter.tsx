@@ -14,7 +14,7 @@ import useDatePicker from "./hooks/useDatePicker";
 
 import indexCss from "./index.css";
 
-export interface DateFilterProps {
+interface DateFilterProps {
   prefixId: string;
   callback: (option: string) => void;
   className?: string;

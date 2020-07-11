@@ -29,6 +29,7 @@ import initializeRendererReduxIPC from "../shared/redux/initializeRendererReduxI
 import { archive, getMatch, deckExists, getDeck } from "../shared/store";
 import store, { AppState } from "../shared/redux/stores/backgroundStore";
 import defaultLogUri from "../shared/utils/defaultLogUri";
+import debugLog from "../shared/debugLog";
 
 initializeRendererReduxIPC(globals.store);
 
@@ -40,11 +41,11 @@ globals.store.subscribe(() => {
     oldState = newState;
     return;
   }
-  // console.log("Store updated");
+  // debugLog("Store updated");
   // Save settings only when they change
   const newSettings = newState.settings;
   if (!_.isEqual(oldState.settings, newSettings)) {
-    //console.log(".settings updated");
+    //debugLog(".settings updated");
     playerDb.upsert("", "settings", newSettings);
   }
 
@@ -52,7 +53,7 @@ globals.store.subscribe(() => {
   const newAppSettings = { ...newState.appsettings };
   if (!_.isEqual(oldState.appsettings, newAppSettings)) {
     newAppSettings.toolVersion = globals.toolVersion;
-    //console.log(".appsettings updated");
+    //debugLog(".appsettings updated");
     if (!newAppSettings.rememberMe) {
       appDb.upsert("", "settings", { ...newAppSettings, email: "", token: "" });
     } else {
@@ -63,14 +64,14 @@ globals.store.subscribe(() => {
   // Deck tags
   const newDeckTags = newState.playerdata.deckTags;
   if (!_.isEqual(oldState.playerdata.deckTags, newDeckTags)) {
-    //console.log(".deck_tags updated");
+    //debugLog(".deck_tags updated");
     playerDb.upsert("", "deck_tags", newDeckTags);
   }
 
   // Tags colors
   const newColors = newState.playerdata.tagsColors;
   if (!_.isEqual(oldState.playerdata.tagsColors, newColors)) {
-    //console.log(".tags_colors updated");
+    //debugLog(".tags_colors updated");
     playerDb.upsert("", "tags_colors", newColors);
   }
 
@@ -129,7 +130,7 @@ ipc.on("start_background", async function () {
   if (!logUri || logUri == "") {
     logUri = defaultLogUri();
   }
-  console.log("logUri: " + logUri);
+  debugLog("logUri: " + logUri);
 
   ipcSend("initialize_main", appSettings.launchToTray);
   reduxAction(
@@ -150,6 +151,7 @@ ipc.on("start_background", async function () {
 function offlineLogin(): void {
   ipcSend("auth", { ok: true, user: -1 });
   loadPlayerConfig();
+  debugLog("offlineLogin", "debug");
   reduxAction(
     globals.store.dispatch,
     { type: "SET_APP_SETTINGS", arg: { email: "" } },
@@ -165,6 +167,7 @@ function offlineLogin(): void {
 //
 ipc.on("login", function (_event, arg) {
   ipcSend("begin_login", {});
+  debugLog("ipc login", "debug");
   if (arg.password == HIDDEN_PW) {
     httpApi.httpAuth(arg.username, arg.password);
   } else if (arg.username === "" && arg.password === "") {
@@ -208,7 +211,7 @@ ipc.on("overlayBounds", (_event, index, bounds) => {
 
 //
 ipc.on("save_overlay_settings", function (_event, settings) {
-  // console.log("save_overlay_settings");
+  // debugLog("save_overlay_settings");
   if (settings.index === undefined) return;
 
   const { index } = settings;
@@ -368,6 +371,7 @@ ipc.on("set_log", function (_event, arg) {
 // Read the log
 // Set variables to default first
 let prevLogSize = 0;
+let logLoops = -1;
 
 // Old parser
 async function attemptLogLoop(): Promise<void> {
@@ -375,21 +379,26 @@ async function attemptLogLoop(): Promise<void> {
     await logLoop();
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error(err);
+    debugLog(err, "error");
   }
 }
 
 // Basic logic for reading the log file
 async function logLoop(): Promise<void> {
+  logLoops++;
   const logUri = globals.store.getState().appsettings.logUri;
-  console.log("logLoop() start " + logUri);
-  //ipcSend("ipc_log", "logLoop() start");
+  if (logLoops == 0) {
+    debugLog("logLoop() start " + logUri);
+  }
   if (logUri.indexOf("output_log") !== -1 && fs.existsSync(defaultLogUri())) {
     ipcSend("no_log", defaultLogUri());
     ipcSend("popup", {
       text: "Log file name has changed.",
       time: 1000,
     });
+    if (logLoops == 0) {
+      debugLog("Log file name has changed.");
+    }
     return;
   }
   if (fs.existsSync(logUri)) {
@@ -399,11 +408,17 @@ async function logLoop(): Promise<void> {
         text: "No log file found. Please include the file name too.",
         time: 1000,
       });
+      if (logLoops == 0) {
+        debugLog("No log file found. Please include the file name too.");
+      }
       return;
     }
   } else {
     ipcSend("no_log", logUri);
     ipcSend("popup", { text: "No log file found.", time: 1000 });
+    if (logLoops == 0) {
+      debugLog("No log file found.");
+    }
     return;
   }
 
@@ -415,6 +430,7 @@ async function logLoop(): Promise<void> {
 
   if (size == undefined) {
     // Something went wrong obtaining the file size, try again later
+    debugLog("LogLoop(): Size undefined");
     return;
   }
 
@@ -444,25 +460,23 @@ async function logLoop(): Promise<void> {
   let foundData = 0;
   let i = 0;
   while (i < splitString.length - 1 || foundData !== 2) {
-    const value = splitString[i];
+    const value: string | undefined = splitString[i];
     // Check if detailed logs / plugin support is disabled
-    // This should be an action rather than a simple popup
-    // Renderer should display a special popup with pretty instructions
     let strCheck = "DETAILED LOGS: DISABLED";
-    if (value.includes(strCheck)) {
-      // PLACEHOLDER
-      // SEND ACTION TO SHOW POPUP , TO ENABLE DETAILED LOGS
+    if (value?.includes(strCheck)) {
+      debugLog("LogLoop(): Detailed logs disabled!");
       reduxAction(
         globals.store.dispatch,
         { type: "SET_CAN_LOGIN", arg: false },
         IPC_RENDERER
       );
+      ipcSend("detailed_logs");
       detailedLogs = false;
     }
 
     // Get player Id
     strCheck = "AccountID:";
-    if (value.includes(strCheck) && parsedData.arenaId == undefined) {
+    if (value?.includes(strCheck) && parsedData.arenaId == undefined) {
       parsedData.arenaId =
         debugArenaID ?? unleakString(dataChop(value, strCheck, ","));
       foundData++;
@@ -470,7 +484,7 @@ async function logLoop(): Promise<void> {
 
     // Get User name
     strCheck = "DisplayName:";
-    if (value.includes(strCheck) && parsedData.playerName == undefined) {
+    if (value?.includes(strCheck) && parsedData.playerName == undefined) {
       parsedData.playerName = unleakString(dataChop(value, strCheck, ","));
       foundData++;
     }
@@ -480,7 +494,9 @@ async function logLoop(): Promise<void> {
   if (!detailedLogs) return;
 
   for (const key in parsedData) {
-    ipcSend("ipc_log", `Initial log parse: ${key}=${parsedData[key]}`);
+    const str = `Initial log parse: ${key}=${parsedData[key]}`;
+    debugLog(str);
+    ipcSend("ipc_log", str);
   }
 
   prevLogSize = size;
@@ -495,6 +511,7 @@ async function logLoop(): Promise<void> {
       { type: "SET_CAN_LOGIN", arg: false },
       IPC_RENDERER
     );
+    debugLog("Player.log contains no player data");
     return;
   } else {
     reduxAction(
@@ -542,6 +559,7 @@ async function logLoop(): Promise<void> {
   });
 
   if (autoLogin) {
+    debugLog("automatic login process started..");
     ipcSend("toggle_login", false);
     if (rememberMe && username && token) {
       ipcSend("popup", {

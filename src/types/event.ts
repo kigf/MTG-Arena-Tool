@@ -16,7 +16,7 @@ export interface WinLossGate {
   ProcessedMatchIds: string[];
 }
 
-export interface WinNoGate {
+interface WinNoGate {
   CurrentWins: number;
   ProcessedMatchIds: string[];
 }
@@ -106,7 +106,7 @@ export interface RankInfo {
   steps: number;
 }
 
-export interface RankRewards {
+interface RankRewards {
   image1: string | null;
   image2: string | null;
   image3: string | null;

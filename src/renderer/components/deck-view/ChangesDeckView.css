@@ -8,17 +8,17 @@
   display: flex;
   height: 31px;
   margin-bottom: 1px;
-  background-color: rgba(0,0,0,0.75);
+  background-color: var(--color-card-tile);
   -webkit-transition: all .15s ease-in;
   cursor: pointer;
   width: 100%;
-  color: var(--color-light);
+  color: var(--color-text);
   line-height: 29px;
   font-family: var(--main-font-name);
 }
 
 .deck-change:hover {
-  background-color: rgba(65, 50, 40, 0.75);
+  background-color: var(--color-card-tile-hover);
 }
 
 .deck-changes-expand {

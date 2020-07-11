@@ -17,6 +17,7 @@ import sharedCss from "../shared.css";
 import css from "./CardTile.css";
 
 import typeLand from "../../assets/images/type_land.png";
+import debugLog from "../debugLog";
 
 const mana: Record<string, string> = {};
 mana["w"] = sharedCss.mana_w;
@@ -63,7 +64,7 @@ export type CardTileQuantity =
   | number
   | string;
 
-export interface CardTileProps {
+interface CardTileProps {
   card: DbCardData;
   deck?: Deck;
   dfcCard?: DbCardData;
@@ -171,7 +172,10 @@ interface MissingCardsProps {
 function MissingCardSprite(props: MissingCardsProps): JSX.Element {
   const { missing, cardRarity, listStyle, ww } = props;
 
-  const xoff = CARD_RARITIES.indexOf(cardRarity) * -24;
+  const xoff =
+    CARD_RARITIES.filter((r) => r !== "token" && r !== "land").indexOf(
+      cardRarity
+    ) * -24;
   const yoff = missing * -24;
 
   let className = css.notOwnedSprite;
@@ -243,7 +247,7 @@ export default function CardTile(props: CardTileProps): JSX.Element {
       cardTileStyle.backgroundImage = `url(${getCardArtCrop(card)})`;
     }
   } catch (e) {
-    console.log(e);
+    debugLog(e, "error");
   }
 
   let colorA = "c";
@@ -262,11 +266,11 @@ export default function CardTile(props: CardTileProps): JSX.Element {
   }
   cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
 
-  const tileStyle = { backgroundColor: "rgba(0, 0, 0, 0.75)" };
+  const tileStyle = { backgroundColor: "var(--color-card-tile)" };
   if (isHighlighted) {
-    tileStyle.backgroundColor = "rgba(250, 229, 210, 0.66)";
+    tileStyle.backgroundColor = "var(--color-card-tile-active)";
   } else if (isMouseHovering) {
-    tileStyle.backgroundColor = "rgba(65, 50, 40, 0.75)";
+    tileStyle.backgroundColor = "var(--color-card-tile-hover)";
   }
 
   return (
@@ -341,11 +345,11 @@ export function LandsTile(props: LandsTileProps): JSX.Element {
 
   cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
 
-  const tileStyle = { backgroundColor: "rgba(0, 0, 0, 0.75)" };
+  const tileStyle = { backgroundColor: "var(--color-card-tile)" };
   if (isHighlighted) {
-    tileStyle.backgroundColor = "rgba(250, 229, 210, 0.66)";
+    tileStyle.backgroundColor = "var(--color-card-tile-active)";
   } else if (isMouseHovering) {
-    tileStyle.backgroundColor = "rgba(65, 50, 40, 0.75)";
+    tileStyle.backgroundColor = "var(--color-card-tile-hover)";
   }
 
   return (

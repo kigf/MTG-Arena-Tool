@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace TypesStatsCssModule {
+declare namespace TypesStatsCssNamespace {
   export interface ITypesStatsCss {
     typeArt: string;
     typeCre: string;
@@ -25,9 +25,9 @@ declare namespace TypesStatsCssModule {
   }
 }
 
-declare const TypesStatsCssModule: TypesStatsCssModule.ITypesStatsCss & {
+declare const TypesStatsCssModule: TypesStatsCssNamespace.ITypesStatsCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: TypesStatsCssModule.ITypesStatsCss;
+  locals: TypesStatsCssNamespace.ITypesStatsCss;
 };
 
 export = TypesStatsCssModule;

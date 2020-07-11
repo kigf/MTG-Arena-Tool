@@ -25,7 +25,7 @@ import {
 import updateDeck from "./updateDeck";
 import globals from "./globals";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { httpSyncRequest } from "./httpApi";
+import debugLog from "../shared/debugLog";
 
 const debugLogSpeed = 0.001;
 let logReadEnd = null;
@@ -46,7 +46,7 @@ interface StartProps {
   onFinish: () => void;
 }
 
-export function start({
+function start({
   path,
   chunkSize,
   onLogEntry,
@@ -166,7 +166,7 @@ function startWatchingLog(path: fs.PathLike): () => void {
     path,
     chunkSize: 268435440,
     onLogEntry: onLogEntryFound,
-    onError: (err: any) => console.error(err),
+    onError: (err: any) => debugLog(err, "error"),
     onFinish: finishLoading,
   });
 }
@@ -182,7 +182,7 @@ function onLogEntryFound(entry: any): void {
   if (entry.playerId && entry.playerId !== playerData.arenaId) {
     return;
   } else {
-    //console.log("Entry:", entry.label, entry, entry.json());
+    //debugLog("Entry:", entry.label, entry, entry.json());
     const end = Date.now();
     if (end > lastProgressPop + 1000) {
       lastProgressPop = end;
@@ -216,8 +216,9 @@ function onLogEntryFound(entry: any): void {
           globals.logTimestamp = timestamp;
         }
       } catch (err) {
-        console.log(entry.label, entry.position, entry.json());
-        console.error(err);
+        debugLog(entry.label + " > " + entry.position);
+        debugLog(entry.json());
+        debugLog(err, "error");
       }
     }
   }
@@ -228,7 +229,7 @@ function onLogEntryFound(entry: any): void {
 // (in my testing)
 /* eslint-disable-next-line complexity */
 function entrySwitch(entry: LogEntry): void {
-  //console.log(entry, entry.json());
+  //debugLog(entry, entry.json());
   switch (entry.label) {
     case "GreToClientEvent":
       Labels.GreToClient(entry);
@@ -409,6 +410,12 @@ function entrySwitch(entry: LogEntry): void {
     case "PlayerInventory.GetRewardSchedule":
       if (entry.arrow == "<==") {
         Labels.GetPlayerInventoryGetRewardSchedule(entry);
+      }
+      break;
+
+    case "PlayerInventory.GetFormats":
+      if (entry.arrow == "<==") {
+        Labels.GetPlayerInventoryGetFormats(entry);
       }
       break;
 

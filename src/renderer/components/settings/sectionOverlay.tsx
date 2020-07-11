@@ -67,7 +67,7 @@ function setSoundPriority(checked: boolean): void {
   );
 }
 
-export function setCurrentOverlaySettings(current: number): void {
+function setCurrentOverlaySettings(current: number): void {
   reduxAction(
     store.dispatch,
     { type: "SET_SETTINGS", arg: { settings_overlay_section: current } },
@@ -217,7 +217,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           callback={(filter: string): void => setOverlayMode(current, filter)}
         />
       </div>
-      <div className={css.settings_note} style={{ paddingLeft: "16px" }}>
+      <div className={css.settings_note}>
         <p>
           <i>{modeHelp[settings.mode]}</i>
         </p>
@@ -229,7 +229,7 @@ function OverlaySettingsSection(props: SectionProps): JSX.Element {
           saveOverlaySettings(current, val, "show_always")
         }
       />
-      <div className={css.settings_note} style={{ paddingLeft: "16px" }}>
+      <div className={css.settings_note}>
         <p>
           <i>
             Displays the overlay regardless of Arena match or draft status

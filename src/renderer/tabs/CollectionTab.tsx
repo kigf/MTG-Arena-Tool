@@ -14,7 +14,15 @@ import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
 
-import { ipcSend, getMissingCardCounts } from "../rendererUtil";
+import {
+  ipcSend,
+  getMissingCardCounts,
+  getCardFormats,
+  getCardBanned,
+  getCardSuspended,
+  getCardIsCraftable,
+  getCardInBoosters,
+} from "../rendererUtil";
 import { CardCounts } from "../components/decks/types";
 import Deck from "../../shared/deck";
 import { reduxAction } from "../../shared/redux/sharedRedux";
@@ -23,7 +31,8 @@ import { decksList } from "../../shared/store";
 import { useSelector } from "react-redux";
 
 import appCss from "../app/app.css";
-import { openScryfallCard } from "../../shared/utils/openScryfallCard";
+import { PlayerData } from "../../shared/redux/slices/playerDataSlice";
+import { getRarityFilterVal } from "../components/collection/filters";
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
@@ -91,18 +100,19 @@ function saveTableState(collectionTableState: TableState<CardsData>): void {
   );
 }
 
-function saveTableMode(collectionTableMode: string): void {
+function saveMode(collectionMode: string): void {
   reduxAction(
     store.dispatch,
-    { type: "SET_SETTINGS", arg: { collectionTableMode } },
+    { type: "SET_SETTINGS", arg: { collectionMode } },
     IPC_ALL ^ IPC_RENDERER
   );
 }
 
-function getCollectionData(): CardsData[] {
+function getCollectionData(
+  cards: PlayerData["cards"],
+  cardsNew: PlayerData["cardsNew"]
+): CardsData[] {
   const wantedCards: CardCounts = {};
-  const cards = store.getState().playerdata.cards;
-  const cardsNew = store.getState().playerdata.cardsNew;
   decksList()
     .filter((deck) => deck && !deck.archived)
     .forEach((deck) => {
@@ -112,51 +122,76 @@ function getCollectionData(): CardsData[] {
       });
     });
   return db.cardList
-    .filter((card) => card.collectible && card.dfc !== 7 && card.dfc !== 5)
+    .filter(
+      (card) =>
+        card.collectible && card.dfc !== 1 && card.dfc !== 7 && card.dfc !== 5
+    )
     .map(
       (card): CardsData => {
+        const dfc = db.card(card.dfcId !== true ? card.dfcId || 0 : 0);
+        const dfcName = dfc?.name.toLowerCase() || "";
         const RANK_SOURCE = card.source == 0 ? DRAFT_RANKS : DRAFT_RANKS_LOLA;
+        const rarityVal = getRarityFilterVal(card.rarity);
+        const name = card.name.toLowerCase() + " " + dfcName;
+        const type = card.type.toLowerCase();
+        const artist = card.artist.toLowerCase();
+        const set = card.set;
         const owned = cards.cards[card.id] ?? 0;
         const acquired = cardsNew[card.id] ?? 0;
         const wanted = wantedCards[card.id] ?? 0;
         const colorsObj = new Colors();
         colorsObj.addFromCost(card.cost);
-        const colors = colorsObj.get();
-        const colorSortVal = colors.join("");
+        const colorSortVal = colorsObj.get().join("");
+        const colors = colorsObj.getBits();
         const rankSortVal = RANK_SOURCE[card.rank] ?? "?";
+        const setCode = db.sets[card.set]?.scryfall ?? card.set;
+        const format = getCardFormats(card);
+        const banned = getCardBanned(card);
+        const suspended = getCardSuspended(card);
+        const craftable = getCardIsCraftable(card);
+        const booster = getCardInBoosters(card);
         return {
           ...card,
+          name,
+          type,
+          artist,
+          set,
           owned,
           acquired,
           colors,
           colorSortVal,
           wanted,
           rankSortVal,
+          rarityVal,
+          setCode,
+          format,
+          banned,
+          suspended,
+          craftable,
+          booster,
         };
       }
     );
 }
 
 export default function CollectionTab(): JSX.Element {
-  const {
-    collectionTableMode,
-    collectionTableState,
-  } = store.getState().settings;
-  const cardsNew = useSelector((state: AppState) => state.playerdata.cardsNew);
+  const { cards, cardsNew } = useSelector(
+    (state: AppState) => state.playerdata
+  );
+  const settings = useSelector((state: AppState) => state.settings);
+  const { collectionMode, collectionTableState } = settings;
   const data = React.useMemo(() => {
-    cardsNew;
-    return getCollectionData();
-  }, [cardsNew]);
+    return getCollectionData(cards, cardsNew);
+  }, [cards, cardsNew]);
   return (
     <div className={appCss.uxItem}>
       <CollectionTable
         cachedState={collectionTableState}
-        cachedTableMode={collectionTableMode}
+        cachedTableMode={collectionMode}
         contextMenuCallback={addCardMenu}
         data={data}
         exportCallback={exportCards}
-        openCardCallback={openScryfallCard}
-        tableModeCallback={saveTableMode}
+        modeCallback={saveMode}
         tableStateCallback={saveTableState}
       />
     </div>

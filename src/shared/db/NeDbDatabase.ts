@@ -3,8 +3,9 @@ import Datastore from "nedb";
 import util from "util";
 import { USER_DATA_DIR, showBusy, hideBusyIfDone } from "./databaseUtil";
 import sanitize from "sanitize-filename";
+import debugLog from "../debugLog";
 
-export class DatabaseNotInitializedError extends Error {
+class DatabaseNotInitializedError extends Error {
   constructor() {
     super("LocalDatabase has not been initialized.");
     this.name = "DatabaseNotInitializedError";
@@ -70,7 +71,7 @@ export class NeDbDatabase {
   init(dbName: string, arenaName?: string): void {
     this.dbName = sanitize(arenaName ? arenaName : dbName);
     const dbPath = path.join(USER_DATA_DIR, this.dbName + ".db");
-    console.log("Db path: " + dbPath);
+    debugLog("Db path: " + dbPath);
     this.datastore = new Datastore({
       filename: dbPath,
     });
@@ -129,7 +130,6 @@ export class NeDbDatabase {
     const allData = Object.entries(data);
     allData.reverse();
     let successCount = 0;
-    //let errorCount = 0;
     for (const [key, value] of allData) {
       try {
         successCount += await this.upsert("", key, value);
@@ -137,11 +137,7 @@ export class NeDbDatabase {
           intermediateCallback(null, successCount);
         }
       } catch (err) {
-        //errorCount += 1;
-        console.error(
-          "Local DB: ERROR ${errorCount} during Saving all data!",
-          err
-        );
+        debugLog(`Local DB: ERROR during Saving all data!; ${err}`);
         if (intermediateCallback) {
           intermediateCallback(err, successCount);
         }

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import db from "../../../shared/database";
 import CardTile from "../../../shared/CardTile";

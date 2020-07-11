@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace ChangesDeckViewCssModule {
+declare namespace ChangesDeckViewCssNamespace {
   export interface IChangesDeckViewCss {
     "change-add": string;
     "change-remove": string;
@@ -19,9 +19,9 @@ declare namespace ChangesDeckViewCssModule {
   }
 }
 
-declare const ChangesDeckViewCssModule: ChangesDeckViewCssModule.IChangesDeckViewCss & {
+declare const ChangesDeckViewCssModule: ChangesDeckViewCssNamespace.IChangesDeckViewCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: ChangesDeckViewCssModule.IChangesDeckViewCss;
+  locals: ChangesDeckViewCssNamespace.IChangesDeckViewCss;
 };
 
 export = ChangesDeckViewCssModule;

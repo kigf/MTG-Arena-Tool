@@ -61,6 +61,7 @@ export interface PagingControlsProps {
   pageLabel?: string;
   pageSize: number;
   pageSizeOptions?: string[];
+  align?: string;
 }
 
 export interface TableControlsProps<D extends TableData> {

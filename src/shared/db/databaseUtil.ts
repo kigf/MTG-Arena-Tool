@@ -1,28 +1,11 @@
 import { app, remote, ipcRenderer as ipc } from "electron";
 import { IPC_RENDERER, IPC_BACKGROUND } from "../constants";
-
-export const rememberDefaults = {
-  settings: {
-    email: "",
-    token: "",
-    toolVersion: 0,
-    autoLogin: false,
-    launchToTray: false,
-    rememberMe: true,
-    betaChannel: false,
-    metadataLang: "en",
-    logLocaleFormat: "",
-    logUri: "",
-  },
-};
-export const settingsDefaults = {
-  logUri: "",
-};
+import debugLog from "../debugLog";
 
 export const USER_DATA_DIR = (app || remote.app).getPath("userData");
 
 // Begin of IPC messages recievers
-export function ipcSend(
+function ipcSend(
   method: string,
   from = IPC_BACKGROUND,
   arg: any,
@@ -35,7 +18,7 @@ export function ipcSend(
 }
 
 function logInfo(message: string): void {
-  console.log(`Local DB: ${message}`);
+  debugLog(`Local DB: ${message}`, "info");
 }
 
 let blockingQueriesInFlight = 0;

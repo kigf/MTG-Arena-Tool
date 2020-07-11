@@ -14,6 +14,11 @@ import { MultiSelectFilterProps, TableData } from "./types";
 
 import css from "../../index.css";
 
+export interface StringFilter {
+  string: string;
+  not: boolean;
+}
+
 export function TextBoxFilter<D extends TableData>({
   column: { id, filterValue, preFilteredRows, setFilter },
 }: {
@@ -102,6 +107,17 @@ export function fuzzyTextFilterFn<D extends TableData>(
   return matchSorter(rows, filterValue, { keys: ["values." + id] });
 }
 
+export function textFilterFn<D extends TableData>(
+  rows: Row<D>[],
+  id: string,
+  filterValue: StringFilter
+): Row<D>[] {
+  return rows.filter((row) => {
+    const res = row.original[id].indexOf(filterValue.string) !== -1;
+    return filterValue.not ? !res : res;
+  });
+}
+
 export function GlobalFilter<D extends TableData>({
   preGlobalFilteredRows,
   globalFilter,
@@ -126,7 +142,7 @@ export function GlobalFilter<D extends TableData>({
   );
 }
 
-export type BinaryFilterKeys = "true" | "false";
+type BinaryFilterKeys = "true" | "false";
 
 export type BinaryFilterValue = { [key in BinaryFilterKeys]: boolean };
 
@@ -135,15 +151,14 @@ const defaultBinary: BinaryFilterValue = {
   false: true,
 };
 
-export interface BinaryFilterProps
-  extends MultiSelectFilterProps<BinaryFilterValue> {
+interface BinaryFilterProps extends MultiSelectFilterProps<BinaryFilterValue> {
   trueLabel: string;
   falseLabel: string;
   trueSymbol?: string;
   falseSymbol?: string;
 }
 
-export function BinaryFilter(props: BinaryFilterProps): JSX.Element {
+function BinaryFilter(props: BinaryFilterProps): JSX.Element {
   const [filterValue, onClickMultiFilter] = useMultiSelectFilter(props);
   const { trueLabel, falseLabel, trueSymbol, falseSymbol } = props;
   const symbolStyle = {
@@ -230,13 +245,13 @@ export function BinaryColumnFilter<D extends TableData>({
   );
 }
 
-export function getDefaultColorFilter(): ColorFilter {
+function getDefaultColorFilter(): ColorFilter {
   const colorFilters: any = {};
   COLORS_BRIEF.forEach((code) => (colorFilters[code] = false));
   return { ...colorFilters, multi: true };
 }
 
-export function filterDeckByColors(
+function filterDeckByColors(
   deck: Partial<InternalDeck> | null,
   _colors: ColorFilter
 ): boolean {

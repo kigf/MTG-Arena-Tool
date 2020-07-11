@@ -17,7 +17,7 @@
     // other defaults         
     "pretty": true,
     "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "sourceMap": true,
     "skipLibCheck": true,

@@ -36,13 +36,15 @@ export default function CraftingCost(props: CraftingCostProps): JSX.Element {
 
   return (
     <div className={indexCss.wildcardsCost}>
-      <span>Wildcards you have/need</span>
-      {CARD_RARITIES.filter((rarity) => rarity !== "land").map((cardRarity) => {
+      {CARD_RARITIES.filter(
+        (rarity) => rarity !== "land" && rarity !== "token"
+      ).map((cardRarity) => {
         const cardRarityLowercase = cardRarity.toLowerCase();
-        const wcText =
-          (ownedWildcards[cardRarityLowercase] > 0
-            ? ownedWildcards[cardRarityLowercase] + " / "
-            : "") + missingWildcards[cardRarityLowercase];
+        const wcText = `${missingWildcards[cardRarityLowercase]} (${
+          ownedWildcards[cardRarityLowercase] > 0
+            ? ownedWildcards[cardRarityLowercase]
+            : 0
+        })`;
         return (
           <div
             key={cardRarity}

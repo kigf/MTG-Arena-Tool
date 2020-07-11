@@ -3,14 +3,30 @@ import { remote, shell } from "electron";
 import css from "./index.scss";
 import indexCss from "../../index.css";
 import formsCss from "../../forms.css";
-import Close from "./close.svg";
+import Close from "../../../assets/images/svg/close.svg";
 import { animated, useSpring } from "react-spring";
 import { ipcSend } from "../../rendererUtil";
 import { useSelector } from "react-redux";
-import { AppState } from "../../../shared/redux/stores/rendererStore";
+import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import showOpenLogDialog from "../../../shared/utils/showOpenLogDialog";
 import { format, fromUnixTime } from "date-fns";
+import Toggle from "../misc/Toggle";
 import db from "../../../shared/database";
+import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+
+function clickBetaChannel(value: boolean): void {
+  reduxAction(
+    store.dispatch,
+    {
+      type: "SET_APP_SETTINGS",
+      arg: {
+        betaChannel: value,
+      },
+    },
+    IPC_ALL ^ IPC_RENDERER
+  );
+}
 
 interface AuthSettingsProps<F extends Function> {
   closeCallback?: F;
@@ -86,11 +102,11 @@ export default function AuthSettings<F extends Function>(
         }}
       >
         <Close
-          fill="var(--color-back)"
+          fill="var(--color-text-hover)"
           className={css.closeButton}
           onClick={(): void => setOpen(0)}
         />
-        <div className={css.popupInner}>
+        <div className={css.popupInner} style={{ color: "var(--color-back)" }}>
           <div className={css.title}>Settings</div>
           <div className={css.inputContainer}>
             <label className={css.label}>Arena Log:</label>
@@ -102,16 +118,18 @@ export default function AuthSettings<F extends Function>(
                 justifyContent: "flex-end",
               }}
             >
-              <div
-                style={{ filter: "brightness(0.2)" }}
-                className={indexCss.open_button}
-                onClick={openPathDialog}
-              />
+              <div className={indexCss.open_button} onClick={openPathDialog} />
               <div className={formsCss.formInputContainer}>
                 <input autoComplete="off" value={appSettings.logUri} />
               </div>
             </div>
           </div>
+          <Toggle
+            text={"Beta updates channel"}
+            value={appSettings.betaChannel}
+            callback={clickBetaChannel}
+            margin={false}
+          />
           <div className={css.about}>
             <div
               style={{ margin: "4px", textDecoration: "underline" }}

@@ -2,7 +2,7 @@ import db from "../../shared/database";
 import { ipcSend } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
 
-export interface Reward {
+interface Reward {
   wins: number;
   awardDescription: {
     image1: string | null;
@@ -18,7 +18,7 @@ export interface Reward {
   };
 }
 
-export interface EntryJson {
+interface EntryJson {
   dailyReset: string;
   weeklyReset: string;
   dailyRewards: Reward[];

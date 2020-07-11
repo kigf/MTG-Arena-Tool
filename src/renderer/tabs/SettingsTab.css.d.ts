@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace SettingsTabCssModule {
+declare namespace SettingsTabCssNamespace {
   export interface ISettingsTabCss {
     navSelected: string;
     nav_selected: string;
@@ -16,14 +16,12 @@ declare namespace SettingsTabCssModule {
     settings_row: string;
     settings_section: string;
     settings_title: string;
-    sidebarColumnR: string;
-    sidebar_column_r: string;
   }
 }
 
-declare const SettingsTabCssModule: SettingsTabCssModule.ISettingsTabCss & {
+declare const SettingsTabCssModule: SettingsTabCssNamespace.ISettingsTabCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: SettingsTabCssModule.ISettingsTabCss;
+  locals: SettingsTabCssNamespace.ISettingsTabCss;
 };
 
 export = SettingsTabCssModule;

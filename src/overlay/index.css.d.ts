@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace IndexCssModule {
+declare namespace IndexCssNamespace {
   export interface IIndexCss {
     afterHidden: string;
     after_hidden: string;
@@ -39,6 +39,8 @@ declare namespace IndexCssModule {
     draft_prev: string;
     draft_title: string;
     editable: string;
+    "flex-column": string;
+    flexColumn: string;
     flexEnd: string;
     flex_end: string;
     hoverFadeEnter: string;
@@ -91,7 +93,6 @@ declare namespace IndexCssModule {
     overlayIcon: string;
     overlayMasterWrapper: string;
     overlaySamplesizeContainer: string;
-    overlaySeparator: string;
     overlayText: string;
     overlay_archetype: string;
     overlay_card_quantity: string;
@@ -109,7 +110,6 @@ declare namespace IndexCssModule {
     overlay_icon: string;
     overlay_master_wrapper: string;
     overlay_samplesize_container: string;
-    overlay_separator: string;
     overlay_text: string;
     pie: string;
     pnamePriority: string;
@@ -131,9 +131,9 @@ declare namespace IndexCssModule {
   }
 }
 
-declare const IndexCssModule: IndexCssModule.IIndexCss & {
+declare const IndexCssModule: IndexCssNamespace.IIndexCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: IndexCssModule.IIndexCss;
+  locals: IndexCssNamespace.IIndexCss;
 };
 
 export = IndexCssModule;

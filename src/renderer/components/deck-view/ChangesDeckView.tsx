@@ -10,7 +10,8 @@ import { useSprings, animated } from "react-spring";
 import { getDeckChangesList } from "../../../shared/store";
 
 import css from "./ChangesDeckView.css";
-import indexCss from "../../index.css";
+import deckViewCss from "./DeckView.css";
+import Section from "../misc/Section";
 
 function sortDeckChanges(ad: DeckChange, bd: DeckChange): number {
   const a = ad.date;
@@ -61,101 +62,108 @@ export default function ChangesDeckView(
   };
 
   return (
-    <>
-      <Button text="Normal View" onClick={setRegularView} />
-      <div style={{ display: "flex" }}>
-        <div className={indexCss.decklist}>
-          <DeckList deck={currentDeck} showWildcards={true} />
-        </div>
-        <div style={{ padding: "47px 0" }} className={indexCss.stats}>
-          {changes.length > 0 ? (
-            changes.map((ch, index) => {
-              const bothChanges = [...ch.changesMain, ...ch.changesSide];
-              const added = bothChanges
-                .filter((c) => c.quantity > 0)
-                .reduce((ca, cb) => ca + cb.quantity, 0);
-              const removed = bothChanges
-                .filter((c) => c.quantity < 0)
-                .reduce((ca, cb) => ca + Math.abs(cb.quantity), 0);
-              return (
-                <React.Fragment key={ch.id}>
-                  <div
-                    className={css.deckChange}
-                    key={ch.id}
-                    onClick={(): void => expand(index)}
-                  >
-                    <animated.div
-                      className={css.expandArrow}
-                      style={arrowSprings[index]}
-                    ></animated.div>
-                    <div style={{ marginRight: "auto" }}>
-                      <relative-time datetime={ch.date}>
-                        {ch.date}
-                      </relative-time>
-                    </div>
-                    <div className={css.changeAdd} />
-                    {added}
-                    <div className={css.changeRemove} />
-                    {removed}
-                    <div style={{ marginRight: "8px" }} />
-                  </div>
+    <div className={deckViewCss.regularViewGrid}>
+      <Section style={{ padding: "16px", gridArea: "controls" }}>
+        <Button
+          style={{ margin: "auto" }}
+          text="Normal View"
+          onClick={setRegularView}
+        />
+      </Section>
+      <Section
+        style={{
+          paddingBottom: "16px",
+          paddingLeft: "24px",
+          flexDirection: "column",
+          gridArea: "deck",
+        }}
+      >
+        <DeckList deck={currentDeck} showWildcards={true} />
+      </Section>
+      <Section
+        style={{ padding: "16px", flexDirection: "column", gridArea: "types" }}
+      >
+        {changes.length > 0 ? (
+          changes.map((ch, index) => {
+            const bothChanges = [...ch.changesMain, ...ch.changesSide];
+            const added = bothChanges
+              .filter((c) => c.quantity > 0)
+              .reduce((ca, cb) => ca + cb.quantity, 0);
+            const removed = bothChanges
+              .filter((c) => c.quantity < 0)
+              .reduce((ca, cb) => ca + Math.abs(cb.quantity), 0);
+            return (
+              <React.Fragment key={ch.id}>
+                <div
+                  className={css.deckChange}
+                  key={ch.id}
+                  onClick={(): void => expand(index)}
+                >
                   <animated.div
-                    style={expandSprings[index]}
-                    className={css.deckChangesExpand}
-                  >
-                    <div className={cardTileCss.cardTileSeparator}>
-                      Mainboard
-                    </div>
-                    {ch.changesMain.map((card) => {
-                      const cardObj = db.card(card.id);
-                      if (cardObj)
-                        return (
-                          <CardTile
-                            indent="a"
-                            key={"main-" + card.id}
-                            card={cardObj}
-                            isHighlighted={false}
-                            isSideboard={false}
-                            showWildcards={false}
-                            quantity={
-                              card.quantity > 0
-                                ? "+" + card.quantity
-                                : card.quantity
-                            }
-                          />
-                        );
-                    })}
-                    <div className={cardTileCss.cardTileSeparator}>
-                      Sideboard
-                    </div>
-                    {ch.changesSide.map((card) => {
-                      const cardObj = db.card(card.id);
-                      if (cardObj)
-                        return (
-                          <CardTile
-                            indent="a"
-                            key={"main-" + card.id}
-                            card={cardObj}
-                            isHighlighted={false}
-                            isSideboard={false}
-                            showWildcards={false}
-                            quantity={
-                              card.quantity > 0
-                                ? "+" + card.quantity
-                                : card.quantity
-                            }
-                          />
-                        );
-                    })}
-                  </animated.div>
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <div className={css.changeWarning}>No changes recorded.</div>
-          )}
-        </div>
-      </div>
-    </>
+                    className={css.expandArrow}
+                    style={arrowSprings[index]}
+                  ></animated.div>
+                  <div style={{ marginRight: "auto" }}>
+                    <relative-time datetime={ch.date}>{ch.date}</relative-time>
+                  </div>
+                  <div className={css.changeAdd} />
+                  {added}
+                  <div className={css.changeRemove} />
+                  {removed}
+                  <div style={{ marginRight: "8px" }} />
+                </div>
+                <animated.div
+                  style={expandSprings[index]}
+                  className={css.deckChangesExpand}
+                >
+                  <div className={cardTileCss.cardTileSeparator}>Mainboard</div>
+                  {ch.changesMain.map((card) => {
+                    const cardObj = db.card(card.id);
+                    if (cardObj)
+                      return (
+                        <CardTile
+                          indent="a"
+                          key={"main-" + card.id}
+                          card={cardObj}
+                          isHighlighted={false}
+                          isSideboard={false}
+                          showWildcards={false}
+                          quantity={
+                            card.quantity > 0
+                              ? "+" + card.quantity
+                              : card.quantity
+                          }
+                        />
+                      );
+                  })}
+                  <div className={cardTileCss.cardTileSeparator}>Sideboard</div>
+                  {ch.changesSide.map((card) => {
+                    const cardObj = db.card(card.id);
+                    if (cardObj)
+                      return (
+                        <CardTile
+                          indent="a"
+                          key={"main-" + card.id}
+                          card={cardObj}
+                          isHighlighted={false}
+                          isSideboard={false}
+                          showWildcards={false}
+                          quantity={
+                            card.quantity > 0
+                              ? "+" + card.quantity
+                              : card.quantity
+                          }
+                        />
+                      );
+                  })}
+                </animated.div>
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <div className={css.changeWarning}>No changes recorded.</div>
+        )}
+      </Section>
+    </div>
   );
 }

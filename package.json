@@ -29,7 +29,7 @@
   "homepage": "https://mtgatool.com/",
   "repository": "https://github.com/Manuel-777/MTG-Arena-Tool",
   "bugs": "https://github.com/Manuel-777/MTG-Arena-Tool/issues",
-  "version": "5.0.5",
+  "version": "5.2.1",
   "scripts": {
     "start:renderer": "webpack --config webpack.dev.renderer.js && npm run run-electron",
     "start:background": "webpack --config webpack.dev.background.js && npm run run-electron",
@@ -40,7 +40,7 @@
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "dist": "npm-run-all build:prod build:final",
-    "build:final": "electron-builder lib --x64",
+    "build:final": "electron-builder --x64",
     "clean": "npm run clean:lib || npm run clean:dist || npm run clean:modules",
     "clean:modules": "rimraf node_modules",
     "clean:lib": "rimraf lib",
@@ -71,8 +71,11 @@
     },
     "mac": {
       "target": "pkg",
-      "icon": "src/assets/icons/icon-512.ico",
-      "artifactName": "${productName}-${version}.${ext}"
+      "icon": "src/assets/icons/icon.icns",
+      "artifactName": "${productName}-${version}.${ext}",
+      "extendInfo": {
+        "LSUIElement": 1
+      }
     },
     "linux": {
       "target": "AppImage",
@@ -87,7 +90,11 @@
     "@reduxjs/toolkit": "^1.3.6",
     "animejs": "^3.2.0",
     "async": "^3.2.0",
+    "bytebuffer": "^5.0.1",
     "date-fns": "^2.13.0",
+    "electron-debug": "^3.0.1",
+    "electron-devtools-installer": "^3.0.0",
+    "electron-log": "^4.2.2",
     "electron-store": "^5.1.1",
     "electron-updater": "^4.3.1",
     "google-protobuf": "^3.12.0-rc.2",
@@ -147,17 +154,15 @@
     "@types/styled-components": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
-    "ByteBuffer": "^0.3.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-styled-components": "^1.10.7",
     "css-loader": "^3.5.3",
     "electron": "^8.2.5",
     "electron-builder": "^22.6.0",
-    "electron-debug": "^3.0.1",
-    "electron-devtools-installer": "^3.0.0",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.2",

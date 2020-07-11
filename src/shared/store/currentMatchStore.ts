@@ -181,9 +181,9 @@ export function setGameInfo(arg: Partial<GameInfo>): void {
   Object.assign(globalStore.currentMatch.gameInfo, arg);
 }
 
-export function setZone(arg: ZoneInfo): void {
-  globalStore.currentMatch.zones[arg.zoneId || 0] = arg;
-}
+//export function setZone(arg: ZoneInfo): void {
+//  globalStore.currentMatch.zones[arg.zoneId || 0] = arg;
+//}
 
 export function setManyZones(arg: ZoneInfo[]): void {
   const newZones = { ...globalStore.currentMatch.zones };
@@ -193,9 +193,9 @@ export function setManyZones(arg: ZoneInfo[]): void {
   Object.assign(globalStore.currentMatch.zones, newZones);
 }
 
-export function setAnnotation(arg: AnnotationInfo): void {
-  globalStore.currentMatch.annotations[arg.id || 0] = arg;
-}
+//export function setAnnotation(arg: AnnotationInfo): void {
+//  globalStore.currentMatch.annotations[arg.id || 0] = arg;
+//}
 
 export function setManyAnnotations(arg: AnnotationInfo[]): void {
   const newAnn = { ...globalStore.currentMatch.annotations };
@@ -223,6 +223,7 @@ export function removeAnnotations(arg: number[]): void {
   Object.assign(globalStore.currentMatch.processedAnnotations, newProcessed);
 }
 
+/*
 export function setGameObject(arg: GameObject): void {
   if (arg.instanceId) {
     globalStore.currentMatch.gameObjects[arg.instanceId] = arg;
@@ -231,6 +232,7 @@ export function setGameObject(arg: GameObject): void {
     }
   }
 }
+*/
 
 export function setManyGameObjects(arg: GameObjectInfo[]): void {
   const newObjs = { ...globalStore.currentMatch.gameObjects } as any;
@@ -257,9 +259,11 @@ export function addCardCast(arg: CardCast): void {
   ];
 }
 
+/*
 export function clearCardsCast(): void {
   globalStore.currentMatch.cardsCast = [];
 }
+*/
 
 export function setCardsBottom(arg: number[]): void {
   globalStore.currentMatch.cardsBottom = arg;

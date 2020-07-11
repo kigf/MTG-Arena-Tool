@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace IndexCssModule {
+declare namespace IndexCssNamespace {
   export interface IIndexCss {
     archiveLabel: string;
     archive_label: string;
@@ -119,13 +119,9 @@ declare namespace IndexCssModule {
     icon_search_new: string;
     icon_search_unowned: string;
     inputContainer: string;
-    inputContainerExplore: string;
     inputLock: string;
-    inputLoginContainer: string;
     input_container: string;
-    input_container_explore: string;
     input_lock: string;
-    input_login_container: string;
     inventoryCard: string;
     inventoryCardAetherized: string;
     inventoryCardImg: string;
@@ -330,8 +326,9 @@ declare namespace IndexCssModule {
     status_locked: string;
     status_red: string;
     status_yellow: string;
-    swapIcon: string;
-    swap_icon: string;
+    top: string;
+    "top-inner": string;
+    topInner: string;
     topStatus: string;
     topStatusPop: string;
     topStatusSpan: string;
@@ -343,79 +340,39 @@ declare namespace IndexCssModule {
     touCheck: string;
     touCheckCont: string;
     touChecks: string;
-    touContA: string;
-    touContB: string;
     touContC: string;
     touContainer: string;
     touCreateBut: string;
     touDesc: string;
-    touFlag: string;
-    touListPlayerName: string;
-    touListPlayerNameTitle: string;
-    touMatchCont: string;
-    touMatchP: string;
-    touMatchScore: string;
     touName: string;
     touOpp: string;
     touOppSub: string;
     touRecord: string;
-    touReload: string;
-    touRoundCont: string;
-    touRoundTitle: string;
-    touScoreWin: string;
     touStandCell: string;
-    touStandLine: string;
-    touStandLineTitle: string;
     touStandName: string;
     touStandSmall: string;
     touState: string;
-    touTab: string;
-    touTabSelected: string;
-    touTabsCont: string;
-    touTop: string;
-    touTopCont: string;
     touTopStatus: string;
     tou_cell: string;
     tou_center: string;
     tou_check: string;
     tou_check_cont: string;
     tou_checks: string;
-    tou_cont_a: string;
-    tou_cont_b: string;
     tou_cont_c: string;
     tou_container: string;
     tou_create_but: string;
     tou_desc: string;
-    tou_flag: string;
-    tou_list_player_name: string;
-    tou_list_player_name_title: string;
-    tou_match_cont: string;
-    tou_match_p: string;
-    tou_match_score: string;
     tou_name: string;
     tou_opp: string;
     tou_opp_sub: string;
     tou_record: string;
-    tou_reload: string;
-    tou_round_cont: string;
-    tou_round_title: string;
-    tou_score_win: string;
     tou_stand_cell: string;
-    tou_stand_line: string;
-    tou_stand_line_title: string;
     tou_stand_name: string;
     tou_stand_small: string;
     tou_state: string;
-    tou_tab: string;
-    tou_tab_selected: string;
-    tou_tabs_cont: string;
-    tou_top: string;
-    tou_top_cont: string;
     tou_top_status: string;
     tourneyPwdContainer: string;
     tourney_pwd_container: string;
-    versionNumber: string;
-    version_number: string;
     visualView: string;
     wcBooster: string;
     wcCommon: string;
@@ -468,9 +425,9 @@ declare namespace IndexCssModule {
   }
 }
 
-declare const IndexCssModule: IndexCssModule.IIndexCss & {
+declare const IndexCssModule: IndexCssNamespace.IIndexCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: IndexCssModule.IIndexCss;
+  locals: IndexCssNamespace.IIndexCss;
 };
 
 export = IndexCssModule;

@@ -1,7 +1,7 @@
 .types_container {
   margin: auto;
   max-width: 630px;
-  margin-top: 32px;
+  margin: 16px auto;
   padding-left: 16px;
   padding-right: 16px;
   width: calc(100% - 32px);

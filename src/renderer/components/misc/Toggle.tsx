@@ -8,10 +8,19 @@ interface SwitchProps {
   callback: (value: boolean) => void;
   disabled?: boolean;
   style?: React.CSSProperties;
+  margin?: boolean;
 }
 
 export default function Switch(props: SwitchProps): JSX.Element {
-  const { disabled, value, callback, style, containerClassName, text } = props;
+  const {
+    disabled,
+    value,
+    callback,
+    style,
+    containerClassName,
+    text,
+    margin,
+  } = props;
   const [currentValue, setCurrentValue] = React.useState(value);
 
   const onChange = React.useCallback(
@@ -28,7 +37,7 @@ export default function Switch(props: SwitchProps): JSX.Element {
   const disabledStyle = disabled
     ? {
         cursor: "default",
-        color: "var(--color-light-50)",
+        color: "var(--color-text-disabled)",
       }
     : {};
 
@@ -37,7 +46,12 @@ export default function Switch(props: SwitchProps): JSX.Element {
   }, [value]);
 
   return (
-    <label style={style} className={containerClassName ?? css.switchContainer}>
+    <label
+      style={style}
+      className={`${containerClassName ?? css.switchContainer} ${
+        margin === true || margin === undefined ? css.switchContainerMargin : ""
+      }`}
+    >
       <div style={disabledStyle} className={css.switchLabel}>
         {text}
       </div>

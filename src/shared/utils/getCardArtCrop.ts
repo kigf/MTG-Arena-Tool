@@ -2,6 +2,7 @@ import { DbCardData } from "../../types/Metadata";
 
 import notFound from "../../assets/images/notfound.png";
 import database from "../database";
+import debugLog from "../debugLog";
 
 export function getCardImage(
   card: DbCardData | number | undefined,
@@ -22,8 +23,8 @@ export function getCardImage(
     return "https://img.scryfall.com/cards" + cardObj?.images[quality];
   } catch (e) {
     // eslint-disable-next-line no-console
-    // console.error(e);
-    console.log("Cant find card image: ", cardObj, typeof cardObj);
+    // debugLog(e, "error");
+    debugLog(`Cant find card image: ${cardObj}, ${typeof cardObj}`, "info");
     return notFound;
   }
 }

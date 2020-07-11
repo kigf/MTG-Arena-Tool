@@ -9,6 +9,7 @@ import { IPC_BACKGROUND, IPC_RENDERER } from "../shared/constants";
 import globals from "./globals";
 
 import { create, all, MathJsStatic } from "mathjs";
+import debugLog from "../shared/debugLog";
 const config = { precision: 2000 };
 const math: MathJsStatic = create(all, config) as MathJsStatic;
 
@@ -17,8 +18,17 @@ export function ipcSend(method: string, arg?: any, to = IPC_RENDERER): void {
   if (method == "ipc_log") {
     //
   }
-  //console.log("IPC SEND", method, arg, to);
+  //debugLog("IPC SEND", method, arg, to);
   ipc.send("ipc_switch", method, IPC_BACKGROUND, arg, to);
+}
+
+export function normalizeISOString(date: number | string | undefined): string {
+  // Send it to the beginning of time if no proper date is found
+  try {
+    return new Date(date ?? 0).toISOString();
+  } catch {
+    return new Date(0).toISOString();
+  }
 }
 
 // These were tested briefly
@@ -65,7 +75,7 @@ export function getDateFormat(dateStr: string): string | undefined {
 // Calling code should notify user or fallback as requested.
 // The original date string should always be kept as backup.
 // Use parseWotcTimeFallback for non-important dates.
-export function parseWotcTime(dateStr: string): Date {
+function parseWotcTime(dateStr: string): Date {
   // This must throw an error if it fails
 
   const dateFormat = getDateFormat(dateStr);
@@ -96,9 +106,9 @@ export function parseWotcTimeFallback(dateStr: string): Date {
     return parseWotcTime(dateStr);
   } catch (e) {
     if (e instanceof DateParseError) {
-      console.error(
-        "DateParseError: using new Date() fallback. Retain original date string.",
-        e
+      debugLog(
+        `DateParseError: using new Date() fallback. Retain original date strin; ${e}`,
+        "error"
       );
       return new Date();
     } else {

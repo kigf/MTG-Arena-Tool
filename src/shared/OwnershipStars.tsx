@@ -41,6 +41,9 @@ export const OwnershipSymbol = (props: {
 };
 
 interface OwnershipStarProps extends OwnershipProps {
+  owned: number;
+  acquired: number;
+  wanted: number;
   copyIndex: number;
   title: string;
 }

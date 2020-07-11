@@ -4,7 +4,7 @@ import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import { TableData } from "../tables/types";
 
-export function getDefaultAggFilters(
+function getDefaultAggFilters(
   showArchived: boolean,
   aggFiltersArg?: AggregatorFilters
 ): AggregatorFilters {

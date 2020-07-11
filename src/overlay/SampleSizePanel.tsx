@@ -4,7 +4,7 @@ import { Chances } from "../types/Chances";
 
 import css from "./index.css";
 
-export interface SampleSizePanelProps {
+interface SampleSizePanelProps {
   cardOdds: Chances;
   cardsLeft: number;
   setOddsCallback: (option: number) => void;

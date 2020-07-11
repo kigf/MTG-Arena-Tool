@@ -1,5 +1,6 @@
 import LogEntry, { ClientSceneChange } from "../../types/logDecoder";
 import startDraft from "../draft/startDraft";
+import debugLog from "../../shared/debugLog";
 
 interface Entry extends LogEntry {
   json: () => ClientSceneChange;
@@ -7,7 +8,7 @@ interface Entry extends LogEntry {
 
 export default function onClientSceneChange(entry: Entry): void {
   const json = entry.json();
-  console.log("ClientSceneChange  ", json);
+  debugLog(`ClientSceneChange ${json}`, "info");
   if (!json) return;
 
   if (json.toSceneName == "Draft" && json.context == "HumanDraft") {

@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace TimelineTabCssModule {
+declare namespace TimelineTabCssNamespace {
   export interface ITimelineTabCss {
     "decklist-colors": string;
     "decklist-name": string;
@@ -30,9 +30,9 @@ declare namespace TimelineTabCssModule {
   }
 }
 
-declare const TimelineTabCssModule: TimelineTabCssModule.ITimelineTabCss & {
+declare const TimelineTabCssModule: TimelineTabCssNamespace.ITimelineTabCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: TimelineTabCssModule.ITimelineTabCss;
+  locals: TimelineTabCssNamespace.ITimelineTabCss;
 };
 
 export = TimelineTabCssModule;

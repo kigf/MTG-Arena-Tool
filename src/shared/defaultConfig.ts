@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { remote } from "electron";
+import path from "path";
+
 import {
   MAIN_HOME,
   DATE_LAST_30,
@@ -16,7 +18,7 @@ import {
 } from "./constants";
 import { SettingsData } from "../types/settings";
 
-export const overlayCfg = {
+const overlayCfg = {
   alpha: 1,
   alpha_back: 0.7,
   bounds: { width: 300, height: 600, x: 0, y: 0 },
@@ -41,6 +43,10 @@ const primaryBounds: Electron.Rectangle = remote
   ? remote.screen.getPrimaryDisplay().bounds
   : { width: 800, height: 600, x: 0, y: 0 };
 
+const defaultThemePath: string = remote
+  ? path.join(remote.app.getPath("userData"), "theme.json")
+  : "";
+
 const defaultConfig = {
   windowBounds: { width: 900, height: 700, x: 0, y: 0 },
   cards: { cards_time: 0, cards_before: {}, cards: {} },
@@ -64,6 +70,7 @@ const defaultConfig = {
     back_shadow: true,
     overlay_back_color: "#000000ff",
     back_url: "",
+    themeUri: defaultThemePath,
     right_panel_width: 300,
     right_panel_width_sub: 300,
     last_date_filter: DATE_LAST_30,
@@ -74,7 +81,8 @@ const defaultConfig = {
     decksTableState: undefined,
     decksTableMode: DECKS_ART_MODE,
     collectionTableState: undefined,
-    collectionTableMode: COLLECTION_CARD_MODE,
+    collectionQuery: "f:standard r>token",
+    collectionMode: COLLECTION_CARD_MODE,
     matchesTableState: undefined,
     matchesTableMode: MATCHES_LIST_MODE,
     skip_firstpass: false,

@@ -1,6 +1,6 @@
 /* eslint-disable */
 // GENERATED FILE; DO NOT EDIT
-declare namespace MainCssModule {
+declare namespace MainCssNamespace {
   export interface IMainCss {
     messageBig: string;
     messageCenter: string;
@@ -11,15 +11,13 @@ declare namespace MainCssModule {
     message_sub_16: string;
     message_unlink: string;
     popup: string;
-    topArtist: string;
-    top_artist: string;
     unlink: string;
   }
 }
 
-declare const MainCssModule: MainCssModule.IMainCss & {
+declare const MainCssModule: MainCssNamespace.IMainCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: MainCssModule.IMainCss;
+  locals: MainCssNamespace.IMainCss;
 };
 
 export = MainCssModule;

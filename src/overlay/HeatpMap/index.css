@@ -16,7 +16,7 @@
   width: 1px;
   margin: auto 2px;
   height: 32px;
-  background-color: var(--color-light-50);
+  background-color: var(--color-line-sep);
 }
 
 .heatBlue {
