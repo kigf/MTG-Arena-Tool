@@ -1,16 +1,24 @@
 
 .list_item_container {
   white-space: nowrap;
+  overflow: hidden;
   cursor: pointer;
   height: 64px;
   display: flex;
+  margin: 8px 0px;
+  border-radius: 4px;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0);
-  -webkit-transition: all .2s ease-in;
+  background-color: var(--color-section);
+  border: 1px solid var(--color-dark);
 }
 
 .list_item_container:hover {
-  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-dark-hover)
+}
+
+.list_item_left_indicator {
+  min-width: 6px;
+  height: 100%;
 }
 
 .list_item_left {
@@ -29,29 +37,43 @@
 }
 
 .list_item_image {
-  min-width: 128px;
-  height: 64px;
-  margin: 0px 16px 0px 0px;
-  background-size: 200px;
+  min-width: 180px;
+  height: 100%;
+  margin: 0px 8px 0px 0px;
+  background-size: 190px;
   background-position-x: center;
   background-position-y: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .list_item_archive {
-  width: 4px;
-  min-width: 4px;
-  margin-left: 8px;
+  display: flex;
+  min-width: 32px;
+  padding: 0 4px;
   overflow: hidden;
-  background: var(--color-r) url(../../../assets/images/hide.png) no-repeat left;
+  fill: "var(--color-icon)";
   -webkit-transition: all .25s cubic-bezier(0.2, 0.5, 0.35, 1);
 }
 
+.list_item_archive:hover {
+  background-color: var(--color-r);
+  fill: "var(--color-section)";
+}
+
 .list_item_unarchive {
-  width: 4px;
-  margin-left: 8px;
+  display: flex;
+  min-width: 32px;
+  padding: 0 4px;
   overflow: hidden;
-  background: var(--color-g) url(../../../assets/images/show.png) no-repeat left;
+  fill: "var(--color-icon)";
   -webkit-transition: all .25s cubic-bezier(0.2, 0.5, 0.35, 1);
+}
+
+.list_item_unarchive:hover {
+  background-color: var(--color-g);
+  fill: "var(--color-section)";
 }
 
 .deck_tags_container {	

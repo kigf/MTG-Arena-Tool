@@ -3,50 +3,42 @@ import { useDispatch } from "react-redux";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";
-import { useSpring, animated } from "react-spring";
 
 import css from "./ListItem.css";
 import indexCss from "../../index.css";
 
+import ArchiveIcon from "../../../assets/images/svg/archive.svg";
+import UnarchiveIcon from "../../../assets/images/svg/unarchive.svg";
+
 interface ListItemProps extends JSX.ElementChildrenAttribute {
   click: VoidFunction;
-  mouseEnter: VoidFunction;
-  mouseLeave: VoidFunction;
 }
 
 export function ListItem(props: PropsWithChildren<ListItemProps>): JSX.Element {
-  const { click, mouseEnter, mouseLeave } = props;
+  const { click } = props;
   return (
-    <div
-      onClick={click}
-      onMouseEnter={mouseEnter}
-      onMouseLeave={mouseLeave}
-      className={css.listItemContainer}
-    >
+    <div onClick={click} className={css.listItemContainer}>
       {props.children}
     </div>
   );
 }
 
 interface HoverTileProps {
-  hover: boolean;
   grpId: number;
 }
 
-export function HoverTile(props: HoverTileProps): JSX.Element {
-  const { hover, grpId } = props;
-
-  const spring = useSpring({
-    opacity: hover ? "1" : "0.66",
-    width: hover ? "195px" : "128px",
-    config: { mass: 1, tension: 235, friction: 25 },
-  });
+export function HoverTile(
+  props: PropsWithChildren<HoverTileProps>
+): JSX.Element {
+  const { grpId } = props;
 
   return (
-    <animated.div
+    <div
       className={css.listItemImage}
-      style={{ ...spring, backgroundImage: `url(${getCardArtCrop(grpId)})` }}
-    />
+      style={{ backgroundImage: `url(${getCardArtCrop(grpId)})` }}
+    >
+      {props.children}
+    </div>
   );
 }
 
@@ -92,21 +84,8 @@ export const FlexBottom = FlexTop;
 
 interface ArchiveButtonProps {
   archiveCallback: (id: string) => void;
-  hover: boolean;
   isArchived: boolean;
   dataId: string;
-}
-
-function archiveButtonStyle(hover: boolean): React.CSSProperties {
-  return hover
-    ? {
-        width: "32px",
-        minWidth: "32px",
-      }
-    : {
-        width: "4px",
-        minWidth: "4px",
-      };
 }
 
 export function ArchiveButton(props: ArchiveButtonProps): JSX.Element {
@@ -125,12 +104,23 @@ export function ArchiveButton(props: ArchiveButtonProps): JSX.Element {
     },
     [archiveCallback, dataId, dispatcher, isArchived]
   );
+
+  const Icon = isArchived ? UnarchiveIcon : ArchiveIcon;
+
   return (
     <div
       onClick={onClick}
       className={isArchived ? css.listItemUnarchive : css.listItemArchive}
       title={isArchived ? "restore" : "archive (will not delete data)"}
-      style={archiveButtonStyle(props.hover)}
-    ></div>
+    >
+      {
+        <Icon
+          style={{
+            margin: "auto",
+            fill: `var(--color-icon)`,
+          }}
+        />
+      }
+    </div>
   );
 }

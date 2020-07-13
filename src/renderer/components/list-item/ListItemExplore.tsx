@@ -45,26 +45,13 @@ interface ListItemExploreProps {
 
 export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
   const { row, openCallback } = props;
-  const [hover, setHover] = React.useState(false);
-
   const onRowClick = (): void => {
     openCallback(row);
   };
 
-  const mouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const mouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
   return (
-    <ListItem
-      click={onRowClick}
-      mouseEnter={mouseEnter}
-      mouseLeave={mouseLeave}
-    >
-      <HoverTile hover={hover} grpId={row.tile || 0} />
+    <ListItem click={onRowClick}>
+      <HoverTile grpId={row.tile || 0} />
       <Column class={css.listItemLeft}>
         <FlexTop>
           <div className={css.listDeckName}>{row.name || ""}</div>

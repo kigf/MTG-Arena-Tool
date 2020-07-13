@@ -42,7 +42,7 @@
 }
 
 .react_table_body_no_adjust {
-  background-color: var(--color-section);
+  /*background-color: var(--color-section);*/
 }
 
 .react_table_body_row {
