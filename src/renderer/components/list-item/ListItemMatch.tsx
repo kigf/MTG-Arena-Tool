@@ -20,6 +20,7 @@ import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 import { ipcSend } from "../../rendererUtil";
 import database from "../../../shared/database";
+import RankSmall from "../misc/RankSmall";
 
 export default function ListItemMatch({
   match,
@@ -116,6 +117,7 @@ export default function ListItemMatch({
             }}
             className={css.copyButton}
           />
+          <RankSmall rank={match.opponent} />
         </FlexTop>
         <FlexBottom style={{ alignItems: "center" }}>
           <div className={css.listMatchTime}>
