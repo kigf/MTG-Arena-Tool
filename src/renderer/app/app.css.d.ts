@@ -5,10 +5,12 @@ declare namespace AppCssNamespace {
     "app-wrapper": string;
     "app-wrapper-back": string;
     "app-wrapper-back-no-frame": string;
+    "app-wrapper-no-frame": string;
     appSettings: string;
     appWrapper: string;
     appWrapperBack: string;
     appWrapperBackNoFrame: string;
+    appWrapperNoFrame: string;
     app_settings: string;
     movingUx: string;
     moving_ux: string;

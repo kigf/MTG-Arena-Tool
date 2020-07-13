@@ -131,10 +131,12 @@ function App(): JSX.Element {
       )}
       <div
         className={
-          loginState == LOGIN_OK
+          process.platform == "linux"
+            ? loginState == LOGIN_OK
+              ? css.appWrapperNoFrame
+              : css.appWrapperBackNoFrame
+            : loginState == LOGIN_OK
             ? css.appWrapper
-            : process.platform == "linux"
-            ? css.appWrapperBackNoFrame
             : css.appWrapperBack
         }
       >
@@ -148,7 +150,13 @@ function App(): JSX.Element {
         <CardHover />
         {loginState == LOGIN_OK ? <TopNav /> : <></>}
         {loading || loginState == LOGIN_WAITING ? (
-          <LoadingBar style={loginState == LOGIN_OK ? { top: "72px" } : {}} />
+          <LoadingBar
+            style={
+              loginState == LOGIN_OK || process.platform == "linux"
+                ? { top: process.platform !== "linux" ? "72px" : "0px" }
+                : {}
+            }
+          />
         ) : (
           <></>
         )}

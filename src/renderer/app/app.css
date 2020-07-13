@@ -4,6 +4,12 @@
   background-color: var(--color-base);
 }
 
+.app-wrapper-no-frame {
+  z-index: auto;
+  height: 100%;
+  background-color: var(--color-base);
+}
+
 .app-wrapper-back, .app-wrapper-back-no-frame {
   flex: 1 1 auto;
   z-index: auto;

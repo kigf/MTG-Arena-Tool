@@ -118,11 +118,13 @@ export default function CollectionTableControls(
         />
         <MediumTextButton onClick={exportRows}>Export</MediumTextButton>
         <MediumTextButton onClick={resetFilters}>Reset</MediumTextButton>
-        <MediumTextButton
-          onClick={(): void => setTogglesVisible(!togglesVisible)}
-        >
-          {togglesVisible ? "Hide" : "Show"} Column Toggles
-        </MediumTextButton>
+        {collectionMode == collectionModes[0] && (
+          <MediumTextButton
+            onClick={(): void => setTogglesVisible(!togglesVisible)}
+          >
+            {togglesVisible ? "Hide" : "Show"} Column Toggles
+          </MediumTextButton>
+        )}
         <MediumTextButton
           onClick={(): void => setAdvancedFiltersOpen(!advancedFiltersOpen)}
         >
@@ -142,10 +144,12 @@ export default function CollectionTableControls(
           <></>
         )}
       </div>
-      <ColumnToggles
-        toggleableColumns={toggleableColumns}
-        togglesVisible={togglesVisible}
-      />
+      {collectionMode == collectionModes[0] && (
+        <ColumnToggles
+          toggleableColumns={toggleableColumns}
+          togglesVisible={togglesVisible}
+        />
+      )}
       <div className={tableCss.react_table_search_cont}>
         <InputContainer title="Search">
           <input
