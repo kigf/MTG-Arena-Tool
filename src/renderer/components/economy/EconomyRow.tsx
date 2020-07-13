@@ -608,14 +608,6 @@ export function ChangeRow(props: ChangeRowProps): JSX.Element {
   const fullContext = change.fullContext;
   const thingsToCheck = getThingsToCheck(fullContext, change);
 
-  const [hover, setHover] = React.useState(false);
-  const onMouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const onMouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
   const flexTopProps = {
     fullContext,
     change,
@@ -632,11 +624,7 @@ export function ChangeRow(props: ChangeRowProps): JSX.Element {
   };
 
   return (
-    <div
-      className={economyId + " " + listCss.list_economy}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <div className={economyId + " " + listCss.list_economy}>
       <div className={indexCss.flex_item + " " + indexCss.flexLeft}>
         <FlexTop {...flexTopProps} />
         <FlexBottom {...flexBottomProps} />
@@ -645,7 +633,6 @@ export function ChangeRow(props: ChangeRowProps): JSX.Element {
       <ArchiveButton
         archiveCallback={toggleArchived}
         dataId={economyId}
-        hover={hover}
         isArchived={change.archived ?? false}
       />
     </div>
