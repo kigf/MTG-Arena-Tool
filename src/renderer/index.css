@@ -927,9 +927,9 @@ a:hover {
 
 .set_logo_med {
     background-repeat: no-repeat;
-    width: 36px;
+    width: 32px;
+    height: 32px;
     margin: 0 4px;
-    min-height: 60%;
     cursor: pointer;
     background-size: contain;
     background-position: center;
