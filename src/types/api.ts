@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unused-modules */
 import { RequestOptions } from "http";
 import { InternalDeck } from "./Deck";
 import { InternalDraftv2 } from "./draft";
@@ -248,9 +249,11 @@ export interface HttpPostMythicRank extends BaseHttpTask {
   };
 }
 
-export interface HttpGetExplore extends BaseHttpTask, ExploreQuery {
+export interface HttpGetExplore extends BaseHttpTask {
   method: "getExplore";
-  collection: string;
+  data: {
+    collection: string;
+  } & ExploreQuery;
   options: RequestOptions & { method: "GET" };
 }
 

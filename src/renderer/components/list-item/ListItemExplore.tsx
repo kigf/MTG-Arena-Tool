@@ -30,7 +30,7 @@ interface ExploreDeck {
   mwrate: number;
   w: number;
   l: number;
-  wildcards: {
+  wildcards?: {
     u?: number;
     r?: number;
     m?: number;
@@ -89,7 +89,11 @@ export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
         style={{ maxWidth: "50%", alignSelf: "flex-end", marginLeft: "auto" }}
         class={css.listItemCenter}
       >
-        <WildcardsCostPreset wildcards={row.wildcards} showComplete={true} />
+        {row.wildcards ? (
+          <WildcardsCostPreset wildcards={row.wildcards} showComplete={true} />
+        ) : (
+          <></>
+        )}
       </Column>
       <Column class={css.listItemRight}>
         <FlexTop innerClass={css.listDeckWinrate}>

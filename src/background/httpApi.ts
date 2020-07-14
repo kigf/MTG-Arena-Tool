@@ -566,9 +566,11 @@ export function httpGetExplore(query: ExploreQuery): void {
     {
       reqId: _id,
       method: "getExplore",
-      method_path: "/explore",
-      ...query,
-      collection: JSON.stringify(playerData.cards.cards),
+      method_path: "/explore/get",
+      data: {
+        ...query,
+        collection: JSON.stringify(playerData.cards.cards),
+      },
       options: {
         method: "GET",
       },
