@@ -88,6 +88,14 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
           IPC_NONE
         );
       }
+      reduxAction(
+        dispatcher,
+        {
+          type: "SET_ROLE",
+          arg: arg.role,
+        },
+        IPC_NONE
+      );
     } else {
       reduxAction(dispatcher, { type: "SET_LOADING", arg: false }, IPC_NONE);
       reduxAction(

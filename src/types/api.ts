@@ -66,7 +66,8 @@ export type HttpMethod =
   | "shareDeck"
   | "getHome"
   | "postMythicRank"
-  | "getExplore";
+  | "getExplore"
+  | "updateExplore";
 
 export interface BaseHttpTask {
   reqId: string;
@@ -257,6 +258,11 @@ export interface HttpGetExplore extends BaseHttpTask {
   options: RequestOptions & { method: "GET" };
 }
 
+export interface HttpUpdateExplore extends BaseHttpTask {
+  method: "updateExplore";
+  options: RequestOptions & { method: "POST" };
+}
+
 export type HttpTask =
   | HttpLogin
   | HttpGetSync
@@ -284,4 +290,5 @@ export type HttpTask =
   | HttpShareDeck
   | HttpGetHome
   | HttpPostMythicRank
-  | HttpGetExplore;
+  | HttpGetExplore
+  | HttpUpdateExplore;

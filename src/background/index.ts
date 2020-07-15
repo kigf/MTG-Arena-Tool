@@ -178,6 +178,11 @@ ipc.on("login", function (_event, arg) {
 });
 
 //
+ipc.on("admin_update_explore", function (_event, arg) {
+  httpApi.httpAdminUpdateExplore(arg);
+});
+
+//
 ipc.on("request_draft_link", function (_event, obj) {
   httpApi.httpDraftShareLink(obj.id, obj.expire, obj.draftData);
 });

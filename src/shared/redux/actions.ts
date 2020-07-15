@@ -72,6 +72,7 @@ export const actions = {
   SET_NO_LOG: RendererSlice.setNoLog,
   SET_OFFLINE: RendererSlice.setOffline,
   SET_PATREON: RendererSlice.setPatreon,
+  SET_ROLE: RendererSlice.setRole,
   SET_POPUP: RendererSlice.setPopup,
   SET_SHARE_DIALOG: RendererSlice.setShareDialog,
   SET_SHARE_DIALOG_OPEN: RendererSlice.setShareDialogOpen,

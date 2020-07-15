@@ -3,6 +3,7 @@ import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
 import {
+  ROLE_ADMIN,
   SETTINGS_BEHAVIOUR,
   SETTINGS_ARENA_DATA,
   SETTINGS_OVERLAY,
@@ -11,6 +12,7 @@ import {
   SETTINGS_PRIVACY,
   SETTINGS_ABOUT,
   SETTINGS_LOGIN,
+  SETTINGS_ADMIN,
   IPC_ALL,
   IPC_RENDERER,
 } from "../../shared/constants";
@@ -24,6 +26,7 @@ import SectionShortcuts from "../components/settings/SectionShortcuts";
 import SectionPrivacy from "../components/settings/SectionPrivacy";
 import SectionAbout from "../components/settings/SectionAbout";
 import SectionLogin from "../components/settings/SectionLogin";
+import SectionAdmin from "../components/settings/SectionAdmin";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 
 import appCss from "../app/app.css";
@@ -60,6 +63,7 @@ function SettingsNav(props: SettingsNavProps): JSX.Element {
  */
 export default function SettingsTab(): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
+  const role = useSelector((state: AppState) => state.renderer.role);
   const currentTab = settings.settings_section;
 
   const setCurrentTab = useCallback((tab: number) => {
@@ -124,6 +128,12 @@ export default function SettingsTab(): JSX.Element {
     component: SectionLogin,
     title: "Login",
   };
+  tabs[SETTINGS_ADMIN] = {
+    ...defaultTab,
+    id: SETTINGS_ADMIN,
+    component: SectionAdmin,
+    title: "Admin",
+  };
 
   const CurrentSettings = tabs[currentTab].component;
   return (
@@ -132,6 +142,11 @@ export default function SettingsTab(): JSX.Element {
         <div
           style={{ marginTop: "16px", marginLeft: "auto", maxWidth: "200px" }}
         >
+          {role & ROLE_ADMIN ? (
+            <SettingsNav {...tabs[SETTINGS_ADMIN]} />
+          ) : (
+            <></>
+          )}
           <SettingsNav {...tabs[SETTINGS_BEHAVIOUR]} />
           <SettingsNav {...tabs[SETTINGS_ARENA_DATA]} />
           <SettingsNav {...tabs[SETTINGS_OVERLAY]} />

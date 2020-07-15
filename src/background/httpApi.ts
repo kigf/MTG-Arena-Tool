@@ -923,3 +923,21 @@ export function httpSyncPush(): void {
     IPC_RENDERER
   );
 }
+
+export function httpAdminUpdateExplore(eventId: string): void {
+  const _id = makeId(6);
+  globals.httpQueue?.unshift(
+    {
+      reqId: _id,
+      method: "updateExplore",
+      method_path: "/explore/update?eventId=" + eventId,
+      options: {
+        method: "POST",
+      },
+    },
+    makeSimpleResponseHandler((parsedResult: any) => {
+      console.log(parsedResult);
+      debugLog(parsedResult, "debug");
+    })
+  );
+}

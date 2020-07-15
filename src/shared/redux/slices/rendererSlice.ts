@@ -27,6 +27,7 @@ export const initialRendererState = {
     patreon: false,
     patreonTier: -1,
   },
+  role: 0,
   syncState: 0,
   syncToPush: {
     courses: [] as string[],
@@ -111,6 +112,12 @@ const rendererSlice = createSlice({
       action: PayloadAction<RendererState["patreon"]>
     ): void => {
       state.patreon = action.payload;
+    },
+    setRole: (
+      state: RendererState,
+      action: PayloadAction<RendererState["role"]>
+    ): void => {
+      state.role = action.payload;
     },
     setPopup: (
       state: RendererState,
@@ -212,6 +219,7 @@ export const {
   setNoLog,
   setOffline,
   setPatreon,
+  setRole,
   setPopup,
   setArchived,
   setShareDialog,
