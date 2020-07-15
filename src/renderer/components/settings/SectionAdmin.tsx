@@ -6,9 +6,17 @@ import ReactSelect from "../../../shared/ReactSelect";
 import css from "./Sections.css";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
+import {
+  ROLE_PATREON,
+  ROLE_ADMIN,
+  ROLE_DEVELOPER,
+} from "../../../shared/constants";
+import Bullet from "../misc/Bullet";
+import Flex from "../misc/Flex";
 
-export default function SectionAbout(): JSX.Element {
+export default function SectionAdmin(): JSX.Element {
   const _settings = useSelector((state: AppState) => state.settings);
+  const role = useSelector((state: AppState) => state.renderer.role);
   const activeEvents = useSelector(
     (state: AppState) => state.explore.activeEvents
   );
@@ -21,6 +29,20 @@ export default function SectionAbout(): JSX.Element {
 
   return (
     <>
+      <div style={{ marginLeft: "4px", lineHeight: "32px" }}>
+        <Flex>
+          <Bullet checked={role & ROLE_PATREON ? true : false} />
+          Patreon
+        </Flex>
+        <Flex>
+          <Bullet checked={role & ROLE_DEVELOPER ? true : false} />
+          Developer
+        </Flex>
+        <Flex>
+          <Bullet checked={role & ROLE_ADMIN ? true : false} />
+          Admin
+        </Flex>
+      </div>
       <div className={css.centered_setting_container}>
         <label>Force update explore</label>
         <ReactSelect

@@ -70,6 +70,7 @@ const exploreSlice = createSlice({
     },
     setActiveEvents: (state: Explore, action: PayloadAction<string>): void => {
       state.activeEvents.push(...action.payload);
+      state.activeEvents = [...new Set(state.activeEvents)];
     },
   },
 });
