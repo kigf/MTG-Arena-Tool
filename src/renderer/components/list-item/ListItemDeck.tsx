@@ -58,14 +58,6 @@ export function ListItemDeck({
     openDeckCallback(deck);
   };
 
-  const [hover, setHover] = React.useState(false);
-  const mouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const mouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
   if (deck.name?.indexOf("?=?Loc/Decks/Precon/") != -1) {
     deck.name = deck.name?.replace("?=?Loc/Decks/Precon/", "");
   }
@@ -110,12 +102,8 @@ export function ListItemDeck({
   };
 
   return (
-    <ListItem
-      click={onRowClick}
-      mouseEnter={mouseEnter}
-      mouseLeave={mouseLeave}
-    >
-      <HoverTile hover={hover} grpId={deck.deckTileId || 0} />
+    <ListItem click={onRowClick}>
+      <HoverTile grpId={deck.deckTileId || 0} />
       <Column class={css.listItemLeft}>
         <FlexTop innerClass={css.listDeckName}>{deck.name || ""}</FlexTop>
         <FlexBottom>
@@ -178,7 +166,6 @@ export function ListItemDeck({
         <ArchiveButton
           archiveCallback={archiveCallback}
           dataId={deck.id || ""}
-          hover={hover}
           isArchived={deck.archived || false}
         />
       )}

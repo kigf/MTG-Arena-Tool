@@ -24,6 +24,7 @@ declare namespace ListItemCssNamespace {
     listItemContainer: string;
     listItemImage: string;
     listItemLeft: string;
+    listItemLeftIndicator: string;
     listItemRight: string;
     listItemUnarchive: string;
     listMatchResult: string;
@@ -49,6 +50,7 @@ declare namespace ListItemCssNamespace {
     list_item_container: string;
     list_item_image: string;
     list_item_left: string;
+    list_item_left_indicator: string;
     list_item_right: string;
     list_item_unarchive: string;
     list_match_result: string;

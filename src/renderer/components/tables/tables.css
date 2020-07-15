@@ -42,7 +42,11 @@
 }
 
 .react_table_body_no_adjust {
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-section);
+  border-radius: 4px;
+  padding: 16px;
 }
 
 .react_table_body_row {

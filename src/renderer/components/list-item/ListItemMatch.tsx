@@ -5,7 +5,7 @@ import { DEFAULT_TILE } from "../../../shared/constants";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import { ListItemMatchProps } from "../matches/types";
 import ManaCost from "../misc/ManaCost";
-import RankSmall from "../misc/RankSmall";
+import RankIcon from "../misc/RankIcon";
 import ResultDetails from "../misc/ResultDetails";
 import { NewTag, TagBubble } from "../misc/TagBubble";
 import {
@@ -19,6 +19,8 @@ import {
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 import { ipcSend } from "../../rendererUtil";
+import database from "../../../shared/database";
+import RankSmall from "../misc/RankSmall";
 
 export default function ListItemMatch({
   match,
@@ -56,30 +58,34 @@ export default function ListItemMatch({
     ipcSend("set_clipboard", string);
   }, []);
 
-  const [hover, setHover] = React.useState(false);
-  const mouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const mouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
   let dateTime = new Date(match.date);
   // Quick hack to check if NaN
   if (dateTime.getTime() !== dateTime.getTime()) {
     dateTime = new Date();
   }
 
+  const isLimited = database.limited_ranked_events.includes(match.eventId);
+
   return (
-    <ListItem
-      click={onRowClick}
-      mouseEnter={mouseEnter}
-      mouseLeave={mouseLeave}
-    >
-      <HoverTile
-        hover={hover}
-        grpId={match.playerDeck.deckTileId || DEFAULT_TILE}
+    <ListItem click={onRowClick}>
+      <div
+        className={css.listItemLeftIndicator}
+        style={{
+          backgroundColor:
+            match.player.win > match.opponent.win
+              ? `var(--color-g)`
+              : `var(--color-r)`,
+        }}
       />
+      <HoverTile grpId={match.playerDeck.deckTileId || DEFAULT_TILE}>
+        <RankIcon
+          rank={match.player.rank}
+          tier={match.player.tier}
+          percentile={match.player.percentile || 0}
+          leaderboardPlace={match.player.leaderboardPlace || 0}
+          format={isLimited ? "limited" : "constructed"}
+        />
+      </HoverTile>
 
       <Column class={css.listItemLeft}>
         <FlexTop>
@@ -111,7 +117,7 @@ export default function ListItemMatch({
             }}
             className={css.copyButton}
           />
-          <RankSmall rank={match.opponent}></RankSmall>
+          <RankSmall rank={match.opponent} />
         </FlexTop>
         <FlexBottom style={{ alignItems: "center" }}>
           <div className={css.listMatchTime}>
@@ -172,7 +178,6 @@ export default function ListItemMatch({
         <ArchiveButton
           archiveCallback={archiveCallback}
           dataId={match.id ?? ""}
-          hover={hover}
           isArchived={match.archived ?? false}
         />
       )}

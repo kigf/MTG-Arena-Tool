@@ -6,12 +6,7 @@ import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
 import collectionSortRarity from "../../../shared/utils/collectionSortRarity";
 import { DbCardData } from "../../../types/Metadata";
 import useHoverCard from "../../hooks/useHoverCard";
-import {
-  formatNumber,
-  formatPercent,
-  toggleArchived,
-} from "../../rendererUtil";
-import { ArchiveButton } from "../list-item/ListItem";
+import { formatNumber, formatPercent } from "../../rendererUtil";
 import {
   getCollationSet,
   getReadableCode,
@@ -75,7 +70,7 @@ interface PossibleModifiedEconomyStats {
   checkSkinsAdded?: boolean;
 }
 
-function getThingsToCheck(
+export function getThingsToCheck(
   fullContext: string,
   change: any
 ): PossibleModifiedEconomyStats {
@@ -217,7 +212,7 @@ interface FlexBottomProps {
   thingsToCheck: PossibleModifiedEconomyStats;
 }
 
-function FlexBottom(props: FlexBottomProps): JSX.Element {
+export function FlexBottom(props: FlexBottomProps): JSX.Element {
   const { fullContext, change, thingsToCheck } = props;
   const { checkGemsPaid, checkGoldPaid } = thingsToCheck;
   return (
@@ -316,7 +311,7 @@ interface FlexRightProps {
   economyId: string;
 }
 
-function FlexRight(props: FlexRightProps): JSX.Element {
+export function FlexRight(props: FlexRightProps): JSX.Element {
   const { trackName } = useSelector(
     (state: AppState) => state.playerdata.economy
   );
@@ -535,6 +530,7 @@ function InventoryCard(props: InventoryCardProps): JSX.Element {
       onMouseLeave={hoverOut}
       className={`${indexCss.inventory_card} ${indexCss.small}`}
       onClick={onCardClick}
+      style={{ margin: "auto 6px", boxShadow: "none" }}
     >
       <img
         className={`${indexCss.inventoryCardImg} ${
@@ -585,7 +581,7 @@ interface FlexTopProps {
   change: any;
 }
 
-function FlexTop(props: FlexTopProps): JSX.Element {
+export function FlexTop(props: FlexTopProps): JSX.Element {
   const { change, fullContext } = props;
   // flexTop.style.lineHeight = "32px";
   return (
@@ -594,60 +590,6 @@ function FlexTop(props: FlexTopProps): JSX.Element {
       <div className={"list_economy_time"}>
         {EconomyRowDate(new Date(change.date))}
       </div>
-    </div>
-  );
-}
-
-interface ChangeRowProps {
-  economyId: string;
-  change: any;
-}
-
-export function ChangeRow(props: ChangeRowProps): JSX.Element {
-  const { economyId, change } = props;
-  const fullContext = change.fullContext;
-  const thingsToCheck = getThingsToCheck(fullContext, change);
-
-  const [hover, setHover] = React.useState(false);
-  const onMouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const onMouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
-  const flexTopProps = {
-    fullContext,
-    change,
-  };
-
-  const flexBottomProps = {
-    ...flexTopProps,
-    thingsToCheck,
-  };
-
-  const flexRightProps = {
-    ...flexBottomProps,
-    economyId,
-  };
-
-  return (
-    <div
-      className={economyId + " " + listCss.list_economy}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <div className={indexCss.flex_item + " " + indexCss.flexLeft}>
-        <FlexTop {...flexTopProps} />
-        <FlexBottom {...flexBottomProps} />
-      </div>
-      <FlexRight {...flexRightProps} />
-      <ArchiveButton
-        archiveCallback={toggleArchived}
-        dataId={economyId}
-        hover={hover}
-        isArchived={change.archived ?? false}
-      />
     </div>
   );
 }
