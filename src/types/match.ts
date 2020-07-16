@@ -114,6 +114,6 @@ export interface InternalMatch {
   opponent: InternalPlayer;
   archived?: boolean;
   playerDeckHash?: string;
-  jumpstartThemes?: JumpstartThemes[];
+  jumpstartTheme?: string;
   type: "match";
 }

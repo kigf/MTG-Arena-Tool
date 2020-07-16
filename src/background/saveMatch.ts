@@ -3,14 +3,18 @@ import globals from "./globals";
 import { playerDb } from "../shared/db/LocalDatabase";
 import { ipcSend, normalizeISOString } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { IPC_RENDERER, IPC_OVERLAY } from "../shared/constants";
+import { IPC_RENDERER, IPC_OVERLAY, DEFAULT_TILE } from "../shared/constants";
 import globalStore, { getMatch } from "../shared/store";
 import { InternalMatch } from "../types/match";
 import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
 import debugLog from "../shared/debugLog";
-import getJumpstartThemes from "../shared/utils/getJumpstartThemes";
+import getJumpstartThemes, {
+  themeCards,
+} from "../shared/utils/getJumpstartThemes";
+import database from "../shared/database";
+import { JumpstartThemes } from "../types/jumpstart";
 
 function matchResults(results: ResultSpec[]): number[] {
   let playerWins = 0;
@@ -92,9 +96,20 @@ function generateInternalMatch(
   };
 
   if (currentMatch.eventId.indexOf("Jumpstart") !== -1) {
-    newMatch.jumpstartThemes = getJumpstartThemes(
-      globalStore.currentMatch.originalDeck
-    );
+    const themes = getJumpstartThemes(globalStore.currentMatch.originalDeck);
+    newMatch.jumpstartTheme = themes.join(" ");
+    newMatch.playerDeck.name = newMatch.jumpstartTheme;
+
+    const themeTile = Object.keys(database.cards).filter((id) => {
+      return (
+        database.card(id)?.name ==
+        themeCards[(themes[0] as JumpstartThemes) || ""][0]
+      );
+    })[0];
+
+    newMatch.playerDeck.deckTileId = themeTile
+      ? parseInt(themeTile)
+      : DEFAULT_TILE;
   }
 
   newMatch.oppDeck.commandZoneGRPIds = currentMatch.opponent.commanderGrpIds;

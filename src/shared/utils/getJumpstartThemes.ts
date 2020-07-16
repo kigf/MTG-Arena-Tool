@@ -9,7 +9,7 @@ function isDeckOf(deckString: string, cards: string[]): boolean {
   return ret;
 }
 
-const themeCards: Record<JumpstartThemes, string[]> = {
+export const themeCards: Record<JumpstartThemes, string[]> = {
   Basri: ["Basri Ket", "Basri's Lieutenant"],
   Unicorns: ["Blessed Sanctuary", "Emiel the Blessed"],
   Teferi: ["Teferi, Master of Time", "Teferi's Ageless Insight"],
@@ -169,7 +169,7 @@ export default function getJumpstartThemes(deck: Deck): JumpstartThemes[] {
   deck.getSideboard().removeDuplicates(true);
   deck.getMainboard().removeZeros(true);
   deck.getSideboard().removeZeros(true);
-  const deckString = deck.getUniqueString(true);
+  const deckString = deck.getExportArena();
 
   const themes: JumpstartThemes[] = [];
 
