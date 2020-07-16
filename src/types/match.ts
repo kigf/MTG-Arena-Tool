@@ -1,7 +1,6 @@
 import { InternalDeck } from "./Deck";
 import { Result } from "./greInterpreter";
 import { MatchGameStats } from "./currentMatch";
-import { JumpstartThemes } from "./jumpstart";
 import { matchStateObject } from "../shared/store/currentMatchStore";
 
 interface ReservedPlayer {
