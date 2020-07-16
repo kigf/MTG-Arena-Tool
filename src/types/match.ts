@@ -1,6 +1,8 @@
 import { InternalDeck } from "./Deck";
 import { Result } from "./greInterpreter";
 import { MatchGameStats } from "./currentMatch";
+import { JumpstartThemes } from "./jumpstart";
+import { matchStateObject } from "../shared/store/currentMatchStore";
 
 interface ReservedPlayer {
   userId: string;
@@ -84,6 +86,8 @@ export interface InternalPlayer {
   cardsUsed: number[];
 }
 
+type MatchState = typeof matchStateObject;
+
 export interface InternalMatch {
   draws: number;
   arenaId: string;
@@ -95,6 +99,12 @@ export interface InternalMatch {
   onThePlay: number;
   eventId: string;
   bestOf: number;
+  postStats: {
+    statsHeatMap: MatchState["statsHeatMap"];
+    totalTurns: MatchState["totalTurns"];
+    playerStats: MatchState["playerStats"];
+    oppStats: MatchState["oppStats"];
+  };
   gameStats: MatchGameStats[];
   toolVersion: number;
   toolRunFromSource: boolean;
@@ -104,6 +114,6 @@ export interface InternalMatch {
   opponent: InternalPlayer;
   archived?: boolean;
   playerDeckHash?: string;
-  set: string;
+  jumpstartThemes?: JumpstartThemes[];
   type: "match";
 }

@@ -4,3 +4,4 @@ database.json
 dist
 lib
 src/assets/.DS_Store
+src/assets/resources/logs/main.log

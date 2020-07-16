@@ -10,6 +10,7 @@ import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
 import debugLog from "../shared/debugLog";
+import getJumpstartThemes from "../shared/utils/getJumpstartThemes";
 
 function matchResults(results: ResultSpec[]): number[] {
   let playerWins = 0;
@@ -32,61 +33,74 @@ function matchResults(results: ResultSpec[]): number[] {
   return [playerWins, opponentWins, draws];
 }
 
-// Given match data calculates derived data for storage.
-// This is called when a match is complete.
-function completeMatch(
-  match: any,
+// Calculates derived data for storage.
+// This is called when a match is complete, before saving.
+function generateInternalMatch(
   matchEndTime: number
 ): InternalMatch | undefined {
   const currentMatch = globalStore.currentMatch;
   if (currentMatch.eventId === "AIBotMatch") return;
 
+  let bestOf = 1;
+  if (currentMatch.gameInfo.matchWinCondition == "MatchWinCondition_Best2of3")
+    bestOf = 3;
+  if (currentMatch.gameInfo.matchWinCondition == "MatchWinCondition_Best3of5")
+    bestOf = 5;
+  const duration = currentMatch.matchGameStats.reduce(
+    (acc, cur) => acc + cur.time,
+    0
+  );
+
+  const playerDeck = globalStore.currentMatch.originalDeck.getSave(true);
+  const oppDeck = getOpponentDeck();
+
+  const matchTags = [];
+  if (oppDeck.archetype && oppDeck.archetype !== "Unknown") {
+    matchTags.push(oppDeck.archetype);
+  }
+
   const [playerWins, opponentWins, draws] = matchResults(
     currentMatch.gameInfo.results
   );
 
-  match.onThePlay = currentMatch.onThePlay;
-  match.id = currentMatch.matchId;
+  const newMatch: InternalMatch = {
+    onThePlay: currentMatch.onThePlay,
+    id: currentMatch.matchId,
+    date: normalizeISOString(matchEndTime),
+    eventId: currentMatch.eventId,
+    player: { ...currentMatch.player, win: playerWins },
+    opponent: { ...currentMatch.opponent, win: opponentWins },
+    oppDeck,
+    playerDeck,
+    tags: matchTags,
+    draws,
+    bestOf,
+    duration,
+    postStats: {
+      statsHeatMap: currentMatch.statsHeatMap,
+      totalTurns: currentMatch.totalTurns,
+      playerStats: currentMatch.playerStats,
+      oppStats: currentMatch.oppStats,
+    },
+    gameStats: currentMatch.matchGameStats,
+    toolVersion: globals.toolVersion,
+    toolRunFromSource: !electron.remote.app.isPackaged,
+    arenaId: globals.store.getState().playerdata.playerName,
+    // TS complains about undef but lastPushedDate should not be declared here
+    lastPushedDate: new Date().toISOString(),
+    type: "match",
+  };
 
-  match.opponent = { ...currentMatch.opponent, win: opponentWins };
-  match.player = { ...currentMatch.player, win: playerWins };
-  match.draws = draws;
-
-  match.eventId = currentMatch.eventId;
-  if (globalStore.currentMatch.originalDeck) {
-    match.playerDeck = globalStore.currentMatch.originalDeck.getSave(true);
+  if (currentMatch.eventId.indexOf("Jumpstart") !== -1) {
+    newMatch.jumpstartThemes = getJumpstartThemes(
+      globalStore.currentMatch.originalDeck
+    );
   }
-  match.oppDeck = getOpponentDeck();
-  match.oppDeck.commandZoneGRPIds = currentMatch.opponent.commanderGrpIds;
-  match.oppDeck.companionGRPId = currentMatch.opponent.companionGRPId;
 
-  if (
-    (!match.tags || !match.tags.length) &&
-    match.oppDeck.archetype &&
-    match.oppDeck.archetype !== "-"
-  ) {
-    match.tags = [match.oppDeck.archetype];
-  }
-  if (matchEndTime) {
-    match.date = normalizeISOString(matchEndTime);
-  }
-  match.bestOf = 1;
-  if (currentMatch.gameInfo.matchWinCondition == "MatchWinCondition_Best2of3")
-    match.bestOf = 3;
-  if (currentMatch.gameInfo.matchWinCondition == "MatchWinCondition_Best3of5")
-    match.bestOf = 5;
+  newMatch.oppDeck.commandZoneGRPIds = currentMatch.opponent.commanderGrpIds;
+  newMatch.oppDeck.companionGRPId = currentMatch.opponent.companionGRPId;
 
-  match.duration = currentMatch.matchGameStats.reduce(
-    (acc, cur) => acc + cur.time,
-    0
-  );
-  match.gameStats = currentMatch.matchGameStats;
-
-  // Convert string "2.2.19" into number for easy comparison, 1 byte per part, allowing for versions up to 255.255.255
-  match.toolVersion = globals.toolVersion;
-  match.toolRunFromSource = !electron.remote.app.isPackaged;
-  match.arenaId = globals.store.getState().playerdata.playerName;
-  return match;
+  return newMatch;
 }
 
 export default function saveMatch(id: string, matchEndTime: number): void {
@@ -96,9 +110,11 @@ export default function saveMatch(id: string, matchEndTime: number): void {
     return;
   }
 
-  const existingMatch = getMatch(id) || { archived: false };
-  const match = completeMatch(existingMatch, matchEndTime);
+  const existingMatch = getMatch(id) || undefined;
+  const match = existingMatch || generateInternalMatch(matchEndTime);
   if (!match) {
+    debugLog(`COULD NOT GENERATE MATCH DATA!, id: ${id}`, "error");
+    debugLog(`${currentMatch}`, "debug");
     return;
   }
 
