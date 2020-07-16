@@ -361,7 +361,6 @@ function handleAuthResponse(
         type: "SET_APP_SETTINGS",
         arg: {
           token: "",
-          email: "",
         },
       },
       IPC_ALL
@@ -369,7 +368,6 @@ function handleAuthResponse(
     ipcSend("auth", {});
     ipcSend("toggle_login", true);
     ipcSend("login_failed", true);
-    //ipcSend("clear_pwd", 1);
     debugLog(error?.message, "error");
     ipcPop({
       text: error?.message,
@@ -379,7 +377,10 @@ function handleAuthResponse(
     return;
   }
 
-  syncSettings({ token: parsedResult.token }, false);
+  syncSettings(
+    { token: Buffer.from(parsedResult.token).toString("base64") },
+    false
+  );
   ipcSend("auth", parsedResult);
   //ipcSend("auth", parsedResult.arenaids);
 

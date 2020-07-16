@@ -61,6 +61,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   const minimize = (
     <div
       onClick={clickMinimize}
+      key="top-minimize"
       className={`${css.minimize} ${topButtonClass}`}
     >
       <MinimizeSVG style={iconStyle} />
@@ -70,6 +71,7 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   const maximize = (
     <div
       onClick={clickMaximize}
+      key="top-maximize"
       className={`${css.maximize} ${topButtonClass}`}
     >
       <MaximizeSVG style={iconStyle} />
@@ -77,7 +79,11 @@ export default function TopBar(props: TopBarProps): JSX.Element {
   );
 
   const close = (
-    <div onClick={clickClose} className={`${css.close} ${topButtonClass}`}>
+    <div
+      onClick={clickClose}
+      key="top-close"
+      className={`${css.close} ${topButtonClass}`}
+    >
       <CloseSVG style={iconStyle} />
     </div>
   );

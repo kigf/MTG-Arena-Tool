@@ -169,10 +169,8 @@ function offlineLogin(): void {
 //
 ipc.on("login", function (_event, arg) {
   ipcSend("begin_login", {});
-  debugLog("ipc login", "debug");
-  if (arg.password == HIDDEN_PW) {
-    httpApi.httpAuth(arg.username, arg.password);
-  } else if (arg.username === "" && arg.password === "") {
+  debugLog(`IPC login: ${JSON.stringify(arg)}`, "debug");
+  if (arg.username === "" && arg.password === "") {
     offlineLogin();
   } else {
     httpApi.httpAuth(arg.username, arg.password);
