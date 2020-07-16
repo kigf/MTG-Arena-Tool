@@ -152,11 +152,13 @@ function offlineLogin(): void {
   ipcSend("auth", { ok: true, user: -1 });
   loadPlayerConfig();
   debugLog("offlineLogin", "debug");
+  /*
   reduxAction(
     globals.store.dispatch,
     { type: "SET_APP_SETTINGS", arg: { email: "" } },
     IPC_ALL ^ IPC_BACKGROUND
   );
+  */
   reduxAction(
     globals.store.dispatch,
     { type: "SET_OFFLINE", arg: true },

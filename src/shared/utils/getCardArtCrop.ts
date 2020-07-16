@@ -1,6 +1,6 @@
 import { DbCardData } from "../../types/Metadata";
 
-import notFound from "../../assets/images/notfound.png";
+import notFound from "../../assets/images/notFoundArt.png";
 import database from "../database";
 import debugLog from "../debugLog";
 

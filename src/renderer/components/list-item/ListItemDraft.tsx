@@ -33,14 +33,6 @@ export default function ListItemDraft({
     openDraftCallback(parentId);
   };
 
-  const [hover, setHover] = React.useState(false);
-  const mouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const mouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
   const draftSetName =
     Object.keys(db.sets).filter(
       (name) => db.sets[name].arenacode == draft.draftSet
@@ -48,12 +40,8 @@ export default function ListItemDraft({
   const draftSet = db.sets[draftSetName];
 
   return (
-    <ListItem
-      click={onRowClick}
-      mouseEnter={mouseEnter}
-      mouseLeave={mouseLeave}
-    >
-      <HoverTile hover={hover} grpId={draftSet?.tile || DEFAULT_TILE} />
+    <ListItem click={onRowClick}>
+      <HoverTile grpId={draftSet?.tile || DEFAULT_TILE} />
 
       <Column class={css.listItemLeft}>
         <FlexTop>
@@ -95,13 +83,12 @@ export default function ListItemDraft({
       </Column>
 
       <Column style={{ display: "flex" }}>
-        <ShareButton type="draft" data={draft} />
+        <ShareButton type="draft" style={{ margin: "auto 0" }} data={draft} />
       </Column>
 
       <ArchiveButton
         archiveCallback={toggleArchived}
         dataId={draft.id || ""}
-        hover={hover}
         isArchived={draft.archived || false}
       />
     </ListItem>

@@ -27,6 +27,7 @@ import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import appCss from "../app/app.css";
 import css from "./ExploreTab.css";
+import Flex from "../components/misc/Flex";
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;
@@ -125,46 +126,52 @@ export default function ExploreTab(): JSX.Element {
 
   return (
     <div ref={containerRef} onScroll={onScroll} className={appCss.uxItem}>
-      <div
-        style={{ width: "100%", flexDirection: "column" }}
-        className={indexCss.flexItem}
-      >
-        <ExploreFilters doSearch={newQuery} />
-        <div className="explore_list">
-          {exploreData?.result?.length > 0 ? (
-            exploreData.result.map((row: any) => {
-              return (
-                <ListItemExplore
-                  key={row._id}
-                  row={row}
-                  openCallback={openRow}
-                />
-              );
-            })
-          ) : !loading ? (
-            <div
-              style={{ marginTop: "32px" }}
-              className={`${indexCss.messageSub} ${sharedCss.red}`}
-            >
-              {queries == 0
-                ? "Click Search to begin."
-                : "Query returned no data."}
-            </div>
-          ) : (
-            <></>
-          )}
-          {loading ? (
-            <div
-              style={{ margin: "16px" }}
-              className={`${indexCss.messageSub} ${sharedCss.white}`}
-            >
-              Loading...
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
+      <Flex style={{ width: "100%", padding: "16px" }}>
+        <Flex
+          style={{
+            width: "100%",
+            flexDirection: "column",
+            maxWidth: "1200px",
+            margin: "0px auto",
+          }}
+        >
+          <ExploreFilters doSearch={newQuery} />
+          <div className="explore_list">
+            {exploreData?.result?.length > 0 ? (
+              exploreData.result.map((row: any) => {
+                return (
+                  <ListItemExplore
+                    key={row._id}
+                    row={row}
+                    openCallback={openRow}
+                  />
+                );
+              })
+            ) : !loading ? (
+              <div
+                style={{ marginTop: "32px" }}
+                className={`${indexCss.messageSub} ${sharedCss.red}`}
+              >
+                {queries == 0
+                  ? "Click Search to begin."
+                  : "Query returned no data."}
+              </div>
+            ) : (
+              <></>
+            )}
+            {loading ? (
+              <div
+                style={{ margin: "16px" }}
+                className={`${indexCss.messageSub} ${sharedCss.white}`}
+              >
+                Loading...
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </Flex>
+      </Flex>
     </div>
   );
 }
@@ -183,7 +190,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
   const activeEvents = useSelector(
     (state: AppState) => state.explore.activeEvents
   );
-  const [eventFilters, setEventFilters] = useState(["Ladder"]);
+  //const [eventFilters, setEventFilters] = useState(["Ladder"]);
   const dispatcher = useDispatch();
 
   const typeFilter = ["Events", "Ranked Constructed", "Ranked Draft"];
@@ -221,60 +228,37 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
     [filters, updateFilters]
   );
 
-  const getFilterEvents = useCallback(
-    (prevFilters: ExploreQuery = filters): string[] => {
-      let newFilters: string[] = [];
-      let sep = true;
-      if (prevFilters.filterType === "Events") {
-        sep = false;
-        newFilters = db.eventIds
-          .concat(activeEvents)
-          .filter((item) => item && !db.single_match_events.includes(item));
+  let eventFilters: string[] = [];
+  let sep = true;
+  if (filters.filterType === "Events") {
+    sep = false;
+    eventFilters = db.eventIds
+      .concat(activeEvents)
+      .filter((item) => item && !db.single_match_events.includes(item));
 
-        newFilters = [...new Set(newFilters)];
-      } else if (prevFilters.filterType === "Ranked Draft") {
-        newFilters = [...db.limited_ranked_events];
-      } else if (prevFilters.filterType === "Ranked Constructed") {
-        newFilters = [...db.standard_ranked_events];
-      }
-      newFilters.sort(function (a, b) {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
-      });
-      newFilters.forEach((item, index: number) => {
-        if (activeEvents.includes(item)) {
-          newFilters.splice(newFilters.indexOf(item), 1);
-          newFilters.unshift(item);
-        } else if (!sep) {
-          sep = true;
-          newFilters.splice(index, 0, "%%Archived");
-        }
-      });
-      if (prevFilters.filterType === "Events") {
-        newFilters.splice(0, 0, "%%Active");
-      }
-      setEventFilters(newFilters);
-      return newFilters;
-    },
-    [filters, activeEvents]
-  );
-
-  const getFirstEvent = useCallback(
-    (filter: string): string => {
-      let ret = "%%";
-      let i = 0;
-      while (ret.startsWith("%%")) {
-        ret = getFilterEvents({
-          ...filters,
-          filterType: filter,
-        })[i];
-        i++;
-      }
-      return ret;
-    },
-    [filters, getFilterEvents]
-  );
+    eventFilters = [...new Set(eventFilters)];
+  } else if (filters.filterType === "Ranked Draft") {
+    eventFilters = [...db.limited_ranked_events];
+  } else if (filters.filterType === "Ranked Constructed") {
+    eventFilters = [...db.standard_ranked_events];
+  }
+  eventFilters.sort(function (a, b) {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  });
+  eventFilters.forEach((item, index: number) => {
+    if (activeEvents.includes(item)) {
+      eventFilters.splice(eventFilters.indexOf(item), 1);
+      eventFilters.unshift(item);
+    } else if (!sep) {
+      sep = true;
+      eventFilters.splice(index, 0, "%%Archived");
+    }
+  });
+  if (filters.filterType === "Events") {
+    eventFilters.splice(0, 0, "%%Active");
+  }
 
   function validateWildcardValues(
     e: React.ChangeEvent<HTMLInputElement>
@@ -284,9 +268,24 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
     }
   }
 
+  useEffect(() => {
+    if (filters.filterEvent == "") {
+      let ret = "%%";
+      let i = 0;
+      while (ret.startsWith("%%")) {
+        ret = eventFilters[i];
+        i++;
+      }
+      updateFilters({
+        ...filters,
+        filterEvent: ret,
+      });
+    }
+  }, [filters, eventFilters, updateFilters]);
+
   return (
     <div className={css.exploreButtonsContainer}>
-      <div className={`${css.exploreButtonsRow} ${css.exploreButtonsTop}`}>
+      <div className={`${css.exploreButtonsRow}`}>
         <ReactSelect
           options={typeFilter}
           current={filters.filterType}
@@ -294,7 +293,7 @@ function ExploreFilters(props: ExploreFiltersProps): JSX.Element {
             updateFilters({
               ...filters,
               filterType: filter,
-              filterEvent: getFirstEvent(filter),
+              filterEvent: "",
             })
           }
         />

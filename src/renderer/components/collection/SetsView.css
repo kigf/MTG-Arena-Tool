@@ -1,6 +1,6 @@
 .sets-view-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto minmax(300px, 480px);
   gap: 16px;
   grid-template-rows: auto auto auto;
   grid-template-areas:

@@ -18,6 +18,7 @@ declare namespace EconomyCssNamespace {
     economySub: string;
     economyTicket: string;
     economyTicketMed: string;
+    economyTime: string;
     economyTitle: string;
     economyUp: string;
     economyVanity: string;
@@ -39,6 +40,7 @@ declare namespace EconomyCssNamespace {
     economy_sub: string;
     economy_ticket: string;
     economy_ticket_med: string;
+    economy_time: string;
     economy_title: string;
     economy_up: string;
     economy_vanity: string;

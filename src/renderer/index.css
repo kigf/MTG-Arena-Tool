@@ -548,7 +548,7 @@ a:hover {
     font-family:  var(--sub-font-name);
     color: var(--color-light);
     width: 40px;
-    line-height: 80px;
+    line-height: 96px;
     height: 64px;
     text-align: center;
     margin: auto 4px;
@@ -572,10 +572,10 @@ a:hover {
     font-family:  var(--sub-font-name);
     color: var(--color-light);
     width: 40px;
-    line-height: 80px;
+    line-height: 96px;
     height: 64px;
     text-align: center;
-    background-position: center 4px;
+    background-position: center 2px;
     background-repeat: no-repeat;
     background-image: url(../assets/images/booster.png);
 }
@@ -700,6 +700,7 @@ a:hover {
     margin: auto 4px;
     background-size: cover;
     background-position: center;
+    border: 2px solid var(--color-base);
 }
 
 .rarity-overlay:before {
@@ -927,9 +928,9 @@ a:hover {
 
 .set_logo_med {
     background-repeat: no-repeat;
-    width: 36px;
+    width: 32px;
+    height: 24px;
     margin: 0 4px;
-    min-height: 60%;
     cursor: pointer;
     background-size: contain;
     background-position: center;

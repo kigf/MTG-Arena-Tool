@@ -3,9 +3,9 @@ import { ECONOMY_TABLE_MODE } from "../../../shared/constants";
 import { TableViewRow } from "../tables/TableViewRow";
 import { TableViewRowProps } from "../tables/types";
 import { EconomyDayHeader, EconomyDayHeaderProps } from "./EconomyDayHeader";
-import { ChangeRow } from "./EconomyRow";
 import { EconomyTableRowProps, TransactionData } from "./types";
 import css from "./economy.css";
+import { ListItemEconomy } from "../list-item/ListItemEconomy";
 
 function EconomyListViewGroup({
   row,
@@ -21,11 +21,7 @@ function EconomyListViewGroup({
 function EconomyListViewRow({
   row,
 }: TableViewRowProps<TransactionData>): JSX.Element {
-  return (
-    <div>
-      <ChangeRow change={row.original} economyId={row.original.id} />
-    </div>
-  );
+  return <ListItemEconomy change={row.original} />;
 }
 
 export function EconomyTableRow({

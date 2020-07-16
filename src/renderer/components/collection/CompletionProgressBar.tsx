@@ -11,19 +11,19 @@ import {
 import notFound from "../../../assets/images/notfound.png";
 import indexCss from "../../index.css";
 import css from "./CompletionProgressBar.css";
+import Flex from "../misc/Flex";
 
 interface CompletionProgressBarProps {
   countMode: string;
   countStats: CountStats;
   image: string;
   title: string;
-  isSidebar?: boolean;
 }
 
 export default function CompletionProgressBar(
   props: CompletionProgressBarProps
 ): JSX.Element {
-  const { countMode, countStats, image, title, isSidebar } = props;
+  const { countMode, countStats, image, title } = props;
   if (!countStats) return <></>;
 
   let numerator, denominator;
@@ -47,24 +47,41 @@ export default function CompletionProgressBar(
 
   return (
     <div
-      className={`${css.statsSetCompletion} ${
-        isSidebar ? css.statsSidebar : ""
-      }`}
+      style={{
+        width: "-webkit-fill-available",
+        marginBottom: "16px",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
-      <div className={indexCss.statsSetIcon} style={{ backgroundImage: image }}>
+      <Flex
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          minWidth: "160px",
+          margin: "auto",
+        }}
+      >
+        <div
+          className={indexCss.statsSetIcon}
+          style={{ backgroundImage: image }}
+        ></div>
         <span>{title}</span>
-      </div>
+      </Flex>
       <div>
         <div className={css.statsSetDetails}>
-          <span>
-            {completionRatio.toLocaleString([], {
-              style: "percent",
-              maximumSignificantDigits: 2,
-            })}
-          </span>
-          <span>
-            {numerator} / {denominator}
-          </span>
+          <div>
+            <span>
+              {numerator} / {denominator}
+            </span>
+            <span style={{ color: "var(--color-text-dark)" }}>
+              {completionRatio.toLocaleString([], {
+                style: "percent",
+                maximumSignificantDigits: 2,
+              })}
+            </span>
+          </div>
+
           <span>
             {countStats.wanted}{" "}
             <abbr title="missing copies of cards in current decks">
@@ -88,13 +105,11 @@ export function SetCompletionBar({
   setStats,
   setIconCode,
   setName,
-  isSidebar,
 }: {
   countMode: string;
   setStats: SetStats;
   setIconCode: string;
   setName: string;
-  isSidebar?: boolean;
 }): JSX.Element {
   const iconSvg = db.sets[setIconCode]?.svg ?? db.defaultSet?.svg;
   const setIcon = iconSvg
@@ -106,7 +121,6 @@ export function SetCompletionBar({
       countStats={setStats.all}
       image={setIcon}
       title={setName}
-      isSidebar={isSidebar}
     />
   );
 }

@@ -74,7 +74,7 @@ export default function WildcardsCost(props: {
                 }
                 title={_.capitalize(cardRarity) + " wildcards needed."}
               >
-                {(owned > 0 ? owned + "/" : "") + missing}
+                {missing}
               </div>
             );
           }

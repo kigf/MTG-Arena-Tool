@@ -46,16 +46,18 @@ export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   );
 
   let element: JSX.Element | JSX.Element[] = <></>;
-  if (pool.length < 6) {
-    element = pool
-      .map((cardId: string | number) => db.card(cardId))
-      .filter(
-        (card: DbCardData | undefined) =>
-          card && (card.rarity == "rare" || card.rarity == "mythic")
-      )
-      .map((card: DbCardData | undefined, index: number) => {
+  const filteredPool = pool
+    .map((cardId: string | number) => db.card(cardId))
+    .filter(
+      (card: DbCardData | undefined) =>
+        card && (card.rarity == "rare" || card.rarity == "mythic")
+    );
+  if (filteredPool.length < 6) {
+    element = filteredPool.map(
+      (card: DbCardData | undefined, index: number) => {
         return card ? <RoundCard key={index} card={card}></RoundCard> : <></>;
-      });
+      }
+    );
   } else {
     element = (
       <div style={{ margin: "auto" }}>
@@ -120,24 +122,9 @@ function EventMainRow({
     "Unknown";
   const eventColors = event.colors ?? [];
 
-  const [hover, setHover] = React.useState(false);
-  const mouseEnter = React.useCallback(() => {
-    setHover(true);
-  }, []);
-  const mouseLeave = React.useCallback(() => {
-    setHover(false);
-  }, []);
-
   return (
-    <ListItem
-      click={onRowClick}
-      mouseEnter={mouseEnter}
-      mouseLeave={mouseLeave}
-    >
-      <HoverTile
-        hover={hover}
-        grpId={event.CourseDeck.deckTileId ?? DEFAULT_TILE}
-      />
+    <ListItem click={onRowClick}>
+      <HoverTile grpId={event.CourseDeck.deckTileId ?? DEFAULT_TILE} />
       <Column class={css.listItemLeft}>
         <FlexTop innerClass={css.listDeckName}>{eventName}</FlexTop>
         <FlexBottom>
@@ -178,7 +165,6 @@ function EventMainRow({
       <ArchiveButton
         archiveCallback={toggleArchived}
         dataId={event.id ?? ""}
-        hover={hover}
         isArchived={event.archived ?? false}
       />
     </ListItem>
