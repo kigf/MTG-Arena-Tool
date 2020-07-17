@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-use-before-define */
-import React from "react";
+import React, { useCallback, useRef } from "react";
 import db from "../../../shared/database";
 import LocalTime from "../../../shared/time-components/LocalTime";
 import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
@@ -315,6 +315,7 @@ export function FlexRight(props: FlexRightProps): JSX.Element {
   const { trackName } = useSelector(
     (state: AppState) => state.playerdata.economy
   );
+  const horScrollRef = useRef<HTMLDivElement | null>(null);
   const { fullContext, change, thingsToCheck, economyId } = props;
   const {
     checkAetherized,
@@ -378,8 +379,26 @@ export function FlexRight(props: FlexRightProps): JSX.Element {
     change.vanityAddedCount > 0 && change.delta.vanityItemsAdded;
 
   const xpGainedNumber = change.xpGained > 0 && parseInt(change.xpGained);
+
+  const onWheel = useCallback(
+    (e) => {
+      if (horScrollRef.current) {
+        e.preventDefault();
+        const containerScrollPosition = horScrollRef.current.scrollLeft;
+        horScrollRef.current.scrollTo({
+          top: 0,
+          left: containerScrollPosition + e.deltaY,
+          behavior: "smooth",
+        });
+      }
+    },
+    [horScrollRef]
+  );
+
   return (
     <div
+      ref={horScrollRef}
+      onWheel={onWheel}
       className={css.tiny_scroll + " " + listCss.list_economy_awarded}
       id={economyId}
     >
