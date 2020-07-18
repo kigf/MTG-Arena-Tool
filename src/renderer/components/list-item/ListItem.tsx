@@ -105,7 +105,7 @@ export function ArchiveButton(props: ArchiveButtonProps): JSX.Element {
     [archiveCallback, dataId, dispatcher, isArchived]
   );
 
-  const Icon = isArchived ? UnarchiveIcon : ArchiveIcon;
+  const Icon = isArchived ? ArchiveIcon : UnarchiveIcon;
 
   return (
     <div

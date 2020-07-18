@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, CSSProperties } from "react";
 import {
   CARD_RARITIES,
   COLORS_ALL,
@@ -266,12 +266,17 @@ export default function CardTile(props: CardTileProps): JSX.Element {
   }
   cardTileStyle.borderImage = `linear-gradient(to bottom, var(--color-${colorA}) 30%, var(--color-${colorB}) 70%) 1 100%`;
 
-  const tileStyle = { backgroundColor: "var(--color-card-tile)" };
+  const tileStyle: CSSProperties = {
+    backgroundColor: "var(--color-card-tile)",
+  };
   if (isHighlighted) {
     tileStyle.backgroundColor = "var(--color-card-tile-active)";
   } else if (isMouseHovering) {
     tileStyle.backgroundColor = "var(--color-card-tile-hover)";
   }
+
+  const phyrexianName = `|Ceghm.`; // Swamp
+  const isPhyrexian = card.id == 72578;
 
   return (
     <div className={css.card_tile_container_outer}>
@@ -287,7 +292,12 @@ export default function CardTile(props: CardTileProps): JSX.Element {
       >
         <CardQuantityDisplay quantity={quantity} />
         <div className={css.card_tile_crop_flat} style={cardTileStyle} />
-        <div className={css.card_tile_name_flat}>{card.name || "Unknown"}</div>
+        <div
+          className={css.card_tile_name_flat}
+          style={isPhyrexian ? { fontFamily: "PhyrexianHorizontal" } : {}}
+        >
+          {isPhyrexian ? phyrexianName : card.name || "Unknown"}
+        </div>
         <div className={css.cart_tile_mana_flat}>
           <CostSymbols card={card} dfcCard={dfcCard} />
         </div>

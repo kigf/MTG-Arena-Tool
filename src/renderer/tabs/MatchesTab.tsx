@@ -9,7 +9,6 @@ import {
   IPC_RENDERER,
 } from "../../shared/constants";
 import db from "../../shared/database";
-import getReadableEvent from "../../shared/utils/getReadableEvent";
 import { InternalMatch } from "../../types/match";
 import Aggregator, { AggregatorFilters } from "../aggregator";
 import MatchesTable from "../components/matches/MatchesTable";
@@ -23,6 +22,7 @@ import { matchesList, getMatch } from "../../shared/store";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 
 import appCss from "../app/app.css";
+import getEventPrettyName from "../../shared/utils/getEventPrettyName";
 
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;
 const tagPrompt = "Set archetype";
@@ -96,7 +96,7 @@ function getMatchesData(
           deckId: match.playerDeck.id,
           deckName: match.playerDeck.name ?? "",
           deckFormat: match.playerDeck.format ?? "",
-          eventName: getReadableEvent(match.eventId),
+          eventName: getEventPrettyName(match.eventId),
           format: db.events_format[match.eventId] ?? "unknown",
           isOnPlay: match.player.seat === match.onThePlay ?? false,
           leaderboardPlace: match.player.leaderboardPlace,

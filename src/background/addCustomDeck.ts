@@ -7,6 +7,7 @@ import { IPC_RENDERER } from "../shared/constants";
 
 export default function addCustomDeck(customDeck: Partial<InternalDeck>): void {
   const id = customDeck.id ?? "";
+  if (id == "00000000-0000-0000-0000-000000000000") return;
   const deckData = {
     // preserve custom fields if possible
     ...(getDeck(id) || {}),

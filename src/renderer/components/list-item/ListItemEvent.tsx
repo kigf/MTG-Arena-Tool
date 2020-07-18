@@ -34,6 +34,7 @@ import { InternalDraftv2 } from "../../../types/draft";
 import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   const { pool } = props;
@@ -46,16 +47,18 @@ export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   );
 
   let element: JSX.Element | JSX.Element[] = <></>;
-  if (pool.length < 6) {
-    element = pool
-      .map((cardId: string | number) => db.card(cardId))
-      .filter(
-        (card: DbCardData | undefined) =>
-          card && (card.rarity == "rare" || card.rarity == "mythic")
-      )
-      .map((card: DbCardData | undefined, index: number) => {
+  const filteredPool = pool
+    .map((cardId: string | number) => db.card(cardId))
+    .filter(
+      (card: DbCardData | undefined) =>
+        card && (card.rarity == "rare" || card.rarity == "mythic")
+    );
+  if (filteredPool.length < 6) {
+    element = filteredPool.map(
+      (card: DbCardData | undefined, index: number) => {
         return card ? <RoundCard key={index} card={card}></RoundCard> : <></>;
-      });
+      }
+    );
   } else {
     element = (
       <div style={{ margin: "auto" }}>
@@ -114,7 +117,7 @@ function EventMainRow({
   onRowClick: () => void;
 }): JSX.Element {
   const eventName =
-    db.events[event.InternalEventName] ??
+    getEventPrettyName(event.InternalEventName) ??
     event.displayName ??
     event.InternalEventName ??
     "Unknown";
@@ -238,7 +241,7 @@ function EventSubRows({
 
   const style = useSpring({
     height: expanded
-      ? (matchRows.length + (initialDraft.current ? 1 : 0)) * 64 + "px"
+      ? (matchRows.length + (initialDraft.current ? 1 : 0)) * 70 + "px"
       : "0px",
   });
 

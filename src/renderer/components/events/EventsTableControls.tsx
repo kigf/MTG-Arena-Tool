@@ -2,7 +2,6 @@ import React from "react";
 import { FilterValue } from "react-table";
 import { EVENTS_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import DateFilter from "../../DateFilter";
 import { MediumTextButton } from "../misc/MediumTextButton";
 import { SmallTextButton } from "../misc/SmallTextButton";
@@ -14,6 +13,7 @@ import { EventsTableControlsProps } from "./types";
 import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "../decks/deckTable.css";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },
@@ -64,7 +64,7 @@ export default function EventsTableControls(
             callback={(eventId): void =>
               setAggFiltersCallback({ ...aggFilters, eventId })
             }
-            optionFormatter={getReadableEvent}
+            optionFormatter={getEventPrettyName}
             style={{ marginBottom: "auto" }}
           />
         </div>

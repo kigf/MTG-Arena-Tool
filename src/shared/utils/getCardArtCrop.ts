@@ -1,6 +1,7 @@
 import { DbCardData } from "../../types/Metadata";
 
 import notFound from "../../assets/images/notfound.png";
+import notFoundArt from "../../assets/images/notFoundArt.png";
 import database from "../database";
 import debugLog from "../debugLog";
 
@@ -30,5 +31,7 @@ export function getCardImage(
 }
 
 export function getCardArtCrop(card?: DbCardData | number): string {
-  return getCardImage(card, "art_crop");
+  const art = getCardImage(card, "art_crop");
+  if (art == notFound) return notFoundArt;
+  else return art;
 }

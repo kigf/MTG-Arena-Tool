@@ -11,12 +11,12 @@ import {
 import ShareButton from "../misc/ShareButton";
 import db from "../../../shared/database";
 
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DEFAULT_TILE } from "../../../shared/constants";
 import { toggleArchived } from "../../rendererUtil";
 import { InternalDraftv2 } from "../../../types/draft";
 import css from "./ListItem.css";
 import { CardPoolRares } from "./ListItemEvent";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 interface ListItemDraftProps {
   draft: InternalDraftv2;
@@ -51,7 +51,7 @@ export default function ListItemDraft({
         </FlexTop>
         <FlexBottom>
           <div className={css.listDeckNameIt}>
-            {getReadableEvent(draft.eventId)}
+            {getEventPrettyName(draft.eventId)}
           </div>
         </FlexBottom>
       </Column>
@@ -83,7 +83,7 @@ export default function ListItemDraft({
       </Column>
 
       <Column style={{ display: "flex" }}>
-        <ShareButton type="draft" data={draft} />
+        <ShareButton type="draft" style={{ margin: "auto 0" }} data={draft} />
       </Column>
 
       <ArchiveButton

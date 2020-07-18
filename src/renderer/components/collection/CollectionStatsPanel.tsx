@@ -132,12 +132,12 @@ export default function CollectionStatsPanel({
       <div style={{ textAlign: "center" }}>
         <Flex
           style={{
+            display: "flex",
+            margin: "8px auto 16px auto",
             lineHeight: "32px",
-            justifyContent: "space-between",
-            maxWidth: "600px",
-            margin: "8px auto",
           }}
         >
+          <div style={{ marginRight: "auto" }}>In Boosters:</div>
           <ReactSelect
             options={inBoostersMode}
             current={boostersMode}
@@ -151,27 +151,32 @@ export default function CollectionStatsPanel({
               }
             }}
           />
-          <Flex>
-            <div style={{ marginRight: "8px" }}>Count:</div>
-            <ReactSelect
-              options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
-              current={countMode}
-              callback={(mode: string): void => {
-                reduxAction(
-                  dispatch,
-                  { type: "SET_COUNT_MODE", arg: mode },
-                  IPC_NONE
-                );
-              }}
-            />
-          </Flex>
+        </Flex>
+        <Flex
+          style={{
+            display: "flex",
+            margin: "8px auto 16px auto",
+            lineHeight: "32px",
+          }}
+        >
+          <div style={{ marginRight: "auto" }}>Count:</div>
+          <ReactSelect
+            options={[ALL_CARDS, SINGLETONS, FULL_SETS]}
+            current={countMode}
+            callback={(mode: string): void => {
+              reduxAction(
+                dispatch,
+                { type: "SET_COUNT_MODE", arg: mode },
+                IPC_NONE
+              );
+            }}
+          />
         </Flex>
         <SetCompletionBar
           countMode={countMode}
           setStats={setStats}
           setIconCode={""}
           setName={"Total cards filtered"}
-          isSidebar
         />
         {filteredRarities.map((rarityCode) => {
           const rarity = getRarityKey(rarityCode);
@@ -187,7 +192,6 @@ export default function CollectionStatsPanel({
                 countStats={countStats}
                 image={globalStyle.getPropertyValue(`--wc_${rarity}_png`)}
                 title={capitalizedRarity}
-                isSidebar
               />
             );
           }

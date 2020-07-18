@@ -280,12 +280,22 @@ export const usedFormats: Record<string, string> = {
 export function getCardFormats(card: DbCardData): string[] {
   const formats = store.getState().renderer.formats;
   const allowed: string[] = [];
-  const arenaSetCode = db.sets[card.set]?.arenacode || card.set;
+  const arenaSetCode: string[] = [db.sets[card.set]?.arenacode || card.set];
+  if (card.reprints && card.reprints !== true) {
+    card.reprints.forEach((cid) => {
+      const reprint = db.card(cid);
+      if (reprint) {
+        const reprintSet = db.sets[reprint.set]?.arenacode || reprint.set;
+        arenaSetCode.push(reprintSet);
+      }
+    });
+  }
+
   Object.keys(formats).map((name) => {
     const format = formats[name];
     if (
       format.allowedTitleIds.includes(card.titleId) ||
-      format.sets.includes(arenaSetCode)
+      format.sets.some((set) => arenaSetCode.indexOf(set) >= 0)
     ) {
       if (name == "Pauper" || name == "HistoricPauper") {
         if (card.rarity == "common") {

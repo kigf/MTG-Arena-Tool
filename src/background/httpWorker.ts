@@ -147,6 +147,7 @@ export function asyncWorker(task: HttpTask, callback: HttpTaskCallback): void {
           // should never get to this point
           throw new Error(`Error handling request. (${task.method})`);
         } catch (error) {
+          debugLog(results, "debug");
           callback(error, task, results);
         }
       });

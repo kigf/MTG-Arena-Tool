@@ -13,7 +13,8 @@
 }
 
 .list_item_container:hover {
-  border: 1px solid var(--color-dark-hover)
+  border: 1px solid var(--color-dark-hover);
+  background-color: var(--color-shade-25);
 }
 
 .list_item_left_indicator {

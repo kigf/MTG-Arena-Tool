@@ -28,6 +28,7 @@ import appCss from "../app/app.css";
 import css from "./ExploreTab.css";
 import { ExploreQuery } from "../../types/api";
 import Flex from "../components/misc/Flex";
+import getEventPrettyName from "../../shared/utils/getEventPrettyName";
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;
@@ -174,10 +175,6 @@ export default function ExploreTab(): JSX.Element {
       </Flex>
     </div>
   );
-}
-
-function getEventPrettyName(event: string): string {
-  return db.event(event) || event;
 }
 
 interface ExploreFiltersProps {

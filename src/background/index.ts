@@ -139,6 +139,22 @@ ipc.on("start_background", async function () {
     IPC_ALL ^ IPC_BACKGROUND
   );
 
+  // Prefill auth form
+  const { rememberMe, email, token } = appSettings;
+  let username = "";
+  let password = "";
+  if (rememberMe) {
+    username = email;
+    if (email && token) {
+      password = HIDDEN_PW;
+    }
+  }
+  ipcSend("prefill_auth_form", {
+    username,
+    password,
+    rememberMe,
+  });
+
   // start initial log parse
   logLoopInterval = window.setInterval(attemptLogLoop, 250);
 
@@ -152,11 +168,13 @@ function offlineLogin(): void {
   ipcSend("auth", { ok: true, user: -1 });
   loadPlayerConfig();
   debugLog("offlineLogin", "debug");
+  /*
   reduxAction(
     globals.store.dispatch,
     { type: "SET_APP_SETTINGS", arg: { email: "" } },
     IPC_ALL ^ IPC_BACKGROUND
   );
+  */
   reduxAction(
     globals.store.dispatch,
     { type: "SET_OFFLINE", arg: true },
@@ -167,10 +185,8 @@ function offlineLogin(): void {
 //
 ipc.on("login", function (_event, arg) {
   ipcSend("begin_login", {});
-  debugLog("ipc login", "debug");
-  if (arg.password == HIDDEN_PW) {
-    httpApi.httpAuth(arg.username, arg.password);
-  } else if (arg.username === "" && arg.password === "") {
+  debugLog(`IPC login: ${JSON.stringify(arg)}`, "debug");
+  if (arg.username === "" && arg.password === "") {
     offlineLogin();
   } else {
     httpApi.httpAuth(arg.username, arg.password);
@@ -377,6 +393,7 @@ ipc.on("set_log", function (_event, arg) {
 // Set variables to default first
 let prevLogSize = 0;
 let logLoops = -1;
+let noPlayerData = false;
 
 // Old parser
 async function attemptLogLoop(): Promise<void> {
@@ -440,9 +457,14 @@ async function logLoop(): Promise<void> {
   }
 
   const delta = Math.min(268435440, size - prevLogSize);
-
   if (delta === 0) {
     // The log has not changed since we last checked
+    if (noPlayerData) {
+      ipcSend("popup", {
+        text: "Player.log contains no player data.",
+        time: 1000,
+      });
+    }
     return;
   }
 
@@ -462,9 +484,7 @@ async function logLoop(): Promise<void> {
   };
 
   let detailedLogs = true;
-  let foundData = 0;
-  let i = 0;
-  while (i < splitString.length - 1 || foundData !== 2) {
+  for (let i = 0; i < splitString.length; i++) {
     const value: string | undefined = splitString[i];
     // Check if detailed logs / plugin support is disabled
     let strCheck = "DETAILED LOGS: DISABLED";
@@ -484,14 +504,12 @@ async function logLoop(): Promise<void> {
     if (value?.includes(strCheck) && parsedData.arenaId == undefined) {
       parsedData.arenaId =
         debugArenaID ?? unleakString(dataChop(value, strCheck, ","));
-      foundData++;
     }
 
     // Get User name
     strCheck = "DisplayName:";
     if (value?.includes(strCheck) && parsedData.playerName == undefined) {
       parsedData.playerName = unleakString(dataChop(value, strCheck, ","));
-      foundData++;
     }
     i++;
   }
@@ -507,16 +525,13 @@ async function logLoop(): Promise<void> {
   prevLogSize = size;
   const { arenaId, playerName } = parsedData;
   if (!arenaId || !playerName) {
-    ipcSend("popup", {
-      text: "Player.log contains no player data",
-      time: 0,
-    });
+    debugLog("Player.log contains no player data");
+    noPlayerData = true;
     reduxAction(
       globals.store.dispatch,
       { type: "SET_CAN_LOGIN", arg: false },
       IPC_RENDERER
     );
-    debugLog("Player.log contains no player data");
     return;
   } else {
     reduxAction(
@@ -529,6 +544,7 @@ async function logLoop(): Promise<void> {
       { type: "SET_PLAYER_NAME", arg: playerName },
       IPC_RENDERER
     );
+    noPlayerData = false;
   }
 
   ipcSend("popup", {
@@ -537,6 +553,8 @@ async function logLoop(): Promise<void> {
   });
   clearInterval(logLoopInterval);
 
+  // If we got this far, we have a username in the logs so we can log in properly
+  // Send the message to enable the login button
   const {
     autoLogin,
     rememberMe,
@@ -544,25 +562,16 @@ async function logLoop(): Promise<void> {
     token,
   } = globals.store.getState().appsettings;
   let username = "";
-  let password = "";
   if (rememberMe) {
     username = email;
-    if (email && token) {
-      password = HIDDEN_PW;
-    }
   }
-
   reduxAction(
     globals.store.dispatch,
     { type: "SET_CAN_LOGIN", arg: true },
     IPC_RENDERER
   );
-  ipcSend("prefill_auth_form", {
-    username,
-    password,
-    rememberMe,
-  });
 
+  // Begin auto login too, if enabled
   if (autoLogin) {
     debugLog("automatic login process started..");
     ipcSend("toggle_login", false);

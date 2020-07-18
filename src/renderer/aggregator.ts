@@ -13,7 +13,6 @@ import {
 } from "../shared/constants";
 import db from "../shared/database";
 import { normalApproximationInterval } from "../shared/utils/statsFns";
-import getReadableEvent from "../shared/utils/getReadableEvent";
 import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
@@ -21,6 +20,7 @@ import store from "../shared/redux/stores/rendererStore";
 import Colors from "../shared/colors";
 import { InternalDraftv2 } from "../types/draft";
 import Deck from "../shared/deck";
+import getEventPrettyName from "../shared/utils/getEventPrettyName";
 
 export interface CardWinrateData {
   name: string;
@@ -266,7 +266,7 @@ export default class Aggregator {
       (filterValue === Aggregator.RANKED_DRAFT &&
         db.limited_ranked_events.includes(eventId)) ||
       (filterValue === Aggregator.PLAY_BRAWL &&
-        getReadableEvent(eventId) === Aggregator.PLAY_BRAWL) ||
+        getEventPrettyName(eventId) === Aggregator.PLAY_BRAWL) ||
       filterValue === eventId
     );
   }
@@ -539,8 +539,8 @@ export default class Aggregator {
       return 1;
     }
 
-    const aName = getReadableEvent(a);
-    const bName = getReadableEvent(b);
+    const aName = getEventPrettyName(a);
+    const bName = getEventPrettyName(b);
     return aName.localeCompare(bName);
   }
 

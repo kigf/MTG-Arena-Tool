@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import db from "../../../shared/database";
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 const questMap = {
   "a4a06519-fd8a-422a-b20f-8fc7a175feef": "Quests/Quest_Azorius_Justiciar",
@@ -134,14 +134,14 @@ export function getPrettyContext(context: string, full = true): string {
   if (context.startsWith("Event.Prize")) {
     const eventCode = context.substring(12);
     return full
-      ? `Event Rewards: ${getReadableEvent(eventCode)}`
+      ? `Event Rewards: ${getEventPrettyName(eventCode)}`
       : "Event Rewards";
   }
 
   if (context.endsWith("EventReward")) {
     const eventCode = context.split(".")[0];
     return full
-      ? `Event Rewards: ${getReadableEvent(eventCode)}`
+      ? `Event Rewards: ${getEventPrettyName(eventCode)}`
       : "Event Rewards";
   }
 

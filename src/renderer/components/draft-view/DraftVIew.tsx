@@ -19,9 +19,16 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
 import css from "./DraftView.css";
-import { getCardImage } from "../../../shared/utils/getCardArtCrop";
+import {
+  getCardImage,
+  getCardArtCrop,
+} from "../../../shared/utils/getCardArtCrop";
 import { getRankColorClass } from "../../../shared/utils/getRankColorClass";
 import { InternalDraftv2 } from "../../../types/draft";
+import BackIcon from "../../../assets/images/svg/back.svg";
+import SvgButton from "../misc/SvgButton";
+import ManaCost from "../misc/ManaCost";
+import Section from "../misc/Section";
 
 interface PickPack {
   pack: number;
@@ -160,30 +167,73 @@ function DraftView(props: DraftViewProps): JSX.Element {
     positionFromPickPack({ pick: 0, pack: 2 }, draft.draftSet)
   ] = new SliderPosition("Pack 3");
 
+  const draftSetName =
+    Object.keys(db.sets).filter(
+      (name) => db.sets[name].arenacode == draft.draftSet
+    )[0] || "";
+  const draftSet = db.sets[draftSetName];
+  const cardTile = db.card(draftSet.tile);
+
   return (
-    <div className={indexCss.centeredUx}>
-      <div className={indexCss.decklist_top}>
-        <div
-          className={`${sharedCss.button} ${sharedCss.back}`}
-          onClick={goBack}
-        ></div>
-        <div className={indexCss.deckName}>{draft.draftSet + " Draft"}</div>
-      </div>
+    <div className={indexCss.centeredUx} style={{ display: "block" }}>
       <div
-        className={indexCss.flexItem}
-        style={{ flexDirection: "column", margin: "0 32px" }}
+        className={indexCss.top}
+        style={{
+          backgroundImage: `url(${cardTile && getCardArtCrop(cardTile)})`,
+        }}
       >
-        <div className={css.draftTitle}>
-          {`Pack ${pickpack.pack + 1}, Pick ${pickpack.pick + 1}`}
+        <div className={indexCss.topInner}>
+          <div className={indexCss.flexItem}>
+            <SvgButton
+              style={{
+                marginRight: "8px",
+                backgroundColor: "var(--color-section)",
+              }}
+              svg={BackIcon}
+              onClick={goBack}
+            />
+            <div
+              style={{
+                lineHeight: "32px",
+                color: "var(--color-text-hover)",
+                textShadow: "3px 3px 6px #000000",
+              }}
+            >
+              {draft.draftSet + " Draft"}
+            </div>
+          </div>
+          <div className={indexCss.flexItem}>
+            <ManaCost class={sharedCss.manaS20} colors={[1, 2, 3, 4, 5]} />
+          </div>
         </div>
-        <Slider
-          containerStyle={{ margin: "8px 0 30px 0" }}
-          value={positionFromPickPack(pickpack, draft.draftSet)}
-          onChange={onSliderChange}
-          max={maxPosition}
-          positions={sliderPositions}
-        />
-        <div className={css.draftContainer}>
+      </div>
+
+      <div className={css.draftViewGrid}>
+        <Section
+          style={{
+            gridArea: "controls",
+            flexDirection: "column",
+            padding: "16px",
+          }}
+        >
+          <div className={css.draftTitle}>
+            {`Pack ${pickpack.pack + 1}, Pick ${pickpack.pick + 1}`}
+          </div>
+          <Slider
+            containerStyle={{ marginBottom: "22px" }}
+            value={positionFromPickPack(pickpack, draft.draftSet)}
+            onChange={onSliderChange}
+            max={maxPosition}
+            positions={sliderPositions}
+          />
+        </Section>
+        <Section
+          style={{
+            gridArea: "draft",
+            flexDirection: "column",
+            padding: "16px",
+          }}
+        >
           <div
             className={css.draftView}
             style={{
@@ -192,21 +242,25 @@ function DraftView(props: DraftViewProps): JSX.Element {
               }px, 1fr))`,
             }}
           >
-            {getCurrentPick().pack.map((grpId: number, index: number) => {
-              return (
-                <DraftCard
-                  pick={getCurrentPick().pick == grpId}
-                  key={pickpack.pack + "-" + pickpack.pick + "-" + index}
-                  size={cardSize}
-                  grpId={grpId}
-                />
-              );
-            })}
+            {getCurrentPick()
+              .pack.reverse()
+              .map((grpId: number, index: number) => {
+                return (
+                  <DraftCard
+                    pick={getCurrentPick().pick == grpId}
+                    key={pickpack.pack + "-" + pickpack.pick + "-" + index}
+                    size={cardSize}
+                    grpId={grpId}
+                  />
+                );
+              })}
           </div>
-          <div className={css.draftDeckView}>
-            <DeckList deck={getCurrentDeck()} />
-          </div>
-        </div>
+        </Section>
+        <Section
+          style={{ gridArea: "deck", flexDirection: "column", padding: "16px" }}
+        >
+          <DeckList deck={getCurrentDeck()} />
+        </Section>
       </div>
     </div>
   );

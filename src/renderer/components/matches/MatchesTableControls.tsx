@@ -1,6 +1,5 @@
 import React from "react";
 import { FilterValue } from "react-table";
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { MATCHES_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import DateFilter from "../../DateFilter";
@@ -14,6 +13,7 @@ import { MatchesTableControlsProps } from "./types";
 import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "../decks/deckTable.css";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },
@@ -64,7 +64,7 @@ export default function MatchesTableControls(
             callback={(eventId): void =>
               setAggFiltersCallback({ ...aggFilters, eventId })
             }
-            optionFormatter={getReadableEvent}
+            optionFormatter={getEventPrettyName}
             style={{ marginBottom: "auto" }}
           />
         </div>

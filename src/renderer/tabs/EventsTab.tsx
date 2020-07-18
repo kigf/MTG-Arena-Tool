@@ -2,7 +2,6 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { TableState } from "react-table";
 import db from "../../shared/database";
-import getReadableEvent from "../../shared/utils/getReadableEvent";
 import { EventInstanceData, InternalEvent } from "../../types/event";
 import Aggregator, { AggregatorFilters } from "../aggregator";
 import EventsTable from "../components/events/EventsTable";
@@ -16,6 +15,7 @@ import store from "../../shared/redux/stores/rendererStore";
 import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 
 import appCss from "../app/app.css";
+import getEventPrettyName from "../../shared/utils/getEventPrettyName";
 
 function editTag(tag: string, color: string): void {
   ipcSend("edit_tag", { tag, color });
@@ -60,7 +60,7 @@ function getEventStats(event: InternalEvent): EventStats {
     ...event.ModuleInstanceData.WinLossGate,
   };
   const stats: EventStats = {
-    displayName: getReadableEvent(event.InternalEventName),
+    displayName: getEventPrettyName(event.InternalEventName),
     duration: 0,
     eventState: "In Progress",
     gameWins: 0,

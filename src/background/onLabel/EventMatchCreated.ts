@@ -12,8 +12,6 @@ import {
   setOpponent,
   resetCurrentMatch,
 } from "../../shared/store/currentMatchStore";
-import globalStore from "../../shared/store";
-import debugLog from "../../shared/debugLog";
 
 interface EntryJson {
   controllerFabricUri: string;
@@ -79,7 +77,6 @@ export default function EventMatchCreated(entry: Entry): void {
       commanderGrpIds: json.commanderGrpIds,
     };
     setPlayer(player);
-    debugLog(globalStore.currentMatch);
     setEventId(json.eventId);
   }
 }

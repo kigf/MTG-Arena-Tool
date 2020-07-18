@@ -150,7 +150,10 @@ export default function CollectionTableControls(
           togglesVisible={togglesVisible}
         />
       )}
-      <div className={tableCss.react_table_search_cont}>
+      <div
+        className={tableCss.react_table_search_cont}
+        style={{ marginTop: "4px" }}
+      >
         <InputContainer title="Search">
           <input
             value={collectionQuery || ""}

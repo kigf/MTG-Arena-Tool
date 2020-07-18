@@ -1,6 +1,5 @@
 import _ from "lodash";
 import React, { useCallback } from "react";
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DEFAULT_TILE } from "../../../shared/constants";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import { ListItemMatchProps } from "../matches/types";
@@ -21,6 +20,7 @@ import sharedCss from "../../../shared/shared.css";
 import { ipcSend } from "../../rendererUtil";
 import database from "../../../shared/database";
 import RankSmall from "../misc/RankSmall";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 export default function ListItemMatch({
   match,
@@ -91,7 +91,7 @@ export default function ListItemMatch({
         <FlexTop>
           <div className={css.listDeckName}>{match.playerDeck.name || ""}</div>
           <div className={css.listDeckNameIt}>
-            {getReadableEvent(match.eventId)}
+            {getEventPrettyName(match.eventId)}
           </div>
         </FlexTop>
         <FlexBottom>

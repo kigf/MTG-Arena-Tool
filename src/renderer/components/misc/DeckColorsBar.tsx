@@ -24,7 +24,7 @@ export default function DeckColorsBar(props: DeckColorsBarProps): JSX.Element {
           />
         );
       } else {
-        return <></>;
+        return <React.Fragment key={key}></React.Fragment>;
       }
     },
     [colors]

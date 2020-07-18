@@ -70,6 +70,7 @@ export default function ShareButton({
       style={style}
       title={offline ? "You need to be logged in to share!" : ""}
       onClick={click}
+      disabled={offline}
       icon={shareIcon}
     />
   );

@@ -449,31 +449,22 @@ function handleAuthResponse(
   parsedResult?: any
 ): void {
   if (error || !parsedResult) {
-    reduxAction(
-      globals.store.dispatch,
-      {
-        type: "SET_APP_SETTINGS",
-        arg: {
-          token: "",
-          email: "",
-        },
-      },
-      IPC_ALL
-    );
     ipcSend("auth", {});
     ipcSend("toggle_login", true);
     ipcSend("login_failed", true);
-    ipcSend("clear_pwd", 1);
     debugLog(error?.message, "error");
     ipcPop({
       text: error?.message,
-      time: 3000,
+      time: 100000,
       progress: -1,
     });
     return;
   }
 
-  syncSettings({ token: parsedResult.token }, false);
+  syncSettings(
+    { token: Buffer.from(parsedResult.token).toString("base64") },
+    false
+  );
   ipcSend("auth", parsedResult);
   //ipcSend("auth", parsedResult.arenaids);
 
@@ -502,6 +493,9 @@ export function httpAuth(userName: string, pass: string): void {
   const _id = makeId(6);
   //const playerData = globals.store.getState().playerdata;
   setSyncState(SYNC_CHECK);
+  debugLog("httpAuth", "debug");
+  debugLog(globals.store.getState().appsettings.token, "debug");
+  debugLog(globals.store.getState().appsettings.email, "debug");
   globals.httpQueue?.push(
     {
       reqId: _id,

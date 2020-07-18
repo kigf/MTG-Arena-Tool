@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable no-console */
-import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
+import { ipcRenderer as ipc, IpcRendererEvent, remote } from "electron";
 import timestamp from "../../shared/utils/timestamp";
 import {
   MAIN_SETTINGS,
@@ -21,10 +21,14 @@ import debugLog from "../../shared/debugLog";
 import reloadTheme from "../../shared/utils/reloadTheme";
 
 export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
+  debugLog("--------");
+  debugLog("APP INIT");
+  debugLog("v" + remote.app.getVersion());
   debugLog("Set up IPC listeners.");
 
   ipc.on("prefill_auth_form", (_event: IpcRendererEvent, arg: any): void => {
     debugLog("ipc prefill_auth_form", "debug");
+    debugLog(arg, "debug");
     reduxAction(
       dispatcher,
       {

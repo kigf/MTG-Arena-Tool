@@ -1,6 +1,5 @@
 import React from "react";
 import { FilterValue } from "react-table";
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
 import { DECKS_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import DateFilter from "../../DateFilter";
@@ -16,6 +15,7 @@ import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "./deckTable.css";
 import { LabelText } from "../misc/LabelText";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },
@@ -80,7 +80,7 @@ export default function DecksTableControls(
             callback={(eventId): void =>
               setAggFiltersCallback({ ...aggFilters, eventId })
             }
-            optionFormatter={getReadableEvent}
+            optionFormatter={getEventPrettyName}
           />
         </div>
         <div className={indexCss.flexItem}>

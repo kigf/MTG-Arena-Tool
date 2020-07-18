@@ -18,7 +18,7 @@ type CardType = typeof cardTypes[number];
 export function cardHasType(card: DbCardData, type: CardType): boolean {
   if (!_.has(card, "type"))
     throw new Error("The specified card object does not have a type property");
-  return card.type.includes(type + " ");
+  return card.type.toLowerCase().includes(type.toLowerCase() + " ");
 }
 
 export const cardType = (card: DbCardData): CardType => {

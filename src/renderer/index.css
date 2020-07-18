@@ -700,6 +700,7 @@ a:hover {
     margin: auto 4px;
     background-size: cover;
     background-position: center;
+    border: 2px solid var(--color-base);
 }
 
 .rarity-overlay:before {
@@ -928,7 +929,7 @@ a:hover {
 .set_logo_med {
     background-repeat: no-repeat;
     width: 32px;
-    height: 32px;
+    height: 24px;
     margin: 0 4px;
     cursor: pointer;
     background-size: contain;

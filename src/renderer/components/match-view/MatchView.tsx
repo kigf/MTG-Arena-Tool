@@ -37,7 +37,7 @@ import Button from "../misc/Button";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import Flex from "../misc/Flex";
 import ResultDetails from "../misc/ResultDetails";
-import getReadableEvent from "../../../shared/utils/getReadableEvent";
+import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 interface MatchViewProps {
   match: InternalMatch;
@@ -204,7 +204,7 @@ function MatchView(props: MatchViewProps): JSX.Element {
                   style={{ margin: "auto 16px auto 8px" }}
                   fill={"var(--color-icon-subtle)"}
                 />
-                <div>{getReadableEvent(match.eventId)}</div>
+                <div>{getEventPrettyName(match.eventId)}</div>
               </Flex>
               <Flex>
                 <IconTime

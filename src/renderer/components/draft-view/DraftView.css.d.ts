@@ -8,8 +8,8 @@ declare namespace DraftViewCssNamespace {
     "draft-card-rank": string;
     "draft-container": string;
     "draft-deck-view": string;
-    "draft-title": string;
     "draft-view": string;
+    "draft-view-grid": string;
     draftCard: string;
     draftCardCont: string;
     draftCardPicked: string;
@@ -18,6 +18,7 @@ declare namespace DraftViewCssNamespace {
     draftDeckView: string;
     draftTitle: string;
     draftView: string;
+    draftViewGrid: string;
     draft_title: string;
   }
 }

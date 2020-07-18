@@ -118,7 +118,12 @@ export function getCollectionStats(
   const playerEconomy = store.getState().playerdata.economy;
   const wantedCards: { [key: string]: number } = {};
   decksList()
-    .filter((deck) => deck && !deck.archived)
+    .filter(
+      (deck) =>
+        deck &&
+        !deck.archived &&
+        deck.description?.indexOf("Decks/Precon") == -1
+    )
     .forEach((deck) => {
       const missing = getMissingCardCounts(new Deck(deck));
       Object.entries(missing).forEach(([grpid, count]) => {
