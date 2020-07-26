@@ -237,7 +237,9 @@ export default class Aggregator {
     if (filterValue === DATE_ALL_TIME) {
       return true;
     } else if (filterValue === DATE_SEASON) {
-      dateFilter = db.season_starts;
+      dateFilter = new Date(
+        store.getState().renderer.season.currentSeason.seasonStartTime
+      );
     } else if (filterValue === DATE_LAST_30) {
       dateFilter = startOfDay(subDays(now, 30));
     } else if (filterValue === DATE_LAST_DAY) {

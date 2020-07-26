@@ -34,10 +34,11 @@ import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
 import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   const { pool } = props;
-  const draftCards = pool.map((cardId: string | number) => db.card(cardId));
+  const draftCards = pool.map((cardId) => db.card(cardId));
   const draftRares = draftCards.filter(
     (card: DbCardData | undefined) => card && card.rarity == "rare"
   );
@@ -47,7 +48,7 @@ export function CardPoolRares(props: { pool: number[] }): JSX.Element {
 
   let element: JSX.Element | JSX.Element[] = <></>;
   const filteredPool = pool
-    .map((cardId: string | number) => db.card(cardId))
+    .map((cardId: number) => db.card(cardId))
     .filter(
       (card: DbCardData | undefined) =>
         card && (card.rarity == "rare" || card.rarity == "mythic")

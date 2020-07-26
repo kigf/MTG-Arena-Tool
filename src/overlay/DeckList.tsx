@@ -195,7 +195,7 @@ export default function DeckList(props: DeckListProps): JSX.Element {
           return;
         }
 
-        const dfcCard = card?.dfcId ? db.card(card.dfcId) : undefined;
+        const dfcCard = card?.dfcId ? db.card(parseInt(card.dfcId)) : undefined;
         mainCardTiles.push(
           <CardTile
             card={fullCard}
