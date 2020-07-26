@@ -2,8 +2,8 @@
 
 import getSetCodeInEventId from "../getSetInEventId";
 import database from "../../database";
-import { cardHasType, cardType } from "../../cardTypes";
 import getEventPrettyName from "../getEventPrettyName";
+import { cardHasType, cardType } from "mtgatool-shared";
 
 describe("utils", () => {
   it("Set codes are detected preperly", () => {

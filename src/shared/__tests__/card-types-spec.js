@@ -1,9 +1,8 @@
 /* eslint-env jest */
 
-import { cardType } from "../cardTypes";
-
 import _ from "lodash";
 import db from "../database";
+import { cardType } from "mtgatool-shared";
 const cardsByName = _.keyBy(db.cards, "name");
 
 describe("card-types", () => {

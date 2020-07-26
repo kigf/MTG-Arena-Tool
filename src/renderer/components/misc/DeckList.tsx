@@ -1,11 +1,11 @@
 import _ from "lodash";
 import React from "react";
 import db from "../../../shared/database";
-import { cardType } from "../../../shared/cardTypes";
 import CardTile from "../../../shared/CardTile";
 import { DbCardData } from "../../../types/Metadata";
 import Deck from "../../../shared/deck";
 import Separator from "./Separator";
+import { cardType } from "mtgatool-shared";
 
 function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {
   const components = [];
