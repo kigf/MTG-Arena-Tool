@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import getSetCodeInEventId from "../getSetInEventId";
-import database from "../../database";
+import database from "../../database-wrapper";
 import getEventPrettyName from "../getEventPrettyName";
 import { cardHasType, cardType } from "mtgatool-shared";
 

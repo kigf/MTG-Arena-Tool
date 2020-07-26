@@ -1,6 +1,6 @@
 import { CardObject, DeckChange, ArenaV3Deck } from "../../types/Deck";
 import convertDeckFromV3 from "../convertDeckFromV3";
-import db from "../../shared/database";
+import db from "../../shared/database-wrapper";
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
 import { getDeck, deckChangeExists } from "../../shared/store";

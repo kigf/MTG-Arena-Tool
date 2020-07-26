@@ -1,5 +1,5 @@
 import React from "react";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import {
   ALL_CARDS,
   CountStats,
@@ -111,7 +111,7 @@ export function SetCompletionBar({
   setIconCode: string;
   setName: string;
 }): JSX.Element {
-  const iconSvg = db.sets[setIconCode]?.svg ?? db.defaultSet?.svg;
+  const iconSvg = db.sets[setIconCode]?.svg ?? db.metadata?.sets[""];
   const setIcon = iconSvg
     ? `url(data:image/svg+xml;base64,${iconSvg})`
     : `url(${notFound})`;

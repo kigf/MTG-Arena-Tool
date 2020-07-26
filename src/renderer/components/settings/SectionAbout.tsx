@@ -2,7 +2,7 @@
 import React from "react";
 import { ipcSend } from "../../rendererUtil";
 import { remote, shell } from "electron";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { format, fromUnixTime } from "date-fns";
 import Button from "../misc/Button";
 import { useSelector } from "react-redux";

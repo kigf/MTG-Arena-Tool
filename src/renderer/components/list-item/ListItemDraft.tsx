@@ -9,7 +9,7 @@ import {
 } from "./ListItem";
 
 import ShareButton from "../misc/ShareButton";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 
 import { DEFAULT_TILE } from "../../../shared/constants";
 import { toggleArchived } from "../../rendererUtil";

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { TableViewRowProps } from "../tables/types";
 import { EventTableData } from "../events/types";
 import ManaCost from "../misc/ManaCost";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 
 import {
   ListItem,
@@ -21,7 +21,6 @@ import {
   IPC_NONE,
 } from "../../../shared/constants";
 import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
-import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
 import { compareDesc } from "date-fns";
 import { useDispatch } from "react-redux";

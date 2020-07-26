@@ -10,7 +10,7 @@ import {
   DEFAULT_PACK_SIZE,
 } from "../../../shared/constants";
 import useHoverCard from "../../hooks/useHoverCard";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { getDraft } from "../../../shared/store";

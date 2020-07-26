@@ -1,4 +1,4 @@
-import database from "../database";
+import database from "../database-wrapper";
 
 export default function getSetCode(set: string): string {
   if (set == undefined) return "";

@@ -8,7 +8,7 @@ import Deck from "../../../shared/deck";
 import { actionLogDir, ipcSend } from "../../rendererUtil";
 import DeckList from "../misc/DeckList";
 import RankIcon from "../misc/RankIcon";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import CardList from "../misc/CardList";
 import CardsList from "../../../shared/cardsList";
 import ActionLog from "../../../shared/ActionLog";

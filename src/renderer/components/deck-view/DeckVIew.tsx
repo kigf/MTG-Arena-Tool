@@ -9,7 +9,7 @@ import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
 import { useDispatch, useSelector } from "react-redux";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import ShareButton from "../misc/ShareButton";
 import CraftingCost from "./CraftingCost";
 import { reduxAction } from "../../../shared/redux/sharedRedux";

@@ -8,8 +8,7 @@ import {
   IPC_RENDERER,
   DRAFT_RANKS_LOLA,
 } from "../../shared/constants";
-import db from "../../shared/database";
-import { DbCardData } from "../../types/Metadata";
+import db from "../../shared/database-wrapper";
 import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
@@ -33,6 +32,7 @@ import { useSelector } from "react-redux";
 import appCss from "../app/app.css";
 import { PlayerData } from "../../shared/redux/slices/playerDataSlice";
 import { getRarityFilterVal } from "../components/collection/filters";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
@@ -67,7 +67,7 @@ function getExportString(cardIds: string[]): string {
   let exportString = "";
   cardIds.forEach((key) => {
     let add = exportFormat + "";
-    const card = db.card(key);
+    const card = db.card(parseInt(key));
     if (card) {
       const name = replaceAll(card.name, "///", "//");
       const count = cards.cards[key] === 9999 ? 1 : cards.cards[key] ?? 0;

@@ -1,4 +1,4 @@
-import database from "../../../shared/database";
+import database from "../../../shared/database-wrapper";
 import { CardObject, ColorsAmmount } from "../../../types/Deck";
 import Deck from "../../../shared/deck";
 

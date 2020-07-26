@@ -2,7 +2,7 @@
 
 import Deck from "../deck";
 import { v2cardsList } from "../../types/Deck";
-import db from "../database";
+import db from "../database-wrapper";
 import { compareCards } from "../utils/compareCards";
 
 describe("deck", () => {

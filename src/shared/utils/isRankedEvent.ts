@@ -1,4 +1,4 @@
-import database from "../database";
+import database from "../database-wrapper";
 
 export default function isRankedEvent(eventId: string): boolean {
   return (

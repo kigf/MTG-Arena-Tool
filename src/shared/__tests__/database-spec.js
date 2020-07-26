@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import db from "../database";
+import db from "../database-wrapper";
 import * as httpApi from "../../background/httpApi";
 
 const distributedVersion = db.version;

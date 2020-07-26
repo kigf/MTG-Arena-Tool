@@ -5,7 +5,7 @@ import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import DeckList from "../misc/DeckList";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { useSprings, animated } from "react-spring";
 import { getDeckChangesList } from "../../../shared/store";
 

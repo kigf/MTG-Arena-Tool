@@ -42,11 +42,6 @@ export interface InternalDraftv2 {
   type: "draft";
 }
 
-export interface InternalDraftPackPick {
-  pack: string[];
-  pick: string;
-}
-
 export interface InternalDraft {
   eventId: string;
   draftId: string;

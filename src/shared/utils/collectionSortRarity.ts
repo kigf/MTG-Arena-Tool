@@ -1,5 +1,5 @@
 import getRaritySortValue from "./getRaritySortValue";
-import database from "../database";
+import database from "../database-wrapper";
 
 export default function collectionSortRarity(a: number, b: number): number {
   const aObj = database.card(a);

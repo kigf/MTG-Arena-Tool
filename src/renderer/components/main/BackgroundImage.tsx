@@ -1,7 +1,7 @@
 import React from "react";
 import fs from "fs";
 import { useSelector, useDispatch } from "react-redux";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";

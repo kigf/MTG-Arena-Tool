@@ -11,7 +11,7 @@ import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import showOpenLogDialog from "../../../shared/utils/showOpenLogDialog";
 import { format, fromUnixTime } from "date-fns";
 import Toggle from "../misc/Toggle";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 

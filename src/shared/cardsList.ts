@@ -6,7 +6,7 @@ import {
   v2cardsList,
 } from "../types/Deck";
 import Colors from "./colors";
-import db from "./database";
+import db from "./database-wrapper";
 
 interface CardTypesCount {
   art: number;

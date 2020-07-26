@@ -5,7 +5,7 @@ import DeckTypesStats from "../../../shared/TypesStats";
 import Deck from "../../../shared/deck";
 import Button from "../misc/Button";
 import { useDispatch, useSelector } from "react-redux";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";

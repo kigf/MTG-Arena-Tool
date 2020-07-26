@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-use-before-define */
 import React from "react";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import LocalTime from "../../../shared/time-components/LocalTime";
 import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
 import collectionSortRarity from "../../../shared/utils/collectionSortRarity";
-import { DbCardData } from "../../../types/Metadata";
 import useHoverCard from "../../hooks/useHoverCard";
 import { formatNumber, formatPercent } from "../../rendererUtil";
 import {
@@ -24,6 +23,7 @@ import {
   getCardArtCrop,
   getCardImage,
 } from "../../../shared/utils/getCardArtCrop";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (
@@ -287,7 +287,7 @@ function InventoryCardList(props: InventoryCardListProps): JSX.Element {
   return (
     <>
       {cardCounts.map(([grpId, quantity]: [string, number]) => {
-        const card = db.card(grpId);
+        const card = db.card(parseInt(grpId));
         if (!card || quantity === 0) {
           return <></>;
         }

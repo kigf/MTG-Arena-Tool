@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from "react";
 import { Column, IdType, Row, Filters } from "react-table";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
 import { BaseTableProps } from "../tables/types";

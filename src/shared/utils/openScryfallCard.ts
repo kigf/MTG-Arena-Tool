@@ -1,7 +1,7 @@
-import { DbCardData } from "../../types/Metadata";
-import database from "../database";
+import database from "../database-wrapper";
 import { shell } from "electron";
 import debugLog from "../debugLog";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 export function openScryfallCard(card?: DbCardData | number): void {
   const cardObj = typeof card == "number" ? database.card(card) : card;

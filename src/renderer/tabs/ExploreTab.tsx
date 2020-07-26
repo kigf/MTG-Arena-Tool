@@ -11,7 +11,7 @@ import {
   GREEN,
   COLORLESS,
 } from "../../shared/constants";
-import db from "../../shared/database";
+import db from "../../shared/database-wrapper";
 import ReactSelect from "../../shared/ReactSelect";
 import { AppState } from "../../shared/redux/stores/rendererStore";
 import { ListItemExplore } from "../components/list-item/ListItemExplore";

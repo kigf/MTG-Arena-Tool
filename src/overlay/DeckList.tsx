@@ -11,7 +11,7 @@ import {
   OVERLAY_ODDS,
   LANDS_HACK,
 } from "../shared/constants";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import Deck from "../shared/deck";
 import DeckManaCurve from "../shared/ManaCurve";
 import DeckTypesStats from "../shared/TypesStats";

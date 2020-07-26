@@ -5,15 +5,15 @@ import {
   isV2CardsList,
   v2cardsList,
 } from "../types/Deck";
-import { DbCardData } from "../types/Metadata";
 import CardsList from "./cardsList";
 import Colors from "./colors";
 import { DEFAULT_TILE } from "./constants";
-import db from "./database";
+import db from "./database-wrapper";
 import { compareCards } from "./utils/compareCards";
 import { sha1 } from "mtgatool-shared";
 import getSetCode from "./utils/getSetCode";
 import { objectClone } from "./utils/objectClone";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 class Deck {
   private mainboard: CardsList;

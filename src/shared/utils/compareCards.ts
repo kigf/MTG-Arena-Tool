@@ -1,5 +1,5 @@
 import { CardObject } from "../../types/Deck";
-import database from "../database";
+import database from "../database-wrapper";
 import { getCardTypeSort } from "./getCardTypeSort";
 
 export function compareCards(a: CardObject, b: CardObject): number {

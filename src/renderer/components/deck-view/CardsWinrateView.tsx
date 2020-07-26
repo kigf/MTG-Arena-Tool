@@ -7,9 +7,8 @@ import Aggregator, {
   CardWinrateData,
 } from "../../aggregator";
 import CardTile from "../../../shared/CardTile";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { getWinrateClass } from "../../rendererUtil";
-import { DbCardData } from "../../../types/Metadata";
 import { getDeckChangesList } from "../../../shared/store";
 import { compareCards } from "../../../shared/utils/compareCards";
 import { DeckChange, CardObject } from "../../../types/Deck";
@@ -22,6 +21,7 @@ import indexCss from "../../index.css";
 import css from "./CardsWinrateView.css";
 import Section from "../misc/Section";
 import Flex from "../misc/Flex";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);
@@ -238,7 +238,7 @@ export default function CardsWinratesView(
   const data = useMemo(
     () =>
       Object.keys(winrates).map((grpid) => {
-        const cardObj = db.card(grpid);
+        const cardObj = db.card(parseInt(grpid));
         return cardObj
           ? cardWinrateLineData(winrates, cardObj, 1, cardObj.name)
           : {

@@ -1,5 +1,5 @@
 import Colors from "../../../shared/colors";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import Deck from "../../../shared/deck";
 import { decksList } from "../../../shared/store";
 import store from "../../../shared/redux/stores/rendererStore";

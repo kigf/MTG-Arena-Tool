@@ -1,13 +1,13 @@
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import Deck from "../shared/deck";
 import { InternalDeck } from "../types/Deck";
-import { Archetype } from "../types/Metadata";
 import globalStore from "../shared/store";
 import getJumpstartThemes, {
   themeCards,
 } from "../shared/utils/getJumpstartThemes";
 import { JumpstartThemes } from "../types/jumpstart";
 import { DEFAULT_TILE } from "../shared/constants";
+import { Archetype } from "mtgatool-shared/dist/types/metadata";
 
 function calculateDeviation(values: number[]): number {
   return Math.sqrt(values.reduce((a, b) => a + b) / (values.length - 1));

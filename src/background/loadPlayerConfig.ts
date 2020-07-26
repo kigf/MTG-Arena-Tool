@@ -22,8 +22,8 @@ import { InternalEconomyTransaction } from "../types/inventory";
 import Deck from "../shared/deck";
 import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
-import convertDraftToV2 from "../shared/utils/convertDraftToV2";
 import debugLog from "../shared/debugLog";
+import { convertDraftToV2 } from "mtgatool-shared";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {

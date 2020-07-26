@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 
 const questMap = {

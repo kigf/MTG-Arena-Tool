@@ -18,7 +18,7 @@ import {
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 import { ipcSend } from "../../rendererUtil";
-import database from "../../../shared/database";
+import database from "../../../shared/database-wrapper";
 import RankSmall from "../misc/RankSmall";
 import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 

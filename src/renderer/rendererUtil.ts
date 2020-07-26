@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define, @typescript-eslint/camelcase */
 import { app, ipcRenderer as ipc, remote } from "electron";
 import path from "path";
-import { DbCardData } from "../types/Metadata";
 import { WinLossGate } from "../types/event";
 import {
   IPC_BACKGROUND,
@@ -10,9 +9,10 @@ import {
 } from "../shared/constants";
 import store from "../shared/redux/stores/rendererStore";
 import Deck from "../shared/deck";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import sharedCss from "../shared/shared.css";
 import { MissingWildcards, CardCounts } from "./components/decks/types";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 export const actionLogDir = path.join(
   (app || remote.app).getPath("userData"),

@@ -3,7 +3,7 @@ import _ from "lodash";
 import ReactSelect from "../../../shared/ReactSelect";
 import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import CardTile from "../../../shared/CardTile";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import Input from "../misc/Input";
 //import Toggle from "../misc/Toggle";
 //import useColorPicker from "../../hooks/useColorPicker";

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import SetsFilter from "../misc/SetsFilter";
 import { CollectionStats } from "./collectionStats";
 import CompletionHeatMap from "./CompletionHeatMap";
-import database from "../../../shared/database";
+import database from "../../../shared/database-wrapper";
 import Section from "../misc/Section";
 
 import indexCss from "../../index.css";
@@ -61,7 +61,7 @@ export default function SetsView(props: SetsViewProps): JSX.Element {
   );
 
   const iconSvg =
-    database.sets[currentSetName]?.svg ?? database.defaultSet?.svg;
+    database.sets[currentSetName]?.svg ?? database.metadata?.sets[""].svg;
   const setIcon = iconSvg
     ? `url(data:image/svg+xml;base64,${iconSvg})`
     : `url(${notFound})`;

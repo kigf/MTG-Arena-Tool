@@ -1,5 +1,5 @@
 import _ from "lodash";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import { MatchGameStats } from "../types/currentMatch";
 import { getDeckChanges } from "./getDeckChanges";
 import globalStore from "../shared/store";

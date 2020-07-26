@@ -3,6 +3,8 @@ import electron, { IpcRendererEvent } from "electron";
 import { actions, ActionKeys } from "./actions";
 import debugLog from "../debugLog";
 import logInitialMessage from "../utils/logInitialMessage";
+import { database } from "mtgatool-shared";
+import { loadDbFromCache } from "../database-wrapper";
 const ipcRenderer = electron.ipcRenderer;
 
 /**
@@ -12,6 +14,10 @@ const ipcRenderer = electron.ipcRenderer;
  * @param store Redux store (EnhancedStore)
  */
 export default function initializeRendererReduxIPC(store: EnhancedStore): void {
+  loadDbFromCache();
+  ipcRenderer.on("set_db", (_e: IpcRendererEvent, arg: string): void => {
+    database.setDatabase(arg);
+  });
   logInitialMessage();
   ipcRenderer.on(
     "redux-action",

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { CARD_TYPES, CARD_TYPE_CODES } from "../constants";
-import db from "../database";
+import db from "../database-wrapper";
 import Deck from "../deck";
 import { CardObject } from "../../types/Deck";
 

@@ -100,7 +100,7 @@ export interface ActiveEvent {
   AllowUncollectedCards: boolean;
 }
 
-export interface RankInfo {
+interface RankInfo {
   rankClass: Rank;
   level: number;
   steps: number;
@@ -119,7 +119,7 @@ interface RankRewards {
   availableDate: string;
 }
 
-export enum Rank {
+enum Rank {
   Bronze,
   Silver,
   Gold,

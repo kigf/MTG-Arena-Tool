@@ -8,7 +8,7 @@ import {
   IPC_ALL,
   IPC_RENDERER,
 } from "../../shared/constants";
-import db from "../../shared/database";
+import db from "../../shared/database-wrapper";
 import { InternalMatch } from "../../types/match";
 import Aggregator, { AggregatorFilters } from "../aggregator";
 import MatchesTable from "../components/matches/MatchesTable";

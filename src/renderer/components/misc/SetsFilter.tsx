@@ -1,10 +1,10 @@
 import React, { CSSProperties } from "react";
 //import { useSelector } from "react-redux";
 //import { AppState } from "../../../shared/redux/stores/rendererStore";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import index from "../../index.css";
-import { CardSet } from "../../../types/Metadata";
 import { isEqual } from "lodash";
+import { CardSet } from "mtgatool-shared/dist/types/metadata";
 
 interface SetsFilterProps {
   singleSelection?: boolean;

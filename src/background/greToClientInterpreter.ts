@@ -6,7 +6,7 @@ import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
 import globals from "./globals";
 import actionLog from "./actionLog";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import forceDeckUpdate from "./forceDeckUpdate";
 import getNameBySeat from "./getNameBySeat";
 import updateDeck from "./updateDeck";

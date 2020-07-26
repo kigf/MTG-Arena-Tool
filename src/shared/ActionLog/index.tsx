@@ -1,5 +1,5 @@
 import React from "react";
-import db from "../database";
+import db from "../database-wrapper";
 import useHoverCard from "../../renderer/hooks/useHoverCard";
 import css from "./ActionLog.css";
 

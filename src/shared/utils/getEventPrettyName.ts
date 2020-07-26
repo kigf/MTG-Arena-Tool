@@ -1,4 +1,4 @@
-import database from "../database";
+import database from "../database-wrapper";
 
 const premierMatch = new RegExp(/(PremierDraft)_(.+)_([0-9.]+)/);
 const quickMatch = new RegExp(/(QuickDraft)_(.+)_([0-9.]+)/);
