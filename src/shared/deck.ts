@@ -11,7 +11,7 @@ import Colors from "./colors";
 import { DEFAULT_TILE } from "./constants";
 import db from "./database";
 import { compareCards } from "./utils/compareCards";
-import sha1 from "js-sha1";
+import { sha1 } from "mtgatool-shared";
 import getSetCode from "./utils/getSetCode";
 import { objectClone } from "./utils/objectClone";
 

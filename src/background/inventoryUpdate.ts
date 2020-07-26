@@ -6,7 +6,7 @@ import {
   InternalEconomyTransaction,
 } from "../types/inventory";
 import { Entry as PostMatchUpdateEntry } from "./onLabel/PostMatchUpdate";
-import sha1 from "js-sha1";
+import { sha1 } from "mtgatool-shared";
 
 // REVIEW
 export default function inventoryUpdate(

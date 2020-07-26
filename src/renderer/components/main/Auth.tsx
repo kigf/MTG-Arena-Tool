@@ -13,7 +13,7 @@ import {
   IPC_RENDERER,
 } from "../../../shared/constants";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import sha1 from "js-sha1";
+import { sha1 } from "mtgatool-shared";
 
 import css from "./auth.css";
 import formsCss from "../../forms.css";

@@ -6,7 +6,7 @@ import {
   InventoryUpdate,
   InternalEconomyTransaction,
 } from "../../types/inventory";
-import sha1 from "js-sha1";
+import { sha1 } from "mtgatool-shared";
 
 interface EntryJson {
   context: string;
