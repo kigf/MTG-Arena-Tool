@@ -9,7 +9,7 @@ import {
   IPC_RENDERER,
   IPC_BACKGROUND,
 } from "../../shared/constants";
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import getDeckColors from "../../shared/utils/getDeckColors";
 import getReadableFormat from "../../shared/utils/getReadableFormat";
 

@@ -5,7 +5,7 @@ import { MANA_COLORS, IPC_NONE } from "../../../shared/constants";
 import DeckList from "../misc/DeckList";
 import DeckTypesStats from "../../../shared/TypesStats";
 import DeckManaCurve from "../../../shared/ManaCurve";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
 import { useDispatch, useSelector } from "react-redux";

@@ -3,7 +3,7 @@ import { DeckChange } from "../../../types/Deck";
 import CardTile from "../../../shared/CardTile";
 import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import DeckList from "../misc/DeckList";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import db from "../../../shared/database-wrapper";
 import { useSprings, animated } from "react-spring";

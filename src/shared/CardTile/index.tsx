@@ -6,7 +6,7 @@ import {
   FACE_ADVENTURE_MAIN,
   LANDS_HACK,
 } from "../constants";
-import Deck from "../deck";
+import { Deck } from "mtgatool-shared";
 import { getRankColorClass } from "../utils/getRankColorClass";
 import { openScryfallCard } from "../utils/openScryfallCard";
 import { getCardArtCrop } from "../utils/getCardArtCrop";

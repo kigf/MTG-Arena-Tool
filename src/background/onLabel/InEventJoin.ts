@@ -1,4 +1,4 @@
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { InternalDeck } from "../../types/Deck";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";

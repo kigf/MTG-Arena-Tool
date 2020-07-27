@@ -1,5 +1,5 @@
 import * as React from "react";
-import Deck from "../deck";
+import { Deck } from "mtgatool-shared";
 import { MANA_COLORS } from "../constants";
 import db from "../database-wrapper";
 

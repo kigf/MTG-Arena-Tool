@@ -5,7 +5,7 @@ import {
   PACK_SIZES,
   DEFAULT_PACK_SIZE,
 } from "../shared/constants";
-import Deck from "../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { DraftState, InternalDraftv2 } from "../types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import DeckList from "./DeckList";

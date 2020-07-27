@@ -4,7 +4,7 @@ import {
   v2cardsList,
   v3cardsList,
 } from "../types/Deck";
-import Deck from "../shared/deck";
+import { Deck } from "mtgatool-shared";
 
 function convertV3ListToV2(orig: v3cardsList): v2cardsList {
   const newList: v2cardsList = [];

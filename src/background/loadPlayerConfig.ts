@@ -19,11 +19,10 @@ import { InternalMatch } from "../types/match";
 import store from "../shared/redux/stores/backgroundStore";
 import { InternalEvent } from "../types/event";
 import { InternalEconomyTransaction } from "../types/inventory";
-import Deck from "../shared/deck";
 import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
 import debugLog from "../shared/debugLog";
-import { convertDraftToV2 } from "mtgatool-shared";
+import { convertDraftToV2, Deck } from "mtgatool-shared";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {

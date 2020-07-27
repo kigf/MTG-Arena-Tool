@@ -7,7 +7,7 @@ import { getDeck, deckChangeExists } from "../../shared/store";
 import { IPC_RENDERER } from "../../shared/constants";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck;

@@ -2,7 +2,7 @@ import React from "react";
 import { CardObject } from "../../../types/Deck";
 import { IPC_NONE } from "../../../shared/constants";
 import DeckTypesStats from "../../../shared/TypesStats";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../../../shared/database-wrapper";

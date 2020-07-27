@@ -1,6 +1,6 @@
 import LogEntry from "../../types/logDecoder";
 import selectDeck from "../selectDeck";
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { ArenaV3Deck } from "../../types/Deck";
 import convertDeckFromV3 from "../convertDeckFromV3";
 

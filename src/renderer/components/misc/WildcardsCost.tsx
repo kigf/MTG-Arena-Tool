@@ -2,7 +2,7 @@ import React from "react";
 import { CARD_RARITIES } from "../../../shared/constants";
 import _ from "lodash";
 import { MissingWildcards } from "../decks/types";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import {

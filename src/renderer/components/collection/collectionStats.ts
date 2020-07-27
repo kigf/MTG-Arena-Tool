@@ -1,6 +1,6 @@
 import { Colors } from "mtgatool-shared";
 import db from "../../../shared/database-wrapper";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { decksList } from "../../../shared/store";
 import store from "../../../shared/redux/stores/rendererStore";
 import { getMissingCardCounts } from "../../rendererUtil";

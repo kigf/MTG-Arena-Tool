@@ -1,4 +1,4 @@
-import Deck from "../deck";
+import { Deck } from "mtgatool-shared";
 import { JumpstartThemes } from "../../types/jumpstart";
 
 export const themeCards: Record<JumpstartThemes, number> = {

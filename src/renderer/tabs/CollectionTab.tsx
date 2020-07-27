@@ -1,7 +1,7 @@
 import { remote } from "electron";
 import React from "react";
 import { TableState } from "react-table";
-import { Colors } from "mtgatool-shared";
+import { Colors, Deck } from "mtgatool-shared";
 import {
   DRAFT_RANKS,
   IPC_ALL,
@@ -23,7 +23,6 @@ import {
   getCardInBoosters,
 } from "../rendererUtil";
 import { CardCounts } from "../components/decks/types";
-import Deck from "../../shared/deck";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import { decksList } from "../../shared/store";

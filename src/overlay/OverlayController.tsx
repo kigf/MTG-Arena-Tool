@@ -11,7 +11,7 @@ import {
   IPC_MAIN,
   IPC_ALL,
 } from "../shared/constants";
-import Deck from "../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { AppState } from "../shared/redux/stores/overlayStore";
 import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";

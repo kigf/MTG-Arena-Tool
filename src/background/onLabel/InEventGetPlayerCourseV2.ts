@@ -1,6 +1,6 @@
 // PROBABLY DEPRECATED
 import { playerDb } from "../../shared/db/LocalDatabase";
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { InternalEvent, PlayerCourse } from "../../types/event";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";

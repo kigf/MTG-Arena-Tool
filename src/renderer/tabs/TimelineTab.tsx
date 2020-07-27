@@ -10,7 +10,7 @@ import format from "date-fns/format";
 import { getRankIndex } from "../../shared/utils/getRankIndex";
 import { SeasonalRankData } from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 import ResultDetails from "../components/misc/ResultDetails";

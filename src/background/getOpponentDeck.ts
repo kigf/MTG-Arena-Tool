@@ -1,5 +1,5 @@
 import db from "../shared/database-wrapper";
-import Deck from "../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { InternalDeck } from "../types/Deck";
 import globalStore from "../shared/store";
 import getJumpstartThemes, {

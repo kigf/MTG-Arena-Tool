@@ -1,4 +1,4 @@
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { PlayerCourse } from "../../types/event";
 import LogEntry from "../../types/logDecoder";
 import selectDeck from "../selectDeck";

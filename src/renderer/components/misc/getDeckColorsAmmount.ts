@@ -1,4 +1,4 @@
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import database from "../../../shared/database-wrapper";
 import { CardObject, ColorsAmmount } from "../../../types/Deck";
 

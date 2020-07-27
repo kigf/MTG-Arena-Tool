@@ -8,7 +8,7 @@ import {
   get_deck_missing as getDeckMissing,
 } from "../../rendererUtil";
 import WildcardsCost from "../misc/WildcardsCost";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { IPC_NONE } from "../../../shared/constants";

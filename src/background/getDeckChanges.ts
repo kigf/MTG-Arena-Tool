@@ -1,4 +1,4 @@
-import Deck from "../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { CardObject } from "../types/Deck";
 import { DeckChanges } from "../types/currentMatch";
 

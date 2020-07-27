@@ -1,4 +1,4 @@
-import Deck from "../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
 import globalStore from "../shared/store";

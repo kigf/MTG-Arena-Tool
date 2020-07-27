@@ -1,5 +1,5 @@
 import { DeckChange } from "../../types/Deck";
-import Deck from "../deck";
+import { Deck } from "mtgatool-shared";
 
 export default function getDeckAfterChange(change: DeckChange): Deck {
   const decklist = new Deck({}, change.previousMain, change.previousSide);

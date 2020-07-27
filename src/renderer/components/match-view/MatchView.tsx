@@ -4,7 +4,6 @@ import path from "path";
 import { InternalMatch } from "../../../types/match";
 import ShareButton from "../misc/ShareButton";
 import ManaCost from "../misc/ManaCost";
-import Deck from "../../../shared/deck";
 import { actionLogDir, ipcSend } from "../../rendererUtil";
 import DeckList from "../misc/DeckList";
 import RankIcon from "../misc/RankIcon";
@@ -37,7 +36,7 @@ import { toMMSS } from "../../../shared/utils/dateTo";
 import Flex from "../misc/Flex";
 import ResultDetails from "../misc/ResultDetails";
 import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
-import { CardsList } from "mtgatool-shared";
+import { CardsList, Deck } from "mtgatool-shared";
 
 interface MatchViewProps {
   match: InternalMatch;

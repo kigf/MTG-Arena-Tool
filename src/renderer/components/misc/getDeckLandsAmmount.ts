@@ -1,6 +1,6 @@
 import database from "../../../shared/database-wrapper";
 import { CardObject, ColorsAmmount } from "../../../types/Deck";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 
 export default function getDeckLandsAmmount(deck: Deck): ColorsAmmount {
   const colors = { total: 0, w: 0, u: 0, b: 0, r: 0, g: 0, c: 0 };

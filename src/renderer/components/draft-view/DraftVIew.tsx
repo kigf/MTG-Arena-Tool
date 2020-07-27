@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import Slider, { SliderPosition } from "../misc/Slider";
 import DeckList from "../misc/DeckList";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import {
   PACK_SIZES,
   DRAFT_RANKS,

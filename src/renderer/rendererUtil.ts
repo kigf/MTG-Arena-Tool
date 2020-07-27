@@ -8,10 +8,10 @@ import {
   CARD_RARITIES,
 } from "../shared/constants";
 import store from "../shared/redux/stores/rendererStore";
-import Deck from "../shared/deck";
 import db from "../shared/database-wrapper";
 import sharedCss from "../shared/shared.css";
 import { MissingWildcards, CardCounts } from "./components/decks/types";
+import { Deck } from "mtgatool-shared";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 
 export const actionLogDir = path.join(

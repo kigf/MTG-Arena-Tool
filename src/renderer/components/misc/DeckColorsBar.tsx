@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import getDeckColorsAmmount from "./getDeckColorsAmmount";
 
 interface DeckColorsBarProps {

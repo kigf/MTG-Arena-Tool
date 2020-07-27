@@ -2,7 +2,7 @@
 import LogEntry from "../../types/logDecoder";
 import { normaliseFields } from "../backgroundUtil";
 import { ClientToGREMessage } from "../../assets/proto/GreTypes";
-import Deck from "../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { setOnThePlay } from "../../shared/store/currentMatchStore";
 import globalStore from "../../shared/store";
 import debugLog from "../../shared/debugLog";

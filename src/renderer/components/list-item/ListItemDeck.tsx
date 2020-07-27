@@ -1,7 +1,7 @@
 import format from "date-fns/format";
 import _ from "lodash";
 import React from "react";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import {
   formatPercent,
   formatWinrateInterval,

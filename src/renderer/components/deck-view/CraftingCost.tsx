@@ -1,5 +1,5 @@
 import React from "react";
-import Deck from "../../../shared/deck";
+import { Deck } from "mtgatool-shared";
 import { CARD_RARITIES } from "../../../shared/constants";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";

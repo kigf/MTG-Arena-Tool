@@ -1,6 +1,6 @@
 import React from "react";
 import CardTile, { LandsTile, CardTileQuantity } from "../shared/CardTile";
-import { Colors } from "mtgatool-shared";
+import { Colors, Deck } from "mtgatool-shared";
 import {
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,
@@ -12,7 +12,6 @@ import {
   LANDS_HACK,
 } from "../shared/constants";
 import db from "../shared/database-wrapper";
-import Deck from "../shared/deck";
 import DeckManaCurve from "../shared/ManaCurve";
 import DeckTypesStats from "../shared/TypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
