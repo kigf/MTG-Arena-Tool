@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import _ from "lodash";
 import { Filters } from "react-table";
-import Colors from "../../../shared/colors";
+import { Colors } from "mtgatool-shared";
 import { WHITE, BLUE, RED, BLACK, GREEN } from "../../../shared/constants";
 import { StringFilter } from "../tables/filters";
 import {

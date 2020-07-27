@@ -1,7 +1,7 @@
 import { remote } from "electron";
 import React from "react";
 import { TableState } from "react-table";
-import Colors from "../../shared/colors";
+import { Colors } from "mtgatool-shared";
 import {
   DRAFT_RANKS,
   IPC_ALL,

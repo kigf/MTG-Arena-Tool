@@ -1,6 +1,6 @@
 import React from "react";
 import CardTile, { LandsTile, CardTileQuantity } from "../shared/CardTile";
-import Colors from "../shared/colors";
+import { Colors } from "mtgatool-shared";
 import {
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,

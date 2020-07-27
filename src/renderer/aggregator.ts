@@ -17,7 +17,7 @@ import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
-import Colors from "../shared/colors";
+import { Colors } from "mtgatool-shared";
 import { InternalDraftv2 } from "../types/draft";
 import Deck from "../shared/deck";
 import getEventPrettyName from "../shared/utils/getEventPrettyName";

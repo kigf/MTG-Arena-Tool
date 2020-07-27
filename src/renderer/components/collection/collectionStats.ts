@@ -1,4 +1,4 @@
-import Colors from "../../../shared/colors";
+import { Colors } from "mtgatool-shared";
 import db from "../../../shared/database-wrapper";
 import Deck from "../../../shared/deck";
 import { decksList } from "../../../shared/store";

@@ -15,7 +15,7 @@ import {
 } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import getFiltersFromQuery from "../collection/collectionQuery";
-import Colors from "../../../shared/colors";
+import { Colors } from "mtgatool-shared";
 import {
   ColorBitsFilter,
   ArrayFilter,

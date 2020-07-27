@@ -5,8 +5,9 @@ import {
   isV2CardsList,
   v2cardsList,
 } from "../types/Deck";
-import Colors from "./colors";
+
 import db from "./database-wrapper";
+import { Colors } from "mtgatool-shared";
 
 interface CardTypesCount {
   art: number;
