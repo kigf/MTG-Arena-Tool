@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/camelcase */
 import { app } from "electron";
-import { objectClone } from "../shared/utils/objectClone";
 import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
 import globals from "./globals";
@@ -62,6 +61,7 @@ import {
 import countValues from "../shared/utils/countValues";
 import useSet from "../shared/utils/useSet";
 import debugLog from "../shared/debugLog";
+import { objectClone } from "mtgatool-shared";
 
 function changePriority(previous: number, current: number, time: number): void {
   const priorityTimers = objectClone(globalStore.currentMatch.priorityTimers);

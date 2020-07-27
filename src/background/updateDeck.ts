@@ -4,7 +4,7 @@ import getOpponentDeck from "./getOpponentDeck";
 import globalStore from "../shared/store";
 import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
-import { objectClone } from "../shared/utils/objectClone";
+import { objectClone } from "mtgatool-shared";
 
 const lastDeckUpdate = new Date();
 
