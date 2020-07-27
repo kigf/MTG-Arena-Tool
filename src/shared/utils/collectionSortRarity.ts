@@ -1,5 +1,5 @@
-import getRaritySortValue from "./getRaritySortValue";
 import database from "../database-wrapper";
+import { getRaritySortValue } from "mtgatool-shared";
 
 export default function collectionSortRarity(a: number, b: number): number {
   const aObj = database.card(a);
