@@ -1,10 +1,10 @@
 import LogEntry from "../../types/logDecoder";
-import { DraftStatus } from "../../types/draft";
 import { setDraftPack } from "../../shared/store/currentDraftStore";
 import { ipcSend } from "../backgroundUtil";
 import globalStore from "../../shared/store";
 import globals from "../globals";
 import { constants } from "mtgatool-shared";
+import { DraftStatus } from "mtgatool-shared/dist/types/draft";
 
 const { IPC_OVERLAY } = constants;
 

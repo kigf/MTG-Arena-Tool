@@ -3,7 +3,6 @@ import { TableViewRowProps } from "../tables/types";
 import { EventTableData } from "../events/types";
 import ManaCost from "../misc/ManaCost";
 import db from "../../../shared/database-wrapper";
-
 import {
   ListItem,
   Column,
@@ -18,17 +17,18 @@ import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
 import RoundCard from "../misc/RoundCard";
 import { compareDesc } from "date-fns";
 import { useDispatch } from "react-redux";
-import { InternalMatch } from "../../../types/match";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { getMatch, draftExists, getDraft } from "../../../shared/store";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
-import { InternalDraftv2 } from "../../../types/draft";
 import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 import { constants, getEventPrettyName } from "mtgatool-shared";
+import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
+
 const { DEFAULT_TILE, SUB_MATCH, SUB_DRAFT, IPC_NONE } = constants;
 
 export function CardPoolRares(props: { pool: number[] }): JSX.Element {

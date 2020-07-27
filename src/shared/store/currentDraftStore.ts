@@ -1,5 +1,5 @@
 import globalStore from ".";
-import { InternalDraftv2 } from "../../types/draft";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
 export const draftStateObject = {
   archived: false,

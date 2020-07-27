@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalDraftv2 } from "../../../types/draft";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
 const initialDraftsState = {
   draftsIndex: [] as string[],

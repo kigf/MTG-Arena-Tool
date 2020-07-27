@@ -17,11 +17,11 @@ import {
   getCardArtCrop,
 } from "../../../shared/utils/getCardArtCrop";
 import { getRankColorClass } from "../../../shared/utils/getRankColorClass";
-import { InternalDraftv2 } from "../../../types/draft";
 import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
 import ManaCost from "../misc/ManaCost";
 import Section from "../misc/Section";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
 const {
   PACK_SIZES,

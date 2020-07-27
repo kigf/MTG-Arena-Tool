@@ -1,8 +1,8 @@
 import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
 import { setDraftData } from "../../shared/store/currentDraftStore";
-import { InternalDraftv2 } from "../../types/draft";
 import { constants } from "mtgatool-shared";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
 const { ARENA_MODE_DRAFT } = constants;
 

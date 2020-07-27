@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { constants, Deck } from "mtgatool-shared";
-import { DraftState, InternalDraftv2 } from "../types/draft";
+import { InternalDraftv2, DraftState } from "mtgatool-shared/dist/types/draft";
 import { OverlaySettingsData } from "../types/settings";
 import DeckList from "./DeckList";
 
