@@ -4,11 +4,11 @@ import globals from "../globals";
 import { parseWotcTimeFallback } from "../backgroundUtil";
 
 import LogEntry from "../../types/logDecoder";
-import { MythicRatingUpdate } from "../../types/rank";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore, { seasonalList } from "../../shared/store";
-import { SeasonalRankData } from "../../types/Season";
 import { constants } from "mtgatool-shared";
+import { MythicRatingUpdate } from "mtgatool-shared/dist/types/rank";
+import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
 
 const { IPC_RENDERER } = constants;
 

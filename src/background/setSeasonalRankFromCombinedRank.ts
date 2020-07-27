@@ -1,11 +1,11 @@
-import { InternalRank } from "../types/rank";
 import globals from "./globals";
-import { SeasonalRankData } from "../types/Season";
 import globalStore, { seasonalList, seasonalExists } from "../shared/store";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { playerDb } from "../shared/db/LocalDatabase";
 import { httpSetSeasonal } from "./httpApi";
 import { constants } from "mtgatool-shared";
+import { InternalRank } from "mtgatool-shared/dist/types/rank";
+import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
 
 const { IPC_RENDERER } = constants;
 

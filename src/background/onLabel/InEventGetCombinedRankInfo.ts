@@ -1,12 +1,12 @@
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
-import { InternalRank } from "../../types/rank";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
 import setSeasonalRankFromCombinedRank from "../setSeasonalRankFromCombinedRank";
 import globalStore from "../../shared/store";
 import isRankedEvent from "../../shared/utils/isRankedEvent";
 import { constants } from "mtgatool-shared";
+import { InternalRank } from "mtgatool-shared/dist/types/rank";
 
 const { IPC_RENDERER } = constants;
 
