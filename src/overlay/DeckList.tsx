@@ -5,12 +5,12 @@ import db from "../shared/database-wrapper";
 import DeckManaCurve from "../shared/ManaCurve";
 import DeckTypesStats from "../shared/TypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
-import { CardObject } from "../types/Deck";
 import { OverlaySettingsData } from "../types/settings";
 import SampleSizePanel from "./SampleSizePanel";
 import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
 import css from "./index.css";
 import { Chances } from "mtgatool-shared/dist/types/chances";
+import { CardObject } from "mtgatool-shared/dist/types/deck";
 
 const {
   DRAFT_RANKS,

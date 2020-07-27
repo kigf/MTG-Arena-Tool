@@ -7,13 +7,13 @@ import startOfDay from "date-fns/startOfDay";
 import subDays from "date-fns/subDays";
 import db from "../shared/database-wrapper";
 import { normalApproximationInterval } from "../shared/utils/statsFns";
-import { InternalDeck } from "../types/Deck";
-import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
 import { constants, Colors, Deck, getEventPrettyName } from "mtgatool-shared";
-import { InternalDraftv2 } from "../types/draft";
 import { format } from "date-fns";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
+import { InternalDeck } from "mtgatool-shared/dist/types/deck";
 
 const { DATE_ALL_TIME, DATE_LAST_30, DATE_LAST_DAY, DATE_SEASON } = constants;
 

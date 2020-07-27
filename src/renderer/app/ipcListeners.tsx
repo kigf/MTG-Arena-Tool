@@ -6,12 +6,12 @@ import timestamp from "../../shared/utils/timestamp";
 import { ipcSend } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore from "../../shared/store";
-import { ArenaV3Deck } from "../../types/Deck";
 import { AnyAction, Dispatch } from "redux";
 import store from "../../shared/redux/stores/rendererStore";
 import debugLog from "../../shared/debugLog";
 import reloadTheme from "../../shared/utils/reloadTheme";
 import { constants } from "mtgatool-shared";
+import { ArenaV3Deck } from "mtgatool-shared/dist/types/deck";
 const {
   MAIN_SETTINGS,
   IPC_NONE,

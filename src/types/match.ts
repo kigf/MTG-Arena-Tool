@@ -1,7 +1,7 @@
-import { InternalDeck } from "./Deck";
 import { Result } from "./greInterpreter";
-import { MatchGameStats } from "./currentMatch.old";
 import { MatchState } from "mtgatool-shared/dist/types/match";
+import { InternalDeck } from "mtgatool-shared/dist/types/deck";
+import { MatchGameStats } from "mtgatool-shared/dist/types/currentMatch";
 
 interface ReservedPlayer {
   userId: string;

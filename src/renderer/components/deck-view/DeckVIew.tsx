@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { InternalDeck, CardObject } from "../../../types/Deck";
 import ManaCost from "../misc/ManaCost";
 import DeckList from "../misc/DeckList";
 import DeckTypesStats from "../../../shared/TypesStats";
@@ -39,6 +38,7 @@ import DeckColorsBar from "../misc/DeckColorsBar";
 import Section from "../misc/Section";
 import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
+import { InternalDeck, CardObject } from "mtgatool-shared/dist/types/deck";
 const { MANA_COLORS, IPC_NONE } = constants;
 
 const VIEW_VISUAL = 0;

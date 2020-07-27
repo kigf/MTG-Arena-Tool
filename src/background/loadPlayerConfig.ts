@@ -4,16 +4,10 @@ import globals from "./globals";
 
 import isEpochTimestamp from "../shared/utils/isEpochTimestamp";
 import { playerDb } from "../shared/db/LocalDatabase";
-import { isV2CardsList, ArenaV3Deck, DeckChange } from "../types/Deck";
 import arenaLogWatcher from "./arena-log-watcher";
 import convertDeckFromV3 from "./convertDeckFromV3";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { InternalMatch } from "../types/match";
 import store from "../shared/redux/stores/backgroundStore";
-import { InternalEvent } from "../types/event";
-import { InternalEconomyTransaction } from "../types/inventory";
-import { InternalDraftv2, InternalDraft } from "../types/draft";
-import { SeasonalRankData } from "../types/Season";
 import debugLog from "../shared/debugLog";
 import {
   constants,
@@ -21,6 +15,19 @@ import {
   Deck,
   getDeckAfterChange,
 } from "mtgatool-shared";
+import {
+  ArenaV3Deck,
+  isV2CardsList,
+  DeckChange,
+} from "mtgatool-shared/dist/types/deck";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
+import { InternalEvent } from "mtgatool-shared/dist/types/event";
+import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
+import {
+  InternalDraftv2,
+  InternalDraft,
+} from "mtgatool-shared/dist/types/draft";
+import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
 
 const { IPC_BACKGROUND, IPC_OVERLAY, IPC_RENDERER, IPC_ALL } = constants;
 

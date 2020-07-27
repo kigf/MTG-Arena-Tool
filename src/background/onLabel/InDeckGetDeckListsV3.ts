@@ -1,6 +1,6 @@
-import { ArenaV3Deck } from "../../types/Deck";
 import LogEntry from "../../types/logDecoder";
 import InDeckGetDeckLists from "./InDeckGetDeckLists";
+import { ArenaV3Deck } from "mtgatool-shared/dist/types/deck";
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck[];

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { DeckChange } from "../../../types/Deck";
 import CardTile from "../../../shared/CardTile";
 import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import DeckList from "../misc/DeckList";
@@ -12,6 +11,7 @@ import { getDeckChangesList } from "../../../shared/store";
 import css from "./ChangesDeckView.css";
 import deckViewCss from "./DeckView.css";
 import Section from "../misc/Section";
+import { DeckChange, CardObject } from "mtgatool-shared/dist/types/deck";
 
 function sortDeckChanges(ad: DeckChange, bd: DeckChange): number {
   const a = ad.date;
@@ -117,7 +117,7 @@ export default function ChangesDeckView(
                   className={css.deckChangesExpand}
                 >
                   <div className={cardTileCss.cardTileSeparator}>Mainboard</div>
-                  {ch.changesMain.map((card) => {
+                  {ch.changesMain.map((card: CardObject) => {
                     const cardObj = db.card(card.id);
                     if (cardObj)
                       return (
@@ -137,7 +137,7 @@ export default function ChangesDeckView(
                       );
                   })}
                   <div className={cardTileCss.cardTileSeparator}>Sideboard</div>
-                  {ch.changesSide.map((card) => {
+                  {ch.changesSide.map((card: CardObject) => {
                     const cardObj = db.card(card.id);
                     if (cardObj)
                       return (

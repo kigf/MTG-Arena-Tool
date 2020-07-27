@@ -1,9 +1,3 @@
-import { InternalMatch } from "../../types/match";
-import { InternalEvent } from "../../types/event";
-import { DeckChange, InternalDeck, ArenaV3Deck } from "../../types/Deck";
-import { InternalEconomyTransaction } from "../../types/inventory";
-import { InternalDraftv2 } from "../../types/draft";
-import { SeasonalRankData } from "../../types/Season";
 import { matchStateObject } from "./currentMatchStore";
 import { draftStateObject } from "./currentDraftStore";
 import { constants } from "mtgatool-shared";
@@ -11,7 +5,16 @@ import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 import prettierDeckData from "../utils/prettierDeckData";
 import getDeckColors from "../utils/getDeckColors";
-import { MatchState } from "mtgatool-shared/dist/types/match";
+import { MatchState, InternalMatch } from "mtgatool-shared/dist/types/match";
+import { InternalEvent } from "mtgatool-shared/dist/types/event";
+import {
+  InternalDeck,
+  DeckChange,
+  ArenaV3Deck,
+} from "mtgatool-shared/dist/types/deck";
+import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
+import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
 
 const { DEFAULT_TILE } = constants;
 

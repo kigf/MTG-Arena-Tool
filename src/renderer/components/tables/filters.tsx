@@ -3,7 +3,6 @@ import matchSorter from "match-sorter";
 import React from "react";
 import { ColumnInstance, FilterValue, Row, TableState } from "react-table";
 import { constants } from "mtgatool-shared";
-import { InternalDeck } from "../../../types/Deck";
 import { BinarySymbol } from "../misc/BinarySymbol";
 import { CheckboxContainer } from "../misc/CheckboxContainer";
 import { InputContainer } from "../misc/InputContainer";
@@ -12,6 +11,7 @@ import { MetricText } from "../misc/MetricText";
 import { useMultiSelectFilter } from "./useMultiSelectFilter";
 import { MultiSelectFilterProps, TableData } from "./types";
 import css from "../../index.css";
+import { InternalDeck } from "mtgatool-shared/dist/types/deck";
 
 const { COLORS_ALL, COLORS_BRIEF } = constants;
 

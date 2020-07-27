@@ -1,7 +1,7 @@
-import { InternalDeck } from "../../types/Deck";
 import database from "../database-wrapper";
 import debugLog from "../debugLog";
 import { constants } from "mtgatool-shared";
+import { InternalDeck } from "mtgatool-shared/dist/types/deck";
 
 const { WHITE, BLUE, BLACK, RED, GREEN } = constants;
 

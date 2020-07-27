@@ -9,7 +9,6 @@ import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database-wrapper";
 import { getWinrateClass } from "../../rendererUtil";
 import { getDeckChangesList } from "../../../shared/store";
-import { DeckChange, CardObject } from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";
 import { format } from "date-fns";
 import { useTable, useSortBy } from "react-table";
@@ -20,6 +19,7 @@ import css from "./CardsWinrateView.css";
 import Section from "../misc/Section";
 import Flex from "../misc/Flex";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { DeckChange, CardObject } from "mtgatool-shared/dist/types/deck";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);

@@ -1,4 +1,3 @@
-import { CardObject, DeckChange, ArenaV3Deck } from "../../types/Deck";
 import convertDeckFromV3 from "../convertDeckFromV3";
 import db from "../../shared/database-wrapper";
 import LogEntry from "../../types/logDecoder";
@@ -7,6 +6,11 @@ import { getDeck, deckChangeExists } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
 import { constants, Deck } from "mtgatool-shared";
+import {
+  ArenaV3Deck,
+  CardObject,
+  DeckChange,
+} from "mtgatool-shared/dist/types/deck";
 
 const { IPC_RENDERER } = constants;
 

@@ -1,4 +1,4 @@
-import { ArenaV3Deck, InternalDeck } from "./Deck";
+import { InternalDeck, ArenaV3Deck } from "mtgatool-shared/dist/types/deck";
 
 export interface EventInstanceData {
   CurrentWins: number;
