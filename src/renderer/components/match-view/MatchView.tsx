@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import fs from "fs";
 import path from "path";
-import { InternalMatch } from "../../../types/match";
 import ShareButton from "../misc/ShareButton";
 import ManaCost from "../misc/ManaCost";
 import { actionLogDir, ipcSend } from "../../rendererUtil";
@@ -40,6 +39,7 @@ import {
   getEventPrettyName,
 } from "mtgatool-shared";
 import { MatchGameStats } from "mtgatool-shared/dist/types/currentMatch";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
 
 const { IPC_NONE } = constants;
 

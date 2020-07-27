@@ -1,7 +1,7 @@
 import { TableState } from "react-table";
-import { InternalMatch } from "../../../types/match";
 import { AggregatorFilters } from "../../aggregator";
 import { TableControlsProps, TableData, TagCounts } from "../tables/types";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
 
 export interface MatchTableData extends InternalMatch, TableData {
   archivedSortVal: number;

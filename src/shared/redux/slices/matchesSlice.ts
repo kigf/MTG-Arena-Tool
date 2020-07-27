@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InternalMatch } from "../../../types/match";
 import globalStore from "../../store";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
 
 const initialMatchState = {
   matchesIndex: [] as string[],

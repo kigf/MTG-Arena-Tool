@@ -4,13 +4,13 @@ import { playerDb } from "../shared/db/LocalDatabase";
 import { ipcSend, normalizeISOString } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import globalStore, { getMatch } from "../shared/store";
-import { InternalMatch } from "../types/match";
 import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
 import debugLog from "../shared/debugLog";
 import { constants, getJumpstartThemes, themeCards } from "mtgatool-shared";
 import { JumpstartThemes } from "mtgatool-shared/dist/types/jumpstart";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
 
 const { IPC_RENDERER, IPC_OVERLAY, DEFAULT_TILE } = constants;
 

@@ -31,9 +31,9 @@ import globalStore, {
   getSeasonal,
 } from "../shared/store";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { InternalMatch } from "../types/match";
 import debugLog from "../shared/debugLog";
 import { constants } from "mtgatool-shared";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
 
 const {
   SYNC_CHECK,

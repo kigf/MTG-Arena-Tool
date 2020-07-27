@@ -3,7 +3,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TableState } from "react-table";
 import db from "../../shared/database-wrapper";
-import { InternalMatch } from "../../types/match";
 import Aggregator, { AggregatorFilters } from "../aggregator";
 import MatchesTable from "../components/matches/MatchesTable";
 import { MatchTableData } from "../components/matches/types";
@@ -17,6 +16,7 @@ import store, { AppState } from "../../shared/redux/stores/rendererStore";
 
 import appCss from "../app/app.css";
 import { constants, getEventPrettyName } from "mtgatool-shared";
+import { InternalMatch } from "mtgatool-shared/dist/types/match";
 const { SUB_MATCH, IPC_NONE, IPC_ALL, IPC_RENDERER } = constants;
 
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;

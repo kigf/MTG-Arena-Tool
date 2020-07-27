@@ -1,8 +1,7 @@
-import { InternalPlayer } from "../../types/match";
 import globalStore from ".";
 import { Deck } from "mtgatool-shared";
 import { Chances } from "mtgatool-shared/dist/types/chances";
-import { MatchState } from "mtgatool-shared/dist/types/match";
+import { MatchState, InternalPlayer } from "mtgatool-shared/dist/types/match";
 import {
   CardCast,
   PriorityTimers,

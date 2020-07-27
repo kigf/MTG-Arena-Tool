@@ -1,7 +1,6 @@
 import globals from "../globals";
 import { ipcSend, parseWotcTimeFallback } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
-import { MatchGameRoomStateChange } from "../../types/match";
 import clearDeck from "../clearDeck";
 import saveMatch from "../saveMatch";
 import globalStore from "../../shared/store";
@@ -11,6 +10,7 @@ import {
   setCurrentMatchMany,
 } from "../../shared/store/currentMatchStore";
 import { constants } from "mtgatool-shared";
+import { MatchGameRoomStateChange } from "mtgatool-shared/dist/types/match";
 
 const { ARENA_MODE_IDLE } = constants;
 
