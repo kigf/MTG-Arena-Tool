@@ -59,9 +59,8 @@ import {
   addCardFromSideboard,
 } from "../shared/store/currentMatchStore";
 import countValues from "../shared/utils/countValues";
-import useSet from "../shared/utils/useSet";
 import debugLog from "../shared/debugLog";
-import { objectClone } from "mtgatool-shared";
+import { objectClone, useSet } from "mtgatool-shared";
 
 function changePriority(previous: number, current: number, time: number): void {
   const priorityTimers = objectClone(globalStore.currentMatch.priorityTimers);
