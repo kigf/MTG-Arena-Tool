@@ -10,7 +10,7 @@ import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
 import debugLog from "../shared/debugLog";
 import { constants, getJumpstartThemes, themeCards } from "mtgatool-shared";
-import { JumpstartThemes } from "../types/jumpstart";
+import { JumpstartThemes } from "mtgatool-shared/dist/types/jumpstart";
 
 const { IPC_RENDERER, IPC_OVERLAY, DEFAULT_TILE } = constants;
 
