@@ -8,7 +8,6 @@ import {
 import { ipcSend, normalizeISOString } from "./backgroundUtil";
 import globals from "./globals";
 
-import getDeckAfterChange from "../shared/utils/getDeckAfterChange";
 import isEpochTimestamp from "../shared/utils/isEpochTimestamp";
 import { playerDb } from "../shared/db/LocalDatabase";
 import { isV2CardsList, ArenaV3Deck, DeckChange } from "../types/Deck";
@@ -22,7 +21,7 @@ import { InternalEconomyTransaction } from "../types/inventory";
 import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
 import debugLog from "../shared/debugLog";
-import { convertDraftToV2, Deck } from "mtgatool-shared";
+import { convertDraftToV2, Deck, getDeckAfterChange } from "mtgatool-shared";
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {

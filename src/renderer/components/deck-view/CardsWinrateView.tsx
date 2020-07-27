@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import getDeckAfterChange from "../../../shared/utils/getDeckAfterChange";
-import { compareCards, Deck } from "mtgatool-shared";
+import { compareCards, getDeckAfterChange, Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import Aggregator, {
   AggregatorFilters,
