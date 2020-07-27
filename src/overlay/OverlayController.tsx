@@ -2,19 +2,19 @@ import { ipcRenderer as ipc, webFrame } from "electron";
 import React, { useCallback, useEffect, useState } from "react";
 import { Howl, Howler } from "howler";
 import { useSelector, useDispatch } from "react-redux";
-import { reduxAction } from "../shared/redux/sharedRedux";
 import { constants, Deck } from "mtgatool-shared";
+import { reduxAction } from "../shared/redux/sharedRedux";
+import reloadTheme from "../shared/utils/reloadTheme";
 import { AppState } from "../shared/redux/stores/overlayStore";
-import { MatchData } from "../types/currentMatch";
-import { OverlaySettingsData } from "../types/settings";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
 import Overview from "./overview";
-import css from "./index.css";
+import { OverlaySettingsData } from "../types/settings";
+import { MatchData } from "mtgatool-shared/dist/types/currentMatch";
+import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
+import css from "./index.css";
 import blipSound from "../assets/sounds/blip.mp3";
-import { InternalDraftv2 } from "../types/draft";
-import reloadTheme from "../shared/utils/reloadTheme";
 
 const {
   ARENA_MODE_IDLE,

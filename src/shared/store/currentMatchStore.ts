@@ -1,24 +1,24 @@
-import {
-  PlayerInfo,
-  ZoneInfo,
-  AnnotationInfo,
-  GameInfo,
-  TurnInfo,
-  GameObjectInfo,
-  GREToClientMessage,
-  Phase,
-} from "../../assets/proto/GreTypes";
-
-import {
-  CardCast,
-  PriorityTimers,
-  MatchGameStats,
-} from "../../types/currentMatch";
-import { GameObject, DetailsIdChange } from "../../types/greInterpreter";
 import { InternalPlayer } from "../../types/match";
 import globalStore from ".";
 import { Deck } from "mtgatool-shared";
 import { Chances } from "mtgatool-shared/dist/types/chances";
+import { MatchState } from "mtgatool-shared/dist/types/match";
+import {
+  CardCast,
+  PriorityTimers,
+  MatchGameStats,
+} from "mtgatool-shared/dist/types/currentMatch";
+import { DetailsIdChange, GameObject } from "../../types/greInterpreter";
+import {
+  Phase,
+  TurnInfo,
+  PlayerInfo,
+  GameInfo,
+  ZoneInfo,
+  AnnotationInfo,
+  GameObjectInfo,
+  GREToClientMessage,
+} from "mtgatool-shared/dist/types/greTypes";
 
 interface Heat {
   seat: number;
@@ -83,7 +83,7 @@ export const matchStateObject = {
   handsDrawn: [] as number[][],
   matchGameStats: [] as MatchGameStats[],
   cardsOdds: new Chances(),
-};
+} as MatchState;
 
 export function setMatchId(arg: string): void {
   globalStore.currentMatch.matchId = arg;

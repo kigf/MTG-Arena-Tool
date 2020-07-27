@@ -1,7 +1,7 @@
 import { InternalDeck } from "./Deck";
 import { Result } from "./greInterpreter";
-import { MatchGameStats } from "./currentMatch";
-import { matchStateObject } from "../shared/store/currentMatchStore";
+import { MatchGameStats } from "./currentMatch.old";
+import { MatchState } from "mtgatool-shared/dist/types/match";
 
 interface ReservedPlayer {
   userId: string;
@@ -84,8 +84,6 @@ export interface InternalPlayer {
   companionGRPId: number;
   cardsUsed: number[];
 }
-
-type MatchState = typeof matchStateObject;
 
 export interface InternalMatch {
   draws: number;

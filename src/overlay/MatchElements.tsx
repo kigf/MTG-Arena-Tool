@@ -1,7 +1,6 @@
 import { ipcRenderer as ipc } from "electron";
 import React, { useRef, useEffect } from "react";
 import useMeasure from "react-use-measure";
-import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";
 import ActionLog from "../shared/ActionLog";
 import Clock from "./Clock";
@@ -12,6 +11,7 @@ import ManaCost from "../renderer/components/misc/ManaCost";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/backgroundStore";
 import { constants } from "mtgatool-shared";
+import { MatchData } from "mtgatool-shared/dist/types/currentMatch";
 
 const {
   OVERLAY_FULL,

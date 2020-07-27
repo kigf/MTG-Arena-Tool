@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { MatchData } from "../types/currentMatch";
 import { DraftState, InternalDraftv2 } from "../types/draft";
 import { SettingsData } from "../types/settings";
 import DraftElements from "./DraftElements";
@@ -15,6 +14,7 @@ import ResizeIcon from "../assets/images/resize.svg";
 import CloseIcon from "../assets/images/svg/win-close.svg";
 import SettingsIcon from "../assets/images/svg/icon-settings.svg";
 import DEFAULT_BACKGROUND from "../assets/images/main-background.jpg";
+import { MatchData } from "mtgatool-shared/dist/types/currentMatch";
 
 const {
   ARENA_MODE_DRAFT,

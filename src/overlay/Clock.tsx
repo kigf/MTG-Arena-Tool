@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-
 import { toMMSS, toHHMMSS } from "../shared/utils/dateTo";
-import { PriorityTimers } from "../types/currentMatch";
 
 import css from "./index.css";
+import { PriorityTimers } from "mtgatool-shared/dist/types/currentMatch";
 
 const CLOCK_MODE_BOTH = 0;
 const CLOCK_MODE_ELAPSED = 1;

@@ -13,7 +13,6 @@ import ActionLog from "../../../shared/ActionLog";
 import { useDispatch } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { getMatch } from "../../../shared/store";
-import { MatchGameStats } from "../../../types/currentMatch";
 
 import css from "./MatchView.css";
 import indexCss from "../../index.css";
@@ -40,6 +39,8 @@ import {
   Deck,
   getEventPrettyName,
 } from "mtgatool-shared";
+import { MatchGameStats } from "mtgatool-shared/dist/types/currentMatch";
+
 const { IPC_NONE } = constants;
 
 interface MatchViewProps {

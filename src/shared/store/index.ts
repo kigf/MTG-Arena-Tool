@@ -11,6 +11,7 @@ import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 import prettierDeckData from "../utils/prettierDeckData";
 import getDeckColors from "../utils/getDeckColors";
+import { MatchState } from "mtgatool-shared/dist/types/match";
 
 const { DEFAULT_TILE } = constants;
 
@@ -29,7 +30,7 @@ const globalStore = {
   draftsv2: {} as Record<string, InternalDraftv2>,
   seasonal: {} as Record<string, SeasonalRankData>,
   deckChanges: {} as Record<string, DeckChange>,
-  currentMatch: matchStateObject,
+  currentMatch: matchStateObject as MatchState,
   currentDraft: draftStateObject,
   preconDecks: {} as { [id: string]: ArenaV3Deck },
 };

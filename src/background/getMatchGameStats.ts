@@ -1,9 +1,9 @@
 import _ from "lodash";
 import db from "../shared/database-wrapper";
-import { MatchGameStats } from "../types/currentMatch";
 import { getDeckChanges } from "./getDeckChanges";
 import globalStore from "../shared/store";
 import { setMatchGameStats } from "../shared/store/currentMatchStore";
+import { MatchGameStats } from "mtgatool-shared/dist/types/currentMatch";
 
 export default function getMatchGameStats(): void {
   // This function should be able to be called multiple times, and not
