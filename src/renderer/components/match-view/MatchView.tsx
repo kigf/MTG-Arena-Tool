@@ -10,7 +10,6 @@ import DeckList from "../misc/DeckList";
 import RankIcon from "../misc/RankIcon";
 import db from "../../../shared/database-wrapper";
 import CardList from "../misc/CardList";
-import CardsList from "../../../shared/cardsList";
 import ActionLog from "../../../shared/ActionLog";
 import { useDispatch } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
@@ -38,6 +37,7 @@ import { toMMSS } from "../../../shared/utils/dateTo";
 import Flex from "../misc/Flex";
 import ResultDetails from "../misc/ResultDetails";
 import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import { CardsList } from "mtgatool-shared";
 
 interface MatchViewProps {
   match: InternalMatch;

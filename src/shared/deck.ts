@@ -5,11 +5,10 @@ import {
   isV2CardsList,
   v2cardsList,
 } from "../types/Deck";
-import CardsList from "./cardsList";
 import { DEFAULT_TILE } from "./constants";
 import db from "./database-wrapper";
 import { compareCards } from "./utils/compareCards";
-import { sha1, Colors } from "mtgatool-shared";
+import { sha1, Colors, CardsList } from "mtgatool-shared";
 import getSetCode from "./utils/getSetCode";
 import { objectClone } from "./utils/objectClone";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
