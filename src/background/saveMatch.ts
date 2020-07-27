@@ -10,9 +10,7 @@ import { ResultSpec } from "../assets/proto/GreTypes";
 import getOpponentDeck from "./getOpponentDeck";
 import { httpSetMatch } from "./httpApi";
 import debugLog from "../shared/debugLog";
-import getJumpstartThemes, {
-  themeCards,
-} from "../shared/utils/getJumpstartThemes";
+import { getJumpstartThemes, themeCards } from "mtgatool-shared";
 import { JumpstartThemes } from "../types/jumpstart";
 
 function matchResults(results: ResultSpec[]): number[] {
