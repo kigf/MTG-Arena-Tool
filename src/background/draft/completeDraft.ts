@@ -12,6 +12,7 @@ export default function completeDraft(): void {
   }
   // Add to indexes
   const draft = globalStore.currentDraft;
+  console.log(globalStore.currentDraft);
   if (draft.id) {
     let draftIndex = globals.store.getState().drafts.draftsIndex;
     if (!draftIndex.includes(draft.id)) {

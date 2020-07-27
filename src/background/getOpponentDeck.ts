@@ -3,6 +3,11 @@ import Deck from "../shared/deck";
 import { InternalDeck } from "../types/Deck";
 import { Archetype } from "../types/Metadata";
 import globalStore from "../shared/store";
+import getJumpstartThemes, {
+  themeCards,
+} from "../shared/utils/getJumpstartThemes";
+import { JumpstartThemes } from "../types/jumpstart";
+import { DEFAULT_TILE } from "../shared/constants";
 
 function calculateDeviation(values: number[]): number {
   return Math.sqrt(values.reduce((a, b) => a + b) / (values.length - 1));
@@ -73,21 +78,28 @@ function getOpponentDeck(): InternalDeck {
   //currentMatch.opponent.deck.archetype = "-";
   const deckSave = _deck.getSave();
 
-  let oppArchetype = getBestArchetype(_deck);
-  if (
-    (format !== "Standard" && format !== "Traditional Standard") ||
-    oppArchetype == "Unknown"
-  ) {
-    if (globalStore.currentMatch.opponent.commanderGrpIds?.length) {
-      const card = db.card(
-        globalStore.currentMatch.opponent.commanderGrpIds[0]
-      );
-      oppArchetype = card ? card.name : "";
-    } else {
-      oppArchetype = _deck.colors.getColorArchetype();
+  if (globalStore.currentMatch.eventId.indexOf("Jumpstart") !== -1) {
+    const oppThemes = getJumpstartThemes(_deck);
+    const oppThemeTile = themeCards[oppThemes[0] as JumpstartThemes];
+    deckSave.deckTileId = oppThemeTile || DEFAULT_TILE;
+    deckSave.archetype = oppThemes.join(" ");
+  } else {
+    let oppArchetype = getBestArchetype(_deck);
+    if (
+      (format !== "Standard" && format !== "Traditional Standard") ||
+      oppArchetype == "Unknown"
+    ) {
+      if (globalStore.currentMatch.opponent.commanderGrpIds?.length) {
+        const card = db.card(
+          globalStore.currentMatch.opponent.commanderGrpIds[0]
+        );
+        oppArchetype = card ? card.name : "";
+      } else {
+        oppArchetype = _deck.colors.getColorArchetype();
+      }
     }
+    deckSave.archetype = oppArchetype;
   }
-  deckSave.archetype = oppArchetype;
 
   return deckSave;
 }

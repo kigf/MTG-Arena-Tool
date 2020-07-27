@@ -35,9 +35,8 @@
 
 .draft-view {
   display: grid;
-  height: fit-content;
+  height: auto;
   justify-content: center;
-  flex-grow: 2;
 }
 
 .draft-deck-view {

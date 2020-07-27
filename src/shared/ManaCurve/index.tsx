@@ -67,14 +67,17 @@ function getDeckCurve(deck: Deck): number[][] {
   return curve;
 }
 
-export default function DeckManaCurve(props: { deck: Deck }): JSX.Element {
-  const { deck } = props;
+export default function DeckManaCurve(props: {
+  className?: string;
+  deck: Deck;
+}): JSX.Element {
+  const { className, deck } = props;
   const manaCounts = getDeckCurve(deck);
   const curveMax = Math.max(...manaCounts.map((v) => v[0]));
   // debugLog("deckManaCurve", manaCounts, curveMax);
 
   return (
-    <div className={css.mana_curve_container}>
+    <div className={className || css.mana_curve_container}>
       <div className={css.mana_curve}>
         {!!manaCounts &&
           manaCounts.map((cost, i) => {

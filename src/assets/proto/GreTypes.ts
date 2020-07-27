@@ -95,31 +95,12 @@ export interface AnnotationInfo {
   redactAffected?: boolean;
 }
 
-export interface AnyLobbyMessage {
-  clientToLobbyMessage?: ClientToLobbyMessage;
-  lobbyToClientMessage?: LobbyToClientMessage;
-}
-
 export interface AnyMessage {
   timestamp?: number;
   serverToGREMessage?: ServerToGREMessage;
   gREToServerMessage?: GREToServerMessage;
   clientToGREMessage?: ClientToGREMessage;
   gREToClientMessage?: GREToClientMessage;
-}
-
-export interface AnyServiceMessage {
-  userContext?: UserContext;
-  clientToMatchServiceMessage?: ClientToMatchServiceMessage;
-  matchServiceToClientMessage?: MatchServiceToClientMessage;
-  clientToLobbyMessage?: ClientToLobbyMessage;
-  lobbyToClientMessage?: LobbyToClientMessage;
-}
-export interface RequestContext {}
-export interface UserContext {
-  userId?: string;
-  userRoles: string[];
-  authenticationType?: AuthenticationType;
 }
 
 export interface AnyToGREMessage {
@@ -323,14 +304,6 @@ export interface ChooseStartingPlayerResp {
   teamId?: number;
 }
 
-export interface ClearLobbyUserStatusRequest {
-  userId?: string;
-}
-
-export interface ClearLobbyUserStatusResponse {
-  userInfo?: LobbyUserInfo;
-}
-
 export interface ClientInfo {
   clientId?: string;
   clientType?: ClientType;
@@ -348,11 +321,6 @@ export interface ClientSessionInfo {
   clientInfo?: ClientInfo;
 }
 
-export interface ClientToFrontDoorMessage {
-  clientToLobbyMessage?: ClientToLobbyMessage;
-  clientToLapaMessage?: ClientToLapaMessage;
-}
-
 export interface ClientToGREMessage {
   type?: ClientMessageType;
   systemSeatId?: number;
@@ -360,7 +328,6 @@ export interface ClientToGREMessage {
   respId?: number;
   connectReq?: ConnectReq;
   cancelActionReq?: CancelActionReq;
-  chooseModalResp?: ChooseModalResp;
   concedeReq?: ConcedeReq;
   forceDrawReq?: ForceDrawReq;
   groupResp?: GroupResp;
@@ -383,7 +350,6 @@ export interface ClientToGREMessage {
   searchResp?: SearchResp;
   effectCostResp?: EffectCostResp;
   castingTimeOptionsResp?: CastingTimeOptionsResp;
-  selectManaTypeResp?: SelectManaTypeResp;
   selectFromGroupsResp?: SelectFromGroupsResp;
   searchFromGroupsResp?: SearchFromGroupsResp;
   gatherResp?: GatherResp;
@@ -393,32 +359,6 @@ export interface ClientToGREMessage {
   controlReq?: ControlReq;
   performAutoTapActionsResp?: PerformAutoTapActionsResp;
   timerId?: number;
-}
-
-export interface ClientToLapaMessage {
-  payload?: string;
-}
-
-export interface ClientToLobbyMessage {
-  clientId?: string;
-  requestId?: number;
-  timestamp?: number;
-  correlationInfo?: CorrelationInfo;
-  authenticateRequest?: AuthenticateRequest;
-  serviceInfoRequest?: ServiceInfoRequest;
-  clientSessionInfo?: ClientSessionInfo;
-  getUserIdsRequest?: GetLobbyUserIdsRequest;
-  getUserInfoRequest?: GetLobbyUserInfoRequest;
-  clearLobbyUserStatusRequest?: ClearLobbyUserStatusRequest;
-  joinQueueRequest?: JoinQueueRequest;
-  dropQueueRequest?: DropQueueRequest;
-  deleteQueueRequest?: DeleteQueueRequest;
-  joinMatchmakingRequestV2?: JoinMatchmakingRequestV2;
-  dropMatchmakingRequestV2?: DropMatchmakingRequestV2;
-  joinConstructedMatchmakingRequest?: JoinConstructedMatchmakingRequest;
-  dropConstructedMatchmakingRequest?: DropConstructedMatchmakingRequest;
-  matchServiceToClientMessage?: MatchServiceToClientMessage;
-  echoRequest?: EchoRequest;
 }
 
 export interface ClientToMatchDoorConnectRequest {
@@ -527,6 +467,7 @@ export interface DamageAssigner {
   assignments: DamageAssignment[];
   decisionPrompt?: Prompt;
   canIgnoreBlockers?: boolean;
+  forcePromptAssignment?: boolean;
 }
 
 export interface DamageAssignment {
@@ -560,15 +501,6 @@ export interface DeckConstraintInfo {
   maxCommanderSize?: number;
 }
 
-export interface DeckInfo {
-  deckId?: string;
-  userId?: string;
-  courseId?: string;
-  deckName?: string;
-  libraryCardIds: number[];
-  sideboardCardIds: number[];
-}
-
 export interface DeckMessage {
   deckCards: number[];
   sideboardCards: number[];
@@ -583,6 +515,7 @@ export interface DeclareAttackersReq {
   attackWarnings: AttackWarning[];
   manaCost: ManaRequirement[];
   autoAttackers: Attacker[];
+  qualifiedAttackers: Attacker[];
 }
 
 export interface DeclareAttackersResp {
@@ -601,13 +534,6 @@ export interface DeclareBlockersReq {
 export interface DeclareBlockersResp {
   selectedBlockers: Blocker[];
 }
-
-export interface DeleteQueueRequest {
-  queueType?: QueueType;
-  eventId?: string;
-}
-
-export interface DeleteQueueResponse {}
 
 export interface DieRollResultsResp {
   playerDieRolls: PlayerDieRoll[];
@@ -641,28 +567,6 @@ export interface DraftGameRoomConfig {
 }
 
 export interface DraftGameRoomInfo {}
-
-export interface DropConstructedMatchmakingRequest {}
-
-export interface DropMatchmakingRequestV2 {
-  eventId?: string;
-  courseId?: string;
-}
-
-export interface DropMatchmakingResponse {
-  responseCode?: DropMatchmakingResponseCode;
-}
-
-export interface DropMatchmakingResponseV2 {
-  responseCode?: DropMatchmakingResponseCode;
-}
-
-export interface DropQueueRequest {
-  queueType?: QueueType;
-  eventId?: string;
-}
-
-export interface DropQueueResponse {}
 
 export interface EchoRequest {
   message?: string;
@@ -702,10 +606,6 @@ export interface FinalMatchResult {
 
 export interface ForceDrawReq {
   scope?: MatchScope;
-}
-
-export interface FrontDoorToClientMessage {
-  lobbyToClientMessage?: LobbyToClientMessage;
 }
 
 export interface GRECancelScheduledMessage {
@@ -846,7 +746,6 @@ export interface GREToClientMessage {
   orderReq?: OrderReq;
   groupReq?: GroupReq;
   selectNReq?: SelectNReq;
-  modalReq?: ModalReq;
   mulliganReq?: MulliganReq;
   getSettingsResp?: GetSettingsResp;
   setSettingsResp?: SetSettingsResp;
@@ -874,7 +773,6 @@ export interface GREToClientMessage {
   searchReq?: SearchReq;
   castingTimeOptionsReq?: CastingTimeOptionsReq;
   informationalUseOnly?: boolean;
-  selectManaTypeReq?: SelectManaTypeReq;
   selectFromGroupsReq?: SelectFromGroupsReq;
   searchFromGroupsReq?: SearchFromGroupsReq;
   gatherReq?: GatherReq;
@@ -1023,23 +921,6 @@ export interface GetGameRoomInfoResponse {
   draftRoomInfo?: DraftGameRoomInfo;
 }
 
-export interface GetLobbyUserIdsRequest {
-  sortFilterPagingOptions?: SortFilterPagingOptions;
-}
-
-export interface GetLobbyUserIdsResponse {
-  userIds: string[];
-  continuationToken?: ContinuationToken;
-}
-
-export interface GetLobbyUserInfoRequest {
-  userId?: string;
-}
-
-export interface GetLobbyUserInfoResponse {
-  userInfo?: LobbyUserInfo;
-}
-
 export interface GetSettingsResp {
   settings?: SettingsMessage;
 }
@@ -1104,12 +985,6 @@ export interface IntermissionReq {
   result?: ResultSpec;
 }
 
-export interface JoinConstructedMatchmakingRequest {
-  matchType?: ConstructedMatchType;
-  numberOfGames?: number;
-  deckId?: string;
-}
-
 export interface JoinMatchGameRoomRequest {
   gameRoomId?: string;
   gameRoomPassword?: string;
@@ -1123,31 +998,6 @@ export interface JoinMatchGameRoomResponseV2 {
   seatId?: number;
 }
 
-export interface JoinMatchmakingRequestV2 {
-  eventId?: string;
-  courseId?: string;
-}
-
-export interface JoinMatchmakingResponse {
-  responseCode?: JoinMatchmakingResponseCode;
-}
-
-export interface JoinMatchmakingResponseV2 {
-  responseCode?: JoinMatchmakingResponseCode;
-}
-
-export interface JoinQueueRequest {
-  queueType?: QueueType;
-  eventId?: string;
-  deckId?: string;
-  matchmakingFilter?: string;
-  courseId?: string;
-}
-
-export interface JoinQueueResponse {
-  queueInfo?: LobbyUserQueueInfo;
-}
-
 export interface KeyValuePairInfo {
   key?: string;
   type?: KeyValuePairValueType;
@@ -1159,103 +1009,6 @@ export interface KeyValuePairInfo {
   valueString: string[];
   valueFloat: number[];
   valueDouble: number[];
-}
-
-export interface LobbyDraftInfo {
-  userId?: string;
-  eventId?: string;
-  draftId?: string;
-  draftStartedTimestamp?: number;
-  draftCompletedTimestamp?: number;
-}
-
-export interface LobbyError {
-  lobbyErrorCode?: LobbyErrorCode;
-  errorMessage?: string;
-}
-
-export interface LobbyMatchCompletedEvent {
-  matchInfo?: LobbyMatchInfo;
-}
-
-export interface LobbyMatchConfig {
-  matchId?: string;
-  eventId?: string;
-  matchGatewayUrl?: string;
-  mcFabricUri?: string;
-  players: LobbyMatchPlayerInfo[];
-}
-
-export interface LobbyMatchCreatePendingEvent {
-  matchCreatePendingTimestamp?: number;
-}
-
-export interface LobbyMatchCreatedEvent {
-  matchConfig?: LobbyMatchConfig;
-  matchCreatedTimestamp?: number;
-}
-
-export interface LobbyMatchInfo {
-  config?: LobbyMatchConfig;
-  matchGameRoomInfo?: MatchGameRoomInfo;
-  matchCreatedTimestamp?: number;
-  matchStartedTimestamp?: number;
-  matchCompletedTimestamp?: number;
-  matchResultsSavedTimestamp?: number;
-}
-
-export interface LobbyMatchPlayerInfo {
-  playerName?: string;
-  systemSeatId?: number;
-  teamId?: number;
-  isWotc?: boolean;
-}
-
-export interface LobbyServiceInfo {
-  serviceFabricServiceInfo?: ServiceFabricServiceInfo;
-  environmentId?: string;
-}
-
-export interface LobbyToClientMessage {
-  error?: LobbyError;
-  requestId?: number;
-  timestamp?: number;
-  correlationInfo?: CorrelationInfo;
-  authenticateResponse?: AuthenticateResponse;
-  serviceInfoResponse?: LobbyServiceInfo;
-  getUserIdsResponse?: GetLobbyUserIdsResponse;
-  getUserInfoResponse?: GetLobbyUserInfoResponse;
-  clearLobbyUserStatusResponse?: ClearLobbyUserStatusResponse;
-  joinQueueResponse?: JoinQueueResponse;
-  dropQueueResponse?: DropQueueResponse;
-  deleteQueueResponse?: DeleteQueueResponse;
-  joinMatchmakingResponseV2?: JoinMatchmakingResponseV2;
-  dropMatchmakingResponseV2?: DropMatchmakingResponseV2;
-  joinMatchmakingResponse?: JoinMatchmakingResponse;
-  dropMatchmakingResponse?: DropMatchmakingResponse;
-  clientToMatchServiceMessage?: ClientToMatchServiceMessage;
-  matchCreatedEvent?: LobbyMatchCreatedEvent;
-  matchCompletedEvent?: LobbyMatchCompletedEvent;
-  matchCreatePendingEvent?: LobbyMatchCreatePendingEvent;
-  echoResponse?: EchoResponse;
-}
-
-export interface LobbyUserInfo {
-  userId?: string;
-  stateType?: LobbyUserStateType;
-  stateUpdatedTimestamp?: number;
-  userConnectionInfo?: UserConnectionInfo;
-  presenceState?: PresenceState;
-  queueInfo?: LobbyUserQueueInfo;
-  draftInfo?: LobbyDraftInfo;
-  matchInfo?: LobbyMatchInfo;
-}
-
-export interface LobbyUserQueueInfo {
-  userId?: string;
-  eventId?: string;
-  joinQueueRequest?: ClientToLobbyMessage;
-  joinQueueResponse?: LobbyToClientMessage;
 }
 
 export interface ManaInfo {
@@ -1661,19 +1414,6 @@ export interface PromptParameter {
   promptId?: number;
 }
 
-export interface QueueInfo {
-  eventId?: string;
-  queueType?: QueueType;
-  queueServiceBaseUri?: string;
-  queueServiceErrorCallbackUri?: string;
-  queueServiceOutputCallbackUri?: string;
-  minimumPlayerCount?: number;
-  playerBatchSize?: number;
-  triggerCadenceMs?: number;
-  createdTimestamp?: number;
-  updatedTimestamp?: number;
-}
-
 export interface Reference {
   type?: ReferenceType;
   id?: number;
@@ -1777,7 +1517,6 @@ export interface SelectManaTypeReq {
 
 export interface SelectManaTypeResp {
   index?: number;
-  manaColors: ManaColor[];
   manaColor?: ManaColor;
 }
 
@@ -2507,13 +2246,6 @@ export enum EnumAttackWarningType {
 
 export type AttackWarningType = keyof typeof EnumAttackWarningType;
 
-export enum EnumAuthenticationType {
-  AuthenticationType_Invalid = 0,
-  AuthenticationType_Service = 2,
-}
-
-export type AuthenticationType = keyof typeof EnumAuthenticationType;
-
 export enum EnumAutoPassOption {
   AutoPassOption_None = 0,
   AutoPassOption_Turn = 1,
@@ -2686,7 +2418,6 @@ export enum EnumClientMessageType {
   ClientMessageType_None = 0,
   ClientMessageType_ConnectReq = 1,
   ClientMessageType_CancelActionReq = 5,
-  ClientMessageType_ChooseModalResp = 6,
   ClientMessageType_ConcedeReq = 7,
   ClientMessageType_EnterSideboardingReq = 8,
   ClientMessageType_ForceDrawReq = 9,
@@ -2719,7 +2450,6 @@ export enum EnumClientMessageType {
   ClientMessageType_SearchResp = 44,
   ClientMessageType_EffectCostResp = 45,
   ClientMessageType_CastingTimeOptionsResp = 46,
-  ClientMessageType_SelectManaTypeResp = 47,
   ClientMessageType_SelectFromGroupsResp = 48,
   ClientMessageType_SearchFromGroupsResp = 49,
   ClientMessageType_GatherResp = 50,
@@ -2780,14 +2510,6 @@ export enum EnumConnectionStatus {
 }
 
 export type ConnectionStatus = keyof typeof EnumConnectionStatus;
-
-export enum EnumConstructedMatchType {
-  Precon = 0,
-  Unranked = 1,
-  Ranked = 2,
-}
-
-export type ConstructedMatchType = keyof typeof EnumConstructedMatchType;
 
 export enum EnumControllerType {
   ControllerType_None = 0,
@@ -2981,18 +2703,6 @@ export enum EnumDamageRecType {
 
 export type DamageRecType = keyof typeof EnumDamageRecType;
 
-export enum EnumDropMatchmakingResponseCode {
-  DropUnknownError = 0,
-  DropSuccess = 1,
-  DropErrorNotJoined = 2,
-  DropErrorEventNotFound = 3,
-  DropErrorCourseNotFound = 4,
-  DropServiceError = 5,
-  DropErrorUnavailable = 6,
-}
-
-export type DropMatchmakingResponseCode = keyof typeof EnumDropMatchmakingResponseCode;
-
 export enum EnumEffectCostType {
   EffectCostType_None = 0,
   EffectCostType_Select = 1,
@@ -3059,6 +2769,7 @@ export enum EnumFailureReason {
   FailureReason_MissingAttackers = 52,
   FailureReason_UnexpectedAttackers = 53,
   FailureReason_InvalidParity = 54,
+  FailureReason_InvalidAlternativeAttackModification = 55,
 }
 
 export type FailureReason = keyof typeof EnumFailureReason;
@@ -3073,7 +2784,6 @@ export enum EnumGREMessageType {
   GREMessageType_SetSettingsResp = 10,
   GREMessageType_GroupReq = 11,
   GREMessageType_IllegalRequest = 12,
-  GREMessageType_ModalReq = 14,
   GREMessageType_MulliganReq = 15,
   GREMessageType_OrderReq = 17,
   GREMessageType_PromptReq = 18,
@@ -3101,7 +2811,6 @@ export enum EnumGREMessageType {
   GREMessageType_SearchReq = 44,
   GREMessageType_OptionalActionMessage = 45,
   GREMessageType_CastingTimeOptionsReq = 46,
-  GREMessageType_SelectManaTypeReq = 47,
   GREMessageType_SelectFromGroupsReq = 48,
   GREMessageType_SearchFromGroupsReq = 49,
   GREMessageType_GatherReq = 50,
@@ -3258,20 +2967,6 @@ export enum EnumIdType {
 
 export type IdType = keyof typeof EnumIdType;
 
-export enum EnumJoinMatchmakingResponseCode {
-  JoinUnknownError = 0,
-  JoinSuccess = 1,
-  JoinErrorAlreadyJoined = 2,
-  JoinErrorEventNotFound = 3,
-  JoinErrorCourseNotFound = 4,
-  JoinServiceError = 5,
-  JoinErrorUnavailable = 6,
-  JoinErrorNoValidDeck = 7,
-  JoinErrorCourseNotActive = 8,
-}
-
-export type JoinMatchmakingResponseCode = keyof typeof EnumJoinMatchmakingResponseCode;
-
 export enum EnumKeyValuePairValueType {
   KeyValuePairValueType_None = 0,
   KeyValuePairValueType_uint32 = 1,
@@ -3285,47 +2980,6 @@ export enum EnumKeyValuePairValueType {
 }
 
 export type KeyValuePairValueType = keyof typeof EnumKeyValuePairValueType;
-
-export enum EnumLobbyErrorCode {
-  LobbyErrorCode_Invalid = 0,
-  LobbyErrorCode_Success = 1,
-  LobbyErrorCode_ProtobufParseError = 11,
-  LobbyErrorCode_InvalidMessageType = 12,
-  LobbyErrorCode_InvalidMessageField = 13,
-  LobbyErrorCode_BufferOverflow = 14,
-  LobbyErrorCode_Unauthorized = 20,
-  LobbyErrorCode_Forbidden = 21,
-  LobbyErrorCode_OperationCanceled = 30,
-  LobbyErrorCode_RequestTimeout = 31,
-  LobbyErrorCode_InvalidOperation = 32,
-  LobbyErrorCode_NotFound = 40,
-  LobbyErrorCode_UserNotFound = 41,
-  LobbyErrorCode_QueueNotFound = 42,
-  LobbyErrorCode_DeckNotFound = 43,
-  LobbyErrorCode_EventNotFound = 44,
-  LobbyErrorCode_AlreadyInQueue = 50,
-  LobbyErrorCode_AlreadyInMatch = 51,
-  LobbyErrorCode_DraftStartError = 60,
-  LobbyErrorCode_InternalServerError = 500,
-  LobbyErrorCode_NotImplemented = 501,
-  LobbyErrorCode_ServiceUnavailable = 503,
-}
-
-export type LobbyErrorCode = keyof typeof EnumLobbyErrorCode;
-
-export enum EnumLobbyUserStateType {
-  LobbyUserStateType_Invalid = 0,
-  LobbyUserStateType_Idle = 1,
-  LobbyUserStateType_JoiningQueue = 2,
-  LobbyUserStateType_JoinedQueue = 3,
-  LobbyUserStateType_DroppingQueue = 4,
-  LobbyUserStateType_Matchmade = 10,
-  LobbyUserStateType_InDraft = 15,
-  LobbyUserStateType_CreatingMatch = 20,
-  LobbyUserStateType_PlayingMatch = 21,
-}
-
-export type LobbyUserStateType = keyof typeof EnumLobbyUserStateType;
 
 export enum EnumManaColor {
   ManaColor_None = 0,
@@ -3662,14 +3316,6 @@ export enum EnumPlayerIs {
 
 export type PlayerIs = keyof typeof EnumPlayerIs;
 
-export enum EnumPresenceState {
-  PresenceState_Invalid = 0,
-  PresenceState_Offline = 1,
-  PresenceState_Online = 2,
-}
-
-export type PresenceState = keyof typeof EnumPresenceState;
-
 export enum EnumProtoVersion {
   ProtoVersion_None = 0,
   ProtoVersion_HiFiGameStates = 1,
@@ -3710,14 +3356,6 @@ export enum EnumProtoVersion {
 }
 
 export type ProtoVersion = keyof typeof EnumProtoVersion;
-
-export enum EnumQueueType {
-  QueueType_Invalid = 0,
-  QueueType_MatchQueue = 1,
-  QueueType_DraftQueue = 2,
-}
-
-export type QueueType = keyof typeof EnumQueueType;
 
 export enum EnumReferenceType {
   ReferenceType_None = 0,

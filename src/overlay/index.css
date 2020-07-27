@@ -102,6 +102,21 @@ body {
     margin: 0 0 1px 0;
 }
 
+.overlay-deck-type-stats {
+    margin: auto;
+    max-width: 630px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--color-card-tile);
+}
+
+.overlay-deck-mana-curve {
+    padding: 8px;
+    margin-top: 1px;
+    background-color: var(--color-card-tile);
+}
+
 .hover_fade-enter {
   opacity: 0;
 }

@@ -9,6 +9,8 @@ import RankSmall from "../misc/RankSmall";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
 
+import IconCrown from "../../../assets/images/svg/crown.svg";
+
 interface ExploreDeck {
   _id: string;
   eventId: string;
@@ -30,7 +32,8 @@ interface ExploreDeck {
   mwrate: number;
   w: number;
   l: number;
-  wildcards?: {
+  patreon: boolean;
+  wildcards: {
     u?: number;
     r?: number;
     m?: number;
@@ -54,6 +57,14 @@ export function ListItemExplore(props: ListItemExploreProps): JSX.Element {
       <HoverTile grpId={row.tile || 0} />
       <Column class={css.listItemLeft}>
         <FlexTop>
+          {row.patreon ? (
+            <IconCrown
+              style={{ margin: "auto 8px auto 0" }}
+              fill={"var(--color-g)"}
+            />
+          ) : (
+            <></>
+          )}{" "}
           <div className={css.listDeckName}>{row.name || ""}</div>
           <div
             className={css.listDeckNameIt}

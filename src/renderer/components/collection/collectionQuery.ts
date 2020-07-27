@@ -120,6 +120,7 @@ const tokenToKeys: Record<string, QueryKeys | undefined> = {
   mana: "colors",
   cmc: "cmc",
   owned: "owned",
+  q: "owned",
   wanted: "wanted",
   r: "rarity",
   rarity: "rarity",

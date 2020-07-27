@@ -157,7 +157,9 @@ export default function MatchElements(props: MatchElementsProps): JSX.Element {
           <div className={css.overlayDeckname}>{mainTitle}</div>
         )}
         {settings.mode === OVERLAY_SEEN && (
-          <div className={css.overlayArchetype}>{match.oppArchetype}</div>
+          <div className={css.overlayArchetype}>
+            {visibleDeck?.archetype || visibleDeck?.tags.join(" ")}
+          </div>
         )}
         {!!settings.title && !!visibleDeck && (
           <div className={css.overlayDeckcolors}>

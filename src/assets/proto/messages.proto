@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-// MtGA 1.09.00.00
+// MtGA 1.10.00.00
 
 
 message AIConfig {
@@ -454,13 +454,6 @@ enum Answer {
 	Answer_No = 2;
 }
 
-message AnyLobbyMessage {
-	oneof message {
-		ClientToLobbyMessage clientToLobbyMessage = 2;
-		LobbyToClientMessage lobbyToClientMessage = 3;
-	}
-}
-
 message AnyMessage {
 	int64 timestamp = 1;
 	oneof message {
@@ -468,25 +461,6 @@ message AnyMessage {
 		GREToServerMessage gREToServerMessage = 3;
 		ClientToGREMessage clientToGREMessage = 4;
 		GREToClientMessage gREToClientMessage = 5;
-	}
-}
-
-message AnyServiceMessage {
-	message RequestContext {
-	}
-
-	message UserContext {
-		string userId = 1;
-		repeated string userRoles = 2;
-		AuthenticationType authenticationType = 3;
-	}
-
-	UserContext userContext = 2;
-	oneof message {
-		ClientToMatchServiceMessage clientToMatchServiceMessage = 10;
-		MatchServiceToClientMessage matchServiceToClientMessage = 11;
-		ClientToLobbyMessage clientToLobbyMessage = 12;
-		LobbyToClientMessage lobbyToClientMessage = 13;
 	}
 }
 
@@ -559,11 +533,6 @@ message AuthenticateResponse {
 	string clientId = 1;
 	string sessionId = 2;
 	string screenName = 10;
-}
-
-enum AuthenticationType {
-	AuthenticationType_Invalid = 0;
-	AuthenticationType_Service = 2;
 }
 
 message AutoAnswer {
@@ -860,14 +829,6 @@ message ChooseStartingPlayerResp {
 	uint32 teamId = 3;
 }
 
-message ClearLobbyUserStatusRequest {
-	string userId = 1;
-}
-
-message ClearLobbyUserStatusResponse {
-	LobbyUserInfo userInfo = 1;
-}
-
 message ClientInfo {
 	string clientId = 1;
 	ClientType clientType = 2;
@@ -880,7 +841,6 @@ enum ClientMessageType {
 	ClientMessageType_None = 0;
 	ClientMessageType_ConnectReq = 1;
 	ClientMessageType_CancelActionReq = 5;
-	ClientMessageType_ChooseModalResp = 6;
 	ClientMessageType_ConcedeReq = 7;
 	ClientMessageType_EnterSideboardingReq = 8;
 	ClientMessageType_ForceDrawReq = 9;
@@ -913,7 +873,6 @@ enum ClientMessageType {
 	ClientMessageType_SearchResp = 44;
 	ClientMessageType_EffectCostResp = 45;
 	ClientMessageType_CastingTimeOptionsResp = 46;
-	ClientMessageType_SelectManaTypeResp = 47;
 	ClientMessageType_SelectFromGroupsResp = 48;
 	ClientMessageType_SearchFromGroupsResp = 49;
 	ClientMessageType_GatherResp = 50;
@@ -934,13 +893,6 @@ message ClientSessionInfo {
 	ClientInfo clientInfo = 10;
 }
 
-message ClientToFrontDoorMessage {
-	oneof message {
-		ClientToLobbyMessage clientToLobbyMessage = 1;
-		ClientToLapaMessage clientToLapaMessage = 2;
-	}
-}
-
 message ClientToGREMessage {
 	ClientMessageType type = 1;
 	uint32 systemSeatId = 2;
@@ -948,7 +900,6 @@ message ClientToGREMessage {
 	uint32 respId = 4;
 	ConnectReq connectReq = 5;
 	CancelActionReq cancelActionReq = 6;
-	ChooseModalResp chooseModalResp = 7;
 	ConcedeReq concedeReq = 8;
 	ForceDrawReq forceDrawReq = 9;
 	GroupResp groupResp = 10;
@@ -971,7 +922,6 @@ message ClientToGREMessage {
 	SearchResp searchResp = 32;
 	EffectCostResp effectCostResp = 33;
 	CastingTimeOptionsResp castingTimeOptionsResp = 34;
-	SelectManaTypeResp selectManaTypeResp = 35;
 	SelectFromGroupsResp selectFromGroupsResp = 36;
 	SearchFromGroupsResp searchFromGroupsResp = 37;
 	GatherResp gatherResp = 38;
@@ -981,34 +931,6 @@ message ClientToGREMessage {
 	ControlReq controlReq = 42;
 	PerformAutoTapActionsResp performAutoTapActionsResp = 43;
 	uint32 timerId = 100;
-}
-
-message ClientToLapaMessage {
-	string payload = 1;
-}
-
-message ClientToLobbyMessage {
-	string clientId = 1;
-	int32 requestId = 2;
-	int64 timestamp = 3;
-	CorrelationInfo correlationInfo = 4;
-	oneof message {
-		AuthenticateRequest authenticateRequest = 100;
-		ServiceInfoRequest serviceInfoRequest = 101;
-		ClientSessionInfo clientSessionInfo = 102;
-		GetLobbyUserIdsRequest getUserIdsRequest = 110;
-		GetLobbyUserInfoRequest getUserInfoRequest = 111;
-		ClearLobbyUserStatusRequest clearLobbyUserStatusRequest = 112;
-		JoinQueueRequest joinQueueRequest = 200;
-		DropQueueRequest dropQueueRequest = 201;
-		DeleteQueueRequest deleteQueueRequest = 202;
-		JoinMatchmakingRequestV2 joinMatchmakingRequestV2 = 203;
-		DropMatchmakingRequestV2 dropMatchmakingRequestV2 = 204;
-		JoinConstructedMatchmakingRequest joinConstructedMatchmakingRequest = 205;
-		DropConstructedMatchmakingRequest dropConstructedMatchmakingRequest = 206;
-		MatchServiceToClientMessage matchServiceToClientMessage = 400;
-		EchoRequest echoRequest = 1000;
-	}
 }
 
 message ClientToMatchDoorConnectRequest {
@@ -1100,12 +1022,6 @@ enum ConnectionStatus {
 	ConnectionStatus_Success = 1;
 	ConnectionStatus_GRPVersionIncompat = 2;
 	ConnectionStatus_ProtoVersionIncompat = 3;
-}
-
-enum ConstructedMatchType {
-	Precon = 0;
-	Unranked = 1;
-	Ranked = 2;
 }
 
 message ContinuationToken {
@@ -1340,6 +1256,7 @@ message DamageAssigner {
 	repeated DamageAssignment assignments = 3;
 	Prompt decisionPrompt = 4;
 	bool canIgnoreBlockers = 5;
+	bool forcePromptAssignment = 6;
 }
 
 message DamageAssignment {
@@ -1380,15 +1297,6 @@ message DeckConstraintInfo {
 	uint32 maxCommanderSize = 6;
 }
 
-message DeckInfo {
-	string deckId = 1;
-	string userId = 2;
-	string courseId = 3;
-	string deckName = 4;
-	repeated uint32 libraryCardIds = 5;
-	repeated uint32 sideboardCardIds = 6;
-}
-
 message DeckMessage {
 	repeated uint32 deckCards = 1;
 	repeated uint32 sideboardCards = 2;
@@ -1403,6 +1311,7 @@ message DeclareAttackersReq {
 	repeated AttackWarning attackWarnings = 4;
 	repeated ManaRequirement manaCost = 5;
 	repeated Attacker autoAttackers = 6;
+	repeated Attacker qualifiedAttackers = 7;
 }
 
 message DeclareAttackersResp {
@@ -1420,14 +1329,6 @@ message DeclareBlockersReq {
 
 message DeclareBlockersResp {
 	repeated Blocker selectedBlockers = 1;
-}
-
-message DeleteQueueRequest {
-	QueueType queueType = 1;
-	string eventId = 2;
-}
-
-message DeleteQueueResponse {
 }
 
 message DieRollResultsResp {
@@ -1462,40 +1363,6 @@ message DraftGameRoomConfig {
 }
 
 message DraftGameRoomInfo {
-}
-
-message DropConstructedMatchmakingRequest {
-}
-
-message DropMatchmakingRequestV2 {
-	string eventId = 1;
-	string courseId = 2;
-}
-
-message DropMatchmakingResponse {
-	DropMatchmakingResponseCode responseCode = 1;
-}
-
-enum DropMatchmakingResponseCode {
-	DropUnknownError = 0;
-	DropSuccess = 1;
-	DropErrorNotJoined = 2;
-	DropErrorEventNotFound = 3;
-	DropErrorCourseNotFound = 4;
-	DropServiceError = 5;
-	DropErrorUnavailable = 6;
-}
-
-message DropMatchmakingResponseV2 {
-	DropMatchmakingResponseCode responseCode = 1;
-}
-
-message DropQueueRequest {
-	QueueType queueType = 1;
-	string eventId = 2;
-}
-
-message DropQueueResponse {
 }
 
 message EchoRequest {
@@ -1590,6 +1457,7 @@ enum FailureReason {
 	FailureReason_MissingAttackers = 52;
 	FailureReason_UnexpectedAttackers = 53;
 	FailureReason_InvalidParity = 54;
+	FailureReason_InvalidAlternativeAttackModification = 55;
 }
 
 message FinalMatchResult {
@@ -1602,12 +1470,6 @@ message FinalMatchResult {
 
 message ForceDrawReq {
 	MatchScope scope = 1;
-}
-
-message FrontDoorToClientMessage {
-	oneof message {
-		LobbyToClientMessage lobbyToClientMessage = 1;
-	}
 }
 
 message GRECancelScheduledMessage {
@@ -1678,7 +1540,6 @@ enum GREMessageType {
 	GREMessageType_SetSettingsResp = 10;
 	GREMessageType_GroupReq = 11;
 	GREMessageType_IllegalRequest = 12;
-	GREMessageType_ModalReq = 14;
 	GREMessageType_MulliganReq = 15;
 	GREMessageType_OrderReq = 17;
 	GREMessageType_PromptReq = 18;
@@ -1706,7 +1567,6 @@ enum GREMessageType {
 	GREMessageType_SearchReq = 44;
 	GREMessageType_OptionalActionMessage = 45;
 	GREMessageType_CastingTimeOptionsReq = 46;
-	GREMessageType_SelectManaTypeReq = 47;
 	GREMessageType_SelectFromGroupsReq = 48;
 	GREMessageType_SearchFromGroupsReq = 49;
 	GREMessageType_GatherReq = 50;
@@ -1818,7 +1678,6 @@ message GREToClientMessage {
 	OrderReq orderReq = 10;
 	GroupReq groupReq = 11;
 	SelectNReq selectNReq = 12;
-	ModalReq modalReq = 13;
 	MulliganReq mulliganReq = 14;
 	GetSettingsResp getSettingsResp = 16;
 	SetSettingsResp setSettingsResp = 17;
@@ -1846,7 +1705,6 @@ message GREToClientMessage {
 	SearchReq searchReq = 43;
 	CastingTimeOptionsReq castingTimeOptionsReq = 44;
 	bool informationalUseOnly = 45;
-	SelectManaTypeReq selectManaTypeReq = 46;
 	SelectFromGroupsReq selectFromGroupsReq = 47;
 	SearchFromGroupsReq searchFromGroupsReq = 48;
 	GatherReq gatherReq = 49;
@@ -2066,23 +1924,6 @@ message GetGameRoomInfoResponse {
 	}
 }
 
-message GetLobbyUserIdsRequest {
-	SortFilterPagingOptions sortFilterPagingOptions = 10;
-}
-
-message GetLobbyUserIdsResponse {
-	repeated string userIds = 2;
-	ContinuationToken continuationToken = 10;
-}
-
-message GetLobbyUserInfoRequest {
-	string userId = 1;
-}
-
-message GetLobbyUserInfoResponse {
-	LobbyUserInfo userInfo = 2;
-}
-
 message GetSettingsResp {
 	SettingsMessage settings = 1;
 }
@@ -2183,12 +2024,6 @@ message IntermissionReq {
 	ResultSpec result = 5;
 }
 
-message JoinConstructedMatchmakingRequest {
-	ConstructedMatchType matchType = 1;
-	int32 numberOfGames = 2;
-	string deckId = 3;
-}
-
 message JoinMatchGameRoomRequest {
 	string gameRoomId = 1;
 	string gameRoomPassword = 2;
@@ -2200,43 +2035,6 @@ message JoinMatchGameRoomResponse {
 
 message JoinMatchGameRoomResponseV2 {
 	int32 seatId = 1;
-}
-
-message JoinMatchmakingRequestV2 {
-	string eventId = 1;
-	string courseId = 2;
-}
-
-message JoinMatchmakingResponse {
-	JoinMatchmakingResponseCode responseCode = 1;
-}
-
-enum JoinMatchmakingResponseCode {
-	JoinUnknownError = 0;
-	JoinSuccess = 1;
-	JoinErrorAlreadyJoined = 2;
-	JoinErrorEventNotFound = 3;
-	JoinErrorCourseNotFound = 4;
-	JoinServiceError = 5;
-	JoinErrorUnavailable = 6;
-	JoinErrorNoValidDeck = 7;
-	JoinErrorCourseNotActive = 8;
-}
-
-message JoinMatchmakingResponseV2 {
-	JoinMatchmakingResponseCode responseCode = 1;
-}
-
-message JoinQueueRequest {
-	QueueType queueType = 1;
-	string eventId = 2;
-	string deckId = 3;
-	string matchmakingFilter = 4;
-	string courseId = 5;
-}
-
-message JoinQueueResponse {
-	LobbyUserQueueInfo queueInfo = 5;
 }
 
 message KeyValuePairInfo {
@@ -2262,142 +2060,6 @@ enum KeyValuePairValueType {
 	KeyValuePairValueType_string = 6;
 	KeyValuePairValueType_float = 7;
 	KeyValuePairValueType_double = 8;
-}
-
-message LobbyDraftInfo {
-	string userId = 1;
-	string eventId = 2;
-	string draftId = 3;
-	int64 draftStartedTimestamp = 20;
-	int64 draftCompletedTimestamp = 21;
-}
-
-message LobbyError {
-	LobbyErrorCode lobbyErrorCode = 2;
-	string errorMessage = 3;
-}
-
-enum LobbyErrorCode {
-	LobbyErrorCode_Invalid = 0;
-	LobbyErrorCode_Success = 1;
-	LobbyErrorCode_ProtobufParseError = 11;
-	LobbyErrorCode_InvalidMessageType = 12;
-	LobbyErrorCode_InvalidMessageField = 13;
-	LobbyErrorCode_BufferOverflow = 14;
-	LobbyErrorCode_Unauthorized = 20;
-	LobbyErrorCode_Forbidden = 21;
-	LobbyErrorCode_OperationCanceled = 30;
-	LobbyErrorCode_RequestTimeout = 31;
-	LobbyErrorCode_InvalidOperation = 32;
-	LobbyErrorCode_NotFound = 40;
-	LobbyErrorCode_UserNotFound = 41;
-	LobbyErrorCode_QueueNotFound = 42;
-	LobbyErrorCode_DeckNotFound = 43;
-	LobbyErrorCode_EventNotFound = 44;
-	LobbyErrorCode_AlreadyInQueue = 50;
-	LobbyErrorCode_AlreadyInMatch = 51;
-	LobbyErrorCode_DraftStartError = 60;
-	LobbyErrorCode_InternalServerError = 500;
-	LobbyErrorCode_NotImplemented = 501;
-	LobbyErrorCode_ServiceUnavailable = 503;
-}
-
-message LobbyMatchCompletedEvent {
-	LobbyMatchInfo matchInfo = 1;
-}
-
-message LobbyMatchConfig {
-	string matchId = 1;
-	string eventId = 2;
-	string matchGatewayUrl = 3;
-	string mcFabricUri = 4;
-	repeated LobbyMatchPlayerInfo players = 10;
-}
-
-message LobbyMatchCreatePendingEvent {
-	int64 matchCreatePendingTimestamp = 10;
-}
-
-message LobbyMatchCreatedEvent {
-	LobbyMatchConfig matchConfig = 1;
-	int64 matchCreatedTimestamp = 10;
-}
-
-message LobbyMatchInfo {
-	LobbyMatchConfig config = 1;
-	MatchGameRoomInfo matchGameRoomInfo = 2;
-	int64 matchCreatedTimestamp = 10;
-	int64 matchStartedTimestamp = 11;
-	int64 matchCompletedTimestamp = 12;
-	int64 matchResultsSavedTimestamp = 13;
-}
-
-message LobbyMatchPlayerInfo {
-	string playerName = 1;
-	int32 systemSeatId = 2;
-	int32 teamId = 3;
-	bool isWotc = 4;
-}
-
-message LobbyServiceInfo {
-	ServiceFabricServiceInfo serviceFabricServiceInfo = 1;
-	string environmentId = 2;
-}
-
-message LobbyToClientMessage {
-	LobbyError error = 2;
-	int32 requestId = 3;
-	int64 timestamp = 4;
-	CorrelationInfo correlationInfo = 5;
-	oneof message {
-		AuthenticateResponse authenticateResponse = 100;
-		LobbyServiceInfo serviceInfoResponse = 101;
-		GetLobbyUserIdsResponse getUserIdsResponse = 110;
-		GetLobbyUserInfoResponse getUserInfoResponse = 111;
-		ClearLobbyUserStatusResponse clearLobbyUserStatusResponse = 112;
-		JoinQueueResponse joinQueueResponse = 200;
-		DropQueueResponse dropQueueResponse = 201;
-		DeleteQueueResponse deleteQueueResponse = 202;
-		JoinMatchmakingResponseV2 joinMatchmakingResponseV2 = 203;
-		DropMatchmakingResponseV2 dropMatchmakingResponseV2 = 204;
-		JoinMatchmakingResponse joinMatchmakingResponse = 205;
-		DropMatchmakingResponse dropMatchmakingResponse = 206;
-		ClientToMatchServiceMessage clientToMatchServiceMessage = 400;
-		LobbyMatchCreatedEvent matchCreatedEvent = 500;
-		LobbyMatchCompletedEvent matchCompletedEvent = 501;
-		LobbyMatchCreatePendingEvent matchCreatePendingEvent = 502;
-		EchoResponse echoResponse = 1000;
-	}
-}
-
-message LobbyUserInfo {
-	string userId = 1;
-	LobbyUserStateType stateType = 2;
-	int64 stateUpdatedTimestamp = 3;
-	UserConnectionInfo userConnectionInfo = 10;
-	PresenceState presenceState = 11;
-	LobbyUserQueueInfo queueInfo = 15;
-	LobbyDraftInfo draftInfo = 20;
-	LobbyMatchInfo matchInfo = 25;
-}
-
-message LobbyUserQueueInfo {
-	string userId = 1;
-	string eventId = 2;
-	ClientToLobbyMessage joinQueueRequest = 11;
-	LobbyToClientMessage joinQueueResponse = 12;
-}
-
-enum LobbyUserStateType {
-	LobbyUserStateType_Invalid = 0;
-	LobbyUserStateType_Idle = 1;
-	LobbyUserStateType_JoiningQueue = 2;
-	LobbyUserStateType_JoinedQueue = 3;
-	LobbyUserStateType_DroppingQueue = 4;
-	LobbyUserStateType_Matchmade = 10;
-	LobbyUserStateType_InDraft = 15;
-	LobbyUserStateType_CreatingMatch = 20;
-	LobbyUserStateType_PlayingMatch = 21;
 }
 
 enum ManaColor {
@@ -3074,12 +2736,6 @@ message PlayerMetrics {
 	repeated KeyValuePairInfo metrics = 2;
 }
 
-enum PresenceState {
-	PresenceState_Invalid = 0;
-	PresenceState_Offline = 1;
-	PresenceState_Online = 2;
-}
-
 message Prompt {
 	uint32 promptId = 1;
 	repeated PromptParameter parameters = 2;
@@ -3132,25 +2788,6 @@ enum ProtoVersion {
 	ProtoVersion_AutoTapSolution = 33;
 	ProtoVersion_ManaPaymentDeprecated = 34;
 	ProtoVersion_SelectFromGroupRespGroups = 35;
-}
-
-message QueueInfo {
-	string eventId = 2;
-	QueueType queueType = 3;
-	string queueServiceBaseUri = 5;
-	string queueServiceErrorCallbackUri = 6;
-	string queueServiceOutputCallbackUri = 7;
-	int32 minimumPlayerCount = 10;
-	int32 playerBatchSize = 11;
-	int32 triggerCadenceMs = 12;
-	int64 createdTimestamp = 20;
-	int64 updatedTimestamp = 21;
-}
-
-enum QueueType {
-	QueueType_Invalid = 0;
-	QueueType_MatchQueue = 1;
-	QueueType_DraftQueue = 2;
 }
 
 message Reference {
@@ -3306,7 +2943,6 @@ message SelectManaTypeReq {
 
 message SelectManaTypeResp {
 	uint32 index = 1;
-	repeated ManaColor manaColors = 2;
 	ManaColor manaColor = 3;
 }
 

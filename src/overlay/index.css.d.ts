@@ -77,6 +77,8 @@ declare namespace IndexCssNamespace {
     odds_prev: string;
     outerWrapper: string;
     outer_wrapper: string;
+    "overlay-deck-mana-curve": string;
+    "overlay-deck-type-stats": string;
     overlayArchetype: string;
     overlayCardQuantity: string;
     overlayClockContainer: string;
@@ -84,6 +86,8 @@ declare namespace IndexCssNamespace {
     overlayContainer: string;
     overlayController: string;
     overlayDeckContainer: string;
+    overlayDeckManaCurve: string;
+    overlayDeckTypeStats: string;
     overlayDeckcolors: string;
     overlayDecklist: string;
     overlayDeckname: string;

@@ -273,8 +273,8 @@ export default class Aggregator {
 
   filterMatch(match: InternalMatch): boolean {
     if (!match) return false;
-    const { eventId, showArchived, matchIds } = this.filters;
-    if (!showArchived && match.archived) return false;
+    const { eventId, matchIds } = this.filters;
+    if (match.archived) return false;
 
     const passesMatchFilter = !matchIds || this.validMatches.has(match.id);
     if (!passesMatchFilter) return false;

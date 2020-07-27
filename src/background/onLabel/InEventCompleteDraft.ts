@@ -8,6 +8,7 @@ import globals from "../globals";
 import { httpSetDraft } from "../httpApi";
 import globalStore from "../../shared/store";
 import debugLog from "../../shared/debugLog";
+import completeDraft from "../draft/completeDraft";
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;
@@ -25,5 +26,5 @@ export default function InEventCompleteDraft(entry: Entry): void {
   setDraftId(json.Id + "-draft");
   httpSetDraft(globalStore.currentDraft);
   ipcSend("popup", { text: "Draft saved!", time: 3000 });
-  debugLog(globalStore.currentDraft);
+  completeDraft();
 }

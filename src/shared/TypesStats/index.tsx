@@ -44,11 +44,14 @@ function getDeckTypesAmount(deck: Deck): { [key: string]: number } {
   return types;
 }
 
-export default function DeckTypesStats(props: { deck: Deck }): JSX.Element {
-  const { deck } = props;
+export default function DeckTypesStats(props: {
+  className?: string;
+  deck: Deck;
+}): JSX.Element {
+  const { className, deck } = props;
   const cardTypes = getDeckTypesAmount(deck);
   return (
-    <div className={css.types_container}>
+    <div className={className || css.types_container}>
       {CARD_TYPE_CODES.map((cardTypeKey, index) => {
         return (
           <div

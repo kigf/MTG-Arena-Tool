@@ -477,32 +477,6 @@
             ]
         },
         {
-            "name": "AnyLobbyMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "ClientToLobbyMessage",
-                    "name": "clientToLobbyMessage",
-                    "id": 2,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyToClientMessage",
-                    "name": "lobbyToClientMessage",
-                    "id": 3,
-                    "oneof": "message"
-                }
-            ],
-            "oneofs": {
-                "message": [
-                    2,
-                    3
-                ]
-            }
-        },
-        {
             "name": "AnyMessage",
             "syntax": "proto3",
             "fields": [
@@ -549,85 +523,6 @@
                     5
                 ]
             }
-        },
-        {
-            "name": "AnyServiceMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "UserContext",
-                    "name": "userContext",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClientToMatchServiceMessage",
-                    "name": "clientToMatchServiceMessage",
-                    "id": 10,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "MatchServiceToClientMessage",
-                    "name": "matchServiceToClientMessage",
-                    "id": 11,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClientToLobbyMessage",
-                    "name": "clientToLobbyMessage",
-                    "id": 12,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyToClientMessage",
-                    "name": "lobbyToClientMessage",
-                    "id": 13,
-                    "oneof": "message"
-                }
-            ],
-            "oneofs": {
-                "message": [
-                    10,
-                    11,
-                    12,
-                    13
-                ]
-            },
-            "messages": [
-                {
-                    "name": "RequestContext",
-                    "syntax": "proto3",
-                    "fields": []
-                },
-                {
-                    "name": "UserContext",
-                    "syntax": "proto3",
-                    "fields": [
-                        {
-                            "rule": "optional",
-                            "type": "string",
-                            "name": "userId",
-                            "id": 1
-                        },
-                        {
-                            "rule": "repeated",
-                            "type": "string",
-                            "name": "userRoles",
-                            "id": 2
-                        },
-                        {
-                            "rule": "optional",
-                            "type": "AuthenticationType",
-                            "name": "authenticationType",
-                            "id": 3
-                        }
-                    ]
-                }
-            ]
         },
         {
             "name": "AnyToGREMessage",
@@ -1498,30 +1393,6 @@
             ]
         },
         {
-            "name": "ClearLobbyUserStatusRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "userId",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "ClearLobbyUserStatusResponse",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyUserInfo",
-                    "name": "userInfo",
-                    "id": 1
-                }
-            ]
-        },
-        {
             "name": "ClientInfo",
             "syntax": "proto3",
             "fields": [
@@ -1600,32 +1471,6 @@
             ]
         },
         {
-            "name": "ClientToFrontDoorMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "ClientToLobbyMessage",
-                    "name": "clientToLobbyMessage",
-                    "id": 1,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClientToLapaMessage",
-                    "name": "clientToLapaMessage",
-                    "id": 2,
-                    "oneof": "message"
-                }
-            ],
-            "oneofs": {
-                "message": [
-                    1,
-                    2
-                ]
-            }
-        },
-        {
             "name": "ClientToGREMessage",
             "syntax": "proto3",
             "fields": [
@@ -1664,12 +1509,6 @@
                     "type": "CancelActionReq",
                     "name": "cancelActionReq",
                     "id": 6
-                },
-                {
-                    "rule": "optional",
-                    "type": "ChooseModalResp",
-                    "name": "chooseModalResp",
-                    "id": 7
                 },
                 {
                     "rule": "optional",
@@ -1805,12 +1644,6 @@
                 },
                 {
                     "rule": "optional",
-                    "type": "SelectManaTypeResp",
-                    "name": "selectManaTypeResp",
-                    "id": 35
-                },
-                {
-                    "rule": "optional",
                     "type": "SelectFromGroupsResp",
                     "name": "selectFromGroupsResp",
                     "id": 36
@@ -1864,172 +1697,6 @@
                     "id": 100
                 }
             ]
-        },
-        {
-            "name": "ClientToLapaMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "payload",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "ClientToLobbyMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "clientId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "requestId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "timestamp",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "CorrelationInfo",
-                    "name": "correlationInfo",
-                    "id": 4
-                },
-                {
-                    "rule": "optional",
-                    "type": "AuthenticateRequest",
-                    "name": "authenticateRequest",
-                    "id": 100,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ServiceInfoRequest",
-                    "name": "serviceInfoRequest",
-                    "id": 101,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClientSessionInfo",
-                    "name": "clientSessionInfo",
-                    "id": 102,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "GetLobbyUserIdsRequest",
-                    "name": "getUserIdsRequest",
-                    "id": 110,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "GetLobbyUserInfoRequest",
-                    "name": "getUserInfoRequest",
-                    "id": 111,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClearLobbyUserStatusRequest",
-                    "name": "clearLobbyUserStatusRequest",
-                    "id": 112,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "JoinQueueRequest",
-                    "name": "joinQueueRequest",
-                    "id": 200,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DropQueueRequest",
-                    "name": "dropQueueRequest",
-                    "id": 201,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DeleteQueueRequest",
-                    "name": "deleteQueueRequest",
-                    "id": 202,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "JoinMatchmakingRequestV2",
-                    "name": "joinMatchmakingRequestV2",
-                    "id": 203,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DropMatchmakingRequestV2",
-                    "name": "dropMatchmakingRequestV2",
-                    "id": 204,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "JoinConstructedMatchmakingRequest",
-                    "name": "joinConstructedMatchmakingRequest",
-                    "id": 205,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DropConstructedMatchmakingRequest",
-                    "name": "dropConstructedMatchmakingRequest",
-                    "id": 206,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "MatchServiceToClientMessage",
-                    "name": "matchServiceToClientMessage",
-                    "id": 400,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "EchoRequest",
-                    "name": "echoRequest",
-                    "id": 1000,
-                    "oneof": "message"
-                }
-            ],
-            "oneofs": {
-                "message": [
-                    100,
-                    101,
-                    102,
-                    110,
-                    111,
-                    112,
-                    200,
-                    201,
-                    202,
-                    203,
-                    204,
-                    205,
-                    206,
-                    400,
-                    1000
-                ]
-            }
         },
         {
             "name": "ClientToMatchDoorConnectRequest",
@@ -2466,6 +2133,12 @@
                     "type": "bool",
                     "name": "canIgnoreBlockers",
                     "id": 5
+                },
+                {
+                    "rule": "optional",
+                    "type": "bool",
+                    "name": "forcePromptAssignment",
+                    "id": 6
                 }
             ]
         },
@@ -2608,54 +2281,6 @@
             ]
         },
         {
-            "name": "DeckInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "deckId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "userId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "courseId",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "deckName",
-                    "id": 4
-                },
-                {
-                    "rule": "repeated",
-                    "type": "uint32",
-                    "name": "libraryCardIds",
-                    "id": 5,
-                    "options": {
-                        "packed": true
-                    }
-                },
-                {
-                    "rule": "repeated",
-                    "type": "uint32",
-                    "name": "sideboardCardIds",
-                    "id": 6,
-                    "options": {
-                        "packed": true
-                    }
-                }
-            ]
-        },
-        {
             "name": "DeckMessage",
             "syntax": "proto3",
             "fields": [
@@ -2733,6 +2358,12 @@
                     "type": "Attacker",
                     "name": "autoAttackers",
                     "id": 6
+                },
+                {
+                    "rule": "repeated",
+                    "type": "Attacker",
+                    "name": "qualifiedAttackers",
+                    "id": 7
                 }
             ]
         },
@@ -2801,29 +2432,6 @@
                     "id": 1
                 }
             ]
-        },
-        {
-            "name": "DeleteQueueRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "QueueType",
-                    "name": "queueType",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                }
-            ]
-        },
-        {
-            "name": "DeleteQueueResponse",
-            "syntax": "proto3",
-            "fields": []
         },
         {
             "name": "DieRollResultsResp",
@@ -2965,76 +2573,6 @@
         },
         {
             "name": "DraftGameRoomInfo",
-            "syntax": "proto3",
-            "fields": []
-        },
-        {
-            "name": "DropConstructedMatchmakingRequest",
-            "syntax": "proto3",
-            "fields": []
-        },
-        {
-            "name": "DropMatchmakingRequestV2",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "courseId",
-                    "id": 2
-                }
-            ]
-        },
-        {
-            "name": "DropMatchmakingResponse",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "DropMatchmakingResponseCode",
-                    "name": "responseCode",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "DropMatchmakingResponseV2",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "DropMatchmakingResponseCode",
-                    "name": "responseCode",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "DropQueueRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "QueueType",
-                    "name": "queueType",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                }
-            ]
-        },
-        {
-            "name": "DropQueueResponse",
             "syntax": "proto3",
             "fields": []
         },
@@ -3193,24 +2731,6 @@
                     "id": 1
                 }
             ]
-        },
-        {
-            "name": "FrontDoorToClientMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyToClientMessage",
-                    "name": "lobbyToClientMessage",
-                    "id": 1,
-                    "oneof": "message"
-                }
-            ],
-            "oneofs": {
-                "message": [
-                    1
-                ]
-            }
         },
         {
             "name": "GRECancelScheduledMessage",
@@ -3781,12 +3301,6 @@
                 },
                 {
                     "rule": "optional",
-                    "type": "ModalReq",
-                    "name": "modalReq",
-                    "id": 13
-                },
-                {
-                    "rule": "optional",
                     "type": "MulliganReq",
                     "name": "mulliganReq",
                     "id": 14
@@ -3946,12 +3460,6 @@
                     "type": "bool",
                     "name": "informationalUseOnly",
                     "id": 45
-                },
-                {
-                    "rule": "optional",
-                    "type": "SelectManaTypeReq",
-                    "name": "selectManaTypeReq",
-                    "id": 46
                 },
                 {
                     "rule": "optional",
@@ -4713,60 +4221,6 @@
             }
         },
         {
-            "name": "GetLobbyUserIdsRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "SortFilterPagingOptions",
-                    "name": "sortFilterPagingOptions",
-                    "id": 10
-                }
-            ]
-        },
-        {
-            "name": "GetLobbyUserIdsResponse",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "repeated",
-                    "type": "string",
-                    "name": "userIds",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "ContinuationToken",
-                    "name": "continuationToken",
-                    "id": 10
-                }
-            ]
-        },
-        {
-            "name": "GetLobbyUserInfoRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "userId",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "GetLobbyUserInfoResponse",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyUserInfo",
-                    "name": "userInfo",
-                    "id": 2
-                }
-            ]
-        },
-        {
             "name": "GetSettingsResp",
             "syntax": "proto3",
             "fields": [
@@ -5037,30 +4491,6 @@
             ]
         },
         {
-            "name": "JoinConstructedMatchmakingRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "ConstructedMatchType",
-                    "name": "matchType",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "numberOfGames",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "deckId",
-                    "id": 3
-                }
-            ]
-        },
-        {
             "name": "JoinMatchGameRoomRequest",
             "syntax": "proto3",
             "fields": [
@@ -5099,96 +4529,6 @@
                     "type": "int32",
                     "name": "seatId",
                     "id": 1
-                }
-            ]
-        },
-        {
-            "name": "JoinMatchmakingRequestV2",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "courseId",
-                    "id": 2
-                }
-            ]
-        },
-        {
-            "name": "JoinMatchmakingResponse",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "JoinMatchmakingResponseCode",
-                    "name": "responseCode",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "JoinMatchmakingResponseV2",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "JoinMatchmakingResponseCode",
-                    "name": "responseCode",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "JoinQueueRequest",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "QueueType",
-                    "name": "queueType",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "deckId",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "matchmakingFilter",
-                    "id": 4
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "courseId",
-                    "id": 5
-                }
-            ]
-        },
-        {
-            "name": "JoinQueueResponse",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyUserQueueInfo",
-                    "name": "queueInfo",
-                    "id": 5
                 }
             ]
         },
@@ -5276,482 +4616,6 @@
                     "options": {
                         "packed": true
                     }
-                }
-            ]
-        },
-        {
-            "name": "LobbyDraftInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "userId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "draftId",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "draftStartedTimestamp",
-                    "id": 20
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "draftCompletedTimestamp",
-                    "id": 21
-                }
-            ]
-        },
-        {
-            "name": "LobbyError",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyErrorCode",
-                    "name": "lobbyErrorCode",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "errorMessage",
-                    "id": 3
-                }
-            ]
-        },
-        {
-            "name": "LobbyMatchCompletedEvent",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchInfo",
-                    "name": "matchInfo",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "name": "LobbyMatchConfig",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "matchId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "matchGatewayUrl",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "mcFabricUri",
-                    "id": 4
-                },
-                {
-                    "rule": "repeated",
-                    "type": "LobbyMatchPlayerInfo",
-                    "name": "players",
-                    "id": 10
-                }
-            ]
-        },
-        {
-            "name": "LobbyMatchCreatePendingEvent",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "matchCreatePendingTimestamp",
-                    "id": 10
-                }
-            ]
-        },
-        {
-            "name": "LobbyMatchCreatedEvent",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchConfig",
-                    "name": "matchConfig",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "matchCreatedTimestamp",
-                    "id": 10
-                }
-            ]
-        },
-        {
-            "name": "LobbyMatchInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchConfig",
-                    "name": "config",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "MatchGameRoomInfo",
-                    "name": "matchGameRoomInfo",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "matchCreatedTimestamp",
-                    "id": 10
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "matchStartedTimestamp",
-                    "id": 11
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "matchCompletedTimestamp",
-                    "id": 12
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "matchResultsSavedTimestamp",
-                    "id": 13
-                }
-            ]
-        },
-        {
-            "name": "LobbyMatchPlayerInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "playerName",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "systemSeatId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "teamId",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "bool",
-                    "name": "isWotc",
-                    "id": 4
-                }
-            ]
-        },
-        {
-            "name": "LobbyServiceInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "ServiceFabricServiceInfo",
-                    "name": "serviceFabricServiceInfo",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "environmentId",
-                    "id": 2
-                }
-            ]
-        },
-        {
-            "name": "LobbyToClientMessage",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "LobbyError",
-                    "name": "error",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "requestId",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "timestamp",
-                    "id": 4
-                },
-                {
-                    "rule": "optional",
-                    "type": "CorrelationInfo",
-                    "name": "correlationInfo",
-                    "id": 5
-                },
-                {
-                    "rule": "optional",
-                    "type": "AuthenticateResponse",
-                    "name": "authenticateResponse",
-                    "id": 100,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyServiceInfo",
-                    "name": "serviceInfoResponse",
-                    "id": 101,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "GetLobbyUserIdsResponse",
-                    "name": "getUserIdsResponse",
-                    "id": 110,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "GetLobbyUserInfoResponse",
-                    "name": "getUserInfoResponse",
-                    "id": 111,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClearLobbyUserStatusResponse",
-                    "name": "clearLobbyUserStatusResponse",
-                    "id": 112,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "JoinQueueResponse",
-                    "name": "joinQueueResponse",
-                    "id": 200,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DropQueueResponse",
-                    "name": "dropQueueResponse",
-                    "id": 201,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DeleteQueueResponse",
-                    "name": "deleteQueueResponse",
-                    "id": 202,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "JoinMatchmakingResponseV2",
-                    "name": "joinMatchmakingResponseV2",
-                    "id": 203,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DropMatchmakingResponseV2",
-                    "name": "dropMatchmakingResponseV2",
-                    "id": 204,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "JoinMatchmakingResponse",
-                    "name": "joinMatchmakingResponse",
-                    "id": 205,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "DropMatchmakingResponse",
-                    "name": "dropMatchmakingResponse",
-                    "id": 206,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClientToMatchServiceMessage",
-                    "name": "clientToMatchServiceMessage",
-                    "id": 400,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchCreatedEvent",
-                    "name": "matchCreatedEvent",
-                    "id": 500,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchCompletedEvent",
-                    "name": "matchCompletedEvent",
-                    "id": 501,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchCreatePendingEvent",
-                    "name": "matchCreatePendingEvent",
-                    "id": 502,
-                    "oneof": "message"
-                },
-                {
-                    "rule": "optional",
-                    "type": "EchoResponse",
-                    "name": "echoResponse",
-                    "id": 1000,
-                    "oneof": "message"
-                }
-            ],
-            "oneofs": {
-                "message": [
-                    100,
-                    101,
-                    110,
-                    111,
-                    112,
-                    200,
-                    201,
-                    202,
-                    203,
-                    204,
-                    205,
-                    206,
-                    400,
-                    500,
-                    501,
-                    502,
-                    1000
-                ]
-            }
-        },
-        {
-            "name": "LobbyUserInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "userId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyUserStateType",
-                    "name": "stateType",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "stateUpdatedTimestamp",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "UserConnectionInfo",
-                    "name": "userConnectionInfo",
-                    "id": 10
-                },
-                {
-                    "rule": "optional",
-                    "type": "PresenceState",
-                    "name": "presenceState",
-                    "id": 11
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyUserQueueInfo",
-                    "name": "queueInfo",
-                    "id": 15
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyDraftInfo",
-                    "name": "draftInfo",
-                    "id": 20
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyMatchInfo",
-                    "name": "matchInfo",
-                    "id": 25
-                }
-            ]
-        },
-        {
-            "name": "LobbyUserQueueInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "userId",
-                    "id": 1
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "ClientToLobbyMessage",
-                    "name": "joinQueueRequest",
-                    "id": 11
-                },
-                {
-                    "rule": "optional",
-                    "type": "LobbyToClientMessage",
-                    "name": "joinQueueResponse",
-                    "id": 12
                 }
             ]
         },
@@ -7596,72 +6460,6 @@
             ]
         },
         {
-            "name": "QueueInfo",
-            "syntax": "proto3",
-            "fields": [
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "eventId",
-                    "id": 2
-                },
-                {
-                    "rule": "optional",
-                    "type": "QueueType",
-                    "name": "queueType",
-                    "id": 3
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "queueServiceBaseUri",
-                    "id": 5
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "queueServiceErrorCallbackUri",
-                    "id": 6
-                },
-                {
-                    "rule": "optional",
-                    "type": "string",
-                    "name": "queueServiceOutputCallbackUri",
-                    "id": 7
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "minimumPlayerCount",
-                    "id": 10
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "playerBatchSize",
-                    "id": 11
-                },
-                {
-                    "rule": "optional",
-                    "type": "int32",
-                    "name": "triggerCadenceMs",
-                    "id": 12
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "createdTimestamp",
-                    "id": 20
-                },
-                {
-                    "rule": "optional",
-                    "type": "int64",
-                    "name": "updatedTimestamp",
-                    "id": 21
-                }
-            ]
-        },
-        {
             "name": "Reference",
             "syntax": "proto3",
             "fields": [
@@ -8150,15 +6948,6 @@
                     "type": "uint32",
                     "name": "index",
                     "id": 1
-                },
-                {
-                    "rule": "repeated",
-                    "type": "ManaColor",
-                    "name": "manaColors",
-                    "id": 2,
-                    "options": {
-                        "packed": true
-                    }
                 },
                 {
                     "rule": "optional",
@@ -11135,20 +9924,6 @@
             ]
         },
         {
-            "name": "AuthenticationType",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "AuthenticationType_Invalid",
-                    "id": 0
-                },
-                {
-                    "name": "AuthenticationType_Service",
-                    "id": 2
-                }
-            ]
-        },
-        {
             "name": "AutoPassOption",
             "syntax": "proto3",
             "values": [
@@ -11697,10 +10472,6 @@
                     "id": 5
                 },
                 {
-                    "name": "ClientMessageType_ChooseModalResp",
-                    "id": 6
-                },
-                {
                     "name": "ClientMessageType_ConcedeReq",
                     "id": 7
                 },
@@ -11827,10 +10598,6 @@
                 {
                     "name": "ClientMessageType_CastingTimeOptionsResp",
                     "id": 46
-                },
-                {
-                    "name": "ClientMessageType_SelectManaTypeResp",
-                    "id": 47
                 },
                 {
                     "name": "ClientMessageType_SelectFromGroupsResp",
@@ -11989,24 +10756,6 @@
                 {
                     "name": "ConnectionStatus_ProtoVersionIncompat",
                     "id": 3
-                }
-            ]
-        },
-        {
-            "name": "ConstructedMatchType",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "Precon",
-                    "id": 0
-                },
-                {
-                    "name": "Unranked",
-                    "id": 1
-                },
-                {
-                    "name": "Ranked",
-                    "id": 2
                 }
             ]
         },
@@ -12723,40 +11472,6 @@
             ]
         },
         {
-            "name": "DropMatchmakingResponseCode",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "DropUnknownError",
-                    "id": 0
-                },
-                {
-                    "name": "DropSuccess",
-                    "id": 1
-                },
-                {
-                    "name": "DropErrorNotJoined",
-                    "id": 2
-                },
-                {
-                    "name": "DropErrorEventNotFound",
-                    "id": 3
-                },
-                {
-                    "name": "DropErrorCourseNotFound",
-                    "id": 4
-                },
-                {
-                    "name": "DropServiceError",
-                    "id": 5
-                },
-                {
-                    "name": "DropErrorUnavailable",
-                    "id": 6
-                }
-            ]
-        },
-        {
             "name": "EffectCostType",
             "syntax": "proto3",
             "values": [
@@ -13005,6 +11720,10 @@
                 {
                     "name": "FailureReason_InvalidParity",
                     "id": 54
+                },
+                {
+                    "name": "FailureReason_InvalidAlternativeAttackModification",
+                    "id": 55
                 }
             ]
         },
@@ -13047,10 +11766,6 @@
                 {
                     "name": "GREMessageType_IllegalRequest",
                     "id": 12
-                },
-                {
-                    "name": "GREMessageType_ModalReq",
-                    "id": 14
                 },
                 {
                     "name": "GREMessageType_MulliganReq",
@@ -13159,10 +11874,6 @@
                 {
                     "name": "GREMessageType_CastingTimeOptionsReq",
                     "id": 46
-                },
-                {
-                    "name": "GREMessageType_SelectManaTypeReq",
-                    "id": 47
                 },
                 {
                     "name": "GREMessageType_SelectFromGroupsReq",
@@ -13593,48 +12304,6 @@
             ]
         },
         {
-            "name": "JoinMatchmakingResponseCode",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "JoinUnknownError",
-                    "id": 0
-                },
-                {
-                    "name": "JoinSuccess",
-                    "id": 1
-                },
-                {
-                    "name": "JoinErrorAlreadyJoined",
-                    "id": 2
-                },
-                {
-                    "name": "JoinErrorEventNotFound",
-                    "id": 3
-                },
-                {
-                    "name": "JoinErrorCourseNotFound",
-                    "id": 4
-                },
-                {
-                    "name": "JoinServiceError",
-                    "id": 5
-                },
-                {
-                    "name": "JoinErrorUnavailable",
-                    "id": 6
-                },
-                {
-                    "name": "JoinErrorNoValidDeck",
-                    "id": 7
-                },
-                {
-                    "name": "JoinErrorCourseNotActive",
-                    "id": 8
-                }
-            ]
-        },
-        {
             "name": "KeyValuePairValueType",
             "syntax": "proto3",
             "values": [
@@ -13673,142 +12342,6 @@
                 {
                     "name": "KeyValuePairValueType_double",
                     "id": 8
-                }
-            ]
-        },
-        {
-            "name": "LobbyErrorCode",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "LobbyErrorCode_Invalid",
-                    "id": 0
-                },
-                {
-                    "name": "LobbyErrorCode_Success",
-                    "id": 1
-                },
-                {
-                    "name": "LobbyErrorCode_ProtobufParseError",
-                    "id": 11
-                },
-                {
-                    "name": "LobbyErrorCode_InvalidMessageType",
-                    "id": 12
-                },
-                {
-                    "name": "LobbyErrorCode_InvalidMessageField",
-                    "id": 13
-                },
-                {
-                    "name": "LobbyErrorCode_BufferOverflow",
-                    "id": 14
-                },
-                {
-                    "name": "LobbyErrorCode_Unauthorized",
-                    "id": 20
-                },
-                {
-                    "name": "LobbyErrorCode_Forbidden",
-                    "id": 21
-                },
-                {
-                    "name": "LobbyErrorCode_OperationCanceled",
-                    "id": 30
-                },
-                {
-                    "name": "LobbyErrorCode_RequestTimeout",
-                    "id": 31
-                },
-                {
-                    "name": "LobbyErrorCode_InvalidOperation",
-                    "id": 32
-                },
-                {
-                    "name": "LobbyErrorCode_NotFound",
-                    "id": 40
-                },
-                {
-                    "name": "LobbyErrorCode_UserNotFound",
-                    "id": 41
-                },
-                {
-                    "name": "LobbyErrorCode_QueueNotFound",
-                    "id": 42
-                },
-                {
-                    "name": "LobbyErrorCode_DeckNotFound",
-                    "id": 43
-                },
-                {
-                    "name": "LobbyErrorCode_EventNotFound",
-                    "id": 44
-                },
-                {
-                    "name": "LobbyErrorCode_AlreadyInQueue",
-                    "id": 50
-                },
-                {
-                    "name": "LobbyErrorCode_AlreadyInMatch",
-                    "id": 51
-                },
-                {
-                    "name": "LobbyErrorCode_DraftStartError",
-                    "id": 60
-                },
-                {
-                    "name": "LobbyErrorCode_InternalServerError",
-                    "id": 500
-                },
-                {
-                    "name": "LobbyErrorCode_NotImplemented",
-                    "id": 501
-                },
-                {
-                    "name": "LobbyErrorCode_ServiceUnavailable",
-                    "id": 503
-                }
-            ]
-        },
-        {
-            "name": "LobbyUserStateType",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "LobbyUserStateType_Invalid",
-                    "id": 0
-                },
-                {
-                    "name": "LobbyUserStateType_Idle",
-                    "id": 1
-                },
-                {
-                    "name": "LobbyUserStateType_JoiningQueue",
-                    "id": 2
-                },
-                {
-                    "name": "LobbyUserStateType_JoinedQueue",
-                    "id": 3
-                },
-                {
-                    "name": "LobbyUserStateType_DroppingQueue",
-                    "id": 4
-                },
-                {
-                    "name": "LobbyUserStateType_Matchmade",
-                    "id": 10
-                },
-                {
-                    "name": "LobbyUserStateType_InDraft",
-                    "id": 15
-                },
-                {
-                    "name": "LobbyUserStateType_CreatingMatch",
-                    "id": 20
-                },
-                {
-                    "name": "LobbyUserStateType_PlayingMatch",
-                    "id": 21
                 }
             ]
         },
@@ -14789,24 +13322,6 @@
             ]
         },
         {
-            "name": "PresenceState",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "PresenceState_Invalid",
-                    "id": 0
-                },
-                {
-                    "name": "PresenceState_Offline",
-                    "id": 1
-                },
-                {
-                    "name": "PresenceState_Online",
-                    "id": 2
-                }
-            ]
-        },
-        {
             "name": "ProtoVersion",
             "syntax": "proto3",
             "values": [
@@ -14953,24 +13468,6 @@
                 {
                     "name": "ProtoVersion_SelectFromGroupRespGroups",
                     "id": 35
-                }
-            ]
-        },
-        {
-            "name": "QueueType",
-            "syntax": "proto3",
-            "values": [
-                {
-                    "name": "QueueType_Invalid",
-                    "id": 0
-                },
-                {
-                    "name": "QueueType_MatchQueue",
-                    "id": 1
-                },
-                {
-                    "name": "QueueType_DraftQueue",
-                    "id": 2
                 }
             ]
         },
