@@ -28,7 +28,6 @@ const {
   IPC_RENDERER,
 } = constants;
 
-
 interface SettingsNavProps {
   component: () => JSX.Element;
   id: number;

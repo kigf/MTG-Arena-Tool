@@ -2,7 +2,6 @@
 import _ from "lodash";
 import { Filters } from "react-table";
 import { constants, Colors } from "mtgatool-shared";
-import {} from "../../../shared/constants.old";
 import { StringFilter } from "../tables/filters";
 import {
   ParsedToken,

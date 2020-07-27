@@ -15,7 +15,6 @@ import css from "../../index.css";
 
 const { COLORS_ALL, COLORS_BRIEF } = constants;
 
-
 export interface StringFilter {
   string: string;
   not: boolean;

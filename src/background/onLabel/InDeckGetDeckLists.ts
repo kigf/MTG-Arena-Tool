@@ -6,7 +6,7 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
 import { constants } from "mtgatool-shared";
 
-const  { IPC_RENDERER } = constants;
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck[];

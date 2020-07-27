@@ -2,7 +2,6 @@ import { remote } from "electron";
 import React from "react";
 import { TableState } from "react-table";
 import { constants, Colors, Deck } from "mtgatool-shared";
-import {} from "../../shared/constants.old";
 import db from "../../shared/database-wrapper";
 import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";

@@ -5,7 +5,6 @@ import isValid from "date-fns/isValid";
 import max from "date-fns/max";
 import startOfDay from "date-fns/startOfDay";
 import subDays from "date-fns/subDays";
-import {} from "../shared/constants.old";
 import db from "../shared/database-wrapper";
 import { normalApproximationInterval } from "../shared/utils/statsFns";
 import { InternalDeck } from "../types/Deck";
