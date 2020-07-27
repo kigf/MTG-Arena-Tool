@@ -1,6 +1,6 @@
 import React from "react";
 import CardTile, { LandsTile, CardTileQuantity } from "../shared/CardTile";
-import { Colors, Deck } from "mtgatool-shared";
+import { Colors, compareCards, Deck } from "mtgatool-shared";
 import {
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,
@@ -15,7 +15,6 @@ import db from "../shared/database-wrapper";
 import DeckManaCurve from "../shared/ManaCurve";
 import DeckTypesStats from "../shared/TypesStats";
 import OwnershipStars from "../shared/OwnershipStars";
-import { compareCards } from "../shared/utils/compareCards";
 import { Chances } from "../types/Chances";
 import { CardObject } from "../types/Deck";
 import { OverlaySettingsData } from "../types/settings";

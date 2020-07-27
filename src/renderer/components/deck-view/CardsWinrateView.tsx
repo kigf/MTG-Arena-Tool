@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import getDeckAfterChange from "../../../shared/utils/getDeckAfterChange";
-import { Deck } from "mtgatool-shared";
+import { compareCards, Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import Aggregator, {
   AggregatorFilters,
@@ -10,7 +10,6 @@ import CardTile from "../../../shared/CardTile";
 import db from "../../../shared/database-wrapper";
 import { getWinrateClass } from "../../rendererUtil";
 import { getDeckChangesList } from "../../../shared/store";
-import { compareCards } from "../../../shared/utils/compareCards";
 import { DeckChange, CardObject } from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";
 import { format } from "date-fns";
