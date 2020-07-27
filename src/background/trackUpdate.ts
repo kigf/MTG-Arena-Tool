@@ -1,6 +1,6 @@
 import inventoryUpdate from "./inventoryUpdate";
-import { BattlePassUpdate } from "../types/postmatch";
 import { Entry as PostMatchUpdateEntry } from "./onLabel/PostMatchUpdate";
+import { BattlePassUpdate } from "mtgatool-shared/dist/types/postmatch";
 
 export default function trackUpdate(
   entry: PostMatchUpdateEntry,
