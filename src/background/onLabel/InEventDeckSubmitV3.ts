@@ -1,8 +1,8 @@
 import { Deck } from "mtgatool-shared";
-import { PlayerCourse } from "../../types/event";
 import LogEntry from "../../types/logDecoder";
 import selectDeck from "../selectDeck";
 import convertDeckFromV3 from "../convertDeckFromV3";
+import { PlayerCourse } from "mtgatool-shared/dist/types/event";
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;

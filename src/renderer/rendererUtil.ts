@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-use-before-define, @typescript-eslint/camelcase */
 import { app, ipcRenderer as ipc, remote } from "electron";
 import path from "path";
-import { WinLossGate } from "../types/event";
 import store from "../shared/redux/stores/rendererStore";
 import db from "../shared/database-wrapper";
 import sharedCss from "../shared/shared.css";
 import { MissingWildcards, CardCounts } from "./components/decks/types";
 import { constants, Deck } from "mtgatool-shared";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { WinLossGate } from "mtgatool-shared/dist/types/event";
 
 const { IPC_BACKGROUND, IPC_RENDERER, CARD_RARITIES } = constants;
 

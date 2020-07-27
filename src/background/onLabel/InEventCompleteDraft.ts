@@ -1,5 +1,4 @@
 import LogEntry from "../../types/logDecoder";
-import { PlayerCourse } from "../../types/event";
 import { setDraftId, setDraftData } from "../../shared/store/currentDraftStore";
 import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
@@ -8,6 +7,7 @@ import globalStore from "../../shared/store";
 import debugLog from "../../shared/debugLog";
 import completeDraft from "../draft/completeDraft";
 import { constants, getSetInEventId } from "mtgatool-shared";
+import { PlayerCourse } from "mtgatool-shared/dist/types/event";
 
 const { ARENA_MODE_IDLE } = constants;
 

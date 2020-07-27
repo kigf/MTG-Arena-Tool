@@ -2,7 +2,6 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { TableState } from "react-table";
 import db from "../../shared/database-wrapper";
-import { EventInstanceData, InternalEvent } from "../../types/event";
 import Aggregator, { AggregatorFilters } from "../aggregator";
 import EventsTable from "../components/events/EventsTable";
 import { EventStats, EventTableData } from "../components/events/types";
@@ -14,6 +13,11 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
 import appCss from "../app/app.css";
 import { constants, getEventPrettyName } from "mtgatool-shared";
+import {
+  InternalEvent,
+  EventInstanceData,
+} from "mtgatool-shared/dist/types/event";
+
 const { IPC_ALL, IPC_RENDERER } = constants;
 
 function editTag(tag: string, color: string): void {
