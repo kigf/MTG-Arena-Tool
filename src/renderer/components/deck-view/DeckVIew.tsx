@@ -3,7 +3,12 @@ import ManaCost from "../misc/ManaCost";
 import DeckList from "../misc/DeckList";
 import DeckTypesStats from "../../../shared/TypesStats";
 import DeckManaCurve from "../../../shared/ManaCurve";
-import { constants, Deck } from "mtgatool-shared";
+import {
+  constants,
+  Deck,
+  getDeckColorsAmmount,
+  getDeckLandsAmmount,
+} from "mtgatool-shared";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,8 +36,6 @@ import timestamp from "../../../shared/utils/timestamp";
 import IncognitoButton from "../misc/IncognitoButton";
 import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import Separator from "../misc/Separator";
-import getDeckColorsAmmount from "../misc/getDeckColorsAmmount";
-import getDeckLandsAmmount from "../misc/getDeckLandsAmmount";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import DeckColorsBar from "../misc/DeckColorsBar";
 import Section from "../misc/Section";
