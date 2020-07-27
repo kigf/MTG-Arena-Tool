@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getRankIndex16 } from "../../../shared/utils/getRankIndex";
+import { getRankIndex16 } from "mtgatool-shared";
 import { SymbolBase } from "./SymbolBase";
 import indexCss from "../../index.css";
 

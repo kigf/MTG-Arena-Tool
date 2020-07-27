@@ -9,7 +9,6 @@ import {
   COLORLESS,
 } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
-import { getRankIndex } from "../../../shared/utils/getRankIndex";
 import { toDDHHMMSS, toMMSS } from "../../../shared/utils/dateTo";
 import Aggregator, { AggregatorStats } from "../../aggregator";
 import {
@@ -24,6 +23,7 @@ import topNavCss from "../main/topNav.css";
 import listItemCss from "../list-item/ListItem.css";
 import manaCurveCss from "../../../shared/ManaCurve/ManaCurve.css";
 import sharedCss from "../../../shared/shared.css";
+import { getRankIndex } from "mtgatool-shared";
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;

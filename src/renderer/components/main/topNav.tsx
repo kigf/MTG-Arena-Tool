@@ -20,7 +20,7 @@ import {
   SYNC_OK,
 } from "../../../shared/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { getRankIndex } from "../../../shared/utils/getRankIndex";
+import { getRankIndex } from "mtgatool-shared";
 import formatRank from "../../../shared/utils/formatRank";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import useWindowSize from "../../hooks/useWindowSize";
