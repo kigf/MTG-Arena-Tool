@@ -1,4 +1,4 @@
-import { Deck } from "mtgatool-shared";
+import { Deck, getSetInEventId } from "mtgatool-shared";
 import { InternalDeck } from "../../types/Deck";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";
@@ -9,7 +9,6 @@ import {
   resetCurrentDraft,
 } from "../../shared/store/currentDraftStore";
 import { ModuleInstanceData } from "../../types/event";
-import getSetCodeInEventId from "../../shared/utils/getSetInEventId";
 
 interface EntryJson {
   Id: string;
@@ -38,7 +37,7 @@ export default function InEventJoin(entry: Entry): void {
   } else {
     // Most likely a draft
     resetCurrentDraft();
-    const set = getSetCodeInEventId(json.InternalEventName);
+    const set = getSetInEventId(json.InternalEventName);
     setDraftData({ draftSet: set, eventId: json.InternalEventName });
     setDraftId(json.Id + "-draft");
   }
