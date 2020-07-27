@@ -1,6 +1,5 @@
 import _ from "lodash";
 import React, { useCallback } from "react";
-import { DEFAULT_TILE } from "../../../shared/constants";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import { ListItemMatchProps } from "../matches/types";
 import ManaCost from "../misc/ManaCost";
@@ -20,7 +19,8 @@ import sharedCss from "../../../shared/shared.css";
 import { ipcSend } from "../../rendererUtil";
 import database from "../../../shared/database-wrapper";
 import RankSmall from "../misc/RankSmall";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { DEFAULT_TILE } = constants;
 
 export default function ListItemMatch({
   match,

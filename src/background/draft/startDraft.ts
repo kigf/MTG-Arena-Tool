@@ -1,8 +1,10 @@
-import { ARENA_MODE_DRAFT } from "../../shared/constants";
 import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
 import { setDraftData } from "../../shared/store/currentDraftStore";
 import { InternalDraftv2 } from "../../types/draft";
+import { constants } from "mtgatool-shared";
+
+const { ARENA_MODE_DRAFT } = constants;
 
 export default function startDraft(): void {
   if (globals.debugLog || !globals.firstPass) {

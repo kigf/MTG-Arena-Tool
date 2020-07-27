@@ -1,6 +1,5 @@
 import React from "react";
 import { FilterValue } from "react-table";
-import { EVENTS_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import DateFilter from "../../DateFilter";
 import { MediumTextButton } from "../misc/MediumTextButton";
@@ -9,11 +8,11 @@ import ColumnToggles from "../tables/ColumnToggles";
 import { GlobalFilter } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import { EventsTableControlsProps } from "./types";
-
 import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "../decks/deckTable.css";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { EVENTS_TABLE_MODES } = constants;
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },

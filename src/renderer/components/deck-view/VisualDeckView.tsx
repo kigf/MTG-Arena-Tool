@@ -1,8 +1,7 @@
 import React from "react";
 import { CardObject } from "../../../types/Deck";
-import { IPC_NONE } from "../../../shared/constants";
 import DeckTypesStats from "../../../shared/TypesStats";
-import { Deck } from "mtgatool-shared";
+import { constants, Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../../../shared/database-wrapper";
@@ -12,6 +11,8 @@ import { AppState } from "../../../shared/redux/stores/rendererStore";
 
 import css from "./VisualDeckView.css";
 import Section from "../misc/Section";
+
+const { IPC_NONE } = constants;
 
 interface VisualDeckViewProps {
   deck: Deck;

@@ -5,21 +5,18 @@ import isValid from "date-fns/isValid";
 import max from "date-fns/max";
 import startOfDay from "date-fns/startOfDay";
 import subDays from "date-fns/subDays";
-import {
-  DATE_ALL_TIME,
-  DATE_LAST_30,
-  DATE_LAST_DAY,
-  DATE_SEASON,
-} from "../shared/constants";
+import {} from "../shared/constants.old";
 import db from "../shared/database-wrapper";
 import { normalApproximationInterval } from "../shared/utils/statsFns";
 import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
-import { Colors, Deck, getEventPrettyName } from "mtgatool-shared";
+import { constants, Colors, Deck, getEventPrettyName } from "mtgatool-shared";
 import { InternalDraftv2 } from "../types/draft";
 import { format } from "date-fns";
+
+const { DATE_ALL_TIME, DATE_LAST_30, DATE_LAST_DAY, DATE_SEASON } = constants;
 
 export interface CardWinrateData {
   name: string;

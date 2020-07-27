@@ -1,6 +1,8 @@
 import { app, remote, ipcRenderer as ipc } from "electron";
-import { IPC_RENDERER, IPC_BACKGROUND } from "../constants";
 import debugLog from "../debugLog";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER, IPC_BACKGROUND } = constants;
 
 export const USER_DATA_DIR = (app || remote.app).getPath("userData");
 

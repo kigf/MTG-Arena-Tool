@@ -6,12 +6,13 @@ import { InternalDraftv2 } from "../../types/draft";
 import { SeasonalRankData } from "../../types/Season";
 import { matchStateObject } from "./currentMatchStore";
 import { draftStateObject } from "./currentDraftStore";
-import { DEFAULT_TILE } from "../constants";
-
+import { constants } from "mtgatool-shared";
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 import prettierDeckData from "../utils/prettierDeckData";
 import getDeckColors from "../utils/getDeckColors";
+
+const { DEFAULT_TILE } = constants;
 
 const defaultDeck = JSON.parse(
   `{"deckTileId":${DEFAULT_TILE},"description":null,"format":"Standard","colors":[],"id":"00000000-0000-0000-0000-000000000000","isValid":false,"lastUpdated":"2018-05-31T00:06:29.7456958","lockedForEdit":false,"lockedForUse":false,"mainDeck":[],"name":"Undefined","resourceId":"00000000-0000-0000-0000-000000000000","sideboard":[]}`

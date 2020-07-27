@@ -1,5 +1,5 @@
 // PROBABLY DEPRECATED
-import { playerDb } from "../../shared/db/LocalDatabase";
+import { constants, playerDb } from "../../shared/db/LocalDatabase";
 import { Deck } from "mtgatool-shared";
 import { InternalEvent, PlayerCourse } from "../../types/event";
 import LogEntry from "../../types/logDecoder";
@@ -9,8 +9,9 @@ import selectDeck from "../selectDeck";
 import convertDeckFromV3 from "../convertDeckFromV3";
 import { getEvent } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_RENDERER } from "../../shared/constants";
 import { httpSubmitCourse } from "../httpApi";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;

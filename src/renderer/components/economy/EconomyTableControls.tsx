@@ -1,6 +1,5 @@
 import React from "react";
 import { FilterValue } from "react-table";
-import { ECONOMY_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import { CheckboxContainer } from "../misc/CheckboxContainer";
 import { MediumTextButton } from "../misc/MediumTextButton";
@@ -10,10 +9,11 @@ import { GlobalFilter } from "../tables/filters";
 import PagingControls from "../tables/PagingControls";
 import { EconomyHeader } from "./EconomyHeader";
 import { EconomyTableControlsProps } from "./types";
-
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
+import { constants } from "mtgatool-shared";
+const { ECONOMY_TABLE_MODES } = constants;
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },

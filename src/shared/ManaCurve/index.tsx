@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Deck } from "mtgatool-shared";
-import { MANA_COLORS } from "../constants";
+import { constants, Deck } from "mtgatool-shared";
 import db from "../database-wrapper";
 
 import css from "./ManaCurve.css";
 import sharedCss from "../shared.css";
+
+const { MANA_COLORS } = constants;
 
 // Should proably be in constants
 const mana: Record<string, string> = {};

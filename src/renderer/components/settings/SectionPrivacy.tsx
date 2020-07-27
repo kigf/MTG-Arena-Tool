@@ -6,7 +6,8 @@ import Button from "../misc/Button";
 import { useSelector } from "react-redux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
+import { constants } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 function clickAnonExplore(value: boolean): void {
   reduxAction(

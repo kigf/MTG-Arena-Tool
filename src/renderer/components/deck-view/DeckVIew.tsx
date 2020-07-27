@@ -1,11 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { InternalDeck, CardObject } from "../../../types/Deck";
 import ManaCost from "../misc/ManaCost";
-import { MANA_COLORS, IPC_NONE } from "../../../shared/constants";
 import DeckList from "../misc/DeckList";
 import DeckTypesStats from "../../../shared/TypesStats";
 import DeckManaCurve from "../../../shared/ManaCurve";
-import { Deck } from "mtgatool-shared";
+import { constants, Deck } from "mtgatool-shared";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +39,7 @@ import DeckColorsBar from "../misc/DeckColorsBar";
 import Section from "../misc/Section";
 import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
+const { MANA_COLORS, IPC_NONE } = constants;
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;

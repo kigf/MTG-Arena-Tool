@@ -1,14 +1,8 @@
 import React from "react";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
-import {
-  WHITE,
-  BLUE,
-  BLACK,
-  RED,
-  GREEN,
-  COLORLESS,
-} from "../../../shared/constants";
+import { constants } from "mtgatool-shared";
+const { WHITE, BLUE, BLACK, RED, GREEN, COLORLESS } = constants;
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;

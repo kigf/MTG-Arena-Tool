@@ -4,9 +4,10 @@ import { remote } from "electron";
 import Button from "../misc/Button";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
-import { IPC_BACKGROUND } from "../../../shared/constants";
 import { useSelector } from "react-redux";
 import css from "./Sections.css";
+import { constants } from "mtgatool-shared";
+const { IPC_BACKGROUND } = constants;
 
 function click(): void {
   const clearAppSettings = {

@@ -1,24 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
-import {
-  DATE_SEASON,
-  MAIN_COLLECTION,
-  MAIN_CONSTRUCTED,
-  MAIN_DECKS,
-  MAIN_ECONOMY,
-  MAIN_EVENTS,
-  MAIN_EXPLORE,
-  MAIN_HOME,
-  MAIN_LIMITED,
-  MAIN_MATCHES,
-  MAIN_SETTINGS,
-  MAIN_TIMELINE,
-  SUB_DECK,
-  SUB_DRAFT,
-  SUB_MATCH,
-  IPC_RENDERER,
-  IPC_ALL,
-} from "../shared/constants";
 import Aggregator from "./aggregator";
 import openDeckSub from "./components/deck-view/DeckVIew";
 import openDraftSub from "./components/draft-view/DraftVIew";
@@ -37,6 +18,26 @@ import { ipcSend } from "./rendererUtil";
 import SettingsTab from "./tabs/SettingsTab";
 import store from "../shared/redux/stores/rendererStore";
 import { reduxAction } from "../shared/redux/sharedRedux";
+import { constants } from "mtgatool-shared";
+const {
+  DATE_SEASON,
+  MAIN_COLLECTION,
+  MAIN_CONSTRUCTED,
+  MAIN_DECKS,
+  MAIN_ECONOMY,
+  MAIN_EVENTS,
+  MAIN_EXPLORE,
+  MAIN_HOME,
+  MAIN_LIMITED,
+  MAIN_MATCHES,
+  MAIN_SETTINGS,
+  MAIN_TIMELINE,
+  SUB_DECK,
+  SUB_DRAFT,
+  SUB_MATCH,
+  IPC_RENDERER,
+  IPC_ALL,
+} = constants;
 
 import appCss from "./app/app.css";
 

@@ -3,7 +3,9 @@ import LogEntry from "../../types/logDecoder";
 import { PlayerInventory } from "../../types/inventory";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { IPC_RENDERER } from "../../shared/constants";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => PlayerInventory;

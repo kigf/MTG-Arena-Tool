@@ -1,14 +1,15 @@
 import LogEntry from "../../types/logDecoder";
 import { PlayerCourse } from "../../types/event";
 import { setDraftId, setDraftData } from "../../shared/store/currentDraftStore";
-import { ARENA_MODE_IDLE } from "../../shared/constants";
 import { ipcSend } from "../backgroundUtil";
 import globals from "../globals";
 import { httpSetDraft } from "../httpApi";
 import globalStore from "../../shared/store";
 import debugLog from "../../shared/debugLog";
 import completeDraft from "../draft/completeDraft";
-import { getSetInEventId } from "mtgatool-shared";
+import { constants, getSetInEventId } from "mtgatool-shared";
+
+const { ARENA_MODE_IDLE } = constants;
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;

@@ -2,9 +2,10 @@ import globals from "./globals";
 import forceDeckUpdate from "./forceDeckUpdate";
 import getOpponentDeck from "./getOpponentDeck";
 import globalStore from "../shared/store";
-import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
-import { objectClone } from "mtgatool-shared";
+import { constants, objectClone } from "mtgatool-shared";
+
+const { IPC_OVERLAY } = constants;
 
 const lastDeckUpdate = new Date();
 

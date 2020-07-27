@@ -7,16 +7,14 @@ import {
   FlexBottom,
   ArchiveButton,
 } from "./ListItem";
-
 import ShareButton from "../misc/ShareButton";
 import db from "../../../shared/database-wrapper";
-
-import { DEFAULT_TILE } from "../../../shared/constants";
 import { toggleArchived } from "../../rendererUtil";
 import { InternalDraftv2 } from "../../../types/draft";
 import css from "./ListItem.css";
 import { CardPoolRares } from "./ListItemEvent";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { DEFAULT_TILE } = constants;
 
 interface ListItemDraftProps {
   draft: InternalDraftv2;

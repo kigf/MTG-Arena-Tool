@@ -1,10 +1,4 @@
 /* eslint-disable require-atomic-updates */
-import {
-  IPC_BACKGROUND,
-  IPC_OVERLAY,
-  IPC_RENDERER,
-  IPC_ALL,
-} from "../shared/constants";
 import { ipcSend, normalizeISOString } from "./backgroundUtil";
 import globals from "./globals";
 
@@ -21,7 +15,14 @@ import { InternalEconomyTransaction } from "../types/inventory";
 import { InternalDraftv2, InternalDraft } from "../types/draft";
 import { SeasonalRankData } from "../types/Season";
 import debugLog from "../shared/debugLog";
-import { convertDraftToV2, Deck, getDeckAfterChange } from "mtgatool-shared";
+import {
+  constants,
+  convertDraftToV2,
+  Deck,
+  getDeckAfterChange,
+} from "mtgatool-shared";
+
+const { IPC_BACKGROUND, IPC_OVERLAY, IPC_RENDERER, IPC_ALL } = constants;
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {

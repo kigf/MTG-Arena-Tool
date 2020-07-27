@@ -58,7 +58,7 @@ export function isV2CardsList(
   return first && first.quantity !== undefined;
 }
 
-export type anyCardsList = v2cardsList | v3cardsList;
+type anyCardsList = v2cardsList | v3cardsList;
 
 interface CardSkin {
   grpId: number;

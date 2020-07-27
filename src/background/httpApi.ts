@@ -30,17 +30,19 @@ import globalStore, {
   getMatch,
   getSeasonal,
 } from "../shared/store";
-import {
+import { reduxAction } from "../shared/redux/sharedRedux";
+import { InternalMatch } from "../types/match";
+import debugLog from "../shared/debugLog";
+import { constants } from "mtgatool-shared";
+
+const {
   SYNC_CHECK,
   SYNC_OK,
   SYNC_IDLE,
   SYNC_FETCH,
   IPC_RENDERER,
   IPC_ALL,
-} from "../shared/constants";
-import { reduxAction } from "../shared/redux/sharedRedux";
-import { InternalMatch } from "../types/match";
-import debugLog from "../shared/debugLog";
+} = constants;
 
 export function initHttpQueue(): async.AsyncQueue<HttpTask> {
   globals.httpQueue = async.queue(asyncWorker);

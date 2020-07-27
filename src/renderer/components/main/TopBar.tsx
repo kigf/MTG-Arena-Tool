@@ -5,7 +5,6 @@ import css from "./TopBar.css";
 import mainCss from "./main.css";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
-import { LOGIN_OK } from "../../../shared/constants";
 
 import MacMinimize from "../../../assets/images/svg/mac-minimize.svg";
 import MacMaximize from "../../../assets/images/svg/mac-maximize.svg";
@@ -17,6 +16,9 @@ import WinClose from "../../../assets/images/svg/win-close.svg";
 
 import Logo from "../../../assets/images/svg/logo.svg";
 import Flex from "../misc/Flex";
+
+import { constants } from "mtgatool-shared";
+const { LOGIN_OK } = constants;
 
 interface TopBarProps {
   artist: string;

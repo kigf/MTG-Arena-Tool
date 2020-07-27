@@ -2,9 +2,11 @@ import globals from "../globals";
 import { playerDb } from "../../shared/db/LocalDatabase";
 import globalStore from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_RENDERER, ARENA_MODE_IDLE } from "../../shared/constants";
 import { ipcSend } from "../backgroundUtil";
 import debugLog from "../../shared/debugLog";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER, ARENA_MODE_IDLE } = constants;
 
 export default function completeDraft(): void {
   if (globals.debugLog || !globals.firstPass) {

@@ -1,10 +1,12 @@
 import { ipcSend } from "./backgroundUtil";
 import fs from "fs";
 import path from "path";
-import { IPC_OVERLAY } from "../shared/constants";
 import globals from "./globals";
 import format from "date-fns/format";
 import globalStore from "../shared/store";
+import { constants } from "mtgatool-shared";
+
+const { IPC_OVERLAY } = constants;
 
 let currentActionLog = "";
 

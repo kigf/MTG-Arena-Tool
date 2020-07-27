@@ -1,16 +1,6 @@
 import React from "react";
 import CardTile, { LandsTile, CardTileQuantity } from "../shared/CardTile";
-import { Colors, compareCards, Deck } from "mtgatool-shared";
-import {
-  DRAFT_RANKS,
-  DRAFT_RANKS_LOLA,
-  OVERLAY_DRAFT,
-  OVERLAY_FULL,
-  OVERLAY_LEFT,
-  OVERLAY_MIXED,
-  OVERLAY_ODDS,
-  LANDS_HACK,
-} from "../shared/constants";
+import { constants, Colors, compareCards, Deck } from "mtgatool-shared";
 import db from "../shared/database-wrapper";
 import DeckManaCurve from "../shared/ManaCurve";
 import DeckTypesStats from "../shared/TypesStats";
@@ -20,8 +10,19 @@ import { CardObject } from "../types/Deck";
 import { OverlaySettingsData } from "../types/settings";
 import SampleSizePanel from "./SampleSizePanel";
 import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
-
 import css from "./index.css";
+
+const {
+  DRAFT_RANKS,
+  DRAFT_RANKS_LOLA,
+  OVERLAY_DRAFT,
+  OVERLAY_FULL,
+  OVERLAY_LEFT,
+  OVERLAY_MIXED,
+  OVERLAY_ODDS,
+  LANDS_HACK,
+} = constants;
+
 function getRank(cardId: number): number {
   const cardObj = db.card(cardId);
   return cardObj?.rank || 0;

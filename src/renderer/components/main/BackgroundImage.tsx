@@ -5,10 +5,11 @@ import db from "../../../shared/database-wrapper";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
 import DEFAULT_BACKGROUND from "../../../assets/images/main-background.jpg";
 import sharedCss from "../../../shared/shared.css";
 import { initialRendererState } from "../../../shared/redux/slices/rendererSlice";
+import { constants } from "mtgatool-shared";
+const { IPC_NONE } = constants;
 
 // deprecated, Keeping it around the source just in case
 function _BackgroundImage(): JSX.Element {

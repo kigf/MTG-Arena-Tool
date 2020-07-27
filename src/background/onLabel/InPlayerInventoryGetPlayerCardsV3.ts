@@ -3,7 +3,9 @@ import { playerDb } from "../../shared/db/LocalDatabase";
 import LogEntry from "../../types/logDecoder";
 import globals from "../globals";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_RENDERER, IPC_OVERLAY } from "../../shared/constants";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER, IPC_OVERLAY } = constants;
 
 interface Cards {
   [grpId: string]: number;

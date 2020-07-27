@@ -2,14 +2,14 @@ import _ from "lodash";
 import matchSorter from "match-sorter";
 import React from "react";
 import { ColumnInstance, FilterValue, Row } from "react-table";
-import { MANA, RANKS } from "../../../shared/constants";
 import { RankSymbol } from "../misc/RankSymbol";
 import { BinaryColumnFilter, BinaryFilterValue } from "../tables/filters";
 import { MultiSelectFilterProps } from "../tables/types";
 import { useMultiSelectFilter } from "../tables/useMultiSelectFilter";
 import { MatchTableData } from "./types";
-
 import indexCss from "../../index.css";
+import { constants } from "mtgatool-shared";
+const { MANA, RANKS } = constants;
 
 export function OnPlayColumnFilter(props: {
   column: ColumnInstance<MatchTableData>;

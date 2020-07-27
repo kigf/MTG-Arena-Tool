@@ -1,20 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
-
-import {
-  SETTINGS_BEHAVIOUR,
-  SETTINGS_ARENA_DATA,
-  SETTINGS_OVERLAY,
-  SETTINGS_VISUAL,
-  SETTINGS_SHORTCUTS,
-  SETTINGS_PRIVACY,
-  SETTINGS_ABOUT,
-  SETTINGS_LOGIN,
-  IPC_ALL,
-  IPC_RENDERER,
-} from "../../shared/constants";
-
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import SectionBehaviour from "../components/settings/SectionBehaviour";
 import SectionData from "../components/settings/SectionData";
@@ -28,6 +14,20 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 
 import appCss from "../app/app.css";
 import css from "./SettingsTab.css";
+import { constants } from "mtgatool-shared";
+const {
+  SETTINGS_BEHAVIOUR,
+  SETTINGS_ARENA_DATA,
+  SETTINGS_OVERLAY,
+  SETTINGS_VISUAL,
+  SETTINGS_SHORTCUTS,
+  SETTINGS_PRIVACY,
+  SETTINGS_ABOUT,
+  SETTINGS_LOGIN,
+  IPC_ALL,
+  IPC_RENDERER,
+} = constants;
+
 
 interface SettingsNavProps {
   component: () => JSX.Element;

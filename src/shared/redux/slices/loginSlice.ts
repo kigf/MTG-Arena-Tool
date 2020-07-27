@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LOGIN_AUTH } from "../../constants";
+import { constants } from "mtgatool-shared";
+
+const { LOGIN_AUTH } = constants;
 
 const initialLoginState = {
   canLogin: true,

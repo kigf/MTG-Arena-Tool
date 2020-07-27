@@ -3,10 +3,12 @@ import globals from "../globals";
 import LogEntry from "../../types/logDecoder";
 import { RankUpdate } from "../../types/rank";
 import { SeasonalRankData } from "../../types/Season";
-import { IPC_RENDERER } from "../../shared/constants";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore, { seasonalList } from "../../shared/store";
 import { httpSetSeasonal } from "../httpApi";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => RankUpdate;

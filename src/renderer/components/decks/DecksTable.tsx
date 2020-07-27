@@ -1,6 +1,5 @@
 import React from "react";
 import { Column, Row } from "react-table";
-import { DECKS_ART_MODE, DECKS_TABLE_MODE } from "../../../shared/constants";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import { ListItemDeck } from "../list-item/ListItemDeck";
 import MatchResultsStatsPanel from "../misc/MatchResultsStatsPanel";
@@ -46,6 +45,9 @@ import css from "./deckTable.css";
 import tablesCss from "../tables/tables.css";
 import indexCss from "../../index.css";
 import sharedCss from "../../../shared/shared.css";
+
+import { constants } from "mtgatool-shared";
+const { DECKS_ART_MODE, DECKS_TABLE_MODE } = constants;
 
 const columns: Column<DecksData>[] = [
   { accessor: "id" },

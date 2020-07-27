@@ -5,14 +5,15 @@ import { toDDHHMMSS } from "../../shared/utils/dateTo";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../shared/constants";
-
 import appCss from "../app/app.css";
 import sharedCss from "../../shared/shared.css";
 import cardTileCss from "../../shared/CardTile/CardTile.css";
 import indexCss from "../index.css";
 import css from "./HomeTab.css";
 import timestamp from "../../shared/utils/timestamp";
+import { constants } from "mtgatool-shared";
+
+const { IPC_NONE } = constants;
 
 export interface WildcardsChange {
   grpId: number;

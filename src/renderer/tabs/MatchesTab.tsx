@@ -2,12 +2,6 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TableState } from "react-table";
-import {
-  SUB_MATCH,
-  IPC_NONE,
-  IPC_ALL,
-  IPC_RENDERER,
-} from "../../shared/constants";
 import db from "../../shared/database-wrapper";
 import { InternalMatch } from "../../types/match";
 import Aggregator, { AggregatorFilters } from "../aggregator";
@@ -22,7 +16,8 @@ import { matchesList, getMatch } from "../../shared/store";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 
 import appCss from "../app/app.css";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { SUB_MATCH, IPC_NONE, IPC_ALL, IPC_RENDERER } = constants;
 
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;
 const tagPrompt = "Set archetype";

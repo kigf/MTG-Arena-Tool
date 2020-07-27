@@ -6,9 +6,11 @@ import { parseWotcTimeFallback } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
 import { MythicRatingUpdate } from "../../types/rank";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_RENDERER } from "../../shared/constants";
 import globalStore, { seasonalList } from "../../shared/store";
 import { SeasonalRankData } from "../../types/Season";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => MythicRatingUpdate;

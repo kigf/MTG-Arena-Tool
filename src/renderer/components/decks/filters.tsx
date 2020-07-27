@@ -1,8 +1,9 @@
 import _ from "lodash";
 import matchSorter from "match-sorter";
 import { FilterValue, Row } from "react-table";
-import { MANA } from "../../../shared/constants";
 import { DecksData } from "./types";
+import { constants } from "mtgatool-shared";
+const { MANA } = constants;
 
 export function deckSearchFilterFn(
   rows: Row<DecksData>[],

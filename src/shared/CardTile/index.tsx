@@ -1,23 +1,23 @@
 import React, { useCallback, useState, CSSProperties } from "react";
-import {
-  CARD_RARITIES,
-  COLORS_ALL,
-  FACE_SPLIT_FULL,
-  FACE_ADVENTURE_MAIN,
-  LANDS_HACK,
-} from "../constants";
-import { Deck } from "mtgatool-shared";
+import { constants, Deck } from "mtgatool-shared";
 import { getRankColorClass } from "../utils/getRankColorClass";
 import { openScryfallCard } from "../utils/openScryfallCard";
 import { getCardArtCrop } from "../utils/getCardArtCrop";
 import useHoverCard from "../../renderer/hooks/useHoverCard";
 import { getWildcardsMissing } from "../../renderer/rendererUtil";
-import sharedCss from "../shared.css";
-import css from "./CardTile.css";
-
-import typeLand from "../../assets/images/type_land.png";
 import debugLog from "../debugLog";
 import { DbCardData, Rarity } from "mtgatool-shared/dist/types/metadata";
+import css from "./CardTile.css";
+import sharedCss from "../shared.css";
+import typeLand from "../../assets/images/type_land.png";
+
+const {
+  CARD_RARITIES,
+  COLORS_ALL,
+  FACE_SPLIT_FULL,
+  FACE_ADVENTURE_MAIN,
+  LANDS_HACK,
+} = constants;
 
 const mana: Record<string, string> = {};
 mana["w"] = sharedCss.mana_w;

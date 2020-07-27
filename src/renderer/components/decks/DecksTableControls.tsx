@@ -1,6 +1,5 @@
 import React from "react";
 import { FilterValue } from "react-table";
-import { DECKS_TABLE_MODES } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import DateFilter from "../../DateFilter";
 import { MediumTextButton } from "../misc/MediumTextButton";
@@ -15,7 +14,8 @@ import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "./deckTable.css";
 import { LabelText } from "../misc/LabelText";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { DECKS_TABLE_MODES } = constants;
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },

@@ -12,7 +12,6 @@ import CardList from "../misc/CardList";
 import ActionLog from "../../../shared/ActionLog";
 import { useDispatch } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
 import { getMatch } from "../../../shared/store";
 import { MatchGameStats } from "../../../types/currentMatch";
 
@@ -35,7 +34,13 @@ import Button from "../misc/Button";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import Flex from "../misc/Flex";
 import ResultDetails from "../misc/ResultDetails";
-import { CardsList, Deck, getEventPrettyName } from "mtgatool-shared";
+import {
+  constants,
+  CardsList,
+  Deck,
+  getEventPrettyName,
+} from "mtgatool-shared";
+const { IPC_NONE } = constants;
 
 interface MatchViewProps {
   match: InternalMatch;

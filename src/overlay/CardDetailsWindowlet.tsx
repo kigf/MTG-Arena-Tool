@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
-import { ARENA_MODE_DRAFT, LANDS_HACK } from "../shared/constants";
 import db from "../shared/database-wrapper";
 import { DraftRatings, DraftRatingsLola } from "./DraftRatings";
 import { getCardImage } from "../shared/utils/getCardArtCrop";
@@ -9,10 +8,13 @@ import { Chances } from "../types/Chances";
 import { SettingsData } from "../types/settings";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
+import { constants } from "mtgatool-shared";
 
 import notFound from "../assets/images/notfound.png";
 import sharedCss from "../shared/shared.css";
 import css from "./index.css";
+
+const { ARENA_MODE_DRAFT, LANDS_HACK } = constants;
 
 const manaClasses: Record<string, string> = {
   w: sharedCss.manaW,

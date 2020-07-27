@@ -2,7 +2,9 @@ import LogEntry from "../../types/logDecoder";
 import { SeasonAndRankDetail } from "../../types/event";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { IPC_RENDERER } from "../../shared/constants";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => SeasonAndRankDetail;

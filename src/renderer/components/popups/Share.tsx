@@ -4,11 +4,11 @@ import { ipcSend } from "../../rendererUtil";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
-
+import { constants } from "mtgatool-shared";
 import css from "./popups.css";
 import formsCss from "../../forms.css";
 import indexCss from "../../index.css";
+const { IPC_NONE } = constants;
 
 function shareTypeId(type: string): number {
   switch (type) {

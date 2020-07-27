@@ -2,7 +2,7 @@ import _ from "lodash";
 import matchSorter from "match-sorter";
 import React from "react";
 import { ColumnInstance, FilterValue, Row, TableState } from "react-table";
-import { COLORS_ALL, COLORS_BRIEF } from "../../../shared/constants";
+import { constants } from "mtgatool-shared";
 import { InternalDeck } from "../../../types/Deck";
 import { BinarySymbol } from "../misc/BinarySymbol";
 import { CheckboxContainer } from "../misc/CheckboxContainer";
@@ -11,8 +11,10 @@ import ManaFilter, { ColorFilter, ManaFilterKeys } from "../misc/ManaFilter";
 import { MetricText } from "../misc/MetricText";
 import { useMultiSelectFilter } from "./useMultiSelectFilter";
 import { MultiSelectFilterProps, TableData } from "./types";
-
 import css from "../../index.css";
+
+const { COLORS_ALL, COLORS_BRIEF } = constants;
+
 
 export interface StringFilter {
   string: string;

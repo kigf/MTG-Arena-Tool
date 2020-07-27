@@ -3,15 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Howl, Howler } from "howler";
 import { useSelector, useDispatch } from "react-redux";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import {
-  ARENA_MODE_IDLE,
-  IPC_BACKGROUND,
-  IPC_RENDERER,
-  IPC_OVERLAY,
-  IPC_MAIN,
-  IPC_ALL,
-} from "../shared/constants";
-import { Deck } from "mtgatool-shared";
+import { constants, Deck } from "mtgatool-shared";
 import { AppState } from "../shared/redux/stores/overlayStore";
 import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";
@@ -23,6 +15,16 @@ import css from "./index.css";
 import blipSound from "../assets/sounds/blip.mp3";
 import { InternalDraftv2 } from "../types/draft";
 import reloadTheme from "../shared/utils/reloadTheme";
+
+const {
+  ARENA_MODE_IDLE,
+  IPC_BACKGROUND,
+  IPC_RENDERER,
+  IPC_OVERLAY,
+  IPC_MAIN,
+  IPC_ALL,
+} = constants;
+
 const sound = new Howl({ src: [blipSound] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);

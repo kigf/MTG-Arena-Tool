@@ -4,10 +4,11 @@ import db from "../../shared/database-wrapper";
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
 import { getDeck, deckChangeExists } from "../../shared/store";
-import { IPC_RENDERER } from "../../shared/constants";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { Deck } from "mtgatool-shared";
+import { constants, Deck } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck;

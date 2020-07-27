@@ -2,12 +2,6 @@ import { remote } from "electron";
 import anime from "animejs";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  LOGIN_WAITING,
-  LOGIN_OK,
-  IPC_NONE,
-  EASING_DEFAULT,
-} from "../../shared/constants";
 import ErrorBoundary from "./ErrorBoundary";
 import { TopNav } from "../components/main/topNav";
 import {
@@ -34,6 +28,8 @@ import css from "./app.css";
 import AuthSettings from "../components/auth-settings";
 import DetailedLogs from "../components/popups/DetailedLogs";
 import IconButton from "../components/misc/IconButton";
+import { constants } from "mtgatool-shared";
+const { LOGIN_WAITING, LOGIN_OK, IPC_NONE, EASING_DEFAULT } = constants;
 
 initializeRendererReduxIPC(store);
 

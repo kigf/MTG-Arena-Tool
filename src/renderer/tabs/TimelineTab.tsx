@@ -9,7 +9,7 @@ import React, {
 import format from "date-fns/format";
 import { SeasonalRankData } from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
-import { Deck, getRankIndex } from "mtgatool-shared";
+import { constants, Deck, getRankIndex } from "mtgatool-shared";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 import ResultDetails from "../components/misc/ResultDetails";
@@ -24,7 +24,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import Button from "../components/misc/Button";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { SUB_MATCH, IPC_NONE } from "../../shared/constants";
 import { addMonths } from "date-fns";
 import { PagingButton } from "../components/misc/PagingButton";
 
@@ -33,6 +32,8 @@ import topNavCss from "../components/main/topNav.css";
 import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import css from "./TimelineTab.css";
+
+const { SUB_MATCH, IPC_NONE } = constants;
 
 function sortByTimestamp(a: SeasonalRankData, b: SeasonalRankData): number {
   return a.timestamp - b.timestamp;

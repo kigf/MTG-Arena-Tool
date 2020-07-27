@@ -25,7 +25,8 @@ import sharedCss from "../../../shared/shared.css";
 import SetsView from "./SetsView";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import getFiltersFromQuery from "./collectionQuery";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
+import { constants } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 export default function CollectionTable({
   data,

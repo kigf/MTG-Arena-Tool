@@ -14,12 +14,6 @@ import {
 } from "./ListItem";
 import ListItemMatch from "./ListItemMatch";
 import ListItemDraft from "./ListItemDraft";
-import {
-  DEFAULT_TILE,
-  SUB_MATCH,
-  SUB_DRAFT,
-  IPC_NONE,
-} from "../../../shared/constants";
 import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
 import RoundCard from "../misc/RoundCard";
 import { compareDesc } from "date-fns";
@@ -34,7 +28,8 @@ import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { DEFAULT_TILE, SUB_MATCH, SUB_DRAFT, IPC_NONE } = constants;
 
 export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   const { pool } = props;

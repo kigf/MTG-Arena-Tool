@@ -9,10 +9,12 @@ import tableCss from "../tables/tables.css";
 import { InputContainer } from "../misc/InputContainer";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { useDispatch, useSelector } from "react-redux";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import ReactSelect from "../../../shared/ReactSelect";
 import AdvancedSearch from "../popups/advancedSearch";
+import { constants } from "mtgatool-shared";
+
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 export const collectionModes: string[] = ["By Cards View", "By Sets View"];
 

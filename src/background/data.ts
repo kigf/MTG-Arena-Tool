@@ -1,6 +1,7 @@
-import { DEFAULT_TILE } from "../shared/constants";
 import { InternalDeck } from "../types/Deck";
-import { objectClone } from "mtgatool-shared";
+import { constants, objectClone } from "mtgatool-shared";
+
+const { DEFAULT_TILE } = constants;
 
 const deckDefault: InternalDeck = {
   deckTileId: DEFAULT_TILE,

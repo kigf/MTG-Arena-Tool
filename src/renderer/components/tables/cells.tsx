@@ -16,7 +16,8 @@ import { MetricText } from "../misc/MetricText";
 import { NewTag, TagBubble } from "../misc/TagBubble";
 import { TableData, TagCounts } from "./types";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
+import { constants } from "mtgatool-shared";
+const { IPC_NONE } = constants;
 
 export function ColorsCell<D extends TableData>({
   cell,

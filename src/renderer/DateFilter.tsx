@@ -1,18 +1,20 @@
 import React, { useCallback } from "react";
-import {
+import ReactSelect from "../shared/ReactSelect";
+import { reduxAction } from "../shared/redux/sharedRedux";
+import { useDispatch } from "react-redux";
+import useDatePicker from "./hooks/useDatePicker";
+import { constants } from "mtgatool-shared";
+
+import indexCss from "./index.css";
+
+const {
   DATE_ALL_TIME,
   DATE_LAST_30,
   DATE_LAST_DAY,
   DATE_SEASON,
   IPC_ALL,
   IPC_RENDERER,
-} from "../shared/constants";
-import ReactSelect from "../shared/ReactSelect";
-import { reduxAction } from "../shared/redux/sharedRedux";
-import { useDispatch } from "react-redux";
-import useDatePicker from "./hooks/useDatePicker";
-
-import indexCss from "./index.css";
+} = constants;
 
 interface DateFilterProps {
   prefixId: string;

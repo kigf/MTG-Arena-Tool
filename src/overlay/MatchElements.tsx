@@ -1,18 +1,6 @@
 import { ipcRenderer as ipc } from "electron";
 import React, { useRef, useEffect } from "react";
 import useMeasure from "react-use-measure";
-
-import {
-  OVERLAY_FULL,
-  OVERLAY_LEFT,
-  OVERLAY_LOG,
-  OVERLAY_MIXED,
-  OVERLAY_ODDS,
-  OVERLAY_SEEN,
-  IPC_ALL,
-  OVERLAY_DRAFT,
-  OVERLAY_DRAFT_BREW,
-} from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
 import { OverlaySettingsData } from "../types/settings";
 import ActionLog from "../shared/ActionLog";
@@ -23,6 +11,19 @@ import css from "./index.css";
 import ManaCost from "../renderer/components/misc/ManaCost";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/backgroundStore";
+import { constants } from "mtgatool-shared";
+
+const {
+  OVERLAY_FULL,
+  OVERLAY_LEFT,
+  OVERLAY_LOG,
+  OVERLAY_MIXED,
+  OVERLAY_ODDS,
+  OVERLAY_SEEN,
+  IPC_ALL,
+  OVERLAY_DRAFT,
+  OVERLAY_DRAFT_BREW,
+} = constants;
 
 interface MatchElementsProps {
   actionLog: string;

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { remote, shell } from "electron";
 import React from "react";
-import { SETTINGS_PRIVACY, IPC_BACKGROUND } from "../../../shared/constants";
 import { forceOpenSettings } from "../../tabControl";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import store from "../../../shared/redux/stores/rendererStore";
@@ -9,6 +8,8 @@ import store from "../../../shared/redux/stores/rendererStore";
 import authCss from "./auth.css";
 import mainCss from "./main.css";
 import sharedCss from "../../../shared/shared.css";
+import { constants } from "mtgatool-shared";
+const { SETTINGS_PRIVACY, IPC_BACKGROUND } = constants;
 
 const subWhite16 = sharedCss.white + " " + mainCss.messageSub16;
 const bigRed = sharedCss.red + " " + mainCss.messageBig;

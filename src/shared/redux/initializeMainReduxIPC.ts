@@ -1,13 +1,11 @@
 import { EnhancedStore } from "@reduxjs/toolkit";
 import electron, { IpcMainEvent, BrowserWindow } from "electron";
-import {
-  IPC_BACKGROUND,
-  IPC_RENDERER,
-  IPC_OVERLAY,
-  IPC_MAIN,
-} from "../constants";
 import { actions, ActionKeys } from "./actions";
 import debugLog from "../debugLog";
+import { constants } from "mtgatool-shared";
+
+const { IPC_BACKGROUND, IPC_RENDERER, IPC_OVERLAY, IPC_MAIN } = constants;
+
 const ipc = electron.ipcMain;
 
 /**

@@ -10,10 +10,10 @@ import { getPrettyContext } from "../components/economy/economyUtils";
 import { TransactionData } from "../components/economy/types";
 import { toggleArchived } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 import { transactionsList } from "../../shared/store";
-
 import appCss from "../app/app.css";
+import { constants } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 function saveTableState(economyTableState: TableState<TransactionData>): void {
   reduxAction(

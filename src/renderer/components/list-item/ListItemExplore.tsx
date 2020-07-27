@@ -1,6 +1,4 @@
 import React from "react";
-
-import { RANKS } from "../../../shared/constants";
 import ManaCost from "../misc/ManaCost";
 import { formatPercent, getWinrateClass } from "../../rendererUtil";
 import { ListItem, Column, HoverTile, FlexTop, FlexBottom } from "./ListItem";
@@ -8,8 +6,9 @@ import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import RankSmall from "../misc/RankSmall";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
-
 import IconCrown from "../../../assets/images/svg/crown.svg";
+import { constants } from "mtgatool-shared";
+const { RANKS } = constants;
 
 interface ExploreDeck {
   _id: string;

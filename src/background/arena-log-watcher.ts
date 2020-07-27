@@ -15,17 +15,19 @@ import {
   updateLoading,
   getDateFormat,
 } from "./backgroundUtil";
-import {
+import updateDeck from "./updateDeck";
+import globals from "./globals";
+import { reduxAction } from "../shared/redux/sharedRedux";
+import debugLog from "../shared/debugLog";
+import { constants } from "mtgatool-shared";
+
+const {
   ARENA_MODE_MATCH,
   ARENA_MODE_DRAFT,
   ARENA_MODE_IDLE,
   LOGIN_OK,
   IPC_RENDERER,
-} from "../shared/constants";
-import updateDeck from "./updateDeck";
-import globals from "./globals";
-import { reduxAction } from "../shared/redux/sharedRedux";
-import debugLog from "../shared/debugLog";
+} = constants;
 
 const debugLogSpeed = 0.001;
 let logReadEnd = null;

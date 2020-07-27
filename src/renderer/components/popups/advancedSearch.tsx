@@ -5,17 +5,9 @@ import mainCss from "../../index.css";
 import popupCss from "./popups.css";
 import css from "./advancedSearch.css";
 import ManaFilterExt from "../misc/ManaFilterExt";
-import {
-  WHITE,
-  BLUE,
-  BLACK,
-  RED,
-  GREEN,
-  COLORLESS,
-} from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import getFiltersFromQuery from "../collection/collectionQuery";
-import { Colors } from "mtgatool-shared";
+import { constants, Colors } from "mtgatool-shared";
 import {
   ColorBitsFilter,
   ArrayFilter,
@@ -33,6 +25,8 @@ import SetsFilter from "../misc/SetsFilter";
 import { StringFilter } from "../tables/filters";
 import { InputContainer } from "../misc/InputContainer";
 import Flex from "../misc/Flex";
+
+const { WHITE, BLUE, BLACK, RED, GREEN, COLORLESS } = constants;
 
 const colorsToKey: Record<number, string> = {
   [WHITE]: "w",

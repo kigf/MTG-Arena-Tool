@@ -12,10 +12,9 @@ import { ipcSend, toggleArchived } from "../rendererUtil";
 import { getMatch, matchExists, eventsList } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
-import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
-
 import appCss from "../app/app.css";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 function editTag(tag: string, color: string): void {
   ipcSend("edit_tag", { tag, color });

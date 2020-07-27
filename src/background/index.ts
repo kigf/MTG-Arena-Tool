@@ -6,12 +6,6 @@ import { app, ipcRenderer as ipc, remote } from "electron";
 import fs from "fs";
 import _ from "lodash";
 import path from "path";
-import {
-  HIDDEN_PW,
-  IPC_RENDERER,
-  IPC_ALL,
-  IPC_BACKGROUND,
-} from "../shared/constants";
 import { appDb, playerDb } from "../shared/db/LocalDatabase";
 import { InternalDeck } from "../types/Deck";
 import addCustomDeck from "./addCustomDeck";
@@ -30,6 +24,8 @@ import { archive, getMatch, deckExists, getDeck } from "../shared/store";
 import store, { AppState } from "../shared/redux/stores/backgroundStore";
 import defaultLogUri from "../shared/utils/defaultLogUri";
 import debugLog from "../shared/debugLog";
+import { constants } from "mtgatool-shared";
+const { HIDDEN_PW, IPC_RENDERER, IPC_ALL, IPC_BACKGROUND } = constants;
 
 initializeRendererReduxIPC(globals.store);
 

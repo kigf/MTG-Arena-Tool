@@ -2,8 +2,10 @@ import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
 import { PlayerProgression } from "../../types/progression";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_RENDERER } from "../../shared/constants";
 import globals from "../globals";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => PlayerProgression;

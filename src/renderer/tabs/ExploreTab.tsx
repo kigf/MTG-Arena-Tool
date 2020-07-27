@@ -1,16 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  RANKS,
-  SUB_DECK,
-  IPC_NONE,
-  WHITE,
-  BLUE,
-  BLACK,
-  RED,
-  GREEN,
-  COLORLESS,
-} from "../../shared/constants";
 import db from "../../shared/database-wrapper";
 import ReactSelect from "../../shared/ReactSelect";
 import { AppState } from "../../shared/redux/stores/rendererStore";
@@ -21,14 +10,24 @@ import Input from "../components/misc/Input";
 import { ipcSend } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { ExploreQuery } from "../../shared/redux/slices/exploreSlice";
-
 import ranks16 from "../../assets/images/ranks_16.png";
 import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import appCss from "../app/app.css";
 import css from "./ExploreTab.css";
 import Flex from "../components/misc/Flex";
-import { getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName } from "mtgatool-shared";
+const {
+  RANKS,
+  SUB_DECK,
+  IPC_NONE,
+  WHITE,
+  BLUE,
+  BLACK,
+  RED,
+  GREEN,
+  COLORLESS,
+} = constants;
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;

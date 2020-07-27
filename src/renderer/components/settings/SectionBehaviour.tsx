@@ -5,8 +5,9 @@ import Input from "../misc/Input";
 import { useSelector } from "react-redux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import css from "./Sections.css";
+import { constants } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 function clickBetaChannel(value: boolean): void {
   reduxAction(

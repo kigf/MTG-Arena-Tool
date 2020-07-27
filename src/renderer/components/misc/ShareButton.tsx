@@ -2,9 +2,11 @@ import React, { CSSProperties } from "react";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector, useDispatch } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
 import shareIcon from "../../../assets/images/share.png";
 import IconButton from "./IconButton";
+import { constants } from "mtgatool-shared";
+
+const { IPC_NONE } = constants;
 
 interface ShareButtonProps {
   style?: CSSProperties;

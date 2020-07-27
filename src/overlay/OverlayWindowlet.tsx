@@ -1,11 +1,4 @@
 import React, { useRef } from "react";
-import {
-  ARENA_MODE_DRAFT,
-  ARENA_MODE_IDLE,
-  ARENA_MODE_MATCH,
-  COLORS_ALL,
-  OVERLAY_DRAFT_MODES,
-} from "../shared/constants";
 import { MatchData } from "../types/currentMatch";
 import { DraftState, InternalDraftv2 } from "../types/draft";
 import { SettingsData } from "../types/settings";
@@ -14,6 +7,7 @@ import MatchElements from "./MatchElements";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/overlayStore";
+import { constants } from "mtgatool-shared";
 
 import css from "./index.css";
 import sharedCss from "../shared/shared.css";
@@ -21,6 +15,14 @@ import ResizeIcon from "../assets/images/resize.svg";
 import CloseIcon from "../assets/images/svg/win-close.svg";
 import SettingsIcon from "../assets/images/svg/icon-settings.svg";
 import DEFAULT_BACKGROUND from "../assets/images/main-background.jpg";
+
+const {
+  ARENA_MODE_DRAFT,
+  ARENA_MODE_IDLE,
+  ARENA_MODE_MATCH,
+  COLORS_ALL,
+  OVERLAY_DRAFT_MODES,
+} = constants;
 
 interface OverlayWindowletProps {
   arenaState: number;

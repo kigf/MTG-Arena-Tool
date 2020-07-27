@@ -3,9 +3,11 @@ import { DraftStatus } from "../../types/draft";
 import { setDraftPack } from "../../shared/store/currentDraftStore";
 import { ipcSend } from "../backgroundUtil";
 import globalStore from "../../shared/store";
-import { IPC_OVERLAY } from "../../shared/constants";
 import startDraft from "../draft/startDraft";
 import globals from "../globals";
+import { constants } from "mtgatool-shared";
+
+const { IPC_OVERLAY } = constants;
 
 interface Entry extends LogEntry {
   json: () => DraftStatus;

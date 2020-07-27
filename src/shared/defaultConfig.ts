@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { remote } from "electron";
 import path from "path";
+import { SettingsData } from "../types/settings";
+import { constants } from "mtgatool-shared";
 
-import {
+const {
   MAIN_HOME,
   DATE_LAST_30,
   ECONOMY_LIST_MODE,
@@ -15,8 +17,7 @@ import {
   OVERLAY_FULL,
   OVERLAY_LOG,
   OVERLAY_MIXED,
-} from "./constants";
-import { SettingsData } from "../types/settings";
+} = constants;
 
 const overlayCfg = {
   alpha: 1,

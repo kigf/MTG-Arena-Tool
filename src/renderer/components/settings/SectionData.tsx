@@ -9,13 +9,14 @@ import { parse, isValid } from "date-fns";
 import { useSelector } from "react-redux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 
 import tabCss from "../../tabs/SettingsTab.css";
 import sharedCss from "../../../shared/shared.css";
 import indexCss from "../../index.css";
 import css from "./Sections.css";
 import showOpenLogDialog from "../../../shared/utils/showOpenLogDialog";
+import { constants } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 const LANGUAGES = [
   "en",

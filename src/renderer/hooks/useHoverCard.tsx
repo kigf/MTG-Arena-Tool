@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../shared/constants";
 import { useCallback } from "react";
+import { constants } from "mtgatool-shared";
+
+const { IPC_NONE } = constants;
 
 type HoverCardHook = (() => void)[];
 

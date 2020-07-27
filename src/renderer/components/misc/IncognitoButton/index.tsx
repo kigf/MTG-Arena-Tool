@@ -1,11 +1,13 @@
 import React, { useCallback, useMemo, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reduxAction } from "../../../../shared/redux/sharedRedux";
-import { IPC_BACKGROUND } from "../../../../shared/constants";
 import { AppState } from "../../../../shared/redux/stores/rendererStore";
+import { constants } from "mtgatool-shared";
 
 import Icon from "./incognito.svg";
 import SvgButton from "../SvgButton";
+
+const { IPC_BACKGROUND } = constants;
 
 interface IncognitoButtonProps {
   style?: CSSProperties;

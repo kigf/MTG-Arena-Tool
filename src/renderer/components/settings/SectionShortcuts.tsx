@@ -1,20 +1,16 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useCallback } from "react";
 import { remote } from "electron";
-import {
-  SHORTCUT_NAMES,
-  IPC_ALL,
-  IPC_RENDERER,
-} from "../../../shared/constants";
 import Toggle from "../misc/Toggle";
 import Button from "../misc/Button";
 import EditKey from "../popups/EditKey";
 import { useSelector } from "react-redux";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-
 import indexCss from "../../index.css";
 import css from "./Sections.css";
+import { constants } from "mtgatool-shared";
+const { SHORTCUT_NAMES, IPC_ALL, IPC_RENDERER } = constants;
 
 function setKeyboardShortcuts(checked: boolean): void {
   reduxAction(

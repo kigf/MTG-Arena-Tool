@@ -1,9 +1,10 @@
 import React from "react";
-import { CARD_RARITIES } from "../../../shared/constants";
 import _ from "lodash";
 import { MissingWildcards } from "../decks/types";
 import { getBoosterCountEstimate } from "../../rendererUtil";
 import indexCss from "../../index.css";
+import { constants } from "mtgatool-shared";
+const { CARD_RARITIES } = constants;
 
 const wcIcon: Record<string, string> = {};
 wcIcon["common"] = indexCss.wcCommon;
