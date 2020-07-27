@@ -35,8 +35,7 @@ import Button from "../misc/Button";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import Flex from "../misc/Flex";
 import ResultDetails from "../misc/ResultDetails";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
-import { CardsList, Deck } from "mtgatool-shared";
+import { CardsList, Deck, getEventPrettyName } from "mtgatool-shared";
 
 interface MatchViewProps {
   match: InternalMatch;

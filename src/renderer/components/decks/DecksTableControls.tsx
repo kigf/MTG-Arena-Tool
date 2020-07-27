@@ -15,7 +15,7 @@ import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "./deckTable.css";
 import { LabelText } from "../misc/LabelText";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import { getEventPrettyName } from "mtgatool-shared";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },

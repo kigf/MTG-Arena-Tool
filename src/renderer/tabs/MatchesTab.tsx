@@ -22,7 +22,7 @@ import { matchesList, getMatch } from "../../shared/store";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 
 import appCss from "../app/app.css";
-import getEventPrettyName from "../../shared/utils/getEventPrettyName";
+import { getEventPrettyName } from "mtgatool-shared";
 
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;
 const tagPrompt = "Set archetype";

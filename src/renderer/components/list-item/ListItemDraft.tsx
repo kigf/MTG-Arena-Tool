@@ -16,7 +16,7 @@ import { toggleArchived } from "../../rendererUtil";
 import { InternalDraftv2 } from "../../../types/draft";
 import css from "./ListItem.css";
 import { CardPoolRares } from "./ListItemEvent";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import { getEventPrettyName } from "mtgatool-shared";
 
 interface ListItemDraftProps {
   draft: InternalDraftv2;

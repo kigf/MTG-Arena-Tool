@@ -17,9 +17,8 @@ import { InternalDeck } from "../types/Deck";
 import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
-import { Colors, Deck } from "mtgatool-shared";
+import { Colors, Deck, getEventPrettyName } from "mtgatool-shared";
 import { InternalDraftv2 } from "../types/draft";
-import getEventPrettyName from "../shared/utils/getEventPrettyName";
 import { format } from "date-fns";
 
 export interface CardWinrateData {

@@ -13,7 +13,7 @@ import { EventsTableControlsProps } from "./types";
 import indexCss from "../../index.css";
 import tableCss from "../tables/tables.css";
 import deckTableCss from "../decks/deckTable.css";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import { getEventPrettyName } from "mtgatool-shared";
 
 const defaultFilters = (): { id: string; value: FilterValue }[] => [
   { id: "archivedCol", value: "hideArchived" },

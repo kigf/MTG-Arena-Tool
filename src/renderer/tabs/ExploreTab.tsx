@@ -28,7 +28,7 @@ import indexCss from "../index.css";
 import appCss from "../app/app.css";
 import css from "./ExploreTab.css";
 import Flex from "../components/misc/Flex";
-import getEventPrettyName from "../../shared/utils/getEventPrettyName";
+import { getEventPrettyName } from "mtgatool-shared";
 
 const manaClasses: string[] = [];
 manaClasses[WHITE] = sharedCss.manaW;

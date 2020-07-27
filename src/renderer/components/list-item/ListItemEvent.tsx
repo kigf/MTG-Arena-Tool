@@ -33,8 +33,8 @@ import { InternalDraftv2 } from "../../../types/draft";
 import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { getEventPrettyName } from "mtgatool-shared";
 
 export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   const { pool } = props;
