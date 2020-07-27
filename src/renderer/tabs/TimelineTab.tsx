@@ -7,7 +7,6 @@ import React, {
   useMemo,
 } from "react";
 import format from "date-fns/format";
-import { SeasonalRankData } from "../../types/Season";
 import DeckList from "../components/misc/DeckList";
 import { constants, Deck, getRankIndex } from "mtgatool-shared";
 import ReactSelect from "../../shared/ReactSelect";
@@ -32,6 +31,7 @@ import topNavCss from "../components/main/topNav.css";
 import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import css from "./TimelineTab.css";
+import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
 
 const { SUB_MATCH, IPC_NONE } = constants;
 
