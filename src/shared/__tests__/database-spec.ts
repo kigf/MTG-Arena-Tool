@@ -1,7 +1,8 @@
 /* eslint-env jest */
-import db from "../database-wrapper";
+import db, { loadDbFromCache } from "../database-wrapper";
 import * as httpApi from "../../background/httpApi";
 
+loadDbFromCache();
 const distributedVersion = db.version;
 const httpQueue = httpApi.initHttpQueue();
 httpApi.httpGetDatabaseVersion("en");

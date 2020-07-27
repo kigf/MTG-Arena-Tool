@@ -47,7 +47,9 @@ export function loadDbFromCache(): void {
   if (cachePath && fs.existsSync(cachePath)) {
     const dbString = fs.readFileSync(cachePath, "utf8");
     database.setDatabase(dbString);
-    debugLog("Loaded metadata from cache (" + cachePath + ")");
+    console.log("Loaded metadata from cache (" + cachePath + ")");
+  } else {
+    console.log("Cache not found (" + cachePath + ")");
   }
 }
 

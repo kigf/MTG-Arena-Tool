@@ -1,5 +1,4 @@
 /* eslint-env jest */
-
 import globals from "../globals";
 
 describe("globals", () => {

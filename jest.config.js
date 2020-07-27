@@ -1,4 +1,7 @@
 module.exports = {
-  //preset: "ts-jest/presets/js-with-babel",
-  testEnvironment: "jsdom"
+  testEnvironment: "jsdom",
+  transform: {
+    "^.+\\.js?$": "babel-jest",
+    "^.+\\.ts?$": "ts-jest",
+  },
 };

@@ -130,7 +130,7 @@ function fsWatch(
 
   async function start(): Promise<void> {
     lastSize = await attemptSize();
-    handle = setInterval(checkFile, interval);
+    handle = global.setInterval(checkFile, interval);
   }
 
   async function checkFile(): Promise<void> {
