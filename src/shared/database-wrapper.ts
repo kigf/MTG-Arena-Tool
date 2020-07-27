@@ -8,6 +8,9 @@ import { database } from "mtgatool-shared";
 
 import debugLog from "./debugLog";
 
+import distributedDb from "../assets/resources/database.json";
+import { Metadata } from "mtgatool-shared/dist/types";
+
 const cachePath: string | null =
   app || (remote && remote.app)
     ? path.join((app || remote.app).getPath("userData"), "database.json")
@@ -49,7 +52,9 @@ export function loadDbFromCache(): void {
     database.setDatabase(dbString);
     console.log("Loaded metadata from cache (" + cachePath + ")");
   } else {
-    console.log("Cache not found (" + cachePath + ")");
+    console.log("Cache not found (" + cachePath + "), try to generate it.");
+    database.setDatabaseUnsafely(distributedDb as Metadata);
+    updateCache(JSON.stringify(distributedDb));
   }
 }
 
