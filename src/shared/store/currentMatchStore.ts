@@ -18,7 +18,7 @@ import { GameObject, DetailsIdChange } from "../../types/greInterpreter";
 import { InternalPlayer } from "../../types/match";
 import globalStore from ".";
 import { Deck } from "mtgatool-shared";
-import { Chances } from "../../types/Chances";
+import { Chances } from "mtgatool-shared/dist/types/chances";
 
 interface Heat {
   seat: number;

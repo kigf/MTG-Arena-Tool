@@ -1,4 +1,3 @@
-import { Chances } from "./Chances";
 import {
   GameObject,
   ZoneType,
@@ -14,6 +13,7 @@ import {
 } from "../assets/proto/GreTypes";
 import { InternalDeck } from "./Deck";
 import { Deck } from "mtgatool-shared";
+import { Chances } from "mtgatool-shared/dist/types/chances";
 
 export interface MatchPlayer {
   seat: number;

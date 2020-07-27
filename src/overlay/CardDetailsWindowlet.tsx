@@ -4,7 +4,6 @@ import { CSSTransition } from "react-transition-group";
 import db from "../shared/database-wrapper";
 import { DraftRatings, DraftRatingsLola } from "./DraftRatings";
 import { getCardImage } from "../shared/utils/getCardArtCrop";
-import { Chances } from "../types/Chances";
 import { SettingsData } from "../types/settings";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
@@ -13,6 +12,7 @@ import { constants } from "mtgatool-shared";
 import notFound from "../assets/images/notfound.png";
 import sharedCss from "../shared/shared.css";
 import css from "./index.css";
+import { Chances } from "mtgatool-shared/dist/types/chances";
 
 const { ARENA_MODE_DRAFT, LANDS_HACK } = constants;
 
