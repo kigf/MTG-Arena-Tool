@@ -4,7 +4,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { TableState } from "react-table";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
-import { InternalEconomyTransaction } from "../../types/inventory";
 import EconomyTable from "../components/economy/EconomyTable";
 import { getPrettyContext } from "../components/economy/economyUtils";
 import { TransactionData } from "../components/economy/types";
@@ -13,6 +12,7 @@ import { reduxAction } from "../../shared/redux/sharedRedux";
 import { transactionsList } from "../../shared/store";
 import appCss from "../app/app.css";
 import { constants } from "mtgatool-shared";
+import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
 const { IPC_ALL, IPC_RENDERER } = constants;
 
 function saveTableState(economyTableState: TableState<TransactionData>): void {

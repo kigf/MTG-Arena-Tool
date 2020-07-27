@@ -1,12 +1,12 @@
 import globals from "./globals";
 import inventoryAddDelta from "./inventoryAddDelta";
 import saveEconomyTransaction from "./saveEconomyTransaction";
+import { Entry as PostMatchUpdateEntry } from "./onLabel/PostMatchUpdate";
+import { sha1 } from "mtgatool-shared";
 import {
   InventoryUpdate,
   InternalEconomyTransaction,
-} from "../types/inventory";
-import { Entry as PostMatchUpdateEntry } from "./onLabel/PostMatchUpdate";
-import { sha1 } from "mtgatool-shared";
+} from "mtgatool-shared/dist/types/inventory";
 
 // REVIEW
 export default function inventoryUpdate(

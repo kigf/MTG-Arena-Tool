@@ -1,6 +1,6 @@
 import { Row, TableState } from "react-table";
-import { InternalEconomyTransaction } from "../../../types/inventory";
 import { TableControlsProps, TableViewRowProps } from "../tables/types";
+import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
 
 export interface TransactionData extends InternalEconomyTransaction {
   aetherizedCardsCount: number;

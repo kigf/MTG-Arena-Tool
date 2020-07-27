@@ -1,4 +1,4 @@
-import { InventoryUpdate } from "./inventory";
+import { InventoryUpdate } from "mtgatool-shared/dist/types/inventory";
 
 export interface QuestUpdate {
   questId: string;
