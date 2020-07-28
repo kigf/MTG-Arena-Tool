@@ -5,7 +5,7 @@ import LocalTime from "../../../shared/time-components/LocalTime";
 import { openScryfallCard } from "../../../shared/utils/openScryfallCard";
 import collectionSortRarity from "../../../shared/utils/collectionSortRarity";
 import useHoverCard from "../../hooks/useHoverCard";
-import { formatNumber, formatPercent } from "../../rendererUtil";
+import { formatNumber } from "../../rendererUtil";
 import {
   getCollationSet,
   getReadableCode,
@@ -24,6 +24,7 @@ import {
   getCardImage,
 } from "../../../shared/utils/getCardArtCrop";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { formatPercent } from "mtgatool-shared";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (

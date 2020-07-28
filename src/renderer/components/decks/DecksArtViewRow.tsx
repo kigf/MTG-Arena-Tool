@@ -4,7 +4,6 @@ import { useSpring, animated } from "react-spring";
 import ManaCost from "../misc/ManaCost";
 import {
   getWinrateClass,
-  formatPercent,
   get_deck_missing as getDeckMissing,
 } from "../../rendererUtil";
 import WildcardsCost from "../misc/WildcardsCost";
@@ -13,7 +12,7 @@ import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { useDispatch } from "react-redux";
 import deckTableCss from "./deckTable.css";
 import DeckColorsBar from "../misc/DeckColorsBar";
-import { constants, Deck } from "mtgatool-shared";
+import { constants, Deck, formatPercent } from "mtgatool-shared";
 const { IPC_NONE } = constants;
 
 export default function DecksArtViewRow({

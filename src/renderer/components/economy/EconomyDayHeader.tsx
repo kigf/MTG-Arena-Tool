@@ -3,12 +3,13 @@ import addDays from "date-fns/addDays";
 import startOfDay from "date-fns/startOfDay";
 
 import LocalTime from "../../../shared/time-components/LocalTime";
-import { formatNumber, formatPercent } from "../../rendererUtil";
+import { formatNumber } from "../../rendererUtil";
 import { vaultPercentFormat } from "./economyUtils";
 import EconomyValueRecord from "./EconomyValueRecord";
 
 import indexCss from "../../index.css";
 import css from "./economy.css";
+import { formatPercent } from "mtgatool-shared";
 
 function localDayDateFormat(date: Date): JSX.Element {
   return (

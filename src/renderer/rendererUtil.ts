@@ -5,7 +5,7 @@ import store from "../shared/redux/stores/rendererStore";
 import db from "../shared/database-wrapper";
 import sharedCss from "../shared/shared.css";
 import { MissingWildcards, CardCounts } from "./components/decks/types";
-import { constants, Deck } from "mtgatool-shared";
+import { constants, Deck, formatPercent } from "mtgatool-shared";
 import { DbCardData } from "mtgatool-shared/dist/types/metadata";
 import { WinLossGate } from "mtgatool-shared/dist/types/event";
 
@@ -33,16 +33,6 @@ export function getTagColor(tag?: string): string {
     (tag ? store.getState().playerdata.tagsColors[tag] : undefined) ??
     "var(--color-text)"
   );
-}
-
-export function formatPercent(
-  value: number,
-  config = { maximumSignificantDigits: 2 }
-): string {
-  return value.toLocaleString([], {
-    style: "percent",
-    ...config,
-  });
 }
 
 export function formatWinrateInterval(lower: number, upper: number): string {

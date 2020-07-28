@@ -1,9 +1,8 @@
 import React from "react";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
-import { formatPercent } from "../../rendererUtil";
 import store from "../../../shared/redux/stores/rendererStore";
 import indexCss from "../../index.css";
-import { constants } from "mtgatool-shared";
+import { constants, formatPercent } from "mtgatool-shared";
 const { DATE_SEASON, RANKS } = constants;
 
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;

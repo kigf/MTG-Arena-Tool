@@ -1,4 +1,4 @@
-import { formatNumber, formatPercent } from "../../rendererUtil";
+import { formatNumber } from "../../rendererUtil";
 import { vaultPercentFormat } from "./economyUtils";
 import EconomyValueRecord from "./EconomyValueRecord";
 import React from "react";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 import indexCss from "../../index.css";
 import css from "./economy.css";
+import { formatPercent } from "mtgatool-shared";
 
 export function EconomyHeader(): JSX.Element {
   const playerEconomy = useSelector(

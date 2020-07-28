@@ -6,7 +6,7 @@ import { Cell, CellProps } from "react-table";
 import LocalTime from "../../../shared/time-components/LocalTime";
 import RelativeTime from "../../../shared/time-components/RelativeTime";
 import { toDDHHMMSS, toMMSS } from "../../../shared/utils/dateTo";
-import { formatNumber, formatPercent } from "../../rendererUtil";
+import { formatNumber } from "../../rendererUtil";
 import { ArchiveSymbol, ColoredArchivedSymbol } from "../misc/ArchiveSymbol";
 import { BriefText } from "../misc/BriefText";
 import { FlexLeftContainer } from "../misc/FlexContainer";
@@ -16,7 +16,7 @@ import { MetricText } from "../misc/MetricText";
 import { NewTag, TagBubble } from "../misc/TagBubble";
 import { TableData, TagCounts } from "./types";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { constants } from "mtgatool-shared";
+import { constants, formatPercent } from "mtgatool-shared";
 const { IPC_NONE } = constants;
 
 export function ColorsCell<D extends TableData>({
