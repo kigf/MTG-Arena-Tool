@@ -1,8 +1,8 @@
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
 import addCustomDeck from "../addCustomDeck";
-import convertDeckFromV3 from "../convertDeckFromV3";
 import { PlayerCourse } from "mtgatool-shared/dist/types/event";
+import { convertDeckFromV3 } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse[];

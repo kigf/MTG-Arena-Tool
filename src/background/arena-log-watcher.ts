@@ -258,17 +258,6 @@ function entrySwitch(entry: LogEntry): void {
         Labels.InEventGetCombinedRankInfo(entry);
       }
       break;
-    // Aparently deprecated after Ikoria
-    // Will conflict with out new way of updating seasonal data if enabled again
-    /*
-    case "Rank.Updated":
-      Labels.RankUpdated(entry);
-      break;
-
-    case "MythicRating.Updated":
-      Labels.MythicRatingUpdated(entry);
-      break;
-    */
 
     case "Draft.Notify":
       Labels.InDraftNotify(entry);
@@ -454,7 +443,6 @@ function finishLoading(): void {
       ipcSend("set_arena_state", ARENA_MODE_IDLE);
     }
 
-    // replaces ipc "initialize"
     reduxAction(
       globals.store.dispatch,
       { type: "SET_LOADING", arg: false },

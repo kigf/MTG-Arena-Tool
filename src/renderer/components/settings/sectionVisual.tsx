@@ -11,11 +11,11 @@ import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import css from "./Sections.css";
 import indexCss from "../../index.css";
-import { CardQuality } from "../../../types/settings";
 import showOpenThemeDialog from "../../../shared/utils/showOpenThemeDialog";
 import reloadTheme from "../../../shared/utils/reloadTheme";
 import { ipcSend } from "../../../background/backgroundUtil";
 import { constants } from "mtgatool-shared";
+import { CardQuality } from "mtgatool-shared/dist/types/settings";
 const { IPC_ALL, IPC_RENDERER } = constants;
 
 function setCardQuality(filter: CardQuality): void {

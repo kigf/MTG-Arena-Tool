@@ -9,12 +9,12 @@ import { AppState } from "../shared/redux/stores/overlayStore";
 import CardDetailsWindowlet from "./CardDetailsWindowlet";
 import OverlayWindowlet from "./OverlayWindowlet";
 import Overview from "./overview";
-import { OverlaySettingsData } from "../types/settings";
 import { MatchData } from "mtgatool-shared/dist/types/currentMatch";
 import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
 import css from "./index.css";
 import blipSound from "../assets/sounds/blip.mp3";
+import { OverlaySettingsData } from "mtgatool-shared/dist/types/settings";
 
 const {
   ARENA_MODE_IDLE,

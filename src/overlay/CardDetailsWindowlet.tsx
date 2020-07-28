@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import db from "../shared/database-wrapper";
 import { DraftRatings, DraftRatingsLola } from "./DraftRatings";
 import { getCardImage } from "../shared/utils/getCardArtCrop";
-import { SettingsData } from "../types/settings";
+import { SettingsDataApp } from "../types/settings";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 import { constants } from "mtgatool-shared";
@@ -64,7 +64,7 @@ interface CardDetailsWindowletProps {
   odds?: Chances;
   overlayHover: { x: number; y: number };
   overlayScale: number;
-  settings: SettingsData;
+  settings: SettingsDataApp;
 }
 
 /**

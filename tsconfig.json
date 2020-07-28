@@ -14,7 +14,7 @@
     "esModuleInterop": true,
     "downlevelIteration": true,
     "types": ["react", "jest"],
-    // other defaults         
+    // other defaults
     "pretty": true,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": false,

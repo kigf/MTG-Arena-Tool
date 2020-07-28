@@ -5,7 +5,6 @@ import globals from "./globals";
 import isEpochTimestamp from "../shared/utils/isEpochTimestamp";
 import { playerDb } from "../shared/db/LocalDatabase";
 import arenaLogWatcher from "./arena-log-watcher";
-import convertDeckFromV3 from "./convertDeckFromV3";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import store from "../shared/redux/stores/backgroundStore";
 import debugLog from "../shared/debugLog";
@@ -14,6 +13,7 @@ import {
   convertDraftToV2,
   Deck,
   getDeckAfterChange,
+  convertDeckFromV3,
 } from "mtgatool-shared";
 import {
   ArenaV3Deck,

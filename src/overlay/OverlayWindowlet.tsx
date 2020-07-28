@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { SettingsData } from "../types/settings";
+import { SettingsDataApp } from "../types/settings";
 import DraftElements from "./DraftElements";
 import MatchElements from "./MatchElements";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
@@ -35,7 +35,7 @@ interface OverlayWindowletProps {
   handleToggleEditMode: () => void;
   index: number;
   match?: MatchData;
-  settings: SettingsData;
+  settings: SettingsDataApp;
   setDraftStateCallback: (state: DraftState) => void;
   setOddsCallback: (sampleSize: number) => void;
   turnPriority: number;

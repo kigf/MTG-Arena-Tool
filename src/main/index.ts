@@ -18,7 +18,7 @@ import fs from "fs";
 import path from "path";
 import installDevTools from "./devtools";
 import { appDb } from "../shared/db/LocalDatabase";
-import { SettingsData, OverlaySettingsData } from "../types/settings";
+import { SettingsDataApp } from "../types/settings";
 import initializeMainReduxIPC from "../shared/redux/initializeMainReduxIPC";
 import store from "../shared/redux/stores/mainStore";
 import getNewBounds from "./getNewBounds";
@@ -30,6 +30,7 @@ import iconNormal from "../assets/icons/icon.png";
 import iconTray from "../assets/icons/icon-tray.png";
 import iconTray8x from "../assets/icons/icon-tray@8x.png";
 import icon256 from "../assets/icons/icon-256.png";
+import { OverlaySettingsData } from "mtgatool-shared/dist/types/settings";
 
 const {
   ARENA_MODE_DRAFT,
@@ -412,7 +413,7 @@ function toggleEditMode(): void {
   updateOverlayVisibility();
 }
 
-function setSettings(settings: SettingsData): void {
+function setSettings(settings: SettingsDataApp): void {
   oldSettings = JSON.parse(JSON.stringify(settings));
   debugLog("MAIN:  Updating settings");
 

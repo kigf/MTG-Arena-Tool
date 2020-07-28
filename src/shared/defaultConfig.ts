@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { remote } from "electron";
 import path from "path";
-import { SettingsData } from "../types/settings";
 import { constants } from "mtgatool-shared";
+import { SettingsDataApp } from "../types/settings";
 
 const {
   MAIN_HOME,
@@ -153,7 +153,7 @@ const defaultConfig = {
         show: false,
       },
     ],
-  } as SettingsData,
+  } as SettingsDataApp,
 };
 
 export default defaultConfig;

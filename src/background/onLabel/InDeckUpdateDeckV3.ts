@@ -1,11 +1,10 @@
-import convertDeckFromV3 from "../convertDeckFromV3";
 import db from "../../shared/database-wrapper";
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
 import { getDeck, deckChangeExists } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { constants, Deck } from "mtgatool-shared";
+import { constants, Deck, convertDeckFromV3 } from "mtgatool-shared";
 import {
   ArenaV3Deck,
   CardObject,

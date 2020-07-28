@@ -27,6 +27,7 @@ export default function RankUpdated(entry: Entry): void {
     ...json,
     owner,
     player: playerData.playerName,
+    arenaId: playerData.playerName,
     id: entry.hash,
     //date: globals.logTime.toISOString(),
     timestamp: globals.logTime.getTime(),

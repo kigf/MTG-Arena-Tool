@@ -29,6 +29,7 @@ export default function setSeasonalRankFromCombinedRank(
     owner,
     player: playerData.playerName,
     playerId: playerData.arenaId,
+    arenaId: playerData.playerName,
     rankUpdateType: type,
     id: currentMatch.matchId,
     eventId: currentMatch.eventId,
