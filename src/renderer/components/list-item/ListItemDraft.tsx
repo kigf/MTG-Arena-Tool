@@ -12,8 +12,12 @@ import db from "../../../shared/database-wrapper";
 import { toggleArchived } from "../../rendererUtil";
 import css from "./ListItem.css";
 import { CardPoolRares } from "./ListItemEvent";
-import { constants, getEventPrettyName } from "mtgatool-shared";
-import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
+import {
+  constants,
+  getEventPrettyName,
+  InternalDraftv2,
+} from "mtgatool-shared";
+
 const { DEFAULT_TILE } = constants;
 
 interface ListItemDraftProps {

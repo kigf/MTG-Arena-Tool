@@ -1,11 +1,7 @@
 import LogEntry from "../../types/logDecoder";
 import inventoryUpdate from "../inventoryUpdate";
 import trackUpdate from "../trackUpdate";
-import {
-  PostMatchUpdate,
-  QuestUpdate,
-} from "mtgatool-shared/dist/types/postmatch";
-import { InventoryUpdate } from "mtgatool-shared/dist/types/inventory";
+import { PostMatchUpdate, QuestUpdate, InventoryUpdate } from "mtgatool-shared";
 
 export interface Entry extends LogEntry {
   json: () => PostMatchUpdate;

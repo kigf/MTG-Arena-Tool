@@ -5,7 +5,12 @@ import MatchElements from "./MatchElements";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/overlayStore";
-import { constants } from "mtgatool-shared";
+import {
+  constants,
+  MatchData,
+  InternalDraftv2,
+  DraftState,
+} from "mtgatool-shared";
 
 import css from "./index.css";
 import sharedCss from "../shared/shared.css";
@@ -13,8 +18,6 @@ import ResizeIcon from "../assets/images/resize.svg";
 import CloseIcon from "../assets/images/svg/win-close.svg";
 import SettingsIcon from "../assets/images/svg/icon-settings.svg";
 import DEFAULT_BACKGROUND from "../assets/images/main-background.jpg";
-import { MatchData } from "mtgatool-shared/dist/types/currentMatch";
-import { InternalDraftv2, DraftState } from "mtgatool-shared/dist/types/draft";
 
 const {
   ARENA_MODE_DRAFT,

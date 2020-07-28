@@ -1,6 +1,6 @@
 import LogEntry from "../../types/logDecoder";
 import { addDraftPick } from "../../shared/store/currentDraftStore";
-import { DraftMakePick } from "mtgatool-shared/dist/types/draft";
+import { DraftMakePick } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => DraftMakePick;

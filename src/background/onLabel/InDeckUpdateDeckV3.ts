@@ -4,12 +4,14 @@ import { playerDb } from "../../shared/db/LocalDatabase";
 import { getDeck, deckChangeExists } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { constants, Deck, convertDeckFromV3 } from "mtgatool-shared";
 import {
+  constants,
+  Deck,
+  convertDeckFromV3,
   ArenaV3Deck,
   CardObject,
   DeckChange,
-} from "mtgatool-shared/dist/types/deck";
+} from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

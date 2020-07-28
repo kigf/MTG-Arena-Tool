@@ -15,8 +15,8 @@ import { matchesList, getMatch } from "../../shared/store";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 
 import appCss from "../app/app.css";
-import { constants, getEventPrettyName } from "mtgatool-shared";
-import { InternalMatch } from "mtgatool-shared/dist/types/match";
+import { constants, getEventPrettyName, InternalMatch } from "mtgatool-shared";
+
 const { SUB_MATCH, IPC_NONE, IPC_ALL, IPC_RENDERER } = constants;
 
 const { DEFAULT_ARCH, NO_ARCH } = Aggregator;

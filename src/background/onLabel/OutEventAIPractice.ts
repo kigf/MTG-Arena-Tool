@@ -1,7 +1,6 @@
 import LogEntry from "../../types/logDecoder";
 import selectDeck from "../selectDeck";
-import { convertDeckFromV3, Deck } from "mtgatool-shared";
-import { ArenaV3Deck } from "mtgatool-shared/dist/types/deck";
+import { convertDeckFromV3, Deck, ArenaV3Deck } from "mtgatool-shared";
 
 interface EntryJson {
   params: {

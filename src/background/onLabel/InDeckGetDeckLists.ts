@@ -2,8 +2,12 @@ import LogEntry from "../../types/logDecoder";
 import { getDeck } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { constants, convertDeckFromV3 } from "mtgatool-shared";
-import { ArenaV3Deck, InternalDeck } from "mtgatool-shared/dist/types/deck";
+import {
+  constants,
+  convertDeckFromV3,
+  ArenaV3Deck,
+  InternalDeck,
+} from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

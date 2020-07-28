@@ -14,20 +14,16 @@ import {
   Deck,
   getDeckAfterChange,
   convertDeckFromV3,
-} from "mtgatool-shared";
-import {
   ArenaV3Deck,
   isV2CardsList,
   DeckChange,
-} from "mtgatool-shared/dist/types/deck";
-import { InternalMatch } from "mtgatool-shared/dist/types/match";
-import { InternalEvent } from "mtgatool-shared/dist/types/event";
-import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
-import {
+  InternalMatch,
+  InternalEvent,
+  InternalEconomyTransaction,
   InternalDraftv2,
   InternalDraft,
-} from "mtgatool-shared/dist/types/draft";
-import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
+  SeasonalRankData,
+} from "mtgatool-shared";
 
 const { IPC_BACKGROUND, IPC_OVERLAY, IPC_RENDERER, IPC_ALL } = constants;
 

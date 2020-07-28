@@ -37,9 +37,9 @@ import {
   CardsList,
   Deck,
   getEventPrettyName,
+  MatchGameStats,
+  InternalMatch,
 } from "mtgatool-shared";
-import { MatchGameStats } from "mtgatool-shared/dist/types/currentMatch";
-import { InternalMatch } from "mtgatool-shared/dist/types/match";
 
 const { IPC_NONE } = constants;
 

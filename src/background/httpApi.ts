@@ -32,8 +32,7 @@ import globalStore, {
 } from "../shared/store";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import debugLog from "../shared/debugLog";
-import { constants } from "mtgatool-shared";
-import { InternalMatch } from "mtgatool-shared/dist/types/match";
+import { constants, InternalMatch } from "mtgatool-shared";
 
 const {
   SYNC_CHECK,

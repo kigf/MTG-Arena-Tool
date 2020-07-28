@@ -5,8 +5,7 @@ import globals from "../globals";
 import setSeasonalRankFromCombinedRank from "../setSeasonalRankFromCombinedRank";
 import globalStore from "../../shared/store";
 import isRankedEvent from "../../shared/utils/isRankedEvent";
-import { constants } from "mtgatool-shared";
-import { InternalRank } from "mtgatool-shared/dist/types/rank";
+import { constants, InternalRank } from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

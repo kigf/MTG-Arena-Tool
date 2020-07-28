@@ -9,9 +9,7 @@ import css from "./index.css";
 import ManaCost from "../renderer/components/misc/ManaCost";
 import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/backgroundStore";
-import { constants } from "mtgatool-shared";
-import { MatchData } from "mtgatool-shared/dist/types/currentMatch";
-import { OverlaySettingsData } from "mtgatool-shared/dist/types/settings";
+import { constants, MatchData, OverlaySettingsData } from "mtgatool-shared";
 
 const {
   OVERLAY_FULL,

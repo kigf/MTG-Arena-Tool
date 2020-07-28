@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalDeck } from "mtgatool-shared/dist/types/deck";
+import { InternalDeck } from "mtgatool-shared";
 
 const initialDecksState = {
   decksIndex: [] as string[],

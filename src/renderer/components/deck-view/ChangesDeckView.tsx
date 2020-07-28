@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CardTile from "../../../shared/CardTile";
 import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import DeckList from "../misc/DeckList";
-import { Deck } from "mtgatool-shared";
+import { Deck, DeckChange, CardObject } from "mtgatool-shared";
 import Button from "../misc/Button";
 import db from "../../../shared/database-wrapper";
 import { useSprings, animated } from "react-spring";
@@ -11,7 +11,6 @@ import { getDeckChangesList } from "../../../shared/store";
 import css from "./ChangesDeckView.css";
 import deckViewCss from "./DeckView.css";
 import Section from "../misc/Section";
-import { DeckChange, CardObject } from "mtgatool-shared/dist/types/deck";
 
 function sortDeckChanges(ad: DeckChange, bd: DeckChange): number {
   const a = ad.date;

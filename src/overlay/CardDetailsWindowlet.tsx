@@ -7,12 +7,11 @@ import { getCardImage } from "../shared/utils/getCardArtCrop";
 import { SettingsDataApp } from "../types/settings";
 import { AppState } from "../shared/redux/stores/rendererStore";
 import { getEditModeClass, useEditModeOnRef } from "./overlayUtil";
-import { constants } from "mtgatool-shared";
+import { constants, Chances } from "mtgatool-shared";
 
 import notFound from "../assets/images/notfound.png";
 import sharedCss from "../shared/shared.css";
 import css from "./index.css";
-import { Chances } from "mtgatool-shared/dist/types/chances";
 
 const { ARENA_MODE_DRAFT, LANDS_HACK } = constants;
 

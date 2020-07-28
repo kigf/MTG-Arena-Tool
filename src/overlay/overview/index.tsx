@@ -10,8 +10,7 @@ import { ComparisonBar, ComparisonBarArray } from "../comparisonBar";
 import HeatMap from "../HeatpMap";
 import OverviewCard from "../overviewCard";
 import CloseIcon from "../../assets/images/svg/win-close.svg";
-import { CardCast } from "mtgatool-shared/dist/types/currentMatch";
-import { MatchState } from "mtgatool-shared/dist/types/match";
+import { CardCast, MatchState } from "mtgatool-shared";
 
 const primaryBounds = remote.screen.getPrimaryDisplay().bounds;
 

@@ -23,8 +23,8 @@ import { archive, getMatch, deckExists, getDeck } from "../shared/store";
 import store, { AppState } from "../shared/redux/stores/backgroundStore";
 import defaultLogUri from "../shared/utils/defaultLogUri";
 import debugLog from "../shared/debugLog";
-import { constants } from "mtgatool-shared";
-import { InternalDeck } from "mtgatool-shared/dist/types/deck";
+import { constants, InternalDeck } from "mtgatool-shared";
+
 const { HIDDEN_PW, IPC_RENDERER, IPC_ALL, IPC_BACKGROUND } = constants;
 
 initializeRendererReduxIPC(globals.store);

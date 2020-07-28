@@ -4,7 +4,7 @@ import React, { CSSProperties } from "react";
 import db from "../../../shared/database-wrapper";
 import index from "../../index.css";
 import { isEqual } from "lodash";
-import { CardSet } from "mtgatool-shared/dist/types/metadata";
+import { CardSet } from "mtgatool-shared";
 
 interface SetsFilterProps {
   singleSelection?: boolean;

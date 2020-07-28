@@ -1,7 +1,7 @@
 import { remote } from "electron";
 import React from "react";
 import { TableState } from "react-table";
-import { constants, Colors, Deck } from "mtgatool-shared";
+import { constants, Colors, Deck, DbCardData } from "mtgatool-shared";
 import db from "../../shared/database-wrapper";
 import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";
@@ -25,7 +25,7 @@ import { useSelector } from "react-redux";
 import appCss from "../app/app.css";
 import { PlayerData } from "../../shared/redux/slices/playerDataSlice";
 import { getRarityFilterVal } from "../components/collection/filters";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+
 const { DRAFT_RANKS, IPC_ALL, IPC_RENDERER, DRAFT_RANKS_LOLA } = constants;
 
 const Menu = remote.Menu;

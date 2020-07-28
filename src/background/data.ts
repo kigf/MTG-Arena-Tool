@@ -1,5 +1,4 @@
-import { constants, objectClone } from "mtgatool-shared";
-import { InternalDeck } from "mtgatool-shared/dist/types/deck";
+import { constants, objectClone, InternalDeck } from "mtgatool-shared";
 
 const { DEFAULT_TILE } = constants;
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
+import { InternalEconomyTransaction } from "mtgatool-shared";
 
 const initialEconomyState = {
   economyIndex: [] as string[],

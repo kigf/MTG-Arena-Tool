@@ -4,7 +4,7 @@ import { DecksData } from "../renderer/components/decks/types";
 import { TransactionData } from "../renderer/components/economy/types";
 import { EventTableData } from "../renderer/components/events/types";
 import { MatchTableData } from "../renderer/components/matches/types";
-import { SettingsData } from "mtgatool-shared/dist/types/settings";
+import { SettingsData } from "mtgatool-shared";
 
 export interface SettingsDataApp extends SettingsData {
   collectionTableState?: TableState<CardsData>;

@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../shared/redux/stores/rendererStore";
 
 import css from "../renderer/index.css";
-import { cardHasType } from "mtgatool-shared";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { cardHasType, DbCardData } from "mtgatool-shared";
 
 function OwnershipInfinity(props: OwnershipProps): JSX.Element {
   const { owned, acquired, wanted } = props;

@@ -1,8 +1,7 @@
 import { reduxAction } from "../shared/redux/sharedRedux";
 import globals from "./globals";
 import { playerDb } from "../shared/db/LocalDatabase";
-import { constants } from "mtgatool-shared";
-import { InventoryDelta } from "mtgatool-shared/dist/types/inventory";
+import { constants, InventoryDelta } from "mtgatool-shared";
 
 const { IPC_RENDERER, IPC_OVERLAY } = constants;
 

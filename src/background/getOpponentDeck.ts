@@ -4,11 +4,11 @@ import {
   Deck,
   getJumpstartThemes,
   themeCards,
+  Archetype,
+  JumpstartThemes,
+  InternalDeck,
 } from "mtgatool-shared";
 import globalStore from "../shared/store";
-import { Archetype } from "mtgatool-shared/dist/types/metadata";
-import { JumpstartThemes } from "mtgatool-shared/dist/types/jumpstart";
-import { InternalDeck } from "mtgatool-shared/dist/types/deck";
 
 const { DEFAULT_TILE } = constants;
 

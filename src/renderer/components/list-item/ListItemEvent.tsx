@@ -24,10 +24,13 @@ import sharedCss from "../../../shared/shared.css";
 import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
-import { constants, getEventPrettyName } from "mtgatool-shared";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
-import { InternalMatch } from "mtgatool-shared/dist/types/match";
-import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
+import {
+  constants,
+  getEventPrettyName,
+  DbCardData,
+  InternalMatch,
+  InternalDraftv2,
+} from "mtgatool-shared";
 
 const { DEFAULT_TILE, SUB_MATCH, SUB_DRAFT, IPC_NONE } = constants;
 

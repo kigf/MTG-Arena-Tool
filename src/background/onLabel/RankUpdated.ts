@@ -4,9 +4,7 @@ import LogEntry from "../../types/logDecoder";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globalStore, { seasonalList } from "../../shared/store";
 import { httpSetSeasonal } from "../httpApi";
-import { constants } from "mtgatool-shared";
-import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
-import { RankUpdate } from "mtgatool-shared/dist/types/rank";
+import { constants, SeasonalRankData, RankUpdate } from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

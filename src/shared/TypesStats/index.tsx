@@ -1,7 +1,6 @@
 import * as React from "react";
 import db from "../database-wrapper";
-import { constants, Deck } from "mtgatool-shared";
-import { CardObject } from "mtgatool-shared/dist/types/deck";
+import { constants, Deck, CardObject } from "mtgatool-shared";
 
 import sharedCss from "../shared.css";
 import css from "./TypesStats.css";

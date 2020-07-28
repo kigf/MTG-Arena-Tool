@@ -5,9 +5,13 @@ import store from "../shared/redux/stores/rendererStore";
 import db from "../shared/database-wrapper";
 import sharedCss from "../shared/shared.css";
 import { MissingWildcards, CardCounts } from "./components/decks/types";
-import { constants, Deck, formatPercent } from "mtgatool-shared";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
-import { WinLossGate } from "mtgatool-shared/dist/types/event";
+import {
+  constants,
+  Deck,
+  formatPercent,
+  DbCardData,
+  WinLossGate,
+} from "mtgatool-shared";
 
 const { IPC_BACKGROUND, IPC_RENDERER, CARD_RARITIES } = constants;
 

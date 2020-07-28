@@ -1,4 +1,9 @@
-import { Deck, getSetInEventId } from "mtgatool-shared";
+import {
+  Deck,
+  getSetInEventId,
+  InternalDeck,
+  ModuleInstanceData,
+} from "mtgatool-shared";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";
 import selectDeck from "../selectDeck";
@@ -7,8 +12,6 @@ import {
   setDraftData,
   resetCurrentDraft,
 } from "../../shared/store/currentDraftStore";
-import { InternalDeck } from "mtgatool-shared/dist/types/deck";
-import { ModuleInstanceData } from "mtgatool-shared/dist/types/event";
 
 interface EntryJson {
   Id: string;

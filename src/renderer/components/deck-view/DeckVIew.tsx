@@ -8,6 +8,8 @@ import {
   Deck,
   getDeckColorsAmmount,
   getDeckLandsAmmount,
+  InternalDeck,
+  CardObject,
 } from "mtgatool-shared";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
@@ -41,7 +43,7 @@ import DeckColorsBar from "../misc/DeckColorsBar";
 import Section from "../misc/Section";
 import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
-import { InternalDeck, CardObject } from "mtgatool-shared/dist/types/deck";
+
 const { MANA_COLORS, IPC_NONE } = constants;
 
 const VIEW_VISUAL = 0;

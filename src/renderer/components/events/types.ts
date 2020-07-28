@@ -1,7 +1,7 @@
 import { TableState } from "react-table";
 import { AggregatorFilters } from "../../aggregator";
 import { TableControlsProps, TableData } from "../tables/types";
-import { InternalEvent } from "mtgatool-shared/dist/types/event";
+import { InternalEvent } from "mtgatool-shared";
 
 export interface EventStats {
   displayName: string;

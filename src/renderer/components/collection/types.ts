@@ -1,6 +1,6 @@
 import { Row, TableState } from "react-table";
 import { TableControlsProps, TableViewRowProps } from "../tables/types";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { DbCardData } from "mtgatool-shared";
 
 export interface CardsData extends DbCardData {
   colors: number;

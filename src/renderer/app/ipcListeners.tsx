@@ -10,8 +10,8 @@ import { AnyAction, Dispatch } from "redux";
 import store from "../../shared/redux/stores/rendererStore";
 import debugLog from "../../shared/debugLog";
 import reloadTheme from "../../shared/utils/reloadTheme";
-import { constants } from "mtgatool-shared";
-import { ArenaV3Deck } from "mtgatool-shared/dist/types/deck";
+import { constants, ArenaV3Deck } from "mtgatool-shared";
+
 const {
   MAIN_SETTINGS,
   IPC_NONE,

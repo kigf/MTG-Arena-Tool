@@ -1,8 +1,7 @@
 import LogEntry from "../../types/logDecoder";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { constants } from "mtgatool-shared";
-import { SeasonAndRankDetail } from "mtgatool-shared/dist/types/event";
+import { constants, SeasonAndRankDetail } from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

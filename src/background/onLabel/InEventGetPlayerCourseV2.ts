@@ -1,6 +1,12 @@
 // PROBABLY DEPRECATED
 import { playerDb } from "../../shared/db/LocalDatabase";
-import { Deck, constants, convertDeckFromV3 } from "mtgatool-shared";
+import {
+  Deck,
+  constants,
+  convertDeckFromV3,
+  PlayerCourse,
+  InternalEvent,
+} from "mtgatool-shared";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";
 import globals from "../globals";
@@ -8,7 +14,6 @@ import selectDeck from "../selectDeck";
 import { getEvent } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { httpSubmitCourse } from "../httpApi";
-import { PlayerCourse, InternalEvent } from "mtgatool-shared/dist/types/event";
 
 const { IPC_RENDERER } = constants;
 

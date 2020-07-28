@@ -1,13 +1,16 @@
 import globalStore from ".";
-import { Deck } from "mtgatool-shared";
-import { Chances } from "mtgatool-shared/dist/types/chances";
-import { MatchState, InternalPlayer } from "mtgatool-shared/dist/types/match";
 import {
+  Deck,
+  Chances,
+  MatchState,
+  InternalPlayer,
   CardCast,
   PriorityTimers,
   MatchGameStats,
-} from "mtgatool-shared/dist/types/currentMatch";
+} from "mtgatool-shared";
+
 import { DetailsIdChange, GameObject } from "../../types/greInterpreter";
+
 import {
   Phase,
   TurnInfo,

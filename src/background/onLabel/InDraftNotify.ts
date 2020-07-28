@@ -4,8 +4,7 @@ import { ipcSend } from "../backgroundUtil";
 import globalStore from "../../shared/store";
 import globals from "../globals";
 import debugLog from "../../shared/debugLog";
-import { constants } from "mtgatool-shared";
-import { DraftNotify } from "mtgatool-shared/dist/types/draft";
+import { constants, DraftNotify } from "mtgatool-shared";
 
 const { IPC_OVERLAY } = constants;
 

@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
-import { constants } from "mtgatool-shared";
-import { Chances } from "mtgatool-shared/dist/types/chances";
+import { constants, Chances } from "mtgatool-shared";
 
 import css from "./index.css";
 

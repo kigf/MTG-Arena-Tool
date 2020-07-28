@@ -3,8 +3,7 @@ import { getTransaction, transactionExists } from "../shared/store";
 import globals from "./globals";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { httpSetEconomy } from "./httpApi";
-import { constants } from "mtgatool-shared";
-import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
+import { constants, InternalEconomyTransaction } from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

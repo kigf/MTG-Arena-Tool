@@ -11,8 +11,8 @@ import { toggleArchived } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { transactionsList } from "../../shared/store";
 import appCss from "../app/app.css";
-import { constants } from "mtgatool-shared";
-import { InternalEconomyTransaction } from "mtgatool-shared/dist/types/inventory";
+import { constants, InternalEconomyTransaction } from "mtgatool-shared";
+
 const { IPC_ALL, IPC_RENDERER } = constants;
 
 function saveTableState(economyTableState: TableState<TransactionData>): void {

@@ -6,8 +6,7 @@ import { httpSetDraft } from "../httpApi";
 import globalStore from "../../shared/store";
 import debugLog from "../../shared/debugLog";
 import completeDraft from "../draft/completeDraft";
-import { constants, getSetInEventId } from "mtgatool-shared";
-import { PlayerCourse } from "mtgatool-shared/dist/types/event";
+import { constants, getSetInEventId, PlayerCourse } from "mtgatool-shared";
 
 const { ARENA_MODE_IDLE } = constants;
 

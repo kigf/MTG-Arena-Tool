@@ -9,8 +9,7 @@ import {
   setOpponent,
   setCurrentMatchMany,
 } from "../../shared/store/currentMatchStore";
-import { constants } from "mtgatool-shared";
-import { MatchGameRoomStateChange } from "mtgatool-shared/dist/types/match";
+import { constants, MatchGameRoomStateChange } from "mtgatool-shared";
 
 const { ARENA_MODE_IDLE } = constants;
 

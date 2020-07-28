@@ -1,7 +1,6 @@
 import { setDraftData } from "../../shared/store/currentDraftStore";
 import LogEntry from "../../types/logDecoder";
-import { EventJoinPodmaking } from "mtgatool-shared/dist/types/draft";
-import { getSetInEventId } from "mtgatool-shared";
+import { EventJoinPodmaking, getSetInEventId } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => EventJoinPodmaking;

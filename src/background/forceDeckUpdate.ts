@@ -2,8 +2,7 @@ import globals from "./globals";
 import { hypergeometricRange } from "../shared/utils/statsFns";
 import globalStore from "../shared/store";
 import { setCardsOdds } from "../shared/store/currentMatchStore";
-import { Chances } from "mtgatool-shared/dist/types/chances";
-import { CardObject } from "mtgatool-shared/dist/types/deck";
+import { Chances, CardObject } from "mtgatool-shared";
 
 function chanceType(
   quantity: number,

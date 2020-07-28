@@ -3,8 +3,7 @@ import React from "react";
 import db from "../../../shared/database-wrapper";
 import CardTile from "../../../shared/CardTile";
 import Separator from "./Separator";
-import { cardType, Deck } from "mtgatool-shared";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
+import { cardType, Deck, DbCardData } from "mtgatool-shared";
 
 function getDeckComponents(deck: Deck, showWildcards = false): JSX.Element[] {
   const components = [];

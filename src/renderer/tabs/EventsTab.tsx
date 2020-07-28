@@ -12,11 +12,12 @@ import { getMatch, matchExists, eventsList } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
 import appCss from "../app/app.css";
-import { constants, getEventPrettyName } from "mtgatool-shared";
 import {
+  constants,
+  getEventPrettyName,
   InternalEvent,
   EventInstanceData,
-} from "mtgatool-shared/dist/types/event";
+} from "mtgatool-shared";
 
 const { IPC_ALL, IPC_RENDERER } = constants;
 

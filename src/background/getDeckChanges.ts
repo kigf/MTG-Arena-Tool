@@ -1,6 +1,4 @@
-import { Deck } from "mtgatool-shared";
-import { DeckChanges } from "mtgatool-shared/dist/types/currentMatch";
-import { CardObject } from "mtgatool-shared/dist/types/deck";
+import { Deck, DeckChanges, CardObject } from "mtgatool-shared";
 
 export function getDeckChanges(
   newDeck: Deck,

@@ -23,8 +23,7 @@ import {
   getCardArtCrop,
   getCardImage,
 } from "../../../shared/utils/getCardArtCrop";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
-import { formatPercent } from "mtgatool-shared";
+import { DbCardData, formatPercent } from "mtgatool-shared";
 
 function EconomyRowDate(date: Date): JSX.Element {
   return (

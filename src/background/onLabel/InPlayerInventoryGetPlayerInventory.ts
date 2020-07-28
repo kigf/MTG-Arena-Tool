@@ -2,8 +2,7 @@ import { playerDb } from "../../shared/db/LocalDatabase";
 import LogEntry from "../../types/logDecoder";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { constants } from "mtgatool-shared";
-import { PlayerInventory } from "mtgatool-shared/dist/types/inventory";
+import { constants, PlayerInventory } from "mtgatool-shared";
 
 const { IPC_RENDERER } = constants;
 

@@ -1,6 +1,6 @@
 import { ipcSend } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
-import { ActiveEvent } from "mtgatool-shared/dist/types/event";
+import { ActiveEvent } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => ActiveEvent[];

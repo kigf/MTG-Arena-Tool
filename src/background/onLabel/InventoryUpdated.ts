@@ -2,11 +2,11 @@ import inventoryAddDelta from "../inventoryAddDelta";
 import globals from "../globals";
 import saveEconomyTransaction from "../saveEconomyTransaction";
 import LogEntry from "../../types/logDecoder";
-import { sha1 } from "mtgatool-shared";
 import {
+  sha1,
   InventoryUpdate,
   InternalEconomyTransaction,
-} from "mtgatool-shared/dist/types/inventory";
+} from "mtgatool-shared";
 
 interface EntryJson {
   context: string;

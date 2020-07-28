@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SeasonAndRankDetail } from "mtgatool-shared/dist/types/event";
-import { Format } from "mtgatool-shared/dist/types/metadata";
+import { SeasonAndRankDetail, Format } from "mtgatool-shared";
 
 interface ShareDialog {
   open: boolean;

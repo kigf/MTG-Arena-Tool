@@ -1,5 +1,12 @@
 import React, { useCallback, useMemo } from "react";
-import { compareCards, getDeckAfterChange, Deck } from "mtgatool-shared";
+import {
+  compareCards,
+  getDeckAfterChange,
+  Deck,
+  DbCardData,
+  DeckChange,
+  CardObject,
+} from "mtgatool-shared";
 import Button from "../misc/Button";
 import Aggregator, {
   AggregatorFilters,
@@ -18,8 +25,6 @@ import indexCss from "../../index.css";
 import css from "./CardsWinrateView.css";
 import Section from "../misc/Section";
 import Flex from "../misc/Flex";
-import { DbCardData } from "mtgatool-shared/dist/types/metadata";
-import { DeckChange, CardObject } from "mtgatool-shared/dist/types/deck";
 
 function getWinrateValue(wins: number, losses: number): number {
   return wins + losses == 0 ? -1 : Math.round((100 / (wins + losses)) * wins);

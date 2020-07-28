@@ -8,7 +8,12 @@ import React, {
 } from "react";
 import format from "date-fns/format";
 import DeckList from "../components/misc/DeckList";
-import { constants, Deck, getRankIndex } from "mtgatool-shared";
+import {
+  constants,
+  Deck,
+  getRankIndex,
+  SeasonalRankData,
+} from "mtgatool-shared";
 import ReactSelect from "../../shared/ReactSelect";
 import ManaCost from "../components/misc/ManaCost";
 import ResultDetails from "../components/misc/ResultDetails";
@@ -31,7 +36,6 @@ import topNavCss from "../components/main/topNav.css";
 import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import css from "./TimelineTab.css";
-import { SeasonalRankData } from "mtgatool-shared/dist/types/season";
 
 const { SUB_MATCH, IPC_NONE } = constants;
 

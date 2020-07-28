@@ -1,4 +1,4 @@
-import { InternalDeck } from "mtgatool-shared/dist/types/deck";
+import { InternalDeck } from "mtgatool-shared";
 
 export default function prettierDeckData(deckData: InternalDeck): InternalDeck {
   // many precon descriptions are total garbage

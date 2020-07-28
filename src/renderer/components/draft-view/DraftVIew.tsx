@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import Slider, { SliderPosition } from "../misc/Slider";
 import DeckList from "../misc/DeckList";
-import { constants, Deck } from "mtgatool-shared";
+import { constants, Deck, InternalDraftv2 } from "mtgatool-shared";
 import useHoverCard from "../../hooks/useHoverCard";
 import db from "../../../shared/database-wrapper";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +21,6 @@ import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
 import ManaCost from "../misc/ManaCost";
 import Section from "../misc/Section";
-import { InternalDraftv2 } from "mtgatool-shared/dist/types/draft";
 
 const {
   PACK_SIZES,
