@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ExploreQuery } from "../../../types/api";
+import { ExploreQuery } from "mtgatool-shared";
 
 const initialExploreState = {
   activeEvents: [] as string[],

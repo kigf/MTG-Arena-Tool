@@ -14,9 +14,8 @@ import sharedCss from "../../shared/shared.css";
 import indexCss from "../index.css";
 import appCss from "../app/app.css";
 import css from "./ExploreTab.css";
-import { ExploreQuery } from "../../types/api";
 import Flex from "../components/misc/Flex";
-import { constants, getEventPrettyName } from "mtgatool-shared";
+import { constants, getEventPrettyName, ExploreQuery } from "mtgatool-shared";
 const {
   RANKS,
   SUB_DECK,

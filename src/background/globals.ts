@@ -2,7 +2,7 @@
 import { ZoneData } from "../types/greInterpreter";
 import store from "../shared/redux/stores/backgroundStore";
 import async from "async";
-import { HttpTask } from "../types/api";
+import { HttpTask } from "mtgatool-shared";
 
 // Hey! If you're here, you might be thinking of adding stuff to this file.
 // Don't. This is a shadowy place. You must never go here.

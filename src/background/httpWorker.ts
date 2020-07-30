@@ -5,9 +5,8 @@ import globals from "./globals";
 import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import { setSyncState } from "./httpApi";
-import { HttpMethod, HttpTask } from "../types/api";
 import debugLog from "../shared/debugLog";
-import { constants } from "mtgatool-shared";
+import { constants, HttpTask, HttpMethod } from "mtgatool-shared";
 
 const { IPC_RENDERER, SYNC_PUSH } = constants;
 

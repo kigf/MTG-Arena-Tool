@@ -6,13 +6,11 @@ import ReactSelect from "../../../shared/ReactSelect";
 import css from "./Sections.css";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
-import {
-  ROLE_PATREON,
-  ROLE_ADMIN,
-  ROLE_DEVELOPER,
-} from "../../../shared/constants";
 import Bullet from "../misc/Bullet";
 import Flex from "../misc/Flex";
+import { constants } from "mtgatool-shared";
+
+const { ROLE_PATREON, ROLE_DEVELOPER, ROLE_ADMIN } = constants;
 
 export default function SectionAdmin(): JSX.Element {
   const _settings = useSelector((state: AppState) => state.settings);
