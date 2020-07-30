@@ -4,7 +4,6 @@ import {
   Deck,
   getJumpstartThemes,
   themeCards,
-  Archetype,
   JumpstartThemes,
   InternalDeck,
 } from "mtgatool-shared";
@@ -35,7 +34,7 @@ function getBestArchetype(deck: Deck): string {
 
   // Test for each archetype
   //debugLog("highest", highest);
-  db.archetypes.forEach((arch: Archetype) => {
+  db.archetypes.forEach((arch) => {
     //debugLog(arch.name);
     mainDeviations = [];
     deck
