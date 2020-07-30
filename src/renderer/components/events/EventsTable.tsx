@@ -1,7 +1,6 @@
 import _ from "lodash";
 import React from "react";
 import { Column, Row } from "react-table";
-import { EVENTS_TABLE_MODE } from "../../../shared/constants";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import { toggleArchived } from "../../rendererUtil";
 import { ListItemEvent } from "../list-item/ListItemEvent";
@@ -42,6 +41,8 @@ import { animated } from "react-spring";
 import indexCss from "../../index.css";
 import tablesCss from "../tables/tables.css";
 import sharedCss from "../../../shared/shared.css";
+import { constants } from "mtgatool-shared";
+const { EVENTS_TABLE_MODE } = constants;
 
 const columns: Column<EventTableData>[] = [
   { accessor: "id" },

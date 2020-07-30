@@ -1,5 +1,4 @@
 import { CellProps, TableState } from "react-table";
-import { InternalDeck } from "../../../types/Deck";
 import { AggregatorFilters, AggregatorStats } from "../../aggregator";
 import {
   TableControlsProps,
@@ -7,6 +6,7 @@ import {
   TableViewRowProps,
   TagCounts,
 } from "../tables/types";
+import { InternalDeck } from "mtgatool-shared";
 
 export interface CardCounts {
   [key: string]: number;

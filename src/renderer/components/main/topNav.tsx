@@ -1,26 +1,6 @@
 import _ from "lodash";
 import React, { useState, useCallback } from "react";
-import {
-  MAIN_HOME,
-  MAIN_DECKS,
-  MAIN_MATCHES,
-  MAIN_TIMELINE,
-  MAIN_EVENTS,
-  MAIN_EXPLORE,
-  MAIN_ECONOMY,
-  MAIN_COLLECTION,
-  MAIN_CONSTRUCTED,
-  MAIN_LIMITED,
-  IPC_NONE,
-  SYNC_CHECK,
-  SYNC_ERR,
-  SYNC_FETCH,
-  SYNC_PUSH,
-  SYNC_IDLE,
-  SYNC_OK,
-} from "../../../shared/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { getRankIndex } from "../../../shared/utils/getRankIndex";
 import formatRank from "../../../shared/utils/formatRank";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import useWindowSize from "../../hooks/useWindowSize";
@@ -40,6 +20,27 @@ import syncPatreon from "../../../assets/images/sync_patreon.png";
 import IconButton from "../misc/IconButton";
 import { forceOpenSettings } from "../../tabControl";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+
+import { constants, getRankIndex } from "mtgatool-shared";
+const {
+  MAIN_HOME,
+  MAIN_DECKS,
+  MAIN_MATCHES,
+  MAIN_TIMELINE,
+  MAIN_EVENTS,
+  MAIN_EXPLORE,
+  MAIN_ECONOMY,
+  MAIN_COLLECTION,
+  MAIN_CONSTRUCTED,
+  MAIN_LIMITED,
+  IPC_NONE,
+  SYNC_CHECK,
+  SYNC_ERR,
+  SYNC_FETCH,
+  SYNC_PUSH,
+  SYNC_IDLE,
+  SYNC_OK,
+} = constants;
 
 const topNavClasses: string[] = [];
 topNavClasses[MAIN_HOME] = topNavCss.iconHome;

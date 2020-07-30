@@ -1,6 +1,4 @@
-import { InternalRankData } from "../../types/rank";
-import { MatchPlayer } from "../../types/currentMatch";
-import { InternalPlayer } from "../../types/match";
+import { MatchPlayer, InternalRankData, InternalPlayer } from "mtgatool-shared";
 
 // pass in playerData.constructed / limited / historic objects
 export default function formatRank(

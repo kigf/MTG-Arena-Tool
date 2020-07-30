@@ -1,41 +1,23 @@
 import React, { useMemo, useCallback } from "react";
 import _ from "lodash";
 import ReactSelect from "../../../shared/ReactSelect";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
 import CardTile from "../../../shared/CardTile";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import Input from "../misc/Input";
-//import Toggle from "../misc/Toggle";
-//import useColorPicker from "../../hooks/useColorPicker";
 import Slider from "../misc/Slider";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
 import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { useSelector } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-
 import css from "./Sections.css";
 import indexCss from "../../index.css";
-import { CardQuality } from "../../../types/settings";
 import showOpenThemeDialog from "../../../shared/utils/showOpenThemeDialog";
 import reloadTheme from "../../../shared/utils/reloadTheme";
 import { ipcSend } from "../../../background/backgroundUtil";
-/*
-function changeBackgroundImage(value: string): void {
-  reduxAction(
-    store.dispatch,
-    { type: "SET_SETTINGS", arg: { back_url: value || "default" } },
-    IPC_ALL ^ IPC_RENDERER
-  );
-}
+import { constants, CardQuality } from "mtgatool-shared";
 
-function backColorPicker(color: string): void {
-  reduxAction(
-    store.dispatch,
-    { type: "SET_SETTINGS", arg: { back_color: color } },
-    IPC_ALL ^ IPC_RENDERER
-  );
-}
-*/
+const { IPC_ALL, IPC_RENDERER } = constants;
+
 function setCardQuality(filter: CardQuality): void {
   reduxAction(
     store.dispatch,
@@ -43,31 +25,11 @@ function setCardQuality(filter: CardQuality): void {
     IPC_ALL ^ IPC_RENDERER
   );
 }
-/*
-function backShadowCallback(checked: boolean): void {
-  reduxAction(
-    store.dispatch,
-    { type: "SET_SETTINGS", arg: { back_shadow: checked } },
-    IPC_ALL
-  );
-}
-*/
 const card = db.card(70344);
 
 export default function SectionVisual(): JSX.Element {
   const settings = useSelector((state: AppState) => state.settings);
   const cardSize = 100 + settings.cards_size * 15;
-  /*
-  const containerRef: React.MutableRefObject<HTMLInputElement | null> = React.useRef(
-    null
-  );
-  
-  const [pickerColor, pickerDoShow, pickerElement] = useColorPicker(
-    settings.back_color,
-    undefined,
-    backColorPicker
-  );
-  */
 
   // Hover card size slider
   const [hoverCardSize, setHoverCardSize] = React.useState(
@@ -150,34 +112,6 @@ export default function SectionVisual(): JSX.Element {
           />
         </div>
       </div>
-      {/*
-      <div className={css.centered_setting_container}>
-        <label>Background URL:</label>
-        <Input
-          value={settings.back_url !== "default" ? settings.back_url : ""}
-          placeholder="https://example.com/photo.png"
-          callback={changeBackgroundImage}
-        />
-      </div>
-      <Toggle
-        text="Show Background Shade"
-        value={settings.back_shadow}
-        callback={backShadowCallback}
-      />
-      <label className={css.centered_setting_container}>
-        <span style={{ marginRight: "32px" }}>Background hue:</span>
-        <input
-          onClick={pickerDoShow}
-          ref={containerRef}
-          style={{ backgroundColor: pickerColor }}
-          className={css.color_picker}
-          id={css.flat}
-          type="text"
-          defaultValue=""
-        ></input>
-      </label>
-      {pickerElement}
-      */}
       <div className={css.centered_setting_container}>
         {!!card && (
           <CardTile

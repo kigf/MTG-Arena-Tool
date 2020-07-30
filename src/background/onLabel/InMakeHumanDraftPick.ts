@@ -1,6 +1,6 @@
 import LogEntry from "../../types/logDecoder";
-import { InMakeHumanDraftPick } from "../../types/draft";
 import completeDraft from "../draft/completeDraft";
+import { InMakeHumanDraftPick } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => InMakeHumanDraftPick;

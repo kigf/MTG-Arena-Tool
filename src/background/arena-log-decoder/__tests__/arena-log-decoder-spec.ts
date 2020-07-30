@@ -6,9 +6,9 @@ import ArenaLogDecoder from "../arena-log-decoder";
 
 const text = fs.readFileSync(__dirname + "/Player.log", "utf-8");
 
-const getJson = logEntry => ({
+const getJson = (logEntry: any): any => ({
   ...logEntry,
-  json: logEntry.json && logEntry.json()
+  json: logEntry.json && logEntry.json(),
 });
 
 describe("arena-log-decoder", () => {
@@ -16,15 +16,15 @@ describe("arena-log-decoder", () => {
     it("returns an interator that can be used to get parsed log entries", () => {
       const decoder = ArenaLogDecoder();
       const logEntries = [];
-      decoder.append(text, logEntry => logEntries.push(logEntry));
+      decoder.append(text, (logEntry: any) => logEntries.push(logEntry));
       expect(logEntries.length).toEqual(37);
     });
 
     it("finds the same log entries when reading the file in arbitrary chunks", () => {
       // first, get the entries without chunking (for comparison)
       const unchunkedDecoder = ArenaLogDecoder();
-      const logEntries = [];
-      unchunkedDecoder.append(text, logEntry =>
+      const logEntries: any[] = [];
+      unchunkedDecoder.append(text, (logEntry: any) =>
         logEntries.push(getJson(logEntry))
       );
 
@@ -36,7 +36,7 @@ describe("arena-log-decoder", () => {
       let position = 0;
       while (position < text.length) {
         const fragment = text.substr(position, chunkSize);
-        decoder.append(fragment, logEntry =>
+        decoder.append(fragment, (logEntry: any) =>
           expect(getJson(logEntry)).toEqual(logEntries[i++])
         );
         position += fragment.length;

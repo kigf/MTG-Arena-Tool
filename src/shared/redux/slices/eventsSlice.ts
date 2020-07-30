@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { InternalEvent } from "../../../types/event";
+import { InternalEvent } from "mtgatool-shared";
 
 const initialEventsState = {
   eventsIndex: [] as string[],

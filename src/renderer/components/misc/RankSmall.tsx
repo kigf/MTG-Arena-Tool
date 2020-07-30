@@ -1,6 +1,6 @@
 import React from "react";
 import indexCss from "../../index.css";
-import { getRankIndex16 } from "../../../shared/utils/getRankIndex";
+import { getRankIndex16 } from "mtgatool-shared";
 import formatRank from "../../../shared/utils/formatRank";
 
 interface RankSmallProps {

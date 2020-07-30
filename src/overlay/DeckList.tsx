@@ -1,7 +1,23 @@
 import React from "react";
 import CardTile, { LandsTile, CardTileQuantity } from "../shared/CardTile";
-import Colors from "../shared/colors";
 import {
+  constants,
+  Colors,
+  compareCards,
+  Deck,
+  Chances,
+  CardObject,
+  OverlaySettingsData,
+} from "mtgatool-shared";
+import db from "../shared/database-wrapper";
+import DeckManaCurve from "../shared/ManaCurve";
+import DeckTypesStats from "../shared/TypesStats";
+import OwnershipStars from "../shared/OwnershipStars";
+import SampleSizePanel from "./SampleSizePanel";
+import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
+import css from "./index.css";
+
+const {
   DRAFT_RANKS,
   DRAFT_RANKS_LOLA,
   OVERLAY_DRAFT,
@@ -10,20 +26,8 @@ import {
   OVERLAY_MIXED,
   OVERLAY_ODDS,
   LANDS_HACK,
-} from "../shared/constants";
-import db from "../shared/database";
-import Deck from "../shared/deck";
-import DeckManaCurve from "../shared/ManaCurve";
-import DeckTypesStats from "../shared/TypesStats";
-import OwnershipStars from "../shared/OwnershipStars";
-import { compareCards } from "../shared/utils/compareCards";
-import { Chances } from "../types/Chances";
-import { CardObject } from "../types/Deck";
-import { OverlaySettingsData } from "../types/settings";
-import SampleSizePanel from "./SampleSizePanel";
-import { getCardTypeSort } from "../shared/utils/getCardTypeSort";
+} = constants;
 
-import css from "./index.css";
 function getRank(cardId: number): number {
   const cardObj = db.card(cardId);
   return cardObj?.rank || 0;
@@ -195,7 +199,7 @@ export default function DeckList(props: DeckListProps): JSX.Element {
           return;
         }
 
-        const dfcCard = card?.dfcId ? db.card(card.dfcId) : undefined;
+        const dfcCard = card?.dfcId ? db.card(parseInt(card.dfcId)) : undefined;
         mainCardTiles.push(
           <CardTile
             card={fullCard}

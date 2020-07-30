@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import globalStore from "../../store";
-import { DeckChange } from "../../../types/Deck";
+import { DeckChange } from "mtgatool-shared";
 
 const initialDeckChangesState = {
   deckChangesIndex: [] as string[],

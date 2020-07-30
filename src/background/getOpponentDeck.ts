@@ -1,13 +1,15 @@
-import db from "../shared/database";
-import Deck from "../shared/deck";
-import { InternalDeck } from "../types/Deck";
-import { Archetype } from "../types/Metadata";
-import globalStore from "../shared/store";
-import getJumpstartThemes, {
+import db from "../shared/database-wrapper";
+import {
+  constants,
+  Deck,
+  getJumpstartThemes,
   themeCards,
-} from "../shared/utils/getJumpstartThemes";
-import { JumpstartThemes } from "../types/jumpstart";
-import { DEFAULT_TILE } from "../shared/constants";
+  JumpstartThemes,
+  InternalDeck,
+} from "mtgatool-shared";
+import globalStore from "../shared/store";
+
+const { DEFAULT_TILE } = constants;
 
 function calculateDeviation(values: number[]): number {
   return Math.sqrt(values.reduce((a, b) => a + b) / (values.length - 1));
@@ -32,7 +34,7 @@ function getBestArchetype(deck: Deck): string {
 
   // Test for each archetype
   //debugLog("highest", highest);
-  db.archetypes.forEach((arch: Archetype) => {
+  db.archetypes.forEach((arch) => {
     //debugLog(arch.name);
     mainDeviations = [];
     deck

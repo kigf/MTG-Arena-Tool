@@ -2,18 +2,9 @@ import isValid from "date-fns/isValid";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { TableState } from "react-table";
-import {
-  SUB_DECK,
-  IPC_NONE,
-  IPC_ALL,
-  IPC_RENDERER,
-  IPC_BACKGROUND,
-} from "../../shared/constants";
-import Deck from "../../shared/deck";
 import getDeckColors from "../../shared/utils/getDeckColors";
 import getReadableFormat from "../../shared/utils/getReadableFormat";
 
-import { InternalDeck } from "../../types/Deck";
 import Aggregator, {
   AggregatorFilters,
   AggregatorStats,
@@ -31,8 +22,10 @@ import {
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import store from "../../shared/redux/stores/rendererStore";
 import globalStore, { getDeck, decksList } from "../../shared/store";
-
 import appCss from "../app/app.css";
+import { constants, Deck, InternalDeck } from "mtgatool-shared";
+
+const { SUB_DECK, IPC_NONE, IPC_ALL, IPC_RENDERER, IPC_BACKGROUND } = constants;
 
 function addTag(deckid: string, tag: string): void {
   const deck = getDeck(deckid);

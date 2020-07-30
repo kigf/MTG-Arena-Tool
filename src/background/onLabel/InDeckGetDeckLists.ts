@@ -1,10 +1,15 @@
-import { ArenaV3Deck, InternalDeck } from "../../types/Deck";
 import LogEntry from "../../types/logDecoder";
-import convertDeckFromV3 from "../convertDeckFromV3";
 import { getDeck } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { IPC_RENDERER } from "../../shared/constants";
+import {
+  constants,
+  convertDeckFromV3,
+  ArenaV3Deck,
+  InternalDeck,
+} from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck[];

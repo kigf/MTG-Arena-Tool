@@ -1,6 +1,5 @@
-import Colors from "../../../shared/colors";
-import db from "../../../shared/database";
-import Deck from "../../../shared/deck";
+import { Colors, Deck } from "mtgatool-shared";
+import db from "../../../shared/database-wrapper";
 import { decksList } from "../../../shared/store";
 import store from "../../../shared/redux/stores/rendererStore";
 import { getMissingCardCounts } from "../../rendererUtil";
@@ -112,9 +111,7 @@ export interface CollectionStats {
   [set: string]: SetStats;
 }
 
-export function getCollectionStats(
-  cardIds: (string | number)[]
-): CollectionStats {
+export function getCollectionStats(cardIds: number[]): CollectionStats {
   const playerEconomy = store.getState().playerdata.economy;
   const wantedCards: { [key: string]: number } = {};
   decksList()

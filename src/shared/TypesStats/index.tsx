@@ -1,12 +1,11 @@
 import * as React from "react";
-
-import { CARD_TYPES, CARD_TYPE_CODES } from "../constants";
-import db from "../database";
-import Deck from "../deck";
-import { CardObject } from "../../types/Deck";
+import db from "../database-wrapper";
+import { constants, Deck, CardObject } from "mtgatool-shared";
 
 import sharedCss from "../shared.css";
 import css from "./TypesStats.css";
+
+const { CARD_TYPES, CARD_TYPE_CODES } = constants;
 
 const typeIcons: Record<string, string> = {};
 typeIcons["art"] = css.type_art;

@@ -3,9 +3,11 @@ import { ReactEventHandlers } from "react-use-gesture/dist/types";
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 import useResize from "./useResize";
 import { AppState } from "../../shared/redux/stores/rendererStore";
+import { constants } from "mtgatool-shared";
+
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 export default function useResizePanel(): [
   SpringValue<number>,

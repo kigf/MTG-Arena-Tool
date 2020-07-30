@@ -5,22 +5,22 @@ import isValid from "date-fns/isValid";
 import max from "date-fns/max";
 import startOfDay from "date-fns/startOfDay";
 import subDays from "date-fns/subDays";
-import {
-  DATE_ALL_TIME,
-  DATE_LAST_30,
-  DATE_LAST_DAY,
-  DATE_SEASON,
-} from "../shared/constants";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import { normalApproximationInterval } from "../shared/utils/statsFns";
-import { InternalDeck } from "../types/Deck";
-import { InternalMatch } from "../types/match";
 import { matchesList, getDeck, getDeckName } from "../shared/store";
 import store from "../shared/redux/stores/rendererStore";
-import Colors from "../shared/colors";
-import { InternalDraftv2 } from "../types/draft";
-import Deck from "../shared/deck";
-import getEventPrettyName from "../shared/utils/getEventPrettyName";
+import {
+  constants,
+  Colors,
+  Deck,
+  getEventPrettyName,
+  InternalDraftv2,
+  InternalMatch,
+  InternalDeck,
+} from "mtgatool-shared";
+import { format } from "date-fns";
+
+const { DATE_ALL_TIME, DATE_LAST_30, DATE_LAST_DAY, DATE_SEASON } = constants;
 
 export interface CardWinrateData {
   name: string;
@@ -67,6 +67,18 @@ export const dateMaxValid = (a: Date, b: Date): Date => {
     (aValid && bValid && max([a, b])) || (aValid && a) || (bValid && b) || a
   );
 };
+
+function playBrawlEvents(): string[] {
+  const prefix = "Play_Brawl_";
+  const endDate = new Date();
+  const currentDate = new Date("2019-11-06T16:00:00Z"); // first Wednesday brawl
+  const events = [];
+  while (currentDate < endDate) {
+    events.push(prefix + format(currentDate, "yyyyMMdd"));
+    currentDate.setDate(currentDate.getDate() + 7); // repeat every Wednesday
+  }
+  return events;
+}
 
 export interface AggregatorFilters {
   date?: Date | string;
@@ -224,7 +236,9 @@ export default class Aggregator {
     if (filterValue === DATE_ALL_TIME) {
       return true;
     } else if (filterValue === DATE_SEASON) {
-      dateFilter = db.season_starts;
+      dateFilter = new Date(
+        store.getState().renderer.season.currentSeason.seasonStartTime
+      );
     } else if (filterValue === DATE_LAST_30) {
       dateFilter = startOfDay(subDays(now, 30));
     } else if (filterValue === DATE_LAST_DAY) {
@@ -545,7 +559,7 @@ export default class Aggregator {
   }
 
   get events(): string[] {
-    const brawlEvents = new Set(db.playBrawlEvents);
+    const brawlEvents = new Set(playBrawlEvents());
     return [
       Aggregator.DEFAULT_EVENT,
       Aggregator.ALL_DRAFTS,

@@ -1,15 +1,8 @@
 import { remote } from "electron";
 import React from "react";
 import { TableState } from "react-table";
-import Colors from "../../shared/colors";
-import {
-  DRAFT_RANKS,
-  IPC_ALL,
-  IPC_RENDERER,
-  DRAFT_RANKS_LOLA,
-} from "../../shared/constants";
-import db from "../../shared/database";
-import { DbCardData } from "../../types/Metadata";
+import { constants, Colors, Deck, DbCardData } from "mtgatool-shared";
+import db from "../../shared/database-wrapper";
 import replaceAll from "../../shared/utils/replaceAll";
 import CollectionTable from "../components/collection/CollectionTable";
 import { CardsData } from "../components/collection/types";
@@ -24,7 +17,6 @@ import {
   getCardInBoosters,
 } from "../rendererUtil";
 import { CardCounts } from "../components/decks/types";
-import Deck from "../../shared/deck";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
 import { decksList } from "../../shared/store";
@@ -33,6 +25,8 @@ import { useSelector } from "react-redux";
 import appCss from "../app/app.css";
 import { PlayerData } from "../../shared/redux/slices/playerDataSlice";
 import { getRarityFilterVal } from "../components/collection/filters";
+
+const { DRAFT_RANKS, IPC_ALL, IPC_RENDERER, DRAFT_RANKS_LOLA } = constants;
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
@@ -67,7 +61,7 @@ function getExportString(cardIds: string[]): string {
   let exportString = "";
   cardIds.forEach((key) => {
     let add = exportFormat + "";
-    const card = db.card(key);
+    const card = db.card(parseInt(key));
     if (card) {
       const name = replaceAll(card.name, "///", "//");
       const count = cards.cards[key] === 9999 ? 1 : cards.cards[key] ?? 0;

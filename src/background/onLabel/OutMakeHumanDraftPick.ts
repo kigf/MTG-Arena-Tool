@@ -1,5 +1,5 @@
 import LogEntry from "../../types/logDecoder";
-import { OutMakeHumanDraftPick } from "../../types/draft";
+import { OutMakeHumanDraftPick } from "mtgatool-shared";
 import { addDraftPick } from "../../shared/store/currentDraftStore";
 import debugLog from "../../shared/debugLog";
 

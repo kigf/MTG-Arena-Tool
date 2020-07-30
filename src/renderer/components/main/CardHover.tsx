@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
-import { FACE_DFC_FRONT, FACE_DFC_BACK } from "../../../shared/constants";
 import OwnershipStars from "../../../shared/OwnershipStars";
 
 import notFound from "../../../assets/images/notfound.png";
 import NoCard from "../../../assets/images/nocard.png";
 import sharedCss from "../../../shared/shared.css";
+import { constants } from "mtgatool-shared";
+const { FACE_DFC_FRONT, FACE_DFC_BACK } = constants;
 
 function getFrontUrl(hoverGrpId: number, quality: string): string {
   const cardObj = db.card(hoverGrpId);

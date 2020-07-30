@@ -1,8 +1,10 @@
 import React, { ReactNode } from "react";
 import ErrorInfo from "../components/popups/ErrorInfo";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_NONE, MAIN_HOME } from "../../shared/constants";
 import store from "../../shared/redux/stores/rendererStore";
+import { constants } from "mtgatool-shared";
+
+const { IPC_NONE, MAIN_HOME } = constants;
 
 interface ErrorState {
   error: any;

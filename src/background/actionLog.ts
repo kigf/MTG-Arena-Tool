@@ -1,10 +1,13 @@
 import { ipcSend } from "./backgroundUtil";
 import fs from "fs";
 import path from "path";
-import { IPC_OVERLAY } from "../shared/constants";
 import globals from "./globals";
 import format from "date-fns/format";
 import globalStore from "../shared/store";
+import { constants } from "mtgatool-shared";
+import debugLog from "../shared/debugLog";
+
+const { IPC_OVERLAY } = constants;
 
 let currentActionLog = "";
 
@@ -33,18 +36,11 @@ const actionLog = function (
         "utf-8"
       );
     } catch (e) {
-      //
+      debugLog("Could not write action log data", "error");
+      debugLog(e, "error");
     }
   }
-  /*
-  const logData = {
-    seat: seat,
-    time: time.toISOString(),
-    str: str,
-    grpId: grpId
-  };
-  */
-  //debugLog("action_log", { seat: seat, time: time }, str);
+
   ipcSend("action_log", currentActionLog, IPC_OVERLAY);
 };
 

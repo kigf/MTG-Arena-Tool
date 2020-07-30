@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Utility functions that belong only to background
 import { ipcRenderer as ipc } from "electron";
-
 import _ from "lodash";
 import parse from "date-fns/parse";
 import isValid from "date-fns/isValid";
-import { IPC_BACKGROUND, IPC_RENDERER } from "../shared/constants";
 import globals from "./globals";
-
 import { create, all, MathJsStatic } from "mathjs";
 import debugLog from "../shared/debugLog";
+import { constants } from "mtgatool-shared";
+
+const { IPC_BACKGROUND, IPC_RENDERER } = constants;
+
 const config = { precision: 2000 };
 const math: MathJsStatic = create(all, config) as MathJsStatic;
 

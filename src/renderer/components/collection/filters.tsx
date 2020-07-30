@@ -1,6 +1,5 @@
 import _, { isEqual } from "lodash";
 import { Row } from "react-table";
-import db from "../../../shared/database";
 import { StringFilter } from "../tables/filters";
 import { TableData } from "../tables/types";
 import {
@@ -22,11 +21,6 @@ import {
   historicAnthology2,
   historicAnthology3,
 } from "./customSets";
-
-type SetFilterValue = { [set: string]: boolean };
-
-const defaultSetFilter: SetFilterValue = { other: true };
-db.standardSetCodes.forEach((code: string) => (defaultSetFilter[code] = true));
 
 export function setFilterFn<D extends TableData>(
   rows: Row<D>[],

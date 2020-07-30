@@ -1,11 +1,12 @@
 import LogEntry from "../../types/logDecoder";
-import { DraftNotify } from "../../types/draft";
 import { setDraftPack } from "../../shared/store/currentDraftStore";
 import { ipcSend } from "../backgroundUtil";
 import globalStore from "../../shared/store";
-import { IPC_OVERLAY } from "../../shared/constants";
 import globals from "../globals";
 import debugLog from "../../shared/debugLog";
+import { constants, DraftNotify } from "mtgatool-shared";
+
+const { IPC_OVERLAY } = constants;
 
 interface Entry extends LogEntry {
   json: () => DraftNotify;

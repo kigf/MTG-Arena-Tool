@@ -1,7 +1,8 @@
 import React from "react";
-import { COLORS_BRIEF } from "../../../shared/constants";
 import { ManaSymbol } from "./ManaSymbol";
 import indexCss from "../../index.css";
+import { constants } from "mtgatool-shared";
+const { COLORS_BRIEF } = constants;
 
 export type ManaFilterKeys = "w" | "u" | "b" | "r" | "g" | "multi";
 

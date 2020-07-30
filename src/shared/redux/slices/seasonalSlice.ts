@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SeasonalRankData } from "../../../types/Season";
 import globalStore from "../../store";
+import { SeasonalRankData } from "mtgatool-shared";
 
 const initialSeasonalState = {
   seasonal: {} as Record<string, string[]>,

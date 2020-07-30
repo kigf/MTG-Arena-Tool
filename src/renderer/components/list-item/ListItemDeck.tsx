@@ -1,12 +1,8 @@
 import format from "date-fns/format";
 import _ from "lodash";
 import React from "react";
-import Deck from "../../../shared/deck";
-import {
-  formatPercent,
-  formatWinrateInterval,
-  getWinrateClass,
-} from "../../rendererUtil";
+import { Deck, formatPercent } from "mtgatool-shared";
+import { formatWinrateInterval, getWinrateClass } from "../../rendererUtil";
 import { DecksTableRowProps } from "../decks/types";
 import ManaCost from "../misc/ManaCost";
 import { NewTag, TagBubble } from "../misc/TagBubble";

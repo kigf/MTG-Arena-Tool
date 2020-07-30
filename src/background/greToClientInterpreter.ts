@@ -1,12 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/camelcase */
 import { app } from "electron";
-import { objectClone } from "../shared/utils/objectClone";
-import { IPC_OVERLAY } from "../shared/constants";
 import { ipcSend } from "./backgroundUtil";
 import globals from "./globals";
 import actionLog from "./actionLog";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import forceDeckUpdate from "./forceDeckUpdate";
 import getNameBySeat from "./getNameBySeat";
 import updateDeck from "./updateDeck";
@@ -59,9 +57,10 @@ import {
   setCardsBottom,
   addCardFromSideboard,
 } from "../shared/store/currentMatchStore";
-import countValues from "../shared/utils/countValues";
-import useSet from "../shared/utils/useSet";
 import debugLog from "../shared/debugLog";
+import { constants, objectClone, useSet, countValues } from "mtgatool-shared";
+
+const { IPC_OVERLAY } = constants;
 
 function changePriority(previous: number, current: number, time: number): void {
   const priorityTimers = objectClone(globalStore.currentMatch.priorityTimers);

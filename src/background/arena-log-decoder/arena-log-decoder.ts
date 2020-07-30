@@ -4,7 +4,7 @@
 import _ from "lodash";
 import nthLastIndexOf from "./nthLastIndexOf";
 import * as jsonText from "./jsonText";
-import sha1 from "js-sha1";
+import { sha1 } from "mtgatool-shared";
 import debugLog from "../../shared/debugLog";
 
 const LABEL_JSON_PATTERNS = [

@@ -2,13 +2,13 @@ import React, { PropsWithChildren } from "react";
 import { useDispatch } from "react-redux";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
-
+import { constants } from "mtgatool-shared";
 import css from "./ListItem.css";
 import indexCss from "../../index.css";
-
 import ArchiveIcon from "../../../assets/images/svg/archive.svg";
 import UnarchiveIcon from "../../../assets/images/svg/unarchive.svg";
+
+const { IPC_NONE } = constants;
 
 interface ListItemProps extends JSX.ElementChildrenAttribute {
   click: VoidFunction;

@@ -1,7 +1,6 @@
 import startOfDay from "date-fns/startOfDay";
 import React from "react";
 import { Column, useExpanded, useGroupBy, useSortBy } from "react-table";
-import { EVENTS_TABLE_MODE } from "../../../shared/constants";
 import {
   AggregatedContextCell,
   ArchivedCell,
@@ -33,6 +32,8 @@ import {
 import indexCss from "../../index.css";
 import tablesCss from "../tables/tables.css";
 import sharedCss from "../../../shared/shared.css";
+import { constants } from "mtgatool-shared";
+const { EVENTS_TABLE_MODE } = constants;
 
 function dateStart(values: number[]): number {
   return startOfDay(values?.[0] ?? NaN).getTime();

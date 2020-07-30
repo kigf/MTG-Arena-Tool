@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from "react";
 import { Column, IdType, Row, Filters } from "react-table";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import PagingControls from "../tables/PagingControls";
 import TableHeaders from "../tables/TableHeaders";
 import { BaseTableProps } from "../tables/types";
@@ -25,7 +25,8 @@ import sharedCss from "../../../shared/shared.css";
 import SetsView from "./SetsView";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import getFiltersFromQuery from "./collectionQuery";
-import { IPC_ALL, IPC_RENDERER } from "../../../shared/constants";
+import { constants } from "mtgatool-shared";
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 export default function CollectionTable({
   data,

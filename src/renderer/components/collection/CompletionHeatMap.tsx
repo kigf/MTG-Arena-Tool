@@ -1,10 +1,11 @@
 import React from "react";
-import { CARD_RARITIES, COLORS_LONG } from "../../../shared/constants";
 import { CardStats } from "./collectionStats";
 import useHoverCard from "../../hooks/useHoverCard";
-
+import { constants } from "mtgatool-shared";
 import sharedCss from "../../../shared/shared.css";
 import css from "./CompletionTableHeatMap.css";
+
+const { CARD_RARITIES, COLORS_LONG } = constants;
 
 type ColorData = { [key: string]: CardStats[] };
 type CardData = ColorData[];

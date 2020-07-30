@@ -2,27 +2,32 @@ import { ipcRenderer as ipc, webFrame } from "electron";
 import React, { useCallback, useEffect, useState } from "react";
 import { Howl, Howler } from "howler";
 import { useSelector, useDispatch } from "react-redux";
-import { reduxAction } from "../shared/redux/sharedRedux";
 import {
+  constants,
+  Deck,
+  MatchData,
+  InternalDraftv2,
+  OverlaySettingsData,
+} from "mtgatool-shared";
+import { reduxAction } from "../shared/redux/sharedRedux";
+import reloadTheme from "../shared/utils/reloadTheme";
+import { AppState } from "../shared/redux/stores/overlayStore";
+import CardDetailsWindowlet from "./CardDetailsWindowlet";
+import OverlayWindowlet from "./OverlayWindowlet";
+import Overview from "./overview";
+
+import css from "./index.css";
+import blipSound from "../assets/sounds/blip.mp3";
+
+const {
   ARENA_MODE_IDLE,
   IPC_BACKGROUND,
   IPC_RENDERER,
   IPC_OVERLAY,
   IPC_MAIN,
   IPC_ALL,
-} from "../shared/constants";
-import Deck from "../shared/deck";
-import { AppState } from "../shared/redux/stores/overlayStore";
-import { MatchData } from "../types/currentMatch";
-import { OverlaySettingsData } from "../types/settings";
-import CardDetailsWindowlet from "./CardDetailsWindowlet";
-import OverlayWindowlet from "./OverlayWindowlet";
-import Overview from "./overview";
-import css from "./index.css";
+} = constants;
 
-import blipSound from "../assets/sounds/blip.mp3";
-import { InternalDraftv2 } from "../types/draft";
-import reloadTheme from "../shared/utils/reloadTheme";
 const sound = new Howl({ src: [blipSound] });
 
 const byId = (id: string): HTMLElement | null => document.getElementById(id);

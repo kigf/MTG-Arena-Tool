@@ -1,29 +1,31 @@
 /* eslint-disable require-atomic-updates */
-import {
-  IPC_BACKGROUND,
-  IPC_OVERLAY,
-  IPC_RENDERER,
-  IPC_ALL,
-} from "../shared/constants";
 import { ipcSend, normalizeISOString } from "./backgroundUtil";
 import globals from "./globals";
 
-import getDeckAfterChange from "../shared/utils/getDeckAfterChange";
 import isEpochTimestamp from "../shared/utils/isEpochTimestamp";
 import { playerDb } from "../shared/db/LocalDatabase";
-import { isV2CardsList, ArenaV3Deck, DeckChange } from "../types/Deck";
 import arenaLogWatcher from "./arena-log-watcher";
-import convertDeckFromV3 from "./convertDeckFromV3";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { InternalMatch } from "../types/match";
 import store from "../shared/redux/stores/backgroundStore";
-import { InternalEvent } from "../types/event";
-import { InternalEconomyTransaction } from "../types/inventory";
-import Deck from "../shared/deck";
-import { InternalDraftv2, InternalDraft } from "../types/draft";
-import { SeasonalRankData } from "../types/Season";
-import convertDraftToV2 from "../shared/utils/convertDraftToV2";
 import debugLog from "../shared/debugLog";
+import {
+  constants,
+  convertDraftToV2,
+  Deck,
+  getDeckAfterChange,
+  convertDeckFromV3,
+  ArenaV3Deck,
+  isV2CardsList,
+  DeckChange,
+  InternalMatch,
+  InternalEvent,
+  InternalEconomyTransaction,
+  InternalDraftv2,
+  InternalDraft,
+  SeasonalRankData,
+} from "mtgatool-shared";
+
+const { IPC_BACKGROUND, IPC_OVERLAY, IPC_RENDERER, IPC_ALL } = constants;
 
 const ipcLog = (message: string): void => ipcSend("ipc_log", message);
 const ipcPop = (args: {

@@ -1,6 +1,6 @@
 import React from "react";
 import { getCardImage } from "../../shared/utils/getCardArtCrop";
-import database from "../../shared/database";
+import database from "../../shared/database-wrapper";
 import css from "./index.css";
 
 interface OverviewCardProps {

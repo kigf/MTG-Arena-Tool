@@ -1,8 +1,9 @@
 import _ from "lodash";
 import matchSorter from "match-sorter";
 import { FilterValue, Row } from "react-table";
-import { MANA } from "../../../shared/constants";
 import { EventTableData } from "./types";
+import { constants } from "mtgatool-shared";
+const { MANA } = constants;
 
 const colorSearchKeyFactory = (
   colorKey: string

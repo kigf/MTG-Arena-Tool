@@ -4,10 +4,12 @@ import http, { IncomingMessage, RequestOptions } from "http";
 import globals from "./globals";
 import { ipcSend } from "./backgroundUtil";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { IPC_RENDERER, SYNC_PUSH } from "../shared/constants";
 import { setSyncState } from "./httpApi";
 import { HttpMethod, HttpTask } from "../types/api";
 import debugLog from "../shared/debugLog";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER, SYNC_PUSH } = constants;
 
 const serverAddress = "127.0.0.1";
 

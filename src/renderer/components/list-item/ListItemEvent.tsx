@@ -2,8 +2,7 @@ import React, { useRef } from "react";
 import { TableViewRowProps } from "../tables/types";
 import { EventTableData } from "../events/types";
 import ManaCost from "../misc/ManaCost";
-import db from "../../../shared/database";
-
+import db from "../../../shared/database-wrapper";
 import {
   ListItem,
   Column,
@@ -14,31 +13,30 @@ import {
 } from "./ListItem";
 import ListItemMatch from "./ListItemMatch";
 import ListItemDraft from "./ListItemDraft";
-import {
-  DEFAULT_TILE,
-  SUB_MATCH,
-  SUB_DRAFT,
-  IPC_NONE,
-} from "../../../shared/constants";
 import { getEventWinLossClass, toggleArchived } from "../../rendererUtil";
-import { DbCardData } from "../../../types/Metadata";
 import RoundCard from "../misc/RoundCard";
 import { compareDesc } from "date-fns";
 import { useDispatch } from "react-redux";
-import { InternalMatch } from "../../../types/match";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
 import { getMatch, draftExists, getDraft } from "../../../shared/store";
 import css from "./ListItem.css";
 import sharedCss from "../../../shared/shared.css";
-import { InternalDraftv2 } from "../../../types/draft";
 import { useSpring, animated } from "react-spring";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { LabelText } from "../misc/LabelText";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import {
+  constants,
+  getEventPrettyName,
+  DbCardData,
+  InternalMatch,
+  InternalDraftv2,
+} from "mtgatool-shared";
+
+const { DEFAULT_TILE, SUB_MATCH, SUB_DRAFT, IPC_NONE } = constants;
 
 export function CardPoolRares(props: { pool: number[] }): JSX.Element {
   const { pool } = props;
-  const draftCards = pool.map((cardId: string | number) => db.card(cardId));
+  const draftCards = pool.map((cardId) => db.card(cardId));
   const draftRares = draftCards.filter(
     (card: DbCardData | undefined) => card && card.rarity == "rare"
   );
@@ -48,7 +46,7 @@ export function CardPoolRares(props: { pool: number[] }): JSX.Element {
 
   let element: JSX.Element | JSX.Element[] = <></>;
   const filteredPool = pool
-    .map((cardId: string | number) => db.card(cardId))
+    .map((cardId: number) => db.card(cardId))
     .filter(
       (card: DbCardData | undefined) =>
         card && (card.rarity == "rare" || card.rarity == "mythic")

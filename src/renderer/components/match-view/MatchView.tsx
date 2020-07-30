@@ -1,22 +1,17 @@
 import React, { useState, useCallback, useEffect } from "react";
 import fs from "fs";
 import path from "path";
-import { InternalMatch } from "../../../types/match";
 import ShareButton from "../misc/ShareButton";
 import ManaCost from "../misc/ManaCost";
-import Deck from "../../../shared/deck";
 import { actionLogDir, ipcSend } from "../../rendererUtil";
 import DeckList from "../misc/DeckList";
 import RankIcon from "../misc/RankIcon";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import CardList from "../misc/CardList";
-import CardsList from "../../../shared/cardsList";
 import ActionLog from "../../../shared/ActionLog";
 import { useDispatch } from "react-redux";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../../shared/constants";
 import { getMatch } from "../../../shared/store";
-import { MatchGameStats } from "../../../types/currentMatch";
 
 import css from "./MatchView.css";
 import indexCss from "../../index.css";
@@ -37,7 +32,16 @@ import Button from "../misc/Button";
 import { toMMSS } from "../../../shared/utils/dateTo";
 import Flex from "../misc/Flex";
 import ResultDetails from "../misc/ResultDetails";
-import getEventPrettyName from "../../../shared/utils/getEventPrettyName";
+import {
+  constants,
+  CardsList,
+  Deck,
+  getEventPrettyName,
+  MatchGameStats,
+  InternalMatch,
+} from "mtgatool-shared";
+
+const { IPC_NONE } = constants;
 
 interface MatchViewProps {
   match: InternalMatch;

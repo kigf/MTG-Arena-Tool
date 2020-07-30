@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Format } from "../../../types/Metadata";
+import { SeasonAndRankDetail, Format } from "mtgatool-shared";
 
 interface ShareDialog {
   open: boolean;
@@ -42,6 +42,9 @@ export const initialRendererState = {
     duration: 0,
   },
   formats: {} as Record<string, Format>,
+  season: {} as SeasonAndRankDetail,
+  rewards_daily_ends: "",
+  rewards_weekly_ends: "",
   authSettings: false,
   shareDialog: {
     open: false,
@@ -207,6 +210,24 @@ const rendererSlice = createSlice({
     ): void => {
       state.syncToPush = { ...action.payload };
     },
+    setSeason: (
+      state: RendererState,
+      action: PayloadAction<SeasonAndRankDetail>
+    ): void => {
+      state.season = action.payload;
+    },
+    setRewardsDailyEnds: (
+      state: RendererState,
+      action: PayloadAction<string>
+    ): void => {
+      state.rewards_daily_ends = action.payload;
+    },
+    setRewardsWeeklyEnds: (
+      state: RendererState,
+      action: PayloadAction<string>
+    ): void => {
+      state.rewards_weekly_ends = action.payload;
+    },
   },
 });
 
@@ -234,6 +255,9 @@ export const {
   setUpdateState,
   setSyncState,
   setSyncToPush,
+  setSeason,
+  setRewardsDailyEnds,
+  setRewardsWeeklyEnds,
 } = rendererSlice.actions;
 
 export default rendererSlice;

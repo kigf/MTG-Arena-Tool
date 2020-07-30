@@ -1,16 +1,21 @@
 // PROBABLY DEPRECATED
 import { playerDb } from "../../shared/db/LocalDatabase";
-import Deck from "../../shared/deck";
-import { InternalEvent, PlayerCourse } from "../../types/event";
+import {
+  Deck,
+  constants,
+  convertDeckFromV3,
+  PlayerCourse,
+  InternalEvent,
+} from "mtgatool-shared";
 import LogEntry from "../../types/logDecoder";
 import addCustomDeck from "../addCustomDeck";
 import globals from "../globals";
 import selectDeck from "../selectDeck";
-import convertDeckFromV3 from "../convertDeckFromV3";
 import { getEvent } from "../../shared/store";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_RENDERER } from "../../shared/constants";
 import { httpSubmitCourse } from "../httpApi";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => PlayerCourse;

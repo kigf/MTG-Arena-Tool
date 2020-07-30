@@ -1,10 +1,10 @@
 import React from "react";
-import { DATE_SEASON, RANKS } from "../../../shared/constants";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
-import { formatPercent } from "../../rendererUtil";
 import store from "../../../shared/redux/stores/rendererStore";
-
 import indexCss from "../../index.css";
+import { constants, formatPercent } from "mtgatool-shared";
+const { DATE_SEASON, RANKS } = constants;
+
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
 
 function getNextRank(currentRank: string): undefined | string {

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { DeckChange } from "../../../types/Deck";
 import CardTile from "../../../shared/CardTile";
 import cardTileCss from "../../../shared/CardTile/CardTile.css";
 import DeckList from "../misc/DeckList";
-import Deck from "../../../shared/deck";
+import { Deck, DeckChange, CardObject } from "mtgatool-shared";
 import Button from "../misc/Button";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { useSprings, animated } from "react-spring";
 import { getDeckChangesList } from "../../../shared/store";
 
@@ -117,7 +116,7 @@ export default function ChangesDeckView(
                   className={css.deckChangesExpand}
                 >
                   <div className={cardTileCss.cardTileSeparator}>Mainboard</div>
-                  {ch.changesMain.map((card) => {
+                  {ch.changesMain.map((card: CardObject) => {
                     const cardObj = db.card(card.id);
                     if (cardObj)
                       return (
@@ -137,7 +136,7 @@ export default function ChangesDeckView(
                       );
                   })}
                   <div className={cardTileCss.cardTileSeparator}>Sideboard</div>
-                  {ch.changesSide.map((card) => {
+                  {ch.changesSide.map((card: CardObject) => {
                     const cardObj = db.card(card.id);
                     if (cardObj)
                       return (

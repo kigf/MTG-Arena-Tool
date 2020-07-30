@@ -1,8 +1,7 @@
 import React from "react";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import CardTile from "../../../shared/CardTile";
-import CardsList from "../../../shared/cardsList";
-import { CardObject } from "../../../types/Deck";
+import { CardsList, CardObject } from "mtgatool-shared";
 
 interface CardListProps {
   list: CardsList;

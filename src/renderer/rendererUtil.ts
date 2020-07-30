@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-use-before-define, @typescript-eslint/camelcase */
 import { app, ipcRenderer as ipc, remote } from "electron";
 import path from "path";
-import { DbCardData } from "../types/Metadata";
-import { WinLossGate } from "../types/event";
-import {
-  IPC_BACKGROUND,
-  IPC_RENDERER,
-  CARD_RARITIES,
-} from "../shared/constants";
 import store from "../shared/redux/stores/rendererStore";
-import Deck from "../shared/deck";
-import db from "../shared/database";
+import db from "../shared/database-wrapper";
 import sharedCss from "../shared/shared.css";
 import { MissingWildcards, CardCounts } from "./components/decks/types";
+import {
+  constants,
+  Deck,
+  formatPercent,
+  DbCardData,
+  WinLossGate,
+} from "mtgatool-shared";
+
+const { IPC_BACKGROUND, IPC_RENDERER, CARD_RARITIES } = constants;
 
 export const actionLogDir = path.join(
   (app || remote.app).getPath("userData"),
@@ -36,16 +37,6 @@ export function getTagColor(tag?: string): string {
     (tag ? store.getState().playerdata.tagsColors[tag] : undefined) ??
     "var(--color-text)"
   );
-}
-
-export function formatPercent(
-  value: number,
-  config = { maximumSignificantDigits: 2 }
-): string {
-  return value.toLocaleString([], {
-    style: "percent",
-    ...config,
-  });
 }
 
 export function formatWinrateInterval(lower: number, upper: number): string {

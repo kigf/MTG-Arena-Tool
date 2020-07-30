@@ -1,9 +1,6 @@
-import { ARENA_MODE_IDLE } from "../../shared/constants";
-
 import globals from "../globals";
 import { ipcSend, parseWotcTimeFallback } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
-import { MatchGameRoomStateChange } from "../../types/match";
 import clearDeck from "../clearDeck";
 import saveMatch from "../saveMatch";
 import globalStore from "../../shared/store";
@@ -12,6 +9,9 @@ import {
   setOpponent,
   setCurrentMatchMany,
 } from "../../shared/store/currentMatchStore";
+import { constants, MatchGameRoomStateChange } from "mtgatool-shared";
+
+const { ARENA_MODE_IDLE } = constants;
 
 interface Entry extends LogEntry {
   json: () => MatchGameRoomStateChange;

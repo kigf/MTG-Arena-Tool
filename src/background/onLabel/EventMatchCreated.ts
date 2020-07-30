@@ -3,8 +3,8 @@ import globals from "../globals";
 import LogEntry from "../../types/logDecoder";
 import actionLog from "../actionLog";
 import { ipcSend } from "../backgroundUtil";
-import { ARENA_MODE_MATCH } from "../../shared/constants";
 import * as httpApi from "../httpApi";
+import { constants } from "mtgatool-shared";
 
 import {
   setEventId,
@@ -12,6 +12,8 @@ import {
   setOpponent,
   resetCurrentMatch,
 } from "../../shared/store/currentMatchStore";
+
+const { ARENA_MODE_MATCH } = constants;
 
 interface EntryJson {
   controllerFabricUri: string;

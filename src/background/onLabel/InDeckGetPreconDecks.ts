@@ -1,6 +1,6 @@
 import LogEntry from "../../types/logDecoder";
-import { ArenaV3Deck } from "../../types/Deck";
 import { ipcSend } from "../backgroundUtil";
+import { ArenaV3Deck } from "mtgatool-shared";
 
 interface Entry extends LogEntry {
   json: () => ArenaV3Deck[];

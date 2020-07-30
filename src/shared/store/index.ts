@@ -1,17 +1,23 @@
-import { InternalMatch } from "../../types/match";
-import { InternalEvent } from "../../types/event";
-import { DeckChange, InternalDeck, ArenaV3Deck } from "../../types/Deck";
-import { InternalEconomyTransaction } from "../../types/inventory";
-import { InternalDraftv2 } from "../../types/draft";
-import { SeasonalRankData } from "../../types/Season";
 import { matchStateObject } from "./currentMatchStore";
 import { draftStateObject } from "./currentDraftStore";
-import { DEFAULT_TILE } from "../constants";
-
+import {
+  constants,
+  MatchState,
+  InternalMatch,
+  InternalEvent,
+  InternalDeck,
+  DeckChange,
+  ArenaV3Deck,
+  InternalEconomyTransaction,
+  InternalDraftv2,
+  SeasonalRankData,
+} from "mtgatool-shared";
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 import prettierDeckData from "../utils/prettierDeckData";
 import getDeckColors from "../utils/getDeckColors";
+
+const { DEFAULT_TILE } = constants;
 
 const defaultDeck = JSON.parse(
   `{"deckTileId":${DEFAULT_TILE},"description":null,"format":"Standard","colors":[],"id":"00000000-0000-0000-0000-000000000000","isValid":false,"lastUpdated":"2018-05-31T00:06:29.7456958","lockedForEdit":false,"lockedForUse":false,"mainDeck":[],"name":"Undefined","resourceId":"00000000-0000-0000-0000-000000000000","sideboard":[]}`
@@ -28,7 +34,7 @@ const globalStore = {
   draftsv2: {} as Record<string, InternalDraftv2>,
   seasonal: {} as Record<string, SeasonalRankData>,
   deckChanges: {} as Record<string, DeckChange>,
-  currentMatch: matchStateObject,
+  currentMatch: matchStateObject as MatchState,
   currentDraft: draftStateObject,
   preconDecks: {} as { [id: string]: ArenaV3Deck },
 };

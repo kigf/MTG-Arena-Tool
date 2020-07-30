@@ -1,8 +1,7 @@
 /* eslint-disable complexity */
 import _ from "lodash";
 import { Filters } from "react-table";
-import Colors from "../../../shared/colors";
-import { WHITE, BLUE, RED, BLACK, GREEN } from "../../../shared/constants";
+import { constants, Colors } from "mtgatool-shared";
 import { StringFilter } from "../tables/filters";
 import {
   ParsedToken,
@@ -21,6 +20,7 @@ import {
   MinMaxFilter,
   InBoolFilter,
 } from "./types";
+const { WHITE, BLUE, RED, BLACK, GREEN } = constants;
 
 /**
  * Matches a query string and returns an array to be used in the filters converter

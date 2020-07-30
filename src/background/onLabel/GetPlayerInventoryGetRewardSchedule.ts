@@ -1,6 +1,9 @@
-import db from "../../shared/database";
-import { ipcSend } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
+import { reduxAction } from "../../shared/redux/sharedRedux";
+import globals from "../globals";
+import { constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Reward {
   wins: number;
@@ -35,21 +38,27 @@ export default function GetPlayerInventoryGetRewardSchedule(
   const json = entry.json();
   if (!json) return;
 
-  const data = {
-    daily: db.rewards_daily_ends.toISOString(),
-    weekly: db.rewards_weekly_ends.toISOString(),
-  };
-
   if (json.dailyReset) {
-    if (!json.dailyReset.endsWith("Z")) json.dailyReset = json.dailyReset + "Z";
-    data.daily = json.dailyReset;
+    if (!json.dailyReset.endsWith("Z")) {
+      json.dailyReset = json.dailyReset + "Z";
+    }
+
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_DAILY_ENDS", arg: json.dailyReset },
+      IPC_RENDERER
+    );
   }
 
   if (json.weeklyReset) {
-    if (!json.weeklyReset.endsWith("Z"))
+    if (!json.weeklyReset.endsWith("Z")) {
       json.weeklyReset = json.weeklyReset + "Z";
-    data.weekly = json.weeklyReset;
-  }
+    }
 
-  ipcSend("set_reward_resets", data);
+    reduxAction(
+      globals.store.dispatch,
+      { type: "SET_WEEKLY_ENDS", arg: json.weeklyReset },
+      IPC_RENDERER
+    );
+  }
 }

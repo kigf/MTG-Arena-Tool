@@ -1,17 +1,23 @@
 import React, { useCallback } from "react";
 import {
-  OVERLAY_DRAFT,
-  OVERLAY_DRAFT_BREW,
-  PACK_SIZES,
-  DEFAULT_PACK_SIZE,
-} from "../shared/constants";
-import Deck from "../shared/deck";
-import { DraftState, InternalDraftv2 } from "../types/draft";
-import { OverlaySettingsData } from "../types/settings";
+  constants,
+  Deck,
+  InternalDraftv2,
+  DraftState,
+  OverlaySettingsData,
+} from "mtgatool-shared";
+
 import DeckList from "./DeckList";
 
 import css from "./index.css";
 import ManaCost from "../renderer/components/misc/ManaCost";
+
+const {
+  OVERLAY_DRAFT,
+  OVERLAY_DRAFT_BREW,
+  PACK_SIZES,
+  DEFAULT_PACK_SIZE,
+} = constants;
 
 const packSizeMap: { [key: string]: number } = PACK_SIZES;
 

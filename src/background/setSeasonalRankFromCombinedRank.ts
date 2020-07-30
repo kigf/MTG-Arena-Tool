@@ -1,11 +1,11 @@
-import { InternalRank } from "../types/rank";
 import globals from "./globals";
-import { SeasonalRankData } from "../types/Season";
 import globalStore, { seasonalList, seasonalExists } from "../shared/store";
 import { reduxAction } from "../shared/redux/sharedRedux";
-import { IPC_RENDERER } from "../shared/constants";
 import { playerDb } from "../shared/db/LocalDatabase";
 import { httpSetSeasonal } from "./httpApi";
+import { constants, InternalRank, SeasonalRankData } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 export default function setSeasonalRankFromCombinedRank(
   rank: InternalRank
@@ -27,6 +27,7 @@ export default function setSeasonalRankFromCombinedRank(
     owner,
     arenaId: playerData.playerName,
     playerId: playerData.arenaId,
+    arenaId: playerData.playerName,
     rankUpdateType: type,
     id: currentMatch.matchId,
     eventId: currentMatch.eventId,

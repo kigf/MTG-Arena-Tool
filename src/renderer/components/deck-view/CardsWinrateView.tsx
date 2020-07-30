@@ -1,18 +1,21 @@
 import React, { useCallback, useMemo } from "react";
-import getDeckAfterChange from "../../../shared/utils/getDeckAfterChange";
-import Deck from "../../../shared/deck";
+import {
+  compareCards,
+  getDeckAfterChange,
+  Deck,
+  DbCardData,
+  DeckChange,
+  CardObject,
+} from "mtgatool-shared";
 import Button from "../misc/Button";
 import Aggregator, {
   AggregatorFilters,
   CardWinrateData,
 } from "../../aggregator";
 import CardTile from "../../../shared/CardTile";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { getWinrateClass } from "../../rendererUtil";
-import { DbCardData } from "../../../types/Metadata";
 import { getDeckChangesList } from "../../../shared/store";
-import { compareCards } from "../../../shared/utils/compareCards";
-import { DeckChange, CardObject } from "../../../types/Deck";
 import ReactSelect from "../../../shared/ReactSelect";
 import { format } from "date-fns";
 import { useTable, useSortBy } from "react-table";
@@ -238,7 +241,7 @@ export default function CardsWinratesView(
   const data = useMemo(
     () =>
       Object.keys(winrates).map((grpid) => {
-        const cardObj = db.card(grpid);
+        const cardObj = db.card(parseInt(grpid));
         return cardObj
           ? cardWinrateLineData(winrates, cardObj, 1, cardObj.name)
           : {

@@ -2,16 +2,13 @@ import format from "date-fns/format";
 import _ from "lodash";
 import React from "react";
 import { HeaderProps } from "react-table";
-import {
-  formatPercent,
-  formatWinrateInterval,
-  getWinrateClass,
-} from "../../rendererUtil";
+import { formatWinrateInterval, getWinrateClass } from "../../rendererUtil";
 import { BoosterSymbol } from "../misc/BoosterSymbol";
 import { MetricText } from "../misc/MetricText";
 import { RaritySymbol } from "../misc/RaritySymbol";
 import { DecksData, DecksTableCellProps } from "./types";
 import store from "../../../shared/redux/stores/rendererStore";
+import { formatPercent } from "mtgatool-shared";
 
 export function WinRateCell({ cell }: DecksTableCellProps): JSX.Element {
   const {

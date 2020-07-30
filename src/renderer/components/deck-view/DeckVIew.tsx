@@ -1,15 +1,20 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { InternalDeck, CardObject } from "../../../types/Deck";
 import ManaCost from "../misc/ManaCost";
-import { MANA_COLORS, IPC_NONE } from "../../../shared/constants";
 import DeckList from "../misc/DeckList";
 import DeckTypesStats from "../../../shared/TypesStats";
 import DeckManaCurve from "../../../shared/ManaCurve";
-import Deck from "../../../shared/deck";
+import {
+  constants,
+  Deck,
+  getDeckColorsAmmount,
+  getDeckLandsAmmount,
+  InternalDeck,
+  CardObject,
+} from "mtgatool-shared";
 import Button from "../misc/Button";
 import { ipcSend } from "../../rendererUtil";
 import { useDispatch, useSelector } from "react-redux";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import ShareButton from "../misc/ShareButton";
 import CraftingCost from "./CraftingCost";
 import { reduxAction } from "../../../shared/redux/sharedRedux";
@@ -33,13 +38,13 @@ import timestamp from "../../../shared/utils/timestamp";
 import IncognitoButton from "../misc/IncognitoButton";
 import WildcardsCostPreset from "../misc/WildcardsCostPreset";
 import Separator from "../misc/Separator";
-import getDeckColorsAmmount from "../misc/getDeckColorsAmmount";
-import getDeckLandsAmmount from "../misc/getDeckLandsAmmount";
 import { getCardArtCrop } from "../../../shared/utils/getCardArtCrop";
 import DeckColorsBar from "../misc/DeckColorsBar";
 import Section from "../misc/Section";
 import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
+
+const { MANA_COLORS, IPC_NONE } = constants;
 
 const VIEW_VISUAL = 0;
 const VIEW_REGULAR = 1;

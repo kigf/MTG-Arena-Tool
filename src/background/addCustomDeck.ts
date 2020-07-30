@@ -1,9 +1,10 @@
 import { playerDb } from "../shared/db/LocalDatabase";
-import { InternalDeck } from "../types/Deck";
 import { getDeck } from "../shared/store";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import globals from "./globals";
-import { IPC_RENDERER } from "../shared/constants";
+import { constants, InternalDeck } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 export default function addCustomDeck(customDeck: Partial<InternalDeck>): void {
   const id = customDeck.id ?? "";

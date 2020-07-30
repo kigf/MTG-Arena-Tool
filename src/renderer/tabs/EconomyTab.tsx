@@ -4,16 +4,16 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { TableState } from "react-table";
 import store, { AppState } from "../../shared/redux/stores/rendererStore";
-import { InternalEconomyTransaction } from "../../types/inventory";
 import EconomyTable from "../components/economy/EconomyTable";
 import { getPrettyContext } from "../components/economy/economyUtils";
 import { TransactionData } from "../components/economy/types";
 import { toggleArchived } from "../rendererUtil";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_ALL, IPC_RENDERER } from "../../shared/constants";
 import { transactionsList } from "../../shared/store";
-
 import appCss from "../app/app.css";
+import { constants, InternalEconomyTransaction } from "mtgatool-shared";
+
+const { IPC_ALL, IPC_RENDERER } = constants;
 
 function saveTableState(economyTableState: TableState<TransactionData>): void {
   reduxAction(

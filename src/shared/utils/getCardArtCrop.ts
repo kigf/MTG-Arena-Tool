@@ -1,9 +1,8 @@
-import { DbCardData } from "../../types/Metadata";
-
 import notFound from "../../assets/images/notfound.png";
 import notFoundArt from "../../assets/images/notFoundArt.png";
-import database from "../database";
+import database from "../database-wrapper";
 import debugLog from "../debugLog";
+import { DbCardData } from "mtgatool-shared";
 
 export function getCardImage(
   card: DbCardData | number | undefined,

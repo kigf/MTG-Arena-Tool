@@ -5,13 +5,12 @@ import sharedCss from "../../shared/shared.css";
 import css from "./index.css";
 import store from "../../shared/redux/stores/overlayStore";
 import RankIcon from "../../renderer/components/misc/RankIcon";
-import { matchStateObject as MatchState } from "../../shared/store/currentMatchStore";
 import { toMMSS } from "../../shared/utils/dateTo";
 import { ComparisonBar, ComparisonBarArray } from "../comparisonBar";
 import HeatMap from "../HeatpMap";
 import OverviewCard from "../overviewCard";
-import { CardCast } from "../../types/currentMatch";
 import CloseIcon from "../../assets/images/svg/win-close.svg";
+import { CardCast, MatchState } from "mtgatool-shared";
 
 const primaryBounds = remote.screen.getPrimaryDisplay().bounds;
 
@@ -47,7 +46,7 @@ function getCastData(
 }
 
 interface OverviewProps {
-  matchData: typeof MatchState;
+  matchData: MatchState;
   closeCallback: () => void;
 }
 

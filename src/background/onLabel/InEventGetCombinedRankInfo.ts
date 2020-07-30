@@ -1,12 +1,13 @@
 import LogEntry from "../../types/logDecoder";
 import { playerDb } from "../../shared/db/LocalDatabase";
-import { InternalRank } from "../../types/rank";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { IPC_RENDERER } from "../../shared/constants";
 import setSeasonalRankFromCombinedRank from "../setSeasonalRankFromCombinedRank";
 import globalStore from "../../shared/store";
 import isRankedEvent from "../../shared/utils/isRankedEvent";
+import { constants, InternalRank } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface EntryJson {
   playerId: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import { InternalMatch } from "../../../types/match";
 import indexCss from "../../index.css";
+import { InternalMatch } from "mtgatool-shared";
 
 interface ResultDetailsProps {
   match: InternalMatch;

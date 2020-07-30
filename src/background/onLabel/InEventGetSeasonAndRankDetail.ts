@@ -1,7 +1,9 @@
-import db from "../../shared/database";
-import { ipcSend } from "../backgroundUtil";
 import LogEntry from "../../types/logDecoder";
-import { SeasonAndRankDetail } from "../../types/event";
+import { reduxAction } from "../../shared/redux/sharedRedux";
+import globals from "../globals";
+import { constants, SeasonAndRankDetail } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => SeasonAndRankDetail;
@@ -12,6 +14,10 @@ export default function onLabelInEventGetSeasonAndRankDetail(
 ): void {
   const json = entry.json();
   if (!json) return;
-  db.handleSetSeason(null, json);
-  ipcSend("set_season", json);
+
+  reduxAction(
+    globals.store.dispatch,
+    { type: "SET_SEASON", arg: json },
+    IPC_RENDERER
+  );
 }

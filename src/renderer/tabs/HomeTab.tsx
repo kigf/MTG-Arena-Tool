@@ -1,18 +1,19 @@
-import React from "react";
-import db from "../../shared/database";
+import React, { useCallback } from "react";
+import db from "../../shared/database-wrapper";
 import { ipcSend } from "../rendererUtil";
 import { toDDHHMMSS } from "../../shared/utils/dateTo";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../shared/redux/stores/rendererStore";
 import { reduxAction } from "../../shared/redux/sharedRedux";
-import { IPC_NONE } from "../../shared/constants";
-
 import appCss from "../app/app.css";
 import sharedCss from "../../shared/shared.css";
 import cardTileCss from "../../shared/CardTile/CardTile.css";
 import indexCss from "../index.css";
 import css from "./HomeTab.css";
 import timestamp from "../../shared/utils/timestamp";
+import { constants } from "mtgatool-shared";
+
+const { IPC_NONE } = constants;
 
 export interface WildcardsChange {
   grpId: number;
@@ -24,6 +25,9 @@ export interface WildcardsChange {
 export default function HomeTab(): JSX.Element {
   const wildcards = useSelector((state: AppState) => state.homeData.wildcards);
   const fSet = useSelector((state: AppState) => state.homeData.filteredSet);
+  const { rewards_daily_ends, rewards_weekly_ends } = useSelector(
+    (state: AppState) => state.renderer
+  );
   const usersActive = useSelector(
     (state: AppState) => state.homeData.usersActive
   );
@@ -41,15 +45,15 @@ export default function HomeTab(): JSX.Element {
     "Weekly rewards end: -"
   );
 
-  const updateRewards = (): void => {
-    let dd = db.rewards_daily_ends;
+  const updateRewards = useCallback((): void => {
+    let dd = new Date(rewards_daily_ends);
     let timeleft = dd.getTime() / 1000 - timestamp();
     setDailyRewards("Daily rewards end: " + toDDHHMMSS(timeleft));
 
-    dd = db.rewards_weekly_ends;
+    dd = new Date(rewards_weekly_ends);
     timeleft = dd.getTime() / 1000 - timestamp();
     setWeeklyRewards("Weekly rewards end: " + toDDHHMMSS(timeleft));
-  };
+  }, [rewards_daily_ends, rewards_weekly_ends]);
 
   React.useEffect(() => {
     updateRewards();
@@ -57,7 +61,7 @@ export default function HomeTab(): JSX.Element {
     return (): void => {
       clearInterval(homeInterval);
     };
-  }, []);
+  }, [updateRewards]);
 
   const requestHome = (set: string): void => {
     ipcSend("request_home", set);

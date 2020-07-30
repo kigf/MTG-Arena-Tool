@@ -1,8 +1,9 @@
 import LogEntry from "../../types/logDecoder";
-import { Format } from "../../types/Metadata";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import globals from "../globals";
-import { IPC_RENDERER } from "../../shared/constants";
+import { Format, constants } from "mtgatool-shared";
+
+const { IPC_RENDERER } = constants;
 
 interface Entry extends LogEntry {
   json: () => Format[];

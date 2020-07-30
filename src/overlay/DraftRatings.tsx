@@ -1,8 +1,9 @@
 import * as React from "react";
-import { DRAFT_RANKS, DRAFT_RANKS_LOLA } from "../shared/constants";
-import { DbCardData } from "../types/Metadata";
 import { getRankColorClass } from "../shared/utils/getRankColorClass";
 import css from "./index.css";
+import { DbCardData, constants } from "mtgatool-shared";
+
+const { DRAFT_RANKS, DRAFT_RANKS_LOLA } = constants;
 
 interface DraftRankValueProps {
   index: number;

@@ -5,7 +5,18 @@ import { ipcSend } from "../../rendererUtil";
 import Toggle from "../misc/Toggle";
 import Slider from "../misc/Slider";
 import _ from "lodash";
-import {
+import ReactSelect from "../../../shared/ReactSelect";
+import useColorPicker from "../../hooks/useColorPicker";
+import { useSelector } from "react-redux";
+import store, { AppState } from "../../../shared/redux/stores/rendererStore";
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import defaultConfig from "../../../shared/defaultConfig";
+import { Howl, Howler } from "howler";
+import css from "./Sections.css";
+import indexCss from "../../index.css";
+import topNavCss from "../main/topNav.css";
+import { constants } from "mtgatool-shared";
+const {
   COLORS_ALL,
   OVERLAY_DRAFT,
   OVERLAY_LEFT,
@@ -18,18 +29,7 @@ import {
   OVERLAY_DRAFT_MODES,
   IPC_RENDERER,
   IPC_ALL,
-} from "../../../shared/constants";
-import ReactSelect from "../../../shared/ReactSelect";
-import useColorPicker from "../../hooks/useColorPicker";
-import { useSelector } from "react-redux";
-import store, { AppState } from "../../../shared/redux/stores/rendererStore";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
-import defaultConfig from "../../../shared/defaultConfig";
-import { Howl, Howler } from "howler";
-
-import css from "./Sections.css";
-import indexCss from "../../index.css";
-import topNavCss from "../main/topNav.css";
+} = constants;
 
 function toggleEditMode(): void {
   ipcSend("toggle_edit_mode");

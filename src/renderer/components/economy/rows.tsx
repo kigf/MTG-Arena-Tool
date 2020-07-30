@@ -1,11 +1,12 @@
 import React from "react";
-import { ECONOMY_TABLE_MODE } from "../../../shared/constants";
 import { TableViewRow } from "../tables/TableViewRow";
 import { TableViewRowProps } from "../tables/types";
 import { EconomyDayHeader, EconomyDayHeaderProps } from "./EconomyDayHeader";
 import { EconomyTableRowProps, TransactionData } from "./types";
 import css from "./economy.css";
 import { ListItemEconomy } from "../list-item/ListItemEconomy";
+import { constants } from "mtgatool-shared";
+const { ECONOMY_TABLE_MODE } = constants;
 
 function EconomyListViewGroup({
   row,

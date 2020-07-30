@@ -1,8 +1,9 @@
-import { InventoryDelta } from "../types/inventory";
 import { reduxAction } from "../shared/redux/sharedRedux";
 import globals from "./globals";
-import { IPC_RENDERER, IPC_OVERLAY } from "../shared/constants";
 import { playerDb } from "../shared/db/LocalDatabase";
+import { constants, InventoryDelta } from "mtgatool-shared";
+
+const { IPC_RENDERER, IPC_OVERLAY } = constants;
 
 export default function inventoryAddDelta(
   delta: Partial<InventoryDelta>

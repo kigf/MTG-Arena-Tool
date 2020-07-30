@@ -1,16 +1,9 @@
 import React, { useCallback } from "react";
 import Slider, { SliderPosition } from "../misc/Slider";
 import DeckList from "../misc/DeckList";
-import Deck from "../../../shared/deck";
-import {
-  PACK_SIZES,
-  DRAFT_RANKS,
-  DRAFT_RANKS_LOLA,
-  IPC_NONE,
-  DEFAULT_PACK_SIZE,
-} from "../../../shared/constants";
+import { constants, Deck, InternalDraftv2 } from "mtgatool-shared";
 import useHoverCard from "../../hooks/useHoverCard";
-import db from "../../../shared/database";
+import db from "../../../shared/database-wrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { getDraft } from "../../../shared/store";
@@ -24,11 +17,18 @@ import {
   getCardArtCrop,
 } from "../../../shared/utils/getCardArtCrop";
 import { getRankColorClass } from "../../../shared/utils/getRankColorClass";
-import { InternalDraftv2 } from "../../../types/draft";
 import BackIcon from "../../../assets/images/svg/back.svg";
 import SvgButton from "../misc/SvgButton";
 import ManaCost from "../misc/ManaCost";
 import Section from "../misc/Section";
+
+const {
+  PACK_SIZES,
+  DRAFT_RANKS,
+  DRAFT_RANKS_LOLA,
+  IPC_NONE,
+  DEFAULT_PACK_SIZE,
+} = constants;
 
 interface PickPack {
   pack: number;

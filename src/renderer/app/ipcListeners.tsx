@@ -3,22 +3,23 @@
 /* eslint-disable no-console */
 import { ipcRenderer as ipc, IpcRendererEvent, remote } from "electron";
 import timestamp from "../../shared/utils/timestamp";
-import {
+import { ipcSend } from "../rendererUtil";
+import { reduxAction } from "../../shared/redux/sharedRedux";
+import globalStore from "../../shared/store";
+import { AnyAction, Dispatch } from "redux";
+import store from "../../shared/redux/stores/rendererStore";
+import debugLog from "../../shared/debugLog";
+import reloadTheme from "../../shared/utils/reloadTheme";
+import { constants, ArenaV3Deck } from "mtgatool-shared";
+
+const {
   MAIN_SETTINGS,
   IPC_NONE,
   LOGIN_OK,
   LOGIN_FAILED,
   LOGIN_WAITING,
   SETTINGS_ABOUT,
-} from "../../shared/constants";
-import { ipcSend } from "../rendererUtil";
-import { reduxAction } from "../../shared/redux/sharedRedux";
-import globalStore from "../../shared/store";
-import { ArenaV3Deck } from "../../types/Deck";
-import { AnyAction, Dispatch } from "redux";
-import store from "../../shared/redux/stores/rendererStore";
-import debugLog from "../../shared/debugLog";
-import reloadTheme from "../../shared/utils/reloadTheme";
+} = constants;
 
 export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
   debugLog("--------");

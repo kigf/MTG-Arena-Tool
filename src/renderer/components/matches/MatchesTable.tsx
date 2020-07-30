@@ -1,6 +1,5 @@
 import React from "react";
 import { Column, Row } from "react-table";
-import { DATE_SEASON, MATCHES_TABLE_MODE } from "../../../shared/constants";
 import Aggregator, { AggregatorFilters } from "../../aggregator";
 import ListItemMatch from "../list-item/ListItemMatch";
 import MatchResultsStatsPanel from "../misc/MatchResultsStatsPanel";
@@ -49,6 +48,8 @@ import useResizePanel from "../../hooks/useResizePanel";
 import indexCss from "../../index.css";
 import tablesCss from "../tables/tables.css";
 import sharedCss from "../../../shared/shared.css";
+import { constants } from "mtgatool-shared";
+const { DATE_SEASON, MATCHES_TABLE_MODE } = constants;
 
 const { RANKED_CONST, RANKED_DRAFT } = Aggregator;
 

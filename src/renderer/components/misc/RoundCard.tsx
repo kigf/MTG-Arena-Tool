@@ -1,7 +1,7 @@
 import React from "react";
-import { DbCardData, Rarity } from "../../../types/Metadata";
 import indexCss from "../../index.css";
 import { getCardImage } from "../../../shared/utils/getCardArtCrop";
+import { DbCardData, Rarity } from "mtgatool-shared";
 
 interface RoundCardProps {
   card: DbCardData;

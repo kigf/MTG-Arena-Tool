@@ -1,7 +1,10 @@
 import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 import electron from "electron";
-import { IPC_NONE } from "../constants";
 import { actions, ActionKeys } from "./actions";
+import { constants } from "mtgatool-shared";
+
+const { IPC_NONE } = constants;
+
 const ipcRenderer = electron.ipcRenderer;
 
 type DispatchParameter<K extends ActionKeys> = {

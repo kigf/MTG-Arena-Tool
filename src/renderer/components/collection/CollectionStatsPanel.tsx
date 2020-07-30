@@ -1,7 +1,6 @@
 import { shell } from "electron";
 import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { CARD_RARITIES, IPC_NONE } from "../../../shared/constants";
 import ReactSelect from "../../../shared/ReactSelect";
 import { AppState } from "../../../shared/redux/stores/rendererStore";
 import { formatNumber } from "../../rendererUtil";
@@ -26,6 +25,8 @@ import Flex from "../misc/Flex";
 import { removeFilterFromQuery } from "./collectionQuery";
 import { InBoolFilter, CardsData } from "./types";
 import { Filters } from "react-table";
+import { constants } from "mtgatool-shared";
+const { CARD_RARITIES, IPC_NONE } = constants;
 
 const getRarityKey = (
   rarity: string

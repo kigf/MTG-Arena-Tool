@@ -5,18 +5,17 @@ import store, { AppState } from "../../../shared/redux/stores/rendererStore";
 import { shell } from "electron";
 import Checkbox from "../misc/Checkbox";
 import { ipcSend } from "../../rendererUtil";
-import {
+import { reduxAction } from "../../../shared/redux/sharedRedux";
+import css from "./auth.css";
+import formsCss from "../../forms.css";
+import { constants, sha1 } from "mtgatool-shared";
+const {
   HIDDEN_PW,
   IPC_NONE,
   IPC_BACKGROUND,
   IPC_ALL,
   IPC_RENDERER,
-} from "../../../shared/constants";
-import { reduxAction } from "../../../shared/redux/sharedRedux";
-import sha1 from "js-sha1";
-
-import css from "./auth.css";
-import formsCss from "../../forms.css";
+} = constants;
 
 function clickRememberMe(value: boolean): void {
   reduxAction(
