@@ -18,17 +18,19 @@ import showOpenLogDialog from "../../../shared/utils/showOpenLogDialog";
 import { constants } from "mtgatool-shared";
 const { IPC_ALL, IPC_RENDERER } = constants;
 
-const LANGUAGES = [
+const SCRYFALL_LANGS = [
   "en",
-  "es",
-  "br",
+  "ph",
   "de",
+  "es",
   "fr",
   "it",
-  "js",
   "ru",
-  "ko-kr",
-  "zh-cn",
+  "pt",
+  "ja",
+  "zhs",
+  "ko",
+  "ph",
 ];
 
 function getLanguageName(lang: string): string {
@@ -49,9 +51,9 @@ function getLanguageName(lang: string): string {
       return "Japanese";
     case "ru":
       return "Russian";
-    case "ko-kr":
+    case "ko":
       return "Korean";
-    case "zh-cn":
+    case "zhs":
       return "Chinese (simplified)";
     default:
       return "-";
@@ -160,7 +162,7 @@ export default function SectionData(): JSX.Element {
       <div className={css.centered_setting_container}>
         <label>Arena Data </label>
         <ReactSelect
-          options={LANGUAGES}
+          options={SCRYFALL_LANGS}
           current={appSettings.metadataLang}
           optionFormatter={getLanguageName}
           callback={setCardsLanguage}
