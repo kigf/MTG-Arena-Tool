@@ -800,21 +800,17 @@ export function httpGetDatabaseVersion(lang: string): void {
 }
 
 export function httpDraftShareLink(
-  did: string,
+  id: string,
+  draftData: InternalDraftv2,
   exp: number,
-  draftData: InternalDraftv2
 ): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "shareDraft",
-      method_path: "/share/draft",
-      data: {
-        id: did,
-        draft: draftData,
-        expire: exp,
-      },
+      method_path: "/draft/share/" + id + "?expires=" + exp,
+      data: draftData,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_draft_link", parsedResult.url);
@@ -822,18 +818,18 @@ export function httpDraftShareLink(
   );
 }
 
-export function httpLogShareLink(lid: string, log: string, exp: number): void {
+export function httpMatchShareLink(
+  id: string,
+  matchData: InternalMatch,
+  exp: number
+): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
-      method: "shareLog",
-      method_path: "/share/log",
-      data: {
-        id: lid,
-        log: log,
-        expire: exp,
-      },
+      method: "shareMatch",
+      method_path: "/match/share/" + id + "?expires=" + exp,
+      data: matchData,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_log_link", parsedResult.url);
@@ -841,17 +837,18 @@ export function httpLogShareLink(lid: string, log: string, exp: number): void {
   );
 }
 
-export function httpDeckShareLink(deck: InternalDeck, exp: number): void {
+export function httpDeckShareLink(
+  id: string,
+  deckData: InternalDeck,
+  exp: number
+): void {
   const _id = makeId(6);
   globals.httpQueue?.push(
     {
       reqId: _id,
       method: "shareDeck",
-      method_path: "/share/deck",
-      data: {
-        deck: deck,
-        expire: exp,
-      },
+      method_path: "/deck/share/" + id + "?expires=" + exp,
+      data: deckData,
     },
     makeSimpleResponseHandler((parsedResult: any) => {
       ipcSend("set_deck_link", parsedResult.url);

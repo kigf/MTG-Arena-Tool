@@ -196,17 +196,17 @@ ipc.on("admin_update_explore", function (_event, arg) {
 
 //
 ipc.on("request_draft_link", function (_event, obj) {
-  httpApi.httpDraftShareLink(obj.id, obj.expire, obj.draftData);
+  httpApi.httpDraftShareLink(obj.id, obj.data, obj.expire);
 });
 
 //
-ipc.on("request_log_link", function (_event, obj) {
-  httpApi.httpLogShareLink(obj.id, obj.log, obj.expire);
+ipc.on("request_match_link", function (_event, obj) {
+  httpApi.httpMatchShareLink(obj.id, obj.data, obj.expire);
 });
 
 //
 ipc.on("request_deck_link", function (_event, obj) {
-  httpApi.httpDeckShareLink(obj.deckString, obj.expire);
+  httpApi.httpDeckShareLink(obj.id, obj.data, obj.expire);
 });
 
 //

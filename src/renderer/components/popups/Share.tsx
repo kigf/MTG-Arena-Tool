@@ -10,19 +10,20 @@ import formsCss from "../../forms.css";
 import indexCss from "../../index.css";
 const { IPC_NONE } = constants;
 
-function shareTypeId(type: string): number {
+function shareTypeId(type: string): string {
+  const now = new Date().getTime();
   switch (type) {
     case "One day":
-      return 0;
+      return new Date(now + 1 * 24 * 60 * 60 * 1000).toISOString();
     case "One week":
-      return 1;
+      return new Date(now + 7 * 24 * 60 * 60 * 1000).toISOString();
     case "One month":
-      return 2;
+      return new Date(now + 30 * 24 * 60 * 60 * 1000).toISOString();
       break;
     case "Never":
-      return -1;
+      return new Date(8640000000000000).toISOString();
     default:
-      return 0;
+      return new Date().toISOString();
   }
 }
 
@@ -57,20 +58,21 @@ export default function Share(props: ShareProps): JSX.Element {
         case "draft":
           ipcSend("request_draft_link", {
             expire: shareTypeId(option),
+            data,
             id,
-            draftData: data,
+          });
+          break;
+        case "match":
+          ipcSend("request_match_link", {
+            expire: shareTypeId(option),
+            data,
+            id,
           });
           break;
         case "deck":
           ipcSend("request_deck_link", {
             expire: shareTypeId(option),
-            deckString: data,
-          });
-          break;
-        case "actionlog":
-          ipcSend("request_log_link", {
-            expire: shareTypeId(option),
-            log: data,
+            data,
             id,
           });
           break;
