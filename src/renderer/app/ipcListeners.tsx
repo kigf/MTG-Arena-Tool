@@ -226,6 +226,15 @@ export default function ipcListeners(dispatcher: Dispatch<AnyAction>): void {
     );
   });
 
+  ipc.on("set_cards", (_event: IpcRendererEvent, arg: any): void => {
+    reduxAction(dispatcher, { type: "SET_LOADING", arg: false }, IPC_NONE);
+    reduxAction(
+      dispatcher,
+      { type: "SET_CARDS_DATA", arg: arg.result },
+      IPC_NONE
+    );
+  });
+
   ipc.on("set_update_state", (_event: IpcRendererEvent, arg: any): void => {
     reduxAction(dispatcher, { type: "SET_UPDATE_STATE", arg: arg }, IPC_NONE);
   });

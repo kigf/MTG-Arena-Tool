@@ -29,6 +29,7 @@ export const actions = {
   SET_EXPLORE_DATA: ExploreSlice.setExploreData,
   SET_EXPLORE_FILTERS: ExploreSlice.setExploreFilters,
   SET_EXPLORE_FILTERS_SKIP: ExploreSlice.setExploreFiltersSkip,
+  SET_CARDS_DATA: ExploreSlice.setCardsData,
   SET_MATCH: MatchesSlice.setMatch,
   SET_MANY_MATCHES: MatchesSlice.setManyMatches,
   SET_EVENT: EventsSlice.setEvent,

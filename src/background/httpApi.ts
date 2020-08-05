@@ -552,6 +552,21 @@ export function httpGetExplore(query: any): void {
   );
 }
 
+export function httpGetCards(eventId: string): void {
+  const _id = makeId(6);
+  globals.httpQueue?.unshift(
+    {
+      reqId: _id,
+      method: "get_cards",
+      method_path: "/api/get_cards.php",
+      eventId: eventId,
+    },
+    makeSimpleResponseHandler((parsedResult: any) => {
+      ipcSend("set_cards", parsedResult);
+    })
+  );
+}
+
 export function httpGetTopLadderDecks(): void {
   const _id = makeId(6);
   globals.httpQueue?.unshift(

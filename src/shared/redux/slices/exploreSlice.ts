@@ -15,8 +15,32 @@ export interface ExploreQuery {
   filterSkip: number;
 }
 
+export interface CardsCardData {
+  cw: number;
+  cl: number;
+  q: number[];
+  fhw: number;
+  fhl: number;
+  k: number;
+  m: number;
+  si: number;
+  siw: number;
+  sil: number;
+  so: number;
+  sow: number;
+  sol: number;
+  tc: number[];
+  ftc: number[];
+}
+
+export interface CardsData {
+  _id: string;
+  cards: Record<string, CardsCardData>;
+}
+
 const initialExploreState = {
   activeEvents: [] as string[],
+  cards: null as null | CardsData,
   data: {
     results_type: "Ranked Constructed",
     skip: 0,
@@ -85,6 +109,9 @@ const exploreSlice = createSlice({
     setActiveEvents: (state: Explore, action: PayloadAction<string>): void => {
       state.activeEvents.push(...action.payload);
     },
+    setCardsData: (state: Explore, action: PayloadAction<CardsData>): void => {
+      state.cards = action.payload;
+    },
   },
 });
 
@@ -93,6 +120,7 @@ export const {
   setExploreData,
   setExploreFilters,
   setExploreFiltersSkip,
+  setCardsData,
 } = exploreSlice.actions;
 
 export default exploreSlice;
