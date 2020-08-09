@@ -19,6 +19,7 @@ export default function PatreonPage(props: {
           padding: "16opx",
           flexDirection: "column",
           overflow: "hidden",
+          boxShadow: "0px 8px 12px 3px #00000075",
         }}
       >
         <div className={css.patreonInfoPopTop}>
@@ -33,7 +34,7 @@ export default function PatreonPage(props: {
           {page == "cards" ? (
             <>
               <div className={css.patreonInfoText}>
-                Global cards winrates statistics
+                Acces global cards winrates statistics!
               </div>
               <div
                 className={css.showcaseImage}

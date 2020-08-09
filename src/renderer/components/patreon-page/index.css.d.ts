@@ -14,6 +14,8 @@ declare namespace IndexCssNamespace {
     patreonInfoText: string;
     patreonLinkThin: string;
     patreon_link_thin: string;
+    "showcase-image": string;
+    showcaseImage: string;
   }
 }
 

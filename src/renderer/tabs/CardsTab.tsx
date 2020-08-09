@@ -17,6 +17,7 @@ import CardTile from "../../shared/CardTile";
 import { useTable, useSortBy } from "react-table";
 import Section from "../components/misc/Section";
 
+import StarIcon from "../../assets/images/svg/star.svg";
 import indexCss from "../index.css";
 import appCss from "../app/app.css";
 import css from "./CardsTab.css";
@@ -24,6 +25,8 @@ import ReactSelect from "../../shared/ReactSelect";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { IPC_BACKGROUND } from "mtgatool-shared/dist/shared/constants";
 import PatreonPage from "../components/patreon-page";
+
+const GoodSampleSize = 500;
 
 function getSampleSize(w: number, l: number): string {
   return `W L: ${w}:${l}`;
@@ -106,8 +109,19 @@ function getTableLine(row: any): JSX.Element {
         title={getSampleSize(orig.cw, orig.cl)}
         className={`${getWinrateClass(orig.castWinrate / 100, true)} ${
           css.cardsTableCell
-        }`}
+        }
+        `}
       >
+        {orig.cw + orig.cl > GoodSampleSize ? (
+          <StarIcon
+            width="16px"
+            height="16px"
+            style={{ marginRight: "8px" }}
+            fill="var(--color-g)"
+          />
+        ) : (
+          <></>
+        )}
         {orig.castWinrate > 0 ? formatPercent(orig.castWinrate / 100) : "-"}
       </div>
 
@@ -193,7 +207,11 @@ export default function CardsTab(): JSX.Element {
     const allCardNames = [...new Set([...Object.keys(cards?.cards || {})])];
 
     return allCardNames
-      .filter((name) => (cards?.cards[name].q.length || 0) > 0)
+      .filter(
+        (name) =>
+          (cards?.cards[name].q.length || 0) > 0 &&
+          (cards?.cards[name].cw || 0) + (cards?.cards[name].cl || 0) > 50
+      )
       .map((name) => {
         return {
           cardName: name,
@@ -209,7 +227,7 @@ export default function CardsTab(): JSX.Element {
           avg: arrayAverage(cards?.cards[name].q || []),
         };
       })
-      .filter((d) => d.q && d.dbCard);
+      .filter((d) => d.dbCard);
   }, [cards]);
 
   useEffect(() => {
