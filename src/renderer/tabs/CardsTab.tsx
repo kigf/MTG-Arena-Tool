@@ -230,10 +230,6 @@ export default function CardsTab(): JSX.Element {
       .filter((d) => d.dbCard);
   }, [cards]);
 
-  useEffect(() => {
-    console.log(cardsMemo);
-  }, [cardsMemo]);
-
   const columns = useMemo(
     () => [
       {
@@ -297,9 +293,15 @@ export default function CardsTab(): JSX.Element {
   );
 
   useEffect(() => {
-    reduxAction(dispatcher, { type: "SET_LOADING", arg: true }, IPC_BACKGROUND);
-    ipcSend("request_cards", currentEvent);
-  }, [currentEvent, dispatcher]);
+    if (isPatreon) {
+      reduxAction(
+        dispatcher,
+        { type: "SET_LOADING", arg: true },
+        IPC_BACKGROUND
+      );
+      ipcSend("request_cards", currentEvent);
+    }
+  }, [isPatreon, currentEvent, dispatcher]);
 
   return (
     <div className={appCss.uxItem}>
