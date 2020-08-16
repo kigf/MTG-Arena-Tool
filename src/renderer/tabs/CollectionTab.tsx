@@ -116,10 +116,7 @@ function getCollectionData(
       });
     });
   return db.cardList
-    .filter(
-      (card) =>
-        card.collectible && card.dfc !== 1 && card.dfc !== 7 && card.dfc !== 5
-    )
+    .filter((card) => card.dfc !== 1 && card.dfc !== 7 && card.dfc !== 5)
     .map(
       (card): CardsData => {
         const dfc = db.card(card.dfcId !== true ? card.dfcId || 0 : 0);
@@ -177,6 +174,7 @@ export default function CollectionTab(): JSX.Element {
   const data = React.useMemo(() => {
     return getCollectionData(cards, cardsNew);
   }, [cards, cardsNew]);
+
   return (
     <div className={appCss.uxItem}>
       <CollectionTable
