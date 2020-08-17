@@ -6,7 +6,7 @@
   display: grid;
   gap: 16px;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: 64px auto;
   grid-template-areas:
     "controls"
     "cards";

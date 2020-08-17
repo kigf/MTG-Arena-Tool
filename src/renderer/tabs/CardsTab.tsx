@@ -14,7 +14,7 @@ import {
   DbCardData,
 } from "mtgatool-shared";
 import CardTile from "../../shared/CardTile";
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, Row, useFilters } from "react-table";
 import Section from "../components/misc/Section";
 
 import StarIcon from "../../assets/images/svg/star.svg";
@@ -25,6 +25,13 @@ import ReactSelect from "../../shared/ReactSelect";
 import { reduxAction } from "../../shared/redux/sharedRedux";
 import { IPC_BACKGROUND } from "mtgatool-shared/dist/shared/constants";
 import PatreonPage from "../components/patreon-page";
+import SetsFilter from "../components/misc/SetsFilter";
+import {
+  historicAnthology,
+  historicAnthology2,
+  historicAnthology3,
+} from "../components/collection/customSets";
+import { TableData } from "../components/tables/types";
 
 const GoodSampleSize = 500;
 
@@ -191,6 +198,29 @@ function getTableLine(row: any): JSX.Element {
   );
 }
 
+function setFilterFn<MemoizedCardsData extends TableData>(
+  rows: Row<MemoizedCardsData>[],
+  _id: string,
+  filterValue: string[]
+): Row<MemoizedCardsData>[] {
+  console.log(rows, _id, filterValue);
+  return rows.filter((row) => {
+    let res = false;
+    if (filterValue.length == 0) return true;
+    filterValue.forEach((F) => {
+      if (F == "ha1" && historicAnthology.includes(row.original.dbCard.id))
+        res = true;
+      if (F == "ha2" && historicAnthology2.includes(row.original.dbCard.id))
+        res = true;
+      if (F == "ha3" && historicAnthology3.includes(row.original.dbCard.id))
+        res = true;
+      if (F == row.original.set) res = true;
+    });
+
+    return res;
+  });
+}
+
 // eslint-disable-next-line import/no-unused-modules
 export default function CardsTab(): JSX.Element {
   const activeEvents = useSelector(
@@ -199,6 +229,7 @@ export default function CardsTab(): JSX.Element {
   const isPatreon = useSelector(
     (state: AppState) => state.renderer.patreon.patreon
   );
+  const [filterSets, setFilterSets] = useState<string[]>([]);
   const [currentEvent, setCurrentEvent] = useState("Ladder");
   const cards = useSelector((state: AppState) => state.explore.cards);
   const dispatcher = useDispatch();
@@ -216,6 +247,9 @@ export default function CardsTab(): JSX.Element {
         return {
           cardName: name,
           dbCard: database.cardByName(name) as DbCardData,
+          set: database.sets[
+            (database.cardByName(name) as DbCardData).set
+          ].code.toLowerCase(),
           ...(cards?.cards[name] as CardsCardData),
           keptRate: getKeptRate(cards, name),
           castWinrate: getCastWinrate(cards, name),
@@ -272,14 +306,26 @@ export default function CardsTab(): JSX.Element {
         Header: "Avg. First Turn",
         accessor: "avgFirstTurn",
       },
+      {
+        Header: "set",
+        filter: "set",
+        accessor: "set",
+        hidden: true,
+      },
     ],
     []
   );
 
-  const { headerGroups, rows, prepareRow } = useTable(
+  const { headerGroups, rows, prepareRow, setAllFilters } = useTable(
     {
       columns,
       data: cardsMemo,
+      filterTypes: {
+        set: setFilterFn,
+      },
+      filters: {
+        set: filterSets,
+      },
       initialState: {
         sortBy: [
           {
@@ -289,8 +335,13 @@ export default function CardsTab(): JSX.Element {
         ],
       },
     },
+    useFilters,
     useSortBy
   );
+
+  useEffect(() => {
+    setAllFilters([{ id: "set", value: filterSets }]);
+  }, [setAllFilters, filterSets]);
 
   useEffect(() => {
     if (isPatreon) {
@@ -314,6 +365,15 @@ export default function CardsTab(): JSX.Element {
               optionFormatter={getEventPrettyName}
               callback={(filter: string): void => setCurrentEvent(filter)}
             />
+            <SetsFilter
+              style={{
+                margin: "auto 8px",
+                justifyContent: "space-between",
+                width: "-webkit-fill-available",
+              }}
+              callback={setFilterSets}
+              filtered={filterSets}
+            />
           </Section>
           <Section
             style={{
@@ -325,7 +385,9 @@ export default function CardsTab(): JSX.Element {
             <div className={css.cardsTableLine}>
               {headerGroups.map((headerGroup: any) => {
                 return headerGroup.headers.map((column: any) => {
-                  return (
+                  return column.hidden ? (
+                    <></>
+                  ) : (
                     <div
                       key={"header-" + column.accessor}
                       className={css.cardsTableCell}
